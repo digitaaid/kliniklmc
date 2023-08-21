@@ -26,7 +26,7 @@
 
                 </div>
                 @php
-                    $heads = ['No', 'Nama', 'UserID', 'BaseURL', 'AuthURL', 'UserKey', 'SecretKey', 'Description', 'Action'];
+                    $heads = ['No', 'Nama', 'UserID', 'BaseURL', 'AuthURL',  'Description', 'Action'];
                     $config['paging'] = false;
                 @endphp
                 <x-adminlte-datatable id="table1" :heads="$heads" :config="$config" hoverable bordered compressed>
@@ -34,11 +34,11 @@
                         <tr>
                             <td>{{ $loop->iteration }}</td>
                             <td>{{ $item->name }}</td>
-                            <td>{{ $item->user_id }}</td>
+                            <td>
+                                {{ Str::mask($item->user_id, '*', 1, Str::length($item->user_id) - 2) }}
+                            </td>
                             <td>{{ $item->base_url }}</td>
                             <td>{{ $item->auth_url }}</td>
-                            <td>{{ $item->user_key }}</td>
-                            <td>{{ $item->secret_key }}</td>
                             <td>{{ $item->description }}</td>
                             <td>
                                 <x-adminlte-button class="btn-xs btnEdit" label="Edit" theme="warning" icon="fas fa-edit"
