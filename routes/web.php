@@ -2,6 +2,9 @@
 
 use App\Http\Controllers\AntrianController;
 use App\Http\Controllers\APIController;
+use App\Http\Controllers\DokterController;
+use App\Http\Controllers\JadwalDokterController;
+use App\Http\Controllers\PasienController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\PoliklinikController;
 use App\Http\Controllers\RoleController;
@@ -41,12 +44,14 @@ Route::middleware('auth')->group(function () {
     Route::resource('permission', PermissionController::class);
     Route::resource('integrasiAPI', APIController::class);
 
+    Route::resource('poliklinik', PoliklinikController::class);
+    Route::resource('dokter', DokterController::class);
+    Route::resource('jadwaldokter', JadwalDokterController::class);
 
     // antrian bpjs
     Route::get('statusAntrianBpjs', [AntrianController::class, 'statusAntrianBpjs'])->name('statusAntrianBpjs');
     Route::get('poliklikAntrianBpjs', [PoliklinikController::class, 'poliklikAntrianBpjs'])->name('poliklikAntrianBpjs');
     Route::get('dokterAntrianBpjs', [DokterController::class, 'dokterAntrianBpjs'])->name('dokterAntrianBpjs');
-    Route::get('resetDokter', [DokterController::class, 'resetDokter'])->name('resetDokter');
     Route::get('jadwalDokterAntrianBpjs', [JadwalDokterController::class, 'jadwalDokterAntrianBpjs'])->name('jadwalDokterAntrianBpjs');
     Route::get('fingerprintPeserta', [PasienController::class, 'fingerprintPeserta'])->name('fingerprintPeserta');
     Route::get('antrianBpjsConsole', [AntrianController::class, 'antrianConsole'])->name('antrianBpjsConsole');

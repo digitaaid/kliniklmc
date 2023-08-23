@@ -14,10 +14,10 @@
                     <x-adminlte-input-date name="tanggal" value="{{ $request->tanggal }}" placeholder="Silahkan Pilih Tanggal"
                         label="Tanggal Periksa" :config="$config" />
                     <x-adminlte-select2 name="kodepoli" id="kodepoli" label="Poliklinik">
-                        @foreach ($polikliniks as $poli)
-                            <option value="{{ $poli->kodesubspesialis }}"
-                                {{ $request->kodepoli == $poli->kodesubspesialis ? 'selected' : null }}>
-                                {{ $poli->kodesubspesialis }} - {{ $poli->namasubspesialis }}</option>
+                        @foreach ($polikliniks as $item)
+                            <option value="{{ $item->kdsubspesialis }}"
+                                {{ $request->kodepoli == $item->kdsubspesialis ? 'selected' : null }}>
+                                {{ $item->nmsubspesialis }}</option>
                         @endforeach
                     </x-adminlte-select2>
                     <x-adminlte-button label="Cari Jadwal Dokter" class="mr-auto withLoad" type="submit" theme="success"

@@ -1,0 +1,54 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('antrians', function (Blueprint $table) {
+            $table->id();
+            $table->string('kodebooking')->nullable();
+            $table->string('jenispasien')->nullable();
+            $table->string('nomorkartu')->nullable();
+            $table->string('nik')->nullable();
+            $table->string('nohp')->nullable();
+            $table->string('kodepoli')->nullable();
+            $table->string('namapoli')->nullable();
+            $table->string('pasienbaru')->nullable();
+            $table->string('norm')->nullable();
+            $table->date('tanggalperiksa')->nullable();
+            $table->string('kodedokter')->nullable();
+            $table->string('namadokter')->nullable();
+            $table->string('jampraktek')->nullable();
+            $table->string('jeniskunjungan')->nullable();
+            $table->string('nomorreferensi')->nullable();
+            $table->string('nomorantrean')->nullable();
+            $table->string('angkaantrean')->nullable();
+            $table->string('estimasidilayani')->nullable();
+            $table->integer('sisakuotajkn')->nullable();
+            $table->integer('kuotajkn')->nullable();
+            $table->integer('sisakuotanonjkn')->nullable();
+            $table->integer('kuotanonjkn')->nullable();
+            $table->text('keterangan')->nullable();
+
+            $table->string('method')->nullable();
+            $table->integer('taskid')->nullable();
+
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('antrians');
+    }
+};

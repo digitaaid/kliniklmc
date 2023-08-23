@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Antrian;
 use App\Models\IntegrasiApi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Validator;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class AntrianController extends APIController
 {
@@ -16,6 +18,59 @@ class AntrianController extends APIController
             'api'
         ]));
     }
+    public function dashboardTanggalAntrian(Request $request)
+    {
+        $antrians = null;
+        $antrianx = null;
+        if (isset($request->waktu)) {
+            $antrianx = Antrian::whereDate('tanggalperiksa', '=', $request->tanggal)
+                ->where('method', '!=', 'Offline')
+                ->where('taskid', '!=', 99)
+                ->where('taskid', '!=', 0)
+                ->get();
+            $response =  $this->dashboard_tanggal($request);
+            if ($response->metadata->code == 200) {
+                $antrians = collect($response->response->list);
+                Alert::success($response->metadata->message . ' ' . $response->metadata->code);
+            } else {
+                Alert::error($response->metadata->message . ' ' . $response->metadata->code);
+            }
+        }
+        return view('bpjs.antrian.dashboard_tanggal_index', compact([
+            'request',
+            'antrians',
+            'antrianx',
+        ]));
+    }
+    public function dashboardBulanAntrian(Request $request)
+    {
+        $antrians = null;
+        $antrianx = null;
+        if (isset($request->tanggal)) {
+            $tanggal = explode('-', $request->tanggal);
+            $request['tahun'] = $tanggal[0];
+            $request['bulan'] = $tanggal[1];
+            $response =  $this->dashboard_bulan($request);
+            if ($response->metadata->code == 200) {
+                $antrians = collect($response->response->list);
+                $antrianx = Antrian::whereYear('tanggalperiksa', '=', $request->tahun)
+                    ->whereMonth('tanggalperiksa', '=', $request->bulan)
+                    ->where('method', '!=', 'Offline')
+                    ->where('taskid', '!=', 99)
+                    ->where('taskid', '!=', 0)
+                    ->get();
+                Alert::success($response->metadata->message . ' ' . $response->metadata->code);
+            } else {
+                Alert::error($response->metadata->message . ' ' . $response->metadata->code);
+            }
+        }
+        return view('bpjs.antrian.dashboard_bulan_index', compact([
+            'request',
+            'antrians',
+            'antrianx',
+        ]));
+    }
+
     // API FUNCTION
     public function api()
     {
@@ -122,5 +177,34 @@ class AntrianController extends APIController
         $signature = $this->signature();
         $response = Http::withHeaders($signature)->get($url);
         return $this->response_decrypt($response, $signature);
+    }
+    public function dashboard_tanggal(Request $request)
+    {
+        $validator = Validator::make(request()->all(), [
+            "tanggal" =>  "required|date|date_format:Y-m-d",
+            "waktu" => "required|in:rs,server",
+        ]);
+        if ($validator->fails()) {
+            return $this->sendError($validator->errors()->first(), 400);
+        }
+        $url = $this->api()->base_url . "dashboard/waktutunggu/tanggal/" . $request->tanggal . "/waktu/" . $request->waktu;
+        $signature = $this->signature();
+        $response = Http::withHeaders($signature)->get($url);
+        return $this->response_no_decrypt($response, $signature);
+    }
+    public function dashboard_bulan(Request $request)
+    {
+        $validator = Validator::make(request()->all(), [
+            "bulan" =>  "required|date_format:m",
+            "tahun" =>  "required|date_format:Y",
+            "waktu" => "required|in:rs,server",
+        ]);
+        if ($validator->fails()) {
+            return $this->sendError($validator->errors()->first(), 400);
+        }
+        $url = $this->api()->base_url . "dashboard/waktutunggu/bulan/" . $request->bulan . "/tahun/" . $request->tahun . "/waktu/" . $request->waktu;
+        $signature = $this->signature();
+        $response = Http::withHeaders($signature)->get($url);
+        return $this->response_no_decrypt($response);
     }
 }
