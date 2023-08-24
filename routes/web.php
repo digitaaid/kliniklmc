@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AntrianController;
 use App\Http\Controllers\APIController;
+use App\Http\Controllers\CarouselController;
 use App\Http\Controllers\DokterController;
 use App\Http\Controllers\JadwalDokterController;
 use App\Http\Controllers\PasienController;
@@ -43,10 +44,11 @@ Route::middleware('auth')->group(function () {
     Route::resource('role', RoleController::class);
     Route::resource('permission', PermissionController::class);
     Route::resource('integrasiAPI', APIController::class);
-
     Route::resource('poliklinik', PoliklinikController::class);
     Route::resource('dokter', DokterController::class);
     Route::resource('jadwaldokter', JadwalDokterController::class);
+    Route::resource('carousel', CarouselController::class);
+
 
     // antrian bpjs
     Route::get('statusAntrianBpjs', [AntrianController::class, 'statusAntrianBpjs'])->name('statusAntrianBpjs');

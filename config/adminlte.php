@@ -312,11 +312,14 @@ return [
             'can'  => 'manage-blog',
         ],
         [
-            'text'        => 'pages',
-            'url'         => 'admin/pages',
-            'icon'        => 'far fa-fw fa-file',
-            'label'       => 4,
-            'label_color' => 'success',
+            'text'        => 'Landing Page',
+            'url'         => '',
+            'icon'        => 'fas fa-globe',
+        ],
+        [
+            'text'        => 'Dashboard',
+            'url'         => 'home',
+            'icon'        => 'fas fa-home',
         ],
         // ANTRIAN BPJS
         [
@@ -534,6 +537,49 @@ return [
 
             ],
         ],
+               // MODUL TESTING
+               [
+                'text'    => 'Pengaturan Web',
+                'icon'    => 'fas fa-globe',
+                // 'can' => 'admin',
+                'submenu' => [
+                    [
+                        'text' => 'Carousel',
+                        'icon'    => 'fas fa-file',
+                        'url'  => 'carousel',
+                        'shift'   => 'ml-2',
+                        // 'can' => 'admin',
+                    ],
+                    [
+                        'text' => 'Bar & QR Code Scanner',
+                        'icon'    => 'fas fa-qrcode',
+                        'url'  => 'cekBarQRCode',
+                        'shift'   => 'ml-2',
+                        // 'can' => 'admin',
+                    ],
+                    [
+                        'text' => 'Thermal Printer',
+                        'icon'    => 'fas fa-print',
+                        'url'  => 'cekThermalPrinter',
+                        'shift'   => 'ml-2',
+                        // 'can' => 'admin',
+                    ],
+                    [
+                        'text' => 'WhatsApp API',
+                        'icon'    => 'fas fa-phone',
+                        'url'  => 'whatsapp',
+                        'shift'   => 'ml-2',
+                        // 'can' => 'admin',
+                    ],
+                    [
+                        'text'        => 'Log Viewer',
+                        'url'         => 'log-viewer',
+                        'icon'        => 'fas fa-info-circle',
+                        'shift'   => 'ml-2',
+                        // 'can' => 'admin',
+                    ],
+                ],
+            ],
         // MODUL TESTING
         [
             'text'    => 'Pengaturan & Testing',

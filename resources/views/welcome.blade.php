@@ -15,12 +15,12 @@
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    <title>Medicio Bootstrap Template - Index</title>
+    <title>Klinik Luthfi Medical Center</title>
     <meta content="" name="description">
     <meta content="" name="keywords">
 
     <!-- Favicons -->
-    <link href="medicio/assets/img/favicon.png" rel="icon">
+    <link href="medicio/assets/img/lmc.png" rel="icon">
     <link href="medicio/assets/img/apple-touch-icon.png" rel="apple-touch-icon">
 
     <!-- Google Fonts -->
