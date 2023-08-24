@@ -321,6 +321,27 @@ return [
             'url'         => 'home',
             'icon'        => 'fas fa-home',
         ],
+        [
+            'text' => 'Poliklinik',
+            'icon'    => 'fas fa-clinic-medical',
+            'url'  => 'poliklinik',
+            // 'shift'   => 'ml-2',
+            // 'can' =>  ['bpjs', 'pendaftaran'],
+        ],
+        [
+            'text' => 'Dokter',
+            'icon'    => 'fas fa-user-md',
+            'url'  => 'dokter',
+            // 'shift'   => 'ml-2',
+            // 'can' =>  ['bpjs', 'pendaftaran'],
+        ],
+        [
+            'text' => 'Jadwal Dokter',
+            'icon'    => 'fas fa-calendar-alt',
+            'url'  => 'jadwaldokter',
+            // 'shift'   => 'ml-2',
+            // 'can' =>  ['bpjs', 'pendaftaran'],
+        ],
         // ANTRIAN BPJS
         [
             'text'    => 'Integrasi Antrian BPJS',
@@ -537,49 +558,49 @@ return [
 
             ],
         ],
-               // MODUL TESTING
-               [
-                'text'    => 'Pengaturan Web',
-                'icon'    => 'fas fa-globe',
-                // 'can' => 'admin',
-                'submenu' => [
-                    [
-                        'text' => 'Carousel',
-                        'icon'    => 'fas fa-file',
-                        'url'  => 'carousel',
-                        'shift'   => 'ml-2',
-                        // 'can' => 'admin',
-                    ],
-                    [
-                        'text' => 'Bar & QR Code Scanner',
-                        'icon'    => 'fas fa-qrcode',
-                        'url'  => 'cekBarQRCode',
-                        'shift'   => 'ml-2',
-                        // 'can' => 'admin',
-                    ],
-                    [
-                        'text' => 'Thermal Printer',
-                        'icon'    => 'fas fa-print',
-                        'url'  => 'cekThermalPrinter',
-                        'shift'   => 'ml-2',
-                        // 'can' => 'admin',
-                    ],
-                    [
-                        'text' => 'WhatsApp API',
-                        'icon'    => 'fas fa-phone',
-                        'url'  => 'whatsapp',
-                        'shift'   => 'ml-2',
-                        // 'can' => 'admin',
-                    ],
-                    [
-                        'text'        => 'Log Viewer',
-                        'url'         => 'log-viewer',
-                        'icon'        => 'fas fa-info-circle',
-                        'shift'   => 'ml-2',
-                        // 'can' => 'admin',
-                    ],
+        // MODUL TESTING
+        [
+            'text'    => 'Pengaturan Web',
+            'icon'    => 'fas fa-globe',
+            // 'can' => 'admin',
+            'submenu' => [
+                [
+                    'text' => 'Carousel',
+                    'icon'    => 'fas fa-file',
+                    'url'  => 'carousel',
+                    'shift'   => 'ml-2',
+                    // 'can' => 'admin',
+                ],
+                [
+                    'text' => 'Bar & QR Code Scanner',
+                    'icon'    => 'fas fa-qrcode',
+                    'url'  => 'cekBarQRCode',
+                    'shift'   => 'ml-2',
+                    // 'can' => 'admin',
+                ],
+                [
+                    'text' => 'Thermal Printer',
+                    'icon'    => 'fas fa-print',
+                    'url'  => 'cekThermalPrinter',
+                    'shift'   => 'ml-2',
+                    // 'can' => 'admin',
+                ],
+                [
+                    'text' => 'WhatsApp API',
+                    'icon'    => 'fas fa-phone',
+                    'url'  => 'whatsapp',
+                    'shift'   => 'ml-2',
+                    // 'can' => 'admin',
+                ],
+                [
+                    'text'        => 'Log Viewer',
+                    'url'         => 'log-viewer',
+                    'icon'        => 'fas fa-info-circle',
+                    'shift'   => 'ml-2',
+                    // 'can' => 'admin',
                 ],
             ],
+        ],
         // MODUL TESTING
         [
             'text'    => 'Pengaturan & Testing',

@@ -2,11 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Poliklinik;
+use App\Models\Unit;
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class PoliklinikController extends Controller
 {
+    public function index()
+    {
+        $polis = Unit::get();
+        return view('sim.poli_index', [
+            'polis' => $polis
+        ]);
+    }
     public function poliklikAntrianBpjs()
     {
         $controller = new AntrianController();

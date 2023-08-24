@@ -2,11 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Dokter;
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class DokterController extends Controller
 {
+    public function index(Request $request)
+    {
+        $dokter = Dokter::get();
+        return view('sim.dokter_index', compact([
+            'request',
+            'dokter',
+        ]));
+    }
     public function dokterAntrianBpjs()
     {
         $controller = new AntrianController();
