@@ -9,43 +9,19 @@
 @section('content')
     <div class="row">
         <div class="col-md-12">
-            <x-adminlte-card title="Data Unit Poliklinik" theme="info" icon="fas fa-info-circle" collapsible
-                maximizable>
+            <x-adminlte-card title="Data Unit Poliklinik" theme="info" icon="fas fa-info-circle" collapsible maximizable>
                 @php
-                    $heads = ['Nama Poliklinik', 'Subspesialis', 'Lokasi', 'Daftar', 'Status'];
-                    $config['paging'] = false;
+                    $heads = ['NamaPoliklinik', 'KodePoli', 'KodeSubspesialis', 'KodeUnit','Status'];
                 @endphp
-                <x-adminlte-datatable id="table1" :heads="$heads" :config="$config" striped bordered hoverable
+                <x-adminlte-datatable id="table1" :heads="$heads"   bordered hoverable
                     compressed>
-                    @foreach ($polis->where('status', 1) as $item)
+                    @foreach ($polikliniks as $item)
                         <tr>
-                            {{-- <td>{{ $item->kodepoli }}</td> --}}
-                            {{-- <td>{{ $item->namapoli }}</td> --}}
-                            <td>{{ $item->kodesubspesialis }} - {{ $item->namasubspesialis }}</td>
-                            <td>
-                                @if ($item->kodesubspesialis == $item->kodepoli)
-                                    <span class="badge badge-danger"><i class="fas fa-times-circle"></i> Bukan</span>
-                                @else
-                                    <span class="badge badge-success"><i class="fas fa-check-circle"></i> Ya</span>
-                                @endif
-                            </td>
-                            <td>{{ $item->lokasi }}</td>
-                            <td>{{ $item->lantaipendaftaran }}</td>
-                            <td>
-                                @if ($item->status == 1)
-                                    <a href="{{ route('poliklinik.edit', $item->id) }}">
-                                        <x-adminlte-button class="btn-xs" type="button" label="aktif" theme="success"
-                                            title="Klik untuk non-aktifkan" />
-                                    </a>
-                                @else
-                                    <a href="{{ route('poliklinik.edit', $item->id) }}">
-                                        <x-adminlte-button class="btn-xs" type="button" label="nonaktif" theme="danger"
-                                            data-toggle="tooltip" title="Klik untuk aktifkan" />
-                                    </a>
-                                @endif
-                                <x-adminlte-button class="btn-xs btnEditPoli" theme="warning" icon="fas fa-edit"
-                                    data-toggle="tooltip" title="Edit Poliklinik" data-id="{{ $item->id }}" />
-                            </td>
+                            <td>{{ $item->namasubspesialis }}</td>
+                            <td>{{ $item->kodepoli }}</td>
+                            <td>{{ $item->kodesubspesialis }}</td>
+                            <td>{{ $item->kodeunit }}</td>
+                            <td>{{ $item->status }}</td>
                         </tr>
                     @endforeach
                 </x-adminlte-datatable>
@@ -54,8 +30,8 @@
 
     </div>
     {{-- modal poliklinik --}}
-    <x-adminlte-modal id="modalPoli" name="modalPoli" title="Poliklinik" theme="warning"
-        icon="fas fa-prescription-bottle-alt" static-backdrop>
+    <x-adminlte-modal id="modalPoli" name="modalPoli" title="Poliklinik" theme="warning" icon="fas fa-prescription-bottle-alt"
+        static-backdrop>
         <form name="formUpdatePoli" id="formUpdatePoli" action="{{ route('poliklinik.store') }}" method="POST">
             @csrf
             <input type="hidden" name="method" value="UPDATE">

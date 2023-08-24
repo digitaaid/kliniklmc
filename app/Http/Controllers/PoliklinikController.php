@@ -11,10 +11,26 @@ class PoliklinikController extends Controller
 {
     public function index()
     {
-        $polis = Unit::get();
+        $polikliniks = Poliklinik::get();
         return view('sim.poli_index', [
-            'polis' => $polis
+            'polikliniks' => $polikliniks
         ]);
+    }
+    public function create()
+    {
+        $api = new AntrianController();
+        $response = $api->ref_poli();
+        foreach ($response->response as  $value) {
+            Poliklinik::updateOrCreate([
+                'kodepoli' => $value->kdpoli,
+                'kodesubspesialis' => $value->kdsubspesialis,
+            ], [
+                'namapoli' => $value->nmpoli,
+                'namasubspesialis' => $value->nmsubspesialis,
+            ]);
+        }
+        Alert::success($response->metadata->message, 'Data Poliklinik Telah Di Refresh');
+        return redirect()->route('poliklinik.index');
     }
     public function poliklikAntrianBpjs()
     {

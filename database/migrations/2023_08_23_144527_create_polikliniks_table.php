@@ -13,6 +13,12 @@ return new class extends Migration
     {
         Schema::create('polikliniks', function (Blueprint $table) {
             $table->id();
+            $table->string('namapoli');
+            $table->string('kodepoli');
+            $table->string('namasubspesialis');
+            $table->string('kodesubspesialis');
+            $table->string('kodeunit')->nullable();
+            $table->boolean('status')->default(0);
             $table->timestamps();
         });
     }
