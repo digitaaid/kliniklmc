@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Antrian;
 use App\Models\IntegrasiApi;
+use App\Models\JadwalDokter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Validator;
@@ -11,11 +12,42 @@ use RealRashid\SweetAlert\Facades\Alert;
 
 class AntrianController extends APIController
 {
+
+    // pendaftaran
+    public function antrianConsole()
+    {
+        $jadwals = JadwalDokter::where('hari',  now()->dayOfWeek)
+            ->orderBy('namasubspesialis', 'asc')->get();
+        $antrians = Antrian::whereDate('tanggalperiksa', now()->format('Y-m-d'))->get();
+        return view('sim.antrian_console', compact(
+            [
+                'jadwals',
+                'antrians',
+            ]
+        ));
+    }
+
     public function statusAntrianBpjs()
     {
         $api = IntegrasiApi::where('name', 'Antrian BPJS')->first();
         return view('bpjs.antrian.status', compact([
             'api'
+        ]));
+    }
+    public function listTaskID(Request $request)
+    {
+        // get antrian
+        $taskid = null;
+        if (isset($request->kodebooking)) {
+            $response =  $this->taskid_antrean($request);
+            if ($response->metadata->code == 200) {
+                $taskid = $response->response;
+            }
+            Alert::success($response->metadata->message . ' ' . $response->metadata->code);
+        }
+        return view('bpjs.antrian.list_task', compact([
+            'request',
+            'taskid',
         ]));
     }
     public function dashboardTanggalAntrian(Request $request)
@@ -70,6 +102,107 @@ class AntrianController extends APIController
             'antrianx',
         ]));
     }
+    public function antrianPerTanggal(Request $request)
+    {
+        $antrians = null;
+        if (isset($request->tanggal)) {
+            $response = $this->antrian_tanggal($request);
+            if ($response->metadata->code == 200) {
+                $antrians = $response->response;
+            } else {
+                Alert::error('Error ' . $response->metadata->code,  $response->metadata->message);
+                return redirect()->route('bpjs.antrian.antrian_per_tanggal');
+            }
+        }
+        return view('bpjs.antrian.antrian_per_tanggal', compact(['request', 'antrians']));
+    }
+    public function antrianPerKodebooking(Request $request)
+    {
+        $antrian = null;
+        if ($request->kodebooking) {
+            $request['kodeBooking'] = $request->kodebooking;
+            $response = $this->antrian_kodebooking($request);
+            if ($response->metadata->code == 200) {
+                $antrian = $response->response[0];
+            } else {
+                Alert::error('Error ' . $response->metadata->code,  $response->metadata->message);
+                return redirect()->route('bpjs.antrian.antrian_per_tanggal');
+            }
+        }
+        return view('bpjs.antrian.antrian_per_kodebooking', compact([
+            'request', 'antrian'
+        ]));
+    }
+    public function antrianBelumDilayani(Request $request)
+    {
+        $request['tanggal'] = now()->format('Y-m-d');
+        $response = $this->antrian_belum_dilayani($request);
+        if ($response->metadata->code == 200) {
+            $antrians = $response->response;
+        } else {
+            $antrians = null;
+            Alert::error('Error ' . $response->metadata->code,  $response->metadata->message);
+        }
+        return view('bpjs.antrian.antrian_belum_dilayani', compact(['request', 'antrians']));
+    }
+    public function antrianPerDokter(Request $request)
+    {
+        $antrians = null;
+        $jadwaldokter = JadwalDokter::orderBy('hari', 'ASC')->get();
+        if (isset($request->jadwaldokter)) {
+            $jadwal = JadwalDokter::find($request->jadwaldokter);
+            $request['kodePoli'] = $jadwal->kodesubspesialis;
+            $request['kodeDokter'] = $jadwal->kodedokter;
+            $request['hari'] = $jadwal->hari;
+            $request['jamPraktek'] = $jadwal->jadwal;
+            $response = $this->antrian_poliklinik($request);
+            if ($response->metadata->code == 200) {
+                $antrians = $response->response;
+            } else {
+                Alert::error('Error ' . $response->metadata->code,  $response->metadata->message);
+            }
+        }
+        return view('bpjs.antrian.antrian_per_dokter', [
+            'antrians' => $antrians,
+            'jadwaldokter' => $jadwaldokter,
+            'request' => $request,
+        ]);
+    }
+    public function antrianPoliklinik(Request $request)
+    {
+        $antrians = null;
+        if ($request->tanggal) {
+            $antrians = Antrian::whereDate('tanggalperiksa', $request->tanggal);
+            if ($request->kodepoli != null) {
+                $antrians = $antrians->where('method', '!=', 'Offline')->where('kodepoli', $request->kodepoli)->get();
+            }
+            if ($request->kodedokter != null) {
+                $antrians = $antrians->where('method', '!=', 'Offline')->where('kodedokter', $request->kodedokter)->get();
+            }
+            if ($request->kodepoli == null && $request->kodedokter == null) {
+                $antrians = $antrians->where('method', '!=', 'Offline')->get();
+            }
+        }
+        $polis = Poliklinik::where('status', 1)->get();
+        $dokters = Paramedis::where('kode_dokter_jkn', "!=", null)
+            ->where('unit', "!=", null)
+            ->get();
+        if (isset($request->kodepoli)) {
+            $poli = Unit::firstWhere('KDPOLI', $request->kodepoli);
+            $dokters = Paramedis::where('unit', $poli->kode_unit)
+                ->where('kode_dokter_jkn', "!=", null)
+                ->get();
+        }
+        return view(
+            'simrs.poliklinik.poliklinik_antrian',
+            compact([
+                'antrians',
+                'request',
+                'polis',
+                'dokters'
+            ])
+        );
+    }
 
     // API FUNCTION
     public function api()
@@ -77,7 +210,7 @@ class AntrianController extends APIController
         $api = IntegrasiApi::where('name', 'Antrian BPJS')->first();
         $data['base_url'] =  $api->base_url;
         $data['user_id'] = $api->user_id;
-        $data['user_key'] =$api->user_key;
+        $data['user_key'] = $api->user_key;
         $data['secret_key'] = $api->secret_key;
         return json_decode(json_encode($data));
     }
@@ -178,6 +311,24 @@ class AntrianController extends APIController
         $response = Http::withHeaders($signature)->get($url);
         return $this->response_decrypt($response, $signature);
     }
+    public function taskid_antrean(Request $request)
+    {
+        $validator = Validator::make(request()->all(), [
+            "kodebooking" => "required",
+        ]);
+        if ($validator->fails()) {
+            return $this->sendError($validator->errors()->first(), 400);
+        }
+        $url = $this->api()->base_url . "antrean/getlisttask";
+        $signature = $this->signature();
+        $response = Http::withHeaders($signature)->post(
+            $url,
+            [
+                "kodebooking" => $request->kodebooking,
+            ]
+        );
+        return $this->response_decrypt($response, $signature);
+    }
     public function dashboard_tanggal(Request $request)
     {
         $validator = Validator::make(request()->all(), [
@@ -206,5 +357,67 @@ class AntrianController extends APIController
         $signature = $this->signature();
         $response = Http::withHeaders($signature)->get($url);
         return $this->response_no_decrypt($response);
+    }
+    public function antrian_tanggal(Request $request)
+    {
+        $validator = Validator::make(request()->all(), [
+            "tanggal" =>  "required|date",
+        ]);
+        if ($validator->fails()) {
+            return $this->sendError($validator->errors()->first(),  201);
+        }
+        $url = $this->api()->base_url . "antrean/pendaftaran/tanggal/" . $request->tanggal;
+        $signature = $this->signature();
+        $response = Http::withHeaders($signature)->get($url);
+        return $this->response_decrypt($response, $signature);
+    }
+    public function antrian_kodebooking(Request $request)
+    {
+        $validator = Validator::make(request()->all(), [
+            "kodeBooking" =>  "required",
+        ]);
+        if ($validator->fails()) {
+            return $this->sendError($validator->errors()->first(),  201);
+        }
+        $url = $this->api()->base_url . "antrean/pendaftaran/kodebooking/" . $request->kodeBooking;
+        $signature = $this->signature();
+        $response = Http::withHeaders($signature)->get($url);
+        return $this->response_decrypt($response, $signature);
+    }
+    public function antrian_belum_dilayani(Request $request)
+    {
+        $validator = Validator::make(request()->all(), [
+            "tanggal" =>  "required|date",
+        ]);
+        if ($validator->fails()) {
+            return $this->sendError($validator->errors()->first(),  201);
+        }
+        $url = $this->api()->base_url . "antrean/pendaftaran/aktif";
+        $signature = $this->signature();
+        $response = Http::withHeaders($signature)->get($url);
+        return $this->response_decrypt($response, $signature);
+    }
+    public function antrian_pendaftaran(Request $request)
+    {
+        $url = $this->api()->base_url . "antrean/pendaftaran/aktif";
+        $signature = $this->signature();
+        $response = Http::withHeaders($signature)->get($url);
+        return $this->response_decrypt($response, $signature);
+    }
+    public function antrian_poliklinik(Request $request)
+    {
+        $validator = Validator::make(request()->all(), [
+            "kodePoli" =>  "required",
+            "kodeDokter" =>  "required",
+            "hari" =>  "required",
+            "jamPraktek" =>  "required",
+        ]);
+        if ($validator->fails()) {
+            return $this->sendError($validator->errors()->first(),  201);
+        }
+        $url = $this->api()->base_url . "antrean/pendaftaran/kodepoli/" . $request->kodePoli . "/kodedokter/" . $request->kodeDokter . "/hari/" . $request->hari . "/jampraktek/" . $request->jamPraktek;
+        $signature = $this->signature();
+        $response = Http::withHeaders($signature)->get($url);
+        return $this->response_decrypt($response, $signature);
     }
 }

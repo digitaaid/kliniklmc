@@ -18,9 +18,9 @@
                                 placeholder="Silahkan Pilih Tanggal" label="Tanggal Periksa" :config="$config" />
                             <x-adminlte-select2 name="kodepoli" id="kodepoli" label="Poliklinik">
                                 @foreach ($polikliniks->where('status', 1) as $poli)
-                                    <option value="{{ $poli->kodesubspesialis }}"
-                                        {{ $request->kodepoli == $poli->kodesubspesialis ? 'selected' : null }}>
-                                        {{ $poli->namasubspesialis }} ({{ $poli->kodesubspesialis }})</option>
+                                    <option value="{{ $poli->kodepoli }}"
+                                        {{ $request->kodepoli == $poli->kodepoli ? 'selected' : null }}>
+                                        {{ $poli->namasubspesialis }} ({{ $poli->kodepoli }})</option>
                                 @endforeach
                             </x-adminlte-select2>
                             <x-adminlte-button label="Cari Jadwal HAFIS" class="mr-auto withLoad" type="submit"
@@ -37,7 +37,7 @@
                             compressed>
                             @isset($jadwals)
                                 @foreach ($jadwals as $jadwal)
-                                    <tr class="{{ $jadwal->libur ? 'table-danger' : null }}  ">
+                                    <tr class="{{ $jadwal->libur ? 'table-danger' : null }}">
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $jadwal->namahari }} {{ $jadwal->libur ? 'LIBUR' : null }} </td>
                                         <td>{{ $jadwal->jadwal }}</td>
@@ -62,9 +62,8 @@
                                                 <input type="hidden" name="kapasitaspasien"
                                                     value="{{ $jadwal->kapasitaspasien }}">
                                                 <input type="hidden" name="libur" value="{{ $jadwal->libur }}">
-
-                                                @if ($jadwal_antrian->where('kodesubspesialis', $jadwal->kodesubspesialis)->where('kodedokter', $jadwal->kodedokter)->where('hari', $jadwal->hari)->first())
-                                                    @if ($jadwal_antrian->where('kodesubspesialis', $jadwal->kodesubspesialis)->where('kodedokter', $jadwal->kodedokter)->where('hari', $jadwal->hari)->where('kapasitaspasien', $jadwal->kapasitaspasien)->first())
+                                                @if ($jadwaldokter->where('kodesubspesialis', $jadwal->kodesubspesialis)->where('kodedokter', $jadwal->kodedokter)->where('hari', $jadwal->hari)->where('jadwal', $jadwal->jadwal)->first())
+                                                    @if ($jadwaldokter->where('kodesubspesialis', $jadwal->kodesubspesialis)->where('kodedokter', $jadwal->kodedokter)->where('hari', $jadwal->hari)->where('kapasitaspasien', $jadwal->kapasitaspasien)->first())
                                                         <button class="btn btn-secondary btn-xs">Sudah Ada</button>
                                                     @else
                                                         <button type="submit" class="btn btn-warning btn-xs">Update</button>
@@ -72,7 +71,6 @@
                                                 @else
                                                     <button type="submit" class="btn btn-success btn-xs">Tambah</button>
                                                 @endif
-
                                             </form>
                                         </td>
                                     </tr>
@@ -119,34 +117,6 @@
                             </tr>
                         @endforeach
                     @endforeach
-                    {{-- @foreach ($jadwal_antrian->groupby('kodedokter') as $item)
-                        <tr>
-                            <td>
-                                {{ strtoupper($item->first()->namasubspesialis) }}
-                                ({{ $item->first()->kodesubspesialis }})
-                            </td>
-                            <td>{{ $item->first()->namadokter }} ({{ $item->first()->kodedokter }})</td>
-                            @for ($i = 1; $i <= 6; $i++)
-                                <td>
-                                    @foreach ($item as $jadwal)
-                                        @if ($jadwal->hari == $i)
-                                            @if ($jadwal->libur == 1)
-                                                <x-adminlte-button
-                                                    label="{{ $jadwal->jadwal }} / {{ $jadwal->kapasitaspasien }}"
-                                                    class="btn-xs mb-1 btnJadwal" theme="danger" data-toggle="tooltip"
-                                                    title="Jadwal Dokter" data-id="{{ $jadwal->id }}" />
-                                            @else
-                                                <x-adminlte-button
-                                                    label="{{ $jadwal->jadwal }} / {{ $jadwal->kapasitaspasien }}"
-                                                    class="btn-xs mb-1 btnJadwal" theme="warning" data-toggle="tooltip"
-                                                    title="Jadwal Dokter" data-id="{{ $jadwal->id }}" />
-                                            @endif
-                                        @endif
-                                    @endforeach
-                                </td>
-                            @endfor
-                        </tr>
-                    @endforeach --}}
                 </x-adminlte-datatable>
             </x-adminlte-card>
         </div>
@@ -245,30 +215,32 @@
                 $('#btnUpdate').show();
                 $('#btnCreate').hide();
                 $('#_method').show();
-                $.get("{{ route('jadwaldokter.index') }}" + '/' + jadwalid,
-                    function(data) {
-                        console.log(data);
-                        // delete form
-                        var urlDelete = "{{ route('jadwaldokter.index') }}/" + jadwalid;
-                        $('#formDeleteJadwal').attr('action', urlDelete);
-                        var urlUpdate = "{{ route('jadwaldokter.index') }}/" + jadwalid;
-                        $('#formUpdateJadwal').attr('action', urlUpdate);
-                        $('#_method').val('PUT');
-                        $('#kodesubspesialis').val(data.kodesubspesialis).change();
-                        $('#kodedokter').val(data.kodedokter).change();
-                        $('#hari').val(data.hari).change();
-                        $('#kapasitaspasien').val(data.kapasitaspasien);
-                        $('#jadwal').val(data.jadwal);
-                        $('#labeljadwal').html("Jadwal ID : " + data.id);
-                        $('.idjadwal').val(data.id);
-                        if (data.libur == 1) {
-                            $('#libur').prop('checked', true).trigger('change');
-                        } else {
-                            $('#libur').prop('checked', false).trigger('change');
-                        }
-                        $.LoadingOverlay("hide", true);
-                        $('#modalJadwal').modal('show');
-                    })
+                $.LoadingOverlay("hide", true);
+                $('#modalJadwal').modal('show');
+                // $.get("{{ route('jadwaldokter.index') }}" + '/' + jadwalid,
+                //     function(data) {
+                //         console.log(data);
+                //         // delete form
+                //         var urlDelete = "{{ route('jadwaldokter.index') }}/" + jadwalid;
+                //         $('#formDeleteJadwal').attr('action', urlDelete);
+                //         var urlUpdate = "{{ route('jadwaldokter.index') }}/" + jadwalid;
+                //         $('#formUpdateJadwal').attr('action', urlUpdate);
+                //         $('#_method').val('PUT');
+                //         $('#kodesubspesialis').val(data.kodesubspesialis).change();
+                //         $('#kodedokter').val(data.kodedokter).change();
+                //         $('#hari').val(data.hari).change();
+                //         $('#kapasitaspasien').val(data.kapasitaspasien);
+                //         $('#jadwal').val(data.jadwal);
+                //         $('#labeljadwal').html("Jadwal ID : " + data.id);
+                //         $('.idjadwal').val(data.id);
+                //         if (data.libur == 1) {
+                //             $('#libur').prop('checked', true).trigger('change');
+                //         } else {
+                //             $('#libur').prop('checked', false).trigger('change');
+                //         }
+                //         $.LoadingOverlay("hide", true);
+                //         $('#modalJadwal').modal('show');
+                //     })
             });
         });
     </script>

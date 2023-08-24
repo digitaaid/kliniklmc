@@ -37,6 +37,17 @@ Route::get('login/google/redirect', [SocialiteController::class, 'redirect'])->m
 Route::get('login/google/callback', [SocialiteController::class, 'callback'])->middleware(['guest'])->name('login.goole.callback'); #callback google login
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
+// mesin antrian
+Route::get('antrianConsole', [AntrianController::class, 'antrianConsole'])->name('antrianConsole');
+Route::get('checkinAntrian', [AntrianController::class, 'checkinAntrian'])->name('checkinAntrian');
+Route::get('checkinCetakSEP', [AntrianController::class, 'checkinCetakSEP'])->name('checkinCetakSEP');
+Route::get('checkinKarcisAntrian', [AntrianController::class, 'checkinKarcisAntrian'])->name('checkinKarcisAntrian');
+Route::get('jadwaldokterPoli', [JadwalDokterController::class, 'jadwaldokterPoli'])->name('jadwaldokterPoli');
+Route::get('daftarBpjsOffline', [AntrianController::class, 'daftarBpjsOffline'])->name('daftarBpjsOffline');
+Route::get('daftarUmumOffline', [AntrianController::class, 'daftarUmumOffline'])->name('daftarUmumOffline');
+Route::get('cekPrinter', [AntrianController::class, 'cekPrinter'])->name('cekPrinter');
+Route::get('checkinUpdate', [AntrianController::class, 'checkinUpdate'])->name('checkinUpdate');
+
 Route::middleware('auth')->group(function () {
     Route::get('profile', [UserController::class, 'profile'])->name('profile'); #ok
     // route resource
