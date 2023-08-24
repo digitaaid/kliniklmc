@@ -22,7 +22,7 @@
                         @endforeach
                     @endif
                 </x-adminlte-datatable>
-                <a href="{{ route('poliklinik.create') }}" class="btn btn-warning">Refresh Datak Poliklinik</a>
+                <a href="{{ route('poliklinik.create') }}" class="btn btn-warning">Refresh Data Poliklinik</a>
             </x-adminlte-card>
             <x-adminlte-card title="Referensi Poliklinik Fingerprint Antrian BPJS" theme="secondary" collapsible>
                 @php

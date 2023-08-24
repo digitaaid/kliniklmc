@@ -19,6 +19,7 @@
                         </tr>
                     @endforeach
                 </x-adminlte-datatable>
+                <a href="{{ route('dokter.create') }}" class="btn btn-warning">Refresh Data Dokter</a>
             </x-adminlte-card>
         </div>
     </div>

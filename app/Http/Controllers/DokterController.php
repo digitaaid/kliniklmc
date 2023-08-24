@@ -16,6 +16,20 @@ class DokterController extends Controller
             'dokter',
         ]));
     }
+    public function create()
+    {
+        $api = new AntrianController();
+        $response = $api->ref_dokter();
+        foreach ($response->response as $value) {
+            Dokter::updateOrCreate([
+                'kodedokter' => $value->kodedokter,
+            ], [
+                'namadokter' => $value->namadokter,
+            ]);
+        }
+        Alert::success($response->metadata->message, 'Data Dokter Telah Di Refresh');
+        return redirect()->route('dokter.index');
+    }
     public function dokterAntrianBpjs()
     {
         $controller = new AntrianController();

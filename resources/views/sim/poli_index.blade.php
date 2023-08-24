@@ -9,29 +9,37 @@
 @section('content')
     <div class="row">
         <div class="col-md-12">
-            <x-adminlte-card title="Data Unit Poliklinik" theme="info" icon="fas fa-info-circle" collapsible maximizable>
+            <x-adminlte-card title="Data Unit Poliklinik" theme="primary" icon="fas fa-info-circle" collapsible>
                 @php
-                    $heads = ['NamaPoliklinik', 'KodePoli', 'KodeSubspesialis', 'KodeUnit','Status'];
+                    $heads = ['ID', 'NamaPoliklinik', 'KodePoli', 'KodeSubspesialis', 'KodeUnit', 'Status'];
                 @endphp
-                <x-adminlte-datatable id="table1" :heads="$heads"   bordered hoverable
-                    compressed>
+                <x-adminlte-datatable id="table1" :heads="$heads" bordered hoverable compressed>
                     @foreach ($polikliniks as $item)
                         <tr>
+                            <td>{{ $item->id }}</td>
                             <td>{{ $item->namasubspesialis }}</td>
                             <td>{{ $item->kodepoli }}</td>
                             <td>{{ $item->kodesubspesialis }}</td>
                             <td>{{ $item->kodeunit }}</td>
-                            <td>{{ $item->status }}</td>
+                            <td>
+                                @if ($item->status)
+                                    <a href="{{ route('poliklinik.edit', $item) }}" class="btn btn-xs btn-success">Aktif</a>
+                                @else
+                                    <a href="{{ route('poliklinik.edit', $item) }}"
+                                        class="btn btn-xs btn-danger">Non-Aktif</a>
+                                @endif
+                            </td>
                         </tr>
                     @endforeach
                 </x-adminlte-datatable>
+                <a href="{{ route('poliklinik.create') }}" class="btn btn-warning">Refresh Data Poliklinik</a>
             </x-adminlte-card>
         </div>
 
     </div>
     {{-- modal poliklinik --}}
-    <x-adminlte-modal id="modalPoli" name="modalPoli" title="Poliklinik" theme="warning" icon="fas fa-prescription-bottle-alt"
-        static-backdrop>
+    <x-adminlte-modal id="modalPoli" name="modalPoli" title="Poliklinik" theme="warning"
+        icon="fas fa-prescription-bottle-alt" static-backdrop>
         <form name="formUpdatePoli" id="formUpdatePoli" action="{{ route('poliklinik.store') }}" method="POST">
             @csrf
             <input type="hidden" name="method" value="UPDATE">

@@ -32,6 +32,22 @@ class PoliklinikController extends Controller
         Alert::success($response->metadata->message, 'Data Poliklinik Telah Di Refresh');
         return redirect()->route('poliklinik.index');
     }
+    public function edit($id)
+    {
+        $poliklinik = Poliklinik::find($id);
+        if ($poliklinik->status) {
+            $status = 0;
+            $keterangan = 'Non-Aktifkan';
+        } else {
+            $status = 1;
+            $keterangan = 'Aktifkan';
+        }
+        $poliklinik->update([
+            'status' => $status,
+        ]);
+        Alert::success('Success', 'Poliklinik ' . $poliklinik->namasubspesialis . ' Telah Di ' . $keterangan);
+        return redirect()->route('poliklinik.index');
+    }
     public function poliklikAntrianBpjs()
     {
         $controller = new AntrianController();

@@ -9,38 +9,23 @@
 @section('content')
     <div class="row">
         <div class="col-12">
-            <x-adminlte-card title="Data Dokter" theme="info" icon="fas fa-info-circle" collapsible maximizable>
+            <x-adminlte-card title="Data Dokter" theme="primary" icon="fas fa-info-circle" collapsible>
                 @php
-                    $heads = ['Kode BPJS', 'Kode SIMRS', 'Nama Dokter', 'SIP', 'Status', 'Action'];
-                    $config['paging'] = false;
-                    $config['info'] = false;
-                    $config['scrollY'] = '500px';
-                    $config['scrollCollapse'] = true;
+                    $heads = ['ID', 'Kode BPJS', 'Nama Dokter', 'SIP', 'Status', 'Action'];
                 @endphp
-                <x-adminlte-datatable id="table2" :heads="$heads" :config="$config" bordered hoverable compressed>
+                <x-adminlte-datatable id="table2" :heads="$heads" bordered hoverable compressed>
                     @foreach ($dokter as $item)
                         <tr>
+                            <td>{{ $item->id }}</td>
                             <td>{{ $item->kodedokter }}</td>
-                            <td>{{ $item->paramedis ? $item->paramedis->kode_paramedis : '-' }}</td>
                             <td>{{ $item->namadokter }}</td>
-                            <td>{{ $item->paramedis ? $item->paramedis->sip_dr : '-' }}</td>
-                            <td>
-                                @if ($item->paramedis)
-                                    <a href="#" class="btn btn-xs btn-secondary">Sudah
-                                        Ada</a>
-                                @else
-                                    <a href="#" class="btn btn-xs btn-danger">Belum
-                                        Ada</a>
-                                @endif
-                            </td>
-                            <td>
-                                <x-adminlte-button class="btn-xs btnEdit" label="Edit" theme="warning" icon="fas fa-edit"
-                                    data-toggle="tooltip" title="Edit Dokter {{ $item->nama_paramedis }}"
-                                    data-id="{{ $item->kodedokter }}" />
-                            </td>
+                            <td>{{ $item->sip }}</td>
+                            <td>{{ $item->status }}</td>
+                            <td></td>
                         </tr>
                     @endforeach
                 </x-adminlte-datatable>
+                <a href="{{ route('dokter.create') }}" class="btn btn-warning">Refresh Data Dokter</a>
             </x-adminlte-card>
         </div>
     </div>
@@ -54,7 +39,8 @@
             <x-adminlte-input name="namadokter" placeholder="Nama Dokter" label="Nama Dokter" />
             <x-adminlte-input name="sip_dr" placeholder="SIP" label="SIP" />
             <x-slot name="footerSlot">
-                <x-adminlte-button class="mr-auto" type="submit" form="formInput" label="Update" theme="success" icon="fas fa-save" />
+                <x-adminlte-button class="mr-auto" type="submit" form="formInput" label="Update" theme="success"
+                    icon="fas fa-save" />
                 <x-adminlte-button theme="danger " label="Tutup" icon="fas fa-times" data-dismiss="modal" />
             </x-slot>
         </form>
@@ -77,7 +63,7 @@
                 $.LoadingOverlay("show");
                 var url = "{{ route('dokter.index') }}/" + id;
                 $.get(url, function(data) {
-                    var urlAction = "{{ route('dokter.index') }}/" + id ;
+                    var urlAction = "{{ route('dokter.index') }}/" + id;
                     $('#formInput').attr('action', urlAction);
                     $('#kodedokter').val(data.kodedokter);
                     $('#namadokter').val(data.namadokter);
