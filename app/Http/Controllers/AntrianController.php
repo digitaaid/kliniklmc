@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Antrian;
+use App\Models\Dokter;
 use App\Models\IntegrasiApi;
 use App\Models\JadwalDokter;
+use App\Models\Poliklinik;
+use App\Models\Unit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Validator;
@@ -184,12 +187,12 @@ class AntrianController extends APIController
             }
         }
         $polis = Poliklinik::where('status', 1)->get();
-        $dokters = Paramedis::where('kode_dokter_jkn', "!=", null)
+        $dokters = Dokter::where('kode_dokter_jkn', "!=", null)
             ->where('unit', "!=", null)
             ->get();
         if (isset($request->kodepoli)) {
             $poli = Unit::firstWhere('KDPOLI', $request->kodepoli);
-            $dokters = Paramedis::where('unit', $poli->kode_unit)
+            $dokters = Dokter::where('unit', $poli->kode_unit)
                 ->where('kode_dokter_jkn', "!=", null)
                 ->get();
         }

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AntrianController;
 use App\Http\Controllers\APIController;
+use App\Http\Controllers\BarcodeController;
 use App\Http\Controllers\CarouselController;
 use App\Http\Controllers\DokterController;
 use App\Http\Controllers\JadwalDokterController;
@@ -9,6 +10,7 @@ use App\Http\Controllers\PasienController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\PoliklinikController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\ThermalPrintController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -50,6 +52,14 @@ Route::get('checkinUpdate', [AntrianController::class, 'checkinUpdate'])->name('
 
 Route::middleware('auth')->group(function () {
     Route::get('profile', [UserController::class, 'profile'])->name('profile'); #ok
+    // settingan umum
+    Route::get('get_city', [LaravotLocationController::class, 'get_city'])->name('get_city');
+    Route::get('get_district', [LaravotLocationController::class, 'get_district'])->name('get_district');
+    Route::get('get_village', [LaravotLocationController::class, 'get_village'])->name('get_village');
+    Route::get('cekBarQRCode', [BarcodeController::class, 'cekBarQRCode'])->name('cekBarQRCode');
+    Route::get('cekThermalPrinter', [ThermalPrintController::class, 'cekThermalPrinter'])->name('cekThermalPrinter');
+    Route::get('testThermalPrinter', [ThermalPrintController::class, 'testThermalPrinter'])->name('testThermalPrinter');
+    Route::get('whatsapp', [WhatsappController::class, 'whatsapp'])->name('whatsapp');
     // route resource
     Route::resource('user', UserController::class);
     Route::resource('role', RoleController::class);
