@@ -1,9 +1,8 @@
 @extends('adminlte::master')
-
 @inject('layoutHelper', 'JeroenNoten\LaravelAdminLte\Helpers\LayoutHelper')
-
 @section('title', 'Mesin Antrian')
 @section('body')
+    <link rel="shortcut icon" href="{{ asset('medicio/assets/img/lmc.png') }}" />
     <div class="wrapper">
         <div class="row p-1">
             <div class="col-md-5">

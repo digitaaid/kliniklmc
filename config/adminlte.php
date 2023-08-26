@@ -30,7 +30,7 @@ return [
     |
     */
 
-    'use_ico_only' => false,
+    'use_ico_only' => true,
     'use_full_favicon' => false,
 
     /*
@@ -64,8 +64,8 @@ return [
     */
 
     'logo' => '<b>Klinik</b>LMC',
-    'logo_img' => 'vendor/adminlte/dist/img/lmc.png',
-    'logo_img_class' => 'brand-image',
+    'logo_img' => 'vendor/adminlte/dist/img/lmc-b.png',
+    'logo_img_class' => 'brand-image img-circle elevation-3',
     'logo_img_xl' => null,
     'logo_img_xl_class' => 'brand-image-xs',
     'logo_img_alt' => 'Admin Logo',
@@ -186,7 +186,7 @@ return [
     |
     */
 
-    'classes_body' => 'text-xs',
+    'classes_body' => 'text-sm',
     'classes_brand' => '',
     'classes_brand_text' => '',
     'classes_content_wrapper' => '',
@@ -307,11 +307,6 @@ return [
             'text' => 'search',
         ],
         [
-            'text' => 'blog',
-            'url'  => 'admin/blog',
-            'can'  => 'manage-blog',
-        ],
-        [
             'text'        => 'Landing Page',
             'url'         => '',
             'icon'        => 'fas fa-globe',
@@ -320,6 +315,21 @@ return [
             'text'        => 'Dashboard',
             'url'         => 'home',
             'icon'        => 'fas fa-home',
+        ],
+        // PENDAFTARAN
+        [
+            'text'    => 'Aplikasi Pendaftaran',
+            'icon'    => 'fas fa-user-plus',
+            // 'can' => 'pendaftaran',
+            'submenu' => [
+                [
+                    'text' => 'Console Antrian',
+                    'icon'    => 'fas fa-desktop',
+                    'url'  => 'antrianConsole',
+                    'shift'   => 'ml-2',
+                    // 'can' => 'pendaftaran',
+                ],
+            ],
         ],
         [
             'text' => 'Poliklinik',

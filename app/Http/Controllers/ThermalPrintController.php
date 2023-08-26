@@ -62,4 +62,22 @@ class ThermalPrintController extends Controller
 
         return redirect()->route('cekThermalPrinter');
     }
+    public function cekPrinter()
+    {
+        try {
+            $connector = new WindowsPrintConnector(env('PRINTER_CHECKIN'));
+            $printer = new Printer($connector);
+            $printer->text("Connector Printer :\n");
+            $printer->text(env('PRINTER_CHECKIN') . "\n");
+            $printer->text("Test Printer Berhasil.\n");
+            $printer->cut();
+            $printer->close();
+            Alert::success('Success', 'Mesin menyala dan siap digunakan.');
+            return redirect()->route('antrianConsole');
+        } catch (\Throwable $th) {
+            // throw $th;
+            Alert::error('Error', 'Mesin antrian tidak menyala. Silahkan hubungi admin.');
+            return redirect()->route('antrianConsole');
+        }
+    }
 }

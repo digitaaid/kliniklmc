@@ -1,12 +1,12 @@
 @extends('adminlte::page')
-@section('title', 'User Management')
+@section('title', 'Integration Management')
 @section('content_header')
-    <h1>User Management</h1>
+    <h1>Integration Management</h1>
 @stop
 @section('content')
     <div class="row">
         <div class="col-12">
-            <x-adminlte-card title="Data User" theme="secondary" collapsible>
+            <x-adminlte-card title="Data API Integration" theme="secondary" collapsible>
                 @if ($errors->any())
                     <x-adminlte-alert title="Ops Terjadi Masalah !" theme="danger" dismissable>
                         <ul>
