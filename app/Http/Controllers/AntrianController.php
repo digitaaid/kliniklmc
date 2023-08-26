@@ -29,6 +29,20 @@ class AntrianController extends APIController
             ]
         ));
     }
+    public function displayAntrian()
+    {
+        return view('sim.display_antrian');
+        // $jadwals = JadwalDokter::where('hari',  now()->dayOfWeek)
+        //     ->orderBy('namasubspesialis', 'asc')->get();
+        // $antrians = Antrian::whereDate('tanggalperiksa', now()->format('Y-m-d'))->get();
+        // return view('sim.antrian_console', compact(
+        //     [
+        //         'jadwals',
+        //         'antrians',
+        //     ]
+        // ));
+    }
+
 
     public function statusAntrianBpjs()
     {

@@ -43,6 +43,7 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 // mesin antrian
 Route::get('antrianConsole', [AntrianController::class, 'antrianConsole'])->name('antrianConsole');
+Route::get('displayAntrian', [AntrianController::class, 'displayAntrian'])->name('displayAntrian');
 Route::get('checkinAntrian', [AntrianController::class, 'checkinAntrian'])->name('checkinAntrian');
 Route::get('checkinCetakSEP', [AntrianController::class, 'checkinCetakSEP'])->name('checkinCetakSEP');
 Route::get('checkinKarcisAntrian', [AntrianController::class, 'checkinKarcisAntrian'])->name('checkinKarcisAntrian');
