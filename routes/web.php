@@ -12,6 +12,7 @@ use App\Http\Controllers\PoliklinikController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\ThermalPrintController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\WhatsappController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
