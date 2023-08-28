@@ -41,6 +41,10 @@ Route::get('login/google/redirect', [SocialiteController::class, 'redirect'])->m
 Route::get('login/google/callback', [SocialiteController::class, 'callback'])->middleware(['guest'])->name('login.goole.callback'); #callback google login
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
+// daftar pasien
+Route::get('daftar', [AntrianController::class, 'daftar'])->name('daftar'); #ok
+Route::post('prosesdaftar', [AntrianController::class, 'prosesdaftar'])->name('prosesdaftar'); #ok
+
 // mesin antrian
 Route::get('antrianConsole', [AntrianController::class, 'antrianConsole'])->name('antrianConsole');
 Route::get('displayAntrian', [AntrianController::class, 'displayAntrian'])->name('displayAntrian');
