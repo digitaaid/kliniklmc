@@ -5,6 +5,7 @@ use App\Http\Controllers\APIController;
 use App\Http\Controllers\BarcodeController;
 use App\Http\Controllers\CarouselController;
 use App\Http\Controllers\DokterController;
+use App\Http\Controllers\IntegrasiController;
 use App\Http\Controllers\JadwalDokterController;
 use App\Http\Controllers\PasienController;
 use App\Http\Controllers\PermissionController;
@@ -42,10 +43,12 @@ Route::get('login/google/callback', [SocialiteController::class, 'callback'])->m
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 // daftar pasien
-Route::get('daftar', [AntrianController::class, 'daftar'])->name('daftar'); #ok
-Route::get('daftarbpjs', [AntrianController::class, 'daftarbpjs'])->name('daftarbpjs'); #ok
-Route::get('daftarumum', [AntrianController::class, 'daftarumum'])->name('daftarumum'); #ok
-Route::post('prosesdaftar', [AntrianController::class, 'prosesdaftar'])->name('prosesdaftar'); #ok
+Route::get('daftar', [AntrianController::class, 'daftar'])->name('daftar');
+Route::get('daftarbpjs', [AntrianController::class, 'daftarbpjs'])->name('daftarbpjs');
+Route::post('prosesdaftarbpjs', [AntrianController::class, 'prosesdaftarbpjs'])->name('prosesdaftarbpjs');
+Route::get('daftarumum', [AntrianController::class, 'daftarumum'])->name('daftarumum');
+Route::post('prosesdaftarumum', [AntrianController::class, 'prosesdaftarumum'])->name('prosesdaftarumum');
+Route::get('antiranpasien/{kodebooking}', [AntrianController::class, 'antiranpasien'])->name('antiranpasien');
 
 // mesin antrian
 Route::get('antrianConsole', [AntrianController::class, 'antrianConsole'])->name('antrianConsole');
@@ -73,11 +76,12 @@ Route::middleware('auth')->group(function () {
     Route::resource('user', UserController::class);
     Route::resource('role', RoleController::class);
     Route::resource('permission', PermissionController::class);
-    Route::resource('integrasiAPI', APIController::class);
+    Route::resource('integrasiAPI', IntegrasiController::class);
     Route::resource('poliklinik', PoliklinikController::class);
     Route::resource('dokter', DokterController::class);
     Route::resource('jadwaldokter', JadwalDokterController::class);
     Route::resource('carousel', CarouselController::class);
+    Route::resource('antrian', AntrianController::class);
     // antrian bpjs
     Route::get('statusAntrianBpjs', [AntrianController::class, 'statusAntrianBpjs'])->name('statusAntrianBpjs');
     Route::get('poliklikAntrianBpjs', [PoliklinikController::class, 'poliklikAntrianBpjs'])->name('poliklikAntrianBpjs');

@@ -37,9 +37,9 @@ return new class extends Migration
             $table->integer('kuotanonjkn')->nullable();
             $table->text('keterangan')->nullable();
 
+            $table->string('nama')->nullable();
             $table->string('method')->nullable();
             $table->integer('taskid')->nullable();
-
             $table->timestamps();
         });
     }

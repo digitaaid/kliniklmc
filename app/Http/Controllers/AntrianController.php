@@ -16,7 +16,17 @@ use RealRashid\SweetAlert\Facades\Alert;
 
 class AntrianController extends APIController
 {
-
+    public function index(Request $request)
+    {
+        $antrians = null;
+        if ($request->tanggalperiksa) {
+            $antrians = Antrian::where('tanggalperiksa', $request->tanggalperiksa)->get();
+        }
+        return view('sim.antrian_index', compact([
+            'request',
+            'antrians',
+        ]));
+    }
     // pendaftaran
     public function antrianConsole()
     {
@@ -46,8 +56,7 @@ class AntrianController extends APIController
             'request',
         ]));
     }
-
-    public function prosesdaftar(Request $request)
+    public function prosesdaftarbpjs(Request $request)
     {
         $jadwals = null;
         $suratkontrols = null;
@@ -97,8 +106,7 @@ class AntrianController extends APIController
                     $res = $api->suratkontrol_peserta($request);
                     if ($res->metadata->code == 200) {
                         foreach ($res->response->list as  $value) {
-                            if ($value->terbitSEP != 'Sudah') {
-                            }
+                            $suratkontrols[] = $value;
                         }
                         if ($suratkontrols == null) {
                             $request['warning'] = "Surat Kontrol Tidak Ada / Sudah Digunakan Semua.";
@@ -140,12 +148,72 @@ class AntrianController extends APIController
                 $request['warning'] = $res->metadata->message;
             }
         }
-        return view('sim.daftar', compact([
+        return view('sim.daftarbpjs', compact([
             'request',
             'jadwals',
             'rujukans',
+            'suratkontrols',
         ]));
     }
+    public function prosesdaftarumum(Request $request)
+    {
+        $jadwals = null;
+        $suratkontrols = null;
+        $rujukans = null;
+        $api = new VclaimController();
+        if ($request->nik && empty($request->nomorkartu)) {
+            $request['tanggal'] = now()->format('Y-m-d');
+            $res = $api->peserta_nik($request);
+            if ($res->metadata->code == 200) {
+                $peserta = $res->response->peserta;
+                $request['nik'] = $peserta->nik;
+                $request['nama'] = $peserta->nama;
+                $request['nomorkartu'] = $peserta->noKartu;
+                $request['norm'] = $peserta->mr->noMR;
+                if ($peserta->mr->noMR == null) {
+                    $request['norm'] = '000000';
+                }
+            } else {
+                $request['error'] = $res->metadata->message;
+            }
+        }
+        if ($request->tanggalperiksa) {
+            $hari = Carbon::parse($request->tanggalperiksa)->dayOfWeek;
+            $jadwals = JadwalDokter::where('hari', $hari)->get();
+        }
+        if ($request->jadwal) {
+            $jadwal = JadwalDokter::find($request->jadwal);
+            $request['kodepoli'] = $jadwal->kodesubspesialis;
+            $request['namapoli'] = $jadwal->namasubspesialis;
+            $request['namadokter'] = $jadwal->namadokter;
+            $request['kodedokter'] = $jadwal->kodedokter;
+            $request['jampraktek'] = $jadwal->jadwal;
+            $request['jenispasien'] = "NON-JKN";
+            if ($request->norm == '000000') {
+                $request['pasienbaru'] = 1;
+            } else {
+                $request['pasienbaru'] = 0;
+            }
+            $res = $this->ambil_antrian($request);
+            if ($res->metadata->code == 200) {
+                return redirect()->route('antiranpasien', $request->kodebooking);
+            } else {
+                $request['warning'] = $res->metadata->message;
+            }
+        }
+        return view('sim.daftarumum', compact([
+            'request',
+            'jadwals',
+            'rujukans',
+            'suratkontrols',
+        ]));
+    }
+    function antiranpasien($kodebooking, Request $request)
+    {
+        $antrian = Antrian::where('kodebooking', $kodebooking)->first();
+        dd($antrian);
+    }
+
     public function displayAntrian()
     {
         return view('sim.display_antrian');
@@ -733,7 +801,22 @@ class AntrianController extends APIController
         $request['keterangan'] = "Oke";
         $res = $this->tambah_antrean($request);
         if ($res->metadata->code == 200) {
-            dd($res, $request->all());
+            $data = [
+                'nomorantrean' => $request->nomorantrean,
+                'angkaantrean' => $request->angkaantrean,
+                'kodebooking' => $request->kodebooking,
+                'norm' => $request->norm,
+                'namapoli' => $request->namapoli,
+                'namadokter' => $request->namadokter,
+                'estimasidilayani' => $request->estimasidilayani,
+                'sisakuotajkn' => $request->sisakuotajkn,
+                'kuotajkn' => $request->kuotajkn,
+                'sisakuotanonjkn' => $request->sisakuotanonjkn,
+                'kuotanonjkn' => $request->kuotanonjkn,
+                'keterangan' => $request->keterangan,
+            ];
+            Antrian::create($request->all());
+            return $this->sendResponse($data, 200);
         } else {
             return $this->sendError($res->metadata->message, 400);
         }

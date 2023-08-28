@@ -30,19 +30,19 @@
                     <p>{{ $request->warning }}</p>
                 </div>
             @endif
-            <form action="{{ route('prosesdaftar') }}" id="formDaftar" method="POST" role="form" data-aos="fade-up"
+            <form action="{{ route('prosesdaftarumum') }}" id="formDaftar" method="POST" role="form" data-aos="fade-up"
                 data-aos-delay="100">
                 @csrf
                 <div class="form-group mb-3">
-                    <input type="text" class="form-control" name="nomorkartu" id="nomorkartu"
-                        placeholder="Nomor Kartu BPJS" value="{{ $request->nomorkartu }}"
-                        {{ $request->nik ? 'readonly' : null }} required>
+                    <input type="text" class="form-control" name="nik" id="nik" placeholder="NIK Pasien"
+                        value="{{ $request->nik }}" required {{ $request->nomorkartu ? 'readonly' : null }}>
                 </div>
                 @if ($request->nik)
                     <div class="form-group mb-3">
-                        <input type="text" class="form-control" name="nik" id="nik" placeholder="NIK"
-                            value="{{ $request->nik }}" required readonly>
+                        <input type="text" class="form-control" name="nomorkartu" id="nomorkartu"
+                            placeholder="Nomor Kartu BPJS" value="{{ $request->nomorkartu }}" required readonly>
                     </div>
+
                     <div class="form-group mb-3">
                         <input type="text" class="form-control" name="nama" id="nama" placeholder="Nama"
                             value="{{ $request->nama }}" required readonly>
@@ -72,30 +72,14 @@
                     </div>
                     <div class="form-group mb-3">
                         <select name="jeniskunjungan" id="jeniskunjungan" class="form-select" required>
-                            <option value="1" {{ $request->jeniskunjungan == '1' ? 'selected' : null }}>Rujukan FKTP
+                            <option value="1" {{ $request->jeniskunjungan == '1' ? 'selected' : null }}>Kunjungan
+                                Pertama
                             </option>
                             <option value="3" {{ $request->jeniskunjungan == '3' ? 'selected' : null }}>Kontrol
                             </option>
-                            <option value="4" {{ $request->jeniskunjungan == '4' ? 'selected' : null }}>Rujukan Antar
-                                RS</option>
                         </select>
                     </div>
                 @endif
-                @if ($request->jeniskunjungan)
-                    <div class="form-group mb-3">
-                        <select name="nomorreferensi" id="nomorreferensi" class="form-select" required>
-                            <option selected disabled>Pilih Nomor Referensi</option>
-                            @isset($rujukans)
-                                @foreach ($rujukans as $rujukan)
-                                    <option value="{{ $rujukan->noKunjungan }}">{{ $rujukan->noKunjungan }}
-                                        {{ $rujukan->poliRujukan->nama }}</option>
-                                @endforeach
-                            @endisset
-
-                        </select>
-                    </div>
-                @endif
-
                 <div class="col text-center">
                     @empty($request->error)
                         <button type="submit" class="btn btn-warning preloader" form="formDaftar">Make

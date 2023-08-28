@@ -30,7 +30,7 @@
                     <p>{{ $request->warning }}</p>
                 </div>
             @endif
-            <form action="{{ route('prosesdaftar') }}" id="formDaftar" method="POST" role="form" data-aos="fade-up"
+            <form action="{{ route('prosesdaftarbpjs') }}" id="formDaftar" method="POST" role="form" data-aos="fade-up"
                 data-aos-delay="100">
                 @csrf
                 <div class="form-group mb-3">
@@ -85,13 +85,18 @@
                     <div class="form-group mb-3">
                         <select name="nomorreferensi" id="nomorreferensi" class="form-select" required>
                             <option selected disabled>Pilih Nomor Referensi</option>
+                            @isset($suratkontrols)
+                                @foreach ($suratkontrols as $item)
+                                    <option value="{{ $item->noSuratKontrol }}"> {{ $item->noSuratKontrol }} TGL
+                                        {{ $item->tglRencanaKontrol }}</option>
+                                @endforeach
+                            @endisset
                             @isset($rujukans)
                                 @foreach ($rujukans as $rujukan)
                                     <option value="{{ $rujukan->noKunjungan }}">{{ $rujukan->noKunjungan }}
                                         {{ $rujukan->poliRujukan->nama }}</option>
                                 @endforeach
                             @endisset
-
                         </select>
                     </div>
                 @endif

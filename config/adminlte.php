@@ -335,21 +335,24 @@ return [
             'text' => 'Poliklinik',
             'icon'    => 'fas fa-clinic-medical',
             'url'  => 'poliklinik',
-            // 'shift'   => 'ml-2',
             // 'can' =>  ['bpjs', 'pendaftaran'],
         ],
         [
             'text' => 'Dokter',
             'icon'    => 'fas fa-user-md',
             'url'  => 'dokter',
-            // 'shift'   => 'ml-2',
             // 'can' =>  ['bpjs', 'pendaftaran'],
         ],
         [
             'text' => 'Jadwal Dokter',
             'icon'    => 'fas fa-calendar-alt',
             'url'  => 'jadwaldokter',
-            // 'shift'   => 'ml-2',
+            // 'can' =>  ['bpjs', 'pendaftaran'],
+        ],
+        [
+            'text' => 'Antrian',
+            'icon'    => 'fas fa-users',
+            'url'  => 'antrian',
             // 'can' =>  ['bpjs', 'pendaftaran'],
         ],
         // ANTRIAN BPJS
