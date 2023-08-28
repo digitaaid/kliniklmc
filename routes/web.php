@@ -78,12 +78,6 @@ Route::middleware('auth')->group(function () {
     Route::resource('dokter', DokterController::class);
     Route::resource('jadwaldokter', JadwalDokterController::class);
     Route::resource('carousel', CarouselController::class);
-    // pendaftaran
-    Route::get('daftar', [AntrianController::class, 'daftar'])->name('daftar'); #ok
-    Route::post('prosesdaftar', [AntrianController::class, 'prosesdaftar'])->name('prosesdaftar'); #ok
-
-
-
     // antrian bpjs
     Route::get('statusAntrianBpjs', [AntrianController::class, 'statusAntrianBpjs'])->name('statusAntrianBpjs');
     Route::get('poliklikAntrianBpjs', [PoliklinikController::class, 'poliklikAntrianBpjs'])->name('poliklikAntrianBpjs');
