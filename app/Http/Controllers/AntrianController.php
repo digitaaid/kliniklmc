@@ -34,6 +34,19 @@ class AntrianController extends APIController
             'request',
         ]));
     }
+    public function daftarbpjs(Request $request)
+    {
+        return view('sim.daftarbpjs', compact([
+            'request',
+        ]));
+    }
+    public function daftarumum(Request $request)
+    {
+        return view('sim.daftarumum', compact([
+            'request',
+        ]));
+    }
+
     public function prosesdaftar(Request $request)
     {
         $jadwals = null;

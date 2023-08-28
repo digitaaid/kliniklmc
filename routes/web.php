@@ -43,6 +43,8 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 // daftar pasien
 Route::get('daftar', [AntrianController::class, 'daftar'])->name('daftar'); #ok
+Route::get('daftarbpjs', [AntrianController::class, 'daftarbpjs'])->name('daftarbpjs'); #ok
+Route::get('daftarumum', [AntrianController::class, 'daftarumum'])->name('daftarumum'); #ok
 Route::post('prosesdaftar', [AntrianController::class, 'prosesdaftar'])->name('prosesdaftar'); #ok
 
 // mesin antrian

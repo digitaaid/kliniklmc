@@ -100,15 +100,26 @@
     <!-- ======= Cta Section ======= -->
     <section id="cta" class="cta">
         <div class="container" data-aos="zoom-in">
-
             <div class="text-center">
-                <h3>In an emergency? Need help now?</h3>
-                <p> Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-                    pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
-                    mollit anim id est laborum.</p>
-                <a class="cta-btn scrollto" href="#appointment">Make an Make an Appointment</a>
+                <h3>
+                    Pendaftaran Antrian Online
+                    <br>
+                    Silahkan pilih jenis pasien ?
+                </h3>
+                <p>
+                    Kami menyediakan pelayanan bagi pasien BPJS maupun umum. Silakan pilih jenis pasien Anda di bawah ini
+                    untuk mendapatkan informasi lebih lanjut tentang prosedur, layanan, dan manfaat yang tersedia untuk
+                    Anda.
+                </p>
+                <a class="cta-btn scrollto" href="{{ route('daftarbpjs') }}">Antrian Pasien BPJS</a>
+                <a class="cta-btn scrollto" href="{{ route('daftarumum') }}">Antrian Pasien Umum</a>
+                <br>
+                <br>
+                <p>
+                    Dengan memilih jenis pasien yang sesuai, kami akan memastikan bahwa Anda mendapatkan panduan yang
+                    relevan dan penanganan terbaik sesuai kebutuhan Anda.
+                </p>
             </div>
-
         </div>
     </section><!-- End Cta Section -->
 

@@ -1,40 +1,12 @@
 @extends('vendor.medico.master')
-@section('title', 'Daftar Pilih Jenis Pasien')
+@section('title', 'Daftar Antrian BPJS')
 @section('content')
-    <!-- ======= Cta Section ======= -->
-    <section id="cta" class="cta">
-        <div class="container" data-aos="zoom-in">
-            <div class="text-center">
-                <br><br><br><br> <br>
-                <h3>
-                    Pendaftaran Antrian Online
-                    <br>
-                    Silahkan pilih jenis pasien ?
-                </h3>
-                <p>
-                    Kami menyediakan pelayanan bagi pasien BPJS maupun umum. Silakan pilih jenis pasien Anda di bawah ini
-                    untuk mendapatkan informasi lebih lanjut tentang prosedur, layanan, dan manfaat yang tersedia untuk
-                    Anda.
-                </p>
-                <a class="cta-btn scrollto" href="{{ route('daftarbpjs') }}">Antrian Pasien BPJS</a>
-                <br>
-                <a class="cta-btn scrollto" href="{{ route('daftarumum') }}">Antrian Pasien Umum</a>
-
-                <br>
-                <br>
-                <p>
-                    Dengan memilih jenis pasien yang sesuai, kami akan memastikan bahwa Anda mendapatkan panduan yang
-                    relevan dan penanganan terbaik sesuai kebutuhan Anda.
-                </p>
-            </div>
-        </div>
-    </section><!-- End Cta Section -->
-    {{-- <!-- ======= Appointment Section ======= -->
+    <!-- ======= Appointment Section ======= -->
     <br><br><br><br>
     <section id="appointment" class="appointment section-bg">
         <div class="container" data-aos="fade-up">
             <div class="section-title">
-                <h2>Daftar Online</h2>
+                <h2>Daftar Antrian BPJS</h2>
                 <p>
                     Hemat waktu dan nikmati kemudahan dengan pendaftaran online di Klinik Hematologi Onkologi kami. Dengan
                     mengisi formulir sederhana di bawah ini, Anda dapat membuat janji dengan cepat dan praktis.
@@ -138,111 +110,7 @@
                 </div>
             </form>
         </div>
-    </section><!-- End Appointment Section --> --}}
-    {{-- <!-- ======= Frequently Asked Questioins Section ======= -->
-    <section id="faq" class="faq section-bg">
-        <div class="container" data-aos="fade-up">
-
-            <div class="section-title">
-                <h2>Pertanyaan yang Sering Diajukan (FAQ)</h2>
-                <p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit
-                    sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias
-                    ea. Quia fugiat sit in iste officiis commodi quidem hic quas.</p>
-            </div>
-
-            <ul class="faq-list">
-
-                <li>
-                    <div data-bs-toggle="collapse" class="collapsed question" href="#faq1">Non consectetur a
-                        erat nam at lectus urna duis? <i class="bi bi-chevron-down icon-show"></i><i
-                            class="bi bi-chevron-up icon-close"></i></div>
-                    <div id="faq1" class="collapse" data-bs-parent=".faq-list">
-                        <p>
-                            Feugiat pretium nibh ipsum consequat. Tempus iaculis urna id volutpat lacus laoreet non
-                            curabitur gravida. Venenatis lectus magna fringilla urna porttitor rhoncus dolor purus
-                            non.
-                        </p>
-                    </div>
-                </li>
-
-                <li>
-                    <div data-bs-toggle="collapse" href="#faq2" class="collapsed question">Feugiat scelerisque
-                        varius morbi enim nunc faucibus a pellentesque? <i class="bi bi-chevron-down icon-show"></i><i
-                            class="bi bi-chevron-up icon-close"></i>
-                    </div>
-                    <div id="faq2" class="collapse" data-bs-parent=".faq-list">
-                        <p>
-                            Dolor sit amet consectetur adipiscing elit pellentesque habitant morbi. Id interdum
-                            velit laoreet id donec ultrices. Fringilla phasellus faucibus scelerisque eleifend donec
-                            pretium. Est pellentesque elit ullamcorper dignissim. Mauris ultrices eros in cursus
-                            turpis massa tincidunt dui.
-                        </p>
-                    </div>
-                </li>
-
-                <li>
-                    <div data-bs-toggle="collapse" href="#faq3" class="collapsed question">Dolor sit amet
-                        consectetur adipiscing elit pellentesque habitant morbi? <i
-                            class="bi bi-chevron-down icon-show"></i><i class="bi bi-chevron-up icon-close"></i>
-                    </div>
-                    <div id="faq3" class="collapse" data-bs-parent=".faq-list">
-                        <p>
-                            Eleifend mi in nulla posuere sollicitudin aliquam ultrices sagittis orci. Faucibus
-                            pulvinar elementum integer enim. Sem nulla pharetra diam sit amet nisl suscipit. Rutrum
-                            tellus pellentesque eu tincidunt. Lectus urna duis convallis convallis tellus. Urna
-                            molestie at elementum eu facilisis sed odio morbi quis
-                        </p>
-                    </div>
-                </li>
-
-                <li>
-                    <div data-bs-toggle="collapse" href="#faq4" class="collapsed question">Ac odio tempor orci
-                        dapibus. Aliquam eleifend mi in nulla? <i class="bi bi-chevron-down icon-show"></i><i
-                            class="bi bi-chevron-up icon-close"></i></div>
-                    <div id="faq4" class="collapse" data-bs-parent=".faq-list">
-                        <p>
-                            Dolor sit amet consectetur adipiscing elit pellentesque habitant morbi. Id interdum
-                            velit laoreet id donec ultrices. Fringilla phasellus faucibus scelerisque eleifend donec
-                            pretium. Est pellentesque elit ullamcorper dignissim. Mauris ultrices eros in cursus
-                            turpis massa tincidunt dui.
-                        </p>
-                    </div>
-                </li>
-
-                <li>
-                    <div data-bs-toggle="collapse" href="#faq5" class="collapsed question">Tempus quam
-                        pellentesque nec nam aliquam sem et tortor consequat? <i class="bi bi-chevron-down icon-show"></i><i
-                            class="bi bi-chevron-up icon-close"></i>
-                    </div>
-                    <div id="faq5" class="collapse" data-bs-parent=".faq-list">
-                        <p>
-                            Molestie a iaculis at erat pellentesque adipiscing commodo. Dignissim suspendisse in est
-                            ante in. Nunc vel risus commodo viverra maecenas accumsan. Sit amet nisl suscipit
-                            adipiscing bibendum est. Purus gravida quis blandit turpis cursus in
-                        </p>
-                    </div>
-                </li>
-
-                <li>
-                    <div data-bs-toggle="collapse" href="#faq6" class="collapsed question">Tortor vitae purus
-                        faucibus ornare. Varius vel pharetra vel turpis nunc eget lorem dolor? <i
-                            class="bi bi-chevron-down icon-show"></i><i class="bi bi-chevron-up icon-close"></i>
-                    </div>
-                    <div id="faq6" class="collapse" data-bs-parent=".faq-list">
-                        <p>
-                            Laoreet sit amet cursus sit amet dictum sit amet justo. Mauris vitae ultricies leo
-                            integer malesuada nunc vel. Tincidunt eget nullam non nisi est sit amet. Turpis nunc
-                            eget lorem dolor sed. Ut venenatis tellus in metus vulputate eu scelerisque.
-                            Pellentesque diam volutpat commodo sed egestas egestas fringilla phasellus faucibus.
-                            Nibh tellus molestie nunc non blandit massa enim nec.
-                        </p>
-                    </div>
-                </li>
-
-            </ul>
-
-        </div>
-    </section><!-- End Frequently Asked Questioins Section --> --}}
+    </section><!-- End Appointment Section -->
     <!-- ======= Contact Section ======= -->
     <section id="contact" class="contact">
         <div class="container">
