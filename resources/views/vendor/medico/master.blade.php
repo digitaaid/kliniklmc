@@ -29,7 +29,9 @@
     <link href="medicio/assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
     <link href="medicio/assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
     <link href="medicio/assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
-
+    {{-- datepicker --}}
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+    {{-- <link rel="stylesheet" href="/resources/demos/style.css"> --}}
     <!-- Template Main CSS File -->
     <link href="medicio/assets/css/style.css" rel="stylesheet">
     @yield('css')
@@ -59,9 +61,20 @@
     <script src="medicio/assets/vendor/glightbox/js/glightbox.min.js"></script>
     <script src="medicio/assets/vendor/swiper/swiper-bundle.min.js"></script>
     <script src="medicio/assets/vendor/php-email-form/validate.js"></script>
+
+    <script src="{{ asset('loading-overlay/loadingoverlay.min.js') }}"></script>
+
     <!-- Template Main JS File -->
     <script src="medicio/assets/js/main.js"></script>
+    {{-- datepicker --}}
     @yield('js')
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+    <script>
+        $(".preloader").click(function() {
+            $.LoadingOverlay("show");
+        });
+    </script>
 </body>
 
 </html>

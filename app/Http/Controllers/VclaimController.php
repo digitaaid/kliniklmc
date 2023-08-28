@@ -21,11 +21,11 @@ class VclaimController extends APIController
         $data['secret_key'] = $api->secret_key;
         return json_decode(json_encode($data));
     }
-    public static function signature()
+    public function signature()
     {
-        $cons_id =  env('VCLAIM_CONS_ID');
-        $secretKey = env('VCLAIM_SECRET_KEY');
-        $userkey = env('VCLAIM_USER_KEY');
+        $cons_id =  $this->api()->user_id;
+        $secretKey = $this->api()->secret_key;
+        $userkey = $this->api()->user_key;
 
         date_default_timezone_set('UTC');
         $tStamp = strval(time() - strtotime('1970-01-01 00:00:00'));
@@ -180,7 +180,6 @@ class VclaimController extends APIController
         $url =  $this->api()->base_url . "referensi/diagnosa/" . $request->diagnosa;
         $signature = $this->signature();
         $response = Http::withHeaders($signature)->get($url);
-        dd($response);
         return $this->response_decrypt($response, $signature);
     }
     public function ref_poliklinik(Request $request)
