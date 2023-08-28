@@ -49,6 +49,8 @@ Route::post('prosesdaftarbpjs', [AntrianController::class, 'prosesdaftarbpjs'])-
 Route::get('daftarumum', [AntrianController::class, 'daftarumum'])->name('daftarumum');
 Route::post('prosesdaftarumum', [AntrianController::class, 'prosesdaftarumum'])->name('prosesdaftarumum');
 Route::get('antiranpasien/{kodebooking}', [AntrianController::class, 'antiranpasien'])->name('antiranpasien');
+Route::get('ambilkarcis', [AntrianController::class, 'ambilkarcis'])->name('ambilkarcis');
+
 
 // mesin antrian
 Route::get('antrianConsole', [AntrianController::class, 'antrianConsole'])->name('antrianConsole');
@@ -82,6 +84,11 @@ Route::middleware('auth')->group(function () {
     Route::resource('jadwaldokter', JadwalDokterController::class);
     Route::resource('carousel', CarouselController::class);
     Route::resource('antrian', AntrianController::class);
+    // pendaftaran
+    Route::get('layanipendaftaran', [AntrianController::class, 'layanipendaftaran'])->name('layanipendaftaran');
+    Route::get('lanjutpoliklinik', [AntrianController::class, 'lanjutpoliklinik'])->name('lanjutpoliklinik');
+    Route::get('batalantrian', [AntrianController::class, 'batalantrian'])->name('batalantrian');
+
     // antrian bpjs
     Route::get('statusAntrianBpjs', [AntrianController::class, 'statusAntrianBpjs'])->name('statusAntrianBpjs');
     Route::get('poliklikAntrianBpjs', [PoliklinikController::class, 'poliklikAntrianBpjs'])->name('poliklikAntrianBpjs');

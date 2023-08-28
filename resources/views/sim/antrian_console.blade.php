@@ -5,7 +5,39 @@
     <link rel="shortcut icon" href="{{ asset('medicio/assets/img/lmc.png') }}" />
     <div class="wrapper">
         <div class="row p-1">
-            <div class="col-md-5">
+            <div class="col-md-6">
+            </div>
+            <div class="col-md-6">
+                <p hidden>{{ setlocale(LC_ALL, 'IND') }}</p>
+                <x-adminlte-card title="Informasi Antrian {{ \Carbon\Carbon::now()->formatLocalized('%A, %d %B %Y') }}"
+                    theme="primary" icon="fas fa-calendar-alt">
+                    <div class="row">
+                        <div class="col-md-12">
+                            @php
+                                $heads = ['Poliklinik', 'Dokter', 'Jam Praktek', 'Kuota', 'Antrian'];
+                            @endphp
+                            <x-adminlte-datatable id="table1" class="nowrap text-xs" :heads="$heads" striped bordered>
+                                @foreach ($jadwals as $jadwal)
+                                    <tr>
+                                        <td>{{ $jadwal->namasubspesialis }}</td>
+                                        <td>{{ $jadwal->namadokter }}</td>
+                                        <td>{{ $jadwal->jadwal }}</td>
+                                        <td>{{ $jadwal->kapasitaspasien }}</td>
+                                        <td>{{ $jadwal->kuota }}</td>
+                                    </tr>
+                                @endforeach
+                            </x-adminlte-datatable>
+                        </div>
+                        <div class="col-md-6">
+                            <x-adminlte-info-box class="btnDaftarBPJS text-center" text="Ambil Antrian BPJS"
+                                theme="success" />
+                        </div>
+                        <div class="col-md-6">
+                            <x-adminlte-info-box class="btnDaftarUmum text-center" text="Ambil Antrian Umum"
+                                theme="success" />
+                        </div>
+                    </div>
+                </x-adminlte-card>
                 <x-adminlte-card title="Anjungan Checkin Antrian RSUD Waled" theme="primary" icon="fas fa-qrcode">
                     <div class="text-center">
                         <x-adminlte-input name="kodebooking" label="Silahkan scan QR Code Antrian atau masukan Kode Antrian"
@@ -22,62 +54,6 @@
                         <i class="fas fa-qrcode fa-5x"></i>
                         <br>
                     </div>
-                </x-adminlte-card>
-                <x-adminlte-card title="Informasi Antrian" theme="primary" icon="fas fa-user-injured">
-                    <div class="row">
-                        <div class="col-md-3">
-                            <div class="text-center">
-                                <h6>
-                                    Antrian Lt 1
-                                </h6>
-                                <h4>
-                                    {{ $antrians->where('method', '!=', 'Bridging')->where('method', 'Offline')->where('lantaipendaftaran', 1)->count() ?? '0' }}
-                                </h4>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="text-center">
-                                <h6>
-                                    Antrian Lt 2
-                                </h6>
-                                <h4>
-                                    {{ $antrians->where('method', '!=', 'Bridging')->where('method', 'Offline')->where('lantaipendaftaran', 2)->count() ?? '0' }}
-                                </h4>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="text-center">
-                                <h6>
-                                    Antrian Online
-                                </h6>
-                                <h4>
-                                    {{ $antrians->where('method', '!=', 'Bridging')->where('method', '!=', 'Offline')->count() ?? '0' }}
-                                </h4>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="text-center">
-                                <h6>
-                                    Antrian Total
-                                </h6>
-                                <h4>
-                                    {{ $antrians->where('method', '!=', 'Bridging')->count() ?? '0' }}
-                                </h4>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="text-center">
-
-                        <div class="row">
-                            <div class="col-md-6">
-                                <x-adminlte-info-box class="btnDaftarBPJS" text="Daftar Pasien BPJS" theme="success" />
-                            </div>
-                            <div class="col-md-6">
-                                <x-adminlte-info-box class="btnDaftarUmum" text="Daftar Pasien Umum" theme="success" />
-                            </div>
-
-                        </div>
-                    </div>
                     <x-slot name="footerSlot">
                         <x-adminlte-button icon="fas fa-sync" class="withLoad reload" theme="warning" label="Reload" />
                         <a href="{{ route('cekPrinter') }}" class="btn btn-warning withLoad"><i class="fas fa-print"></i>
@@ -89,74 +65,22 @@
                     </x-slot>
                 </x-adminlte-card>
             </div>
-            {{-- ambil antrian offline --}}
-            <div class="col-md-7">
-                <p hidden>{{ setlocale(LC_ALL, 'IND') }}</p>
-                <x-adminlte-card
-                    title="Jadwal Dokter Poliklinik {{ \Carbon\Carbon::now()->formatLocalized('%A, %d %B %Y') }}"
-                    theme="primary" icon="fas fa-calendar-alt">
-                    <div class="row">
-                        <div class="col-md-12">
-                            @php
-                                $heads = ['Poliklinik', 'Dokter', 'Jadwal', 'Kuota', 'Antrian'];
-                                $config['order'] = ['5', 'asc'];
-                            @endphp
-                            <x-adminlte-datatable id="table1" class="nowrap text-xs" :heads="$heads" :config="$config"
-                                striped bordered hoverable compressed>
-                                @foreach ($jadwals as $jadwal)
-                                    <tr
-                                        class="text-left
-                                    {{ $jadwal->libur == 1 ||$antrians->where('kodedokter', $jadwal->kodedokter)->where('method', '!=', 'Bridging')->where('taskid', '!=', 99)->count() >= $jadwal->kapasitaspasien? ' text-danger': ' text-black' }}
-                                   ">
-                                        <td> {{ strtoupper($jadwal->namasubspesialis) }}</td>
-                                        <td> {{ $jadwal->namadokter }} {{ $jadwal->libur ? '(TUTUP)' : '' }}</td>
-                                        <td> {{ $jadwal->jadwal }}</td>
-                                        <td> {{ $jadwal->kapasitaspasien }}</td>
-                                        <td> {{ $antrians->where('kodedokter', $jadwal->kodedokter)->where('method', '!=', 'Bridging')->where('taskid', '!=', 99)->count() }}
-                                    </tr>
-                                @endforeach
-                            </x-adminlte-datatable>
-                        </div>
-                    </div>
-                </x-adminlte-card>
-            </div>
         </div>
     </div>
-    <x-adminlte-modal id="modalBPJS" size="xl" title="Daftar Antrian Pasien" theme="success" icon="fas fa-user-plus">
-        <div class="form-group">
-            <label>Silahkan pilih poliklinik di bawah ini</label>
-            <div class="row">
-                @foreach ($jadwals->groupBy('kodesubspesialis') as $key => $item)
-                    <div class="col-md-4">
-                        <div class="custom-control custom-radio " style="scale: 100%">
-                            <input class="custom-control-input btnPoliBPJS" type="radio"
-                                data-id="{{ $item->first()->kodesubspesialis }}"
-                                id="{{ $item->first()->namasubspesialis }}" value="{{ $item->first()->kodesubspesialis }}"
-                                name="kodesubspesialis">
-                            <label for="{{ $item->first()->namasubspesialis }}" class="custom-control-label"
-                                data-id="{{ $item->first()->kodesubspesialis }}">{{ strtoupper($item->first()->namasubspesialis) }}
-                            </label>
-                        </div>
-                    </div>
-                @endforeach
-            </div>
-        </div>
-        <br>
-        <div class="form-group" id="daftarDokter">
-            <label>Silahkan pilih dokter poliklinik di bawah ini</label>
-            <div id="rowDokter"></div>
-        </div>
-        <x-slot name="footerSlot">
-            <x-adminlte-button class="mr-auto withLoad" type="submit" theme="success" id="btnDaftarPoliBPJS"
-                icon="fas fa-user-plus" label="Daftar BPJS" />
-            <x-adminlte-button class="mr-auto withLoad" type="submit" theme="success" id="btnDaftarPoliUmum"
-                icon="fas fa-user-plus" label="Daftar Umum" />
-            <x-adminlte-button theme="secondary" icon="fas fa-times" label="Kembali" data-dismiss="modal" />
-        </x-slot>
+    <x-adminlte-modal id="modalBPJS" size="xl" title="Ambil Antrian BPJS" theme="success" icon="fas fa-user-plus">
+        @foreach ($jadwals as $jadwal)
+            <a class="card bg-success" href="{{ route('ambilkarcis') }}?pasien=JKN&jadwal={{ $jadwal->id }}">
+                <div class="card-body  text-center">
+                    {{ $jadwal->jadwal }}
+                    {{ $jadwal->namadokter }}
+                    ({{ $jadwal->namasubspesialis }})
+                </div>
+            </a>
+        @endforeach
     </x-adminlte-modal>
 @stop
 @section('plugins.Datatables', true)
-@section('plugins.Sweetalert2', true)*
+@section('plugins.Sweetalert2', true)-
 @include('sweetalert::alert')
 @section('adminlte_css')
 @endsection

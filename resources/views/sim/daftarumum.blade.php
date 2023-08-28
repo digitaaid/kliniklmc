@@ -63,6 +63,7 @@
                 @if ($request->tanggalperiksa && $jadwals)
                     <div class="form-group mb-3">
                         <select name="jadwal" id="jadwal" class="form-select" required>
+                            <option selected disabled>Pilih jadwal dokter</option>
                             @foreach ($jadwals as $item)
                                 <option value="{{ $item->id }}">{{ $item->jadwal }} {{ $item->namasubspesialis }}
                                     {{ $item->namadokter }}
@@ -72,6 +73,7 @@
                     </div>
                     <div class="form-group mb-3">
                         <select name="jeniskunjungan" id="jeniskunjungan" class="form-select" required>
+                            <option selected disabled>Pilih jenis kunjungan</option>
                             <option value="1" {{ $request->jeniskunjungan == '1' ? 'selected' : null }}>Kunjungan
                                 Pertama
                             </option>

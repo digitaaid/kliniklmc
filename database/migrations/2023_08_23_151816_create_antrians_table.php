@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('antrians', function (Blueprint $table) {
             $table->id();
-            $table->string('kodebooking')->nullable();
+            $table->string('kodebooking');
             $table->string('jenispasien')->nullable();
             $table->string('nomorkartu')->nullable();
             $table->string('nik')->nullable();
@@ -22,14 +22,14 @@ return new class extends Migration
             $table->string('namapoli')->nullable();
             $table->string('pasienbaru')->nullable();
             $table->string('norm')->nullable();
-            $table->date('tanggalperiksa')->nullable();
+            $table->date('tanggalperiksa');
             $table->string('kodedokter')->nullable();
             $table->string('namadokter')->nullable();
             $table->string('jampraktek')->nullable();
             $table->string('jeniskunjungan')->nullable();
             $table->string('nomorreferensi')->nullable();
-            $table->string('nomorantrean')->nullable();
-            $table->string('angkaantrean')->nullable();
+            $table->string('nomorantrean');
+            $table->string('angkaantrean');
             $table->string('estimasidilayani')->nullable();
             $table->integer('sisakuotajkn')->nullable();
             $table->integer('kuotajkn')->nullable();
@@ -38,8 +38,9 @@ return new class extends Migration
             $table->text('keterangan')->nullable();
 
             $table->string('nama')->nullable();
+            $table->string('jadwal_id')->nullable();
             $table->string('method')->nullable();
-            $table->integer('taskid')->nullable();
+            $table->integer('taskid')->default(0);
             $table->timestamps();
         });
     }

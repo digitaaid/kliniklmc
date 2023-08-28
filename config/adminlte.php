@@ -350,9 +350,21 @@ return [
             // 'can' =>  ['bpjs', 'pendaftaran'],
         ],
         [
-            'text' => 'Antrian',
+            'text' => 'Antrian Pendaftaran',
             'icon'    => 'fas fa-users',
             'url'  => 'antrian',
+            // 'can' =>  ['bpjs', 'pendaftaran'],
+        ],
+        [
+            'text' => 'Antrian Poliklinik',
+            'icon'    => 'fas fa-users',
+            'url'  => 'antrianpoliklinik',
+            // 'can' =>  ['bpjs', 'pendaftaran'],
+        ],
+        [
+            'text' => 'Antrian Farmasi',
+            'icon'    => 'fas fa-users',
+            'url'  => 'antrianpoliklinik',
             // 'can' =>  ['bpjs', 'pendaftaran'],
         ],
         // ANTRIAN BPJS
