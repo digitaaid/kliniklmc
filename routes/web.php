@@ -90,6 +90,10 @@ Route::middleware('auth')->group(function () {
     Route::get('layanipendaftaran', [AntrianController::class, 'layanipendaftaran'])->name('layanipendaftaran');
     Route::get('lanjutpoliklinik', [AntrianController::class, 'lanjutpoliklinik'])->name('lanjutpoliklinik');
     Route::get('batalantrian', [AntrianController::class, 'batalantrian'])->name('batalantrian');
+    Route::post('editantrian', [AntrianController::class, 'editantrian'])->name('editantrian');
+    // poliklinik
+    Route::get('antrianpoliklinik', [AntrianController::class, 'antrianpoliklinik'])->name('antrianpoliklinik');
+
 
     // antrian bpjs
     Route::get('statusAntrianBpjs', [AntrianController::class, 'statusAntrianBpjs'])->name('statusAntrianBpjs');

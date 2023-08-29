@@ -38,6 +38,7 @@ return new class extends Migration
             $table->text('keterangan')->nullable();
 
             $table->string('nama')->nullable();
+            $table->string('sep')->nullable();
             $table->string('jadwal_id')->nullable();
             $table->string('method')->nullable();
             $table->integer('taskid')->default(0);

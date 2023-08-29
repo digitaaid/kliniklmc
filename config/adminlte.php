@@ -362,9 +362,15 @@ return [
             // 'can' =>  ['bpjs', 'pendaftaran'],
         ],
         [
+            'text' => 'Surat Kontrol',
+            'icon'    => 'fas fa-users',
+            'url'  => 'suratkontrol',
+            // 'can' =>  ['bpjs', 'pendaftaran'],
+        ],
+        [
             'text' => 'Antrian Farmasi',
             'icon'    => 'fas fa-users',
-            'url'  => 'antrianpoliklinik',
+            'url'  => 'antrianfarmasi',
             // 'can' =>  ['bpjs', 'pendaftaran'],
         ],
         // ANTRIAN BPJS

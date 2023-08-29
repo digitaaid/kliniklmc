@@ -290,6 +290,25 @@ class AntrianController extends APIController
         }
         return redirect()->back();
     }
+    function editantrian(Request $request)
+    {
+        $antrian = Antrian::where('kodebooking', $request->kodebooking)->first();
+        $antrian->update($request->all());
+        Alert::success('Success', 'Antrian telah diperbaharui.');
+        return redirect()->back();
+    }
+
+    public function antrianpoliklinik(Request $request)
+    {
+        $antrians = null;
+        if ($request->tanggalperiksa) {
+            $antrians = Antrian::where('tanggalperiksa', $request->tanggalperiksa)->get();
+        }
+        return view('sim.antrian_poliklinik', compact([
+            'request',
+            'antrians',
+        ]));
+    }
     public function displayAntrian()
     {
         return view('sim.display_antrian');
@@ -446,41 +465,7 @@ class AntrianController extends APIController
             'request' => $request,
         ]);
     }
-    public function antrianPoliklinik(Request $request)
-    {
-        $antrians = null;
-        if ($request->tanggal) {
-            $antrians = Antrian::whereDate('tanggalperiksa', $request->tanggal);
-            if ($request->kodepoli != null) {
-                $antrians = $antrians->where('method', '!=', 'Offline')->where('kodepoli', $request->kodepoli)->get();
-            }
-            if ($request->kodedokter != null) {
-                $antrians = $antrians->where('method', '!=', 'Offline')->where('kodedokter', $request->kodedokter)->get();
-            }
-            if ($request->kodepoli == null && $request->kodedokter == null) {
-                $antrians = $antrians->where('method', '!=', 'Offline')->get();
-            }
-        }
-        $polis = Poliklinik::where('status', 1)->get();
-        $dokters = Dokter::where('kode_dokter_jkn', "!=", null)
-            ->where('unit', "!=", null)
-            ->get();
-        if (isset($request->kodepoli)) {
-            $poli = Unit::firstWhere('KDPOLI', $request->kodepoli);
-            $dokters = Dokter::where('unit', $poli->kode_unit)
-                ->where('kode_dokter_jkn', "!=", null)
-                ->get();
-        }
-        return view(
-            'simrs.poliklinik.poliklinik_antrian',
-            compact([
-                'antrians',
-                'request',
-                'polis',
-                'dokters'
-            ])
-        );
-    }
+
 
     // API FUNCTION
     public function api()
