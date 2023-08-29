@@ -15,9 +15,9 @@
                         label="Tanggal Periksa" :config="$config" />
                     <x-adminlte-select2 name="kodepoli" id="kodepoli" label="Poliklinik">
                         @foreach ($polikliniks as $item)
-                            <option value="{{ $item->kdsubspesialis }}"
-                                {{ $request->kodepoli == $item->kdsubspesialis ? 'selected' : null }}>
-                                {{ $item->nmsubspesialis }}</option>
+                            <option value="{{ $item->kodepoli }}"
+                                {{ $request->kodepoli == $item->kodesubspesialis ? 'selected' : null }}>
+                                {{ $item->namasubspesialis }}</option>
                         @endforeach
                     </x-adminlte-select2>
                     <x-adminlte-button label="Cari Jadwal Dokter" class="mr-auto withLoad" type="submit" theme="success"

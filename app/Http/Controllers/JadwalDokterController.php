@@ -85,7 +85,7 @@ class JadwalDokterController extends Controller
 
     public function jadwalDokterAntrianBpjs(Request $request)
     {
-        $polikliniks = Poliklinik::all();
+        $polikliniks = Poliklinik::where('status', 1)->get();
         $jadwal_save = JadwalDokter::all();
         // get jadwal
         $jadwals = null;
@@ -99,9 +99,6 @@ class JadwalDokterController extends Controller
                 Alert::error($response->metadata->message . ' ' . $response->metadata->code);
             }
         }
-        $api = new AntrianController();
-        $response =  $api->ref_poli();
-        $polikliniks = $response->response;
         return view('bpjs.antrian.jadwal_dokter', compact([
             'request',
             'polikliniks',

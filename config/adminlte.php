@@ -443,13 +443,13 @@ return [
                     'shift'   => 'ml-2',
                     // 'can' =>  ['bpjs', 'pendaftaran'],
                 ],
-                [
-                    'text' => 'Jadwal Operasi',
-                    'icon'    => 'fas fa-calendar-alt',
-                    'url'  => 'jadwalOperasi',
-                    'shift'   => 'ml-2',
-                    // 'can' =>  ['bpjs', 'pendaftaran'],
-                ],
+                // [
+                //     'text' => 'Jadwal Operasi',
+                //     'icon'    => 'fas fa-calendar-alt',
+                //     'url'  => 'jadwalOperasi',
+                //     'shift'   => 'ml-2',
+                //     // 'can' =>  ['bpjs', 'pendaftaran'],
+                // ],
                 [
                     'text' => 'Antrian Per Tanggal',
                     'icon'    => 'fas fa-calendar-day',

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Paramedis;
+use App\Models\Dokter;
 use App\Models\Pasien;
 use App\Models\Poliklinik;
 use App\Models\SuratKontrol;
@@ -30,11 +30,12 @@ class SuratKontrolController extends APIController
                 Alert::error('Error ' . $response->metadata->code, $response->metadata->message);
             }
         }
-        if ($request->nomorKartu) {
+        if ($request->nomorkartu) {
             $bulan = explode('-', $request->bulan);
             $request['tahun'] = $bulan[0];
             $request['bulan'] = $bulan[1];
-            $response =  $this->suratkontrol_peserta($request);
+            $api = new VclaimController();
+            $response =  $api->suratkontrol_peserta($request);
             if ($response->metadata->code == 200) {
                 $suratkontrol = $response->response->list;
                 Alert::success($response->metadata->message, 'Total Data Kunjungan BPJS ' . count($suratkontrol) . ' Pasien');
@@ -148,7 +149,7 @@ class SuratKontrolController extends APIController
             $sep = $response->response->sep;
             $peserta = $response->response->sep->peserta;
             $pasien = Pasien::firstWhere('no_Bpjs', $peserta->noKartu);
-            $dokter = Paramedis::firstWhere('kode_dokter_jkn', $suratkontrol->kodeDokter);
+            $dokter = Dokter::firstWhere('kode_dokter_jkn', $suratkontrol->kodeDokter);
             return view('simrs.suratkontrol.suratkontrol_print', compact([
                 'suratkontrol',
                 'sep',
@@ -171,7 +172,7 @@ class SuratKontrolController extends APIController
             $sep = $response->response->sep;
             $peserta = $response->response->sep->peserta;
             $pasien = Pasien::firstWhere('no_Bpjs', $peserta->noKartu);
-            $dokter = Paramedis::firstWhere('kode_dokter_jkn', $suratkontrol->kodeDokter);
+            $dokter = Dokter::firstWhere('kode_dokter_jkn', $suratkontrol->kodeDokter);
             return view('simrs.suratkontrol.suratkontrol_print', compact([
                 'suratkontrol',
                 'sep',

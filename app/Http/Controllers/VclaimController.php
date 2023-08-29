@@ -11,6 +11,258 @@ use RealRashid\SweetAlert\Facades\Alert;
 
 class VclaimController extends APIController
 {
+    public function monitoringDataKunjungan(Request $request)
+    {
+        $sep = null;
+        $vclaim = new VclaimController();
+        if ($request->tanggal && $request->jenispelayanan) {
+            $response =  $vclaim->monitoring_data_kunjungan($request);
+            if ($response->metadata->code == 200) {
+                $sep = $response->response->sep;
+                Alert::success($response->metadata->message, 'Total Data Kunjungan BPJS ' . count($sep) . ' Pasien');
+            } else {
+                Alert::error('Error ' . $response->metadata->code, $response->metadata->message);
+            }
+        }
+        return view('bpjs.vclaim.monitoring_data_kunjungan_index', compact([
+            'request', 'sep'
+        ]));
+    }
+    public function monitoringDataKlaim(Request $request)
+    {
+        $klaim = null;
+        $vclaim = new VclaimController();
+        if ($request->tanggalPulang && $request->jenisPelayanan && $request->statusKlaim) {
+            $response =   $vclaim->monitoring_data_klaim($request);
+            if ($response->metadata->code == 200) {
+                $klaim = $response->response->klaim;
+                Alert::success($response->metadata->message, 'Total Data Kunjungan BPJS ' . count($klaim) . ' Pasien');
+            } else {
+                Alert::error('Error ' . $response->metadata->code, $response->metadata->message);
+            }
+        }
+        return view('bpjs.vclaim.monitoring_data_klaim_index', compact([
+            'request', 'klaim'
+        ]));
+    }
+    public function monitoringPelayananPeserta(Request $request)
+    {
+        $peserta = null;
+        $sep = null;
+        $rujukan = null;
+        $rujukan_rs = null;
+        $surat_kontrol = null;
+        $vclaim = new VclaimController();
+        // get  peserta
+        if ($request->tanggal) {
+            if ($request->nik && $request->tanggal) {
+                $response =  $vclaim->peserta_nik($request);
+                if ($response->metadata->code == 200) {
+                    $peserta = $response->response->peserta;
+                    $request['nomorkartu'] = $peserta->noKartu;
+                    Alert::success('OK', 'Peserta Ditemukan');
+                } else {
+                }
+            } else if ($request->nomorkartu && $request->tanggal) {
+                $response =  $vclaim->peserta_nomorkartu($request);
+                if ($response->metadata->code == 200) {
+                    $peserta = $response->response->peserta;
+                    $request['nik'] = $peserta->nik;
+                    Alert::success('OK', 'Peserta Ditemukan');
+                } else {
+                    Alert::error('Error', $response->metadata->message);
+                }
+            }
+        } else {
+            $request['tanggal'] = now()->format('Y-m-d');
+        }
+
+        // get data
+        if (isset($peserta)) {
+            $request['tanggalAkhir'] = Carbon::parse($request->tanggal)->format('Y-m-d');
+            $request['tanggalMulai'] = Carbon::parse($request->tanggalAkhir)->subDays(90)->format('Y-m-d');
+            // history sep
+
+            $response = $vclaim->monitoring_pelayanan_peserta($request);
+            if ($response->metadata->code == 200) {
+                $sep = $response->response->histori;
+            }
+            // rujukan fktp
+
+            $response = $vclaim->rujukan_peserta($request);
+            if ($response->metadata->code == 200) {
+                $rujukan = $response->response->rujukan;
+            }
+
+            // rujukan antar rs
+            $response = $vclaim->rujukan_rs_peserta($request);
+            if ($response->metadata->code == 200) {
+                $rujukan_rs = $response->response->rujukan;
+            }
+
+            // rujukan antar rs
+            $request['tahun'] = Carbon::parse($request->tanggal)->format('Y');
+            $request['bulan'] = Carbon::parse($request->tanggal)->format('m');
+            $request['formatfilter'] = 2;
+            $response = $vclaim->suratkontrol_peserta($request);
+            if ($response->metadata->code == 200) {
+                $surat_kontrol = $response->response->list;
+            }
+        }
+
+        return view('bpjs.vclaim.monitoring_pelayanan_peserta_index', compact([
+            'request',
+            'peserta',
+            'sep',
+            'rujukan',
+            'rujukan_rs',
+            'surat_kontrol',
+        ]));
+    }
+    public function monitoringKlaimJasaraharja(Request $request)
+    {
+        $klaim = null;
+        $vclaim = new VclaimController();
+
+        if ($request->tanggal && $request->jenisPelayanan) {
+            $tanggal = explode('-', $request->tanggal);
+            $request['tanggalMulai'] = Carbon::parse($tanggal[0])->format('Y-m-d');
+            $request['tanggalAkhir'] = Carbon::parse($tanggal[1])->format('Y-m-d');
+            $response =  $vclaim->monitoring_klaim_jasaraharja($request);
+            if ($response->metadata->code == 200) {
+                if ($response->response) {
+                    $klaim = $response->response->jaminan;
+                    Alert::success($response->metadata->message, 'Total Data Kunjungan BPJS ' . count($klaim) . ' Pasien');
+                } else {
+                    Alert::error('Error ' . $response->metadata->code, $response->metadata->message);
+                }
+            } else {
+                Alert::error('Error ' . $response->metadata->code, $response->metadata->message);
+            }
+        }
+        return view('bpjs.vclaim.monitoring_klaim_jasaraharja_index', compact([
+            'request', 'klaim'
+        ]));
+    }
+    public function referensiVclaim(Request $request)
+    {
+        return view('bpjs.vclaim.referensi_index', compact([
+            'request',
+        ]));
+    }
+    public function ref_diagnosa_api(Request $request)
+    {
+        $data = array();
+        $response = $this->ref_diagnosa($request);
+        if ($response->metadata->code == 200) {
+            $diagnosa = $response->response->diagnosa;
+            foreach ($diagnosa as $item) {
+                $data[] = array(
+                    "id" => $item->kode,
+                    "text" => $item->nama
+                );
+            }
+        }
+        return response()->json($data);
+    }
+    public function ref_poliklinik_api(Request $request)
+    {
+        $data = array();
+        $response = $this->ref_poliklinik($request);
+        if ($response->metadata->code == 200) {
+            $poli = $response->response->poli;
+            foreach ($poli as $item) {
+                $data[] = array(
+                    "id" => $item->kode,
+                    "text" => $item->nama . " (" . $item->kode . ")"
+                );
+            }
+        }
+        return response()->json($data);
+    }
+    public function ref_faskes_api(Request $request)
+    {
+        $data = array();
+        $response = $this->ref_faskes($request);
+        if ($response->metadata->code == 200) {
+            $faskes = $response->response->faskes;
+            foreach ($faskes as $item) {
+                $data[] = array(
+                    "id" => $item->kode,
+                    "text" => $item->nama . " (" . $item->kode . ")"
+                );
+            }
+        }
+        return response()->json($data);
+    }
+    public function ref_dpjp_api(Request $request)
+    {
+        $data = array();
+        $response = $this->ref_dpjp($request);
+        if ($response->metadata->code == 200) {
+            $dokter = $response->response->list;
+            foreach ($dokter as $item) {
+                if ((strpos(strtoupper($item->nama), strtoupper($request->nama)) !== false)) {
+                    $data[] = array(
+                        "id" => $item->kode,
+                        "text" => $item->nama . " (" . $item->kode . ")"
+                    );
+                }
+            }
+        }
+        return response()->json($data);
+    }
+    public function ref_provinsi_api(Request $request)
+    {
+        $data = array();
+        $response = $this->ref_provinsi($request);
+        if ($response->metadata->code == 200) {
+            $provinsi = $response->response->list;
+            foreach ($provinsi as $item) {
+                if ((strpos(strtoupper($item->nama), strtoupper($request->nama)) !== false)) {
+                    $data[] = array(
+                        "id" => $item->kode,
+                        "text" => $item->nama . " (" . $item->kode . ")"
+                    );
+                }
+            }
+        }
+        return response()->json($data);
+    }
+    public function ref_kabupaten_api(Request $request)
+    {
+        $data = array();
+        $response = $this->ref_kabupaten($request);
+        if ($response->metadata->code == 200) {
+            $kabupaten = $response->response->list;
+            foreach ($kabupaten as $item) {
+                if ((strpos(strtoupper($item->nama), strtoupper($request->nama)) !== false)) {
+                    $data[] = array(
+                        "id" => $item->kode,
+                        "text" => $item->nama . " (" . $item->kode . ")"
+                    );
+                }
+            }
+        }
+        return response()->json($data);
+    }
+    public function ref_kecamatan_api(Request $request)
+    {
+        $data = array();
+        $response = $this->ref_kecamatan($request);
+        if ($response->metadata->code == 200) {
+            $kecamatan = $response->response->list;
+            foreach ($kecamatan as $item) {
+                if ((strpos(strtoupper($item->nama), strtoupper($request->nama)) !== false)) {
+                    $data[] = array(
+                        "id" => $item->kode,
+                        "text" => $item->nama . " (" . $item->kode . ")"
+                    );
+                }
+            }
+        }
+        return response()->json($data);
+    }
     // API VCLAIM
     public function api()
     {

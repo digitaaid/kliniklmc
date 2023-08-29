@@ -17,13 +17,12 @@ class RoleSeeder extends Seeder
     {
         $roles = [
             'Admin',
-            'Kepala Yayasan',
-            'Kepala Sekolah',
-            'Bendahara',
-            'Sekretaris',
-            'Guru',
-            'Santri',
-            'Orang Tua',
+            'Pasien',
+            'Pendaftaran',
+            'Perawat',
+            'Dokter',
+            'Farmasi',
+            'Majanjemen',
         ];
         foreach ($roles as $item) {
             $permission = Permission::create(['name' => Str::slug($item)]);
