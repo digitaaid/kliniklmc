@@ -63,8 +63,10 @@
                     collapsible>
                     @php
                         $heads = ['No Antrian', 'kodebooking', 'Pasien', 'Dokter', 'Poliklinik', 'Jenis Pasien', 'Status', 'Action'];
+                        $config['order'] = [[6, 'asc']];
                     @endphp
-                    <x-adminlte-datatable id="table1" class="nowrap" :heads="$heads" bordered hoverable compressed>
+                    <x-adminlte-datatable id="table1" class="nowrap" :heads="$heads" :config="$config" bordered
+                        hoverable compressed>
                         @foreach ($antrians->where('taskid', '!=', 2) as $item)
                             <tr>
                                 <td>{{ $item->nomorantrean }} / {{ $item->angkaantrean }}</td>
@@ -73,10 +75,54 @@
                                 <td>{{ $item->namadokter }}</td>
                                 <td>{{ $item->namapoli }}</td>
                                 <td>{{ $item->pasienbaru }} {{ $item->jenispasien }} </td>
-                                <td>{{ $item->taskid }}</td>
                                 <td>
-                                    @if ($item->taskid >= 3)
-                                        <button class="btn btn-xs btn-warning btnAntrian"
+                                    @switch($item->taskid)
+                                        @case(0)
+                                            <span class="badge badge-secondary">98. Belum Checkin</span>
+                                        @break
+
+                                        @case(1)
+                                            <span class="badge badge-warning">1. Menunggu Pendaftaran</span>
+                                        @break
+
+                                        @case(2)
+                                            <span class="badge badge-primary">2. Proses Pendaftaran</span>
+                                        @break
+
+                                        @case(3)
+                                            <span class="badge badge-warning">3. Menunggu Poliklinik</span>
+                                        @break
+
+                                        @case(4)
+                                            <span class="badge badge-primary">4. Pelayanan Poliklinik</span>
+                                        @break
+
+                                        @case(5)
+                                            <span class="badge badge-warning">5. Selesai Poliklinik</span>
+                                        @break
+
+                                        @case(6)
+                                            <span class="badge badge-primary">6. Racik Obat</span>
+                                        @break
+
+                                        @case(7)
+                                            <span class="badge badge-success">7. Selesai</span>
+                                        @break
+
+                                        @case(99)
+                                            <span class="badge badge-danger">99. Batal</span>
+                                        @break
+
+                                        @default
+                                            {{ $item->taskid }}
+                                    @endswitch
+                                </td>
+                                <td>
+                                    @if ($item->taskid == 1)
+                                        <a href="{{ route('layanipendaftaran') }}?kodebooking={{ $item->kodebooking }}"
+                                            class="btn btn-xs btn-warning ">Panggil</a>
+                                    @else
+                                        <button class="btn btn-xs btn-secondary btnAntrian"
                                             data-kodebooking="{{ $item->kodebooking }}" data-taskid="{{ $item->taskid }}"
                                             data-namapasien="{{ $item->nama }}" data-norm="{{ $item->norm }}"
                                             data-nomorkartu="{{ $item->nomorkartu }}" data-nik="{{ $item->nik }}"
@@ -86,18 +132,6 @@
                                             data-sep="{{ $item->sep }}" data-namapoli="{{ $item->namapoli }}"
                                             data-namadokter="{{ $item->namadokter }}">
                                             Lihat
-                                        </button>
-                                    @else
-                                        <button class="btn btn-xs btn-success btnAntrian"
-                                            data-kodebooking="{{ $item->kodebooking }}" data-taskid="{{ $item->taskid }}"
-                                            data-namapasien="{{ $item->nama }}" data-norm="{{ $item->norm }}"
-                                            data-nomorkartu="{{ $item->nomorkartu }}" data-nik="{{ $item->nik }}"
-                                            data-nohp="{{ $item->nohp }}" data-kodebooking="{{ $item->kodebooking }}"
-                                            data-nomorantrean="{{ $item->nomorantrean }}"
-                                            data-jeniskunjungan="{{ $item->jeniskunjungan }}"
-                                            data-sep="{{ $item->sep }}" data-namapoli="{{ $item->namapoli }}"
-                                            data-namadokter="{{ $item->namadokter }}">
-                                            Layani
                                         </button>
                                     @endif
                                 </td>
@@ -113,12 +147,13 @@
             <div class="col-md-3">
                 <div class="card card-primary card-outline">
                     <div class="card-body box-profile">
-                        <h3 class="profile-username text-center">
+                        <b class="text-center">
                             <span class="namapasien"></span>
-                        </h3>
+                        </b>
                         <p class="text-muted text-center">
                             <span class="norm"></span>
-                            JKN
+                            <span class="jenispasien"></span>
+
                         </p>
                         <ul class="list-group list-group-unbordered mb-3">
                             <li class="list-group-item">
@@ -381,12 +416,12 @@
                 $(".sep").html(sep);
                 $(".namapoli").html(namapoli);
                 $(".namadokter").html(namadokter);
-                var url = "{{ route('layanipendaftaran') }}?kodebooking=" + kodebooking;
-                if (taskid == 1) {
-                    $.get(url, function(data, status) {
-                        console.log(data);
-                    });
-                }
+                // var url = "{{ route('layanipendaftaran') }}?kodebooking=" + kodebooking;
+                // if (taskid == 1) {
+                //     $.get(url, function(data, status) {
+                //         console.log(data);
+                //     });
+                // }
                 var urllanjut = "{{ route('lanjutpoliklinik') }}?kodebooking=" + kodebooking;
                 $("#btnLanjutPoli").attr("href", urllanjut);
                 var urlbatal = "{{ route('batalantrian') }}?kodebooking=" + kodebooking +

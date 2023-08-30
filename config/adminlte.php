@@ -355,7 +355,7 @@ return [
         ],
         [
             'text' => 'Surat Kontrol',
-            'icon'    => 'fas fa-users',
+            'icon'    => 'fas fa-file-medical',
             'url'  => 'suratkontrol',
             // 'can' =>  ['bpjs', 'pendaftaran'],
         ],

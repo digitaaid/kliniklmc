@@ -1,11 +1,72 @@
 @extends('adminlte::master')
 @inject('layoutHelper', 'JeroenNoten\LaravelAdminLte\Helpers\LayoutHelper')
-@section('title', 'Mesin Antrian')
+@section('title', 'Mesin Anjungan Antrian')
 @section('body')
     <link rel="shortcut icon" href="{{ asset('medicio/assets/img/lmc.png') }}" />
     <div class="wrapper">
         <div class="row p-1">
             <div class="col-md-6">
+                <div class="card">
+                    <header class="bg-primary text-white p-4">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h1>Nama Aplikasi</h1>
+                                    <p>Slogan atau deskripsi singkat aplikasi Anda.</p>
+                                </div>
+                                <div class="col-md-6 text-md-end">
+                                    <p>Kontak: email@example.com</p>
+                                    <p>Telepon: (123) 456-7890</p>
+                                </div>
+                            </div>
+                        </div>
+                    </header>
+                </div>
+                <x-adminlte-card title="Informasi Umum" theme="purple" icon="fas fa-qrcode">
+
+                    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                        <ol class="carousel-indicators">
+                            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+                            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                            <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+                        </ol>
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <img class="d-block w-100" src="{{ asset('medicio/assets/img/slide/slide-1.jpg') }}"
+                                    alt="First slide">
+                                <div class="carousel-caption d-none d-md-block">
+                                    <h5>...</h5>
+                                    <p>...</p>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <img class="d-block w-100" src="{{ asset('medicio/assets/img/slide/slide-2.jpg') }}"
+                                    alt="Second slide">
+                                <div class="carousel-caption d-none d-md-block">
+                                    <h5>...</h5>
+                                    <p>...</p>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <img class="d-block w-100" src="{{ asset('medicio/assets/img/slide/slide-3.jpg') }}"
+                                    alt="Third slide">
+                                <div class="carousel-caption d-none d-md-block">
+                                    <h5>...</h5>
+                                    <p>...</p>
+                                </div>
+                            </div>
+                        </div>
+                        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </div>
+                </x-adminlte-card>
+
             </div>
             <div class="col-md-6">
                 <p hidden>{{ setlocale(LC_ALL, 'IND') }}</p>
@@ -38,7 +99,7 @@
                         </div>
                     </div>
                 </x-adminlte-card>
-                <x-adminlte-card title="Anjungan Checkin Antrian RSUD Waled" theme="primary" icon="fas fa-qrcode">
+                <x-adminlte-card title="Anjungan Checkin Antrian" theme="primary" icon="fas fa-qrcode">
                     <div class="text-center">
                         <x-adminlte-input name="kodebooking" label="Silahkan scan QR Code Antrian atau masukan Kode Antrian"
                             placeholder="Masukan Kode Antrian untuk Checkin" igroup-size="lg">
@@ -69,7 +130,7 @@
     </div>
     <x-adminlte-modal id="modalBPJS" size="xl" title="Ambil Antrian BPJS" theme="success" icon="fas fa-user-plus">
         @foreach ($jadwals as $jadwal)
-            <a class="card bg-success" href="{{ route('ambilkarcis') }}?pasien=JKN&jadwal={{ $jadwal->id }}">
+            <a class="card bg-success withLoad" href="{{ route('ambilkarcis') }}?pasien=JKN&jadwal={{ $jadwal->id }}">
                 <div class="card-body  text-center">
                     {{ $jadwal->jadwal }}
                     {{ $jadwal->namadokter }}
@@ -80,7 +141,8 @@
     </x-adminlte-modal>
     <x-adminlte-modal id="modalUMUM" size="xl" title="Ambil Antrian UMUM" theme="success" icon="fas fa-user-plus">
         @foreach ($jadwals as $jadwal)
-            <a class="card bg-success" href="{{ route('ambilkarcis') }}?pasien=NON-JKN&jadwal={{ $jadwal->id }}">
+            <a class="card bg-success withLoad"
+                href="{{ route('ambilkarcis') }}?pasien=NON-JKN&jadwal={{ $jadwal->id }}">
                 <div class="card-body  text-center">
                     {{ $jadwal->jadwal }}
                     {{ $jadwal->namadokter }}
@@ -97,7 +159,7 @@
 @endsection
 @section('adminlte_js')
     <script src="{{ asset('vendor/moment/moment.min.js') }}"></script>
-    <script src="{{ asset('vendor/loading-overlay/loadingoverlay.min.js') }}"></script>
+    <script src="{{ asset('loading-overlay/loadingoverlay.min.js') }}"></script>
     <script src="{{ asset('vendor/onscan.js/onscan.min.js') }}"></script>
     <script src="{{ asset('vendor/sweetalert/sweetalert.all.js') }}"></script>
     <script src="{{ asset('vendor/sweetalert2/sweetalert2.all.min.js') }}"></script>

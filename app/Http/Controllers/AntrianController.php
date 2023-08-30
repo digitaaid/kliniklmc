@@ -219,6 +219,13 @@ class AntrianController extends APIController
         $res = $this->sisa_antrian($request);
         dd($res, $request);
     }
+    public function statusantrian(Request $request)
+    {
+        $antrian = Antrian::where('kodebooking', $request->kodebooking)->first();
+        $request['kodebooking'] = $antrian->kodebooking;
+        dd($antrian, $request->all());
+    }
+
     public function ambilkarcis(Request $request)
     {
         $jadwal = JadwalDokter::find($request->jadwal);
@@ -257,10 +264,16 @@ class AntrianController extends APIController
         $request['taskid'] = "2";
         $request['waktu'] = now();
         $antrian = Antrian::where('kodebooking', $request->kodebooking)->first();
-        $antrian->update([
-            'taskid' => $request->taskid,
-        ]);
-        return $this->update_antrean($request);
+        $res = $this->update_antrean($request);
+        if ($res->metadata->code == 200) {
+            $antrian->update([
+                'taskid' => $request->taskid,
+            ]);
+            Alert::success('Success', 'Antrian dipanggil ke pendaftaran.');
+        } else {
+            Alert::error('Gagal', $res->metadata->message);
+        }
+        return redirect()->back();
     }
     function lanjutpoliklinik(Request $request)
     {

@@ -51,6 +51,7 @@ Route::post('prosesdaftarbpjs', [AntrianController::class, 'prosesdaftarbpjs'])-
 Route::get('daftarumum', [AntrianController::class, 'daftarumum'])->name('daftarumum');
 Route::post('prosesdaftarumum', [AntrianController::class, 'prosesdaftarumum'])->name('prosesdaftarumum');
 Route::get('antiranpasien/{kodebooking}', [AntrianController::class, 'antiranpasien'])->name('antiranpasien');
+Route::get('statusantrian', [AntrianController::class, 'statusantrian'])->name('statusantrian');
 Route::get('ambilkarcis', [AntrianController::class, 'ambilkarcis'])->name('ambilkarcis');
 
 
