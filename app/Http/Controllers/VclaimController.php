@@ -685,6 +685,19 @@ class VclaimController extends APIController
         $response = Http::withHeaders($signature)->get($url);
         return $this->response_decrypt($response, $signature);
     }
+    public function suratkontrol_sep(Request $request)
+    {
+        $validator = Validator::make(request()->all(), [
+            "nomorkartu" => "required",
+        ]);
+        if ($validator->fails()) {
+            return $this->sendError($validator->errors()->first(), 400);
+        }
+        $url =  $this->api()->base_url . "RencanaKontrol/nosep/" . $request->nomorkartu;
+        $signature = $this->signature();
+        $response = Http::withHeaders($signature)->get($url);
+        return $this->response_decrypt($response, $signature);
+    }
     public function suratkontrol_peserta(Request $request)
     {
         if ($request->tanggal) {
@@ -724,14 +737,13 @@ class VclaimController extends APIController
     public function suratkontrol_poli(Request $request)
     {
         $validator = Validator::make(request()->all(), [
-            "jenisKontrol" => "required",
             "nomor" => "required",
-            "tanggalKontrol" => "required|date",
+            "tglRencanaKontrol" => "required|date",
         ]);
         if ($validator->fails()) {
             return $this->sendError($validator->errors()->first(), 400);
         }
-        $url =  $this->api()->base_url . "RencanaKontrol/ListSpesialistik/JnsKontrol/" . $request->jenisKontrol  . "/nomor/" . $request->nomor . "/TglRencanaKontrol/" . $request->tanggalKontrol;
+        $url =  $this->api()->base_url . "RencanaKontrol/ListSpesialistik/JnsKontrol/2/nomor/" . $request->nomor . "/TglRencanaKontrol/" . $request->tglRencanaKontrol;
         $signature = $this->signature();
         $response = Http::withHeaders($signature)->get($url);
         return $this->response_decrypt($response, $signature);
@@ -739,14 +751,13 @@ class VclaimController extends APIController
     public function suratkontrol_dokter(Request $request)
     {
         $validator = Validator::make(request()->all(), [
-            "jenisKontrol" => "required",
             "kodePoli" => "required",
-            "tanggalKontrol" => "required",
+            "tglRencanaKontrol" => "required",
         ]);
         if ($validator->fails()) {
             return $this->sendError($validator->errors()->first(), 400);
         }
-        $url =  $this->api()->base_url . "RencanaKontrol/JadwalPraktekDokter/JnsKontrol/" . $request->jenisKontrol . "/KdPoli/" . $request->kodePoli . "/TglRencanaKontrol/" . $request->tanggalKontrol;
+        $url =  $this->api()->base_url . "RencanaKontrol/JadwalPraktekDokter/JnsKontrol/2/KdPoli/" . $request->kodePoli . "/TglRencanaKontrol/" . $request->tglRencanaKontrol;
         $signature = $this->signature();
         $response = Http::withHeaders($signature)->get($url);
         return $this->response_decrypt($response, $signature);

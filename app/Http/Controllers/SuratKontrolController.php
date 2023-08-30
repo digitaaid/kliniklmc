@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Antrian;
 use App\Models\Dokter;
 use App\Models\Pasien;
 use App\Models\Poliklinik;
@@ -54,45 +55,25 @@ class SuratKontrolController extends APIController
     }
     public function store(Request $request)
     {
-        $request['noSep'] = $request->nomorsep_suratkontrol;
-        $request['tglRencanaKontrol'] = $request->tanggal_suratkontrol;
-        $request['kodeDokter'] = $request->kodedokter_suratkontrol;
-        $request['poliKontrol'] = $request->kodepoli_suratkontrol;
         $poli = Poliklinik::where('kodesubspesialis', $request->poliKontrol)->first();
-        $request['user'] = Auth::user()->name;
         $vclaim = new VclaimController();
+        $request['user'] = Auth::user()->name;
+        $request['noSep'] = $request->noSEP;
+        $request['noSepAsalKontrol'] = $request->noSEP;
+        $request['tglTerbitKontrol'] = now()->format('Y-m-d');
         $response = $vclaim->suratkontrol_insert($request);
         if ($response->metadata->code == 200) {
             $suratkontrol = $response->response;
-            SuratKontrol::create([
-                "tglTerbitKontrol" => now()->format('Y-m-d'),
-                "tglRencanaKontrol" => $suratkontrol->tglRencanaKontrol,
-                "poliTujuan" => $request->poliKontrol,
-                "namaPoliTujuan" => $poli->namasubspesialis,
-                "kodeDokter" => $request->kodeDokter,
-                "namaDokter" => $suratkontrol->namaDokter,
-                "noSuratKontrol" => $suratkontrol->noSuratKontrol,
-                "namaJnsKontrol" => "Surat Kontrol",
-                "noSepAsalKontrol" => $request->noSep,
-                "noKartu" => $suratkontrol->noKartu,
-                "nama" => $suratkontrol->nama,
-                "kelamin" => $suratkontrol->kelamin,
-                "tglLahir" => $suratkontrol->tglLahir,
-                "user" => Auth::user()->name,
-            ]);
-            $vclaim = new VclaimController();
-            $request['nomorkartu'] = $suratkontrol->noKartu;
-            $request['tanggal'] = now()->format('Y-m-d');
-            $response_peserta = $vclaim->peserta_nomorkartu($request);
-            if ($response_peserta->metadata->code == 200) {
-                $peserta = $response_peserta->response->peserta;
-                $wa = new WhatsappController();
-                $request['message'] = "*Surat Kontrol Rawat Jalan*\nTelah berhasil pembuatan surat kontrol atas pasien sebagai berikut.\n\nNama : " . $suratkontrol->nama . "\nNo Surat Kontrol : " . $suratkontrol->noSuratKontrol . "\nTanggal Kontrol : " . $suratkontrol->tglRencanaKontrol . "\nPoliklinik : " . $poli->namasubspesialis . "\n\nUntuk surat kontrol online dapat diakses melalui link berikut.\nsim.rsudwaled.id/siramah/suratkontrol_print?nomorsuratkontrol=" . $suratkontrol->noSuratKontrol;
-                $request['number'] = $peserta->mr->noTelepon;
-                $wa->send_message($request);
-            }
+            $request['noSuratKontrol'] = $suratkontrol->noSuratKontrol;
+            $request['namaDokter'] = $suratkontrol->namaDokter;
+            $request['kelamin'] = $suratkontrol->kelamin;
+            $request['tglLahir'] = $suratkontrol->tglLahir;
+            SuratKontrol::create($request->all());
+            Alert::success('Success', 'Surat Kontrol Berhasil Dibuat.');
+        } else {
+            Alert::error('Gagal', $response->metadata->message);
         }
-        return $response;
+        return redirect()->back();
     }
     public function update(Request $request)
     {
@@ -196,13 +177,11 @@ class SuratKontrolController extends APIController
         $request['tanggalMulai'] = now()->subDays(90)->format('Y-m-d');
         $vclaim = new VclaimController();
         $response = $vclaim->monitoring_pelayanan_peserta($request);
-
         if ($response->metadata->code == 200) {
             $data = $response->response->histori;
             return $this->sendResponse($data, 200);
-        }else{
+        } else {
             return $this->sendError($response->metadate->message);
-
         }
     }
 }

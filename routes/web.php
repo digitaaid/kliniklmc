@@ -86,6 +86,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('jadwaldokter', JadwalDokterController::class);
     Route::resource('carousel', CarouselController::class);
     Route::resource('antrian', AntrianController::class);
+    Route::resource('suratkontrol', SuratKontrolController::class);
     // pendaftaran
     Route::get('layanipendaftaran', [AntrianController::class, 'layanipendaftaran'])->name('layanipendaftaran');
     Route::get('lanjutpoliklinik', [AntrianController::class, 'lanjutpoliklinik'])->name('lanjutpoliklinik');
@@ -93,6 +94,12 @@ Route::middleware('auth')->group(function () {
     Route::post('editantrian', [AntrianController::class, 'editantrian'])->name('editantrian');
     // poliklinik
     Route::get('antrianpoliklinik', [AntrianController::class, 'antrianpoliklinik'])->name('antrianpoliklinik');
+    Route::get('panggilpoliklinik', [AntrianController::class, 'panggilpoliklinik'])->name('panggilpoliklinik');
+    Route::get('lanjutfarmasi', [AntrianController::class, 'lanjutfarmasi'])->name('lanjutfarmasi');
+    // farmasi
+    Route::get('antrianfarmasi', [AntrianController::class, 'antrianfarmasi'])->name('antrianfarmasi');
+    Route::get('terimafarmasi', [AntrianController::class, 'terimafarmasi'])->name('terimafarmasi');
+    Route::get('selesaifarmasi', [AntrianController::class, 'selesaifarmasi'])->name('selesaifarmasi');
 
 
     // antrian bpjs

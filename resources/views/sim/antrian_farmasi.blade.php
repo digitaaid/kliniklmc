@@ -1,7 +1,7 @@
 @extends('adminlte::page')
-@section('title', 'Antrian Poliklinik')
+@section('title', 'Antrian Farmasi')
 @section('content_header')
-    <h1>Antrian Poliklinik</h1>
+    <h1>Antrian Farmasi</h1>
 @stop
 @section('content')
     <div class="row">
@@ -34,7 +34,7 @@
                         $heads = ['No Antrian', 'kodebooking', 'Pasien', 'Dokter', 'Poliklinik', 'Jenis Pasien', 'Status', 'Action'];
                     @endphp
                     <x-adminlte-datatable id="table2" class="nowrap" :heads="$heads" bordered hoverable compressed>
-                        @foreach ($antrians->where('taskid', 4) as $item)
+                        @foreach ($antrians->where('taskid', 6) as $item)
                             <tr>
                                 <td>{{ $item->nomorantrean }} / {{ $item->angkaantrean }}</td>
                                 <td>{{ $item->kodebooking }}</td>
@@ -74,9 +74,9 @@
                                 <td>{{ $item->pasienbaru }} {{ $item->jenispasien }} </td>
                                 <td>{{ $item->taskid }}</td>
                                 <td>
-                                    @if ($item->taskid == 3)
-                                        <a href="{{ route('panggilpoliklinik') }}?kodebooking={{ $item->kodebooking }}"
-                                            class="btn btn-xs btn-warning">Panggil</a>
+                                    @if ($item->taskid == 5)
+                                        <a href="{{ route('terimafarmasi') }}?kodebooking={{ $item->kodebooking }}"
+                                            class="btn btn-xs btn-warning">Terima Resep</a>
                                     @endif
                                 </td>
                             </tr>
@@ -287,8 +287,8 @@
             </div>
         </div>
         <x-slot name="footerSlot">
-            {{-- <a href="" class="btn btn-warning mr-auto" id="btnLanjutPoli"><i class="fas fa-sign"></i> Lanjut
-                Poliklinik</a> --}}
+            <a href="" class="btn btn-success mr-auto" id="btnLanjutPoli"><i
+                    class="fas fa-sign"></i> Selesai</a>
             <a href="" class="btn btn-danger" id="btnBatal"><i class="fas fa-times"></i> Batal</a>
             <x-adminlte-button theme="danger" icon="fas fa-times" label="Tutup" data-dismiss="modal" />
         </x-slot>
@@ -363,7 +363,7 @@
                         console.log(data);
                     });
                 }
-                var urllanjut = "{{ route('lanjutpoliklinik') }}?kodebooking=" + kodebooking;
+                var urllanjut = "{{ route('selesaifarmasi') }}?kodebooking=" + kodebooking;
                 $("#btnLanjutPoli").attr("href", urllanjut);
                 var urlbatal = "{{ route('batalantrian') }}?kodebooking=" + kodebooking +
                     "&keterangan=dibatalkan_dipendaftarn";

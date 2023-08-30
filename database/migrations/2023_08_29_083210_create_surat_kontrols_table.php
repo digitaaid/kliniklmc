@@ -13,6 +13,23 @@ return new class extends Migration
     {
         Schema::create('surat_kontrols', function (Blueprint $table) {
             $table->id();
+            $table->string('noSuratKontrol');
+            $table->string('noSepAsalKontrol');
+            $table->date('tglRencanaKontrol');
+            $table->date('tglTerbitKontrol');
+            $table->string('nomorkartu');
+            $table->string('norm');
+            $table->string('nama');
+            $table->string('nohp');
+            $table->string('kelamin')->nullable();
+            $table->string('tglLahir')->nullable();
+            $table->string('poliKontrol');
+            $table->string('namaPoliTujuan')->nullable();
+            $table->string('kodeDokter');
+            $table->string('namaDokter')->nullable();
+            $table->string('catatan')->nullable();
+            $table->string('user');
+            $table->string('kodebooking');
             $table->timestamps();
         });
     }

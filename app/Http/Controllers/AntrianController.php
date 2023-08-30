@@ -143,7 +143,8 @@ class AntrianController extends APIController
             $request['pasienbaru'] = 0;
             $res = $this->ambil_antrian($request);
             if ($res->metadata->code == 200) {
-                # code...
+                // kodebooking
+                dd($request->all(), $res);
             } else {
                 $request['warning'] = $res->metadata->message;
             }
@@ -266,11 +267,11 @@ class AntrianController extends APIController
         $request['taskid'] = "3";
         $request['waktu'] = now();
         $antrian = Antrian::where('kodebooking', $request->kodebooking)->first();
-        $antrian->update([
-            'taskid' => $request->taskid,
-        ]);
         $res = $this->update_antrean($request);
         if ($res->metadata->code == 200) {
+            $antrian->update([
+                'taskid' => $request->taskid,
+            ]);
             Alert::success('Success', 'Antrian dilanjutkan ke Poliklinik.');
         } else {
             Alert::error('Gagal', $res->metadata->message);
@@ -281,11 +282,11 @@ class AntrianController extends APIController
     {
         $request['taskid'] = "99";
         $antrian = Antrian::where('kodebooking', $request->kodebooking)->first();
-        $antrian->update([
-            'taskid' => $request->taskid,
-        ]);
         $res = $this->batal_antrean($request);
         if ($res->metadata->code == 200) {
+            $antrian->update([
+                'taskid' => $request->taskid,
+            ]);
             Alert::success('Success', 'Antrian telah dibatalkan.');
         } else {
             Alert::error('Gagal', $res->metadata->message);
@@ -312,6 +313,110 @@ class AntrianController extends APIController
             'antrians',
         ]));
     }
+    function panggilpoliklinik(Request $request)
+    {
+        $request['taskid'] = "4";
+        $request['waktu'] = now();
+        $antrian = Antrian::where('kodebooking', $request->kodebooking)->first();
+        $res = $this->update_antrean($request);
+        if ($res->metadata->code == 200) {
+            $antrian->update([
+                'taskid' => $request->taskid,
+                'keterangan' => "Pasien sedang dilayani dipoliklinik",
+            ]);
+            Alert::success('Success', 'Antrian dilayani di Poliklinik.');
+        } else {
+            Alert::error('Gagal', $res->metadata->message);
+        }
+        return redirect()->back();
+    }
+    function selesaipoliklinik(Request $request)
+    {
+        $request['taskid'] = "5";
+        $request['waktu'] = now();
+        $antrian = Antrian::where('kodebooking', $request->kodebooking)->first();
+        $res = $this->update_antrean($request);
+        if ($res->metadata->code == 200) {
+            $antrian->update([
+                'taskid' => $request->taskid,
+                'keterangan' => "Pasien pasien sudah dilayani dipoliklinik",
+            ]);
+            Alert::success('Success', 'Antrian selesai di Poliklinik.');
+        } else {
+            Alert::error('Gagal', $res->metadata->message);
+        }
+        return redirect()->back();
+    }
+    function lanjutfarmasi(Request $request)
+    {
+        $request['taskid'] = "5";
+        $request['waktu'] = now();
+        $antrian = Antrian::where('kodebooking', $request->kodebooking)->first();
+        $request['nomorantrean'] = $antrian->angkaantrean;
+        $request['keterangan'] = $request->catatan;
+        $res = $this->update_antrean($request);
+        if ($res->metadata->code == 200) {
+            $antrian->update([
+                'taskid' => $request->taskid,
+                'keterangan' => "Pasien pasien sudah dilayani dipoliklinik",
+            ]);
+            Alert::success('Success', 'Antrian dilanjutkan ke farmasi.');
+        } else {
+            Alert::error('Gagal', $res->metadata->message);
+        }
+        $res_farmasi = $this->tambah_antrean_farmasi($request);
+        return redirect()->back();
+    }
+    public function antrianfarmasi(Request $request)
+    {
+        $antrians = null;
+        if ($request->tanggalperiksa) {
+            $antrians = Antrian::where('tanggalperiksa', $request->tanggalperiksa)->get();
+        } else {
+            $request['tanggalperiksa'] = now()->format('Y-m-d');
+        }
+        return view('sim.antrian_farmasi', compact([
+            'request',
+            'antrians',
+        ]));
+    }
+    function terimafarmasi(Request $request)
+    {
+        $request['taskid'] = "6";
+        $request['waktu'] = now();
+        $antrian = Antrian::where('kodebooking', $request->kodebooking)->first();
+        $res = $this->update_antrean($request);
+        if ($res->metadata->code == 200) {
+            $antrian->update([
+                'taskid' => $request->taskid,
+                'keterangan' => "Resep Pasien sudah diterima di farmasi.",
+            ]);
+            Alert::success('Success', 'Antrian Resep telah diterima Farmasi.');
+        } else {
+            Alert::error('Gagal', $res->metadata->message);
+        }
+        return redirect()->back();
+    }
+    function selesaifarmasi(Request $request)
+    {
+        $request['taskid'] = "7";
+        $request['waktu'] = now();
+        $antrian = Antrian::where('kodebooking', $request->kodebooking)->first();
+        $res = $this->update_antrean($request);
+        if ($res->metadata->code == 200) {
+            $antrian->update([
+                'taskid' => $request->taskid,
+                'keterangan' => "Pasien telah selesai semua pelayanan",
+            ]);
+            Alert::success('Success', 'Antrian Selesai.');
+        } else {
+            Alert::error('Gagal', $res->metadata->message);
+        }
+        return redirect()->back();
+    }
+
+
+
     public function displayAntrian()
     {
         return view('sim.display_antrian');
@@ -634,6 +739,30 @@ class AntrianController extends APIController
                 "kuotajkn" => $request->kuotajkn,
                 "sisakuotanonjkn" => $request->sisakuotanonjkn,
                 "kuotanonjkn" => $request->kuotanonjkn,
+                "keterangan" => $request->keterangan,
+            ]
+        );
+        return $this->response_decrypt($response, $signature);
+    }
+    public function tambah_antrean_farmasi(Request $request)
+    {
+        $validator = Validator::make(request()->all(), [
+            "kodebooking" => "required",
+            "jenisresep" =>  "required",
+            "nomorantrean" =>  "required",
+            "keterangan" =>  "required",
+        ]);
+        if ($validator->fails()) {
+            return $this->sendError($validator->errors()->first(), 400);
+        }
+        $url = $this->api()->base_url . "antrean/farmasi/add";
+        $signature = $this->signature();
+        $response = Http::withHeaders($signature)->post(
+            $url,
+            [
+                "kodebooking" => $request->kodebooking,
+                "jenisresep" => $request->jenisresep,
+                "nomorantrean" => $request->nomorantrean,
                 "keterangan" => $request->keterangan,
             ]
         );
