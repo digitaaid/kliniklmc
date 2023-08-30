@@ -24,5 +24,15 @@ class UserSeeder extends Seeder
             'email_verified_at' => now()
         ]);
         $user->assignRole('Admin Super');
+        $user = User::create([
+            "name" => "Admin Klinik",
+            "email" => "admin@gmail.com",
+            "username" => "admin",
+            "phone" => "089529909036",
+            'password' => bcrypt('qweqwe123'),
+            'user_verify' => 1,
+            'email_verified_at' => now()
+        ]);
+        $user->assignRole('Admin Super');
     }
 }
