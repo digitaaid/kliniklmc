@@ -32,8 +32,10 @@
                 <x-adminlte-card title="Data Antrian Sedang Dilayani" theme="success" icon="fas fa-info-circle" collapsible>
                     @php
                         $heads = ['No Antrian', 'kodebooking', 'Pasien', 'Dokter', 'Poliklinik', 'Jenis Pasien', 'Status', 'Action'];
+                        $config['order'] = [[6, 'asc']];
                     @endphp
-                    <x-adminlte-datatable id="table2" class="nowrap" :heads="$heads" bordered hoverable compressed>
+                    <x-adminlte-datatable id="table2" class="nowrap" :heads="$heads" :config="$config" bordered
+                        hoverable compressed>
                         @foreach ($antrians->where('taskid', 6) as $item)
                             <tr>
                                 <td>{{ $item->nomorantrean }} / {{ $item->angkaantrean }}</td>
@@ -42,7 +44,48 @@
                                 <td>{{ $item->namadokter }}</td>
                                 <td>{{ $item->namapoli }}</td>
                                 <td>{{ $item->pasienbaru }} {{ $item->jenispasien }} </td>
-                                <td>{{ $item->taskid }}</td>
+                                <td>
+                                    @switch($item->taskid)
+                                        @case(0)
+                                            <span class="badge badge-secondary">98. Belum Checkin</span>
+                                        @break
+
+                                        @case(1)
+                                            <span class="badge badge-warning">97. Menunggu Pendaftaran</span>
+                                        @break
+
+                                        @case(2)
+                                            <span class="badge badge-primary">97. Proses Pendaftaran</span>
+                                        @break
+
+                                        @case(3)
+                                            <span class="badge badge-warning">97. Menunggu Poliklinik</span>
+                                        @break
+
+                                        @case(4)
+                                            <span class="badge badge-primary">97. Pelayanan Poliklinik</span>
+                                        @break
+
+                                        @case(5)
+                                            <span class="badge badge-warning">5. Selesai Poliklinik</span>
+                                        @break
+
+                                        @case(6)
+                                            <span class="badge badge-primary">6. Racik Obat</span>
+                                        @break
+
+                                        @case(7)
+                                            <span class="badge badge-success">7. Selesai</span>
+                                        @break
+
+                                        @case(99)
+                                            <span class="badge badge-danger">99. Batal</span>
+                                        @break
+
+                                        @default
+                                            {{ $item->taskid }}
+                                    @endswitch
+                                </td>
                                 <td>
                                     <button class="btn btn-xs btn-success btnAntrian"
                                         data-kodebooking="{{ $item->kodebooking }}" data-taskid="{{ $item->taskid }}"
@@ -62,8 +105,10 @@
                 <x-adminlte-card title="Data Antrian" theme="primary" icon="fas fa-info-circle" collapsible>
                     @php
                         $heads = ['No Antrian', 'kodebooking', 'Pasien', 'Dokter', 'Poliklinik', 'Jenis Pasien', 'Status', 'Action'];
+                        $config['order'] = [[6, 'asc']];
                     @endphp
-                    <x-adminlte-datatable id="table1" class="nowrap" :heads="$heads" bordered hoverable compressed>
+                    <x-adminlte-datatable id="table1" class="nowrap" :heads="$heads" :config="$config" bordered
+                        hoverable compressed>
                         @foreach ($antrians->where('taskid', '!=', 4) as $item)
                             <tr>
                                 <td>{{ $item->nomorantrean }} / {{ $item->angkaantrean }}</td>
@@ -72,11 +117,64 @@
                                 <td>{{ $item->namadokter }}</td>
                                 <td>{{ $item->namapoli }}</td>
                                 <td>{{ $item->pasienbaru }} {{ $item->jenispasien }} </td>
-                                <td>{{ $item->taskid }}</td>
+                                <td>
+                                    @switch($item->taskid)
+                                        @case(0)
+                                            <span class="badge badge-secondary">98. Belum Checkin</span>
+                                        @break
+
+                                        @case(1)
+                                            <span class="badge badge-warning">97. Menunggu Pendaftaran</span>
+                                        @break
+
+                                        @case(2)
+                                            <span class="badge badge-primary">97. Proses Pendaftaran</span>
+                                        @break
+
+                                        @case(3)
+                                            <span class="badge badge-warning">97. Menunggu Poliklinik</span>
+                                        @break
+
+                                        @case(4)
+                                            <span class="badge badge-primary">97. Pelayanan Poliklinik</span>
+                                        @break
+
+                                        @case(5)
+                                            <span class="badge badge-warning">5. Selesai Poliklinik</span>
+                                        @break
+
+                                        @case(6)
+                                            <span class="badge badge-primary">6. Racik Obat</span>
+                                        @break
+
+                                        @case(7)
+                                            <span class="badge badge-success">7. Selesai</span>
+                                        @break
+
+                                        @case(99)
+                                            <span class="badge badge-danger">99. Batal</span>
+                                        @break
+
+                                        @default
+                                            {{ $item->taskid }}
+                                    @endswitch
+                                </td>
                                 <td>
                                     @if ($item->taskid == 5)
                                         <a href="{{ route('terimafarmasi') }}?kodebooking={{ $item->kodebooking }}"
-                                            class="btn btn-xs btn-warning">Terima Resep</a>
+                                            class="btn btn-xs btn-warning withLoad">Terima Resep</a>
+                                    @else
+                                        <button class="btn btn-xs btn-secondary btnAntrian"
+                                            data-kodebooking="{{ $item->kodebooking }}" data-taskid="{{ $item->taskid }}"
+                                            data-namapasien="{{ $item->nama }}" data-norm="{{ $item->norm }}"
+                                            data-nomorkartu="{{ $item->nomorkartu }}" data-nik="{{ $item->nik }}"
+                                            data-nohp="{{ $item->nohp }}" data-kodebooking="{{ $item->kodebooking }}"
+                                            data-nomorantrean="{{ $item->nomorantrean }}"
+                                            data-jeniskunjungan="{{ $item->jeniskunjungan }}"
+                                            data-sep="{{ $item->sep }}" data-namapoli="{{ $item->namapoli }}"
+                                            data-namadokter="{{ $item->namadokter }}">
+                                            Lihat
+                                        </button>
                                     @endif
                                 </td>
                             </tr>
@@ -89,57 +187,7 @@
     <x-adminlte-modal id="modalAntrian" title="Antrian Pasien" icon="fas fa-user" size="xl" theme="success" scrollable>
         <div class="row">
             <div class="col-md-3">
-                <div class="card card-primary card-outline">
-                    <div class="card-body box-profile">
-                        <h3 class="profile-username text-center">
-                            <span class="namapasien"></span>
-                        </h3>
-                        <p class="text-muted text-center">
-                            <span class="norm"></span>
-                            JKN
-                        </p>
-                        <ul class="list-group list-group-unbordered mb-3">
-                            <li class="list-group-item">
-                                <dl>
-                                    <dt>Nomor Kartu</dt>
-                                    <dd><span class="nomorkartu"></span></dd>
-                                    <dt>NIK</dt>
-                                    <dd><span class="nik"></span></dd>
-                                    <dt>No HP</dt>
-                                    <dd><span class="nohp"></span></dd>
-                                </dl>
-                            </li>
-                            <li class="list-group-item">
-                                <dl>
-                                    <dt>Nomor / Angka Antrian</dt>
-                                    <dd><span class="nomorantrean"></span> <span class="angkaantrean"></span></dd>
-                                    <dt>Kodebooking</dt>
-                                    <dd><span class="kodebooking"></span></dd>
-                                </dl>
-                            </li>
-                            <li class="list-group-item">
-                                <dl>
-                                    <dt>Jenis Kunjungan</dt>
-                                    <dd><span class="jeniskunjungan"></span></dd>
-                                    <dt>SEP</dt>
-                                    <dd><span class="sep"></span></dd>
-                                </dl>
-                            </li>
-                            <li class="list-group-item">
-                                <dl>
-                                    <dt>Poliklinik</dt>
-                                    <dd><span class="namapoli"></span></dd>
-                                    <dt>Dokter</dt>
-                                    <dd><span class="namadokter"></span></dd>
-                                </dl>
-                            </li>
-
-                        </ul>
-
-                        <a href="#" class="btn btn-primary btn-block"><b>Follow</b></a>
-                    </div>
-                    <!-- /.card-body -->
-                </div>
+                @include('sim.profile_pasien_antrian')
             </div>
             <div class="col-md-9">
                 <div class="card">
@@ -287,9 +335,9 @@
             </div>
         </div>
         <x-slot name="footerSlot">
-            <a href="" class="btn btn-success mr-auto" id="btnLanjutPoli"><i
-                    class="fas fa-sign"></i> Selesai</a>
-            <a href="" class="btn btn-danger" id="btnBatal"><i class="fas fa-times"></i> Batal</a>
+            <a href="" class="btn btn-success withLoad mr-auto" id="btnLanjutPoli"><i class="fas fa-sign"></i>
+                Selesai</a>
+            <a href="" class="btn btn-danger withLoad" id="btnBatal"><i class="fas fa-times"></i> Batal</a>
             <x-adminlte-button theme="danger" icon="fas fa-times" label="Tutup" data-dismiss="modal" />
         </x-slot>
     </x-adminlte-modal>

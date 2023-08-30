@@ -295,14 +295,18 @@ class AntrianController extends APIController
     {
         $request['taskid'] = "99";
         $antrian = Antrian::where('kodebooking', $request->kodebooking)->first();
-        $res = $this->batal_antrean($request);
-        if ($res->metadata->code == 200) {
-            $antrian->update([
-                'taskid' => $request->taskid,
-            ]);
-            Alert::success('Success', 'Antrian telah dibatalkan.');
-        } else {
-            Alert::error('Gagal', $res->metadata->message);
+        try {
+            $res = $this->batal_antrean($request);
+            if ($res->metadata->code == 200) {
+                $antrian->update([
+                    'taskid' => $request->taskid,
+                ]);
+                Alert::success('Success', 'Antrian telah dibatalkan.');
+            } else {
+                Alert::error('Gagal', $res->metadata->message);
+            }
+        } catch (\Throwable $th) {
+            //throw $th;
         }
         return redirect()->back();
     }
@@ -331,15 +335,19 @@ class AntrianController extends APIController
         $request['taskid'] = "4";
         $request['waktu'] = now();
         $antrian = Antrian::where('kodebooking', $request->kodebooking)->first();
-        $res = $this->update_antrean($request);
-        if ($res->metadata->code == 200) {
-            $antrian->update([
-                'taskid' => $request->taskid,
-                'keterangan' => "Pasien sedang dilayani dipoliklinik",
-            ]);
-            Alert::success('Success', 'Antrian dilayani di Poliklinik.');
-        } else {
-            Alert::error('Gagal', $res->metadata->message);
+        try {
+            $res = $this->update_antrean($request);
+            if ($res->metadata->code == 200) {
+                $antrian->update([
+                    'taskid' => $request->taskid,
+                    'keterangan' => "Pasien sedang dilayani dipoliklinik",
+                ]);
+                Alert::success('Success', 'Antrian dilayani di Poliklinik.');
+            } else {
+                Alert::error('Gagal', $res->metadata->message);
+            }
+        } catch (\Throwable $th) {
+            //throw $th;
         }
         return redirect()->back();
     }
@@ -348,15 +356,19 @@ class AntrianController extends APIController
         $request['taskid'] = "5";
         $request['waktu'] = now();
         $antrian = Antrian::where('kodebooking', $request->kodebooking)->first();
-        $res = $this->update_antrean($request);
-        if ($res->metadata->code == 200) {
-            $antrian->update([
-                'taskid' => $request->taskid,
-                'keterangan' => "Pasien pasien sudah dilayani dipoliklinik",
-            ]);
-            Alert::success('Success', 'Antrian selesai di Poliklinik.');
-        } else {
-            Alert::error('Gagal', $res->metadata->message);
+        try {
+            $res = $this->update_antrean($request);
+            if ($res->metadata->code == 200) {
+                $antrian->update([
+                    'taskid' => $request->taskid,
+                    'keterangan' => "Pasien pasien sudah dilayani dipoliklinik",
+                ]);
+                Alert::success('Success', 'Antrian selesai di Poliklinik.');
+            } else {
+                Alert::error('Gagal', $res->metadata->message);
+            }
+        } catch (\Throwable $th) {
+            //throw $th;
         }
         return redirect()->back();
     }
@@ -367,17 +379,21 @@ class AntrianController extends APIController
         $antrian = Antrian::where('kodebooking', $request->kodebooking)->first();
         $request['nomorantrean'] = $antrian->angkaantrean;
         $request['keterangan'] = $request->catatan;
-        $res = $this->update_antrean($request);
-        if ($res->metadata->code == 200) {
-            $antrian->update([
-                'taskid' => $request->taskid,
-                'keterangan' => "Pasien pasien sudah dilayani dipoliklinik",
-            ]);
-            Alert::success('Success', 'Antrian dilanjutkan ke farmasi.');
-        } else {
-            Alert::error('Gagal', $res->metadata->message);
+        try {
+            $res = $this->update_antrean($request);
+            if ($res->metadata->code == 200) {
+                $antrian->update([
+                    'taskid' => $request->taskid,
+                    'keterangan' => "Pasien pasien sudah dilayani dipoliklinik",
+                ]);
+                Alert::success('Success', 'Antrian dilanjutkan ke farmasi.');
+            } else {
+                Alert::error('Gagal', $res->metadata->message);
+            }
+            $res_farmasi = $this->tambah_antrean_farmasi($request);
+        } catch (\Throwable $th) {
+            //throw $th;
         }
-        $res_farmasi = $this->tambah_antrean_farmasi($request);
         return redirect()->back();
     }
     public function antrianfarmasi(Request $request)

@@ -181,7 +181,7 @@ class SuratKontrolController extends APIController
             $data = $response->response->histori;
             return $this->sendResponse($data, 200);
         } else {
-            return $this->sendError($response->metadate->message);
+            return $this->sendError($response->metadata->message);
         }
     }
 }

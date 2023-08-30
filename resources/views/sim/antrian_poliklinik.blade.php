@@ -42,7 +42,48 @@
                                 <td>{{ $item->namadokter }}</td>
                                 <td>{{ $item->namapoli }}</td>
                                 <td>{{ $item->pasienbaru }} {{ $item->jenispasien }} </td>
-                                <td>{{ $item->taskid }}</td>
+                                <td>
+                                    @switch($item->taskid)
+                                        @case(0)
+                                            <span class="badge badge-secondary">98. Belum Checkin</span>
+                                        @break
+
+                                        @case(1)
+                                            <span class="badge badge-warning">96. Menunggu Pendaftaran</span>
+                                        @break
+
+                                        @case(2)
+                                            <span class="badge badge-primary">97. Proses Pendaftaran</span>
+                                        @break
+
+                                        @case(3)
+                                            <span class="badge badge-warning">3. Menunggu Poliklinik</span>
+                                        @break
+
+                                        @case(4)
+                                            <span class="badge badge-primary">4. Pelayanan Poliklinik</span>
+                                        @break
+
+                                        @case(5)
+                                            <span class="badge badge-warning">5. Selesai Poliklinik</span>
+                                        @break
+
+                                        @case(6)
+                                            <span class="badge badge-primary">6. Racik Obat</span>
+                                        @break
+
+                                        @case(7)
+                                            <span class="badge badge-success">7. Selesai</span>
+                                        @break
+
+                                        @case(99)
+                                            <span class="badge badge-danger">99. Batal</span>
+                                        @break
+
+                                        @default
+                                            {{ $item->taskid }}
+                                    @endswitch
+                                </td>
                                 <td>
                                     <button class="btn btn-xs btn-success btnAntrian"
                                         data-kodebooking="{{ $item->kodebooking }}" data-taskid="{{ $item->taskid }}"
@@ -54,6 +95,8 @@
                                         data-namapoli="{{ $item->namapoli }}" data-namadokter="{{ $item->namadokter }}">
                                         Layani
                                     </button>
+                                    <a href="{{ route('panggilpoliklinik') }}?kodebooking={{ $item->kodebooking }}"
+                                        class="btn btn-xs btn-warning withLoad">Panggil</a>
                                 </td>
                             </tr>
                         @endforeach
@@ -62,8 +105,10 @@
                 <x-adminlte-card title="Data Antrian" theme="primary" icon="fas fa-info-circle" collapsible>
                     @php
                         $heads = ['No Antrian', 'kodebooking', 'Pasien', 'Dokter', 'Poliklinik', 'Jenis Pasien', 'Status', 'Action'];
+                        $config['order'] = [[6, 'asc']];
                     @endphp
-                    <x-adminlte-datatable id="table1" class="nowrap" :heads="$heads" bordered hoverable compressed>
+                    <x-adminlte-datatable id="table1" class="nowrap" :heads="$heads" :config="$config" bordered
+                        hoverable compressed>
                         @foreach ($antrians->where('taskid', '!=', 4) as $item)
                             <tr>
                                 <td>{{ $item->nomorantrean }} / {{ $item->angkaantrean }}</td>
@@ -72,11 +117,64 @@
                                 <td>{{ $item->namadokter }}</td>
                                 <td>{{ $item->namapoli }}</td>
                                 <td>{{ $item->pasienbaru }} {{ $item->jenispasien }} </td>
-                                <td>{{ $item->taskid }}</td>
+                                <td>
+                                    @switch($item->taskid)
+                                        @case(0)
+                                            <span class="badge badge-secondary">98. Belum Checkin</span>
+                                        @break
+
+                                        @case(1)
+                                            <span class="badge badge-warning">96. Menunggu Pendaftaran</span>
+                                        @break
+
+                                        @case(2)
+                                            <span class="badge badge-primary">97. Proses Pendaftaran</span>
+                                        @break
+
+                                        @case(3)
+                                            <span class="badge badge-warning">3. Menunggu Poliklinik</span>
+                                        @break
+
+                                        @case(4)
+                                            <span class="badge badge-primary">4. Pelayanan Poliklinik</span>
+                                        @break
+
+                                        @case(5)
+                                            <span class="badge badge-warning">5. Selesai Poliklinik</span>
+                                        @break
+
+                                        @case(6)
+                                            <span class="badge badge-primary">6. Racik Obat</span>
+                                        @break
+
+                                        @case(7)
+                                            <span class="badge badge-success">7. Selesai</span>
+                                        @break
+
+                                        @case(99)
+                                            <span class="badge badge-danger">99. Batal</span>
+                                        @break
+
+                                        @default
+                                            {{ $item->taskid }}
+                                    @endswitch
+                                </td>
                                 <td>
                                     @if ($item->taskid == 3)
                                         <a href="{{ route('panggilpoliklinik') }}?kodebooking={{ $item->kodebooking }}"
-                                            class="btn btn-xs btn-warning">Panggil</a>
+                                            class="btn btn-xs btn-warning withLoad">Panggil</a>
+                                    @else
+                                        <button class="btn btn-xs btn-secondary btnAntrian"
+                                            data-kodebooking="{{ $item->kodebooking }}" data-taskid="{{ $item->taskid }}"
+                                            data-namapasien="{{ $item->nama }}" data-norm="{{ $item->norm }}"
+                                            data-nomorkartu="{{ $item->nomorkartu }}" data-nik="{{ $item->nik }}"
+                                            data-nohp="{{ $item->nohp }}" data-kodebooking="{{ $item->kodebooking }}"
+                                            data-nomorantrean="{{ $item->nomorantrean }}"
+                                            data-jeniskunjungan="{{ $item->jeniskunjungan }}"
+                                            data-sep="{{ $item->sep }}" data-namapoli="{{ $item->namapoli }}"
+                                            data-namadokter="{{ $item->namadokter }}">
+                                            Lihat
+                                        </button>
                                     @endif
                                 </td>
                             </tr>
@@ -89,57 +187,7 @@
     <x-adminlte-modal id="modalAntrian" title="Antrian Pasien" icon="fas fa-user" size="xl" theme="success" scrollable>
         <div class="row">
             <div class="col-md-3">
-                <div class="card card-primary card-outline">
-                    <div class="card-body box-profile">
-                        <h3 class="profile-username text-center">
-                            <span class="namapasien"></span>
-                        </h3>
-                        <p class="text-muted text-center">
-                            <span class="norm"></span>
-                            JKN
-                        </p>
-                        <ul class="list-group list-group-unbordered mb-3">
-                            <li class="list-group-item">
-                                <dl>
-                                    <dt>Nomor Kartu</dt>
-                                    <dd><span class="nomorkartu"></span></dd>
-                                    <dt>NIK</dt>
-                                    <dd><span class="nik"></span></dd>
-                                    <dt>No HP</dt>
-                                    <dd><span class="nohp"></span></dd>
-                                </dl>
-                            </li>
-                            <li class="list-group-item">
-                                <dl>
-                                    <dt>Nomor / Angka Antrian</dt>
-                                    <dd><span class="nomorantrean"></span> <span class="angkaantrean"></span></dd>
-                                    <dt>Kodebooking</dt>
-                                    <dd><span class="kodebooking"></span></dd>
-                                </dl>
-                            </li>
-                            <li class="list-group-item">
-                                <dl>
-                                    <dt>Jenis Kunjungan</dt>
-                                    <dd><span class="jeniskunjungan"></span></dd>
-                                    <dt>SEP</dt>
-                                    <dd><span class="sep"></span></dd>
-                                </dl>
-                            </li>
-                            <li class="list-group-item">
-                                <dl>
-                                    <dt>Poliklinik</dt>
-                                    <dd><span class="namapoli"></span></dd>
-                                    <dt>Dokter</dt>
-                                    <dd><span class="namadokter"></span></dd>
-                                </dl>
-                            </li>
-
-                        </ul>
-
-                        <a href="#" class="btn btn-primary btn-block"><b>Follow</b></a>
-                    </div>
-                    <!-- /.card-body -->
-                </div>
+                @include('sim.profile_pasien_antrian')
             </div>
             <div class="col-md-9">
                 <div class="card">
@@ -150,7 +198,6 @@
                             </li>
                             <li class="nav-item"><a class="nav-link" href="#dokter" data-toggle="tab">Dokter</a></li>
                             <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Riwayat</a></li>
-                            <li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Indentitas</a>
                             </li>
                             <li class="nav-item"><a class="nav-link" href="#suratkontroltab" data-toggle="tab">Surat
                                     Kontrol</a>
@@ -169,37 +216,6 @@
                             </div>
                             <div class="tab-pane" id="timeline">
                                 Riwayat Pasien
-                            </div>
-                            <div class="tab-pane" id="settings">
-                                Identitas Pasien
-                                <form action="{{ route('editantrian') }}" method="POST">
-                                    @csrf
-                                    <input type="hidden" name="kodebooking" class="kodebooking-id">
-                                    <x-adminlte-input name="nomorkartu" class="nomorkartu-id" igroup-size="sm"
-                                        label="Nomor Kartu" placeholder="Nomor Kartu">
-                                        <x-slot name="appendSlot">
-                                            <div class="btn btn-primary btnCariKartu">
-                                                <i class="fas fa-search"></i> Cari
-                                            </div>
-                                        </x-slot>
-                                    </x-adminlte-input>
-                                    <x-adminlte-input name="nik" class="nik-id" igroup-size="sm" label="NIK"
-                                        placeholder="NIK ">
-                                        <x-slot name="appendSlot">
-                                            <div class="btn btn-primary btnCariNIK">
-                                                <i class="fas fa-search"></i> Cari
-                                            </div>
-                                        </x-slot>
-                                    </x-adminlte-input>
-                                    <x-adminlte-input name="norm" class="norm-id" label="No RM" igroup-size="sm"
-                                        placeholder="No RM " />
-                                    <x-adminlte-input name="nama" class="nama-id" label="Nama Pasien"
-                                        igroup-size="sm" placeholder="Nama Pasien" />
-                                    <x-adminlte-input name="nohp" class="nohp-id" label="Nomor HP" igroup-size="sm"
-                                        placeholder="Nomor HP" />
-                                    <button type="submit" class="btn btn-warning"> <i class="fas fa-edit"></i> Update
-                                        Identitas</button>
-                                </form>
                             </div>
                             <div class="tab-pane" id="suratkontroltab">
                                 <form action="{{ route('suratkontrol.store') }}" method="POST">
@@ -253,7 +269,8 @@
                                                 placeholder="Catatan Pasien" />
                                         </div>
                                     </div>
-                                    <button type="submit" class="btn btn-warning"> <i class="fas fa-save"></i> Buat
+                                    <button type="submit" class="btn btn-warning withLoad"> <i class="fas fa-save"></i>
+                                        Buat
                                         Surat Kontrol</button>
                                 </form>
 
@@ -276,7 +293,8 @@
 
                                         </div>
                                     </div>
-                                    <button type="submit" class="btn btn-warning"> <i class="fas fa-pills"></i>Lanjut
+                                    <button type="submit" class="btn btn-warning withLoad"> <i
+                                            class="fas fa-pills"></i>Lanjut
                                         Farmasi</button>
                                 </form>
 

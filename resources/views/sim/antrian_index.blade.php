@@ -54,6 +54,8 @@
                                         data-namapoli="{{ $item->namapoli }}" data-namadokter="{{ $item->namadokter }}">
                                         Layani
                                     </button>
+                                    <a href="{{ route('layanipendaftaran') }}?kodebooking={{ $item->kodebooking }}"
+                                        class="btn btn-xs btn-warning withLoad">Panggil</a>
                                 </td>
                             </tr>
                         @endforeach
@@ -120,7 +122,7 @@
                                 <td>
                                     @if ($item->taskid == 1)
                                         <a href="{{ route('layanipendaftaran') }}?kodebooking={{ $item->kodebooking }}"
-                                            class="btn btn-xs btn-warning ">Panggil</a>
+                                            class="btn btn-xs btn-warning withLoad">Panggil</a>
                                     @else
                                         <button class="btn btn-xs btn-secondary btnAntrian"
                                             data-kodebooking="{{ $item->kodebooking }}" data-taskid="{{ $item->taskid }}"
@@ -145,81 +147,25 @@
     <x-adminlte-modal id="modalAntrian" title="Antrian Pasien" icon="fas fa-user" size="xl" theme="success" scrollable>
         <div class="row">
             <div class="col-md-3">
-                <div class="card card-primary card-outline">
-                    <div class="card-body box-profile">
-                        <b class="text-center">
-                            <span class="namapasien"></span>
-                        </b>
-                        <p class="text-muted text-center">
-                            <span class="norm"></span>
-                            <span class="jenispasien"></span>
-
-                        </p>
-                        <ul class="list-group list-group-unbordered mb-3">
-                            <li class="list-group-item">
-                                <dl>
-                                    <dt>Nomor Kartu</dt>
-                                    <dd><span class="nomorkartu"></span></dd>
-                                    <dt>NIK</dt>
-                                    <dd><span class="nik"></span></dd>
-                                    <dt>No HP</dt>
-                                    <dd><span class="nohp"></span></dd>
-                                </dl>
-                            </li>
-                            <li class="list-group-item">
-                                <dl>
-                                    <dt>Nomor / Angka Antrian</dt>
-                                    <dd><span class="nomorantrean"></span> <span class="angkaantrean"></span></dd>
-                                    <dt>Kodebooking</dt>
-                                    <dd><span class="kodebooking"></span></dd>
-                                </dl>
-                            </li>
-                            <li class="list-group-item">
-                                <dl>
-                                    <dt>Jenis Kunjungan</dt>
-                                    <dd><span class="jeniskunjungan"></span></dd>
-                                    <dt>SEP</dt>
-                                    <dd><span class="sep"></span></dd>
-                                </dl>
-                            </li>
-                            <li class="list-group-item">
-                                <dl>
-                                    <dt>Poliklinik</dt>
-                                    <dd><span class="namapoli"></span></dd>
-                                    <dt>Dokter</dt>
-                                    <dd><span class="namadokter"></span></dd>
-                                </dl>
-                            </li>
-
-                        </ul>
-
-                        <a href="#" class="btn btn-primary btn-block"><b>Follow</b></a>
-                    </div>
-                    <!-- /.card-body -->
-                </div>
+                @include('sim.profile_pasien_antrian')
             </div>
             <div class="col-md-9">
                 <div class="card">
                     <div class="card-header p-2">
                         <ul class="nav nav-pills">
-                            <li class="nav-item"><a class="nav-link active" href="#activity"
-                                    data-toggle="tab">Pemeriksaan</a>
+                            <li class="nav-item"><a class="nav-link active" href="#identitastab"
+                                    data-toggle="tab">Indentitas</a>
                             </li>
-                            <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Riwayat</a></li>
-                            <li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Indentitas</a>
+                            <li class="nav-item"><a class="nav-link" href="#keperawatantab"
+                                    data-toggle="tab">Keperawatan</a>
+                            <li class="nav-item"><a class="nav-link" href="#riwayattab" data-toggle="tab">Riwayat</a></li>
                             </li>
                             <li class="nav-item"><a class="nav-link" href="#septab" data-toggle="tab">SEP</a></li>
                         </ul>
                     </div>
                     <div class="card-body">
                         <div class="tab-content">
-                            <div class="active tab-pane" id="activity">
-                                Pemeriksaan Keperawatan
-                            </div>
-                            <div class="tab-pane" id="timeline">
-                                Riwayat Pasien
-                            </div>
-                            <div class="tab-pane" id="settings">
+                            <div class="active tab-pane" id="identitastab">
                                 Identitas Pasien
                                 <form action="{{ route('editantrian') }}" method="POST">
                                     @csrf
@@ -246,9 +192,16 @@
                                         igroup-size="sm" placeholder="Nama Pasien" />
                                     <x-adminlte-input name="nohp" class="nohp-id" label="Nomor HP" igroup-size="sm"
                                         placeholder="Nomor HP" />
-                                    <button type="submit" class="btn btn-warning"> <i class="fas fa-edit"></i> Update
+                                    <button type="submit" class="btn btn-warning withLoad"> <i class="fas fa-edit"></i>
+                                        Update
                                         Identitas</button>
                                 </form>
+                            </div>
+                            <div class="tab-pane" id="keperawatantab">
+                                Pemeriksaan Keperawatan
+                            </div>
+                            <div class="tab-pane" id="riwayattab">
+                                Riwayat Pasien
                             </div>
                             <div class="tab-pane" id="septab">
                                 Identitas Rujukan atau Surat Kontrol Pasien
@@ -348,7 +301,7 @@
                                         </x-adminlte-select>
                                     </div>
                                 </div>
-                                <button type="submit" class="btn btn-warning"> <i class="fas fa-edit"></i> Buat
+                                <button type="submit" class="btn btn-warning withLoad"> <i class="fas fa-edit"></i> Buat
                                     SEP</button>
                             </div>
                         </div>
@@ -357,7 +310,7 @@
             </div>
         </div>
         <x-slot name="footerSlot">
-            <a href="" class="btn btn-warning mr-auto" id="btnLanjutPoli"><i class="fas fa-sign"></i> Lanjut
+            <a href="" class="btn btn-warning mr-auto withLoad" id="btnLanjutPoli"><i class="fas fa-sign"></i> Lanjut
                 Poliklinik</a>
             <a href="" class="btn btn-danger" id="btnBatal"><i class="fas fa-times"></i> Batal</a>
             <x-adminlte-button theme="danger" icon="fas fa-times" label="Tutup" data-dismiss="modal" />
