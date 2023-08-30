@@ -318,18 +318,10 @@ return [
         ],
         // PENDAFTARAN
         [
-            'text'    => 'Aplikasi Pendaftaran',
-            'icon'    => 'fas fa-user-plus',
+            'text' => 'Anjungan Antrian',
+            'icon'    => 'fas fa-desktop',
+            'url'  => 'antrianConsole',
             // 'can' => 'pendaftaran',
-            'submenu' => [
-                [
-                    'text' => 'Console Antrian',
-                    'icon'    => 'fas fa-desktop',
-                    'url'  => 'antrianConsole',
-                    'shift'   => 'ml-2',
-                    // 'can' => 'pendaftaran',
-                ],
-            ],
         ],
         [
             'text' => 'Poliklinik',

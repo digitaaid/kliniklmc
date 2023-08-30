@@ -78,6 +78,17 @@
             </a>
         @endforeach
     </x-adminlte-modal>
+    <x-adminlte-modal id="modalUMUM" size="xl" title="Ambil Antrian UMUM" theme="success" icon="fas fa-user-plus">
+        @foreach ($jadwals as $jadwal)
+            <a class="card bg-success" href="{{ route('ambilkarcis') }}?pasien=NON-JKN&jadwal={{ $jadwal->id }}">
+                <div class="card-body  text-center">
+                    {{ $jadwal->jadwal }}
+                    {{ $jadwal->namadokter }}
+                    ({{ $jadwal->namasubspesialis }})
+                </div>
+            </a>
+        @endforeach
+    </x-adminlte-modal>
 @stop
 @section('plugins.Datatables', true)
 @section('plugins.Sweetalert2', true)-
@@ -217,25 +228,9 @@
             });
             $('.btnDaftarBPJS').click(function() {
                 $('#modalBPJS').modal('show');
-                $('#inputNIK').show();
-                $('#btnDaftarPoliUmum').hide();
-                $('#btnDaftarPoliBPJS').show();
-                $('#inputKartu').show();
-                setTimeout(function() {
-                    $('#nomorkartu').focus();
-                }, 500);
-
             });
             $('.btnDaftarUmum').click(function() {
-                $('#modalBPJS').modal('show');
-                $('#inputNIK').show();
-                $('#inputKartu').hide();
-                $('#btnDaftarPoliUmum').show();
-                $('#btnDaftarPoliBPJS').hide();
-                setTimeout(function() {
-                    $('#nik').focus();
-                }, 500);
-
+                $('#modalUMUM').modal('show');
             });
             $('.btnPoliBPJS').click(function() {
                 $('div#rowDokter').children().remove();

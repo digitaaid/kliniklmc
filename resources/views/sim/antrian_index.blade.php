@@ -29,12 +29,43 @@
         </div>
         @if (isset($antrians))
             <div class="col-md-12">
-                <x-adminlte-card title="Data Antrian" theme="primary" icon="fas fa-info-circle" collapsible>
+                <x-adminlte-card title="Data Antrian Sedang Dilayani" theme="success" icon="fas fa-info-circle" collapsible>
+                    @php
+                        $heads = ['No Antrian', 'kodebooking', 'Pasien', 'Dokter', 'Poliklinik', 'Jenis Pasien', 'Status', 'Action'];
+                    @endphp
+                    <x-adminlte-datatable id="table2" class="nowrap" :heads="$heads" bordered hoverable compressed>
+                        @foreach ($antrians->where('taskid', 2) as $item)
+                            <tr>
+                                <td>{{ $item->nomorantrean }} / {{ $item->angkaantrean }}</td>
+                                <td>{{ $item->kodebooking }}</td>
+                                <td>{{ $item->norm }} {{ $item->nama }}</td>
+                                <td>{{ $item->namadokter }}</td>
+                                <td>{{ $item->namapoli }}</td>
+                                <td>{{ $item->pasienbaru }} {{ $item->jenispasien }} </td>
+                                <td>{{ $item->taskid }}</td>
+                                <td>
+                                    <button class="btn btn-xs btn-success btnAntrian"
+                                        data-kodebooking="{{ $item->kodebooking }}" data-taskid="{{ $item->taskid }}"
+                                        data-namapasien="{{ $item->nama }}" data-norm="{{ $item->norm }}"
+                                        data-nomorkartu="{{ $item->nomorkartu }}" data-nik="{{ $item->nik }}"
+                                        data-nohp="{{ $item->nohp }}" data-kodebooking="{{ $item->kodebooking }}"
+                                        data-nomorantrean="{{ $item->nomorantrean }}"
+                                        data-jeniskunjungan="{{ $item->jeniskunjungan }}" data-sep="{{ $item->sep }}"
+                                        data-namapoli="{{ $item->namapoli }}" data-namadokter="{{ $item->namadokter }}">
+                                        Layani
+                                    </button>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </x-adminlte-datatable>
+                </x-adminlte-card>
+                <x-adminlte-card title="Data Antrian Menunggu Pendaftaran" theme="primary" icon="fas fa-info-circle"
+                    collapsible>
                     @php
                         $heads = ['No Antrian', 'kodebooking', 'Pasien', 'Dokter', 'Poliklinik', 'Jenis Pasien', 'Status', 'Action'];
                     @endphp
                     <x-adminlte-datatable id="table1" class="nowrap" :heads="$heads" bordered hoverable compressed>
-                        @foreach ($antrians as $item)
+                        @foreach ($antrians->where('taskid', '!=', 2) as $item)
                             <tr>
                                 <td>{{ $item->nomorantrean }} / {{ $item->angkaantrean }}</td>
                                 <td>{{ $item->kodebooking }}</td>
@@ -58,7 +89,14 @@
                                         </button>
                                     @else
                                         <button class="btn btn-xs btn-success btnAntrian"
-                                            data-kodebooking="{{ $item->kodebooking }}" data-taskid="{{ $item->taskid }}">
+                                            data-kodebooking="{{ $item->kodebooking }}" data-taskid="{{ $item->taskid }}"
+                                            data-namapasien="{{ $item->nama }}" data-norm="{{ $item->norm }}"
+                                            data-nomorkartu="{{ $item->nomorkartu }}" data-nik="{{ $item->nik }}"
+                                            data-nohp="{{ $item->nohp }}" data-kodebooking="{{ $item->kodebooking }}"
+                                            data-nomorantrean="{{ $item->nomorantrean }}"
+                                            data-jeniskunjungan="{{ $item->jeniskunjungan }}"
+                                            data-sep="{{ $item->sep }}" data-namapoli="{{ $item->namapoli }}"
+                                            data-namadokter="{{ $item->namadokter }}">
                                             Layani
                                         </button>
                                     @endif
@@ -133,7 +171,9 @@
                                     data-toggle="tab">Pemeriksaan</a>
                             </li>
                             <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Riwayat</a></li>
-                            <li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Indentitas</a></li>
+                            <li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Indentitas</a>
+                            </li>
+                            <li class="nav-item"><a class="nav-link" href="#septab" data-toggle="tab">SEP</a></li>
                         </ul>
                     </div>
                     <div class="card-body">
@@ -160,7 +200,7 @@
                                     <x-adminlte-input name="nik" class="nik-id" igroup-size="sm" label="NIK"
                                         placeholder="NIK ">
                                         <x-slot name="appendSlot">
-                                            <div class="btn btn-primary">
+                                            <div class="btn btn-primary btnCariNIK">
                                                 <i class="fas fa-search"></i> Cari
                                             </div>
                                         </x-slot>
@@ -174,6 +214,107 @@
                                     <button type="submit" class="btn btn-warning"> <i class="fas fa-edit"></i> Update
                                         Identitas</button>
                                 </form>
+                            </div>
+                            <div class="tab-pane" id="septab">
+                                Identitas Rujukan atau Surat Kontrol Pasien
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <x-adminlte-input name="nomorkartu" class="nomorkartu-id" igroup-size="sm"
+                                            label="Nomor Kartu" placeholder="Nomor Kartu" />
+                                        <x-adminlte-input name="norm" class="norm-id" label="No RM" igroup-size="sm"
+                                            placeholder="No RM " />
+                                        <x-adminlte-input name="nama" class="nama-id" label="Nama Pasien"
+                                            igroup-size="sm" placeholder="Nama Pasien" />
+                                        <x-adminlte-input name="nohp" class="nohp-id" label="Nomor HP"
+                                            igroup-size="sm" placeholder="Nomor HP" />
+
+                                    </div>
+                                    <div class="col-md-6">
+                                        <x-adminlte-input name="noRujukan" class="noRujukan-id" igroup-size="sm"
+                                            label="Nomor Rujukan" placeholder="Nomor Rujukan">
+                                            <x-slot name="appendSlot">
+                                                <div class="btn btn-primary btnCariRujukan">
+                                                    <i class="fas fa-search"></i> Cari
+                                                </div>
+                                            </x-slot>
+                                        </x-adminlte-input>
+                                        <x-adminlte-input name="noSurat" class="noSurat-id" igroup-size="sm"
+                                            label="Nomor Surat Kontrol" placeholder="Nomor Surat Kontrol">
+                                            <x-slot name="appendSlot">
+                                                <div class="btn btn-primary btnCariSurat">
+                                                    <i class="fas fa-search"></i> Cari
+                                                </div>
+                                            </x-slot>
+                                        </x-adminlte-input>
+                                    </div>
+                                </div>
+                                SEP Pasien
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <x-adminlte-select igroup-size="sm" name="dpjpLayan" label="Dokter DPJP">
+                                            <option selected disabled>Pilih Dokter DPJP</option>
+                                        </x-adminlte-select>
+                                        <x-adminlte-select igroup-size="sm" name="jnsPelayanan" label="Jenis Pelayanan">
+                                            <option selected disabled>Pilih Jenis Pelayanan</option>
+                                            <option value="2">Rawat Jalan</option>
+                                            <option value="1">Rawat Inap</option>
+                                        </x-adminlte-select>
+                                        <x-adminlte-textarea igroup-size="sm" name="catatan"
+                                            placeholder="Catatan Pasien" />
+                                        <x-adminlte-select2 igroup-size="sm" name="diagAwal" label="Diagnosa Awal">
+                                            <option>Option 1</option>
+                                            <option disabled>Option 2</option>
+                                            <option selected>Option 3</option>
+                                        </x-adminlte-select2>
+                                        <x-adminlte-select2 igroup-size="sm" name="poli" label="Poliklinik">
+                                            <option>Option 1</option>
+                                            <option disabled>Option 2</option>
+                                            <option selected>Option 3</option>
+                                        </x-adminlte-select2>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <x-adminlte-select igroup-size="sm" name="tujuanKunj" label="Tujuan Kunjungan">
+                                            <option value="0">Normal</option>
+                                            <option value="1">Prosedur</option>
+                                            <option value="2">Konsul Dokter</option>
+                                        </x-adminlte-select>
+                                        <x-adminlte-select igroup-size="sm" name="flagProcedure" label="Flag Procedur">
+                                            <option value="">Normal</option>
+                                            <option value="0">Prosedur Tidak Berkelanjutan</option>
+                                            <option value="1">Prosedur dan Terapi Berkelanjutan</option>
+                                        </x-adminlte-select>
+                                        <x-adminlte-select igroup-size="sm" name="kdPenunjang" label="Penunjang">
+                                            <option value="">Normal</option>
+                                            <option value="1">Radioterapi</option>
+                                            <option value="2">Kemoterapi</option>
+                                            <option value="3">Rehabilitasi Medik</option>
+                                            <option value="4">Rehabilitasi Psikososial</option>
+                                            <option value="5">Transfusi Darah</option>
+                                            <option value="6">Pelayanan Gigi</option>
+                                            <option value="7">Laboratorium</option>
+                                            <option value="8">USG</option>
+                                            <option value="9">Lain-Lain</option>
+                                            <option value="10">Farmasi</option>
+                                            <option value="11">MRI</option>
+                                            <option value="12">HEMODIALISA</option>
+                                        </x-adminlte-select>
+                                        <x-adminlte-select igroup-size="sm" name="assesmentPel"
+                                            label="Assesment Pelayanan">
+                                            <option value="">Normal</option>
+                                            <option value="0">Poli tujuan beda dengan poli rujukan dan hari beda
+                                            </option>
+                                            <option value="1">Poli spesialis tidak tersedia pada hari sebelumnya
+                                            </option>
+                                            <option value="2">Jam Poli telah berakhir pada hari sebelumnya</option>
+                                            <option value="3">Dokter Spesialis yang dimaksud tidak praktek pada hari
+                                                sebelumnya</option>
+                                            <option value="4">Atas Instruksi RS</option>
+                                            <option value="5">Tujuan Kontrol</option>
+                                        </x-adminlte-select>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-warning"> <i class="fas fa-edit"></i> Buat
+                                    SEP</button>
                             </div>
                         </div>
                     </div>
@@ -193,7 +334,7 @@
 @section('plugins.TempusDominusBs4', true)
 @section('plugins.DateRangePicker', true)
 @section('plugins.Sweetalert2', true)
-
+@section('plugins.Select2', true)
 
 @section('js')
     <script>
@@ -295,8 +436,47 @@
                 });
                 $.LoadingOverlay("hide");
             });
-
+            $('.btnCariNIK').click(function() {
+                $.LoadingOverlay("show");
+                var nomorkartu = $(".nik-id").val();
+                var url = "{{ route('peserta_nik') }}?nik=" + nomorkartu +
+                    "&tanggal={{ now()->format('Y-m-d') }}";
+                $.get(url, function(data, status) {
+                    if (status == "success") {
+                        if (data.metadata.code == 200) {
+                            Toast.fire({
+                                icon: 'success',
+                                title: 'Pasien Ditemukan'
+                            });
+                            var pasien = data.response.peserta;
+                            $(".nama-id").val(pasien.nama);
+                            $(".nik-id").val(pasien.nik);
+                            $(".nomorkartu-id").val(pasien.noKartu);
+                            $(".norm-id").val(pasien.mr.noMR);
+                            if (pasien.mr.noMR == null) {
+                                Swal.fire(
+                                    'Mohon Maaf !',
+                                    "Pasien baru belum memiliki no RM",
+                                    'error'
+                                )
+                            }
+                            $(".nohp-id").val(pasien.mr.noTelepon);
+                            console.log(pasien);
+                        } else {
+                            // alert(data.metadata.message);
+                            Swal.fire(
+                                'Mohon Maaf !',
+                                data.metadata.message,
+                                'error'
+                            )
+                        }
+                    } else {
+                        console.log(data);
+                        alert("Error Status: " + status);
+                    }
+                });
+                $.LoadingOverlay("hide");
+            });
         });
     </script>
-
 @endsection

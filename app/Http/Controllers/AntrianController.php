@@ -21,6 +21,8 @@ class AntrianController extends APIController
         $antrians = null;
         if ($request->tanggalperiksa) {
             $antrians = Antrian::where('tanggalperiksa', $request->tanggalperiksa)->get();
+        } else {
+            $request['tanggalperiksa'] = now()->format('Y-m-d');
         }
         return view('sim.antrian_index', compact([
             'request',
@@ -297,12 +299,13 @@ class AntrianController extends APIController
         Alert::success('Success', 'Antrian telah diperbaharui.');
         return redirect()->back();
     }
-
     public function antrianpoliklinik(Request $request)
     {
         $antrians = null;
         if ($request->tanggalperiksa) {
             $antrians = Antrian::where('tanggalperiksa', $request->tanggalperiksa)->get();
+        } else {
+            $request['tanggalperiksa'] = now()->format('Y-m-d');
         }
         return view('sim.antrian_poliklinik', compact([
             'request',
@@ -322,8 +325,6 @@ class AntrianController extends APIController
         //     ]
         // ));
     }
-
-
     public function statusAntrianBpjs()
     {
         $api = IntegrasiApi::where('name', 'Antrian BPJS')->first();
