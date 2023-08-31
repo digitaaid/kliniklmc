@@ -301,6 +301,7 @@ class AntrianController extends APIController
                     'jenispasien' => $request->pasien,
                 ]);
                 Alert::success('Success', 'Berhasil cetak karcis antrian dengan nomorantrean ' . $res->response->nomorantrean);
+                return redirect()->route('karcisantrian', $request->kodebooking);
             } else {
                 Alert::error('Gagal', $res->metadata->message);
             }

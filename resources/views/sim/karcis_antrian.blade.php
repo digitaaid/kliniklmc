@@ -10,14 +10,17 @@
 <body>
     <div class="ticket">
         <h3>Karcis Antrian</h3>
-        <p>Kode Antrian: <br>
+        <h2>{{ $antrian->nomorantrean }} / {{ $antrian->angkaantrean }}</h2>
+        <p>
             {!! QrCode::size(100)->generate($antrian->kodebooking) !!} <br>
             <b>{{ $antrian->kodebooking }}</b>
         </p>
         <p>
             <b>{{ $antrian->nama }}</b> <br>
-            No RM {{ $antrian->norm }} <br>
-            No BPJS {{ $antrian->nomorkartu }} <br>
+            @if ($antrian->nama != 'Pasien Offline')
+                No RM {{ $antrian->norm }} <br>
+                No BPJS {{ $antrian->nomorkartu }} <br>
+            @endif
         </p>
         <p>
             {{ $antrian->namapoli }} <br>
