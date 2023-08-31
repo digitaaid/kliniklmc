@@ -5,6 +5,7 @@ use App\Http\Controllers\APIController;
 use App\Http\Controllers\BarcodeController;
 use App\Http\Controllers\CarouselController;
 use App\Http\Controllers\DokterController;
+use App\Http\Controllers\GaleriController;
 use App\Http\Controllers\IntegrasiController;
 use App\Http\Controllers\JadwalDokterController;
 use App\Http\Controllers\PasienController;
@@ -13,6 +14,8 @@ use App\Http\Controllers\PoliklinikController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\RujukanController;
 use App\Http\Controllers\SuratKontrolController;
+use App\Http\Controllers\TanyaJawabController;
+use App\Http\Controllers\TestimoniController;
 use App\Http\Controllers\ThermalPrintController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VclaimController;
@@ -84,9 +87,13 @@ Route::middleware('auth')->group(function () {
     Route::resource('poliklinik', PoliklinikController::class);
     Route::resource('dokter', DokterController::class);
     Route::resource('jadwaldokter', JadwalDokterController::class);
-    Route::resource('carousel', CarouselController::class);
     Route::resource('antrian', AntrianController::class);
     Route::resource('suratkontrol', SuratKontrolController::class);
+    Route::resource('carousel', CarouselController::class);
+    Route::resource('galeri', GaleriController::class);
+    Route::resource('tanyajawab', TanyaJawabController::class);
+    Route::resource('testimoni', TestimoniController::class);
+
     // pendaftaran
     Route::get('layanipendaftaran', [AntrianController::class, 'layanipendaftaran'])->name('layanipendaftaran');
     Route::get('lanjutpoliklinik', [AntrianController::class, 'lanjutpoliklinik'])->name('lanjutpoliklinik');

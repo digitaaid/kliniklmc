@@ -106,6 +106,8 @@
                     @php
                         $heads = ['No Antrian', 'kodebooking', 'Pasien', 'Dokter', 'Poliklinik', 'Jenis Pasien', 'Status', 'Action'];
                         $config['order'] = [[6, 'asc']];
+                        $config['paging'] = false;
+                        $config['scrollY'] = '300px';
                     @endphp
                     <x-adminlte-datatable id="table1" class="nowrap" :heads="$heads" :config="$config" bordered
                         hoverable compressed>

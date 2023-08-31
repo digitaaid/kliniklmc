@@ -36,7 +36,8 @@ return new class extends Migration
             $table->integer('sisakuotanonjkn')->nullable();
             $table->integer('kuotanonjkn')->nullable();
             $table->text('keterangan')->nullable();
-
+            $table->text('jenisresep')->nullable();
+            $table->text('catatan')->nullable();
             $table->string('nama')->nullable();
             $table->string('sep')->nullable();
             $table->string('nomorrujukan')->nullable();

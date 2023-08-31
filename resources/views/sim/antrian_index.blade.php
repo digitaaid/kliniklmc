@@ -66,6 +66,8 @@
                     @php
                         $heads = ['No Antrian', 'kodebooking', 'Pasien', 'Dokter', 'Poliklinik', 'Jenis Pasien', 'Status', 'Action'];
                         $config['order'] = [[6, 'asc']];
+                        $config['paging'] = false;
+                        $config['scrollY'] = '300px';
                     @endphp
                     <x-adminlte-datatable id="table1" class="nowrap" :heads="$heads" :config="$config" bordered
                         hoverable compressed>
@@ -310,9 +312,10 @@
             </div>
         </div>
         <x-slot name="footerSlot">
-            <a href="" class="btn btn-warning mr-auto withLoad" id="btnLanjutPoli"><i class="fas fa-sign"></i> Lanjut
+            <a href="" class="btn btn-warning mr-auto withLoad" id="btnLanjutPoli"><i class="fas fa-sign"></i>
+                Lanjut
                 Poliklinik</a>
-            <a href="" class="btn btn-danger" id="btnBatal"><i class="fas fa-times"></i> Batal</a>
+            <a href="" class="btn btn-danger withLoad" id="btnBatal"><i class="fas fa-times"></i> Batal</a>
             <x-adminlte-button theme="danger" icon="fas fa-times" label="Tutup" data-dismiss="modal" />
         </x-slot>
     </x-adminlte-modal>

@@ -5,7 +5,7 @@
 @stop
 @section('content')
     <div class="row">
-        <div class="col-12">
+        <div class="col-md-12">
             <x-adminlte-card title="Filter Data Klaim BPJS" theme="secondary" collapsible>
                 <form action="" method="get">
                     @php

@@ -38,7 +38,7 @@ Route::prefix('antrian')->group(function () {
     Route::get('dashboard_bulan', [AntrianController::class, 'dashboard_bulan'])->name('dashboard_bulan');
     Route::get('antrian_tanggal', [AntrianController::class, 'antrian_tanggal'])->name('antrian_tanggal');
     Route::get('antrian_kodebooking', [AntrianController::class, 'antrian_kodebooking'])->name('antrian_kodebooking');
-    Route::get('antrian_pendaftaran', [AntrianController::class, 'antrian_pendaftaran'])->name('antrian_pendaftaran');
+    Route::get('antrian_belum_dilayani', [AntrianController::class, 'antrian_belum_dilayani'])->name('antrian_belum_dilayani');
     Route::get('antrian_poliklinik', [AntrianController::class, 'antrian_poliklinik'])->name('antrian_poliklinik');
     // API SIMRS
     Route::get('token', [AntrianController::class, 'token'])->name('token');
@@ -52,7 +52,6 @@ Route::prefix('antrian')->group(function () {
     Route::post('jadwal_operasi_pasien', [JadwalOperasiController::class, 'jadwal_operasi_pasien'])->name('jadwal_operasi_pasien');
     Route::post('ambil_antrian_farmasi', [AntrianController::class, 'ambil_antrian_farmasi'])->name('ambil_antrian_farmasi');
     Route::post('status_antrian_farmasi', [AntrianController::class, 'status_antrian_farmasi'])->name('status_antrian_farmasi');
-    Route::post('update_antrean_pendaftaran', [AntrianController::class, 'update_antrean_pendaftaran'])->name('update_antrean_pendaftaran');; #integrasi bridging pendaftaran agil
 });
 // VCLAIM
 Route::prefix('vclaim')->group(function () {

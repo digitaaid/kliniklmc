@@ -5,7 +5,7 @@
 @stop
 @section('content')
     <div class="row">
-        <div class="col-12">
+        <div class="col-md-12">
             <x-adminlte-card title="Filter Data Kunjungan BPJS" theme="secondary" collapsible>
                 <form action="" method="get">
                     @php
@@ -27,25 +27,27 @@
                 </form>
             </x-adminlte-card>
         </div>
-        <div class="col-12">
+        <div class="col-md-12">
             <x-adminlte-card title="Data Kunjungan BPJS" theme="secondary" collapsible>
                 @php
-                    $heads = ['No SEP', 'Tgl Masuk', 'Tgl Pulang', 'Jenis Pelayanan', 'Kelas Rawat', 'No Kartu BPJS', 'Nama', 'Poliklik', 'Diagnosa', 'No Rujukan'];
+                    $heads = ['Tgl Masuk', 'Tgl Pulang', 'No SEP', 'Nomor Rujukan', 'Jenis Pelayanan', 'Nomor BPJS', 'Nama', 'Poliklik', 'Diagnosa'];
+                    $config['paging'] = false;
+                    $config['scrollY'] = '300px';
                 @endphp
-                <x-adminlte-datatable id="table2" class="nowrap text-xs" :heads="$heads" bordered hoverable compressed>
+                <x-adminlte-datatable id="table2" class="nowrap text-xs" :heads="$heads" :config="$config" bordered
+                    hoverable compressed>
                     @isset($sep)
                         @foreach ($sep as $item)
                             <tr>
-                                <td>{{ $item->noSep }}</td>
                                 <td>{{ $item->tglSep }}</td>
                                 <td>{{ $item->tglPlgSep }}</td>
+                                <td>{{ $item->noSep }}</td>
+                                <td>{{ $item->noRujukan }}</td>
                                 <td>{{ $item->jnsPelayanan }}</td>
-                                <td>{{ $item->kelasRawat }}</td>
                                 <td>{{ $item->noKartu }}</td>
                                 <td>{{ $item->nama }}</td>
                                 <td>{{ $item->poli }}</td>
                                 <td>{{ $item->diagnosa }}</td>
-                                <td>{{ $item->noRujukan }}</td>
                             </tr>
                         @endforeach
                     @endisset
