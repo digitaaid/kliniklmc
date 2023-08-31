@@ -39,6 +39,8 @@ return new class extends Migration
 
             $table->string('nama')->nullable();
             $table->string('sep')->nullable();
+            $table->string('nomorrujukan')->nullable();
+            $table->string('nomorsuratkontrol')->nullable();
             $table->string('jadwal_id')->nullable();
             $table->string('method')->nullable();
             $table->integer('taskid')->default(0);

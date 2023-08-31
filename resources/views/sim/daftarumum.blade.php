@@ -176,9 +176,4 @@
 @endsection
 
 @section('js')
-    <script>
-        $(".preloader").click(function() {
-            alert('test');
-        });
-    </script>
 @endsection

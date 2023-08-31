@@ -56,13 +56,14 @@
                             value="{{ $request->nohp }}" required>
                     </div>
                     <div class="form-group mb-3">
-                        <input type="text" class="form-control" name="tanggalperiksa" id="tanggalperiksa"
+                        <input type="text" class="form-control datepicker" name="tanggalperiksa" id="tanggalperiksa"
                             placeholder="Tanggal Periksa" value="{{ $request->tanggalperiksa }}" required>
                     </div>
                 @endif
                 @if ($request->tanggalperiksa && $jadwals)
                     <div class="form-group mb-3">
                         <select name="jadwal" id="jadwal" class="form-select" required>
+                            <option selected disabled>Pilih Jadwal Dokter</option>
                             @foreach ($jadwals as $item)
                                 <option value="{{ $item->id }}">{{ $item->jadwal }} {{ $item->namasubspesialis }}
                                     {{ $item->namadokter }}
@@ -72,6 +73,7 @@
                     </div>
                     <div class="form-group mb-3">
                         <select name="jeniskunjungan" id="jeniskunjungan" class="form-select" required>
+                            <option selected disabled>Pilih Jenis Kunjungan</option>
                             <option value="1" {{ $request->jeniskunjungan == '1' ? 'selected' : null }}>Rujukan FKTP
                             </option>
                             <option value="3" {{ $request->jeniskunjungan == '3' ? 'selected' : null }}>Kontrol
@@ -100,12 +102,10 @@
                         </select>
                     </div>
                 @endif
-
                 <div class="col text-center">
                     @empty($request->error)
-                        <button type="submit" class="btn btn-warning preloader" form="formDaftar">Make
-                            an
-                            Appointment</button>
+                        <button type="submit" class="btn btn-warning preloader"
+                            form="formDaftar">{{ $request->button }}</button>
                     @endempty
                     <a href="{{ route('daftar') }}" class="btn btn-danger">
                         <i class="icon fas fa-sync"></i>
@@ -196,8 +196,10 @@
 
 @section('js')
     <script>
-        $(".preloader").click(function() {
-            alert('test');
+        $(function() {
+            $('#btnAntrian').click(function() {
+                alert('asd');
+            });
         });
     </script>
 @endsection

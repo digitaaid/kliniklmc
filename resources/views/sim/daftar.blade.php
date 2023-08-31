@@ -320,11 +320,3 @@
         </div>
     </section><!-- End Contact Section -->
 @endsection
-
-@section('js')
-    <script>
-        $(".preloader").click(function() {
-            alert('test');
-        });
-    </script>
-@endsection

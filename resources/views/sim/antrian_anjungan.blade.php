@@ -85,7 +85,7 @@
                                         <td>{{ $jadwal->namadokter }}</td>
                                         <td>{{ $jadwal->jadwal }}</td>
                                         <td>{{ $jadwal->kapasitaspasien }}</td>
-                                        <td>{{ $jadwal->kuota }}</td>
+                                        <td>{{ $antrians->where('jadwal_id', $jadwal->id)->count() }}</td>
                                     </tr>
                                 @endforeach
                             </x-adminlte-datatable>
@@ -121,7 +121,7 @@
                         <a href="{{ route('cekPrinter') }}" class="btn btn-warning withLoad"><i class="fas fa-print"></i>
                             Test
                             Printer</a>
-                        <a href="{{ route('checkinAntrian') }}" class="btn btn-warning withLoad"><i
+                        <a href="{{ route('checkinantrian') }}" class="btn btn-warning withLoad"><i
                                 class="fas fa-print"></i> Checkin
                             Antrian</a>
                     </x-slot>
@@ -172,7 +172,7 @@
                     $.LoadingOverlay("show", {
                         text: "Mencari kodebooking " + sCode + "..."
                     });
-                    var url = "{{ route('checkinAntrian') }}?kodebooking=" + sCode;
+                    var url = "{{ route('checkinantrian') }}?kodebooking=" + sCode;
                     window.location.href = url;
                     // $.LoadingOverlay("show", {
                     //     text: "Printing..."
@@ -230,114 +230,20 @@
                 $.LoadingOverlay("show", {
                     text: "Mencari kodebooking " + kodebooking + "..."
                 });
-                var url = "{{ route('checkinAntrian') }}?kodebooking=" + kodebooking;
+                var url = "{{ route('checkinantrian') }}?kodebooking=" + kodebooking;
                 window.location.href = url;
-                // var kodebooking = $('#kodebooking').val();
-                // $.LoadingOverlay("show", {
-                //     text: "Printing..."
-                // });
-                // var url = "{{ route('checkinUpdate') }}";
-                // var formData = {
-                //     kodebooking: kodebooking,
-                //     waktu: "{{ \Carbon\Carbon::now()->timestamp * 1000 }}",
-                // };
-                // $('#kodebooking').val(kodebooking);
-                // $.get(url, formData, function(data) {
-                //     console.log(data);
-                //     $.LoadingOverlay("hide");
-                //     if (data.metadata.code == 200) {
-                //         $('#status').html(data.metadata.message);
-                //         swal.fire(
-                //             'Sukses...',
-                //             data.metadata.message,
-                //             'success'
-                //         ).then(okay => {
-                //             if (okay) {
-                //                 $.LoadingOverlay("show", {
-                //                     text: "Reload..."
-                //                 });
-                //                 $('#status').html('-');
-                //                 location.reload();
-                //             }
-                //         });
-                //     } else {
-                //         $('#status').html(data.metadata.message);
-                //         swal.fire(
-                //             'Opss Error...',
-                //             data.metadata.message,
-                //             'error'
-                //         ).then(okay => {
-                //             if (okay) {
-                //                 $.LoadingOverlay("show", {
-                //                     text: "Reload..."
-                //                 });
-                //                 $('#status').html('-');
-                //                 location.reload();
-                //             }
-                //         });
-                //     }
-                // });
             });
         });
     </script>
     {{-- btn daftar --}}
     <script>
         $(function() {
-            $(document).ready(function() {
-                $('#daftarDokter').hide();
-                setTimeout(function() {
-                    $('#kodebooking').focus();
-                }, 500);
-            });
             $('.btnDaftarBPJS').click(function() {
                 $('#modalBPJS').modal('show');
             });
             $('.btnDaftarUmum').click(function() {
                 $('#modalUMUM').modal('show');
             });
-            $('.btnPoliBPJS').click(function() {
-                $('div#rowDokter').children().remove();
-                var id = $(this).data('id');
-                var hari = "{{ now()->dayOfWeek }}"
-                $.LoadingOverlay("show");
-                var url = "{{ route('jadwaldokterPoli') }}/?kodesubspesialis=" + id + "&hari=" +
-                    hari;
-                $.get(url, function(data) {
-                    $('#daftarDokter').show();
-                    $.each(data, function(i, item) {
-                        console.log(item.kodedokter);
-                        var bigString = [
-                            '<div class="custom-control custom-radio " >',
-                            '<input class="custom-control-input btnPoliBPJS" type="radio"',
-                            'data-id="' + item.kodedokter + '" id="' + item.kodedokter +
-                            '"',
-                            'value="' + item.kodedokter + '" name="kodedokter">',
-                            '<label for="' + item.kodedokter +
-                            '" class="custom-control-label"',
-                            'data-id="' + item.kodedokter + '">' + item.namadokter +
-                            ' </label>',
-                            ' </div>',
-                        ];
-                        $('#rowDokter').append(bigString.join(''));
-                    });
-                    $.LoadingOverlay("hide", true);
-                });
-            });
-            $('#btnDaftarPoliBPJS').click(function() {
-                var kodesubspesialis = $("input[name=kodesubspesialis]:checked").val();
-                var kodedokter = $("input[name=kodedokter]:checked").val();
-                var url = "{{ route('daftarBpjsOffline') }}" + "?kodesubspesialis=" +
-                    kodesubspesialis + "&kodedokter=" + kodedokter;
-                window.location.href = url;
-            });
-            $('#btnDaftarPoliUmum').click(function() {
-                var kodesubspesialis = $("input[name=kodesubspesialis]:checked").val();
-                var kodedokter = $("input[name=kodedokter]:checked").val();
-                var url = "{{ route('daftarUmumOffline') }}" + "?kodesubspesialis=" +
-                    kodesubspesialis + "&kodedokter=" + kodedokter;
-                window.location.href = url;
-            });
-
         });
     </script>
     {{-- withLoad --}}

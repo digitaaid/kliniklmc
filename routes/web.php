@@ -50,15 +50,14 @@ Route::get('daftarbpjs', [AntrianController::class, 'daftarbpjs'])->name('daftar
 Route::post('prosesdaftarbpjs', [AntrianController::class, 'prosesdaftarbpjs'])->name('prosesdaftarbpjs');
 Route::get('daftarumum', [AntrianController::class, 'daftarumum'])->name('daftarumum');
 Route::post('prosesdaftarumum', [AntrianController::class, 'prosesdaftarumum'])->name('prosesdaftarumum');
-Route::get('antiranpasien/{kodebooking}', [AntrianController::class, 'antiranpasien'])->name('antiranpasien');
 Route::get('statusantrian', [AntrianController::class, 'statusantrian'])->name('statusantrian');
 Route::get('ambilkarcis', [AntrianController::class, 'ambilkarcis'])->name('ambilkarcis');
 
-
 // mesin antrian
-Route::get('antrianConsole', [AntrianController::class, 'antrianConsole'])->name('antrianConsole');
+Route::get('anjunganantrian', [AntrianController::class, 'anjunganantrian'])->name('anjunganantrian');
 Route::get('displayAntrian', [AntrianController::class, 'displayAntrian'])->name('displayAntrian');
-Route::get('checkinAntrian', [AntrianController::class, 'checkinAntrian'])->name('checkinAntrian');
+Route::get('checkinantrian', [AntrianController::class, 'checkinantrian'])->name('checkinantrian');
+Route::get('karcisantrian', [AntrianController::class, 'karcisantrian'])->name('karcisantrian');
 Route::get('checkinCetakSEP', [AntrianController::class, 'checkinCetakSEP'])->name('checkinCetakSEP');
 Route::get('checkinKarcisAntrian', [AntrianController::class, 'checkinKarcisAntrian'])->name('checkinKarcisAntrian');
 Route::get('jadwaldokterPoli', [JadwalDokterController::class, 'jadwaldokterPoli'])->name('jadwaldokterPoli');

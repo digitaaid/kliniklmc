@@ -320,7 +320,7 @@ return [
         [
             'text' => 'Anjungan Antrian',
             'icon'    => 'fas fa-desktop',
-            'url'  => 'antrianConsole',
+            'url'  => 'anjunganantrian',
             // 'can' => 'pendaftaran',
         ],
         [
