@@ -33,7 +33,7 @@ class ThermalPrintController extends Controller
             $printer->barcode('BARCODE');
             $printer->qrCode('QRCODE');
             $printer->setEmphasis(true);
-            $printer->text($data."\n");
+            $printer->text($data . "\n");
             $printer->setEmphasis(false);
             $printer->text("setEmphasis false\n");
             $printer->setFont(2);
@@ -79,5 +79,9 @@ class ThermalPrintController extends Controller
             Alert::error('Error', 'Mesin antrian tidak menyala. Silahkan hubungi admin.');
             return redirect()->route('antrianConsole');
         }
+    }
+    public function cekprinterpdf()
+    {
+        return view('sim.printer_karcis');
     }
 }

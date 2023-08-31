@@ -63,7 +63,7 @@ Route::get('checkinKarcisAntrian', [AntrianController::class, 'checkinKarcisAntr
 Route::get('jadwaldokterPoli', [JadwalDokterController::class, 'jadwaldokterPoli'])->name('jadwaldokterPoli');
 Route::get('daftarBpjsOffline', [AntrianController::class, 'daftarBpjsOffline'])->name('daftarBpjsOffline');
 Route::get('daftarUmumOffline', [AntrianController::class, 'daftarUmumOffline'])->name('daftarUmumOffline');
-Route::get('cekPrinter', [ThermalPrintController::class, 'cekPrinter'])->name('cekPrinter');
+Route::get('cekprinterpdf', [ThermalPrintController::class, 'cekprinterpdf'])->name('cekprinterpdf');
 Route::get('checkinUpdate', [AntrianController::class, 'checkinUpdate'])->name('checkinUpdate');
 
 Route::middleware('auth')->group(function () {

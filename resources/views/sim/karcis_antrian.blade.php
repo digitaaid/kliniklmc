@@ -1,12 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=80mm, initial-scale=1.0">
     <title>Karcis Antrian</title>
 </head>
-
 <body>
     <div class="ticket">
         <h3>Karcis Antrian</h3>
@@ -17,6 +15,7 @@
         </p>
         <p>
             <b>{{ $antrian->nama }}</b> <br>
+            {{ $antrian->jenispasien }}
             @if ($antrian->nama != 'Pasien Offline')
                 No RM {{ $antrian->norm }} <br>
                 No BPJS {{ $antrian->nomorkartu }} <br>
@@ -40,6 +39,4 @@
         }, 3000);
     </script>
 </body>
-
-
 </html>

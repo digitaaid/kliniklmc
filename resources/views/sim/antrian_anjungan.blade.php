@@ -118,7 +118,7 @@
                     </div>
                     <x-slot name="footerSlot">
                         <x-adminlte-button icon="fas fa-sync" class="withLoad reload" theme="warning" label="Reload" />
-                        <a href="{{ route('cekPrinter') }}" class="btn btn-warning withLoad"><i class="fas fa-print"></i>
+                        <a href="{{ route('cekprinterpdf') }}" class="btn btn-warning withLoad"><i class="fas fa-print"></i>
                             Test
                             Printer</a>
                         <a href="{{ route('checkinantrian') }}" class="btn btn-warning withLoad"><i
@@ -161,7 +161,7 @@
 @section('adminlte_js')
     <script src="{{ asset('vendor/moment/moment.min.js') }}"></script>
     <script src="{{ asset('loading-overlay/loadingoverlay.min.js') }}"></script>
-    <script src="{{ asset('vendor/onscan.js/onscan.min.js') }}"></script>
+    <script src="{{ asset('onscan.js/onscan.min.js') }}"></script>
     <script src="{{ asset('vendor/sweetalert/sweetalert.all.js') }}"></script>
     <script src="{{ asset('vendor/sweetalert2/sweetalert2.all.min.js') }}"></script>
     {{-- scan --}}
