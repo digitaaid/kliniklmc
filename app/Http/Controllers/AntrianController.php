@@ -289,26 +289,26 @@ class AntrianController extends APIController
         $request['jeniskunjungan'] = "2";
         $request['pasienbaru'] = "0";
         $request['tanggalperiksa'] = now()->format('Y-m-d');
-        try {
-            $res = $this->ambil_antrian($request);
+        // try {
+        $res = $this->ambil_antrian($request);
+        if ($res->metadata->code == 200) {
+            $antrian = Antrian::where('kodebooking', $request->kodebooking)->first();
+            $antrian->update([
+                'taskid' => $request->taskid,
+                'jenispasien' => $request->pasien,
+            ]);
             $request['taskid'] = "1";
             $request['waktu'] = now();
             $update = $this->update_antrean($request);
-            if ($res->metadata->code == 200) {
-                $antrian = Antrian::where('kodebooking', $request->kodebooking)->first();
-                $antrian->update([
-                    'taskid' => $request->taskid,
-                    'jenispasien' => $request->pasien,
-                ]);
-                Alert::success('Success', 'Berhasil cetak karcis antrian dengan nomorantrean ' . $res->response->nomorantrean);
-                return redirect()->route('karcisantrian', $request->kodebooking);
-            } else {
-                Alert::error('Gagal', $res->metadata->message);
-            }
-        } catch (\Throwable $th) {
-            //throw $th;
-            Alert::error('Gagal', $th->getMessage());
+            Alert::success('Success', 'Berhasil cetak karcis antrian dengan nomorantrean ' . $res->response->nomorantrean);
+            return redirect()->route('karcisantrian', $request->kodebooking);
+        } else {
+            Alert::error('Gagal', $res->metadata->message);
         }
+        // } catch (\Throwable $th) {
+        //     //throw $th;
+        //     Alert::error('Gagal', $th->getMessage());
+        // }
         return redirect()->route('anjunganantrian');
     }
     function layanipendaftaran(Request $request)
@@ -1041,13 +1041,12 @@ class AntrianController extends APIController
         $antrians = Antrian::where('tanggalperiksa', $request->tanggalperiksa)
             ->where('kodepoli', $request->kodepoli)
             ->where('kodedokter', $request->kodedokter)
+            ->where('jampraktek', $request->jampraktek)
             ->where('taskid', '!=', 99)
             ->count();
         // cek kapasitas pasien
-        if ($request->method != 'Bridging') {
-            if ($antrians >= $jadwal->kapasitaspasien) {
-                return $this->sendError("Kuota Dokter Telah Penuh",  201);
-            }
+        if ($antrians >= $jadwal->kapasitaspasien) {
+            return $this->sendError("Kuota Dokter Telah Penuh",  201);
         }
         //  get nomor antrian
         $nomorantean = 0;
@@ -1112,11 +1111,15 @@ class AntrianController extends APIController
         $jadwal_estimasi = Carbon::createFromFormat('Y-m-d H:i:s', $timestamp, 'Asia/Jakarta')->addMinutes(5 * ($antiranhari + 1));
         $request['estimasidilayani'] = $jadwal_estimasi->timestamp * 1000;
         $statusantrian = $this->status_antrian($request);
-        $request['sisakuotajkn']  = $statusantrian->response->sisakuotajkn;
-        $request['kuotajkn']  = $statusantrian->response->kuotajkn;
-        $request['sisakuotanonjkn']  = $statusantrian->response->sisakuotanonjkn;
-        $request['kuotanonjkn']  = $statusantrian->response->kuotanonjkn;
-        $request['jadwal_id']  = $statusantrian->response->jadwal_id;
+        if ($statusantrian->metadata->code == 200) {
+            $request['sisakuotajkn']  = $statusantrian->response->sisakuotajkn;
+            $request['kuotajkn']  = $statusantrian->response->kuotajkn;
+            $request['sisakuotanonjkn']  = $statusantrian->response->sisakuotanonjkn;
+            $request['kuotanonjkn']  = $statusantrian->response->kuotanonjkn;
+            $request['jadwal_id']  = $statusantrian->response->jadwal_id;
+        } else {
+            return $this->sendError($statusantrian->metadata->message, 400);
+        }
         $request['keterangan'] = "Oke";
         $res = $this->tambah_antrean($request);
         if ($res->metadata->code == 200) {

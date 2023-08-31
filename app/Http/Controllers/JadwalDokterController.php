@@ -82,6 +82,37 @@ class JadwalDokterController extends Controller
         Alert::success('Ok', 'Jadwal Dokter Diperbaharui');
         return redirect()->back();
     }
+    public function update($id, Request $request)
+    {
+        $request->validate([
+            'jadwal' => 'required',
+            'kapasitaspasien' => 'required',
+        ]);
+        if ($request->libur == "true") {
+            $libur = 1;
+        } else {
+            $libur = 0;
+        }
+        $jadwal = JadwalDokter::find($id);
+        $dokter = Dokter::firstWhere('kodedokter', $request->kodedokter);
+        $poli = Poliklinik::firstWhere('kodesubspesialis', $request->kodesubspesialis);
+        $hari = ['MINGGU', 'SENIN', 'SELASA', 'RABU', 'KAMIS', 'JUMAT', 'SABTU'];
+        $jadwal->update([
+            'kodesubspesialis' =>  $poli->kodesubspesialis,
+            'namasubspesialis' =>  $poli->namasubspesialis,
+            'kodepoli' =>  $poli->kodepoli,
+            'namapoli' =>  $poli->namapoli,
+            'kodedokter' =>  $dokter->kodedokter,
+            'namadokter' =>  $dokter->namadokter,
+            'hari' =>  $request->hari,
+            'namahari' =>  $hari[$request->hari],
+            'jadwal' => $request->jadwal,
+            'kapasitaspasien' => $request->kapasitaspasien,
+            'libur' => $libur,
+        ]);
+        Alert::success('Success', 'Jadwal Dokter Telah Diupdate');
+        return redirect()->back();
+    }
 
     public function jadwalDokterAntrianBpjs(Request $request)
     {

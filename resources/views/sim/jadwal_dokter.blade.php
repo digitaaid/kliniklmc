@@ -99,17 +99,17 @@
                                     <td>
                                         @foreach ($jadwals as $jadwal)
                                             @if ($jadwal->hari == $i)
-                                                @if ($jadwal->libur == 1)
-                                                    <x-adminlte-button
-                                                        label="{{ $jadwal->jadwal }} / {{ $jadwal->kapasitaspasien }}"
-                                                        class="btn-xs mb-1 btnJadwal" theme="danger" data-toggle="tooltip"
-                                                        title="Jadwal Dokter" data-id="{{ $jadwal->id }}" />
-                                                @else
-                                                    <x-adminlte-button
-                                                        label="{{ $jadwal->jadwal }} / {{ $jadwal->kapasitaspasien }}"
-                                                        class="btn-xs mb-1 btnJadwal" theme="warning" data-toggle="tooltip"
-                                                        title="Jadwal Dokter" data-id="{{ $jadwal->id }}" />
-                                                @endif
+                                                <x-adminlte-button
+                                                    label="{{ $jadwal->jadwal }} / {{ $jadwal->kapasitaspasien }}"
+                                                    class="btn-xs mb-1 btnJadwal"
+                                                    theme="{{ $jadwal->libur ? 'danger' : 'warning' }}"
+                                                    data-toggle="tooltip" title="Jadwal Dokter"
+                                                    data-id="{{ $jadwal->id }}"
+                                                    data-kodesubspesialis="{{ $jadwal->kodesubspesialis }}"
+                                                    data-kodedokter="{{ $jadwal->kodedokter }}"
+                                                    data-hari="{{ $jadwal->hari }}" data-jadwal="{{ $jadwal->jadwal }}"
+                                                    data-kapasitaspasien="{{ $jadwal->kapasitaspasien }}"
+                                                    data-libur="{{ $jadwal->libur }}" />
                                             @endif
                                         @endforeach
                                     </td>
@@ -144,7 +144,7 @@
             </x-adminlte-select2>
             <x-adminlte-select2 name="kodedokter" label="Dokter">
                 @foreach ($dokters as $item)
-                    <option value="{{ $item->kodedokter }}">{{ $item->namadokter }}</option>
+                    <option value="{{ $item->kodedokter }}">{{ $item->namadokter }} {{ $item->kodedokter }}</option>
                 @endforeach
             </x-adminlte-select2>
             <div class="row">
@@ -210,34 +210,45 @@
                 $.LoadingOverlay("hide");
             });
             $('.btnJadwal').click(function() {
-                var jadwalid = $(this).data('id');
                 $.LoadingOverlay("show");
                 $('#btnUpdate').show();
                 $('#btnCreate').hide();
                 $('#_method').show();
+
+                var id = $(this).data('id');
+                var kodesubspesialis = $(this).data('kodesubspesialis');
+                var kodedokter = $(this).data('kodedokter');
+                var hari = $(this).data('hari');
+                var jadwal = $(this).data('jadwal');
+                var kapasitaspasien = $(this).data('kapasitaspasien');
+                var libur = $(this).data('libur');
+
+                var urlDelete = "{{ route('jadwaldokter.index') }}/" + id;
+                $('#formDeleteJadwal').attr('action', urlDelete);
+                var urlUpdate = "{{ route('jadwaldokter.index') }}/" + id;
+                $('#formUpdateJadwal').attr('action', urlUpdate);
+                $('#_method').val('PUT');
+                $('#kodesubspesialis').val(kodesubspesialis).change();
+                $('#kodedokter').val(kodedokter).change();
+                $('#hari').val(hari).change();
+                $('#kapasitaspasien').val(kapasitaspasien);
+                $('#jadwal').val(jadwal);
+                $('#labeljadwal').html("Jadwal ID : " + id);
+                $('.idjadwal').val(id);
+                if (libur == 1) {
+                    $('#libur').prop('checked', true).trigger('change');
+                } else {
+                    $('#libur').prop('checked', false).trigger('change');
+                }
                 $.LoadingOverlay("hide", true);
                 $('#modalJadwal').modal('show');
                 // $.get("{{ route('jadwaldokter.index') }}" + '/' + jadwalid,
                 //     function(data) {
                 //         console.log(data);
                 //         // delete form
-                //         var urlDelete = "{{ route('jadwaldokter.index') }}/" + jadwalid;
-                //         $('#formDeleteJadwal').attr('action', urlDelete);
-                //         var urlUpdate = "{{ route('jadwaldokter.index') }}/" + jadwalid;
-                //         $('#formUpdateJadwal').attr('action', urlUpdate);
-                //         $('#_method').val('PUT');
-                //         $('#kodesubspesialis').val(data.kodesubspesialis).change();
-                //         $('#kodedokter').val(data.kodedokter).change();
-                //         $('#hari').val(data.hari).change();
-                //         $('#kapasitaspasien').val(data.kapasitaspasien);
-                //         $('#jadwal').val(data.jadwal);
-                //         $('#labeljadwal').html("Jadwal ID : " + data.id);
-                //         $('.idjadwal').val(data.id);
-                //         if (data.libur == 1) {
-                //             $('#libur').prop('checked', true).trigger('change');
-                //         } else {
-                //             $('#libur').prop('checked', false).trigger('change');
-                //         }
+
+
+
                 //         $.LoadingOverlay("hide", true);
                 //         $('#modalJadwal').modal('show');
                 //     })

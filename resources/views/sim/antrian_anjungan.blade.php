@@ -80,12 +80,16 @@
                             @endphp
                             <x-adminlte-datatable id="table1" class="nowrap text-xs" :heads="$heads" striped bordered>
                                 @foreach ($jadwals as $jadwal)
-                                    <tr>
-                                        <td>{{ $jadwal->namasubspesialis }}</td>
-                                        <td>{{ $jadwal->namadokter }}</td>
-                                        <td>{{ $jadwal->jadwal }}</td>
-                                        <td>{{ $jadwal->kapasitaspasien }}</td>
-                                        <td>{{ $antrians->where('jadwal_id', $jadwal->id)->count() }}</td>
+                                    @if ($jadwal->libur || $antrians->where('jadwal_id', $jadwal->id)->count() >= $jadwal->kapasitaspasien)
+                                        <tr class="table-danger">
+                                        @else
+                                        <tr>
+                                    @endif
+                                    <td>{{ $jadwal->namasubspesialis }}</td>
+                                    <td>{{ $jadwal->namadokter }}</td>
+                                    <td>{{ $jadwal->jadwal }}</td>
+                                    <td>{{ $jadwal->kapasitaspasien }}</td>
+                                    <td>{{ $antrians->where('jadwal_id', $jadwal->id)->count() }}</td>
                                     </tr>
                                 @endforeach
                             </x-adminlte-datatable>
@@ -118,7 +122,8 @@
                     </div>
                     <x-slot name="footerSlot">
                         <x-adminlte-button icon="fas fa-sync" class="withLoad reload" theme="warning" label="Reload" />
-                        <a href="{{ route('cekprinterpdf') }}" class="btn btn-warning withLoad"><i class="fas fa-print"></i>
+                        <a href="{{ route('cekprinterpdf') }}" class="btn btn-warning withLoad"><i
+                                class="fas fa-print"></i>
                             Test
                             Printer</a>
                         <a href="{{ route('checkinantrian') }}" class="btn btn-warning withLoad"><i
