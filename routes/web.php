@@ -57,7 +57,7 @@ Route::get('ambilkarcis', [AntrianController::class, 'ambilkarcis'])->name('ambi
 Route::get('anjunganantrian', [AntrianController::class, 'anjunganantrian'])->name('anjunganantrian');
 Route::get('displayAntrian', [AntrianController::class, 'displayAntrian'])->name('displayAntrian');
 Route::get('checkinantrian', [AntrianController::class, 'checkinantrian'])->name('checkinantrian');
-Route::get('karcisantrian', [AntrianController::class, 'karcisantrian'])->name('karcisantrian');
+Route::get('karcisantrian/{kodebooking}', [AntrianController::class, 'karcisantrian'])->name('karcisantrian');
 Route::get('checkinCetakSEP', [AntrianController::class, 'checkinCetakSEP'])->name('checkinCetakSEP');
 Route::get('checkinKarcisAntrian', [AntrianController::class, 'checkinKarcisAntrian'])->name('checkinKarcisAntrian');
 Route::get('jadwaldokterPoli', [JadwalDokterController::class, 'jadwaldokterPoli'])->name('jadwaldokterPoli');

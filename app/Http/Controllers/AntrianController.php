@@ -61,15 +61,15 @@ class AntrianController extends APIController
             } catch (\Throwable $th) {
                 //throw $th;
             }
-            return redirect()->route('karcisantrian');
+            return redirect()->route('karcisantrian', $request->kodebooking);
         } else {
             Alert::error('Gagal', 'Kodebooking tidak ditemukan');
             return redirect()->route('anjunganantrian');
         }
     }
-    function karcisantrian(Request $request)
+    function karcisantrian($kodebooking, Request $request)
     {
-        $antrian = Antrian::where('kodebooking', $request->kodebooking)->first();
+        $antrian = Antrian::where('kodebooking', $kodebooking)->first();
         return view('sim.karcis_antrian', compact([
             'antrian'
         ]));

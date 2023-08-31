@@ -230,7 +230,7 @@
                 $.LoadingOverlay("show", {
                     text: "Mencari kodebooking " + kodebooking + "..."
                 });
-                var url = "{{ route('checkinantrian') }}?kodebooking=" + kodebooking;
+                var url = "{{ route('checkinantrian') }}/kodebooking=" + kodebooking;
                 window.location.href = url;
             });
         });
