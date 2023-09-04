@@ -47,9 +47,9 @@
     <!-- Template Main JS File -->
     <script src="{{ asset('medicio/assets/js/main.js') }}"></script>
     @yield('js')
-    <script src="{{ asset('loading-overlay/loadingoverlay.min.js') }}"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+    <script src="{{ asset('loading-overlay/loadingoverlay.min.js') }}"></script>
     <script>
         $(function() {
             $(".datepicker").datepicker({

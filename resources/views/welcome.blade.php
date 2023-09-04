@@ -7,7 +7,8 @@
             <ol class="carousel-indicators" id="hero-carousel-indicators"></ol>
             <div class="carousel-inner" role="listbox">
                 <!-- Slide 1 -->
-                <div class="carousel-item active" style="background-image: url(medicio/assets/img/slide/slide-1.jpg)">
+                <div class="carousel-item active"
+                    style="background-image: url({{ asset('medicio/assets/img/slide/slide-1.jpg') }})">
                     <div class="container">
                         <h2>Selamat Datang di LMC</span></h2>
                         <p>
@@ -37,7 +38,6 @@
             </a>
         </div>
     </section><!-- End Hero -->
-
     <!-- ======= Featured Services Section ======= -->
     <section id="featured-services" class="featured-services">
         <div class="container" data-aos="fade-up">
@@ -85,7 +85,6 @@
             </div>
         </div>
     </section><!-- End Featured Services Section -->
-
     <!-- ======= Cta Section ======= -->
     <section id="cta" class="cta">
         <div class="container" data-aos="zoom-in">
@@ -111,21 +110,18 @@
             </div>
         </div>
     </section><!-- End Cta Section -->
-
     <!-- ======= About Us Section ======= -->
     <section id="about" class="about">
         <div class="container" data-aos="fade-up">
-
             <div class="section-title">
                 <h2>About Us</h2>
                 <p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit
                     sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias
                     ea. Quia fugiat sit in iste officiis commodi quidem hic quas.</p>
             </div>
-
             <div class="row">
                 <div class="col-lg-6" data-aos="fade-right">
-                    <img src="medicio/assets/img/about.jpg" class="img-fluid" alt="">
+                    <img src="{{ asset('medicio/assets/img/about.jpg') }}" class="img-fluid" alt="">
                 </div>
                 <div class="col-lg-6 pt-4 pt-lg-0 content" data-aos="fade-left">
                     <h3>Voluptatem dignissimos provident quasi corporis voluptates sit assumenda.</h3>
@@ -152,27 +148,21 @@
                     </p>
                 </div>
             </div>
-
         </div>
     </section><!-- End About Us Section -->
-
     <!-- ======= Counts Section ======= -->
     <section id="counts" class="counts">
         <div class="container" data-aos="fade-up">
-
             <div class="row no-gutters">
-
                 <div class="col-lg-3 col-md-6 d-md-flex align-items-md-stretch">
                     <div class="count-box">
                         <i class="fas fa-user-md"></i>
                         <span data-purecounter-start="0" data-purecounter-end="85" data-purecounter-duration="1"
                             class="purecounter"></span>
-
                         <p><strong>Doctors</strong> consequuntur quae qui deca rode</p>
                         <a href="#">Find out more &raquo;</a>
                     </div>
                 </div>
-
                 <div class="col-lg-3 col-md-6 d-md-flex align-items-md-stretch">
                     <div class="count-box">
                         <i class="far fa-hospital"></i>
@@ -182,7 +172,6 @@
                         <a href="#">Find out more &raquo;</a>
                     </div>
                 </div>
-
                 <div class="col-lg-3 col-md-6 d-md-flex align-items-md-stretch">
                     <div class="count-box">
                         <i class="fas fa-flask"></i>
@@ -192,7 +181,6 @@
                         <a href="#">Find out more &raquo;</a>
                     </div>
                 </div>
-
                 <div class="col-lg-3 col-md-6 d-md-flex align-items-md-stretch">
                     <div class="count-box">
                         <i class="fas fa-award"></i>
@@ -202,16 +190,12 @@
                         <a href="#">Find out more &raquo;</a>
                     </div>
                 </div>
-
             </div>
-
         </div>
     </section><!-- End Counts Section -->
-
     <!-- ======= Features Section ======= -->
     <section id="features" class="features">
         <div class="container" data-aos="fade-up">
-
             <div class="row">
                 <div class="col-lg-6 order-2 order-lg-1" data-aos="fade-right">
                     <div class="icon-box mt-5 mt-lg-0">
@@ -236,12 +220,12 @@
                     </div>
                 </div>
                 <div class="image col-lg-6 order-1 order-lg-2"
-                    style='background-image: url("medicio/assets/img/features.jpg");' data-aos="zoom-in"></div>
+                    style='background-image: url("{{ asset('medicio/assets/img/features.jpg') }}");' data-aos="zoom-in">
+                </div>
             </div>
 
         </div>
     </section><!-- End Features Section -->
-
     <!-- ======= Services Section ======= -->
     <section id="services" class="services services section-bg">
         <div class="container" data-aos="fade-up">
@@ -294,19 +278,15 @@
 
         </div>
     </section><!-- End Services Section -->
-
-
     <!-- ======= Departments Section ======= -->
     <section id="departments" class="departments">
         <div class="container" data-aos="fade-up">
-
             <div class="section-title">
                 <h2>Departments</h2>
                 <p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit
                     sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias
                     ea. Quia fugiat sit in iste officiis commodi quidem hic quas.</p>
             </div>
-
             <div class="row" data-aos="fade-up" data-aos-delay="100">
                 <div class="col-lg-4 mb-5 mb-lg-0">
                     <ul class="nav nav-tabs flex-column">
@@ -342,7 +322,8 @@
                             <h3>Cardiology</h3>
                             <p class="fst-italic">Qui laudantium consequatur laborum sit qui ad sapiente dila parde
                                 sonata raqer a videna mareta paulona marka</p>
-                            <img src="medicio/assets/img/departments-1.jpg" alt="" class="img-fluid">
+                            <img src="{{ asset('medicio/assets/img/departments-1.jpg') }}" alt=""
+                                class="img-fluid">
                             <p>Et nobis maiores eius. Voluptatibus ut enim blanditiis atque harum sint. Laborum eos
                                 ipsum ipsa odit magni. Incidunt hic ut molestiae aut qui. Est repellat minima
                                 eveniet eius et quis magni nihil. Consequatur dolorem quaerat quos qui similique
@@ -352,7 +333,8 @@
                             <h3>Neurology</h3>
                             <p class="fst-italic">Qui laudantium consequatur laborum sit qui ad sapiente dila parde
                                 sonata raqer a videna mareta paulona marka</p>
-                            <img src="medicio/assets/img/departments-2.jpg" alt="" class="img-fluid">
+                            <img src="{{ asset('medicio/assets/img/departments-2.jpg') }}" alt=""
+                                class="img-fluid">
                             <p>Et nobis maiores eius. Voluptatibus ut enim blanditiis atque harum sint. Laborum eos
                                 ipsum ipsa odit magni. Incidunt hic ut molestiae aut qui. Est repellat minima
                                 eveniet eius et quis magni nihil. Consequatur dolorem quaerat quos qui similique
@@ -362,7 +344,8 @@
                             <h3>Hepatology</h3>
                             <p class="fst-italic">Qui laudantium consequatur laborum sit qui ad sapiente dila parde
                                 sonata raqer a videna mareta paulona marka</p>
-                            <img src="medicio/assets/img/departments-3.jpg" alt="" class="img-fluid">
+                            <img src="{{ asset('medicio/assets/img/departments-3.jpg') }}" alt=""
+                                class="img-fluid">
                             <p>Et nobis maiores eius. Voluptatibus ut enim blanditiis atque harum sint. Laborum eos
                                 ipsum ipsa odit magni. Incidunt hic ut molestiae aut qui. Est repellat minima
                                 eveniet eius et quis magni nihil. Consequatur dolorem quaerat quos qui similique
@@ -372,7 +355,8 @@
                             <h3>Pediatrics</h3>
                             <p class="fst-italic">Qui laudantium consequatur laborum sit qui ad sapiente dila parde
                                 sonata raqer a videna mareta paulona marka</p>
-                            <img src="medicio/assets/img/departments-4.jpg" alt="" class="img-fluid">
+                            <img src="{{ asset('medicio/assets/img/departments-4.jpg') }}" alt=""
+                                class="img-fluid">
                             <p>Et nobis maiores eius. Voluptatibus ut enim blanditiis atque harum sint. Laborum eos
                                 ipsum ipsa odit magni. Incidunt hic ut molestiae aut qui. Est repellat minima
                                 eveniet eius et quis magni nihil. Consequatur dolorem quaerat quos qui similique
@@ -384,7 +368,6 @@
 
         </div>
     </section><!-- End Departments Section -->
-
     <!-- ======= Testimonials Section ======= -->
     <section id="testimonials" class="testimonials">
         <div class="container" data-aos="fade-up">
@@ -405,8 +388,8 @@
                                 risus at semper.
                                 <i class="bx bxs-quote-alt-right quote-icon-right"></i>
                             </p>
-                            <img src="medicio/assets/img/testimonials/testimonials-1.jpg" class="testimonial-img"
-                                alt="">
+                            <img src="{{ asset('medicio/assets/img/testimonials/testimonials-1.jpg') }}"
+                                class="testimonial-img" alt="">
                             <h3>Saul Goodman</h3>
                             <h4>Ceo &amp; Founder</h4>
                         </div>
@@ -419,7 +402,8 @@
                                     {{ $ts->testimoni }}
                                     <i class="bx bxs-quote-alt-right quote-icon-right"></i>
                                 </p>
-                                <img src="{{ $ts->image }}" class="testimonial-img" alt="">
+                                <img src="{{ asset('medicio/assets/img/testimonials/testimonials-2.jpg') }}"
+                                    class="testimonial-img" alt="">
                                 <h3> {{ $ts->name }}</h3>
                                 <h4> {{ $ts->subtitle }}</h4>
                             </div>
@@ -431,23 +415,21 @@
 
         </div>
     </section><!-- End Testimonials Section -->
-
     <!-- ======= Doctors Section ======= -->
     <section id="doctors" class="doctors section-bg">
         <div class="container" data-aos="fade-up">
-
             <div class="section-title">
                 <h2>Doctors</h2>
                 <p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit
                     sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias
                     ea. Quia fugiat sit in iste officiis commodi quidem hic quas.</p>
             </div>
-
             <div class="row">
                 <div class="col-lg-3 col-md-6 d-flex align-items-stretch">
                     <div class="member" data-aos="fade-up" data-aos-delay="100">
                         <div class="member-img">
-                            <img src="medicio/assets/img/doctors/doctors-1.jpg" class="img-fluid" alt="">
+                            <img src="{{ asset('medicio/assets/img/doctors/doctors-1.jpg') }}" class="img-fluid"
+                                alt="">
                             <div class="social">
                                 <a href=""><i class="bi bi-twitter"></i></a>
                                 <a href=""><i class="bi bi-facebook"></i></a>
@@ -465,7 +447,8 @@
                     <div class="col-lg-3 col-md-6 d-flex align-items-stretch">
                         <div class="member" data-aos="fade-up" data-aos-delay="100">
                             <div class="member-img">
-                                <img src="medicio/assets/img/doctors/doctors-1.jpg" class="img-fluid" alt="">
+                                <img src="{{ asset('medicio/assets/img/doctors/doctors-1.jpg') }}" class="img-fluid"
+                                    alt="">
                                 <div class="social">
                                     <a href=""><i class="bi bi-twitter"></i></a>
                                     <a href=""><i class="bi bi-facebook"></i></a>
@@ -483,7 +466,6 @@
             </div>
         </div>
     </section><!-- End Doctors Section -->
-
     <!-- ======= Gallery Section ======= -->
     <section id="gallery" class="gallery">
         <div class="container" data-aos="fade-up">
@@ -494,48 +476,42 @@
                     sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias
                     ea. Quia fugiat sit in iste officiis commodi quidem hic quas.</p>
             </div>
-
             <div class="gallery-slider swiper">
                 <div class="swiper-wrapper align-items-center">
                     <div class="swiper-slide"><a class="gallery-lightbox"
-                            href="medicio/assets/img/gallery/gallery-1.jpg"><img
-                                src="medicio/assets/img/gallery/gallery-1.jpg" class="img-fluid" alt=""></a>
+                            href="{{ asset('medicio/assets/img/gallery/gallery-1.jpg') }}"><img
+                                src="{{ asset('medicio/assets/img/gallery/gallery-1.jpg') }}" class="img-fluid"
+                                alt=""></a>
                     </div>
                     <div class="swiper-slide"><a class="gallery-lightbox"
-                            href="medicio/assets/img/gallery/gallery-2.jpg"><img
-                                src="medicio/assets/img/gallery/gallery-2.jpg" class="img-fluid" alt=""></a>
+                            href="{{ asset('medicio/assets/img/gallery/gallery-2.jpg') }}"><img
+                                src="{{ asset('medicio/assets/img/gallery/gallery-2.jpg') }}" class="img-fluid"
+                                alt=""></a>
                     </div>
                     <div class="swiper-slide"><a class="gallery-lightbox"
-                            href="medicio/assets/img/gallery/gallery-3.jpg"><img
-                                src="medicio/assets/img/gallery/gallery-3.jpg" class="img-fluid" alt=""></a>
+                            href="{{ asset('medicio/assets/img/gallery/gallery-3.jpg') }}"><img
+                                src="{{ asset('medicio/assets/img/gallery/gallery-3.jpg') }}" class="img-fluid"
+                                alt=""></a>
                     </div>
                     <div class="swiper-slide"><a class="gallery-lightbox"
-                            href="medicio/assets/img/gallery/gallery-4.jpg"><img
-                                src="medicio/assets/img/gallery/gallery-4.jpg" class="img-fluid" alt=""></a>
+                            href="{{ asset('medicio/assets/img/gallery/gallery-4.jpg') }}"><img
+                                src="{{ asset('medicio/assets/img/gallery/gallery-4.jpg') }}" class="img-fluid"
+                                alt=""></a>
                     </div>
                     <div class="swiper-slide"><a class="gallery-lightbox"
-                            href="medicio/assets/img/gallery/gallery-5.jpg"><img
-                                src="medicio/assets/img/gallery/gallery-5.jpg" class="img-fluid" alt=""></a>
+                            href="{{ asset('medicio/assets/img/gallery/gallery-5.jpg') }}"><img
+                                src="{{ asset('medicio/assets/img/gallery/gallery-5.jpg') }}" class="img-fluid"
+                                alt=""></a>
                     </div>
                     <div class="swiper-slide"><a class="gallery-lightbox"
-                            href="medicio/assets/img/gallery/gallery-6.jpg"><img
-                                src="medicio/assets/img/gallery/gallery-6.jpg" class="img-fluid" alt=""></a>
+                            href="{{ asset('medicio/assets/img/gallery/gallery-6.jpg') }}"><img
+                                src="{{ asset('medicio/assets/img/gallery/gallery-6.jpg') }}" class="img-fluid"
+                                alt=""></a>
                     </div>
-                    <div class="swiper-slide"><a class="gallery-lightbox"
-                            href="medicio/assets/img/gallery/gallery-7.jpg"><img
-                                src="medicio/assets/img/gallery/gallery-7.jpg" class="img-fluid" alt=""></a>
-                    </div>
-                    <div class="swiper-slide"><a class="gallery-lightbox"
-                            href="medicio/assets/img/gallery/gallery-8.jpg"><img
-                                src="medicio/assets/img/gallery/gallery-8.jpg" class="img-fluid" alt=""></a>
-                    </div>
+                    <div class="swiper-pagination"></div>
                 </div>
-                <div class="swiper-pagination"></div>
             </div>
-
-        </div>
     </section><!-- End Gallery Section -->
-
     <!-- ======= Pricing Section ======= -->
     <section id="pricing" class="pricing">
         <div class="container" data-aos="fade-up">
@@ -622,7 +598,6 @@
 
         </div>
     </section><!-- End Pricing Section -->
-
     <!-- ======= Frequently Asked Questioins Section ======= -->
     <section id="faq" class="faq section-bg">
         <div class="container" data-aos="fade-up">
@@ -664,7 +639,6 @@
             </ul>
         </div>
     </section><!-- End Frequently Asked Questioins Section -->
-
     <!-- ======= Contact Section ======= -->
     <section id="contact" class="contact">
         <div class="container">
@@ -742,7 +716,6 @@
         </div>
     </section><!-- End Contact Section -->
 @endsection
-
 @section('css')
     <style>
         .carousel-item {
