@@ -56,7 +56,7 @@
                             value="{{ $request->nohp }}" required>
                     </div>
                     <div class="form-group mb-3">
-                        <input type="text" class="form-control" name="tanggalperiksa" id="tanggalperiksa"
+                        <input type="text" class="form-control datepicker" name="tanggalperiksa" id="tanggalperiksa"
                             placeholder="Tanggal Periksa" value="{{ $request->tanggalperiksa }}" required>
                     </div>
                 @endif
@@ -84,9 +84,7 @@
                 @endif
                 <div class="col text-center">
                     @empty($request->error)
-                        <button type="submit" class="btn btn-warning preloader" form="formDaftar">Make
-                            an
-                            Appointment</button>
+                        <button type="submit" class="btn btn-warning preloader" form="formDaftar">{{ $request->button }}</button>
                     @endempty
                     <a href="{{ route('daftar') }}" class="btn btn-danger">
                         <i class="icon fas fa-sync"></i>

@@ -90,6 +90,7 @@ class AntrianController extends APIController
     }
     public function daftarumum(Request $request)
     {
+        $request['button'] = "Cek NIK Pasien";
         return view('sim.daftarumum', compact([
             'request',
         ]));
@@ -185,7 +186,8 @@ class AntrianController extends APIController
             $request['pasienbaru'] = 0;
             $res = $this->ambil_antrian($request);
             if ($res->metadata->code == 200) {
-                return redirect()->route('statusantrian', $request->kodebooking);
+                $url = route('statusantrian') . "?kodebooking=" . $request->kodebooking;
+                return redirect()->to($url);
             } else {
                 $request['warning'] = $res->metadata->message;
             }
@@ -203,7 +205,9 @@ class AntrianController extends APIController
         $suratkontrols = null;
         $rujukans = null;
         $api = new VclaimController();
+        $request['button'] = "Cek NIK Pasien";
         if ($request->nik && empty($request->nomorkartu)) {
+            $request['button'] = "Cek Jadwal Dokter";
             $request['tanggal'] = now()->format('Y-m-d');
             $res = $api->peserta_nik($request);
             if ($res->metadata->code == 200) {
@@ -222,8 +226,10 @@ class AntrianController extends APIController
         if ($request->tanggalperiksa) {
             $hari = Carbon::parse($request->tanggalperiksa)->dayOfWeek;
             $jadwals = JadwalDokter::where('hari', $hari)->get();
+            $request['button'] = "Daftar";
             if ($jadwals->count() == 0) {
-                $request['error'] = 'Tidak ada jadwal dokter dihari tersebut';
+                $request['button'] = "Cek Jadwal Dokter";
+                $request['warning'] = 'Tidak ada jadwal dokter dihari tersebut';
             }
         }
         if ($request->jadwal) {
@@ -241,7 +247,8 @@ class AntrianController extends APIController
             }
             $res = $this->ambil_antrian($request);
             if ($res->metadata->code == 200) {
-                return redirect()->route('antiranpasien', $request->kodebooking);
+                $url = route('statusantrian') . "?kodebooking=" . $request->kodebooking;
+                return redirect()->to($url);
             } else {
                 $request['warning'] = $res->metadata->message;
             }
