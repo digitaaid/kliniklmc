@@ -88,11 +88,11 @@
         </div>
 
     </form>
-    {{-- <div class="social-auth-links text-center mt-2 mb-3">
+    <div class="social-auth-links text-center mt-2 mb-3">
         <a href="{{ route('login.google') }}" class="btn btn-block btn-danger">
             <i class="fab fa-google mr-2"></i> Sign in using Google
         </a>
-    </div> --}}
+    </div>
 @stop
 
 @section('auth_footer')

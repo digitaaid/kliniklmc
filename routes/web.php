@@ -14,6 +14,7 @@ use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\PoliklinikController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\RujukanController;
+use App\Http\Controllers\SocialiteController;
 use App\Http\Controllers\SuratKontrolController;
 use App\Http\Controllers\TanyaJawabController;
 use App\Http\Controllers\TestimoniController;
