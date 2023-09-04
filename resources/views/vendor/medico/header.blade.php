@@ -45,7 +45,11 @@
                         </ul>
                     </li> --}}
                     <li><a class="nav-link scrollto" href="{{ route('landingpage') }}#contact">Contact</a></li>
-                    <li><a class="nav-link scrollto" href="{{ route('login') }}">Login</a></li>
+                    @auth
+                        <li><a class="nav-link scrollto" href="{{ route('home') }}">Dashboard</a></li>
+                    @else
+                        <li><a class="nav-link scrollto" href="{{ route('login') }}">Login</a></li>
+                    @endauth
                 </ul>
                 <i class="bi bi-list mobile-nav-toggle"></i>
             </nav><!-- .navbar -->

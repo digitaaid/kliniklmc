@@ -14,9 +14,10 @@ return new class extends Migration
         Schema::create('testimonis', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('subtile');
-            $table->string('testimoni');
+            $table->string('subtitle');
+            $table->text('testimoni');
             $table->string('image');
+            $table->boolean('status')->default(1);
             $table->timestamps();
         });
     }

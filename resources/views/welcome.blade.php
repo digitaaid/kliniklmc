@@ -17,28 +17,17 @@
                         <a href="#about" class="btn-get-started scrollto">Tentang Kami</a>
                     </div>
                 </div>
-                <!-- Slide 2 -->
-                <div class="carousel-item" style="background-image: url(medicio/assets/img/slide/slide-2.jpg)">
-                    <div class="container">
-                        <h2>Diagnosis Tepat Waktu</h2>
-                        <p>
-                            Teknologi mutakhir kami membantu mengidentifikasi dan memahami kondisi Anda dengan akurat,
-                            memungkinkan perawatan yang sesuai.
-                        </p>
-                        <a href="#about" class="btn-get-started scrollto">Read More</a>
+                @foreach ($carousel as $cr)
+                    <div class="carousel-item" style="background-image: url({{ $cr->image }})">
+                        <div class="container">
+                            <h2>{{ $cr->title }}</h2>
+                            <p>
+                                {{ $cr->description }}
+                            </p>
+                            <a href="#about" class="btn-get-started scrollto">{{ $cr->button_text }}</a>
+                        </div>
                     </div>
-                </div>
-                <!-- Slide 3 -->
-                <div class="carousel-item" style="background-image: url(medicio/assets/img/slide/slide-3.jpg)">
-                    <div class="container">
-                        <h2>Diagnosis Tepat Waktu</h2>
-                        <p>
-                            Didukung oleh tim medis berpengalaman dalam hematologi onkologi, kami siap menangani perjalanan
-                            kesehatan Anda.
-                        </p>
-                        <a href="#about" class="btn-get-started scrollto">Read More</a>
-                    </div>
-                </div>
+                @endforeach
             </div>
             <a class="carousel-control-prev" href="#heroCarousel" role="button" data-bs-slide="prev">
                 <span class="carousel-control-prev-icon bi bi-chevron-left" aria-hidden="true"></span>
@@ -399,17 +388,14 @@
     <!-- ======= Testimonials Section ======= -->
     <section id="testimonials" class="testimonials">
         <div class="container" data-aos="fade-up">
-
             <div class="section-title">
                 <h2>Testimonials</h2>
                 <p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit
                     sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias
                     ea. Quia fugiat sit in iste officiis commodi quidem hic quas.</p>
             </div>
-
             <div class="testimonials-slider swiper" data-aos="fade-up" data-aos-delay="100">
                 <div class="swiper-wrapper">
-
                     <div class="swiper-slide">
                         <div class="testimonial-item">
                             <p>
@@ -425,71 +411,20 @@
                             <h4>Ceo &amp; Founder</h4>
                         </div>
                     </div><!-- End testimonial item -->
-
-                    <div class="swiper-slide">
-                        <div class="testimonial-item">
-                            <p>
-                                <i class="bx bxs-quote-alt-left quote-icon-left"></i>
-                                Export tempor illum tamen malis malis eram quae irure esse labore quem cillum quid
-                                cillum eram malis quorum velit fore eram velit sunt aliqua noster fugiat irure amet
-                                legam anim culpa.
-                                <i class="bx bxs-quote-alt-right quote-icon-right"></i>
-                            </p>
-                            <img src="medicio/assets/img/testimonials/testimonials-2.jpg" class="testimonial-img"
-                                alt="">
-                            <h3>Sara Wilsson</h3>
-                            <h4>Designer</h4>
-                        </div>
-                    </div><!-- End testimonial item -->
-
-                    <div class="swiper-slide">
-                        <div class="testimonial-item">
-                            <p>
-                                <i class="bx bxs-quote-alt-left quote-icon-left"></i>
-                                Enim nisi quem export duis labore cillum quae magna enim sint quorum nulla quem
-                                veniam duis minim tempor labore quem eram duis noster aute amet eram fore quis sint
-                                minim.
-                                <i class="bx bxs-quote-alt-right quote-icon-right"></i>
-                            </p>
-                            <img src="medicio/assets/img/testimonials/testimonials-3.jpg" class="testimonial-img"
-                                alt="">
-                            <h3>Jena Karlis</h3>
-                            <h4>Store Owner</h4>
-                        </div>
-                    </div><!-- End testimonial item -->
-
-                    <div class="swiper-slide">
-                        <div class="testimonial-item">
-                            <p>
-                                <i class="bx bxs-quote-alt-left quote-icon-left"></i>
-                                Fugiat enim eram quae cillum dolore dolor amet nulla culpa multos export minim
-                                fugiat minim velit minim dolor enim duis veniam ipsum anim magna sunt elit fore quem
-                                dolore labore illum veniam.
-                                <i class="bx bxs-quote-alt-right quote-icon-right"></i>
-                            </p>
-                            <img src="medicio/assets/img/testimonials/testimonials-4.jpg" class="testimonial-img"
-                                alt="">
-                            <h3>Matt Brandon</h3>
-                            <h4>Freelancer</h4>
-                        </div>
-                    </div><!-- End testimonial item -->
-
-                    <div class="swiper-slide">
-                        <div class="testimonial-item">
-                            <p>
-                                <i class="bx bxs-quote-alt-left quote-icon-left"></i>
-                                Quis quorum aliqua sint quem legam fore sunt eram irure aliqua veniam tempor noster
-                                veniam enim culpa labore duis sunt culpa nulla illum cillum fugiat legam esse veniam
-                                culpa fore nisi cillum quid.
-                                <i class="bx bxs-quote-alt-right quote-icon-right"></i>
-                            </p>
-                            <img src="medicio/assets/img/testimonials/testimonials-5.jpg" class="testimonial-img"
-                                alt="">
-                            <h3>John Larson</h3>
-                            <h4>Entrepreneur</h4>
-                        </div>
-                    </div><!-- End testimonial item -->
-
+                    @foreach ($testimoni as $ts)
+                        <div class="swiper-slide">
+                            <div class="testimonial-item">
+                                <p>
+                                    <i class="bx bxs-quote-alt-left quote-icon-left"></i>
+                                    {{ $ts->testimoni }}
+                                    <i class="bx bxs-quote-alt-right quote-icon-right"></i>
+                                </p>
+                                <img src="{{ $ts->image }}" class="testimonial-img" alt="">
+                                <h3> {{ $ts->name }}</h3>
+                                <h4> {{ $ts->subtitle }}</h4>
+                            </div>
+                        </div><!-- End testimonial item -->
+                    @endforeach
                 </div>
                 <div class="swiper-pagination"></div>
             </div>
@@ -509,7 +444,6 @@
             </div>
 
             <div class="row">
-
                 <div class="col-lg-3 col-md-6 d-flex align-items-stretch">
                     <div class="member" data-aos="fade-up" data-aos-delay="100">
                         <div class="member-img">
@@ -527,63 +461,26 @@
                         </div>
                     </div>
                 </div>
-
-                <div class="col-lg-3 col-md-6 d-flex align-items-stretch">
-                    <div class="member" data-aos="fade-up" data-aos-delay="200">
-                        <div class="member-img">
-                            <img src="medicio/assets/img/doctors/doctors-2.jpg" class="img-fluid" alt="">
-                            <div class="social">
-                                <a href=""><i class="bi bi-twitter"></i></a>
-                                <a href=""><i class="bi bi-facebook"></i></a>
-                                <a href=""><i class="bi bi-instagram"></i></a>
-                                <a href=""><i class="bi bi-linkedin"></i></a>
+                @foreach ($dokters as $dr)
+                    <div class="col-lg-3 col-md-6 d-flex align-items-stretch">
+                        <div class="member" data-aos="fade-up" data-aos-delay="100">
+                            <div class="member-img">
+                                <img src="medicio/assets/img/doctors/doctors-1.jpg" class="img-fluid" alt="">
+                                <div class="social">
+                                    <a href=""><i class="bi bi-twitter"></i></a>
+                                    <a href=""><i class="bi bi-facebook"></i></a>
+                                    <a href=""><i class="bi bi-instagram"></i></a>
+                                    <a href=""><i class="bi bi-linkedin"></i></a>
+                                </div>
+                            </div>
+                            <div class="member-info">
+                                <h4>{{ $dr->namadokter }}</h4>
+                                <span>Chief Medical Officer</span>
                             </div>
                         </div>
-                        <div class="member-info">
-                            <h4>Sarah Jhonson</h4>
-                            <span>Anesthesiologist</span>
-                        </div>
                     </div>
-                </div>
-
-                <div class="col-lg-3 col-md-6 d-flex align-items-stretch">
-                    <div class="member" data-aos="fade-up" data-aos-delay="300">
-                        <div class="member-img">
-                            <img src="medicio/assets/img/doctors/doctors-3.jpg" class="img-fluid" alt="">
-                            <div class="social">
-                                <a href=""><i class="bi bi-twitter"></i></a>
-                                <a href=""><i class="bi bi-facebook"></i></a>
-                                <a href=""><i class="bi bi-instagram"></i></a>
-                                <a href=""><i class="bi bi-linkedin"></i></a>
-                            </div>
-                        </div>
-                        <div class="member-info">
-                            <h4>William Anderson</h4>
-                            <span>Cardiology</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-3 col-md-6 d-flex align-items-stretch">
-                    <div class="member" data-aos="fade-up" data-aos-delay="400">
-                        <div class="member-img">
-                            <img src="medicio/assets/img/doctors/doctors-4.jpg" class="img-fluid" alt="">
-                            <div class="social">
-                                <a href=""><i class="bi bi-twitter"></i></a>
-                                <a href=""><i class="bi bi-facebook"></i></a>
-                                <a href=""><i class="bi bi-instagram"></i></a>
-                                <a href=""><i class="bi bi-linkedin"></i></a>
-                            </div>
-                        </div>
-                        <div class="member-info">
-                            <h4>Amanda Jepson</h4>
-                            <span>Neurosurgeon</span>
-                        </div>
-                    </div>
-                </div>
-
+                @endforeach
             </div>
-
         </div>
     </section><!-- End Doctors Section -->
 
@@ -751,83 +648,20 @@
                         </p>
                     </div>
                 </li>
-
-                <li>
-                    <div data-bs-toggle="collapse" href="#faq2" class="collapsed question">Feugiat scelerisque
-                        varius morbi enim nunc faucibus a pellentesque? <i class="bi bi-chevron-down icon-show"></i><i
-                            class="bi bi-chevron-up icon-close"></i>
-                    </div>
-                    <div id="faq2" class="collapse" data-bs-parent=".faq-list">
-                        <p>
-                            Dolor sit amet consectetur adipiscing elit pellentesque habitant morbi. Id interdum
-                            velit laoreet id donec ultrices. Fringilla phasellus faucibus scelerisque eleifend donec
-                            pretium. Est pellentesque elit ullamcorper dignissim. Mauris ultrices eros in cursus
-                            turpis massa tincidunt dui.
-                        </p>
-                    </div>
-                </li>
-
-                <li>
-                    <div data-bs-toggle="collapse" href="#faq3" class="collapsed question">Dolor sit amet
-                        consectetur adipiscing elit pellentesque habitant morbi? <i
-                            class="bi bi-chevron-down icon-show"></i><i class="bi bi-chevron-up icon-close"></i>
-                    </div>
-                    <div id="faq3" class="collapse" data-bs-parent=".faq-list">
-                        <p>
-                            Eleifend mi in nulla posuere sollicitudin aliquam ultrices sagittis orci. Faucibus
-                            pulvinar elementum integer enim. Sem nulla pharetra diam sit amet nisl suscipit. Rutrum
-                            tellus pellentesque eu tincidunt. Lectus urna duis convallis convallis tellus. Urna
-                            molestie at elementum eu facilisis sed odio morbi quis
-                        </p>
-                    </div>
-                </li>
-
-                <li>
-                    <div data-bs-toggle="collapse" href="#faq4" class="collapsed question">Ac odio tempor orci
-                        dapibus. Aliquam eleifend mi in nulla? <i class="bi bi-chevron-down icon-show"></i><i
-                            class="bi bi-chevron-up icon-close"></i></div>
-                    <div id="faq4" class="collapse" data-bs-parent=".faq-list">
-                        <p>
-                            Dolor sit amet consectetur adipiscing elit pellentesque habitant morbi. Id interdum
-                            velit laoreet id donec ultrices. Fringilla phasellus faucibus scelerisque eleifend donec
-                            pretium. Est pellentesque elit ullamcorper dignissim. Mauris ultrices eros in cursus
-                            turpis massa tincidunt dui.
-                        </p>
-                    </div>
-                </li>
-
-                <li>
-                    <div data-bs-toggle="collapse" href="#faq5" class="collapsed question">Tempus quam
-                        pellentesque nec nam aliquam sem et tortor consequat? <i
-                            class="bi bi-chevron-down icon-show"></i><i class="bi bi-chevron-up icon-close"></i>
-                    </div>
-                    <div id="faq5" class="collapse" data-bs-parent=".faq-list">
-                        <p>
-                            Molestie a iaculis at erat pellentesque adipiscing commodo. Dignissim suspendisse in est
-                            ante in. Nunc vel risus commodo viverra maecenas accumsan. Sit amet nisl suscipit
-                            adipiscing bibendum est. Purus gravida quis blandit turpis cursus in
-                        </p>
-                    </div>
-                </li>
-
-                <li>
-                    <div data-bs-toggle="collapse" href="#faq6" class="collapsed question">Tortor vitae purus
-                        faucibus ornare. Varius vel pharetra vel turpis nunc eget lorem dolor? <i
-                            class="bi bi-chevron-down icon-show"></i><i class="bi bi-chevron-up icon-close"></i>
-                    </div>
-                    <div id="faq6" class="collapse" data-bs-parent=".faq-list">
-                        <p>
-                            Laoreet sit amet cursus sit amet dictum sit amet justo. Mauris vitae ultricies leo
-                            integer malesuada nunc vel. Tincidunt eget nullam non nisi est sit amet. Turpis nunc
-                            eget lorem dolor sed. Ut venenatis tellus in metus vulputate eu scelerisque.
-                            Pellentesque diam volutpat commodo sed egestas egestas fringilla phasellus faucibus.
-                            Nibh tellus molestie nunc non blandit massa enim nec.
-                        </p>
-                    </div>
-                </li>
-
+                @foreach ($tanyajawab as $tj)
+                    <li>
+                        <div data-bs-toggle="collapse" href="#faqs{{ $tj->id }}" class="collapsed question">
+                            {{ $tj->pertanyaan }}
+                            <i class="bi bi-chevron-down icon-show"></i><i class="bi bi-chevron-up icon-close"></i>
+                        </div>
+                        <div id="faqs{{ $tj->id }}" class="collapse" data-bs-parent=".faq-list">
+                            <p>
+                                {{ $tj->jawaban }}
+                            </p>
+                        </div>
+                    </li>
+                @endforeach
             </ul>
-
         </div>
     </section><!-- End Frequently Asked Questioins Section -->
 
@@ -907,4 +741,14 @@
             </div>
         </div>
     </section><!-- End Contact Section -->
+@endsection
+
+@section('css')
+    <style>
+        .carousel-item {
+            max-width: 100%;
+            height: auto;
+            opacity: 0.5;
+        }
+    </style>
 @endsection

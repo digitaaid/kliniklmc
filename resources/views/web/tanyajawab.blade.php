@@ -1,12 +1,12 @@
 @extends('adminlte::page')
-@section('title', 'Carousel')
+@section('title', 'Tanya Jawab')
 @section('content_header')
-    <h1>Carousel</h1>
+    <h1>Tanya Jawab</h1>
 @stop
 @section('content')
     <div class="row">
         <div class="col-12">
-            <x-adminlte-card title="Data Carousel" theme="secondary" collapsible>
+            <x-adminlte-card title="Data Tanya Jawab" theme="secondary" collapsible>
                 @if ($errors->any())
                     <x-adminlte-alert title="Ops Terjadi Masalah !" theme="danger" dismissable>
                         <ul>
@@ -23,22 +23,20 @@
                     </div>
                 </div>
                 @php
-                    $heads = ['No', 'Title', 'Button Text', 'Image Url', 'Action'];
+                    $heads = ['No', 'Pertanyaan', 'Jawaban', 'Status', 'Action'];
                     $config['paging'] = false;
                 @endphp
                 <x-adminlte-datatable id="table1" :heads="$heads" :config="$config" hoverable bordered compressed>
-                    @foreach ($carousel as $item)
+                    @foreach ($tanyajawab as $item)
                         <tr>
                             <td>{{ $loop->iteration }}</td>
-                            <td>{{ $item->title }}</td>
-                            <td>{{ $item->button_text }}</td>
-                            <td>{{ $item->image }}</td>
+                            <td>{{ $item->pertanyaan }}</td>
+                            <td>{{ $item->jawaban }}</td>
+                            <td>{{ $item->status }}</td>
                             <td>
                                 <x-adminlte-button class="btn-xs btnEdit" label="Edit" theme="warning" icon="fas fa-edit"
-                                    title="Edit Carousel {{ $item->title }}" data-id="{{ $item->id }}"
-                                    data-title="{{ $item->title }}" data-description="{{ $item->description }}"
-                                    data-button_text="{{ $item->button_text }}" data-button_url="{{ $item->button_url }}"
-                                    data-image="{{ $item->image }}" />
+                                    title="Edit" data-id="{{ $item->id }}" data-pertanyaan="{{ $item->pertanyaan }}"
+                                    data-jawaban="{{ $item->jawaban }}" data-status="{{ $item->status }}" />
                             </td>
                         </tr>
                     @endforeach
@@ -46,16 +44,13 @@
             </x-adminlte-card>
         </div>
     </div>
-    <x-adminlte-modal id="modalItem" title="Carousel Hero" icon="fas fa-globe" theme="success" v-centered>
+    <x-adminlte-modal id="modalItem" title="Tanya Jawab" icon="fas fa-globe" theme="success" v-centered>
         <form action="" id="formAPI" method="POST" enctype="multipart/form-data">
             @csrf
             <input type="hidden" name="id" id="id">
             <input type="hidden" name="_method" id="method">
-            <x-adminlte-input name="title" igroup-size="sm" label="Title" enable-old-support required />
-            <x-adminlte-input name="description" igroup-size="sm" label="Description" enable-old-support required />
-            <x-adminlte-input name="button_text" igroup-size="sm" label="Button Text" enable-old-support required />
-            <x-adminlte-input name="button_url" igroup-size="sm" label="Button Url" enable-old-support required />
-            <x-adminlte-input-file name="image" igroup-size="sm" label="Upload Image" placeholder="Pilih file..." />
+            <x-adminlte-input name="pertanyaan" igroup-size="sm" label="Pertanyaan" enable-old-support required />
+            <x-adminlte-input name="jawaban" igroup-size="sm" label="Jawaban" enable-old-support required />
             <img id="my_image" src="" class="w-100" />
         </form>
         <form id="formDelete" action="" method="POST">
@@ -95,18 +90,16 @@
                 $('#btnUpdate').show();
                 $('#formAPI').trigger("reset");
                 $('#id').val($(this).data("id"));
-                $('#title').val($(this).data("title"));
-                $('#description').val($(this).data("description"));
-                $('#button_text').val($(this).data("button_text"));
-                $('#button_url').val($(this).data("button_url"));
-                $("#my_image").attr("src", $(this).data("image"));
+                $('#pertanyaan').val($(this).data("pertanyaan"));
+                $('#jawaban').val($(this).data("jawaban"));
+                $('#status').val($(this).data("button_text"));
                 $('#modalItem').modal('show');
                 $.LoadingOverlay("hide");
             });
             $('#btnStore').click(function(e) {
                 $.LoadingOverlay("show");
                 e.preventDefault();
-                var url = "{{ route('carousel.store') }}";
+                var url = "{{ route('tanyajawab.store') }}";
                 $('#formAPI').attr('action', url);
                 $("#method").prop('', true);
                 $('#formAPI').submit();
@@ -116,7 +109,7 @@
                 $.LoadingOverlay("show");
                 e.preventDefault();
                 var id = $('#id').val();
-                var url = "{{ route('carousel.index') }}/" + id;
+                var url = "{{ route('tanyajawab.index') }}/" + id;
                 $('#formAPI').attr('action', url);
                 $('#method').val('PUT');
                 $('#formAPI').submit();

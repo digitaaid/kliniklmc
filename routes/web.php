@@ -6,6 +6,7 @@ use App\Http\Controllers\BarcodeController;
 use App\Http\Controllers\CarouselController;
 use App\Http\Controllers\DokterController;
 use App\Http\Controllers\GaleriController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\IntegrasiController;
 use App\Http\Controllers\JadwalDokterController;
 use App\Http\Controllers\PasienController;
@@ -34,9 +35,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-})->name('landingpage'); #ok
+Route::get('/home', [HomeController::class, 'index'])->name('home');
+Route::get('/', [HomeController::class, 'landingpage'])->name('landingpage');
 // Route::get('', [HomeController::class, 'landingpage'])->name('landingpage'); #ok
 Auth::routes();
 Route::get('verifikasi_akun', [VerificationController::class, 'verifikasi_akun'])->name('verifikasi_akun');
@@ -45,7 +45,7 @@ Route::get('user_verifikasi/{user}', [UserController::class, 'user_verifikasi'])
 Route::get('delet_verifikasi', [UserController::class, 'delet_verifikasi'])->name('delet_verifikasi');
 Route::get('login/google/redirect', [SocialiteController::class, 'redirect'])->middleware(['guest'])->name('login.google'); #redirect google login
 Route::get('login/google/callback', [SocialiteController::class, 'callback'])->middleware(['guest'])->name('login.goole.callback'); #callback google login
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
 
 // daftar pasien
 Route::get('daftar', [AntrianController::class, 'daftar'])->name('daftar');
