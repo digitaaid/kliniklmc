@@ -297,26 +297,26 @@ class AntrianController extends APIController
         $request['jeniskunjungan'] = "2";
         $request['pasienbaru'] = "0";
         $request['tanggalperiksa'] = now()->format('Y-m-d');
-        // try {
-        $res = $this->ambil_antrian($request);
-        if ($res->metadata->code == 200) {
-            $antrian = Antrian::where('kodebooking', $request->kodebooking)->first();
-            $antrian->update([
-                'taskid' => $request->taskid,
-                'jenispasien' => $request->pasien,
-            ]);
-            $request['taskid'] = "1";
-            $request['waktu'] = now();
-            $update = $this->update_antrean($request);
-            Alert::success('Success', 'Berhasil cetak karcis antrian dengan nomorantrean ' . $res->response->nomorantrean);
-            return redirect()->route('karcisantrian', $request->kodebooking);
-        } else {
-            Alert::error('Gagal', $res->metadata->message);
+        try {
+            $res = $this->ambil_antrian($request);
+            if ($res->metadata->code == 200) {
+                $request['taskid'] = "1";
+                $request['waktu'] = now();
+                $antrian = Antrian::where('kodebooking', $request->kodebooking)->first();
+                $antrian->update([
+                    'taskid' => $request->taskid,
+                    'jenispasien' => $request->pasien,
+                ]);
+                $update = $this->update_antrean($request);
+                Alert::success('Success', 'Berhasil cetak karcis antrian dengan nomorantrean ' . $res->response->nomorantrean);
+                return redirect()->route('karcisantrian', $request->kodebooking);
+            } else {
+                Alert::error('Gagal', $res->metadata->message);
+            }
+        } catch (\Throwable $th) {
+            //throw $th;
+            Alert::error('Gagal', $th->getMessage());
         }
-        // } catch (\Throwable $th) {
-        //     //throw $th;
-        //     Alert::error('Gagal', $th->getMessage());
-        // }
         return redirect()->route('anjunganantrian');
     }
     function layanipendaftaran(Request $request)
@@ -440,16 +440,12 @@ class AntrianController extends APIController
         $request['keterangan'] = $request->catatan;
         try {
             $res = $this->update_antrean($request);
-            if ($res->metadata->code == 200) {
-                $antrian->update($request->all());
-                Alert::success('Success', 'Antrian dilanjutkan ke farmasi.');
-            } else {
-                Alert::error('Gagal', $res->metadata->message);
-            }
+            $antrian->update($request->all());
             $request['nomorantrean'] = $antrian->angkaantrean;
             $res_farmasi = $this->tambah_antrean_farmasi($request);
+            Alert::success('Success', 'Antrian dilanjutkan ke farmasi.');
         } catch (\Throwable $th) {
-            //throw $th;
+            Alert::error('Gagal', $th->getMessage());
         }
         return redirect()->back();
     }
@@ -471,15 +467,15 @@ class AntrianController extends APIController
         $request['taskid'] = "6";
         $request['waktu'] = now();
         $antrian = Antrian::where('kodebooking', $request->kodebooking)->first();
-        $res = $this->update_antrean($request);
-        if ($res->metadata->code == 200) {
+        try {
+            $res = $this->update_antrean($request);
             $antrian->update([
                 'taskid' => $request->taskid,
                 'keterangan' => "Resep Pasien sudah diterima di farmasi.",
             ]);
             Alert::success('Success', 'Antrian Resep telah diterima Farmasi.');
-        } else {
-            Alert::error('Gagal', $res->metadata->message);
+        } catch (\Throwable $th) {
+            Alert::error('Gagal', $th->getMessage());
         }
         return redirect()->back();
     }
@@ -503,7 +499,7 @@ class AntrianController extends APIController
 
 
 
-    public function displayAntrian()
+    public function displayantrian()
     {
         return view('sim.display_antrian');
         // $jadwals = JadwalDokter::where('hari',  now()->dayOfWeek)

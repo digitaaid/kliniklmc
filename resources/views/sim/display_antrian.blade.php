@@ -27,32 +27,19 @@
             </div>
             <div class="col-md-6">
                 <x-adminlte-card title="Video Informasi" theme="primary" icon="fas fa-play">
-
-
-
                     {{-- <iframe width="560" height="315"
                         src="https://www.youtube.com/embed/-rLm4l1yuhU?si=N2MQHFACzBjy-lc7?autoplay=1"
                         title="YouTube video player" frameborder="0" allowfullscreen></iframe> --}}
-
                     {{-- <iframe src="http://..." onload='playVideo();'> --}}
-
-
-                          <video width="320" height="240" controls autoplay>
-                            <source src="movie.mp4" type="video/mp4">
-                            <source src="movie.mp4" type="video/ogg">
-                            Your browser does not support the video tag.
-                          </video>
-
-
-
+                    <video width="320" height="240" controls autoplay>
+                        <source src="{{ asset('movie.mp4') }}" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
                     {{-- <iframe
                         src="https://www.youtube.com/embed/-rLm4l1yuhU?si=N2MQHFACzBjy-lc7?rel=0&modestbranding=1&autohide=1&mute=1&showinfo=0&controls=1&autoplay=1"
                         width="560" height="315" frameborder="0" allowfullscreen onload='playVideo();'> ></iframe> --}}
-
-
                     {{-- <iframe src="https://drive.google.com/file/d/1xhCy7W5YDbGha30VPRttcxEykvV4yixz/preview" width="640"
                         height="480" allow="autoplay"></iframe> --}}
-
                 </x-adminlte-card>
             </div>
         </div>

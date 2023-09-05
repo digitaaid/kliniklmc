@@ -65,7 +65,8 @@
                         <select name="jadwal" id="jadwal" class="form-select" required>
                             <option selected disabled>Pilih Jadwal Dokter</option>
                             @foreach ($jadwals as $item)
-                                <option value="{{ $item->id }}">{{ $item->jadwal }} {{ $item->namasubspesialis }}
+                                <option value="{{ $item->id }}" {{ $item->id == $request->jadwal ? 'selected' : null }}>
+                                    {{ $item->jadwal }} {{ $item->namasubspesialis }}
                                     {{ $item->namadokter }}
                                 </option>
                             @endforeach

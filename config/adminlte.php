@@ -324,6 +324,12 @@ return [
             // 'can' => 'pendaftaran',
         ],
         [
+            'text' => 'Display Antrian',
+            'icon'    => 'fas fa-desktop',
+            'url'  => 'displayantrian',
+            // 'can' => 'pendaftaran',
+        ],
+        [
             'text' => 'Poliklinik',
             'icon'    => 'fas fa-clinic-medical',
             'url'  => 'poliklinik',
