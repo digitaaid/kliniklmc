@@ -18,9 +18,9 @@ return new class extends Migration
             $table->date('tglRencanaKontrol');
             $table->date('tglTerbitKontrol');
             $table->string('nomorkartu');
-            $table->string('norm');
-            $table->string('nama');
-            $table->string('nohp');
+            $table->string('norm')->nullable();
+            $table->string('nama')->nullable();
+            $table->string('nohp')->nullable();
             $table->string('kelamin')->nullable();
             $table->string('tglLahir')->nullable();
             $table->string('poliKontrol');
@@ -29,7 +29,7 @@ return new class extends Migration
             $table->string('namaDokter')->nullable();
             $table->string('catatan')->nullable();
             $table->string('user');
-            $table->string('kodebooking');
+            $table->string('kodebooking')->nullable();
             $table->timestamps();
         });
     }
