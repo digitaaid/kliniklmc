@@ -9,9 +9,9 @@
                             <h3>Klinik LMC</h3>
                             <p>
                                 Luthfi Medical Center <br>
-                                Jl. Raya Sunan Gunung Jati No.78 C/D. <br>
-                                Desa Jadimulya Kec. Gunungjati Kab. Cirebon Jawa Barat 45151 <br><br>
-                                <strong>Whatsapp:</strong> +1 5589 55488 55<br>
+                                Jl. Raya Sunan Gunung Jati No. 100 A/B <br>
+                                Desa Pasindangan Kec. Gunungjati Kab. Cirebon Jawa Barat 45151<br><br>
+                                <strong>Whatsapp:</strong> 0823 1169 6919<br>
                                 <strong>Email:</strong> info@example.com<br>
                             </p>
                             <div class="social-links mt-3">
@@ -65,8 +65,5 @@
             <div class="copyright">
                 &copy; Copyright <strong><span>Luthfi Medical Center</span></strong>. All Rights Reserved
             </div>
-            {{-- <div class="credits">
-                Designed by MDR</a>
-            </div> --}}
         </div>
     </footer><!-- End Footer -->

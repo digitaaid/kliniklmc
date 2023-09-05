@@ -5,7 +5,7 @@
                 <i class="bi bi-clock"></i> Senin - Sabtu, 08:00 - 21:00
             </div>
             <div class="d-flex align-items-center">
-                <i class="bi bi-phone"></i> Whtastapp 0823 1234 1234
+                <i class="bi bi-phone"></i> Whtastapp 0823 1169 6919
             </div>
         </div>
     </div>
