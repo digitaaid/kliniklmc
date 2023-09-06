@@ -60,6 +60,7 @@ Route::get('ambilkarcis', [AntrianController::class, 'ambilkarcis'])->name('ambi
 // mesin antrian
 Route::get('anjunganantrian', [AntrianController::class, 'anjunganantrian'])->name('anjunganantrian');
 Route::get('displayantrian', [AntrianController::class, 'displayAntrian'])->name('displayantrian');
+Route::get('displaynomor', [AntrianController::class, 'displaynomor'])->name('displaynomor');
 Route::get('checkinantrian', [AntrianController::class, 'checkinantrian'])->name('checkinantrian');
 Route::get('karcisantrian/{kodebooking}', [AntrianController::class, 'karcisantrian'])->name('karcisantrian');
 Route::get('checkinCetakSEP', [AntrianController::class, 'checkinCetakSEP'])->name('checkinCetakSEP');

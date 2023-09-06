@@ -21,17 +21,87 @@
                     </div>
                 </header>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-4">
                 <x-adminlte-card title="Anjungan Checkin Antrian RSUD Waled" theme="primary" icon="fas fa-qrcode">
+                    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                        <ol class="carousel-indicators">
+                            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+                            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                            <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+                        </ol>
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <img class="d-block w-100" src="{{ asset('medicio/assets/img/slide/slide-1.jpg') }}"
+                                    alt="First slide">
+                                <div class="carousel-caption d-none d-md-block">
+                                    <h5>...</h5>
+                                    <p>...</p>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <img class="d-block w-100" src="{{ asset('medicio/assets/img/slide/slide-2.jpg') }}"
+                                    alt="Second slide">
+                                <div class="carousel-caption d-none d-md-block">
+                                    <h5>...</h5>
+                                    <p>...</p>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <img class="d-block w-100" src="{{ asset('medicio/assets/img/slide/slide-3.jpg') }}"
+                                    alt="Third slide">
+                                <div class="carousel-caption d-none d-md-block">
+                                    <h5>...</h5>
+                                    <p>...</p>
+                                </div>
+                            </div>
+                        </div>
+                        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </div>
                 </x-adminlte-card>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-4">
+                <div class="card bg-success">
+                    <div class="card-body">
+                        <div class="text-center">
+                            <h1>Antrian Pendaftaran</h1>
+                            <h1><span id="pendaftaran">-</span></h1>
+                            <h5>Estimasi Antrian Selanjutnya <span id="pendaftaranselanjutnya">-</span></h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="card bg-success">
+                    <div class="card-body">
+                        <div class="text-center">
+                            <h1>Antrian Dokter</h1>
+                            <h1><span id="poliklinik">-</span></h1>
+                            <h5>Estimasi Antrian Selanjutnya <span id="poliklinikselanjutnya">-</span></h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="card bg-success">
+                    <div class="card-body">
+                        <div class="text-center">
+                            <h1>Antrian Farmasi</h1>
+                            <h1><span id="farmasi">-</span></h1>
+                            <h5>Estimasi Antrian Selanjutnya <span id="farmasiselanjutnya">-</span></h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
                 <x-adminlte-card title="Video Informasi" theme="primary" icon="fas fa-play">
                     {{-- <iframe width="560" height="315"
                         src="https://www.youtube.com/embed/-rLm4l1yuhU?si=N2MQHFACzBjy-lc7?autoplay=1"
                         title="YouTube video player" frameborder="0" allowfullscreen></iframe> --}}
                     {{-- <iframe src="http://..." onload='playVideo();'> --}}
-                    <video width="320" height="240" controls autoplay>
+                    <video width="100%" height="500" controls autoplay>
                         <source src="{{ asset('movie.mp4') }}" type="video/mp4">
                         Your browser does not support the video tag.
                     </video>
@@ -52,5 +122,24 @@
         function playVideo() {
             $('.ytp-large-play-button').click();
         }
+        setInterval(function() {
+            var url = "{{ route('displaynomor') }}";
+            $.ajax({
+                url: url,
+                type: "GET",
+                dataType: 'json',
+                success: function(data) {
+                    $('#pendaftaran').html(data.response.pendaftaran);
+                    $('#pendaftaranselanjutnya').html(data.response.pendaftaranselanjutnya);
+                    $('#poliklinik').html(data.response.poliklinik);
+                    $('#poliklinikselanjutnya').html(data.response.poliklinikselanjutnya);
+                    $('#farmasi').html(data.response.farmasi);
+                    $('#farmasiselanjutnya').html(data.response.farmasiselanjutnya);
+                },
+                error: function(data) {
+                    console.log(data);
+                }
+            });
+        }, 2000);
     </script>
 @stop

@@ -512,6 +512,20 @@ class AntrianController extends APIController
         //     ]
         // ));
     }
+    public function displaynomor()
+    {
+        $antrian = Antrian::where('tanggalperiksa', now()->format('Y-m-d'))->get();
+        $data = [
+            "pendaftaran" => $antrian->where('taskid', 2)->first()->nomorantrean ?? "-",
+            "pendaftaranselanjutnya" => $antrian->where('taskid', 1)->first()->nomorantrean ?? "-",
+            "poliklinik" => $antrian->where('taskid', 4)->first()->nomorantrean ?? "-",
+            "poliklinikselanjutnya" => $antrian->where('taskid', 3)->first()->nomorantrean ?? "-",
+            "farmasi" => $antrian->where('taskid', 6)->first()->nomorantrean ?? "-",
+            "farmasiselanjutnya" => $antrian->where('taskid', 5)->first()->nomorantrean ?? "-",
+        ];
+        return $this->sendResponse($data, 200);
+    }
+
     public function statusAntrianBpjs()
     {
         $api = IntegrasiApi::where('name', 'Antrian BPJS')->first();
