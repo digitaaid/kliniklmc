@@ -27,7 +27,6 @@ class SocialiteController extends Controller
                     'avatar' => $user_google->avatar,
                     'avatar_original' => $user_google->avatar_original,
                 ]);
-                auth()->login($user, true);
             }
             //jika user tidak ada maka simpan ke database
             else {
@@ -41,9 +40,13 @@ class SocialiteController extends Controller
                     'avatar_original' => $user_google->avatar_original,
                 ]);
                 $user->assignRole('Pasien');
-                auth()->login($user, true);
             }
-            return redirect()->route('home');
+            if ($user->email_verified_at) {
+                auth()->login($user, true);
+                return redirect()->route('home');
+            } else {
+                return redirect()->route('login')->withErrors("Mohon maaf, akun anda belum diverifikasi.");
+            }
         } catch (\Exception $e) {
             return redirect()->route('login');
         }

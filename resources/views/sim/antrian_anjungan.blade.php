@@ -1,5 +1,5 @@
 @extends('adminlte::master')
-@inject('layoutHelper', 'JeroenNoten\LaravelAdminLte\Helpers\LayoutHelper')
+{{-- @inject('layoutHelper', 'JeroenNoten\LaravelAdminLte\Helpers\LayoutHelper') --}}
 @section('title', 'Mesin Anjungan Antrian')
 @section('body')
     <link rel="shortcut icon" href="{{ asset('medicio/assets/img/lmc.png') }}" />
