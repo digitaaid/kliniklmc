@@ -7,12 +7,17 @@
         <div class="row p-1">
             <div class="col-md-12">
                 <div class="card">
-                    <header class="bg-primary text-white p-4">
+                    <header class="bg-purple text-white p-4">
                         <div class="container">
                             <div class="row">
                                 <div class="col-md-6">
-                                    <h1>Nama Aplikasi</h1>
-                                    <p>Slogan atau deskripsi singkat aplikasi Anda.</p>
+                                    <div class="row">
+                                        <img src="{{ asset('medicio/assets/img/lmc-b.png') }}" width="100" alt="">
+                                        <div class="col">
+                                            <h1>Klinik LMC</h1>
+                                            <p>Luthfi Medical Center</p>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="col-md-6 text-md-end">
                                     <p>Kontak: email@example.com</p>
@@ -67,12 +72,11 @@
                         </a>
                     </div>
                 </x-adminlte-card>
-
             </div>
             <div class="col-md-6">
                 <p hidden>{{ setlocale(LC_ALL, 'IND') }}</p>
                 <x-adminlte-card title="Informasi Antrian {{ \Carbon\Carbon::now()->formatLocalized('%A, %d %B %Y') }}"
-                    theme="primary" icon="fas fa-calendar-alt">
+                    theme="purple" icon="fas fa-calendar-alt">
                     <div class="row">
                         <div class="col-md-12">
                             @php
@@ -104,7 +108,7 @@
                         </div>
                     </div>
                 </x-adminlte-card>
-                <x-adminlte-card title="Anjungan Checkin Antrian" theme="primary" icon="fas fa-qrcode">
+                <x-adminlte-card title="Anjungan Checkin Antrian" theme="purple" icon="fas fa-qrcode">
                     <div class="text-center">
                         <x-adminlte-input name="kodebooking" label="Silahkan scan QR Code Antrian atau masukan Kode Antrian"
                             placeholder="Masukan Kode Antrian untuk Checkin" igroup-size="lg">
