@@ -278,144 +278,96 @@
 
         </div>
     </section><!-- End Services Section -->
-    <!-- ======= Departments Section ======= -->
-    <section id="departments" class="departments">
+    <!-- ======= Pricing Section ======= -->
+    <section id="persyaratan" class="pricing">
         <div class="container" data-aos="fade-up">
             <div class="section-title">
-                <h2>Departments</h2>
+                <h2>Persyartan</h2>
                 <p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit
                     sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias
                     ea. Quia fugiat sit in iste officiis commodi quidem hic quas.</p>
             </div>
-            <div class="row" data-aos="fade-up" data-aos-delay="100">
-                <div class="col-lg-4 mb-5 mb-lg-0">
-                    <ul class="nav nav-tabs flex-column">
-                        <li class="nav-item">
-                            <a class="nav-link active show" data-bs-toggle="tab" data-bs-target="#tab-1">
-                                <h4>Cardiology</h4>
-                                <p>Quis excepturi porro totam sint earum quo nulla perspiciatis eius.</p>
-                            </a>
-                        </li>
-                        <li class="nav-item mt-2">
-                            <a class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-2">
-                                <h4>Neurology</h4>
-                                <p>Voluptas vel esse repudiandae quo excepturi.</p>
-                            </a>
-                        </li>
-                        <li class="nav-item mt-2">
-                            <a class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-3">
-                                <h4>Hepatology</h4>
-                                <p>Velit veniam ipsa sit nihil blanditiis mollitia natus.</p>
-                            </a>
-                        </li>
-                        <li class="nav-item mt-2">
-                            <a class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-4">
-                                <h4>Pediatrics</h4>
-                                <p>Ratione hic sapiente nostrum doloremque illum nulla praesentium id</p>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="col-lg-8">
-                    <div class="tab-content">
-                        <div class="tab-pane active show" id="tab-1">
-                            <h3>Cardiology</h3>
-                            <p class="fst-italic">Qui laudantium consequatur laborum sit qui ad sapiente dila parde
-                                sonata raqer a videna mareta paulona marka</p>
-                            <img src="{{ asset('medicio/assets/img/departments-1.jpg') }}" alt=""
-                                class="img-fluid">
-                            <p>Et nobis maiores eius. Voluptatibus ut enim blanditiis atque harum sint. Laborum eos
-                                ipsum ipsa odit magni. Incidunt hic ut molestiae aut qui. Est repellat minima
-                                eveniet eius et quis magni nihil. Consequatur dolorem quaerat quos qui similique
-                                accusamus nostrum rem vero</p>
+            <div class="row justify-content-center">
+                {{-- <div class="col-lg-3 col-md-6">
+                    <div class="box" data-aos="fade-up" data-aos-delay="100">
+                        <h3>Free</h3>
+                        <h4><sup>$</sup>0<span> / month</span></h4>
+                        <ul>
+                            <li>Aida dere</li>
+                            <li>Nec feugiat nisl</li>
+                            <li>Nulla at volutpat dola</li>
+                            <li class="na">Pharetra massa</li>
+                            <li class="na">Massa ultricies mi</li>
+                        </ul>
+                        <div class="btn-wrap">
+                            <a href="#" class="btn-buy">Buy Now</a>
                         </div>
-                        <div class="tab-pane" id="tab-2">
-                            <h3>Neurology</h3>
-                            <p class="fst-italic">Qui laudantium consequatur laborum sit qui ad sapiente dila parde
-                                sonata raqer a videna mareta paulona marka</p>
-                            <img src="{{ asset('medicio/assets/img/departments-2.jpg') }}" alt=""
-                                class="img-fluid">
-                            <p>Et nobis maiores eius. Voluptatibus ut enim blanditiis atque harum sint. Laborum eos
-                                ipsum ipsa odit magni. Incidunt hic ut molestiae aut qui. Est repellat minima
-                                eveniet eius et quis magni nihil. Consequatur dolorem quaerat quos qui similique
-                                accusamus nostrum rem vero</p>
-                        </div>
-                        <div class="tab-pane" id="tab-3">
-                            <h3>Hepatology</h3>
-                            <p class="fst-italic">Qui laudantium consequatur laborum sit qui ad sapiente dila parde
-                                sonata raqer a videna mareta paulona marka</p>
-                            <img src="{{ asset('medicio/assets/img/departments-3.jpg') }}" alt=""
-                                class="img-fluid">
-                            <p>Et nobis maiores eius. Voluptatibus ut enim blanditiis atque harum sint. Laborum eos
-                                ipsum ipsa odit magni. Incidunt hic ut molestiae aut qui. Est repellat minima
-                                eveniet eius et quis magni nihil. Consequatur dolorem quaerat quos qui similique
-                                accusamus nostrum rem vero</p>
-                        </div>
-                        <div class="tab-pane" id="tab-4">
-                            <h3>Pediatrics</h3>
-                            <p class="fst-italic">Qui laudantium consequatur laborum sit qui ad sapiente dila parde
-                                sonata raqer a videna mareta paulona marka</p>
-                            <img src="{{ asset('medicio/assets/img/departments-4.jpg') }}" alt=""
-                                class="img-fluid">
-                            <p>Et nobis maiores eius. Voluptatibus ut enim blanditiis atque harum sint. Laborum eos
-                                ipsum ipsa odit magni. Incidunt hic ut molestiae aut qui. Est repellat minima
-                                eveniet eius et quis magni nihil. Consequatur dolorem quaerat quos qui similique
-                                accusamus nostrum rem vero</p>
+                    </div>
+                </div> --}}
+                <div class="col-lg-3 col-md-6 mt-4 mt-md-0">
+                    <div class="box featured" data-aos="fade-up" data-aos-delay="200">
+                        <h3>Pasien BPJS</h3>
+                        <ul>
+                            <li>Status Kepesertaan BPJS AKTIF</li>
+                            <li>Memiliki Rujukan / Surat Kontrol</li>
+                        </ul>
+                        <div class="btn-wrap">
+                            <a href="{{ route('daftarbpjs') }}" class="btn-buy">Daftar</a>
                         </div>
                     </div>
                 </div>
-            </div>
-
-        </div>
-    </section><!-- End Departments Section -->
-    <!-- ======= Testimonials Section ======= -->
-    <section id="testimonials" class="testimonials">
-        <div class="container" data-aos="fade-up">
-            <div class="section-title">
-                <h2>Testimonials</h2>
-                <p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit
-                    sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias
-                    ea. Quia fugiat sit in iste officiis commodi quidem hic quas.</p>
-            </div>
-            <div class="testimonials-slider swiper" data-aos="fade-up" data-aos-delay="100">
-                <div class="swiper-wrapper">
-                    <div class="swiper-slide">
-                        <div class="testimonial-item">
-                            <p>
-                                <i class="bx bxs-quote-alt-left quote-icon-left"></i>
-                                Proin iaculis purus consequat sem cure digni ssim donec porttitora entum suscipit
-                                rhoncus. Accusantium quam, ultricies eget id, aliquam eget nibh et. Maecen aliquam,
-                                risus at semper.
-                                <i class="bx bxs-quote-alt-right quote-icon-right"></i>
-                            </p>
-                            <img src="{{ asset('medicio/assets/img/testimonials/testimonials-1.jpg') }}"
-                                class="testimonial-img" alt="">
-                            <h3>Saul Goodman</h3>
-                            <h4>Ceo &amp; Founder</h4>
+                <div class="col-lg-3 col-md-6 mt-4 mt-md-0">
+                    <div class="box featured" data-aos="fade-up" data-aos-delay="200">
+                        <h3>Pasien Umum</h3>
+                        <ul>
+                            <li>Mempunyai NIK</li>
+                            <li class="na">Memiliki Rujukan / Surat Kontrol</li>
+                        </ul>
+                        <div class="btn-wrap">
+                            <a href="{{ route('daftarumum') }}" class="btn-buy">Daftar</a>
                         </div>
-                    </div><!-- End testimonial item -->
-                    @foreach ($testimoni as $ts)
-                        <div class="swiper-slide">
-                            <div class="testimonial-item">
-                                <p>
-                                    <i class="bx bxs-quote-alt-left quote-icon-left"></i>
-                                    {{ $ts->testimoni }}
-                                    <i class="bx bxs-quote-alt-right quote-icon-right"></i>
-                                </p>
-                                <img src="{{ asset('medicio/assets/img/testimonials/testimonials-2.jpg') }}"
-                                    class="testimonial-img" alt="">
-                                <h3> {{ $ts->name }}</h3>
-                                <h4> {{ $ts->subtitle }}</h4>
-                            </div>
-                        </div><!-- End testimonial item -->
-                    @endforeach
+                    </div>
                 </div>
-                <div class="swiper-pagination"></div>
+                {{-- <div class="col-lg-3 col-md-6 mt-4 mt-lg-0">
+                    <div class="box" data-aos="fade-up" data-aos-delay="300">
+                        <h3>Developer</h3>
+                        <h4><sup>$</sup>29<span> / month</span></h4>
+                        <ul>
+                            <li>Aida dere</li>
+                            <li>Nec feugiat nisl</li>
+                            <li>Nulla at volutpat dola</li>
+                            <li>Pharetra massa</li>
+                            <li>Massa ultricies mi</li>
+                        </ul>
+                        <div class="btn-wrap">
+                            <a href="#" class="btn-buy">Buy Now</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 mt-4 mt-lg-0">
+                    <div class="box" data-aos="fade-up" data-aos-delay="400">
+                        <span class="advanced">Advanced</span>
+                        <h3>Ultimate</h3>
+                        <h4><sup>$</sup>49<span> / month</span></h4>
+                        <ul>
+                            <li>Aida dere</li>
+                            <li>Nec feugiat nisl</li>
+                            <li>Nulla at volutpat dola</li>
+                            <li>Pharetra massa</li>
+                            <li>Massa ultricies mi</li>
+                        </ul>
+                        <div class="btn-wrap">
+                            <a href="#" class="btn-buy">Buy Now</a>
+                        </div>
+                    </div>
+                </div> --}}
             </div>
-
         </div>
-    </section><!-- End Testimonials Section -->
+    </section><!-- End Pricing Section -->
+    @include('vendor.medico.content.departement')
+    @include('vendor.medico.content.jadwal')
     @include('vendor.medico.content.doctor')
+    @include('vendor.medico.content.testimoni')
     <!-- ======= Gallery Section ======= -->
     <section id="gallery" class="gallery">
         <div class="container" data-aos="fade-up">
@@ -472,134 +424,7 @@
             </div>
         </div>
     </section><!-- End Gallery Section -->
-
-    <!-- ======= Pricing Section ======= -->
-    <section id="pricing" class="pricing">
-        <div class="container" data-aos="fade-up">
-
-            <div class="section-title">
-                <h2>Pricing</h2>
-                <p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit
-                    sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias
-                    ea. Quia fugiat sit in iste officiis commodi quidem hic quas.</p>
-            </div>
-
-            <div class="row">
-
-                <div class="col-lg-3 col-md-6">
-                    <div class="box" data-aos="fade-up" data-aos-delay="100">
-                        <h3>Free</h3>
-                        <h4><sup>$</sup>0<span> / month</span></h4>
-                        <ul>
-                            <li>Aida dere</li>
-                            <li>Nec feugiat nisl</li>
-                            <li>Nulla at volutpat dola</li>
-                            <li class="na">Pharetra massa</li>
-                            <li class="na">Massa ultricies mi</li>
-                        </ul>
-                        <div class="btn-wrap">
-                            <a href="#" class="btn-buy">Buy Now</a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-3 col-md-6 mt-4 mt-md-0">
-                    <div class="box featured" data-aos="fade-up" data-aos-delay="200">
-                        <h3>Business</h3>
-                        <h4><sup>$</sup>19<span> / month</span></h4>
-                        <ul>
-                            <li>Aida dere</li>
-                            <li>Nec feugiat nisl</li>
-                            <li>Nulla at volutpat dola</li>
-                            <li>Pharetra massa</li>
-                            <li class="na">Massa ultricies mi</li>
-                        </ul>
-                        <div class="btn-wrap">
-                            <a href="#" class="btn-buy">Buy Now</a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-3 col-md-6 mt-4 mt-lg-0">
-                    <div class="box" data-aos="fade-up" data-aos-delay="300">
-                        <h3>Developer</h3>
-                        <h4><sup>$</sup>29<span> / month</span></h4>
-                        <ul>
-                            <li>Aida dere</li>
-                            <li>Nec feugiat nisl</li>
-                            <li>Nulla at volutpat dola</li>
-                            <li>Pharetra massa</li>
-                            <li>Massa ultricies mi</li>
-                        </ul>
-                        <div class="btn-wrap">
-                            <a href="#" class="btn-buy">Buy Now</a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-3 col-md-6 mt-4 mt-lg-0">
-                    <div class="box" data-aos="fade-up" data-aos-delay="400">
-                        <span class="advanced">Advanced</span>
-                        <h3>Ultimate</h3>
-                        <h4><sup>$</sup>49<span> / month</span></h4>
-                        <ul>
-                            <li>Aida dere</li>
-                            <li>Nec feugiat nisl</li>
-                            <li>Nulla at volutpat dola</li>
-                            <li>Pharetra massa</li>
-                            <li>Massa ultricies mi</li>
-                        </ul>
-                        <div class="btn-wrap">
-                            <a href="#" class="btn-buy">Buy Now</a>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
-        </div>
-    </section><!-- End Pricing Section -->
-    <!-- ======= Frequently Asked Questioins Section ======= -->
-    <section id="faq" class="faq section-bg">
-        <div class="container" data-aos="fade-up">
-
-            <div class="section-title">
-                <h2>Frequently Asked Questioins</h2>
-                <p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit
-                    sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias
-                    ea. Quia fugiat sit in iste officiis commodi quidem hic quas.</p>
-            </div>
-
-            <ul class="faq-list">
-
-                <li>
-                    <div data-bs-toggle="collapse" class="collapsed question" href="#faq1">Non consectetur a
-                        erat nam at lectus urna duis? <i class="bi bi-chevron-down icon-show"></i><i
-                            class="bi bi-chevron-up icon-close"></i></div>
-                    <div id="faq1" class="collapse" data-bs-parent=".faq-list">
-                        <p>
-                            Feugiat pretium nibh ipsum consequat. Tempus iaculis urna id volutpat lacus laoreet non
-                            curabitur gravida. Venenatis lectus magna fringilla urna porttitor rhoncus dolor purus
-                            non.
-                        </p>
-                    </div>
-                </li>
-                @foreach ($tanyajawab as $tj)
-                    <li>
-                        <div data-bs-toggle="collapse" href="#faqs{{ $tj->id }}" class="collapsed question">
-                            {{ $tj->pertanyaan }}
-                            <i class="bi bi-chevron-down icon-show"></i><i class="bi bi-chevron-up icon-close"></i>
-                        </div>
-                        <div id="faqs{{ $tj->id }}" class="collapse" data-bs-parent=".faq-list">
-                            <p>
-                                {{ $tj->jawaban }}
-                            </p>
-                        </div>
-                    </li>
-                @endforeach
-            </ul>
-        </div>
-    </section><!-- End Frequently Asked Questioins Section -->
+    @include('vendor.medico.content.faq')
     @include('vendor.medico.content.contact')
 @endsection
 @section('css')

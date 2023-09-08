@@ -275,7 +275,6 @@
                                         Buat
                                         Surat Kontrol</button>
                                 </form>
-
                             </div>
                             <div class="tab-pane" id="farmasitab">
                                 <form action="{{ route('lanjutfarmasi') }}" method="GET">

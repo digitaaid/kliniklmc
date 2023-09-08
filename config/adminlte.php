@@ -132,7 +132,7 @@ return [
     'usermenu_enabled' => true,
     'usermenu_header' => false,
     'usermenu_header_class' => 'bg-primary',
-    'usermenu_image' => false,
+    'usermenu_image' => true,
     'usermenu_desc' => false,
     'usermenu_profile_url' => false,
 
@@ -360,15 +360,15 @@ return [
             // 'can' =>  ['bpjs', 'pendaftaran'],
         ],
         [
-            'text' => 'Surat Kontrol',
-            'icon'    => 'fas fa-file-medical',
-            'url'  => 'suratkontrol',
-            // 'can' =>  ['bpjs', 'pendaftaran'],
-        ],
-        [
             'text' => 'Antrian Farmasi',
             'icon'    => 'fas fa-users',
             'url'  => 'antrianfarmasi',
+            // 'can' =>  ['bpjs', 'pendaftaran'],
+        ],
+        [
+            'text' => 'Surat Kontrol',
+            'icon'    => 'fas fa-file-medical',
+            'url'  => 'suratkontrol',
             // 'can' =>  ['bpjs', 'pendaftaran'],
         ],
         // ANTRIAN BPJS
@@ -692,14 +692,9 @@ return [
             ],
         ],
         [
-            'text' => 'profile',
-            'url'  => 'admin/settings',
+            'text' => 'Profile',
+            'url'  => 'profile',
             'icon' => 'fas fa-fw fa-user',
-        ],
-        [
-            'text' => 'change_password',
-            'url'  => 'admin/settings',
-            'icon' => 'fas fa-fw fa-lock',
         ],
     ],
 

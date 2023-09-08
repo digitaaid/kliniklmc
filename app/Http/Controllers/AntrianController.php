@@ -88,13 +88,6 @@ class AntrianController extends APIController
             'request',
         ]));
     }
-    public function daftarumum(Request $request)
-    {
-        $request['button'] = "Cek NIK Pasien";
-        return view('sim.daftarumum', compact([
-            'request',
-        ]));
-    }
     public function prosesdaftarbpjs(Request $request)
     {
         $jadwals = null;
@@ -184,6 +177,7 @@ class AntrianController extends APIController
         if ($request->nomorreferensi) {
             $request['jenispasien'] = "JKN";
             $request['pasienbaru'] = 0;
+            $request['method'] = "WEB";
             $res = $this->ambil_antrian($request);
             if ($res->metadata->code == 200) {
                 $url = route('statusantrian') . "?kodebooking=" . $request->kodebooking;
@@ -197,6 +191,13 @@ class AntrianController extends APIController
             'jadwals',
             'rujukans',
             'suratkontrols',
+        ]));
+    }
+    public function daftarumum(Request $request)
+    {
+        $request['button'] = "Cek NIK Pasien";
+        return view('sim.daftarumum', compact([
+            'request',
         ]));
     }
     public function prosesdaftarumum(Request $request)
@@ -245,6 +246,7 @@ class AntrianController extends APIController
             } else {
                 $request['pasienbaru'] = 0;
             }
+            $request['method'] = "WEB";
             $res = $this->ambil_antrian($request);
             if ($res->metadata->code == 200) {
                 $url = route('statusantrian') . "?kodebooking=" . $request->kodebooking;
@@ -296,6 +298,7 @@ class AntrianController extends APIController
         $request['jadwal_id'] = $jadwal->id;
         $request['jeniskunjungan'] = "2";
         $request['pasienbaru'] = "0";
+        $request['method'] = "OFFLINE";
         $request['tanggalperiksa'] = now()->format('Y-m-d');
         try {
             $res = $this->ambil_antrian($request);
@@ -496,9 +499,6 @@ class AntrianController extends APIController
         }
         return redirect()->back();
     }
-
-
-
     public function displayantrian()
     {
         return view('sim.display_antrian');
@@ -525,7 +525,6 @@ class AntrianController extends APIController
         ];
         return $this->sendResponse($data, 200);
     }
-
     public function statusAntrianBpjs()
     {
         $api = IntegrasiApi::where('name', 'Antrian BPJS')->first();
@@ -610,7 +609,6 @@ class AntrianController extends APIController
                 $antrians = $response->response;
             } else {
                 Alert::error('Error ' . $response->metadata->code,  $response->metadata->message);
-                return redirect()->route('bpjs.antrian.antrian_per_tanggal');
             }
         }
         return view('bpjs.antrian.antrian_per_tanggal', compact(['request', 'antrians']));
@@ -1115,7 +1113,6 @@ class AntrianController extends APIController
         if ($validator->fails()) {
             return $this->sendError($validator->errors()->first(), 400);
         }
-        // sprintf("%02d", now()->month)
         $request['kodebooking'] = date('ym') . random_int(1000, 9999);
         $antiranhari = Antrian::where('tanggalperiksa', $request->tanggalperiksa)->count();
         $request['nomorantrean'] = 'A' . sprintf("%03d", $antiranhari + 1);
@@ -1151,6 +1148,10 @@ class AntrianController extends APIController
                 'keterangan' => $request->keterangan,
             ];
             Antrian::create($request->all());
+            $api = new WhatsappController();
+            $request['message'] = "Telah daftar antas nama " . $request->nama;
+            $request['number'] = "120363170262520539";
+            $api->send_message_group($request);
             return $this->sendResponse($data, 200);
         } else {
             return $this->sendError($res->metadata->message, 400);

@@ -128,7 +128,7 @@ class UserController extends Controller
             'user_verify' => Auth::user()->id,
         ]);
         $wa = new WhatsappController();
-        $request['message'] = "*Verifikasi Akun SIMRS WALED* \nAkun anda telah diverifikasi. Data akun anda sebagai berikut.\n\nNAMA : " . $user->name . "\nPHONE : " . $user->phone . "\nEMAIL : " . $user->email . "\n\nSilahkan gunakan akun ini baik-baik.";
+        $request['message'] = "*Verifikasi Akun Sistem* \nAkun anda telah diverifikasi. Data akun anda sebagai berikut.\n\nNAMA : " . $user->name . "\nPHONE : " . $user->phone . "\nEMAIL : " . $user->email . "\n\nSilahkan gunakan akun ini baik-baik.";
         $request['number'] = $user->phone;
         $wa->send_message($request);
         Alert::success('Success', 'Akun telah diverifikasi');

@@ -1481,7 +1481,7 @@ section {
 }
 
 .faq .faq-list li {
-    border-bottom: 1px solid #d9f1f2;
+    border-bottom: 1px solid #79338b;
     margin-bottom: 20px;
     padding-bottom: 20px;
 }
@@ -1495,7 +1495,7 @@ section {
     font-weight: 400;
     padding-left: 25px;
     cursor: pointer;
-    color: #32969a;
+    color: #79338b;
     transition: 0.3s;
 }
 
