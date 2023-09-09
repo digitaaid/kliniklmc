@@ -183,7 +183,7 @@ class AntrianController extends APIController
                 $url = route('statusantrian') . "?kodebooking=" . $request->kodebooking;
                 return redirect()->to($url);
             } else {
-                $request['warning'] = $res->metadata->message;
+                $request['error'] = $res->metadata->message;
             }
         }
         return view('sim.daftarbpjs', compact([
@@ -252,7 +252,7 @@ class AntrianController extends APIController
                 $url = route('statusantrian') . "?kodebooking=" . $request->kodebooking;
                 return redirect()->to($url);
             } else {
-                $request['warning'] = $res->metadata->message;
+                $request['error'] = $res->metadata->message;
             }
         }
         return view('sim.daftarumum', compact([
@@ -1148,10 +1148,20 @@ class AntrianController extends APIController
                 'keterangan' => $request->keterangan,
             ];
             Antrian::create($request->all());
-            $api = new WhatsappController();
-            $request['message'] = "Telah daftar antas nama " . $request->nama;
-            $request['number'] = "120363170262520539";
-            $api->send_message_group($request);
+            try {
+                $api = new WhatsappController();
+                if ($request->method != "OFFLINE") {
+                    $request['message'] = "Anda mendaftar antrian di Klinik LMC \n\nLink Status Antrian : https://luthfimedicalcenter.com/statusantrian?kodebooking=" . $request->kodebooking;
+                    $request['number'] = $request->nohp;
+                    $api->send_message($request);
+                }
+                $request['message'] = "Telah daftar antas nama " . $request->nama . " dengan angka antrian " . $request->angkaantrean;
+                $request['number'] = "120363170262520539";
+                $api->send_message_group($request);
+            } catch (\Throwable $th) {
+                //throw $th;
+            }
+
             return $this->sendResponse($data, 200);
         } else {
             return $this->sendError($res->metadata->message, 400);
