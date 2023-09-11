@@ -218,14 +218,12 @@
                                                 <option value="racikan">Racikan</option>
                                                 <option value="non racikan">Non Racikan</option>
                                             </x-adminlte-select>
-                                            <x-adminlte-textarea igroup-size="sm"  rows=10 label="Catatan" class="catatanfarmasi"
+                                            <x-adminlte-textarea igroup-size="sm" rows=10 label="Catatan" class="catatanfarmasi"
                                                 name="catatan" placeholder="Catatan Farmasi" />
                                         </div>
                                         <div class="col-md-6">
                                         </div>
                                     </div>
-                                    <button type="submit" class="btn btn-warning"> <i class="fas fa-pills"></i>Lanjut
-                                        Farmasi</button>
                                 </form>
                             </div>
                             <div class="tab-pane" id="activity">

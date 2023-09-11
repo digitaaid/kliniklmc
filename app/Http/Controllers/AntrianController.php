@@ -472,8 +472,8 @@ class AntrianController extends APIController
             $res = $this->update_antrean($request);
             if ($res->metadata->code == 200) {
                 $antrian->update([
-                    'taskid' => $request->taskid,
-                    'keterangan' => "Pasien pasien sudah dilayani dipoliklinik",
+                    'taskid' => '7',
+                    'keterangan' => "Pasien pasien sudah selesai pelayanan.",
                 ]);
                 Alert::success('Success', 'Antrian selesai di Poliklinik.');
             } else {

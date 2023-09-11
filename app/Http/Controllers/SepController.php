@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Antrian;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -14,7 +15,6 @@ class SepController extends Controller
     }
     public function store(Request $request)
     {
-
         $api = new VclaimController();
         $request['tglSep'] = now()->format('Y-m-d');
         $request['ppkPelayanan'] = "0125S003";
@@ -32,6 +32,7 @@ class SepController extends Controller
         // kontrol
         if ($request->noSurat) {
             $request['noSuratKontrol'] = $request->noSurat;
+            $request['nomorreferensi'] = $request->noSurat;
             $res_srt = $api->suratkontrol_nomor($request);
             $suratkontrol = $res_srt->response;
             $request['asalRujukan'] = $suratkontrol->sep->provPerujuk->asalRujukan;
@@ -39,14 +40,22 @@ class SepController extends Controller
             $request['noRujukan'] = $suratkontrol->sep->provPerujuk->noRujukan;
             $request['ppkRujukan'] = $suratkontrol->sep->provPerujuk->kdProviderPerujuk;
         } else {
-            # code...
+            $request['nomorreferensi'] = $request->noRujukan;
         }
         $res = $api->sep_insert($request);
         if ($res->metadata->code == 200) {
-            dd($request->all(), $res);
+            $sep = $res->response->sep;
+            $antrian = Antrian::where('kodebooking', $request->kodebooking)->first();
+            $antrian->update([
+                'sep' => $sep->noSep,
+                'nomorrujukan' => $request->noRujukan,
+                'nomorsuratkontrol' => $request->noSurat,
+                'nomorreferensi' => $request->nomorreferensi,
+            ]);
+            Alert::success('Success', 'SEP berhasil dibuatkan');
         } else {
             Alert::error('Error', $res->metadata->message);
-            return redirect()->back();
         }
+        return redirect()->back();
     }
 }

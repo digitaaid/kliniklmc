@@ -41,7 +41,7 @@
                                 <td>{{ $item->norm }} {{ $item->nama }}</td>
                                 <td>{{ $item->namadokter }}</td>
                                 <td>{{ $item->namapoli }}</td>
-                                <td>{{ $item->pasienbaru }} {{ $item->jenispasien }} </td>
+                                <td>{{ $item->pasienbaru }} {{ $item->jenispasien }} {{ $item->sep }} </td>
                                 <td>
                                     @switch($item->taskid)
                                         @case(0)
@@ -287,16 +287,18 @@
                                                 <option value="racikan">Racikan</option>
                                                 <option value="non racikan">Non Racikan</option>
                                             </x-adminlte-select>
-                                            <x-adminlte-textarea igroup-size="sm" label="Catatan" name="catatan"
+                                            <x-adminlte-textarea igroup-size="sm" rows=10 label="Catatan" name="catatan"
                                                 placeholder="Catatan Farmasi" />
                                         </div>
                                         <div class="col-md-6">
 
                                         </div>
                                     </div>
-                                    <button type="submit" class="btn btn-warning withLoad"> <i
+                                    <button type="submit" class="btn btn-warning withLoad mr-1"> <i
                                             class="fas fa-pills"></i>Lanjut
                                         Farmasi</button>
+                                    <a href="" class="btn btn-success btnSelesaiPoli withLoad">Selesai
+                                        Pelayanan</a>
                                 </form>
 
                             </div>
@@ -306,8 +308,6 @@
             </div>
         </div>
         <x-slot name="footerSlot">
-            {{-- <a href="" class="btn btn-warning mr-auto" id="btnLanjutPoli"><i class="fas fa-sign"></i> Lanjut
-                Poliklinik</a> --}}
             <a href="" class="btn btn-danger" id="btnBatal"><i class="fas fa-times"></i> Batal</a>
             <x-adminlte-button theme="danger" icon="fas fa-times" label="Tutup" data-dismiss="modal" />
         </x-slot>
@@ -356,7 +356,6 @@
                 var nohp = $(this).data("nohp");
                 var nomorantrean = $(this).data("nomorantrean");
                 var jeniskunjungan = $(this).data("jeniskunjungan");
-                var sep = $(this).data("sep");
                 var namapoli = $(this).data("namapoli");
                 var namadokter = $(this).data("namadokter");
                 $(".namapasien").html(namapasien);
@@ -373,7 +372,7 @@
                 $(".kodebooking-id").val(kodebooking);
                 $(".nomorantrean").html(nomorantrean);
                 $(".jeniskunjungan").html(jeniskunjungan);
-                $(".sep").html(sep);
+                $(".sep").html($(this).data("sep"));
                 $(".namapoli").html(namapoli);
                 $(".namadokter").html(namadokter);
                 var url = "{{ route('layanipendaftaran') }}?kodebooking=" + kodebooking;
@@ -382,8 +381,8 @@
                         console.log(data);
                     });
                 }
-                var urllanjut = "{{ route('lanjutpoliklinik') }}?kodebooking=" + kodebooking;
-                $("#btnLanjutPoli").attr("href", urllanjut);
+                var selesai = "{{ route('selesaipoliklinik') }}?kodebooking=" + kodebooking;
+                $(".btnSelesaiPoli").attr("href", selesai);
                 var urlbatal = "{{ route('batalantrian') }}?kodebooking=" + kodebooking +
                     "&keterangan=dibatalkan_dipendaftarn";
                 $("#btnBatal").attr("href", urlbatal);

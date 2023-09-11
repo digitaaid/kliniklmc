@@ -212,6 +212,7 @@
                                 Identitas Rujukan atau Surat Kontrol Pasien
                                 <form action="{{ route('sep.store') }}" method="POST">
                                     @csrf
+                                    <input type="hidden" name="kodebooking" class="kodebooking-id">
                                     <div class="row">
                                         <div class="col-md-6">
                                             <x-adminlte-input name="noKartu" class="nomorkartu-id" igroup-size="sm"
@@ -441,8 +442,9 @@
     </x-adminlte-modal>
     <x-adminlte-modal id="modalEditSuratKontrol" name="modalEditSuratKontrol" title="Edit Surat Kontrol" theme="success"
         icon="fas fa-file-medical">
-        <form action="">
-            <x-adminlte-input name="noSuratKontrol" class="noSurat-id" igroup-size="sm" label="Nomor Surat Kontrol"
+        <form action="" id="formUpdate">
+            <input type="hidden" name="user" value="{{ Auth::user()->name }}">
+            <x-adminlte-input name="noSuratKontrol" class="noSurat-edit" igroup-size="sm" label="Nomor Surat Kontrol"
                 placeholder="Nomor Surat Kontrol" readonly>
             </x-adminlte-input>
             <x-adminlte-input name="noSEP" class="noSEP-id" igroup-size="sm" label="Nomor SEP"
@@ -451,15 +453,16 @@
             @php
                 $config = ['format' => 'YYYY-MM-DD'];
             @endphp
-            <x-adminlte-input-date name="tglRencanaKontrol" igroup-size="sm" label="Tanggal Rencana Kontrol"
-                value="{{ $request->tglRencanaKontrol }}" placeholder="Pilih Tanggal Rencana Kontrol" :config="$config">
+            <x-adminlte-input-date name="tglRencanaKontrol" id="tglRencanaKontrolid" class="tglRencanaKontrol-id"
+                igroup-size="sm" label="Tanggal Rencana Kontrol" value="{{ $request->tglRencanaKontrol }}"
+                placeholder="Pilih Tanggal Rencana Kontrol" :config="$config">
                 <x-slot name="appendSlot">
                     <div class="btn btn-primary btnCariPoli">
                         <i class="fas fa-search"></i> Cari Poli
                     </div>
                 </x-slot>
             </x-adminlte-input-date>
-            <x-adminlte-select igroup-size="sm" name="poliKontrol" label="Poliklinik">
+            <x-adminlte-select igroup-size="sm" name="poliKontrol" class="poliKontrol-id" label="Poliklinik">
                 <option selected disabled>Silahkan Klik Cari Poliklinik</option>
                 <x-slot name="appendSlot">
                     <div class="btn btn-primary btnCariDokter">
@@ -467,11 +470,17 @@
                     </div>
                 </x-slot>
             </x-adminlte-select>
-            <x-adminlte-select igroup-size="sm" name="kodeDokter" label="Dokter">
+            <x-adminlte-select igroup-size="sm" name="kodeDokter" class="kodeDokter-id" label="Dokter">
                 <option selected disabled>Silahkan Klik Cari Dokter</option>
             </x-adminlte-select>
             <x-adminlte-textarea igroup-size="sm" label="Catatan" name="catatan" placeholder="Catatan Pasien" />
         </form>
+        <x-slot name="footerSlot">
+            <x-adminlte-button theme="warning" icon="fas fa-edit" class="mr-auto btnUpdateSuratKontrol"
+                label="Update" />
+
+            <x-adminlte-button theme="danger" icon="fas fa-times" label="Tutup" data-dismiss="modal" />
+        </x-slot>
     </x-adminlte-modal>
 @stop
 
@@ -494,7 +503,7 @@
                     toast.addEventListener('mouseenter', Swal.stopTimer)
                     toast.addEventListener('mouseleave', Swal.resumeTimer)
                 }
-            })
+            });
             $('.btnAntrian').click(function() {
                 $.LoadingOverlay("show");
                 var kodebooking = $(this).data("kodebooking");
@@ -506,7 +515,6 @@
                 var nohp = $(this).data("nohp");
                 var nomorantrean = $(this).data("nomorantrean");
                 var jeniskunjungan = $(this).data("jeniskunjungan");
-                var sep = $(this).data("sep");
                 var namapoli = $(this).data("namapoli");
                 var namadokter = $(this).data("namadokter");
                 $(".namapasien").html(namapasien);
@@ -523,15 +531,9 @@
                 $(".kodebooking-id").val(kodebooking);
                 $(".nomorantrean").html(nomorantrean);
                 $(".jeniskunjungan").html(jeniskunjungan);
-                $(".sep").html(sep);
+                $(".sep").html($(this).data("sep"));
                 $(".namapoli").html(namapoli);
                 $(".namadokter").html(namadokter);
-                // var url = "{{ route('layanipendaftaran') }}?kodebooking=" + kodebooking;
-                // if (taskid == 1) {
-                //     $.get(url, function(data, status) {
-                //         console.log(data);
-                //     });
-                // }
                 var urllanjut = "{{ route('lanjutpoliklinik') }}?kodebooking=" + kodebooking;
                 $("#btnLanjutPoli").attr("href", urllanjut);
                 var urlbatal = "{{ route('batalantrian') }}?kodebooking=" + kodebooking +
@@ -622,21 +624,6 @@
                 });
                 $.LoadingOverlay("hide");
             });
-        });
-    </script>
-    <script>
-        $(function() {
-            const Toast = Swal.mixin({
-                toast: true,
-                position: 'top-end',
-                showConfirmButton: false,
-                timer: 5000,
-                timerProgressBar: true,
-                didOpen: (toast) => {
-                    toast.addEventListener('mouseenter', Swal.stopTimer)
-                    toast.addEventListener('mouseleave', Swal.resumeTimer)
-                }
-            })
             $('.btnCariRujukan').click(function() {
                 $.LoadingOverlay("show");
                 var asalRujukan = $("#asalRujukan").find(":selected").val();
@@ -748,9 +735,10 @@
                             });
                             $('.btnEditSuratKontrol').click(function() {
                                 $.LoadingOverlay("show");
-                                $('.noSurat-id').val($(this).data('id'));
-                                $('.noSEP-id').val($(this).data('nosepasal'));
+                                $('#formUpdate').trigger("reset");
                                 $('#modalEditSuratKontrol').modal('show');
+                                $('.noSurat-edit').val($(this).data('id'));
+                                $('.noSEP-id').val($(this).data('nosepasal'));
                                 $.LoadingOverlay("hide");
                             });
                         } else {
@@ -847,8 +835,8 @@
             $('.btnCariPoli').click(function(e) {
                 e.preventDefault();
                 $.LoadingOverlay("show");
-                var sep = $('#noSEP').val();
-                var tanggal = $('#tglRencanaKontrol').val();
+                var sep = $('.noSEP-id').val();
+                var tanggal = $('.tglRencanaKontrol-id').val();
                 var url = "{{ route('suratkontrol_poli') }}?nomor=" + sep + "&tglRencanaKontrol=" +
                     tanggal;
                 // alert(url);
@@ -858,12 +846,13 @@
                     dataType: 'json',
                     success: function(data) {
                         if (data.metadata.code == 200) {
-                            $('#poliKontrol').empty()
+                            $('.poliKontrol-id').empty()
                             $.each(data.response.list, function(key, value) {
                                 optText = value.namaPoli + " (" + value.persentase +
                                     "%)";
                                 optValue = value.kodePoli;
-                                $('#poliKontrol').append(new Option(optText, optValue));
+                                $('.poliKontrol-id').append(new Option(optText,
+                                    optValue));
                             });
                             Toast.fire({
                                 icon: 'success',
@@ -887,8 +876,8 @@
             $('.btnCariDokter').click(function(e) {
                 e.preventDefault();
                 $.LoadingOverlay("show");
-                var poli = $('#poliKontrol').find(":selected").val();
-                var tanggal = $('#tglRencanaKontrol').val();
+                var poli = $('.poliKontrol-id').find(":selected").val();
+                var tanggal = $('.tglRencanaKontrol-id').val();
                 var url = "{{ route('suratkontrol_dokter') }}?kodePoli=" + poli + "&tglRencanaKontrol=" +
                     tanggal;
                 // alert(url);
@@ -898,13 +887,14 @@
                     dataType: 'json',
                     success: function(data) {
                         if (data.metadata.code == 200) {
-                            $('#kodeDokter').empty()
+                            $('.kodeDokter-id').empty()
                             $.each(data.response.list, function(key, value) {
                                 optText = value.namaDokter + " (" + value
                                     .jadwalPraktek +
                                     ")";
                                 optValue = value.kodeDokter;
-                                $('#kodeDokter').append(new Option(optText, optValue));
+                                $('.kodeDokter-id').append(new Option(optText,
+                                    optValue));
                             });
                             Toast.fire({
                                 icon: 'success',
@@ -921,6 +911,39 @@
                     },
                     error: function(data) {
                         alert(url);
+                        $.LoadingOverlay("hide");
+                    }
+                });
+            });
+            $('.btnUpdateSuratKontrol').click(function(e) {
+                e.preventDefault();
+                $.LoadingOverlay("show");
+                $.ajax({
+                    url: "{{ route('suratkontrol_update') }}",
+                    type: "PUT",
+                    data: $('#formUpdate').serialize(),
+                    dataType: 'json',
+                    success: function(data) {
+                        console.log(data);
+                        if (data.metadata.code == 200) {
+                            Swal.fire(
+                                'Success',
+                                'Berhasi upadate surat kontrol',
+                                'success'
+                            );
+                            $('#modalSuratKontrol').modal('hide');
+                            $('#modalEditSuratKontrol').modal('hide');
+                        } else {
+                            Swal.fire(
+                                'Error ' + data.metadata.code,
+                                data.metadata.message,
+                                'error'
+                            );
+                        }
+                        $.LoadingOverlay("hide");
+                    },
+                    error: function(data) {
+                        console.log(data);
                         $.LoadingOverlay("hide");
                     }
                 });

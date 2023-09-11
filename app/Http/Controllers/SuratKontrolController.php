@@ -77,35 +77,8 @@ class SuratKontrolController extends APIController
     }
     public function update(Request $request)
     {
-        $request['noSuratKontrol'] = $request->nomor_suratkontrol;
-        $request['noSep'] = $request->nomorsep_suratkontrol;
-        $request['kodeDokter'] = $request->kodedokter_suratkontrol;
-        $request['poliKontrol'] = $request->kodepoli_suratkontrol;
-        $request['tglRencanaKontrol'] = $request->tanggal_suratkontrol;
-        $poli = Poliklinik::where('kodesubspesialis', $request->poliKontrol)->first();
-        $request['user'] = 'Siramah';
         $vclaim = new VclaimController();
         $response = $vclaim->suratkontrol_update($request);
-        if ($response->metadata->code == 200) {
-            $suratkontrol = $response->response;
-            $sk = SuratKontrol::firstWhere('noSuratKontrol', $request->nomor_suratkontrol);
-            $sk->update([
-                "tglTerbitKontrol" => now()->format('Y-m-d'),
-                "tglRencanaKontrol" => $suratkontrol->tglRencanaKontrol,
-                "poliTujuan" => $request->poliKontrol,
-                "namaPoliTujuan" => $poli->namasubspesialis,
-                "kodeDokter" => $request->kodeDokter,
-                "namaDokter" => $suratkontrol->namaDokter,
-                "noSuratKontrol" => $suratkontrol->noSuratKontrol,
-                "namaJnsKontrol" => "Surat Kontrol",
-                "noSepAsalKontrol" => $request->noSep,
-                "noKartu" => $suratkontrol->noKartu,
-                "nama" => $suratkontrol->nama,
-                "kelamin" => $suratkontrol->kelamin,
-                "tglLahir" => $suratkontrol->tglLahir,
-                "user" => 'Siramah',
-            ]);
-        }
         return $response;
     }
     public function destroy(Request $request)
