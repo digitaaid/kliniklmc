@@ -22,7 +22,10 @@ class RoleSeeder extends Seeder
             'Perawat',
             'Dokter',
             'Farmasi',
-            'Majanjemen',
+            'Rekam Medis',
+            'Laboratorium',
+            'Casemix',
+            'Manajemen',
         ];
         foreach ($roles as $item) {
             $permission = Permission::create(['name' => Str::slug($item)]);

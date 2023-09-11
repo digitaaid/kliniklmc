@@ -835,6 +835,7 @@ class VclaimController extends APIController
     {
         $validator = Validator::make(request()->all(), [
             "noKartu" => "required",
+            "noMR" => "required",
             "tglSep" => "required",
             "ppkPelayanan" => "required",
             "jnsPelayanan" => "required",
@@ -918,7 +919,7 @@ class VclaimController extends APIController
                     "assesmentPel" => $request->assesmentPel,
                     "skdp" => [
                         "noSurat" => $request->noSurat,
-                        "kodeDPJP" => $request->kodeDPJP,
+                        "kodeDPJP" => $request->dpjpLayan,
                     ],
                     "dpjpLayan" => $request->dpjpLayan,
                     "noTelp" => $request->noTelp,

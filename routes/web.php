@@ -14,6 +14,7 @@ use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\PoliklinikController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\RujukanController;
+use App\Http\Controllers\SepController;
 use App\Http\Controllers\SocialiteController;
 use App\Http\Controllers\SuratKontrolController;
 use App\Http\Controllers\TanyaJawabController;
@@ -55,6 +56,7 @@ Route::post('prosesdaftarbpjs', [AntrianController::class, 'prosesdaftarbpjs'])-
 Route::get('daftarumum', [AntrianController::class, 'daftarumum'])->name('daftarumum');
 Route::post('prosesdaftarumum', [AntrianController::class, 'prosesdaftarumum'])->name('prosesdaftarumum');
 Route::get('statusantrian', [AntrianController::class, 'statusantrian'])->name('statusantrian');
+
 Route::get('ambilkarcis', [AntrianController::class, 'ambilkarcis'])->name('ambilkarcis');
 
 // mesin antrian
@@ -95,6 +97,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('galeri', GaleriController::class);
     Route::resource('tanyajawab', TanyaJawabController::class);
     Route::resource('testimoni', TestimoniController::class);
+    Route::resource('sep', SepController::class);
     // pendaftaran
     Route::get('layanipendaftaran', [AntrianController::class, 'layanipendaftaran'])->name('layanipendaftaran');
     Route::get('lanjutpoliklinik', [AntrianController::class, 'lanjutpoliklinik'])->name('lanjutpoliklinik');

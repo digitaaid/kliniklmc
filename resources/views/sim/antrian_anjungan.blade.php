@@ -140,7 +140,7 @@
     </div>
     <x-adminlte-modal id="modalBPJS" size="xl" title="Ambil Antrian BPJS" theme="success" icon="fas fa-user-plus">
         @foreach ($jadwals as $jadwal)
-            <a class="card bg-success withLoad" href="{{ route('ambilkarcis') }}?pasien=JKN&jadwal={{ $jadwal->id }}">
+            <a class="card bg-success withLoad" href="{{ route('ambilkarcis') }}?jenispasien=JKN&jadwal={{ $jadwal->id }}">
                 <div class="card-body  text-center">
                     {{ $jadwal->jadwal }}
                     {{ $jadwal->namadokter }}
@@ -152,7 +152,7 @@
     <x-adminlte-modal id="modalUMUM" size="xl" title="Ambil Antrian UMUM" theme="success" icon="fas fa-user-plus">
         @foreach ($jadwals as $jadwal)
             <a class="card bg-success withLoad"
-                href="{{ route('ambilkarcis') }}?pasien=NON-JKN&jadwal={{ $jadwal->id }}">
+                href="{{ route('ambilkarcis') }}?jenispasien=NON-JKN&jadwal={{ $jadwal->id }}">
                 <div class="card-body  text-center">
                     {{ $jadwal->jadwal }}
                     {{ $jadwal->namadokter }}

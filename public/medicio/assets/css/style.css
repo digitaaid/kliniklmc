@@ -187,11 +187,15 @@ h6 {
     transition: 0.3s;
     font-size: 14px;
     display: inline-block;
+    border: 2px solid #79338b;
+
 }
 
 .appointment-btn:hover {
-    background: #d466ff;
-    color: #fff;
+    background: #fff;
+    color: #79338b;
+    border: 2px solid #79338b;
+
 }
 
 @media (max-width: 768px) {
@@ -559,11 +563,14 @@ h6 {
     transition: 0.5s;
     line-height: 1;
     color: #fff;
-    background: #d466ff;
+    background: #79338b;
+    border: 2px solid #79338b;
 }
 
 #hero .btn-get-started:hover {
-    background: #79338b;
+    background: #fff;
+    color: #79338b;
+    border: 2px solid #79338b;
 }
 
 @media (max-width: 992px) {
@@ -793,12 +800,13 @@ section {
     transition: 0.5s;
     margin-top: 10px;
     border: 2px solid #fff;
-    color: #fff;
+    color: #79338b;
+    background: #fff;
 }
 
 .cta .cta-btn:hover {
-    background: #fff;
-    color: #79338b;
+    background: #79338b;
+    color: #fff;
 }
 
 /*--------------------------------------------------------------

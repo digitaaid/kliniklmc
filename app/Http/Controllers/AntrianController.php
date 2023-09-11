@@ -20,6 +20,8 @@ class AntrianController extends APIController
     public function index(Request $request)
     {
         $antrians = null;
+        $dokters = Dokter::where('status', '1')->pluck('namadokter', 'kodedokter');
+        $polikliniks = Poliklinik::where('status', '1')->pluck('namasubspesialis', 'kodesubspesialis');
         if ($request->tanggalperiksa) {
             $antrians = Antrian::where('tanggalperiksa', $request->tanggalperiksa)->get();
         } else {
@@ -28,6 +30,8 @@ class AntrianController extends APIController
         return view('sim.antrian_index', compact([
             'request',
             'antrians',
+            'dokters',
+            'polikliniks',
         ]));
     }
     // pendaftaran
@@ -288,7 +292,7 @@ class AntrianController extends APIController
         $request['nik'] = "0000000000000000";
         $request['nohp'] = "000000000000";
         $request['norm'] = "000000";
-        $request['jenispasien'] = "NON-JKN";
+        $request['jenispasien'] = $request->jenispasien;
         $request['kodepoli'] = $jadwal->kodesubspesialis;
         $request['namapoli'] = $jadwal->namasubspesialis;
         $request['kodedokter'] = $jadwal->kodedokter;
@@ -298,44 +302,65 @@ class AntrianController extends APIController
         $request['jadwal_id'] = $jadwal->id;
         $request['jeniskunjungan'] = "2";
         $request['pasienbaru'] = "0";
+        $request['taskid'] = "1";
         $request['method'] = "OFFLINE";
         $request['tanggalperiksa'] = now()->format('Y-m-d');
-        try {
-            $res = $this->ambil_antrian($request);
-            if ($res->metadata->code == 200) {
-                $request['taskid'] = "1";
-                $request['waktu'] = now();
-                $antrian = Antrian::where('kodebooking', $request->kodebooking)->first();
-                $antrian->update([
-                    'taskid' => $request->taskid,
-                    'jenispasien' => $request->pasien,
-                ]);
-                $update = $this->update_antrean($request);
-                Alert::success('Success', 'Berhasil cetak karcis antrian dengan nomorantrean ' . $res->response->nomorantrean);
-                return redirect()->route('karcisantrian', $request->kodebooking);
-            } else {
-                Alert::error('Gagal', $res->metadata->message);
-            }
-        } catch (\Throwable $th) {
-            //throw $th;
-            Alert::error('Gagal', $th->getMessage());
+        // angka antrian
+        $request['kodebooking'] = date('ym') . random_int(1000, 9999);
+        $antiranhari = Antrian::where('tanggalperiksa', $request->tanggalperiksa)->count();
+        $request['angkaantrean'] =  $antiranhari + 1;
+        $request['nomorantrean'] = 'A' . sprintf("%03d", $antiranhari + 1);
+        $timestamp = $request->tanggalperiksa . ' ' . explode('-', $request->jampraktek)[0] . ':00';
+        $jadwal_estimasi = Carbon::createFromFormat('Y-m-d H:i:s', $timestamp, 'Asia/Jakarta')->addMinutes(5 * ($antiranhari + 1));
+        $request['estimasidilayani'] = $jadwal_estimasi->timestamp * 1000;
+        // status antrian
+        $statusantrian = $this->status_antrian($request);
+        if ($statusantrian->metadata->code == 200) {
+            $request['sisakuotajkn']  = $statusantrian->response->sisakuotajkn;
+            $request['kuotajkn']  = $statusantrian->response->kuotajkn;
+            $request['sisakuotanonjkn']  = $statusantrian->response->sisakuotanonjkn;
+            $request['kuotanonjkn']  = $statusantrian->response->kuotanonjkn;
+            $request['jadwal_id']  = $statusantrian->response->jadwal_id;
+        } else {
+            Alert::error('Gagal', $statusantrian->metadata->message);
+            return redirect()->route('anjunganantrian');
         }
-        return redirect()->route('anjunganantrian');
+        $request['keterangan'] = "Oke";
+        Antrian::create($request->all());
+        Alert::success('Success', 'Berhasil cetak karcis antrian dengan nomorantrean ' . $request->nomorantrean);
+        return redirect()->route('karcisantrian', $request->kodebooking);
     }
     function layanipendaftaran(Request $request)
     {
         $request['taskid'] = "2";
         $request['waktu'] = now();
         $antrian = Antrian::where('kodebooking', $request->kodebooking)->first();
-        $res = $this->update_antrean($request);
-        if ($res->metadata->code == 200) {
+        // antrian offline
+        if ($antrian->method == "OFFLINE") {
             $antrian->update([
                 'taskid' => $request->taskid,
             ]);
             Alert::success('Success', 'Antrian dipanggil ke pendaftaran.');
-        } else {
-            Alert::error('Gagal', $res->metadata->message);
         }
+        // antrian online
+        else {
+            $res = $this->update_antrean($request);
+            if ($res->metadata->code == 200) {
+                $antrian->update([
+                    'taskid' => $request->taskid,
+                ]);
+                Alert::success('Success', 'Antrian dipanggil ke pendaftaran.');
+            } else {
+                Alert::error('Gagal', $res->metadata->message);
+            }
+        }
+        return redirect()->back();
+    }
+    function editantrian(Request $request)
+    {
+        $antrian = Antrian::where('kodebooking', $request->kodebooking)->first();
+        $antrian->update($request->all());
+        Alert::success('Success', 'Antrian telah diperbaharui.');
         return redirect()->back();
     }
     function lanjutpoliklinik(Request $request)
@@ -343,6 +368,36 @@ class AntrianController extends APIController
         $request['taskid'] = "3";
         $request['waktu'] = now();
         $antrian = Antrian::where('kodebooking', $request->kodebooking)->first();
+        if ($antrian->method == "OFFLINE") {
+            $request['jenispasien'] = $antrian->jenispasien;
+            $request['nomorkartu'] = $antrian->nomorkartu;
+            $request['nik'] = $antrian->nik;
+            $request['nohp'] = $antrian->nohp;
+            $request['kodepoli'] = $antrian->kodepoli;
+            $request['namapoli'] = $antrian->namapoli;
+            $request['pasienbaru'] = $antrian->pasienbaru;
+            $request['norm'] = $antrian->norm;
+            $request['tanggalperiksa'] = $antrian->tanggalperiksa;
+            $request['kodedokter'] = $antrian->kodedokter;
+            $request['namadokter'] = $antrian->namadokter;
+            $request['jampraktek'] = $antrian->jampraktek;
+            $request['jeniskunjungan'] = $antrian->jeniskunjungan;
+            $request['nomorreferensi'] = $antrian->nomorreferensi;
+            $request['nomorantrean'] = $antrian->nomorantrean;
+            $request['angkaantrean'] = $antrian->angkaantrean;
+            $request['estimasidilayani'] = $antrian->estimasidilayani;
+            $request['sisakuotajkn'] = $antrian->sisakuotajkn;
+            $request['kuotajkn'] = $antrian->kuotajkn;
+            $request['sisakuotanonjkn'] = $antrian->sisakuotanonjkn;
+            $request['kuotanonjkn'] = $antrian->kuotanonjkn;
+            $request['keterangan'] = $antrian->keterangan;
+            $request['nama'] = $antrian->nama;
+            $res = $this->tambah_antrean($request);
+            if ($res->metadata->code != 200) {
+                Alert::error('Gagal', $res->metadata->message);
+                return redirect()->back();
+            }
+        }
         $res = $this->update_antrean($request);
         if ($res->metadata->code == 200) {
             $antrian->update([
@@ -373,13 +428,7 @@ class AntrianController extends APIController
         }
         return redirect()->back();
     }
-    function editantrian(Request $request)
-    {
-        $antrian = Antrian::where('kodebooking', $request->kodebooking)->first();
-        $antrian->update($request->all());
-        Alert::success('Success', 'Antrian telah diperbaharui.');
-        return redirect()->back();
-    }
+
     public function antrianpoliklinik(Request $request)
     {
         $antrians = null;

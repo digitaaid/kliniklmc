@@ -7,6 +7,7 @@
             <br><br><br><br>
             <div class="section-title">
                 <h2>Error</h2>
+                <h4>Page Expired 419</h4>
                 <p>Mohon maaf terjadi error. Silahkan kembali ke menu utama</p>
             </div>
         </div>
