@@ -36,27 +36,6 @@
                     @endphp
                     <x-adminlte-datatable id="table1" class="text-xs" :heads="$heads" :config="$config" hoverable
                         bordered compressed>
-                        {{-- @foreach ($antrians->groupBy('namapoli') as $key => $antrian)
-                            <tr>
-                                <td>{{ $key }}</td>
-                                <td>{{ $antrian->sum('jumlah_antrean') }}</td>
-                                <td>
-                                    {{ Carbon\CarbonInterval::seconds($antrian->sum('avg_waktu_task3') / $antrian->count())->cascade()->format('%H:%I:%S') }}
-                                </td>
-                                <td>
-                                    {{ Carbon\CarbonInterval::seconds($antrian->sum('avg_waktu_task4') / $antrian->count())->cascade()->format('%H:%I:%S') }}
-                                </td>
-                                <td>
-                                    {{ Carbon\CarbonInterval::seconds($antrian->sum('avg_waktu_task5') / $antrian->count())->cascade()->format('%H:%I:%S') }}
-                                </td>
-                                <td>
-                                    {{ Carbon\CarbonInterval::seconds($antrian->sum('avg_waktu_task6') / $antrian->count())->cascade()->format('%H:%I:%S') }}
-                                </td>
-                                <td>
-                                    {{ Carbon\CarbonInterval::seconds(($antrian->sum('avg_waktu_task3') + $antrian->sum('avg_waktu_task4') + $antrian->sum('avg_waktu_task5') + $antrian->sum('avg_waktu_task6')) / $antrian->count())->cascade()->format('%H:%I:%S') }}
-                                </td>
-                            </tr>
-                        @endforeach --}}
                         @foreach ($antrians as $item)
                             <tr>
                                 <td>{{ $item->tanggal }}</td>

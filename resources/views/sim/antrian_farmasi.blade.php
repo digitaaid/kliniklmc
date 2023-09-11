@@ -29,6 +29,23 @@
         </div>
         @if (isset($antrians))
             <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-3">
+                        <x-adminlte-small-box
+                            title="{{ $antrians->where('taskid', 6)->first()->nomorantrean ?? 'Belum Panggil' }}"
+                            text="Antrian Dilayani" theme="primary" icon="fas fa-user-injured"
+                            url="{{ route('terimafarmasi') }}?kodebooking={{ $antrians->where('taskid', 5)->first()->kodebooking ?? '00' }}"
+                            url-text="Panggil Antrian Selanjutnya" />
+                    </div>
+                    <div class="col-md-3">
+                        <x-adminlte-small-box title="{{ $antrians->where('taskid', '<=', 5)->count() }}" text="Sisa Antrian"
+                            theme="warning" icon="fas fa-user-injured" />
+                    </div>
+                    <div class="col-md-3">
+                        <x-adminlte-small-box title="{{ $antrians->where('taskid', '!=', 99)->count() }}"
+                            text="Total Antrian" theme="success" icon="fas fa-user-injured" />
+                    </div>
+                </div>
                 <x-adminlte-card title="Data Antrian Sedang Dilayani" theme="success" icon="fas fa-info-circle" collapsible>
                     @php
                         $heads = ['No Antrian', 'kodebooking', 'Pasien', 'Dokter', 'Poliklinik', 'Jenis Pasien', 'Status', 'Action'];
@@ -68,7 +85,7 @@
                                         @break
 
                                         @case(5)
-                                            <span class="badge badge-warning">5. Selesai Poliklinik</span>
+                                            <span class="badge badge-warning">5. Tunggu Farmasi</span>
                                         @break
 
                                         @case(6)
@@ -144,7 +161,7 @@
                                         @break
 
                                         @case(5)
-                                            <span class="badge badge-warning">5. Selesai Poliklinik</span>
+                                            <span class="badge badge-warning">5. Tunggu Farmasi</span>
                                         @break
 
                                         @case(6)
@@ -188,7 +205,8 @@
             </div>
         @endif
     </div>
-    <x-adminlte-modal id="modalAntrian" title="Antrian Pasien" icon="fas fa-user" size="xl" theme="success" scrollable>
+    <x-adminlte-modal id="modalAntrian" title="Antrian Pasien" icon="fas fa-user" size="xl" theme="success"
+        scrollable>
         <div class="row">
             <div class="col-md-3">
                 @include('sim.profile_pasien_antrian')
@@ -197,7 +215,8 @@
                 <div class="card">
                     <div class="card-header p-2">
                         <ul class="nav nav-pills">
-                            <li class="nav-item"><a class="nav-link active" href="#farmasitab" data-toggle="tab">Farmasi</a>
+                            <li class="nav-item"><a class="nav-link active" href="#farmasitab"
+                                    data-toggle="tab">Farmasi</a>
                             </li>
                             <li class="nav-item"><a class="nav-link" href="#activity" data-toggle="tab">Keperawatan</a>
                             </li>
@@ -218,8 +237,8 @@
                                                 <option value="racikan">Racikan</option>
                                                 <option value="non racikan">Non Racikan</option>
                                             </x-adminlte-select>
-                                            <x-adminlte-textarea igroup-size="sm" rows=10 label="Catatan" class="catatanfarmasi"
-                                                name="catatan" placeholder="Catatan Farmasi" />
+                                            <x-adminlte-textarea igroup-size="sm" rows=10 label="Catatan"
+                                                class="catatanfarmasi" name="catatan" placeholder="Catatan Farmasi" />
                                         </div>
                                         <div class="col-md-6">
                                         </div>

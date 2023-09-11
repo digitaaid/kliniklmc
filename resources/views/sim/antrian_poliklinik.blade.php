@@ -29,6 +29,23 @@
         </div>
         @if (isset($antrians))
             <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-3">
+                        <x-adminlte-small-box
+                            title="{{ $antrians->where('taskid', 4)->first()->nomorantrean ?? 'Belum Panggil' }}"
+                            text="Antrian Dilayani" theme="primary" icon="fas fa-user-injured"
+                            url="{{ route('panggilpoliklinik') }}?kodebooking={{ $antrians->where('taskid', 3)->first()->kodebooking ?? '00' }}"
+                            url-text="Panggil Antrian Selanjutnya" />
+                    </div>
+                    <div class="col-md-3">
+                        <x-adminlte-small-box title="{{ $antrians->where('taskid', '<=', 3)->count() }}" text="Sisa Antrian"
+                            theme="warning" icon="fas fa-user-injured" />
+                    </div>
+                    <div class="col-md-3">
+                        <x-adminlte-small-box title="{{ $antrians->where('taskid', '!=', 99)->count() }}"
+                            text="Total Antrian" theme="success" icon="fas fa-user-injured" />
+                    </div>
+                </div>
                 <x-adminlte-card title="Data Antrian Sedang Dilayani" theme="success" icon="fas fa-info-circle" collapsible>
                     @php
                         $heads = ['No Antrian', 'kodebooking', 'Pasien', 'Dokter', 'Poliklinik', 'Jenis Pasien', 'Status', 'Action'];
@@ -65,7 +82,7 @@
                                         @break
 
                                         @case(5)
-                                            <span class="badge badge-warning">5. Selesai Poliklinik</span>
+                                            <span class="badge badge-warning">5. Tunggu Farmasi</span>
                                         @break
 
                                         @case(6)
@@ -142,7 +159,7 @@
                                         @break
 
                                         @case(5)
-                                            <span class="badge badge-warning">5. Selesai Poliklinik</span>
+                                            <span class="badge badge-warning">5. Tunggu Farmasi</span>
                                         @break
 
                                         @case(6)
@@ -186,7 +203,8 @@
             </div>
         @endif
     </div>
-    <x-adminlte-modal id="modalAntrian" title="Antrian Pasien" icon="fas fa-user" size="xl" theme="success" scrollable>
+    <x-adminlte-modal id="modalAntrian" title="Antrian Pasien" icon="fas fa-user" size="xl" theme="success"
+        scrollable>
         <div class="row">
             <div class="col-md-3">
                 @include('sim.profile_pasien_antrian')
