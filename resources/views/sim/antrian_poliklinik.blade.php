@@ -58,7 +58,8 @@
                                 <td>{{ $item->norm }} {{ $item->nama }}</td>
                                 <td>{{ $item->namadokter }}</td>
                                 <td>{{ $item->namapoli }}</td>
-                                <td>{{ $item->pasienbaru }} {{ $item->jenispasien }} {{ $item->sep }} </td>
+                                <td>{{ $item->pasienbaru }} {{ $item->jenispasien }}
+                                </td>
                                 <td>
                                     @switch($item->taskid)
                                         @case(0)
@@ -219,9 +220,6 @@
                             <li class="nav-item"><a class="nav-link" href="#dokter" data-toggle="tab">Dokter</a></li>
                             <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Riwayat</a></li>
                             </li>
-                            <li class="nav-item"><a class="nav-link" href="#suratkontroltab" data-toggle="tab">Surat
-                                    Kontrol</a>
-                            </li>
                             <li class="nav-item"><a class="nav-link" href="#farmasitab" data-toggle="tab">Farmasi</a>
                             </li>
                         </ul>
@@ -236,63 +234,6 @@
                             </div>
                             <div class="tab-pane" id="timeline">
                                 Riwayat Pasien
-                            </div>
-                            <div class="tab-pane" id="suratkontroltab">
-                                <form action="{{ route('suratkontrol.store') }}" method="POST">
-                                    @csrf
-                                    <input type="hidden" name="kodebooking" class="kodebooking-id">
-                                    Surat Kontrol Pasien
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <x-adminlte-input name="nomorkartu" class="nomorkartu-id" igroup-size="sm"
-                                                label="Nomor Kartu" placeholder="Nomor Kartu" />
-                                            <x-adminlte-input name="norm" class="norm-id" label="No RM"
-                                                igroup-size="sm" placeholder="No RM " />
-                                            <x-adminlte-input name="nama" class="nama-id" label="Nama Pasien"
-                                                igroup-size="sm" placeholder="Nama Pasien" />
-                                            <x-adminlte-input name="nohp" class="nohp-id" label="Nomor HP"
-                                                igroup-size="sm" placeholder="Nomor HP" />
-                                        </div>
-                                        <div class="col-md-6">
-                                            <x-adminlte-input name="noSEP" class="noSEP-id" igroup-size="sm"
-                                                label="Nomor SEP" placeholder="Nomor SEP">
-                                                <x-slot name="appendSlot">
-                                                    <div class="btn btn-primary btnCariSEP">
-                                                        <i class="fas fa-search"></i> Cari SEP
-                                                    </div>
-                                                </x-slot>
-                                            </x-adminlte-input>
-                                            @php
-                                                $config = ['format' => 'YYYY-MM-DD'];
-                                            @endphp
-                                            <x-adminlte-input-date name="tglRencanaKontrol" igroup-size="sm"
-                                                label="Tanggal Rencana Kontrol" value="{{ $request->tglRencanaKontrol }}"
-                                                placeholder="Pilih Tanggal Rencana Kontrol" :config="$config">
-                                                <x-slot name="appendSlot">
-                                                    <div class="btn btn-primary btnCariPoli">
-                                                        <i class="fas fa-search"></i> Cari Poli
-                                                    </div>
-                                                </x-slot>
-                                            </x-adminlte-input-date>
-                                            <x-adminlte-select igroup-size="sm" name="poliKontrol" label="Poliklinik">
-                                                <option selected disabled>Silahkan Klik Cari Poliklinik</option>
-                                                <x-slot name="appendSlot">
-                                                    <div class="btn btn-primary btnCariDokter">
-                                                        <i class="fas fa-search"></i> Cari Dokter
-                                                    </div>
-                                                </x-slot>
-                                            </x-adminlte-select>
-                                            <x-adminlte-select igroup-size="sm" name="kodeDokter" label="Dokter">
-                                                <option selected disabled>Silahkan Klik Cari Dokter</option>
-                                            </x-adminlte-select>
-                                            <x-adminlte-textarea igroup-size="sm" label="Catatan" name="catatan"
-                                                placeholder="Catatan Pasien" />
-                                        </div>
-                                    </div>
-                                    <button type="submit" class="btn btn-warning withLoad"> <i class="fas fa-save"></i>
-                                        Buat
-                                        Surat Kontrol</button>
-                                </form>
                             </div>
                             <div class="tab-pane" id="farmasitab">
                                 <form action="{{ route('lanjutfarmasi') }}" method="GET">

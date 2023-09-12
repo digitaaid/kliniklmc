@@ -5,7 +5,6 @@
         </h6>
         <p class="text-muted text-center">
             <span class="norm"></span>
-            <span class="jenispasien"></span>
         </p>
         <ul class="list-group list-group-unbordered mb-3">
             <li class="list-group-item">
@@ -24,12 +23,14 @@
                     <dd><span class="nomorantrean"></span> <span class="angkaantrean"></span></dd>
                     <dt>Kodebooking</dt>
                     <dd><span class="kodebooking"></span></dd>
+                    <dt>Jenis Kunjungan</dt>
+                    <dd><span class="jeniskunjungan"></span></dd>
+                    <dt>Jenis Pasien</dt>
+                    <dd><span class="jenispasien"></span></dd>
                 </dl>
             </li>
             <li class="list-group-item">
                 <dl>
-                    <dt>Jenis Kunjungan</dt>
-                    <dd><span class="jeniskunjungan"></span></dd>
                     <dt>SEP</dt>
                     <dd><span class="sep"></span></dd>
                 </dl>

@@ -339,6 +339,7 @@ class AntrianController extends APIController
         if ($antrian->method == "OFFLINE") {
             $antrian->update([
                 'taskid' => $request->taskid,
+                'user1' => Auth::user()->name,
             ]);
             Alert::success('Success', 'Antrian dipanggil ke pendaftaran.');
         }
@@ -348,6 +349,7 @@ class AntrianController extends APIController
             if ($res->metadata->code == 200) {
                 $antrian->update([
                     'taskid' => $request->taskid,
+                    'user1' => Auth::user()->name,
                 ]);
                 Alert::success('Success', 'Antrian dipanggil ke pendaftaran.');
             } else {
@@ -359,6 +361,7 @@ class AntrianController extends APIController
     function editantrian(Request $request)
     {
         $antrian = Antrian::where('kodebooking', $request->kodebooking)->first();
+        $request['user1'] = Auth::user()->name;
         $antrian->update($request->all());
         Alert::success('Success', 'Antrian telah diperbaharui.');
         return redirect()->back();
@@ -402,6 +405,7 @@ class AntrianController extends APIController
         if ($res->metadata->code == 200) {
             $antrian->update([
                 'taskid' => $request->taskid,
+                'user1' => Auth::user()->name,
             ]);
             Alert::success('Success', 'Antrian dilanjutkan ke Poliklinik.');
         } else {

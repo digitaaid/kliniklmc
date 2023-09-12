@@ -52,17 +52,18 @@
                 </div>
                 <x-adminlte-card title="Data Antrian Sedang Dilayani" theme="success" icon="fas fa-info-circle" collapsible>
                     @php
-                        $heads = ['No Antrian', 'kodebooking', 'Pasien', 'Dokter', 'Poliklinik', 'Jenis Pasien', 'Status', 'Action'];
+                        $heads = ['No', 'Kodebooking', 'Pasien', 'No BPJS', 'Dokter', 'Jenis Pasien', 'PIC', 'Status', 'Action'];
                     @endphp
                     <x-adminlte-datatable id="table2" class="nowrap" :heads="$heads" bordered hoverable compressed>
                         @foreach ($antrians->where('taskid', 2) as $item)
                             <tr>
-                                <td>{{ $item->nomorantrean }} / {{ $item->angkaantrean }}</td>
+                                <td>{{ $item->angkaantrean }}</td>
                                 <td>{{ $item->kodebooking }}</td>
                                 <td>{{ $item->norm }} {{ $item->nama }}</td>
+                                <td>{{ $item->nomorkartu }}</td>
                                 <td>{{ $item->namadokter }}</td>
-                                <td>{{ $item->namapoli }}</td>
-                                <td>{{ $item->pasienbaru }} {{ $item->jenispasien }} </td>
+                                <td>{{ $item->jenispasien }} </td>
+                                <td>{{ $item->user1 }} </td>
                                 <td>
                                     @switch($item->taskid)
                                         @case(0)
@@ -112,6 +113,7 @@
                                         data-nomorkartu="{{ $item->nomorkartu }}" data-nik="{{ $item->nik }}"
                                         data-nohp="{{ $item->nohp }}" data-kodebooking="{{ $item->kodebooking }}"
                                         data-nomorantrean="{{ $item->nomorantrean }}"
+                                        data-jenispasien="{{ $item->jenispasien }}"
                                         data-jeniskunjungan="{{ $item->jeniskunjungan }}" data-sep="{{ $item->sep }}"
                                         data-namapoli="{{ $item->namapoli }}" data-namadokter="{{ $item->namadokter }}">
                                         Layani
@@ -126,7 +128,7 @@
                 <x-adminlte-card title="Data Antrian Menunggu Pendaftaran" theme="primary" icon="fas fa-info-circle"
                     collapsible>
                     @php
-                        $heads = ['No Antrian', 'kodebooking', 'Pasien', 'Dokter', 'Poliklinik', 'Jenis Pasien', 'Status', 'Action'];
+                        $heads = ['No', 'kodebooking', 'Pasien', 'Dokter', 'Poliklinik', 'Jenis Pasien', 'Status', 'Action'];
                         $config['order'] = [[6, 'asc']];
                         $config['paging'] = false;
                         $config['scrollY'] = '300px';
@@ -135,12 +137,12 @@
                         hoverable compressed>
                         @foreach ($antrians->where('taskid', '!=', 2) as $item)
                             <tr>
-                                <td>{{ $item->nomorantrean }} / {{ $item->angkaantrean }}</td>
+                                <td>{{ $item->angkaantrean }}</td>
                                 <td>{{ $item->kodebooking }}</td>
                                 <td>{{ $item->norm }} {{ $item->nama }}</td>
+                                <td>{{ $item->nomorkartu }}</td>
                                 <td>{{ $item->namadokter }}</td>
-                                <td>{{ $item->namapoli }}</td>
-                                <td>{{ $item->pasienbaru }} {{ $item->jenispasien }} </td>
+                                <td>{{ $item->jenispasien }} </td>
                                 <td>
                                     @switch($item->taskid)
                                         @case(0)
@@ -194,6 +196,7 @@
                                             data-nomorkartu="{{ $item->nomorkartu }}" data-nik="{{ $item->nik }}"
                                             data-nohp="{{ $item->nohp }}" data-kodebooking="{{ $item->kodebooking }}"
                                             data-nomorantrean="{{ $item->nomorantrean }}"
+                                            data-jenispasien="{{ $item->jenispasien }}"
                                             data-jeniskunjungan="{{ $item->jeniskunjungan }}"
                                             data-sep="{{ $item->sep }}" data-namapoli="{{ $item->namapoli }}"
                                             data-namadokter="{{ $item->namadokter }}">
@@ -429,8 +432,9 @@
                                             @php
                                                 $config = ['format' => 'YYYY-MM-DD'];
                                             @endphp
-                                            <x-adminlte-input-date name="tglRencanaKontrol" igroup-size="sm"
-                                                label="Tanggal Rencana Kontrol" value="{{ $request->tglRencanaKontrol }}"
+                                            <x-adminlte-input-date name="tglRencanaKontrol" class="tglRencanaKontrol-id"
+                                                igroup-size="sm" label="Tanggal Rencana Kontrol"
+                                                value="{{ $request->tglRencanaKontrol }}"
                                                 placeholder="Pilih Tanggal Rencana Kontrol" :config="$config">
                                                 <x-slot name="appendSlot">
                                                     <div class="btn btn-primary btnCariPoli">
@@ -438,7 +442,8 @@
                                                     </div>
                                                 </x-slot>
                                             </x-adminlte-input-date>
-                                            <x-adminlte-select igroup-size="sm" name="poliKontrol" label="Poliklinik">
+                                            <x-adminlte-select igroup-size="sm" name="poliKontrol" class="poliKontrol-id"
+                                                label="Poliklinik">
                                                 <option selected disabled>Silahkan Klik Cari Poliklinik</option>
                                                 <x-slot name="appendSlot">
                                                     <div class="btn btn-primary btnCariDokter">
@@ -446,7 +451,8 @@
                                                     </div>
                                                 </x-slot>
                                             </x-adminlte-select>
-                                            <x-adminlte-select igroup-size="sm" name="kodeDokter" label="Dokter">
+                                            <x-adminlte-select igroup-size="sm" name="kodeDokter" class="kodeDokter-id"
+                                                label="Dokter">
                                                 <option selected disabled>Silahkan Klik Cari Dokter</option>
                                             </x-adminlte-select>
                                             <x-adminlte-textarea igroup-size="sm" label="Catatan" name="catatan"
@@ -578,7 +584,6 @@
                 var nik = $(this).data("nik");
                 var nohp = $(this).data("nohp");
                 var nomorantrean = $(this).data("nomorantrean");
-                var jeniskunjungan = $(this).data("jeniskunjungan");
                 var namapoli = $(this).data("namapoli");
                 var namadokter = $(this).data("namadokter");
                 $(".namapasien").html(namapasien);
@@ -594,6 +599,23 @@
                 $(".kodebooking").html(kodebooking);
                 $(".kodebooking-id").val(kodebooking);
                 $(".nomorantrean").html(nomorantrean);
+                $(".jenispasien").html($(this).data("jenispasien"));
+
+                switch ($(this).data("jeniskunjungan")) {
+                    case 1:
+                        var jeniskunjungan = "Rujukan FKTP";
+                        break;
+                    case 3:
+                        var jeniskunjungan = "Kontrol FKTP";
+                        break;
+                    case 4:
+                        var jeniskunjungan = "Rujukan Antar RS";
+                        break;
+
+                    default:
+                        var jeniskunjungan = "Lainnya";
+                        break;
+                }
                 $(".jeniskunjungan").html(jeniskunjungan);
                 $(".sep").html($(this).data("sep"));
                 $(".namapoli").html(namapoli);
@@ -903,7 +925,6 @@
                 var tanggal = $('.tglRencanaKontrol-id').val();
                 var url = "{{ route('suratkontrol_poli') }}?nomor=" + sep + "&tglRencanaKontrol=" +
                     tanggal;
-                // alert(url);
                 $.ajax({
                     url: url,
                     type: "GET",

@@ -45,6 +45,9 @@ return new class extends Migration
             $table->string('jadwal_id')->nullable();
             $table->string('method')->nullable();
             $table->integer('taskid')->default(0);
+            $table->string('user1')->nullable();
+            $table->string('user2')->nullable();
+            $table->string('user3')->nullable();
             $table->timestamps();
         });
     }

@@ -83,13 +83,16 @@ class SuratKontrolController extends APIController
     }
     public function destroy(Request $request)
     {
-        $request['noSuratKontrol'] = $request->nomor_suratkontrol;
         $request['user'] = 'Sistem SIRAMAH';
         $vclaim = new VclaimController();
         $response = $vclaim->suratkontrol_delete($request);
         if ($response->metadata->code == 200) {
-            $sk = SuratKontrol::firstWhere('noSuratKontrol', $request->nomor_suratkontrol);
-            $sk->delete();
+            try {
+                $sk = SuratKontrol::firstWhere('noSuratKontrol', $request->noSuratKontrol);
+                $sk->delete();
+            } catch (\Throwable $th) {
+                //throw $th;
+            }
         }
         return $response;
     }

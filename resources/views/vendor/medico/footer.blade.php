@@ -11,7 +11,9 @@
                                 Luthfi Medical Center <br>
                                 Jl. Raya Sunan Gunung Jati No. 100 A/B <br>
                                 Desa Pasindangan Kec. Gunungjati Kab. Cirebon Jawa Barat 45151<br><br>
-                                <strong>Whatsapp:</strong> 0823 1169 6919<br>
+                                <a href="https://wa.me/6282311696919">
+                                    <strong>Whatsapp:</strong> 0823 1169 6919<br>
+                                </a>
                                 <strong>Email:</strong> info@example.com<br>
                             </p>
                             <div class="social-links mt-3">

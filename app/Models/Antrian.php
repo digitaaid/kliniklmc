@@ -13,4 +13,10 @@ class Antrian extends Model
     {
         return $this->belongsTo(JadwalDokter::class, 'id', 'jadwal_id');
     }
+    public function suratkontrol()
+    {
+        return $this->belongsTo(SuratKontrol::class, 'kodebooking', 'kodebooking');
+    }
+
+
 }

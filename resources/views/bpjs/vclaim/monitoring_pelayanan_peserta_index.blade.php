@@ -290,6 +290,7 @@
                                             @method('DELETE')
                                             <input type="hidden" name="noSuratKontrol"
                                                 value="{{ $suratkontrol->noSuratKontrol }}">
+                                            <input type="hidden" name="user" value="{{ Auth::user()->name }}">
                                             <x-adminlte-button class="btn-xs" theme="danger" icon="fas fa-trash-alt"
                                                 type="submit" data-toggle="tooltip"
                                                 title="Hapus Surat Kontrol {{ $suratkontrol->noSuratKontrol }}"
