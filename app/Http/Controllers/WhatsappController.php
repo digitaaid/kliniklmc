@@ -17,9 +17,11 @@ class WhatsappController extends Controller
     }
     public function whatsapp(Request $request)
     {
-        $request['number'] = "089529909036";
         if ($request->message) {
+            $request['number'] = "089529909036";
             $res = $this->send_message($request);
+            $request['number'] = "120363170262520539";
+            $res = $this->send_message_group($request);
             if ($res->status == "true") {
                 Alert::success('Success', 'Pesan testing terkirim');
             } else {

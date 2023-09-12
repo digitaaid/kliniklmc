@@ -22,20 +22,11 @@
                         icon="fas fa-search" />
                 </form>
             </x-adminlte-card>
-            @isset($antrianx)
+            @isset($antrians)
                 <div class="row">
                     <div class="col-md-3">
                         <x-adminlte-small-box title="{{ $antrians ? $antrians->sum('jumlah_antrean') : '0' }}"
                             text="Selesai Antrian" theme="success" icon="fas fa-user-injured" />
-                    </div>
-                    <div class="col-md-3">
-                        <x-adminlte-small-box title="{{ $antrianx->count() }}" text="Total Antrian" theme="warning"
-                            icon="fas fa-user-injured" />
-                    </div>
-                    <div class="col-md-3">
-                        {{-- <x-adminlte-small-box
-                            title="{{ $antrians ? number_format(($antrians->sum('jumlah_antrean') / $antrianx->count()) * 100, 2) : '0' }} %"
-                            text="Quality Rate Antrian" theme="primary" icon="fas fa-user-injured" /> --}}
                     </div>
                 </div>
                 <x-adminlte-card title="Waktu Pelayanan Antrian BPJS" theme="secondary" collapsible>

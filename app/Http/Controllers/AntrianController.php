@@ -328,6 +328,16 @@ class AntrianController extends APIController
         $request['keterangan'] = "Oke";
         Antrian::create($request->all());
         Alert::success('Success', 'Berhasil cetak karcis antrian dengan nomorantrean ' . $request->nomorantrean);
+
+        try {
+            $wapi = new WhatsappController();
+            $request['message'] = "Berhasil ambil karcis antrian offline\nAngka antrian : " . $request->angkaantrean . "\nKodebooking : " . $request->kodebooking .  "\nJenis Pasien : " . $request->jenispasien;
+            $request['number'] = "120363170262520539";
+            $wapi->send_message_group($request);
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
+
         return redirect()->route('karcisantrian', $request->kodebooking);
     }
     function layanipendaftaran(Request $request)
@@ -604,13 +614,7 @@ class AntrianController extends APIController
     public function dashboardTanggalAntrian(Request $request)
     {
         $antrians = null;
-        $antrianx = null;
         if (isset($request->waktu)) {
-            $antrianx = Antrian::whereDate('tanggalperiksa', '=', $request->tanggal)
-                ->where('method', '!=', 'Offline')
-                ->where('taskid', '!=', 99)
-                ->where('taskid', '!=', 0)
-                ->get();
             $response =  $this->dashboard_tanggal($request);
             if ($response->metadata->code == 200) {
                 $antrians = collect($response->response->list);
@@ -622,7 +626,6 @@ class AntrianController extends APIController
         return view('bpjs.antrian.dashboard_tanggal_index', compact([
             'request',
             'antrians',
-            'antrianx',
         ]));
     }
     public function dashboardBulanAntrian(Request $request)
@@ -1202,15 +1205,15 @@ class AntrianController extends APIController
             ];
             Antrian::create($request->all());
             try {
-                $api = new WhatsappController();
+                $wapi = new WhatsappController();
                 if ($request->method != "OFFLINE") {
                     $request['message'] = "Anda mendaftar antrian di Klinik LMC \n\nLink Status Antrian : https://luthfimedicalcenter.com/statusantrian?kodebooking=" . $request->kodebooking;
                     $request['number'] = $request->nohp;
-                    $api->send_message($request);
+                    $wapi->send_message($request);
                 }
-                $request['message'] = "Telah daftar antas nama " . $request->nama . " dengan angka antrian " . $request->angkaantrean;
+                $request['message'] = "Berhasil daftar antrian method " . $request->method . ".\nAngka antrian : " . $request->angkaantrean . "\nKodebooking : " . $request->kodebooking .  "\nJenis Pasien : " . $request->jenispasien . "\nNama " . $request->nama . "\nTanggal Periksa " . $request->tanggalperiksa;
                 $request['number'] = "120363170262520539";
-                $api->send_message_group($request);
+                $wapi->send_message_group($request);
             } catch (\Throwable $th) {
                 //throw $th;
             }
