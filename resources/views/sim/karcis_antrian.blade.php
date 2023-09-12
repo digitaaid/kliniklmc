@@ -1,17 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=80mm, initial-scale=1.0">
     <title>Karcis Antrian</title>
 </head>
+
 <body>
     <div class="ticket">
-        <h3>Karcis Antrian</h3>
-        <h2>{{ $antrian->nomorantrean }} / {{ $antrian->angkaantrean }}</h2>
+        <img src="{{ asset('medicio/assets/img/lmc-l.png') }}" width="200px" alt="">
+        <hr>
         <p>
+            <b style="font-size: 25px"> Karcis Antrian</b>
+        </p>
+        <p>
+            Nomor Antrian <br>
+            <b style="font-size: 40px">{{ $antrian->nomorantrean }}</b> <br>
             {!! QrCode::size(100)->generate($antrian->kodebooking) !!} <br>
-            <b>{{ $antrian->kodebooking }}</b>
+            Kodebooking <br><b>{{ $antrian->kodebooking }} / {{ $antrian->angkaantrean }}</b>
         </p>
         <p>
             <b>{{ $antrian->nama }}</b> <br>
@@ -24,7 +31,11 @@
         <p>
             {{ $antrian->namapoli }} <br>
             {{ $antrian->namadokter }} <br>
-            {{ $antrian->jampraktek }}
+        </p>
+        <hr>
+        <p style="line-height:12px;font-size: 10px;">
+            Simpan lembar karcis antrian ini sampai pelayanan berakhir. Terimakasih. <br>
+            Semoga selalu diberikan kesembuhan dan kesehatan.
         </p>
 
     </div>
@@ -39,4 +50,5 @@
         }, 3000);
     </script>
 </body>
+
 </html>
