@@ -331,7 +331,7 @@ class AntrianController extends APIController
 
         try {
             $wapi = new WhatsappController();
-            $request['message'] = "Berhasil ambil karcis antrian offline\nAngka antrian : " . $request->angkaantrean . "\nKodebooking : " . $request->kodebooking .  "\nJenis Pasien : " . $request->jenispasien;
+            $request['message'] = "Berhasil daftar antrian method " . $request->method . ".\nAngka antrian : " . $request->angkaantrean . "\nKodebooking : " . $request->kodebooking .  "\nJenis Pasien : " . $request->jenispasien . "\nNama " . $request->nama . "\nTanggal Periksa " . $request->tanggalperiksa . "\nDokter : " . $request->namadokter;
             $request['number'] = "120363170262520539";
             $wapi->send_message_group($request);
         } catch (\Throwable $th) {
@@ -1211,7 +1211,7 @@ class AntrianController extends APIController
                     $request['number'] = $request->nohp;
                     $wapi->send_message($request);
                 }
-                $request['message'] = "Berhasil daftar antrian method " . $request->method . ".\nAngka antrian : " . $request->angkaantrean . "\nKodebooking : " . $request->kodebooking .  "\nJenis Pasien : " . $request->jenispasien . "\nNama " . $request->nama . "\nTanggal Periksa " . $request->tanggalperiksa;
+                $request['message'] = "Berhasil daftar antrian method " . $request->method . ".\nAngka antrian : " . $request->angkaantrean . "\nKodebooking : " . $request->kodebooking .  "\nJenis Pasien : " . $request->jenispasien . "\nNama " . $request->nama . "\nTanggal Periksa " . $request->tanggalperiksa . "\nDokter : " . $request->namadokter;
                 $request['number'] = "120363170262520539";
                 $wapi->send_message_group($request);
             } catch (\Throwable $th) {
