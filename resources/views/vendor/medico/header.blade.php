@@ -2,7 +2,7 @@
     <div id="topbar" class="d-flex align-items-center fixed-top">
         <div class="container d-flex align-items-center justify-content-center justify-content-md-between">
             <div class="align-items-center d-none d-md-flex">
-                <a href="{{ route('landingpage') }}#jadwal" style="color: white">
+                <a class="scrollto" href="{{ route('landingpage') }}#jadwal" style="color: white">
                     <i class="bi bi-clock"></i> Senin - Sabtu, 08:00 - 18:00
                 </a>
             </div>
@@ -26,9 +26,9 @@
                 <ul>
                     <li><a class="nav-link scrollto " href="{{ route('landingpage') }}">Home</a></li>
                     <li><a class="nav-link scrollto" href="{{ route('landingpage') }}#about">Profil</a></li>
+                    <li><a class="nav-link scrollto" href="{{ route('landingpage') }}#jadwal">Jadwal</a></li>
                     <li><a class="nav-link scrollto" href="{{ route('landingpage') }}#persyaratan">Persyaratan</a></li>
                     <li><a class="nav-link scrollto" href="{{ route('landingpage') }}#departments">Poliklinik</a></li>
-                    <li><a class="nav-link scrollto" href="{{ route('landingpage') }}#jadwal">Jadwal</a></li>
                     <li><a class="nav-link scrollto" href="{{ route('landingpage') }}#doctors">Dokter</a></li>
                     <li><a class="nav-link scrollto" href="{{ route('statusantrian') }}">Status Antrian</a></li>
                     {{-- <li class="dropdown"><a href="#"><span>Drop Down</span> <i class="bi bi-chevron-down"></i></a>

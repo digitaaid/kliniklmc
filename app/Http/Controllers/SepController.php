@@ -15,6 +15,11 @@ class SepController extends Controller
     }
     public function store(Request $request)
     {
+        $request->validate([
+            'kodebooking' => 'required',
+            'noRujukan' => 'required_if:noSurat,null',
+            'noSurat' => 'required_if:noRujukan,null',
+        ]);
         $api = new VclaimController();
         $request['tglSep'] = now()->format('Y-m-d');
         $request['ppkPelayanan'] = "0125S003";
@@ -57,5 +62,21 @@ class SepController extends Controller
             Alert::error('Error', $res->metadata->message);
         }
         return redirect()->back();
+    }
+    public function print(Request $request)
+    {
+        $vclaim = new VclaimController();
+        $res = $vclaim->sep_nomor($request);
+        if ($res->metadata->code == 200) {
+            $sep = $res->response;
+            $antrian = Antrian::where('sep', $request->noSep)->first();
+            return view('print.print_sep', compact([
+                'sep',
+                'antrian',
+            ]));
+        } else {
+            Alert::error('Gagal', 'SEP Tidak Ditemukan');
+            return redirect()->back();
+        }
     }
 }

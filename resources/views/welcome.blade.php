@@ -44,7 +44,7 @@
             <div class="row">
                 <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0">
                     <div class="icon-box" data-aos="fade-up" data-aos-delay="100">
-                        <div class="icon"><i class="fas fa-heartbeat"></i></div>
+                        <div class="icon"><i class="fas fa-user-md"></i></div>
                         <h4 class="title"><a href="">Dokter Konsultan Hematologi Onkologi Medik</a></h4>
                         <p class="description">
                             Dokter yang memiliki keahlian khusus dalam mendiagnosis menangani dan mengobati penyakit yang
@@ -54,7 +54,7 @@
                 </div>
                 <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0">
                     <div class="icon-box" data-aos="fade-up" data-aos-delay="200">
-                        <div class="icon"><i class="fas fa-pills"></i></div>
+                        <div class="icon"><i class="fas fa-user-md"></i></div>
                         <h4 class="title"><a href="">Dokter Konsultan Patologi Klinik</a></h4>
                         <p class="description">
                             Dokter konsultan yang memiliki keahlian khusus dalam bidang laboratorium (Pemeriksaan tumor
@@ -65,7 +65,7 @@
                 </div>
                 <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0">
                     <div class="icon-box" data-aos="fade-up" data-aos-delay="300">
-                        <div class="icon"><i class="fas fa-thermometer"></i></div>
+                        <div class="icon"><i class="fas fa-hand-holding-medical"></i></div>
                         <h4 class="title"><a href="">Kemoterapi</a></h4>
                         <p class="description">
                             Prosedur pengobatan atau terapi kanker dengan memberikan obat-obatan untuk menghentikan atau
@@ -76,7 +76,7 @@
                 </div>
                 <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0">
                     <div class="icon-box" data-aos="fade-up" data-aos-delay="400">
-                        <div class="icon"><i class="fas fa-dna"></i></div>
+                        <div class="icon"><i class="fas fa-diagnoses"></i></div>
                         <h4 class="title"><a href="">Patologi Anatomi</a></h4>
                         <p class="description">
                             Pelayanan diagnostik dan labratorium terhadap jaringan tubuh dan/ atau cairan tubuh. Berperan
@@ -180,7 +180,7 @@
                 </div>
                 <div class="col-lg-3 col-md-6 d-md-flex align-items-md-stretch">
                     <div class="count-box">
-                        <i class="far fa-hospital"></i>
+                        <i class="fas fa-user-md"></i>
                         <span data-purecounter-start="0" data-purecounter-end="6" data-purecounter-duration="1"
                             class="purecounter"></span>
                         <p>
@@ -197,7 +197,7 @@
                 </div>
                 <div class="col-lg-3 col-md-6 d-md-flex align-items-md-stretch">
                     <div class="count-box">
-                        <i class="fas fa-flask"></i>
+                        <i class="fas fa-hand-holding-medical"></i>
                         <span data-purecounter-start="0" data-purecounter-end="100" data-purecounter-duration="1"
                             class="purecounter"></span>
                         <p>Rata-rata tindakan kemoterapi setiap bulan.</p>
@@ -206,7 +206,7 @@
                 </div>
                 <div class="col-lg-3 col-md-6 d-md-flex align-items-md-stretch">
                     <div class="count-box">
-                        <i class="fas fa-award"></i>
+                        <i class="fas fa-user-injured"></i>
                         <span data-purecounter-start="0" data-purecounter-end="400" data-purecounter-duration="1"
                             class="purecounter"></span>
                         <p>Rata-rata kunjungan rawat jalan/ Poliklinik setiap bulan.</p>
@@ -228,37 +228,37 @@
 
             <div class="row">
                 <div class="col-lg-4 col-md-6 icon-box" data-aos="zoom-in" data-aos-delay="100">
-                    <div class="icon"><i class="fas fa-heartbeat"></i></div>
+                    <div class="icon"><i class="fas fa-hospital"></i></div>
                     <h4 class="title"><a href="">Poliklinik / Rawat Jalan</a></h4>
                     <p class="description">Voluptatum deleniti atque corrupti quos dolores et quas molestias
                         excepturi sint occaecati cupiditate non provident</p>
                 </div>
                 <div class="col-lg-4 col-md-6 icon-box" data-aos="zoom-in" data-aos-delay="200">
-                    <div class="icon"><i class="fas fa-pills"></i></div>
+                    <div class="icon"><i class="fas fa-hand-holding-medical"></i></div>
                     <h4 class="title"><a href="">Kemoterapi</a></h4>
                     <p class="description">Minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
                         ex ea commodo consequat tarad limino ata</p>
                 </div>
                 <div class="col-lg-4 col-md-6 icon-box" data-aos="zoom-in" data-aos-delay="300">
-                    <div class="icon"><i class="fas fa-hospital-user"></i></div>
+                    <div class="icon"><i class="fas fa-vials"></i></div>
                     <h4 class="title"><a href="">Laboratorium</a></h4>
                     <p class="description">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
                         dolore eu fugiat nulla pariatur</p>
                 </div>
                 <div class="col-lg-4 col-md-6 icon-box" data-aos="zoom-in" data-aos-delay="100">
-                    <div class="icon"><i class="fas fa-dna"></i></div>
+                    <div class="icon"><i class="fas fa-x-ray"></i></div>
                     <h4 class="title"><a href="">Radiologi</a></h4>
                     <p class="description">Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
                         officia deserunt mollit anim id est laborum</p>
                 </div>
                 <div class="col-lg-4 col-md-6 icon-box" data-aos="zoom-in" data-aos-delay="200">
-                    <div class="icon"><i class="fas fa-wheelchair"></i></div>
+                    <div class="icon"><i class="fas fa-diagnoses"></i></div>
                     <h4 class="title"><a href="">Cytotoxic Handling</a></h4>
                     <p class="description">At vero eos et accusamus et iusto odio dignissimos ducimus qui
                         blanditiis praesentium voluptatum deleniti atque</p>
                 </div>
                 <div class="col-lg-4 col-md-6 icon-box" data-aos="zoom-in" data-aos-delay="300">
-                    <div class="icon"><i class="fas fa-notes-medical"></i></div>
+                    <div class="icon"><i class="fas fa-pills"></i></div>
                     <h4 class="title"><a href="">Farmasi</a></h4>
                     <p class="description">Et harum quidem rerum facilis est et expedita distinctio. Nam libero
                         tempore, cum soluta nobis est eligendi</p>
@@ -267,8 +267,9 @@
 
         </div>
     </section><!-- End Services Section -->
+    @include('vendor.medico.content.jadwal')
     <!-- ======= Pricing Section ======= -->
-    <section id="persyaratan" class="pricing">
+    <section id="persyaratan" class="pricing section-bg">
         <div class="container" data-aos="fade-up">
             <div class="section-title">
                 <h2>Persyartan</h2>
@@ -305,7 +306,6 @@
         </div>
     </section><!-- End Pricing Section -->
     @include('vendor.medico.content.departement')
-    @include('vendor.medico.content.jadwal')
     @include('vendor.medico.content.doctor')
     @include('vendor.medico.content.testimoni')
     <!-- ======= Gallery Section ======= -->

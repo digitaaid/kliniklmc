@@ -120,21 +120,17 @@ class SuratKontrolController extends APIController
     }
     public function print(Request $request)
     {
-        // dd($request->all());
-        $request['noSuratKontrol'] = $request->nomorsuratkontrol;
         $vclaim = new VclaimController();
         $response = $vclaim->suratkontrol_nomor($request);
         if ($response->metadata->code == 200) {
             $suratkontrol = $response->response;
             $sep = $response->response->sep;
             $peserta = $response->response->sep->peserta;
-            $pasien = Pasien::firstWhere('no_Bpjs', $peserta->noKartu);
-            $dokter = Dokter::firstWhere('kode_dokter_jkn', $suratkontrol->kodeDokter);
-            return view('simrs.suratkontrol.suratkontrol_print', compact([
+            $dokter = Dokter::firstWhere('kodedokter', $suratkontrol->kodeDokter);
+            return view('print.print_suratkontrol', compact([
                 'suratkontrol',
                 'sep',
                 'peserta',
-                'pasien',
                 'dokter',
             ]));
         } else {

@@ -61,10 +61,50 @@
                                         <dd>{{ $antrian->namapoli }}</dd>
                                         <dt>Dokter</dt>
                                         <dd>{{ $antrian->namadokter }}</dd>
-                                        <dt>Sisa Antrian</dt>
-                                        <dd>{{ $res->response->sisaantrean }}</dd>
                                         <dt>Antrian Sedang Dipanggil</dt>
                                         <dd>{{ $res->response->antreanpanggil }}</dd>
+                                        <dt>Status</dt>
+                                        <dd>
+                                            @switch($antrian->taskid)
+                                                @case(0)
+                                                    Belum Checkin
+                                                @break
+
+                                                @case(1)
+                                                    Tunggu Pendaftaran
+                                                @break
+
+                                                @case(2)
+                                                    Proses Pendaftaran
+                                                @break
+
+                                                @case(3)
+                                                    Tunggu Poliklinik
+                                                @break
+
+                                                @case(4)
+                                                    Pemeriksaan Dokter
+                                                @break
+
+                                                @case(5)
+                                                    Tunggu Farmasi
+                                                @break
+
+                                                @case(6)
+                                                    Proses Farmasi
+                                                @break
+
+                                                @case(7)
+                                                    Selesai Pelayanan
+                                                @break
+
+                                                @case(99)
+                                                    Batal
+                                                @break
+
+                                                @default
+                                            @endswitch
+                                        </dd>
                                         <dt>Keterangan</dt>
                                         <dd>{{ $antrian->keterangan }}</dd>
                                     </dl>

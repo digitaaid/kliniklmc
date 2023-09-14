@@ -53,6 +53,7 @@ Route::post('prosesdaftarbpjs', [AntrianController::class, 'prosesdaftarbpjs'])-
 Route::get('daftarumum', [AntrianController::class, 'daftarumum'])->name('daftarumum');
 Route::post('prosesdaftarumum', [AntrianController::class, 'prosesdaftarumum'])->name('prosesdaftarumum');
 Route::get('statusantrian', [AntrianController::class, 'statusantrian'])->name('statusantrian');
+Route::get('batalantrianweb', [AntrianController::class, 'batalantrianweb'])->name('batalantrianweb');
 // display antrian
 Route::get('displayantrian', [AntrianController::class, 'displayAntrian'])->name('displayantrian');
 Route::get('displaynomor', [AntrianController::class, 'displaynomor'])->name('displaynomor');
@@ -89,8 +90,6 @@ Route::middleware('auth')->group(function () {
     Route::get('form_identitaspasien', [FormController::class, 'form_identitaspasien'])->name('form_identitaspasien');
     Route::get('form_assesmentrajal', [FormController::class, 'form_assesmentrajal'])->name('form_assesmentrajal');
     Route::get('form_assesmentdokter', [FormController::class, 'form_assesmentdokter'])->name('form_assesmentdokter');
-
-
     // anjungan
     Route::get('anjunganantrian', [AntrianController::class, 'anjunganantrian'])->name('anjunganantrian');
     Route::get('checkinantrian', [AntrianController::class, 'checkinantrian'])->name('checkinantrian');
@@ -98,11 +97,12 @@ Route::middleware('auth')->group(function () {
     Route::get('karcisantrian', [AntrianController::class, 'karcisantrian'])->name('karcisantrian');
     Route::get('testprinterthermal', [ThermalPrintController::class, 'testprinterthermal'])->name('testprinterthermal');
     // pendaftaran
+    Route::get('antrianpendaftaran', [AntrianController::class, 'antrianpendaftaran'])->name('antrianpendaftaran');
+    Route::get('prosespendaftaran', [AntrianController::class, 'prosespendaftaran'])->name('prosespendaftaran');
     Route::get('layanipendaftaran', [AntrianController::class, 'layanipendaftaran'])->name('layanipendaftaran');
     Route::post('editantrian', [AntrianController::class, 'editantrian'])->name('editantrian');
     Route::get('lanjutpoliklinik', [AntrianController::class, 'lanjutpoliklinik'])->name('lanjutpoliklinik');
     Route::get('batalantrian', [AntrianController::class, 'batalantrian'])->name('batalantrian');
-    Route::get('batalantrianweb', [AntrianController::class, 'batalantrianweb'])->name('batalantrianweb');
     // poliklinik
     Route::get('antrianpoliklinik', [AntrianController::class, 'antrianpoliklinik'])->name('antrianpoliklinik');
     Route::get('panggilpoliklinik', [AntrianController::class, 'panggilpoliklinik'])->name('panggilpoliklinik');
@@ -143,4 +143,8 @@ Route::middleware('auth')->group(function () {
     Route::get('ref_kecamatan_api', [VclaimController::class, 'ref_kecamatan_api'])->name('ref_kecamatan_api');
     Route::get('suratKontrolBpjs', [SuratKontrolController::class, 'suratKontrolBpjs'])->name('suratKontrolBpjs');
     Route::get('rujukanBpjs', [RujukanController::class, 'rujukanBpjs'])->name('rujukanBpjs');
+    // sep
+    Route::get('sep_print', [SepController::class, 'print'])->name('sep_print');
+    // suratkontrol
+    Route::get('suratkontrol_print', [SuratKontrolController::class, 'print'])->name('suratkontrol_print');
 });
