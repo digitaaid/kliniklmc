@@ -13,25 +13,31 @@
                         <li class="nav-item">
                             <a class="nav-link active show" data-bs-toggle="tab" data-bs-target="#tab-1">
                                 <h4>Hematologi Onkologi Medik</h4>
-                                <p>Quis excepturi porro totam sint earum quo nulla perspiciatis eius.</p>
                             </a>
                         </li>
                         <li class="nav-item mt-2">
                             <a class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-3">
                                 <h4>Kemotherapi</h4>
-                                <p>Velit veniam ipsa sit nihil blanditiis mollitia natus.</p>
                             </a>
                         </li>
                         <li class="nav-item mt-2">
                             <a class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-2">
                                 <h4>Laboratorium</h4>
-                                <p>Voluptas vel esse repudiandae quo excepturi.</p>
                             </a>
                         </li>
                         <li class="nav-item mt-2">
                             <a class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-4">
                                 <h4>Radiologi</h4>
-                                <p>Ratione hic sapiente nostrum doloremque illum nulla praesentium id</p>
+                            </a>
+                        </li>
+                        <li class="nav-item mt-2">
+                            <a class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-5">
+                                <h4>Farmasi</h4>
+                            </a>
+                        </li>
+                        <li class="nav-item mt-2">
+                            <a class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-6">
+                                <h4>Cytotoxic Handling</h4>
                             </a>
                         </li>
                     </ul>
@@ -76,6 +82,28 @@
                             <p class="fst-italic">Qui laudantium consequatur laborum sit qui ad sapiente dila parde
                                 sonata raqer a videna mareta paulona marka</p>
                             <img src="{{ asset('medicio/assets/img/departments-4.jpg') }}" alt=""
+                                class="img-fluid">
+                            <p>Et nobis maiores eius. Voluptatibus ut enim blanditiis atque harum sint. Laborum eos
+                                ipsum ipsa odit magni. Incidunt hic ut molestiae aut qui. Est repellat minima
+                                eveniet eius et quis magni nihil. Consequatur dolorem quaerat quos qui similique
+                                accusamus nostrum rem vero</p>
+                        </div>
+                        <div class="tab-pane" id="tab-5">
+                            <h3>Farmasi</h3>
+                            <p class="fst-italic">Qui laudantium consequatur laborum sit qui ad sapiente dila parde
+                                sonata raqer a videna mareta paulona marka</p>
+                            <img src="{{ asset('medicio/assets/img/departments-2.jpg') }}" alt=""
+                                class="img-fluid">
+                            <p>Et nobis maiores eius. Voluptatibus ut enim blanditiis atque harum sint. Laborum eos
+                                ipsum ipsa odit magni. Incidunt hic ut molestiae aut qui. Est repellat minima
+                                eveniet eius et quis magni nihil. Consequatur dolorem quaerat quos qui similique
+                                accusamus nostrum rem vero</p>
+                        </div>
+                        <div class="tab-pane" id="tab-6">
+                            <h3>Cytotoxic Handling</h3>
+                            <p class="fst-italic">Qui laudantium consequatur laborum sit qui ad sapiente dila parde
+                                sonata raqer a videna mareta paulona marka</p>
+                            <img src="{{ asset('medicio/assets/img/departments-3.jpg') }}" alt=""
                                 class="img-fluid">
                             <p>Et nobis maiores eius. Voluptatibus ut enim blanditiis atque harum sint. Laborum eos
                                 ipsum ipsa odit magni. Incidunt hic ut molestiae aut qui. Est repellat minima

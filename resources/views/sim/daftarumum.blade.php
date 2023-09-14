@@ -35,32 +35,31 @@
                 @csrf
                 <div class="form-group mb-3">
                     <input type="text" class="form-control" name="nik" id="nik" placeholder="NIK Pasien"
-                        value="{{ $request->nik }}" required {{ $request->nomorkartu ? 'readonly' : null }}>
+                        value="{{ $request->nik }}" {{ $request->nomorkartu ? 'readonly' : null }}>
                 </div>
-                @if ($request->nik)
+                <div class="form-group mb-3">
+                    <input type="text" class="form-control" name="nohp" id="nohp" placeholder="Nomor HP"
+                        value="{{ $request->nohp }}">
+                </div>
+                @if ($request->nik && $request->nohp)
                     <div class="form-group mb-3">
                         <input type="text" class="form-control" name="nomorkartu" id="nomorkartu"
-                            placeholder="Nomor Kartu BPJS" value="{{ $request->nomorkartu }}" required readonly>
+                            placeholder="Nomor Kartu BPJS" value="{{ $request->nomorkartu }}" readonly>
                     </div>
-
                     <div class="form-group mb-3">
                         <input type="text" class="form-control" name="nama" id="nama" placeholder="Nama"
-                            value="{{ $request->nama }}" required readonly>
+                            value="{{ $request->nama }}" readonly>
                     </div>
                     <div class="form-group mb-3">
                         <input type="text" class="form-control" name="norm" id="norm" placeholder="Nomor RM"
-                            value="{{ $request->norm }}" required readonly>
-                    </div>
-                    <div class="form-group mb-3">
-                        <input type="text" class="form-control" name="nohp" id="nohp" placeholder="Nomor HP"
-                            value="{{ $request->nohp }}" required>
+                            value="{{ $request->norm }}" readonly>
                     </div>
                     <div class="form-group mb-3">
                         <input type="text" class="form-control datepicker" name="tanggalperiksa" id="tanggalperiksa"
-                            placeholder="Tanggal Periksa" value="{{ $request->tanggalperiksa }}" required>
+                            placeholder="Tanggal Periksa" value="{{ $request->tanggalperiksa }}">
                     </div>
                 @endif
-                @if ($request->tanggalperiksa && $jadwals)
+                @if ($request->tanggalperiksa && $jadwals->count())
                     <div class="form-group mb-3">
                         <select name="jadwal" id="jadwal" class="form-select" required>
                             <option selected disabled>Pilih jadwal dokter</option>
@@ -71,20 +70,11 @@
                             @endforeach
                         </select>
                     </div>
-                    <div class="form-group mb-3">
-                        <select name="jeniskunjungan" id="jeniskunjungan" class="form-select" required>
-                            <option selected disabled>Pilih jenis kunjungan</option>
-                            <option value="1" {{ $request->jeniskunjungan == '1' ? 'selected' : null }}>Kunjungan
-                                Pertama
-                            </option>
-                            <option value="3" {{ $request->jeniskunjungan == '3' ? 'selected' : null }}>Kontrol
-                            </option>
-                        </select>
-                    </div>
                 @endif
                 <div class="col text-center">
                     @empty($request->error)
-                        <button type="submit" class="btn btn-warning preloader" form="formDaftar">{{ $request->button }}</button>
+                        <button type="submit" class="btn btn-warning preloader"
+                            form="formDaftar">{{ $request->button }}</button>
                     @endempty
                     <a href="{{ route('daftar') }}" class="btn btn-danger">
                         <i class="icon fas fa-sync"></i>

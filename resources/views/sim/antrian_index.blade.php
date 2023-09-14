@@ -600,13 +600,12 @@
                 $(".kodebooking-id").val(kodebooking);
                 $(".nomorantrean").html(nomorantrean);
                 $(".jenispasien").html($(this).data("jenispasien"));
-
                 switch ($(this).data("jeniskunjungan")) {
                     case 1:
                         var jeniskunjungan = "Rujukan FKTP";
                         break;
                     case 3:
-                        var jeniskunjungan = "Kontrol FKTP";
+                        var jeniskunjungan = "Surat Kontrol";
                         break;
                     case 4:
                         var jeniskunjungan = "Rujukan Antar RS";

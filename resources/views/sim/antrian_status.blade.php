@@ -12,13 +12,13 @@
                     mengisi formulir sederhana di bawah ini, Anda dapat membuat janji dengan cepat dan praktis.
                 </p>
             </div>
-            <form action="" id="formDaftar" method="GET" role="form">
+            <form action="" id="formCekAntrian" method="GET" role="form">
                 <div class="form-group mb-3">
                     <input type="text" class="form-control" name="kodebooking" id="kodebooking" placeholder="Kodebooking"
                         value="{{ $request->kodebooking }}" required>
                 </div>
                 <div class="col text-center">
-                    <button type="submit" class="btn btn-warning preloader" form="formDaftar">Cek Kodebooking</button>
+                    <button type="submit" class="btn btn-warning preloader" form="formCekAntrian">Cek Kodebooking</button>
                 </div>
             </form>
         </div>
@@ -43,7 +43,7 @@
             <div class="container" data-aos="fade-up">
                 <div class="row mt-3">
                     <div class="row ">
-                        <div class="col-md-6 ">
+                        <div class="col-md-12 ">
                             <div class="card">
                                 <h5 class="card-header">Antrian Pasien</h5>
                                 <div class="card-body">
@@ -70,18 +70,7 @@
                                     </dl>
                                 </div>
                                 <div class="card-footer text-muted">
-                                    <a href="#" class="btn btn-danger">Batalkan Antrian</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h5 class="card-title">Card title</h5>
-                                    <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-
-                                    <a href="#" class="card-link">Card link</a>
-                                    <a href="#" class="card-link">Another link</a>
+                                    <button class="btn btn-danger batalAntrian">Batalkan Antrian</button>
                                 </div>
                             </div>
                         </div>
@@ -89,15 +78,77 @@
                 </div>
             </div>
         @endisset
-
     </section>
 @endsection
 
 @section('js')
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         $(function() {
-            $('#btnAntrian').click(function() {
-                alert('asd');
+            $('.batalAntrian').click(function() {
+                Swal.fire({
+                    title: 'Apa alasan anda ingin membatalkan antrian ?',
+                    input: 'text',
+                    inputAttributes: {
+                        autocapitalize: 'off'
+                    },
+                    showCancelButton: true,
+                    confirmButtonText: 'Ya, Batalkan Antrian',
+                    showLoaderOnConfirm: true,
+                    preConfirm: (keterangan) => {
+                        var keterangan = keterangan;
+                        var kodebooking = $('#kodebooking').val();
+                        return {
+                            keterangan: keterangan,
+                            kodebooking: kodebooking,
+                        }
+                    },
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.LoadingOverlay("show");
+                        var kodebooking = result.value.kodebooking;
+                        var keterangan = result.value.keterangan;
+                        $.ajax({
+                            url: "{{ route('batalantrianweb') }}",
+                            data: {
+                                kodebooking: kodebooking,
+                                keterangan: keterangan,
+                            },
+                            type: "GET",
+                            dataType: 'json',
+                            success: function(data) {
+                                console.log(data);
+                                if (data.metadata.code == 200) {
+                                    Swal.fire({
+                                        title: 'Success',
+                                        text: data.metadata.message,
+                                        icon: 'success',
+                                        confirmButtonText: 'Ok'
+                                    }).then((result) => {
+                                        $.LoadingOverlay("show");
+                                        window.location.href =
+                                            "{{ route('statusantrian') }}" +
+                                            "?kodebooking=" +
+                                            kodebooking;
+                                    })
+                                } else {
+                                    Swal.fire({
+                                        title: 'Maaf',
+                                        text: data.metadata.message,
+                                        icon: 'error',
+                                        confirmButtonText: 'Tutup'
+                                    });
+                                }
+                                $.LoadingOverlay("hide");
+                            },
+                            error: function(data) {
+                                console.log(data);
+                                alert('Error');
+                                $.LoadingOverlay("hide");
+                            },
+                        });
+                    }
+                });
             });
         });
     </script>

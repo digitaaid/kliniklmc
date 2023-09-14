@@ -54,7 +54,7 @@ class AntrianController extends APIController
         $rujukans = null;
         $api = new VclaimController();
         $request['button'] = "Cek Nomor Kartu";
-        if ($request->nomorkartu && empty($request->nik)) {
+        if ($request->nomorkartu && $request->nohp && empty($request->nik)) {
             $request['tanggal'] = now()->format('Y-m-d');
             $res = $api->peserta_nomorkartu($request);
             if ($res->metadata->code == 200) {
@@ -71,78 +71,98 @@ class AntrianController extends APIController
             }
             $request['button'] = "Cek Jadwal Dokter";
         }
+        if ($request->nik) {
+            $request['button'] = "Cek Jadwal Rujukan / Surat Kontrol";
+        }
         if ($request->tanggalperiksa) {
             $hari = Carbon::parse($request->tanggalperiksa)->dayOfWeek;
             $jadwals = JadwalDokter::where('hari', $hari)->get();
-            $request['button'] = "Cek Rujukan / Surat Kontrol";
+            $request['button'] = "Cek Jadwal Rujukan / Surat Kontrol";
             if ($jadwals->count() == 0) {
                 $request['warning'] = "Tidak ada jadwal hari terserbut.";
             }
+            if ($request->jeniskunjungan) {
+                switch ($request->jeniskunjungan) {
+                    case '1':
+                        $res = $api->rujukan_peserta($request);
+                        if ($res->metadata->code == 200) {
+                            foreach ($res->response->rujukan as  $value) {
+                                $waktu = Carbon::parse($value->tglKunjungan)->diffInDays(now());
+                                if ($waktu < 90) {
+                                    $rujukans[] = $value;
+                                }
+                            }
+                            if ($rujukans == null) {
+                                $request['warning'] = "Rujukan Tidak Ada / Sudah Kadaluarsa.";
+                            }
+                        } else {
+                            $request['warning'] = $res->metadata->message;
+                        }
+                        break;
+
+                    case '3':
+                        $request['bulan'] = Carbon::parse($request->tanggalperiksa)->month;
+                        $request['tahun'] = Carbon::parse($request->tanggalperiksa)->year;
+                        $request['formatfilter'] = 2;
+                        $res = $api->suratkontrol_peserta($request);
+                        if ($res->metadata->code == 200) {
+                            foreach ($res->response->list as  $value) {
+                                $suratkontrols[] = $value;
+                            }
+                            if ($suratkontrols == null) {
+                                $request['warning'] = "Surat Kontrol Tidak Ada / Sudah Digunakan Semua.";
+                            }
+                        } else {
+                            $request['warning'] = $res->metadata->message;
+                        }
+                        break;
+
+                    case '4':
+                        $res = $api->rujukan_rs_peserta($request);
+                        if ($res->metadata->code == 200) {
+                            foreach ($res->response->rujukan as  $value) {
+                                $waktu = Carbon::parse($value->tglKunjungan)->diffInDays(now());
+                                if ($waktu < 90) {
+                                    $rujukans[] = $value;
+                                }
+                            }
+                            if ($rujukans == null) {
+                                $request['warning'] = "Rujukan Tidak Ada / Sudah Kadaluarsa.";
+                            }
+                        } else {
+                            $request['warning'] = $res->metadata->message;
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            }
+            if ($rujukans || $suratkontrols) {
+                $request['button'] = "Daftar";
+            }
         }
-        if ($request->jeniskunjungan && $request->jadwal) {
+        if ($request->nomorreferensi && $request->jeniskunjungan && $request->jadwal) {
             $jadwal = JadwalDokter::find($request->jadwal);
             $request['kodepoli'] = $jadwal->kodesubspesialis;
             $request['namapoli'] = $jadwal->namasubspesialis;
             $request['namadokter'] = $jadwal->namadokter;
             $request['kodedokter'] = $jadwal->kodedokter;
             $request['jampraktek'] = $jadwal->jadwal;
-            switch ($request->jeniskunjungan) {
-                case '1':
-                    $res = $api->rujukan_peserta($request);
-                    if ($res->metadata->code == 200) {
-                    } else {
-                        $request['warning'] = $res->metadata->message;
-                    }
-                    break;
-
-                case '3':
-                    $request['bulan'] = Carbon::parse($request->tanggalperiksa)->month;
-                    $request['tahun'] = Carbon::parse($request->tanggalperiksa)->year;
-                    $request['formatfilter'] = 2;
-                    $res = $api->suratkontrol_peserta($request);
-                    if ($res->metadata->code == 200) {
-                        foreach ($res->response->list as  $value) {
-                            $suratkontrols[] = $value;
-                        }
-                        if ($suratkontrols == null) {
-                            $request['warning'] = "Surat Kontrol Tidak Ada / Sudah Digunakan Semua.";
-                        }
-                    } else {
-                        $request['warning'] = $res->metadata->message;
-                    }
-                    break;
-
-                case '4':
-                    $res = $api->rujukan_rs_peserta($request);
-                    if ($res->metadata->code == 200) {
-                        foreach ($res->response->rujukan as  $value) {
-                            $waktu = Carbon::parse($value->tglKunjungan)->diffInDays(now());
-                            if ($waktu < 90) {
-                                $rujukans[] = $value;
-                            }
-                        }
-                        if ($rujukans == null) {
-                            $request['warning'] = "Rujukan Tidak Ada / Sudah Kadaluarsa.";
-                        }
-                    } else {
-                        $request['warning'] = $res->metadata->message;
-                    }
-                    break;
-                default:
-                    break;
-            }
             $request['button'] = "Daftar";
-        }
-        if ($request->nomorreferensi) {
             $request['jenispasien'] = "JKN";
             $request['pasienbaru'] = 0;
             $request['method'] = "WEB";
+            $request['keterangan'] = "Silahkan datang dan checkin sesuai dengan jadwal dokter yang anda pilih.";
             $res = $this->ambil_antrian($request);
             if ($res->metadata->code == 200) {
                 $url = route('statusantrian') . "?kodebooking=" . $request->kodebooking;
                 return redirect()->to($url);
             } else {
-                $request['error'] = $res->metadata->message;
+                $request['warning'] = $res->metadata->message;
+                $request['taggalperiksa'] = null;
+                $request['jadwal'] = null;
+                $request['nomorreferensi'] = null;
+                $request['jeniskunjungan'] = null;
             }
         }
         return view('sim.daftarbpjs', compact([
@@ -166,7 +186,7 @@ class AntrianController extends APIController
         $rujukans = null;
         $api = new VclaimController();
         $request['button'] = "Cek NIK Pasien";
-        if ($request->nik && empty($request->nomorkartu)) {
+        if ($request->nik && $request->nohp && empty($request->nomorkartu)) {
             $request['button'] = "Cek Jadwal Dokter";
             $request['tanggal'] = now()->format('Y-m-d');
             $res = $api->peserta_nik($request);
@@ -192,7 +212,7 @@ class AntrianController extends APIController
                 $request['warning'] = 'Tidak ada jadwal dokter dihari tersebut';
             }
         }
-        if ($request->jadwal) {
+        if ($request->tanggalperiksa && $request->jadwal) {
             $jadwal = JadwalDokter::find($request->jadwal);
             $request['kodepoli'] = $jadwal->kodesubspesialis;
             $request['namapoli'] = $jadwal->namasubspesialis;
@@ -200,6 +220,8 @@ class AntrianController extends APIController
             $request['kodedokter'] = $jadwal->kodedokter;
             $request['jampraktek'] = $jadwal->jadwal;
             $request['jenispasien'] = "NON-JKN";
+            $request['jeniskunjungan'] = "2";
+            $request['keterangan'] = "Silahkan datang dan checkin sesuai dengan jadwal dokter yang anda pilih.";
             if ($request->norm == '000000') {
                 $request['pasienbaru'] = 1;
             } else {
@@ -211,7 +233,7 @@ class AntrianController extends APIController
                 $url = route('statusantrian') . "?kodebooking=" . $request->kodebooking;
                 return redirect()->to($url);
             } else {
-                $request['error'] = $res->metadata->message;
+                $request['danger'] = $res->metadata->message;
             }
         }
         return view('sim.daftarumum', compact([
@@ -458,6 +480,27 @@ class AntrianController extends APIController
             Alert::error('Mohon Maaf', 'Antrian tidak ditemukan.');
         }
         return redirect()->back();
+    }
+    function batalantrianweb(Request $request)
+    {
+        $request['taskid'] = "99";
+        $antrian = Antrian::where('kodebooking', $request->kodebooking)->first();
+        if ($antrian) {
+            try {
+                $res = $this->batal_antrean($request);
+                if ($res->metadata->code == 200) {
+                    $antrian->update([
+                        'taskid' => $request->taskid,
+                        'user1' => $antrian->nama,
+                    ]);
+                }
+                return $this->sendResponse($res->metadata->message, 200);
+            } catch (\Throwable $th) {
+                return $this->sendError('Mohon Maaf', $th->getMessage(), 400);
+            }
+        } else {
+            return $this->sendError('Antrian tidak ditemukan', 404);
+        }
     }
     // poliklinik
     public function antrianpoliklinik(Request $request)
@@ -1215,7 +1258,7 @@ class AntrianController extends APIController
         } else {
             return $this->sendError($statusantrian->metadata->message, 400);
         }
-        $request['keterangan'] = "Oke";
+        $request['keterangan'] = $request->keterangan;
         $res = $this->tambah_antrean($request);
         if ($res->metadata->code == 200) {
             $data = [
@@ -1246,7 +1289,6 @@ class AntrianController extends APIController
             } catch (\Throwable $th) {
                 //throw $th;
             }
-
             return $this->sendResponse($data, 200);
         } else {
             return $this->sendError($res->metadata->message, 400);

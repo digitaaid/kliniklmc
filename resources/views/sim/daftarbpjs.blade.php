@@ -36,44 +36,31 @@
                 <div class="form-group mb-3">
                     <input type="text" class="form-control" name="nomorkartu" id="nomorkartu"
                         placeholder="Nomor Kartu BPJS" value="{{ $request->nomorkartu }}"
-                        {{ $request->nik ? 'readonly' : null }} required>
+                        {{ $request->nik ? 'readonly' : null }}>
                 </div>
-                @if ($request->nik)
+                <div class="form-group mb-3">
+                    <input type="text" class="form-control" name="nohp" id="nohp" placeholder="Nomor HP"
+                        value="{{ $request->nohp }}">
+                </div>
+                @if ($request->nik && $request->nohp)
                     <div class="form-group mb-3">
                         <input type="text" class="form-control" name="nik" id="nik" placeholder="NIK"
-                            value="{{ $request->nik }}" required readonly>
+                            value="{{ $request->nik }}" readonly>
                     </div>
                     <div class="form-group mb-3">
                         <input type="text" class="form-control" name="nama" id="nama" placeholder="Nama"
-                            value="{{ $request->nama }}" required readonly>
+                            value="{{ $request->nama }}" readonly>
                     </div>
                     <div class="form-group mb-3">
                         <input type="text" class="form-control" name="norm" id="norm" placeholder="Nomor RM"
-                            value="{{ $request->norm }}" required readonly>
-                    </div>
-                    <div class="form-group mb-3">
-                        <input type="text" class="form-control" name="nohp" id="nohp" placeholder="Nomor HP"
-                            value="{{ $request->nohp }}" required>
+                            value="{{ $request->norm }}" readonly>
                     </div>
                     <div class="form-group mb-3">
                         <input type="text" class="form-control datepicker" name="tanggalperiksa" id="tanggalperiksa"
-                            placeholder="Tanggal Periksa" value="{{ $request->tanggalperiksa }}" required>
-                    </div>
-                @endif
-                @if ($request->tanggalperiksa && $jadwals)
-                    <div class="form-group mb-3">
-                        <select name="jadwal" id="jadwal" class="form-select" required>
-                            <option selected disabled>Pilih Jadwal Dokter</option>
-                            @foreach ($jadwals as $item)
-                                <option value="{{ $item->id }}" {{ $item->id == $request->jadwal ? 'selected' : null }}>
-                                    {{ $item->jadwal }} {{ $item->namasubspesialis }}
-                                    {{ $item->namadokter }}
-                                </option>
-                            @endforeach
-                        </select>
+                            placeholder="Tanggal Periksa" value="{{ $request->tanggalperiksa }}">
                     </div>
                     <div class="form-group mb-3">
-                        <select name="jeniskunjungan" id="jeniskunjungan" class="form-select" required>
+                        <select name="jeniskunjungan" id="jeniskunjungan" class="form-select">
                             <option selected disabled>Pilih Jenis Kunjungan</option>
                             <option value="1" {{ $request->jeniskunjungan == '1' ? 'selected' : null }}>Rujukan FKTP
                             </option>
@@ -84,24 +71,38 @@
                         </select>
                     </div>
                 @endif
-                @if ($request->jeniskunjungan)
-                    <div class="form-group mb-3">
-                        <select name="nomorreferensi" id="nomorreferensi" class="form-select" required>
-                            <option selected disabled>Pilih Nomor Referensi</option>
-                            @isset($suratkontrols)
-                                @foreach ($suratkontrols as $item)
-                                    <option value="{{ $item->noSuratKontrol }}"> {{ $item->noSuratKontrol }} TGL
-                                        {{ $item->tglRencanaKontrol }}</option>
+                @if ($request->tanggalperiksa && $jadwals->count() && $request->jeniskunjungan)
+                    @if ($rujukans || $suratkontrols)
+                        <div class="form-group mb-3">
+                            <select name="jadwal" id="jadwal" class="form-select" required>
+                                <option selected disabled>Pilih Jadwal Dokter</option>
+                                @foreach ($jadwals as $item)
+                                    <option value="{{ $item->id }}"
+                                        {{ $item->id == $request->jadwal ? 'selected' : null }}>
+                                        {{ $item->jadwal }} {{ $item->namasubspesialis }}
+                                        {{ $item->namadokter }}
+                                    </option>
                                 @endforeach
-                            @endisset
-                            @isset($rujukans)
-                                @foreach ($rujukans as $rujukan)
-                                    <option value="{{ $rujukan->noKunjungan }}">{{ $rujukan->noKunjungan }}
-                                        {{ $rujukan->poliRujukan->nama }}</option>
-                                @endforeach
-                            @endisset
-                        </select>
-                    </div>
+                            </select>
+                        </div>
+                        <div class="form-group mb-3">
+                            <select name="nomorreferensi" id="nomorreferensi" class="form-select" required>
+                                <option selected disabled>Pilih Nomor Referensi</option>
+                                @isset($suratkontrols)
+                                    @foreach ($suratkontrols as $item)
+                                        <option value="{{ $item->noSuratKontrol }}"> {{ $item->noSuratKontrol }} TGL
+                                            {{ $item->tglRencanaKontrol }}</option>
+                                    @endforeach
+                                @endisset
+                                @isset($rujukans)
+                                    @foreach ($rujukans as $rujukan)
+                                        <option value="{{ $rujukan->noKunjungan }}">{{ $rujukan->noKunjungan }}
+                                            {{ $rujukan->poliRujukan->nama }}</option>
+                                    @endforeach
+                                @endisset
+                            </select>
+                        </div>
+                    @endif
                 @endif
                 <div class="col text-center">
                     @empty($request->error)
