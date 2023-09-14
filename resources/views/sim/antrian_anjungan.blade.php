@@ -12,7 +12,8 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="row">
-                                        <img src="{{ asset('medicio/assets/img/lmc-b.png') }}" width="100" alt="">
+                                        <img src="{{ asset('medicio/assets/img/lmc-b.png') }}" width="100"
+                                            alt="">
                                         <div class="col">
                                             <h1>Klinik LMC</h1>
                                             <p>Luthfi Medical Center</p>
@@ -126,7 +127,7 @@
                     </div>
                     <x-slot name="footerSlot">
                         <x-adminlte-button icon="fas fa-sync" class="withLoad reload" theme="warning" label="Reload" />
-                        <a href="{{ route('cekprinterpdf') }}" class="btn btn-warning withLoad"><i
+                        <a href="{{ route('testprinterthermal') }}" class="btn btn-warning withLoad"><i
                                 class="fas fa-print"></i>
                             Test
                             Printer</a>
@@ -140,7 +141,8 @@
     </div>
     <x-adminlte-modal id="modalBPJS" size="xl" title="Ambil Antrian BPJS" theme="success" icon="fas fa-user-plus">
         @foreach ($jadwals as $jadwal)
-            <a class="card bg-success withLoad" href="{{ route('ambilkarcis') }}?jenispasien=JKN&jadwal={{ $jadwal->id }}">
+            <a class="card bg-success withLoad"
+                href="{{ route('ambilkarcis') }}?jenispasien=JKN&jadwal={{ $jadwal->id }}">
                 <div class="card-body  text-center">
                     {{ $jadwal->jadwal }}
                     {{ $jadwal->namadokter }}
@@ -162,9 +164,6 @@
         @endforeach
     </x-adminlte-modal>
 @stop
-@section('plugins.Datatables', true)
-@section('plugins.Sweetalert2', true)-
-@include('sweetalert::alert')
 @section('adminlte_css')
 @endsection
 @section('adminlte_js')
@@ -183,50 +182,6 @@
                     });
                     var url = "{{ route('checkinantrian') }}?kodebooking=" + sCode;
                     window.location.href = url;
-                    // $.LoadingOverlay("show", {
-                    //     text: "Printing..."
-                    // });
-                    // var url = "{{ route('checkinUpdate') }}";
-                    // var formData = {
-                    //     kodebooking: sCode,
-                    //     waktu: "{{ \Carbon\Carbon::now()->timestamp * 1000 }}",
-                    // };
-                    // $('#kodebooking').val(sCode);
-                    // $.get(url, formData, function(data) {
-                    //     console.log(data);
-                    //     $.LoadingOverlay("hide");
-                    //     if (data.metadata.code == 200) {
-                    //         $('#status').html(data.metadata.message);
-                    //         swal.fire(
-                    //             'Sukses...',
-                    //             data.metadata.message,
-                    //             'success'
-                    //         ).then(okay => {
-                    //             if (okay) {
-                    //                 $.LoadingOverlay("show", {
-                    //                     text: "Reload..."
-                    //                 });
-                    //                 $('#status').html('-');
-                    //                 location.reload();
-                    //             }
-                    //         });
-                    //     } else {
-                    //         $('#status').html(data.metadata.message);
-                    //         swal.fire(
-                    //             'Opss Error...',
-                    //             data.metadata.message,
-                    //             'error'
-                    //         ).then(okay => {
-                    //             if (okay) {
-                    //                 $.LoadingOverlay("show", {
-                    //                     text: "Reload..."
-                    //                 });
-                    //                 $('#status').html('-');
-                    //                 location.reload();
-                    //             }
-                    //         });
-                    //     }
-                    // });
                 },
             });
         });
@@ -267,3 +222,5 @@
         });
     </script>
 @stop
+@section('plugins.Datatables', true)-
+@include('sweetalert::alert')

@@ -80,8 +80,8 @@ class ThermalPrintController extends Controller
             return redirect()->route('antrianConsole');
         }
     }
-    public function cekprinterpdf()
+    public function testprinterthermal()
     {
-        return view('sim.printer_karcis');
+        return view('sim.test_printer_thermal');
     }
 }

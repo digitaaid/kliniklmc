@@ -365,11 +365,38 @@ return [
             'url'  => 'antrianfarmasi',
             // 'can' =>  ['bpjs', 'pendaftaran'],
         ],
+
+        // REKAMMEDIS
         [
-            'text' => 'Surat Kontrol',
-            'icon'    => 'fas fa-file-medical',
-            'url'  => 'suratkontrol',
-            // 'can' =>  ['bpjs', 'pendaftaran'],
+            'text'    => 'Rekam Medis',
+            'icon'    => 'fas fa-file',
+            // 'can' => 'admin',
+            'submenu' => [
+                [
+                    'text' => 'Form Identitas Pasien',
+                    'icon'    => 'fas fa-file-medical',
+                    'url'  => 'form_identitaspasien',
+                    // 'can' =>  ['bpjs', 'pendaftaran'],
+                ],
+                [
+                    'text' => 'Form General Consent',
+                    'icon'    => 'fas fa-file-medical',
+                    'url'  => 'form_generalconsent',
+                    // 'can' =>  ['bpjs', 'pendaftaran'],
+                ],
+                [
+                    'text' => 'Form Assesment Perawat',
+                    'icon'    => 'fas fa-file-medical',
+                    'url'  => 'form_generalconsent',
+                    // 'can' =>  ['bpjs', 'pendaftaran'],
+                ],
+                [
+                    'text' => 'Form Assesment Dokter',
+                    'icon'    => 'fas fa-file-medical',
+                    'url'  => 'form_generalconsent',
+                    // 'can' =>  ['bpjs', 'pendaftaran'],
+                ],
+            ],
         ],
         // ANTRIAN BPJS
         [
