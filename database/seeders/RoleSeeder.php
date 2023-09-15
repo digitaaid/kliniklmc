@@ -22,8 +22,9 @@ class RoleSeeder extends Seeder
             'Perawat',
             'Dokter',
             'Farmasi',
-            'Rekam Medis',
             'Laboratorium',
+            'Radiologi',
+            'Rekam Medis',
             'Casemix',
             'Manajemen',
         ];
