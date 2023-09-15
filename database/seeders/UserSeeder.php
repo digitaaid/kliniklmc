@@ -6,6 +6,7 @@ use App\Models\Poliklinik;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 
 class UserSeeder extends Seeder
 {
@@ -27,12 +28,37 @@ class UserSeeder extends Seeder
         $user = User::create([
             "name" => "Admin Klinik",
             "email" => "admin@gmail.com",
-            "username" => "admin",
+            "username" => "admins",
             "phone" => "089529909036",
             'password' => bcrypt('qweqwe123'),
             'user_verify' => 1,
             'email_verified_at' => now()
         ]);
         $user->assignRole('Admin Super');
+        $roles = [
+            'Admin',
+            'Pasien',
+            'Pendaftaran',
+            'Perawat',
+            'Dokter',
+            'Farmasi',
+            'Laboratorium',
+            'Radiologi',
+            'Rekam Medis',
+            'Casemix',
+            'Manajemen',
+        ];
+        foreach ($roles as  $value) {
+            $user = User::create([
+                "name" => $value,
+                "email" => Str::slug($value) . "@gmail.com",
+                "username" => Str::slug($value),
+                "phone" => "089529909036",
+                'password' => bcrypt(Str::slug($value)),
+                'user_verify' => 1,
+                'email_verified_at' => now()
+            ]);
+            $user->assignRole('Admin Super');
+        }
     }
 }

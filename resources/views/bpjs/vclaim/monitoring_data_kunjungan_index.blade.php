@@ -41,7 +41,13 @@
                             <tr>
                                 <td>{{ $item->tglSep }}</td>
                                 <td>{{ $item->tglPlgSep }}</td>
-                                <td>{{ $item->noSep }}</td>
+                                <td>
+                                    {{ $item->noSep }}
+                                    <a class="btn btn-xs btn-success" target="_blank"
+                                        href="{{ route('sep_print') }}?noSep={{ $item->noSep }}" style="text-decoration: none">
+                                        <i class="fas fa-print"></i> Print SEP
+                                    </a>
+                                </td>
                                 <td>{{ $item->noRujukan }}</td>
                                 <td>{{ $item->jnsPelayanan }}</td>
                                 <td>{{ $item->noKartu }}</td>

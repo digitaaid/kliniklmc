@@ -350,7 +350,14 @@ return [
         [
             'text' => 'Antrian Pendaftaran',
             'icon'    => 'fas fa-users',
-            'url'  => 'antrian',
+            'url'  => 'antrianpendaftaran',
+            'active'  => ['antrianpendaftaran', 'prosespendaftaran'],
+            // 'can' =>  ['bpjs', 'pendaftaran'],
+        ],
+        [
+            'text' => 'Antrian Perawat',
+            'icon'    => 'fas fa-users',
+            'url'  => 'antrianperawat',
             // 'can' =>  ['bpjs', 'pendaftaran'],
         ],
         [
