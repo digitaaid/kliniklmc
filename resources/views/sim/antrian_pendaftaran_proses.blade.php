@@ -45,28 +45,70 @@
                             <form action="{{ route('editantrian') }}" method="POST">
                                 @csrf
                                 <input type="hidden" name="kodebooking" value="{{ $antrian->kodebooking }}">
-                                <x-adminlte-input name="nomorkartu" class="nomorkartu-id" igroup-size="sm"
-                                    label="Nomor Kartu" value="{{ $antrian->nomorkartu }}" placeholder="Nomor Kartu">
-                                    <x-slot name="appendSlot">
-                                        <div class="btn btn-primary btnCariKartu">
-                                            <i class="fas fa-search"></i> Cari
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <x-adminlte-input name="nomorkartu" class="nomorkartu-id" igroup-size="sm"
+                                            label="Nomor Kartu" value="{{ $antrian->nomorkartu }}"
+                                            placeholder="Nomor Kartu">
+                                            <x-slot name="appendSlot">
+                                                <div class="btn btn-primary btnCariKartu">
+                                                    <i class="fas fa-search"></i> Cari
+                                                </div>
+                                            </x-slot>
+                                        </x-adminlte-input>
+                                        <x-adminlte-input name="nik" class="nik-id" igroup-size="sm" label="NIK"
+                                            placeholder="NIK" value="{{ $antrian->nik }}">
+                                            <x-slot name="appendSlot">
+                                                <div class="btn btn-primary btnCariNIK">
+                                                    <i class="fas fa-search"></i> Cari
+                                                </div>
+                                            </x-slot>
+                                        </x-adminlte-input>
+                                        <x-adminlte-input name="norm" class="norm-id" label="No RM" igroup-size="sm"
+                                            placeholder="No RM" value="{{ $antrian->norm }}" readonly />
+                                        <x-adminlte-input name="nama" class="nama-id" label="Nama Pasien"
+                                            igroup-size="sm" placeholder="Nama Pasien" readonly
+                                            value="{{ $antrian->nama }}" />
+                                        <x-adminlte-input name="nohp" class="nohp-id" label="Nomor HP" igroup-size="sm"
+                                            placeholder="Nomor HP" value="{{ $antrian->nohp }}" />
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <x-adminlte-select igroup-size="sm" name="asalRujukan"
+                                                    label="Jenis Rujukan">
+                                                    <option selected disabled>Pilih Jenis Rujukan</option>
+                                                    <option value="1"
+                                                        {{ $antrian->jeniskunjungan == '1' ? 'selected' : null }}>Rujukan
+                                                        FKTP</option>
+                                                    <option value="2"
+                                                        {{ $antrian->jeniskunjungan == '4' ? 'selected' : null }}>Rujukan
+                                                        Antar RS</option>
+                                                </x-adminlte-select>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <x-adminlte-input name="noRujukan" class="noRujukan-id" igroup-size="sm"
+                                                    label="Nomor Rujukan" placeholder="Nomor Rujukan" readonly
+                                                    value="{{ $antrian->nomorrujukan }}">
+                                                    <x-slot name="appendSlot">
+                                                        <div class="btn btn-primary btnCariRujukan">
+                                                            <i class="fas fa-search"></i> Cari
+                                                        </div>
+                                                    </x-slot>
+                                                </x-adminlte-input>
+                                            </div>
                                         </div>
-                                    </x-slot>
-                                </x-adminlte-input>
-                                <x-adminlte-input name="nik" class="nik-id" igroup-size="sm" label="NIK"
-                                    placeholder="NIK" value="{{ $antrian->nik }}">
-                                    <x-slot name="appendSlot">
-                                        <div class="btn btn-primary btnCariNIK">
-                                            <i class="fas fa-search"></i> Cari
-                                        </div>
-                                    </x-slot>
-                                </x-adminlte-input>
-                                <x-adminlte-input name="norm" class="norm-id" label="No RM" igroup-size="sm"
-                                    placeholder="No RM" value="{{ $antrian->norm }}" readonly />
-                                <x-adminlte-input name="nama" class="nama-id" label="Nama Pasien" igroup-size="sm"
-                                    placeholder="Nama Pasien" readonly value="{{ $antrian->nama }}" />
-                                <x-adminlte-input name="nohp" class="nohp-id" label="Nomor HP" igroup-size="sm"
-                                    placeholder="Nomor HP" value="{{ $antrian->nohp }}" />
+                                        <x-adminlte-input name="noSurat" class="noSurat-id" igroup-size="sm"
+                                            label="Nomor Surat Kontrol" placeholder="Nomor Surat Kontrol"
+                                            value="{{ $antrian->nomorsuratkontrol }}" readonly>
+                                            <x-slot name="appendSlot">
+                                                <div class="btn btn-primary btnCariSuratKontrol">
+                                                    <i class="fas fa-search"></i> Cari
+                                                </div>
+                                            </x-slot>
+                                        </x-adminlte-input>
+                                    </div>
+                                </div>
                                 <button type="submit" class="btn btn-success withLoad">
                                     <i class="fas fa-edit"></i> Update Identitas
                                 </button>
@@ -138,7 +180,6 @@
                                                 </div>
                                             </x-slot>
                                         </x-adminlte-input>
-
                                         <input type="hidden" name="tglRujukan" id="tglrujukan" value="">
                                         <input type="hidden" name="ppkRujukan" id="ppkrujukan" value="">
                                     </div>
@@ -702,6 +743,13 @@
                                 $('#modalSEP').modal('hide');
                                 $.LoadingOverlay("hide");
                             });
+                            $('.btnHapusSEP').click(function() {
+                                $.LoadingOverlay("show");
+                                var nomorsep = $(this).data('id');
+                                var url = "{{ route('sep_hapus') }}?noSep=" +
+                                    nomorsep;
+                                window.location.href = url;
+                            });
                         } else {
                             Swal.fire(
                                 'Error ' + data.metadata.code,
@@ -722,6 +770,9 @@
                 $.LoadingOverlay("show");
                 var sep = $('.noSEP-id').val();
                 var tanggal = $('.tglRencanaKontrol-id').val();
+                if (tanggal == '') {
+                    var tanggal = $('#tglRencanaKontrolid').val();
+                }
                 var url = "{{ route('suratkontrol_poli') }}?nomor=" + sep + "&tglRencanaKontrol=" +
                     tanggal;
                 $.ajax({
@@ -762,6 +813,9 @@
                 $.LoadingOverlay("show");
                 var poli = $('.poliKontrol-id').find(":selected").val();
                 var tanggal = $('.tglRencanaKontrol-id').val();
+                if (tanggal == '') {
+                    var tanggal = $('#tglRencanaKontrolid').val();
+                }
                 var url = "{{ route('suratkontrol_dokter') }}?kodePoli=" + poli + "&tglRencanaKontrol=" +
                     tanggal;
                 // alert(url);

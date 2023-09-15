@@ -27,7 +27,7 @@
                 <dl>
                     <dt>Kodebooking</dt>
                     <dd>
-                        {{ $antrian->kodebooking }}
+                        {{ $antrian->kodebooking }} / {{ $antrian->method }}
                     </dd>
                     <dt>Nomor / Angka Antrian</dt>
                     <dd>
@@ -104,10 +104,11 @@
                             @break
 
                             @default
+                                Belum Pilih Jenis Kunjungan
                         @endswitch
                     </dd>
                     <dt>Nomor Referensi</dt>
-                    <dd>{{ $antrian->nomorreferensi }}</dd>
+                    <dd>{{ $antrian->nomorreferensi ?? 'Belum ada nomor referensi' }}</dd>
                     <dt>SEP</dt>
                     <dd>
                         @if ($antrian->sep)
@@ -123,13 +124,18 @@
                     </dd>
                     <dt>Surat Kontrol</dt>
                     <dd>
-                        @if ($antrian->suratkontrol)
-                            {{ $antrian->suratkontrol->noSuratKontrol }} ({{ $antrian->suratkontrol->tglRencanaKontrol }}) <br>
-                            <a class="btn btn-xs btn-success" target="_blank"
-                                href="{{ route('suratkontrol_print') }}?noSuratKontrol={{ $antrian->suratkontrol->noSuratKontrol }}"
-                                style="text-decoration: none">
-                                <i class="fas fa-print"></i> Print Surat Kontrol
-                            </a>
+                        @if ($antrian->suratkontrols)
+                            @foreach ($antrian->suratkontrols as $item)
+                                {{ $item->noSuratKontrol }}
+                                ({{ $item->tglRencanaKontrol }})
+                                <br>
+                                <a class="btn btn-xs btn-success" target="_blank"
+                                    href="{{ route('suratkontrol_print') }}?noSuratKontrol={{ $item->noSuratKontrol }}"
+                                    style="text-decoration: none">
+                                    <i class="fas fa-print"></i> Print Surat Kontrol
+                                </a>
+                                <br>
+                            @endforeach
                         @else
                             Belum ada Surat Kontrol
                         @endif

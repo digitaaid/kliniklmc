@@ -934,6 +934,7 @@ class VclaimController extends APIController
     {
         $validator = Validator::make(request()->all(), [
             "noSep" => "required",
+            "user" => "required",
         ]);
         if ($validator->fails()) {
             return $this->sendError($validator->errors()->first(), 400);
@@ -945,7 +946,7 @@ class VclaimController extends APIController
             "request" => [
                 "t_sep" => [
                     "noSep" => $request->noSep,
-                    "user" => 'RSUD Waled',
+                    "user" => $request->user,
                 ]
             ]
         ];

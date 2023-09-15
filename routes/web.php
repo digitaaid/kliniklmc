@@ -105,11 +105,13 @@ Route::middleware('auth')->group(function () {
     Route::get('batalantrian', [AntrianController::class, 'batalantrian'])->name('batalantrian');
     // poliklinik
     Route::get('antrianpoliklinik', [AntrianController::class, 'antrianpoliklinik'])->name('antrianpoliklinik');
+    Route::get('prosespoliklinik', [AntrianController::class, 'prosespoliklinik'])->name('prosespoliklinik');
     Route::get('panggilpoliklinik', [AntrianController::class, 'panggilpoliklinik'])->name('panggilpoliklinik');
     Route::get('lanjutfarmasi', [AntrianController::class, 'lanjutfarmasi'])->name('lanjutfarmasi');
     Route::get('selesaipoliklinik', [AntrianController::class, 'selesaipoliklinik'])->name('selesaipoliklinik');
     // farmasi
     Route::get('antrianfarmasi', [AntrianController::class, 'antrianfarmasi'])->name('antrianfarmasi');
+    Route::get('prosesfarmasi', [AntrianController::class, 'prosesfarmasi'])->name('prosesfarmasi');
     Route::get('terimafarmasi', [AntrianController::class, 'terimafarmasi'])->name('terimafarmasi');
     Route::get('selesaifarmasi', [AntrianController::class, 'selesaifarmasi'])->name('selesaifarmasi');
     // antrian bpjs
@@ -145,6 +147,7 @@ Route::middleware('auth')->group(function () {
     Route::get('rujukanBpjs', [RujukanController::class, 'rujukanBpjs'])->name('rujukanBpjs');
     // sep
     Route::get('sep_print', [SepController::class, 'print'])->name('sep_print');
+    Route::get('sep_hapus', [SepController::class, 'sep_hapus'])->name('sep_hapus');
     // suratkontrol
     Route::get('suratkontrol_print', [SuratKontrolController::class, 'print'])->name('suratkontrol_print');
 });

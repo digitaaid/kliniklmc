@@ -44,7 +44,13 @@ class SepController extends Controller
             $request['tglRujukan'] = $suratkontrol->sep->provPerujuk->tglRujukan;
             $request['noRujukan'] = $suratkontrol->sep->provPerujuk->noRujukan;
             $request['ppkRujukan'] = $suratkontrol->sep->provPerujuk->kdProviderPerujuk;
+            $request['jeniskunjungan'] = 3;
         } else {
+            if ($request->asalRujukan == 2) {
+                $request['jeniskunjungan'] = 4;
+            } else {
+                $request['jeniskunjungan'] = 1;
+            }
             $request['nomorreferensi'] = $request->noRujukan;
         }
         $res = $api->sep_insert($request);
@@ -55,6 +61,7 @@ class SepController extends Controller
                 'sep' => $sep->noSep,
                 'nomorrujukan' => $request->noRujukan,
                 'nomorsuratkontrol' => $request->noSurat,
+                'jeniskunjungan' => $request->jeniskunjungan,
                 'nomorreferensi' => $request->nomorreferensi,
             ]);
             Alert::success('Success', 'SEP berhasil dibuatkan');
@@ -76,6 +83,24 @@ class SepController extends Controller
             ]));
         } else {
             Alert::error('Gagal', 'SEP Tidak Ditemukan');
+            return redirect()->back();
+        }
+    }
+    public function sep_hapus(Request $request)
+    {
+        $vclaim = new VclaimController();
+        $request['user'] = Auth::user()->name;
+        $res = $vclaim->sep_delete($request);
+        if ($res->metadata->code == 200) {
+            $sep = $res->response;
+            $antrian = Antrian::where('sep', $request->noSep)->first();
+            $antrian->update([
+                'sep' => null
+            ]);
+            Alert::success('Success', 'SEP behasil Dihapus');
+            return redirect()->back();
+        } else {
+            Alert::error('Gagal', $res->metadata->message);
             return redirect()->back();
         }
     }
