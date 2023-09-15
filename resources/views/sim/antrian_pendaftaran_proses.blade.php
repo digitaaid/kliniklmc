@@ -634,11 +634,12 @@
                                     value.terbitSEP,
                                     "<button class='btnPilihSurat btn btn-success btn-xs mr-1' data-id=" +
                                     value.noSuratKontrol +
-                                    " >Pilih</button><button class='btnEditSuratKontrol btn btn-warning btn-xs' data-id=" +
+                                    " >Pilih</button><button class='btnEditSuratKontrol btn btn-warning  mr-1 btn-xs' data-id=" +
                                     value.noSuratKontrol +
                                     " data-nosepasal=" + value
                                     .noSepAsalKontrol +
-                                    " >Edit</button>",
+                                    " >Edit</button><button class='btnHapusSuratKontrol btn btn-danger btn-xs' data-id=" +
+                                    value.noSuratKontrol + " >Hapus</button>",
                                 ]).draw(false);
                             });
                             $('.btnPilihSurat').click(function() {
@@ -654,6 +655,14 @@
                                 $('.noSurat-edit').val($(this).data('id'));
                                 $('.noSEP-id').val($(this).data('nosepasal'));
                                 $.LoadingOverlay("hide");
+                            });
+                            $('.btnHapusSuratKontrol').click(function() {
+                                $.LoadingOverlay("show");
+                                var nomorsuratkontrol = $(this).data('id');
+                                var url =
+                                    "{{ route('suratkontrol_hapus') }}?noSuratKontrol=" +
+                                    nomorsuratkontrol;
+                                window.location.href = url;
                             });
                         } else {
                             Swal.fire(

@@ -150,4 +150,6 @@ Route::middleware('auth')->group(function () {
     Route::get('sep_hapus', [SepController::class, 'sep_hapus'])->name('sep_hapus');
     // suratkontrol
     Route::get('suratkontrol_print', [SuratKontrolController::class, 'print'])->name('suratkontrol_print');
+    Route::get('suratkontrol_hapus', [SuratKontrolController::class, 'suratkontrol_hapus'])->name('suratkontrol_hapus');
+
 });

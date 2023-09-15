@@ -83,7 +83,7 @@ class SuratKontrolController extends APIController
     }
     public function destroy(Request $request)
     {
-        $request['user'] = 'Sistem SIRAMAH';
+        $request['user'] = "Klinik LMC";
         $vclaim = new VclaimController();
         $response = $vclaim->suratkontrol_delete($request);
         if ($response->metadata->code == 200) {
@@ -154,6 +154,26 @@ class SuratKontrolController extends APIController
             return $this->sendResponse($data, 200);
         } else {
             return $this->sendError($response->metadata->message);
+        }
+    }
+    public function suratkontrol_hapus(Request $request)
+    {
+        $request['user'] = Auth::user()->name;
+        $vclaim = new VclaimController();
+        $response = $vclaim->suratkontrol_delete($request);
+        if ($response->metadata->code == 200) {
+            try {
+                $sk = SuratKontrol::firstWhere('noSuratKontrol', $request->noSuratKontrol);
+                $sk->delete();
+                Alert::success('Success', 'Surat Kontrol behasil Dihapus');
+            } catch (\Throwable $th) {
+                //throw $th;
+                Alert::error('Gagal', $th->getMessage());
+            }
+            return redirect()->back();
+        } else {
+            Alert::error('Gagal', $response->metadata->message);
+            return redirect()->back();
         }
     }
 }
