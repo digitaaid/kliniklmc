@@ -53,7 +53,7 @@ class LoginController extends Controller
             ->orWhere('email', $request->email)->first();
         if (isset($user)) {
             if (empty($user->email_verified_at)) {
-                return view('vendor.adminlte.auth.verify', compact(['request', 'user']));
+                return redirect()->route('login')->withErrors('Mohon maaf, akun anda belum diverifikasi');
             }
         } else {
             return redirect()->route('login')->withErrors('Username / Email Tidak Ditemukan');

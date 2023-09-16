@@ -16,11 +16,18 @@
 @section('auth_body')
     <form action="{{ $register_url }}" method="post">
         @csrf
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                @foreach ($errors->all() as $error)
+                    {{ $error }} <br>
+                @endforeach
+            </div>
+        @endif
         {{-- Name field --}}
+        <label for="name">Nama Lengkap</label>
         <div class="input-group mb-3">
             <input type="text" name="name" class="form-control @error('name') is-invalid @enderror"
                 value="{{ old('name') }}" placeholder="{{ __('adminlte::adminlte.full_name') }}" autofocus>
-
             <div class="input-group-append">
                 <div class="input-group-text">
                     <span class="fas fa-user {{ config('adminlte.classes_auth_icon', '') }}"></span>
@@ -34,6 +41,7 @@
             @enderror
         </div>
         {{-- Username field --}}
+        <label for="name">Username Login</label>
         <div class="input-group mb-3">
             <input type="text" name="username" class="form-control @error('username') is-invalid @enderror"
                 value="{{ old('username') }}" placeholder="Username Login" autofocus>
@@ -50,6 +58,7 @@
             @enderror
         </div>
         {{-- Phone field --}}
+        <label for="name">Nomor HP Whatsapp</label>
         <div class="input-group mb-3">
             <input type="text" name="phone" class="form-control @error('phone') is-invalid @enderror"
                 value="{{ old('phone') }}" placeholder="Nomor HP Whatsapp" autofocus>
@@ -66,6 +75,7 @@
             @enderror
         </div>
         {{-- Email field --}}
+        <label for="name">Email</label>
         <div class="input-group mb-3">
             <input type="email" name="email" class="form-control @error('email') is-invalid @enderror"
                 value="{{ old('email') }}" placeholder="{{ __('adminlte::adminlte.email') }}">
@@ -83,6 +93,7 @@
             @enderror
         </div>
         {{-- Password field --}}
+        <label for="name">Password</label>
         <div class="input-group mb-3">
             <input type="password" name="password" class="form-control @error('password') is-invalid @enderror"
                 placeholder="{{ __('adminlte::adminlte.password') }}">
@@ -100,6 +111,7 @@
             @enderror
         </div>
         {{-- Confirm password field --}}
+        <label for="name">Konfirmasi Password</label>
         <div class="input-group mb-3">
             <input type="password" name="password_confirmation"
                 class="form-control @error('password_confirmation') is-invalid @enderror"

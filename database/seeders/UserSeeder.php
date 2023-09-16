@@ -20,7 +20,7 @@ class UserSeeder extends Seeder
             "email" => "marwandhiaurrahman@gmail.com",
             "username" => "marwan",
             "phone" => "089529909036",
-            'password' => bcrypt('qweqwe123'),
+            'password' => bcrypt('qweqwe'),
             'user_verify' => 1,
             'email_verified_at' => now()
         ]);
@@ -30,7 +30,7 @@ class UserSeeder extends Seeder
             "email" => "admins@gmail.com",
             "username" => "admins",
             "phone" => "089529909036",
-            'password' => bcrypt('qweqwe123'),
+            'password' => bcrypt('qweqwe'),
             'user_verify' => 1,
             'email_verified_at' => now()
         ]);

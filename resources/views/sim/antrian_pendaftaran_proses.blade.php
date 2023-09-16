@@ -19,9 +19,52 @@
                 </x-adminlte-alert>
             @endif
             <a href="{{ route('antrianpendaftaran') }}?tanggalperiksa={{ $antrian->tanggalperiksa }}"
-                class="btn btn-danger mb-2 withLoad">
+                class="btn btn-danger mb-2 mr-1 withLoad">
                 <i class="fas fa-arrow-left"></i> Kembali
             </a>
+            <div class="btn btn-secondary mb-2 mr-1">
+                <i class="fas fa-info-circle"></i>
+                Status Antrian :
+                @switch($antrian->taskid)
+                    @case(0)
+                        Belum Checkin
+                    @break
+
+                    @case(1)
+                        Tunggu Pendaftaran
+                    @break
+
+                    @case(2)
+                        Proses Pendaftaran
+                    @break
+
+                    @case(3)
+                        Tunggu Poliklinik
+                    @break
+
+                    @case(4)
+                        Pemeriksaan Dokter
+                    @break
+
+                    @case(5)
+                        Tunggu Farmasi
+                    @break
+
+                    @case(6)
+                        Proses Farmasi
+                    @break
+
+                    @case(7)
+                        Selesai Pelayanan
+                    @break
+
+                    @case(99)
+                        Batal
+                    @break
+
+                    @default
+                @endswitch
+            </div>
             <div class="card">
                 <div class="card-header p-2">
                     <ul class="nav nav-pills">
@@ -35,7 +78,7 @@
                         <li class="nav-item"><a class="nav-link" href="#suratkontroltab" data-toggle="tab">Surat
                                 Kontrol</a>
                         </li>
-                        <li class="nav-item"><a class="nav-link" href="#keperawatantab" data-toggle="tab">Keperawatan</a>
+                        <li class="nav-item"><a class="nav-link" href="#resumetab" data-toggle="tab">Resume</a>
 
                     </ul>
                 </div>
@@ -343,8 +386,7 @@
                                     Surat Kontrol</button>
                             </form>
                         </div>
-                        <div class="tab-pane" id="keperawatantab">
-                            Pemeriksaan Keperawatan
+                        <div class="tab-pane" id="resumetab">
                             <br>
                             <a href="{{ route('lanjutpoliklinik') }}?kodebooking={{ $antrian->kodebooking }}"
                                 class="btn btn-warning withLoad">

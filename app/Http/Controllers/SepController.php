@@ -93,10 +93,14 @@ class SepController extends Controller
         $res = $vclaim->sep_delete($request);
         if ($res->metadata->code == 200) {
             $sep = $res->response;
-            $antrian = Antrian::where('sep', $request->noSep)->first();
-            $antrian->update([
-                'sep' => null
-            ]);
+            try {
+                $antrian = Antrian::where('sep', $request->noSep)->first();
+                $antrian->update([
+                    'sep' => null
+                ]);
+            } catch (\Throwable $th) {
+                //throw $th;
+            }
             Alert::success('Success', 'SEP behasil Dihapus');
             return redirect()->back();
         } else {
