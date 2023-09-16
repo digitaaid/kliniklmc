@@ -13,7 +13,7 @@
                             @php
                                 $config = ['format' => 'YYYY-MM-DD'];
                             @endphp
-                            <x-adminlte-input-date name="tanggalperiksa" label="Tanggal Laporan"
+                            <x-adminlte-input-date name="tanggalperiksa" label="Tanggal Antrian"
                                 value="{{ $request->tanggalperiksa }}" placeholder="Pilih Tanggal" :config="$config">
                                 <x-slot name="prependSlot">
                                     <div class="input-group-text bg-primary">

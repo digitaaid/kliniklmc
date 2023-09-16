@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('namadokter');
             $table->string('kodedokter')->nullable();
             $table->string('subtitle')->nullable();
-            $table->string('gender')->nullable();
+            $table->string('gender')->default("L");
             $table->string('sip')->nullable();
             $table->string('image')->nullable();
             $table->boolean('status')->default(1);
