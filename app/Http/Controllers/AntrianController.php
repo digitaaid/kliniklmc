@@ -386,7 +386,6 @@ class AntrianController extends APIController
             if ($antrian->taskid == 1) {
                 $antrian->update([
                     'taskid' => $request->taskid,
-                    'user1' => Auth::user()->name,
                 ]);
                 Alert::success('Success', 'Antrian dipanggil ke pendaftaran.');
             }
@@ -403,38 +402,6 @@ class AntrianController extends APIController
             return redirect()->back();
         }
     }
-    // function layanipendaftaran(Request $request)
-    // {
-    //     $request['taskid'] = "2";
-    //     $request['waktu'] = now();
-    //     $antrian = Antrian::where('kodebooking', $request->kodebooking)->first();
-    //     if ($antrian) {
-    //         // antrian offline
-    //         if ($antrian->method == "OFFLINE") {
-    //             $antrian->update([
-    //                 'taskid' => $request->taskid,
-    //                 'user1' => Auth::user()->name,
-    //             ]);
-    //             Alert::success('Success', 'Antrian dipanggil ke pendaftaran.');
-    //         }
-    //         // antrian online
-    //         else {
-    //             $res = $this->update_antrean($request);
-    //             if ($res->metadata->code == 200) {
-    //                 $antrian->update([
-    //                     'taskid' => $request->taskid,
-    //                     'user1' => Auth::user()->name,
-    //                 ]);
-    //                 Alert::success('Success', 'Antrian dipanggil ke pendaftaran.');
-    //             } else {
-    //                 Alert::error('Gagal', $res->metadata->message);
-    //             }
-    //         }
-    //     } else {
-    //         Alert::error('Gagal', 'Antrian tidak ditemukan');
-    //     }
-    //     return redirect()->back();
-    // }
     function editantrian(Request $request)
     {
         $request->validate([
@@ -569,12 +536,37 @@ class AntrianController extends APIController
         } else {
             $request['tanggalperiksa'] = now()->format('Y-m-d');
         }
-        return view('sim.antrian_pendaftaran', compact([
+        return view('sim.antrian_perawat', compact([
             'request',
             'antrians',
             'dokters',
             'polikliniks',
         ]));
+    }
+    public function prosesperawat(Request $request)
+    {
+        $request['taskid'] = "2";
+        $request['waktu'] = now();
+        $antrian = Antrian::where('kodebooking', $request->kodebooking)->first();
+        if ($antrian) {
+            if ($antrian->taskid == 2) {
+                $antrian->update([
+                    'taskid' => $request->taskid,
+                ]);
+                Alert::success('Success', 'Antrian Assemen Keperawatan.');
+            }
+            $dokters = Dokter::where('status', '1')->pluck('namadokter', 'kodedokter');
+            $polikliniks = Unit::where('status', '1')->pluck('nama', 'kode');
+            return view('sim.antrian_perawat_proses', compact([
+                'request',
+                'antrian',
+                'dokters',
+                'polikliniks',
+            ]));
+        } else {
+            Alert::error('Mohon Maaf', 'Antrian tidak ditemukan');
+            return redirect()->back();
+        }
     }
     // poliklinik
     public function antrianpoliklinik(Request $request)

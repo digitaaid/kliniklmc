@@ -183,7 +183,6 @@
                                 <div class="btn btn-warning">
                                     <i class="fas fa-user-plus"></i> Pasien Baru
                                 </div>
-
                             </form>
                         </div>
                         <div class="tab-pane" id="pembayarantab">

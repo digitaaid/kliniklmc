@@ -364,6 +364,7 @@ return [
             'text' => 'Antrian Perawat',
             'icon'    => 'fas fa-users',
             'url'  => 'antrianperawat',
+            'active'  => ['antrianperawat', 'prosesperawat'],
             // 'can' =>  ['bpjs', 'pendaftaran'],
         ],
         [

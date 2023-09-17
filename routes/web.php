@@ -103,12 +103,12 @@ Route::middleware('auth')->group(function () {
     // pendaftaran
     Route::get('antrianpendaftaran', [AntrianController::class, 'antrianpendaftaran'])->name('antrianpendaftaran');
     Route::get('prosespendaftaran', [AntrianController::class, 'prosespendaftaran'])->name('prosespendaftaran');
-    Route::get('layanipendaftaran', [AntrianController::class, 'layanipendaftaran'])->name('layanipendaftaran');
     Route::post('editantrian', [AntrianController::class, 'editantrian'])->name('editantrian');
     Route::get('lanjutpoliklinik', [AntrianController::class, 'lanjutpoliklinik'])->name('lanjutpoliklinik');
     Route::get('batalantrian', [AntrianController::class, 'batalantrian'])->name('batalantrian');
     // perawat
-    Route::get('antrianperawat', [AntrianController::class, 'antrianpendaftaran'])->name('antrianpendaftaran');
+    Route::get('antrianperawat', [AntrianController::class, 'antrianperawat'])->name('antrianperawat');
+    Route::get('prosesperawat', [AntrianController::class, 'prosesperawat'])->name('prosesperawat');
     // poliklinik
     Route::get('antrianpoliklinik', [AntrianController::class, 'antrianpoliklinik'])->name('antrianpoliklinik');
     Route::get('prosespoliklinik', [AntrianController::class, 'prosespoliklinik'])->name('prosespoliklinik');
