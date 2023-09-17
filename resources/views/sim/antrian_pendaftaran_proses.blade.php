@@ -71,6 +71,7 @@
                         <li class="nav-item"><a class="nav-link active" href="#antriantab" data-toggle="tab">Antrian</a>
                         </li>
                         <li class="nav-item"><a class="nav-link" href="#septab" data-toggle="tab">SEP</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#kunjungantab" data-toggle="tab">Kunjungan</a>
                         <li class="nav-item"><a class="nav-link" href="#pembayarantab" data-toggle="tab">Pembayaran</a>
                         <li class="nav-item"><a class="nav-link" href="#riwayattab" data-toggle="tab">Riwayat</a>
                         </li>
@@ -84,9 +85,19 @@
                 <div class="card-body">
                     <div class="tab-content">
                         <div class="active tab-pane" id="antriantab">
+                            @if ($antrian->status)
+                                <x-adminlte-alert theme="success" title="Antrian sudah bridgingkan">
+                                    <b>Kodebooking</b> : {{ $antrian->kodebooking }}
+                                </x-adminlte-alert>
+                            @else
+                                <x-adminlte-alert theme="danger" title="Antrian belum bridgingkan">
+                                    <b>Kodebooking</b> : {{ $antrian->kodebooking }}
+                                </x-adminlte-alert>
+                            @endif
                             <form action="{{ route('editantrian') }}" method="POST">
                                 @csrf
                                 <input type="hidden" name="kodebooking" value="{{ $antrian->kodebooking }}">
+                                <input type="hidden" name="antrian_id" value="{{ $antrian->id }}">
                                 <div class="row">
                                     <div class="col-md-6">
                                         <x-adminlte-input name="nomorkartu" class="nomorkartu-id" igroup-size="sm"
@@ -119,8 +130,9 @@
                                             $config = ['format' => 'YYYY-MM-DD'];
                                         @endphp
                                         <x-adminlte-input-date name="tanggalperiksa" class="tanggalperiksa-id"
-                                            igroup-size="sm" label="Tanggal Periksa" value="{{ $antrian->tanggalperiksa }}"
-                                            placeholder="Tanggal Periksa" :config="$config">
+                                            igroup-size="sm" label="Tanggal Periksa"
+                                            value="{{ $antrian->tanggalperiksa }}" placeholder="Tanggal Periksa"
+                                            :config="$config">
                                         </x-adminlte-input-date>
                                         <x-adminlte-select igroup-size="sm" name="jenispasien" label="Jenis Pasien">
                                             <option selected disabled>Pilih Jenis Pasien</option>
@@ -185,12 +197,6 @@
                                 </div>
                             </form>
                         </div>
-                        <div class="tab-pane" id="pembayarantab">
-                            Pembayaran
-                        </div>
-                        <div class="tab-pane" id="riwayattab">
-                            Riwayat Pasien
-                        </div>
                         <div class="tab-pane" id="septab">
                             <x-adminlte-alert theme="warning" title="Silahkan buat SEP jika pasien BPJS">
                                 <b>Nomor SEP</b> : {{ $antrian->sep ?? 'Belum Dibuatkan' }} <br>
@@ -205,6 +211,7 @@
                             <form action="{{ route('sep.store') }}" method="POST">
                                 @csrf
                                 <input type="hidden" name="kodebooking" value="{{ $antrian->kodebooking }}">
+                                <input type="hidden" name="antrian_id" value="{{ $antrian->id }}">
                                 <div class="row">
                                     <div class="col-md-6">
                                         <x-adminlte-input name="noKartu" class="nomorkartu-id" igroup-size="sm"
@@ -325,7 +332,8 @@
                                 </div>
                                 <hr>
                                 <div class="col-md-12">
-                                    <x-adminlte-select2 igroup-size="sm" name="diagAwal" label="Diagnosa Awal">
+                                    <x-adminlte-select2 igroup-size="sm" name="diagAwal" label="Diagnosa Awal"
+                                        class="diagnosa-id">
                                     </x-adminlte-select2>
                                     <x-adminlte-textarea igroup-size="sm" label="Catatan" name="catatan"
                                         placeholder="Catatan Pasien" />
@@ -334,6 +342,145 @@
                                     </button>
                                 </div>
                             </form>
+                        </div>
+                        <div class="tab-pane" id="kunjungantab">
+                            @if ($antrian->kunjungan_id)
+                                <x-adminlte-alert theme="success" title="Antrian sudah dibuatkan kunjungan">
+                                    <b>Kodekunjungan</b> : {{ $antrian->kodekunjungan }}
+                                </x-adminlte-alert>
+                            @else
+                                <x-adminlte-alert theme="danger" title="Antrian belum dibuatkan kunjungan">
+                                    <b>Kodekunjungan</b> : {{ $antrian->kodekunjungan }}
+                                </x-adminlte-alert>
+                            @endif
+                            <form action="{{ route('editkunjungan') }}" method="POST">
+                                @csrf
+                                <input type="hidden" name="kodebooking" value="{{ $antrian->kodebooking }}">
+                                <input type="hidden" name="antrian_id" value="{{ $antrian->id }}">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="row">
+                                            <x-adminlte-input fgroup-class="col-md-6" name="kodekunjungan"
+                                                label="Kode Kunjungan" igroup-size="sm" placeholder="Kode Kunjungan"
+                                                readonly />
+                                            <x-adminlte-input fgroup-class="col-md-6" name="counter"
+                                                label="Counter Kunjungan" igroup-size="sm"
+                                                placeholder="Counter Kunjungan" readonly />
+                                            @php
+                                                $config = ['format' => 'YYYY-MM-DD HH:mm:ss'];
+                                            @endphp
+                                            <x-adminlte-input-date fgroup-class="col-md-6" name="tgl_masuk"
+                                                igroup-size="sm" label="Tanggal Masuk" placeholder="Tanggal Masuk"
+                                                :config="$config">
+                                            </x-adminlte-input-date>
+                                            {{-- <x-adminlte-input-date fgroup-class="col-md-6" name="tgl_pulang"
+                                                igroup-size="sm" label="Tanggal Pulang" placeholder="Tanggal Pulang"
+                                                :config="$config">
+                                            </x-adminlte-input-date> --}}
+                                            <x-adminlte-select igroup-size="sm" fgroup-class="col-md-6" name="jaminan"
+                                                label="Jaminan Pasien">
+                                                <option selected disabled>Pilih Jaminan</option>
+                                                @foreach ($jaminans as $key => $item)
+                                                    <option value="{{ $key }}">{{ $item }}</option>
+                                                @endforeach
+                                            </x-adminlte-select>
+                                        </div>
+                                        <hr>
+                                        <div class="row">
+                                            <x-adminlte-input name="nomorkartu" class="nomorkartu-id"
+                                                fgroup-class="col-md-6" igroup-size="sm" label="Nomor Kartu"
+                                                value="{{ $antrian->nomorkartu }}" placeholder="Nomor Kartu">
+                                                <x-slot name="appendSlot">
+                                                    <div class="btn btn-primary btnCariKartu">
+                                                        <i class="fas fa-search"></i> Cari
+                                                    </div>
+                                                </x-slot>
+                                            </x-adminlte-input>
+                                            <x-adminlte-input name="nik" class="nik-id" fgroup-class="col-md-6"
+                                                igroup-size="sm" label="NIK" placeholder="NIK"
+                                                value="{{ $antrian->nik }}">
+                                                <x-slot name="appendSlot">
+                                                    <div class="btn btn-primary btnCariNIK">
+                                                        <i class="fas fa-search"></i> Cari
+                                                    </div>
+                                                </x-slot>
+                                            </x-adminlte-input>
+                                            <x-adminlte-input name="norm" class="norm-id" label="No RM"
+                                                fgroup-class="col-md-6" igroup-size="sm" placeholder="No RM"
+                                                value="{{ $antrian->norm }}" />
+                                            <x-adminlte-input name="nama" class="nama-id" label="Nama Pasien"
+                                                fgroup-class="col-md-6" igroup-size="sm" placeholder="Nama Pasien"
+                                                readonly value="{{ $antrian->nama }}" />
+                                            <x-adminlte-input name="tgl_lahir" class="tgllahir-id" label="Tanggal Lahir"
+                                                fgroup-class="col-md-6" readonly igroup-size="sm"
+                                                placeholder="Tanggal Lahir" />
+                                            <x-adminlte-input name="gender" class="gender-id" label="Jenis Kelamin"
+                                                fgroup-class="col-md-6" readonly igroup-size="sm"
+                                                placeholder="Jenis Kelamin" />
+                                            <x-adminlte-input name="kelas" class="kelas-id" label="Kelas Pasien"
+                                                fgroup-class="col-md-6" readonly igroup-size="sm"
+                                                placeholder="Kelas Pasien" />
+                                            <x-adminlte-input name="penjamin" class="penjamin-id" label="Penjamin"
+                                                fgroup-class="col-md-6" readonly igroup-size="sm"
+                                                placeholder="Penjamin" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <x-adminlte-select igroup-size="sm" name="kodepoli" label="Poliklinik">
+                                            @foreach ($polikliniks as $key => $value)
+                                                <option value="{{ $key }}">
+                                                    {{ $value }}</option>
+                                            @endforeach
+                                        </x-adminlte-select>
+                                        <x-adminlte-select igroup-size="sm" name="kodedokter" label="Dokter">
+                                            @foreach ($dokters as $key => $value)
+                                                <option value="{{ $key }}">{{ $value }}</option>
+                                            @endforeach
+                                        </x-adminlte-select>
+                                        <x-adminlte-select igroup-size="sm" name="cara_masuk" label="Cara Masuk">
+                                            <option selected disabled>Pilih Cara Masuk</option>
+                                            <option value="gp">Rujukan FKTP</option>
+                                            <option value="hosp-trans">Rujukan FKRTL</option>
+                                            <option value="mp">Rujukan Spesialis</option>
+                                            <option value="outp">Dari Rawat Jalan</option>
+                                            <option value="inp">Dari Rawat Inap</option>
+                                            <option value="emd">Dari Rawat Darurat</option>
+                                            <option value="born">Lahir di RS</option>
+                                            <option value="nursing">Rujukan Panti Jompo</option>
+                                            <option value="psych">Rujukan dari RS Jiwa</option>
+                                            <option value="rehab">Rujukan Fasilitas Rehab</option>
+                                            <option value="other">Lain-lain</option>
+                                        </x-adminlte-select>
+                                        <x-adminlte-select2 igroup-size="sm" name="diagAwal" class="diagnosa-id"
+                                            label="Diagnosa Awal">
+                                        </x-adminlte-select2>
+                                        <x-adminlte-select igroup-size="sm" name="jeniskunjungan"
+                                            label="Jenis Kunjungan">
+                                            <option selected disabled>Pilih Jenis Rujukan</option>
+                                            <option value="1">Rujukan FKTP</option>
+                                            <option value="2">Rujukan Internal / Umum</option>
+                                            <option value="3">Kontrol</option>
+                                            <option value="4">Rujukan Antar RS</option>
+                                        </x-adminlte-select>
+                                        <x-adminlte-input name="nomorreferensi" igroup-size="sm" label="Nomor Referensi"
+                                            placeholder="Nomor Referensi" />
+                                        <x-adminlte-input name="sep" igroup-size="sm" label="Nomor SEP"
+                                            placeholder="Nomor SEP" />
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-success withLoad">
+                                    <i class="fas fa-edit"></i> Update Identitas
+                                </button>
+                                <div class="btn btn-warning">
+                                    <i class="fas fa-user-plus"></i> Pasien Baru
+                                </div>
+                            </form>
+                        </div>
+                        <div class="tab-pane" id="riwayattab">
+                            Riwayat Pasien
+                        </div>
+                        <div class="tab-pane" id="pembayarantab">
+                            Pembayaran
                         </div>
                         <div class="tab-pane" id="suratkontroltab">
                             <x-adminlte-alert theme="warning" title="Surat Kontrol untuk Pasien BPJS">
@@ -352,6 +499,7 @@
                             <form action="{{ route('suratkontrol.store') }}" method="POST">
                                 @csrf
                                 <input type="hidden" name="kodebooking" value="{{ $antrian->kodebooking }}">
+                                <input type="hidden" name="antrian_id" value="{{ $antrian->id }}">
                                 <div class="row">
                                     <div class="col-md-6">
                                         <x-adminlte-input name="nomorkartu" class="nomorkartu-id" igroup-size="sm"
@@ -539,6 +687,10 @@
                             $(".nik-id").val(pasien.nik);
                             $(".nomorkartu-id").val(pasien.noKartu);
                             $(".norm-id").val(pasien.mr.noMR);
+                            $(".tgllahir-id").val(pasien.tglLahir);
+                            $(".gender-id").val(pasien.sex);
+                            $(".penjamin-id").val(pasien.jenisPeserta.keterangan);
+                            $(".kelas-id").val(pasien.hakKelas.kode);
                             if (pasien.mr.noMR == null) {
                                 Swal.fire(
                                     'Mohon Maaf !',
@@ -578,8 +730,11 @@
                             var pasien = data.response.peserta;
                             $(".nama-id").val(pasien.nama);
                             $(".nik-id").val(pasien.nik);
-                            $(".nomorkartu-id").val(pasien.noKartu);
                             $(".norm-id").val(pasien.mr.noMR);
+                            $(".tgllahir-id").val(pasien.tglLahir);
+                            $(".gender-id").val(pasien.sex);
+                            $(".penjamin-id").val(pasien.jenisPeserta.keterangan);
+                            $(".kelas-id").val(pasien.hakKelas.kode);
                             if (pasien.mr.noMR == null) {
                                 Swal.fire(
                                     'Mohon Maaf !',
@@ -745,7 +900,7 @@
                     }
                 });
             });
-            $("#diagAwal").select2({
+            $(".diagnosa-id").select2({
                 theme: "bootstrap4",
                 ajax: {
                     url: "{{ route('ref_diagnosa_api') }}",

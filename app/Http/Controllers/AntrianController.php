@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Antrian;
+use App\Models\AsesmenPerawat;
 use App\Models\Dokter;
 use App\Models\IntegrasiApi;
 use App\Models\JadwalDokter;
+use App\Models\Jaminan;
+use App\Models\Kunjungan;
 use App\Models\Poliklinik;
 use App\Models\Unit;
 use Carbon\Carbon;
@@ -391,15 +394,18 @@ class AntrianController extends APIController
             }
             $dokters = Dokter::where('status', '1')->pluck('namadokter', 'kodedokter');
             $polikliniks = Unit::where('status', '1')->pluck('nama', 'kode');
+            $jaminans = Jaminan::pluck('nama', 'kode');
             return view('sim.antrian_pendaftaran_proses', compact([
                 'request',
                 'antrian',
                 'dokters',
+                'jaminans',
                 'polikliniks',
             ]));
         } else {
             Alert::error('Mohon Maaf', 'Antrian tidak ditemukan');
-            return redirect()->back();
+            $url = route('antrianpendaftaran') . "?tanggalperiksa=" . now()->format("Y-m-d");
+            return redirect()->to($url);
         }
     }
     function editantrian(Request $request)
@@ -462,6 +468,49 @@ class AntrianController extends APIController
         } catch (\Throwable $th) {
             Alert::error('Mohon Maaf', $th->getMessage());
         }
+        return redirect()->back();
+    }
+    function editkunjungan(Request $request)
+    {
+        $request->validate([
+            'kodebooking' => 'required',
+            'antrian_id' => 'required',
+            'tgl_masuk' => 'required',
+            'jaminan' => 'required',
+            'nomorkartu' => 'required',
+            'nik' => 'required',
+            'norm' => 'required',
+            'nama' => 'required',
+            'tgl_lahir' => 'required|date',
+            'gender' => 'required',
+            'kelas' => 'required',
+            'penjamin' => 'required',
+            'kodepoli' => 'required',
+            'cara_masuk' => 'required',
+            'jeniskunjungan' => 'required',
+            // 'nomorreferensi' => 'required',
+            // 'sep' => 'required',
+        ]);
+        $antrian = Antrian::find($request->antrian_id);
+        $request['counter'] = Kunjungan::where('norm', $request->norm)->count() + 1;
+        $request['kode'] = $antrian->kodebooking;
+        $request['unit'] = $request->kodepoli;
+        $request['dokter'] = $request->kodedokter;
+        $request['diagnosa_awal'] = 'C50';
+        $request['alasan_masuk'] = $request->cara_masuk;
+        $request['status'] = 1;
+        $request['user1'] = Auth::user()->name;
+        if ($antrian->kunjungan_id) {
+            $kunjungan = Kunjungan::find($antrian->kunjungan_id);
+            $kunjungan->update($request->all());
+        } else {
+            $kunjungan = Kunjungan::create($request->all());
+        }
+        $antrian->update([
+            'kunjungan_id' => $kunjungan->id,
+            'kodekunjungan' => $kunjungan->kode,
+        ]);
+        Alert::success('Success', 'Kunjungan antrian telah disimpan');
         return redirect()->back();
     }
     function lanjutpoliklinik(Request $request)
@@ -545,26 +594,52 @@ class AntrianController extends APIController
     }
     public function prosesperawat(Request $request)
     {
-        $request['taskid'] = "2";
-        $request['waktu'] = now();
         $antrian = Antrian::where('kodebooking', $request->kodebooking)->first();
         if ($antrian) {
-            if ($antrian->taskid == 2) {
-                $antrian->update([
-                    'taskid' => $request->taskid,
-                ]);
-                Alert::success('Success', 'Antrian Assemen Keperawatan.');
-            }
             $dokters = Dokter::where('status', '1')->pluck('namadokter', 'kodedokter');
             $polikliniks = Unit::where('status', '1')->pluck('nama', 'kode');
+            $kunjungan = Kunjungan::find($antrian->kunjungan_id);
+            Alert::success('Success', 'Antrian Assemen Keperawatan.');
             return view('sim.antrian_perawat_proses', compact([
                 'request',
                 'antrian',
+                'dokters',
+                'polikliniks',
+                'kunjungan',
             ]));
         } else {
             Alert::error('Mohon Maaf', 'Antrian tidak ditemukan');
             return redirect()->back();
         }
+    }
+    function editasesmenperawat(Request $request)
+    {
+        $request->validate([
+            'kodebooking' => 'required',
+            'antrian_id' => 'required',
+            'kodekunjungan' => 'required',
+            'kunjungan_id' => 'required',
+        ]);
+        $request['waktu'] = now();
+        $kunjungan = Kunjungan::find($request->kunjungan_id);
+        $request['counter'] = $kunjungan->counter;
+        $request['norm'] = $kunjungan->norm;
+        $request['nama'] = $kunjungan->nama;
+        $request['tgl_lahir'] = $kunjungan->tgl_lahir;
+        $request['gender'] = $kunjungan->gender;
+        $request['user'] = Auth::user()->name;
+        $request['status'] = 1;
+        AsesmenPerawat::updateOrCreate(
+            [
+                'kodebooking' => $request->kodebooking,
+                'antrian_id' => $request->antrian_id,
+                'kodekunjungan' => $request->kodekunjungan,
+                'kunjungan_id' => $request->kunjungan_id,
+            ],
+            $request->all()
+        );
+        Alert::success('Success', 'Simpan Assemen Keperawatan.');
+        return redirect()->back();
     }
     // poliklinik
     public function antrianpoliklinik(Request $request)
@@ -593,7 +668,7 @@ class AntrianController extends APIController
                 Alert::success('Success', 'Antrian Assemen Keperawatan.');
             }
             $dokters = Dokter::where('status', '1')->pluck('namadokter', 'kodedokter');
-            $polikliniks = Unit::where('status', '1')->pluck('nama', 'kode');
+            $kunjungans = Unit::where('status', '1')->pluck('nama', 'kode');
             return view('sim.antrian_poliklinik_proses', compact([
                 'request',
                 'antrian',
@@ -603,7 +678,44 @@ class AntrianController extends APIController
             return redirect()->back();
         }
     }
-
+    function editasesmendokter(Request $request)
+    {
+        dd($request->all());
+        $request->validate([
+            'kodebooking' => 'required',
+            'id_antrian' => 'required',
+            'tgl_masuk' => 'required',
+            'jaminan' => 'required',
+            'nomorkartu' => 'required',
+            'nik' => 'required',
+            'norm' => 'required',
+            'nama' => 'required',
+            'tgl_lahir' => 'required|date',
+            'gender' => 'required',
+            'kelas' => 'required',
+            'penjamin' => 'required',
+            'kodepoli' => 'required',
+            'cara_masuk' => 'required',
+            'jeniskunjungan' => 'required',
+            // 'nomorreferensi' => 'required',
+            // 'sep' => 'required',
+        ]);
+        $antrian = Antrian::find($request->id_antrian);
+        $request['counter'] = Kunjungan::where('norm', $request->norm)->count() + 1;
+        $request['kode'] = now()->format('ymd') . random_int(1000, 9999);
+        $request['unit'] = $request->kodepoli;
+        $request['dokter'] = $request->kodedokter;
+        $request['diagnosa_awal'] = 'C50';
+        $request['alasan_masuk'] = $request->cara_masuk;
+        $request['status'] = 1;
+        $request['user1'] = Auth::user()->name;
+        $kunjungan = Kunjungan::create($request->all());
+        $antrian->update([
+            'kunjungan_id' => $kunjungan->id,
+        ]);
+        // dd($request->all(), $kunjungan);
+        return redirect()->back();
+    }
     function panggilpoliklinik(Request $request)
     {
         $request['taskid'] = "4";
@@ -1347,8 +1459,22 @@ class AntrianController extends APIController
             return $this->sendError($statusantrian->metadata->message, 400);
         }
         $request['keterangan'] = $request->keterangan;
+        Antrian::create($request->all());
+        $data = [
+            'nomorantrean' => $request->nomorantrean,
+            'angkaantrean' => $request->angkaantrean,
+            'kodebooking' => $request->kodebooking,
+            'norm' => $request->norm,
+            'namapoli' => $request->namapoli,
+            'namadokter' => $request->namadokter,
+            'estimasidilayani' => $request->estimasidilayani,
+            'sisakuotajkn' => $request->sisakuotajkn,
+            'kuotajkn' => $request->kuotajkn,
+            'sisakuotanonjkn' => $request->sisakuotanonjkn,
+            'kuotanonjkn' => $request->kuotanonjkn,
+            'keterangan' => $request->keterangan,
+        ];
         try {
-            Antrian::create($request->all());
             $wapi = new WhatsappController();
             if ($request->method != "OFFLINE") {
                 $request['message'] = "Anda mendaftar antrian di Klinik LMC \n\nLink Status Antrian : https://luthfimedicalcenter.com/statusantrian?kodebooking=" . $request->kodebooking;
@@ -1358,25 +1484,10 @@ class AntrianController extends APIController
             $request['message'] = "Berhasil daftar antrian method " . $request->method . ".\nAngka antrian : " . $request->angkaantrean . "\nKodebooking : " . $request->kodebooking .  "\nJenis Pasien : " . $request->jenispasien . "\nNama " . $request->nama . "\nTanggal Periksa " . $request->tanggalperiksa . "\nDokter : " . $request->namadokter;
             $request['number'] = "120363170262520539";
             $wapi->send_message_group($request);
-            $data = [
-                'nomorantrean' => $request->nomorantrean,
-                'angkaantrean' => $request->angkaantrean,
-                'kodebooking' => $request->kodebooking,
-                'norm' => $request->norm,
-                'namapoli' => $request->namapoli,
-                'namadokter' => $request->namadokter,
-                'estimasidilayani' => $request->estimasidilayani,
-                'sisakuotajkn' => $request->sisakuotajkn,
-                'kuotajkn' => $request->kuotajkn,
-                'sisakuotanonjkn' => $request->sisakuotanonjkn,
-                'kuotanonjkn' => $request->kuotanonjkn,
-                'keterangan' => $request->keterangan,
-            ];
-            return $this->sendResponse($data, 200);
         } catch (\Throwable $th) {
             //throw $th;
-            return $this->sendError($th->getMessage(), 400);
         }
+        return $this->sendResponse($data, 200);
     }
     public function sisa_antrian(Request $request)
     {

@@ -38,7 +38,7 @@ return new class extends Migration
             $table->string('diagnosa1')->nullable();
             $table->string('diagnosa2')->nullable();
 
-            $table->string('alasan_masuk');
+            $table->string('cara_masuk');
             $table->string('alasan_pulang')->nullable();
             $table->string('keterangan')->nullable();
             $table->string('catatan')->nullable();

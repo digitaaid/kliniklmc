@@ -13,20 +13,20 @@ return new class extends Migration
     {
         Schema::create('antrians', function (Blueprint $table) {
             $table->id();
-            $table->string('kodebooking')->unique();
-            $table->string('jenispasien')->nullable();
-            $table->string('nomorkartu')->nullable();
-            $table->string('nik')->nullable();
-            $table->string('nohp')->nullable();
-            $table->string('kodepoli')->nullable();
+            $table->string('kodebooking')->unique()->index();
+            $table->string('jenispasien');
+            $table->string('nomorkartu');
+            $table->string('nik');
+            $table->string('norm');
+            $table->string('nohp');
+            $table->string('kodepoli');
             $table->string('namapoli')->nullable();
-            $table->string('pasienbaru')->nullable();
-            $table->string('norm')->nullable();
+            $table->string('pasienbaru');
             $table->date('tanggalperiksa');
-            $table->string('kodedokter')->nullable();
+            $table->string('kodedokter');
             $table->string('namadokter')->nullable();
             $table->string('jampraktek')->nullable();
-            $table->string('jeniskunjungan')->nullable();
+            $table->string('jeniskunjungan');
             $table->string('nomorreferensi')->nullable();
             $table->string('nomorantrean');
             $table->string('angkaantrean');
@@ -38,17 +38,21 @@ return new class extends Migration
             $table->text('keterangan')->nullable();
             $table->text('jenisresep')->nullable();
             $table->text('catatan')->nullable();
-            $table->string('nama')->nullable();
+            $table->string('nama');
+            $table->string('sep_id')->nullable();
             $table->string('sep')->nullable();
             $table->string('nomorrujukan')->nullable();
             $table->string('nomorsuratkontrol')->nullable();
-            $table->string('jadwal_id')->nullable();
-            $table->string('method')->nullable();
+            $table->string('jadwal_id');
+            $table->string('method');
             $table->integer('taskid')->default(0);
             $table->boolean('status')->default(0);
+            $table->string('kunjungan_id')->nullable();
+            $table->string('kodekunjungan')->nullable();
             $table->string('user1')->nullable();
             $table->string('user2')->nullable();
             $table->string('user3')->nullable();
+            $table->string('user4')->nullable();
             $table->timestamps();
         });
     }

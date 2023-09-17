@@ -17,6 +17,10 @@ class Antrian extends Model
     {
         return $this->hasMany(SuratKontrol::class, 'kodebooking', 'kodebooking');
     }
+    public function kunjungan()
+    {
+        return $this->belongsTo(Kunjungan::class);
+    }
 
 
 }

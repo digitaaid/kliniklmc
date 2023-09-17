@@ -16,65 +16,65 @@ class JaminanSeeder extends Seeder
         $jaminan = [
             [
                 'kode' => '00003',
-                'slug' => 'JKN',
                 'nama' => 'JKN',
+                'slug' => 'JKN',
             ],
             [
                 'kode' => '00071',
-                'slug' => 'JAMINAN COVID-19',
-                'nama' => 'COVID-19',
+                'nama' => 'JAMINAN COVID-19',
+                'slug' => 'COVID-19',
             ],
             [
                 'kode' => '00072',
-                'slug' => 'JAMINAN KIPI',
-                'nama' => 'KIPI',
+                'nama' => 'JAMINAN KIPI',
+                'slug' => 'KIPI',
             ],
             [
                 'kode' => '00073',
-                'slug' => 'JAMINAN BAYI BARU LAHIR',
-                'nama' => 'BBL',
+                'nama' => 'JAMINAN BAYI BARU LAHIR',
+                'slug' => 'BBL',
             ],
             [
                 'kode' => '00074',
-                'slug' => 'JAMINAN PERPANJANGAN MASA RAWAT',
-                'nama' => 'PMR',
+                'nama' => 'JAMINAN PERPANJANGAN MASA RAWAT',
+                'slug' => 'PMR',
             ],
             [
                 'kode' => '00075',
-                'slug' => 'JAMINAN CO-INSIDENSE',
-                'nama' => 'CO-INS',
+                'nama' => 'JAMINAN CO-INSIDENSE',
+                'slug' => 'CO-INS',
             ],
             [
                 'kode' => '00076',
-                'slug' => 'JAMPERSAL',
-                'nama' => 'JPS',
+                'nama' => 'JAMPERSAL',
+                'slug' => 'JPS',
             ],
             [
                 'kode' => '00077',
-                'slug' => 'JAMINAN PEMULIHAN KESEHATAN PRIORITAS',
-                'nama' => 'JPKP',
+                'nama' => 'JAMINAN PEMULIHAN KESEHATAN PRIORITAS',
+                'slug' => 'JPKP',
             ],
             [
                 'kode' => '00005',
-                'slug' => '001',
                 'nama' => 'JAMKESDA',
+                'slug' => '001',
             ],
             [
                 'kode' => '00006',
-                'slug' => 'JKS',
                 'nama' => 'JAMKESOS',
+                'slug' => 'JKS',
             ],
             [
                 'kode' => '00001',
-                'slug' => 'PASIEN BAYAR',
-                'nama' => '999',
+                'nama' => 'PASIEN BAYAR',
+                'slug' => '999',
             ],
         ];
         foreach ($jaminan as  $value) {
             Jaminan::create([
                 'kode' => $value['kode'],
-                'slug' => $value['slug'],
                 'nama' => $value['nama'],
+                'slug' => $value['slug'],
             ]);
         }
     }

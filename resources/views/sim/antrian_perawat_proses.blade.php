@@ -78,9 +78,12 @@
                 <div class="card-body">
                     <div class="tab-content">
                         <div class="active tab-pane" id="keperawatantab">
-                            <form action="" method="POST">
+                            <form action="{{ route('editasesmenperawat') }}" method="POST">
                                 @csrf
                                 <input type="hidden" name="kodebooking" value="{{ $antrian->kodebooking }}">
+                                <input type="hidden" name="antrian_id" value="{{ $antrian->id }}">
+                                <input type="hidden" name="kodekunjungan" value="{{ $antrian->kunjungan->kode ?? null }}">
+                                <input type="hidden" name="kunjungan_id" value="{{ $antrian->kunjungan->id ?? null }}">
                                 <div class="row">
                                     <div class="col-md-6">
                                         <x-adminlte-textarea igroup-size="sm" rows=3 label="Keluhan Utama"
@@ -94,14 +97,22 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="row">
-                                            <x-adminlte-input name="denut_jantung" fgroup-class="col-md-6"
+                                            <x-adminlte-input name="denyut_jantung" fgroup-class="col-md-6"
                                                 label="Denyut Jantung" igroup-size="sm" placeholder="Denyut Jantung" />
                                             <x-adminlte-input name="pernapasan" fgroup-class="col-md-6" label="Pernapasan"
                                                 igroup-size="sm" placeholder="Pernapasan" />
-                                            <x-adminlte-input name="tekanan_darah" fgroup-class="col-md-6"
-                                                label="Tekanan Darah" igroup-size="sm" placeholder="Tekanan Darah" />
+                                            <x-adminlte-input name="sistole" fgroup-class="col-md-6" label="Sistole"
+                                                igroup-size="sm" placeholder="Sistole" />
+                                            <x-adminlte-input name="distole" fgroup-class="col-md-6" label="Distole"
+                                                igroup-size="sm" placeholder="Distole" />
                                             <x-adminlte-input name="suhu" fgroup-class="col-md-6" label="Suhu Tubuh"
                                                 igroup-size="sm" placeholder="Suhu Tubuh" />
+                                            <x-adminlte-input name="berat_badan" fgroup-class="col-md-6" label="Berat Batan"
+                                                igroup-size="sm" placeholder="Berat Batan" />
+                                            <x-adminlte-input name="tinggi_badan" fgroup-class="col-md-6"
+                                                label="Tinggi Badan" igroup-size="sm" placeholder="Tinggi Badan" />
+                                            <x-adminlte-input name="bsa" fgroup-class="col-md-6"
+                                                label="Index BSA" igroup-size="sm" placeholder="Index BSA" />
                                         </div>
                                         <div class="form-group">
                                             <div class="custom-control custom-radio">
@@ -140,15 +151,15 @@
                                                     State</label>
                                             </div>
                                         </div>
-                                        <x-adminlte-textarea igroup-size="sm" rows=4 label="Tanda Vital Fisik"
-                                            name="tanda_vital" placeholder="Tanda Vital Fisik" />
+                                        <x-adminlte-textarea igroup-size="sm" rows=4 label="Tanda Vital Keadaan Tubuh"
+                                            name="keadaan_tubuh" placeholder="Tanda Vital Fisik" />
                                     </div>
                                 </div>
                                 <hr>
                                 <div class="row">
-                                    <div class="col-md-6"> <x-adminlte-textarea igroup-size="sm" rows=2
-                                            label="Status Psikologi" name="status_psikologi"
-                                            placeholder="Status Psikologi" />
+                                    <div class="col-md-6">
+                                        <x-adminlte-textarea igroup-size="sm" rows=2 label="Status Psikologi"
+                                            name="status_psikologi" placeholder="Status Psikologi" />
                                         <x-adminlte-textarea igroup-size="sm" rows=2 label="Status Sosial"
                                             name="status_sosial" placeholder="Status Sosial" />
                                         <x-adminlte-textarea igroup-size="sm" rows=2 label="Status Spiritual"
@@ -163,95 +174,94 @@
                             </form>
                         </div>
                         <div class="tab-pane" id="resumetab">
-                            <table class="table table-bordered">
-                                <tbody>
-                                    <tr>
-                                        <th scope="col">
-                                            <img src="{{ asset('medicio/assets/img/lmc.png') }}" alt="" height="75px">
-                                        </th>
-                                        <th scope="col">
-                                            Rumah Sakit Umum Daerah <br>
-                                            Waled Kabupaten Cirebon
-                                        </th>
-                                        <th scope="col">
-                                            No RM : 00000000<br>
-                                            Nama : Marwan Dhiaur Rahman<br>
-                                            Tanggal Lahir : Cirebon 9 Mei 1998<br>
-                                            Gender : L<br>
-                                        </th>
-                                    </tr>
-                                    <tr class="table-warning text-center">
-                                        <td colspan="3">
-                                            <b>
-                                                FORMULIR UMUM / ASSESMENT RAWAT JALAN
-                                            </b>
-                                        </td>
-                                    </tr>
-                                    <tr style="font-size: 10">
-                                        <td colspan="2" width="50%" scope="row">
-                                            <u><b>ANAMNESA</b></u>
-                                            <dl>
-                                                <dt>Keluhan Utama :</dt>
-                                                <dd>A description list is perfect for defining terms.</dd>
-                                                <dt>Riwayat Penyakit :</dt>
-                                                <dd>Vestibulum id ligula porta felis euismod semper eget lacinia odio sem
-                                                    nec elit.</dd>
-                                                <dt>Riwayat Alergi :</dt>
-                                                <dd>Etiam porta sem malesuada magna mollis euismod.</dd>
-                                                <dt>Riwayat Pengobatan :</dt>
-                                                <dd>Etiam porta sem malesuada magna mollis euismod.</dd>
-                                            </dl>
-                                        </td>
-                                        <td width="50%">
-                                            <u><b>PEMERIKSAAN FISIK</b></u>
-                                            <br>
-                                            <b>Denyut Jantung : </b> 30 spm <br>
-                                            <b>Pernapasan : </b> 30 spm <br>
-                                            <b>Tekanan Darah : </b> 30 spm <br>
-                                            <b>Suhu Tubuh : </b> 30 spm <br><br>
-                                            <dl>
-                                                <dt>Tingkat Kesadaran :</dt>
-                                                <dd>A description list is perfect for defining terms.</dd>
-                                                <dt>Tanda Vital Tubuh</dt>
-                                                <dd>A description list is perfect for defining terms.</dd>
-                                            </dl>
-                                        </td>
-                                    </tr>
-                                    <tr style="font-size: 10">
-                                        <td colspan="2" width="50%" scope="row">
-                                            <u><b>PEMERIKSAAN PSIKOLOGI</b></u>
-                                            <dl>
-                                                <dt>Kondisi Psikologis :</dt>
-                                                <dd>A description list is perfect for defining terms.</dd>
-                                                <dt>Kondisi Sosial Ekonomi :</dt>
-                                                <dd>Vestibulum id ligula porta felis euismod semper eget lacinia odio sem
-                                                    nec elit.</dd>
-                                                <dt>Kondisi Spiritual :</dt>
-                                                <dd>Etiam porta sem malesuada magna mollis euismod.</dd>
-                                            </dl>
-                                        </td>
-                                        <td width="50%">
-                                            <u><b>CATATAN</b></u>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <br>
-                            <a href="{{ route('lanjutpoliklinik') }}?kodebooking={{ $antrian->kodebooking }}"
-                                class="btn btn-warning withLoad">
-                                <i class="fas fa-user-plus"></i> Lanjut Pemeriksaan Dokter
-                            </a>
-                            <a href="{{ route('batalantrian') }}?kodebooking={{ $antrian->kodebooking }}&keterangan=Dibatalkan dipendaftaran {{ Auth::user()->name }}"
-                                class="btn btn-danger withLoad">
-                                <i class="fas fa-times"></i> Batal
-                            </a>
+                            @if ($kunjungan->asesmenperawat)
+                                <table class="table table-bordered">
+                                    <tbody>
+                                        <tr>
+                                            <th scope="col">
+                                                <img src="{{ asset('medicio/assets/img/lmc.png') }}" alt=""
+                                                    height="75px">
+                                            </th>
+                                            <th scope="col">
+                                                Rumah Sakit Umum Daerah <br>
+                                                Waled Kabupaten Cirebon
+                                            </th>
+                                            <th scope="col">
+                                                No RM : 00000000<br>
+                                                Nama : Marwan Dhiaur Rahman<br>
+                                                Tanggal Lahir : Cirebon 9 Mei 1998<br>
+                                                Gender : L<br>
+                                            </th>
+                                        </tr>
+                                        <tr class="table-warning text-center">
+                                            <td colspan="3">
+                                                <b>
+                                                    FORMULIR UMUM / ASSESMENT RAWAT JALAN
+                                                </b>
+                                            </td>
+                                        </tr>
+                                        <tr style="font-size: 10">
+                                            <td colspan="2" width="50%" scope="row">
+                                                <u><b>ANAMNESA</b></u>
+                                                <dl>
+                                                    <dt>Keluhan Utama :</dt>
+                                                    <dd>A description list is perfect for defining terms.</dd>
+                                                    <dt>Riwayat Penyakit :</dt>
+                                                    <dd>Vestibulum id ligula porta felis euismod semper eget lacinia odio
+                                                        sem
+                                                        nec elit.</dd>
+                                                    <dt>Riwayat Alergi :</dt>
+                                                    <dd>Etiam porta sem malesuada magna mollis euismod.</dd>
+                                                    <dt>Riwayat Pengobatan :</dt>
+                                                    <dd>Etiam porta sem malesuada magna mollis euismod.</dd>
+                                                </dl>
+                                            </td>
+                                            <td width="50%">
+                                                <u><b>PEMERIKSAAN FISIK</b></u>
+                                                <br>
+                                                <b>Denyut Jantung : </b> 30 spm <br>
+                                                <b>Pernapasan : </b> 30 spm <br>
+                                                <b>Tekanan Darah : </b> 30 spm <br>
+                                                <b>Suhu Tubuh : </b> 30 spm <br><br>
+                                                <dl>
+                                                    <dt>Tingkat Kesadaran :</dt>
+                                                    <dd>A description list is perfect for defining terms.</dd>
+                                                    <dt>Tanda Vital Tubuh</dt>
+                                                    <dd>A description list is perfect for defining terms.</dd>
+                                                </dl>
+                                            </td>
+                                        </tr>
+                                        <tr style="font-size: 10">
+                                            <td colspan="2" width="50%" scope="row">
+                                                <u><b>PEMERIKSAAN PSIKOLOGI</b></u>
+                                                <dl>
+                                                    <dt>Kondisi Psikologis :</dt>
+                                                    <dd>A description list is perfect for defining terms.</dd>
+                                                    <dt>Kondisi Sosial Ekonomi :</dt>
+                                                    <dd>Vestibulum id ligula porta felis euismod semper eget lacinia odio
+                                                        sem
+                                                        nec elit.</dd>
+                                                    <dt>Kondisi Spiritual :</dt>
+                                                    <dd>Etiam porta sem malesuada magna mollis euismod.</dd>
+                                                </dl>
+                                            </td>
+                                            <td width="50%">
+                                                <u><b>CATATAN</b></u>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            @else
+                                <x-adminlte-alert title="Belum dilakukan asesmen perawat" theme="danger">
+                                    Silahkan lakukan asesmen keperawatan
+                                </x-adminlte-alert>
+                            @endif
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
 @stop
 
 @section('plugins.Datatables', true)

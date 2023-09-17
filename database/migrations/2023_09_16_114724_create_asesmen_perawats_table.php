@@ -31,7 +31,10 @@ return new class extends Migration
             $table->text('status_sosial')->nullable();
             $table->text('status_spiritual')->nullable();
             $table->datetime('waktu');
-            $table->string('kunjungan');
+            $table->string('kunjungan_id');
+            $table->string('kodekunjungan');
+            $table->string('antrian_id');
+            $table->string('kodebooking');
             $table->string('counter');
             $table->string('norm');
             $table->string('nama');

@@ -50,11 +50,11 @@
                             theme="danger" icon="fas fa-user-injured" />
                     </div>
                 </div>
-                <x-adminlte-card title="Data Antrian Menunggu Pendaftaran" theme="warning" icon="fas fa-info-circle"
+                <x-adminlte-card title="Data Antrian Pendaftaran" theme="warning" icon="fas fa-info-circle"
                     collapsible>
                     @php
                         $heads = ['No', 'Kodebooking', 'Pasien', 'Kartu BPJS', 'Unit', 'Dokter', 'Jenis Pasien', 'Method', 'Status', 'Action'];
-                        $config['order'] = [[7, 'asc']];
+                        $config['order'] = [[8, 'asc']];
                         $config['paging'] = false;
                         $config['scrollY'] = '300px';
                     @endphp
