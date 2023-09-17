@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Poliklinik;
 use App\Models\Unit;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class PoliklinikController extends Controller
@@ -27,6 +28,8 @@ class PoliklinikController extends Controller
             ], [
                 'namapoli' => $value->nmpoli,
                 'namasubspesialis' => $value->nmsubspesialis,
+                'user' => Auth::user()->name,
+
             ]);
         }
         Alert::success($response->metadata->message, 'Data Poliklinik Telah Di Refresh');

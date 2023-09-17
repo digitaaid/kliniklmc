@@ -14,13 +14,13 @@ return new class extends Migration
         Schema::create('jadwal_dokters', function (Blueprint $table) {
             $table->id();
             $table->string('hari');
-            $table->string('kodepoli');
-            $table->string('kodesubspesialis');
+            $table->string('namahari');
+            $table->string('kodepoli')->nullable();
+            $table->string('kodesubspesialis')->nullable();
             $table->string('namapoli');
             $table->string('namasubspesialis');
             $table->string('kodedokter');
             $table->string('namadokter');
-            $table->string('namahari');
             $table->string('jadwal');
             $table->string('kapasitaspasien');
             $table->boolean('libur')->default(0);

@@ -21,6 +21,7 @@ use App\Http\Controllers\SuratKontrolController;
 use App\Http\Controllers\TanyaJawabController;
 use App\Http\Controllers\TestimoniController;
 use App\Http\Controllers\ThermalPrintController;
+use App\Http\Controllers\UnitController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VclaimController;
 use App\Http\Controllers\WhatsappController;
@@ -71,11 +72,14 @@ Route::middleware('auth')->group(function () {
     Route::get('testThermalPrinter', [ThermalPrintController::class, 'testThermalPrinter'])->name('testThermalPrinter');
     Route::get('whatsapp', [WhatsappController::class, 'whatsapp'])->name('whatsapp');
     // route resource
-    Route::resource('user', UserController::class);
-    Route::resource('role', RoleController::class);
-    Route::resource('permission', PermissionController::class);
+    Route::group(['middleware' => ['permission:admin']], function () {
+        Route::resource('user', UserController::class);
+        Route::resource('role', RoleController::class);
+        Route::resource('permission', PermissionController::class);
+    });
     Route::resource('integrasiAPI', IntegrasiController::class);
     Route::resource('poliklinik', PoliklinikController::class);
+    Route::resource('unit', UnitController::class);
     Route::resource('dokter', DokterController::class);
     Route::resource('jadwaldokter', JadwalDokterController::class);
     Route::resource('antrian', AntrianController::class);
@@ -103,6 +107,8 @@ Route::middleware('auth')->group(function () {
     Route::post('editantrian', [AntrianController::class, 'editantrian'])->name('editantrian');
     Route::get('lanjutpoliklinik', [AntrianController::class, 'lanjutpoliklinik'])->name('lanjutpoliklinik');
     Route::get('batalantrian', [AntrianController::class, 'batalantrian'])->name('batalantrian');
+    // perawat
+    Route::get('antrianperawat', [AntrianController::class, 'antrianpendaftaran'])->name('antrianpendaftaran');
     // poliklinik
     Route::get('antrianpoliklinik', [AntrianController::class, 'antrianpoliklinik'])->name('antrianpoliklinik');
     Route::get('prosespoliklinik', [AntrianController::class, 'prosespoliklinik'])->name('prosespoliklinik');
@@ -151,5 +157,4 @@ Route::middleware('auth')->group(function () {
     // suratkontrol
     Route::get('suratkontrol_print', [SuratKontrolController::class, 'print'])->name('suratkontrol_print');
     Route::get('suratkontrol_hapus', [SuratKontrolController::class, 'suratkontrol_hapus'])->name('suratkontrol_hapus');
-
 });

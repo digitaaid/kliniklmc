@@ -13,8 +13,9 @@ return new class extends Migration
     {
         Schema::create('tindakan_pasiens', function (Blueprint $table) {
             $table->id();
-            $table->string('nama');
-            $table->string('petugas');
+            $table->string('icd9')->nullable();
+            $table->string('nama_tindakan')->nullable();
+            $table->string('petugas')->nullable();
             $table->text('alat_medis')->nullable();
             $table->text('bmhp')->nullable();
             $table->datetime('waktu_awal')->nullable();

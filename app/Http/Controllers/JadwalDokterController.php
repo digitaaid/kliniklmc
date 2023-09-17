@@ -15,6 +15,7 @@ class JadwalDokterController extends Controller
     public function index(Request $request)
     {
         $polikliniks = Poliklinik::where('status', 1)->get();
+        $units = Unit::where('status', 1)->get();
         $dokters = Dokter::get();
         $jadwaldokter = JadwalDokter::get();
         $request['tanggal'] = $request->tanggal ? $request->tanggal : now()->format('Y-m-d');
@@ -33,6 +34,7 @@ class JadwalDokterController extends Controller
         return view('sim.jadwal_dokter', compact([
             'request',
             'polikliniks',
+            'units',
             'jadwals',
             'dokters',
             'jadwaldokter',
@@ -47,24 +49,24 @@ class JadwalDokterController extends Controller
             'jadwal' => 'required',
             'kapasitaspasien' => 'required',
         ]);
+        $request['user'] = Auth::user()->name;
         if ($request->libur == "true") {
-            $libur = 1;
+            $request['libur'] = 1;
         } else {
-            $libur = 0;
+            $request['libur'] = 0;
         }
         if (empty($request->namasubspesialis)) {
-            $poli = Poliklinik::firstWhere('kodesubspesialis', $request->kodesubspesialis);
-            $request['kodepoli'] = $poli->kodepoli;
-            $request['namapoli'] = $poli->namapoli;
-            $request['namasubspesialis'] = $poli->namasubspesialis;
+            $poli = Unit::firstWhere('kode', $request->kodesubspesialis);
+            $request['kodepoli'] = $poli->kode;
+            $request['namapoli'] = $poli->nama;
+            $request['namasubspesialis'] = $poli->nama;
         }
         if (empty($request->namadokter)) {
             $dokter = Dokter::firstWhere('kodedokter', $request->kodedokter);
             $request['namadokter'] = $dokter->namadokter;
         }
         $hari = ['MINGGU', 'SENIN', 'SELASA', 'RABU', 'KAMIS', 'JUMAT', 'SABTU'];
-
-        JadwalDokter::updateOrCreate([
+        $jadwal = JadwalDokter::updateOrCreate([
             'kodesubspesialis' => $request->kodesubspesialis,
             'kodedokter' => $request->kodedokter,
             'hari' => $request->hari,
@@ -76,10 +78,10 @@ class JadwalDokterController extends Controller
             'namadokter' => $request->namadokter,
             'namahari' => $hari[$request->hari],
             'kapasitaspasien' => $request->kapasitaspasien,
-            'libur' => $libur,
-            'user' => Auth::user()->name,
+            'libur' => $request->libur,
+            'user' => $request->user,
         ]);
-        Alert::success('Ok', 'Jadwal Dokter Diperbaharui');
+        Alert::success('Ok', 'Jadwal Dokter ditambahkan.');
         return redirect()->back();
     }
     public function update($id, Request $request)
@@ -95,13 +97,13 @@ class JadwalDokterController extends Controller
         }
         $jadwal = JadwalDokter::find($id);
         $dokter = Dokter::firstWhere('kodedokter', $request->kodedokter);
-        $poli = Poliklinik::firstWhere('kodesubspesialis', $request->kodesubspesialis);
+        $poli = Unit::firstWhere('kode', $request->kodesubspesialis);
         $hari = ['MINGGU', 'SENIN', 'SELASA', 'RABU', 'KAMIS', 'JUMAT', 'SABTU'];
         $jadwal->update([
-            'kodesubspesialis' =>  $poli->kodesubspesialis,
-            'namasubspesialis' =>  $poli->namasubspesialis,
-            'kodepoli' =>  $poli->kodepoli,
-            'namapoli' =>  $poli->namapoli,
+            'kodesubspesialis' =>  $poli->kode,
+            'namasubspesialis' =>  $poli->nama,
+            'kodepoli' =>  $poli->kode,
+            'namapoli' =>  $poli->nama,
             'kodedokter' =>  $dokter->kodedokter,
             'namadokter' =>  $dokter->namadokter,
             'hari' =>  $request->hari,
@@ -113,7 +115,6 @@ class JadwalDokterController extends Controller
         Alert::success('Success', 'Jadwal Dokter Telah Diupdate');
         return redirect()->back();
     }
-
     public function jadwalDokterAntrianBpjs(Request $request)
     {
         $polikliniks = Poliklinik::where('status', 1)->get();
@@ -136,5 +137,12 @@ class JadwalDokterController extends Controller
             'jadwals',
             'jadwal_save',
         ]));
+    }
+    public function destroy($id, Request $request)
+    {
+        $jadwal = JadwalDokter::find($id);
+        $jadwal->delete();
+        Alert::success('Success', 'Jadwal Telah Dihapus');
+        return back();
     }
 }

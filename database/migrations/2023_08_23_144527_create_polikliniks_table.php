@@ -17,8 +17,8 @@ return new class extends Migration
             $table->string('kodepoli');
             $table->string('namasubspesialis');
             $table->string('kodesubspesialis');
-            $table->string('kodeunit')->nullable();
             $table->boolean('status')->default(0);
+            $table->string('user');
             $table->timestamps();
         });
     }

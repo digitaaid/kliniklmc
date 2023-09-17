@@ -42,7 +42,7 @@ return new class extends Migration
             $table->string('alasan_pulang')->nullable();
             $table->string('keterangan')->nullable();
             $table->string('catatan')->nullable();
-            $table->integer('status');
+            $table->string('status');
             $table->string('user1');
             $table->timestamps();
         });

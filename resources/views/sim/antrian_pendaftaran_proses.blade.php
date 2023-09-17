@@ -68,13 +68,12 @@
             <div class="card">
                 <div class="card-header p-2">
                     <ul class="nav nav-pills">
-                        <li class="nav-item"><a class="nav-link active" href="#identitastab" data-toggle="tab">Identitas</a>
+                        <li class="nav-item"><a class="nav-link active" href="#antriantab" data-toggle="tab">Antrian</a>
                         </li>
+                        <li class="nav-item"><a class="nav-link" href="#septab" data-toggle="tab">SEP</a></li>
                         <li class="nav-item"><a class="nav-link" href="#pembayarantab" data-toggle="tab">Pembayaran</a>
                         <li class="nav-item"><a class="nav-link" href="#riwayattab" data-toggle="tab">Riwayat</a>
                         </li>
-                        <li class="nav-item"><a class="nav-link" href="#septab" data-toggle="tab">SEP</a></li>
-
                         <li class="nav-item"><a class="nav-link" href="#suratkontroltab" data-toggle="tab">Surat
                                 Kontrol</a>
                         </li>
@@ -84,7 +83,7 @@
                 </div>
                 <div class="card-body">
                     <div class="tab-content">
-                        <div class="active tab-pane" id="identitastab">
+                        <div class="active tab-pane" id="antriantab">
                             <form action="{{ route('editantrian') }}" method="POST">
                                 @csrf
                                 <input type="hidden" name="kodebooking" value="{{ $antrian->kodebooking }}">
@@ -108,7 +107,7 @@
                                             </x-slot>
                                         </x-adminlte-input>
                                         <x-adminlte-input name="norm" class="norm-id" label="No RM" igroup-size="sm"
-                                            placeholder="No RM" value="{{ $antrian->norm }}" readonly />
+                                            placeholder="No RM" value="{{ $antrian->norm }}" />
                                         <x-adminlte-input name="nama" class="nama-id" label="Nama Pasien"
                                             igroup-size="sm" placeholder="Nama Pasien" readonly
                                             value="{{ $antrian->nama }}" />
@@ -116,6 +115,32 @@
                                             placeholder="Nomor HP" value="{{ $antrian->nohp }}" />
                                     </div>
                                     <div class="col-md-6">
+                                        @php
+                                            $config = ['format' => 'YYYY-MM-DD'];
+                                        @endphp
+                                        <x-adminlte-input-date name="tanggalperiksa" class="tanggalperiksa-id"
+                                            igroup-size="sm" label="Tanggal Periksa" value="{{ $antrian->tanggalperiksa }}"
+                                            placeholder="Tanggal Periksa" :config="$config">
+                                        </x-adminlte-input-date>
+                                        <x-adminlte-select igroup-size="sm" name="jenispasien" label="Jenis Pasien">
+                                            <option selected disabled>Pilih Jenis Pasien</option>
+                                            <option value="JKN"
+                                                {{ $antrian->jenispasien == 'JKN' ? 'selected' : null }}>JKN</option>
+                                            <option value="NON-JKN"
+                                                {{ $antrian->jenispasien == 'NON-JKN' ? 'selected' : null }}>NON-JKN
+                                            </option>
+                                        </x-adminlte-select>
+                                        <x-adminlte-select igroup-size="sm" name="kodepoli" label="Poliklinik">
+                                            @foreach ($polikliniks as $key => $value)
+                                                <option value="{{ $key }}">
+                                                    {{ $value }}</option>
+                                            @endforeach
+                                        </x-adminlte-select>
+                                        <x-adminlte-select igroup-size="sm" name="kodedokter" label="Dokter">
+                                            @foreach ($dokters as $key => $value)
+                                                <option value="{{ $key }}">{{ $value }}</option>
+                                            @endforeach
+                                        </x-adminlte-select>
                                         <div class="row">
                                             <div class="col-md-4">
                                                 <x-adminlte-select igroup-size="sm" name="asalRujukan"

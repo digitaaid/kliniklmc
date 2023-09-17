@@ -13,10 +13,11 @@ return new class extends Migration
     {
         Schema::create('units', function (Blueprint $table) {
             $table->id();
-            $table->string('kode');
+            $table->string('kode')->unique();
             $table->string('nama');
             $table->string('kodejkn')->nullable();
-            $table->boolean('status')->default(1);
+            $table->string('status')->default(1);
+            $table->string('user');
             $table->timestamps();
         });
     }

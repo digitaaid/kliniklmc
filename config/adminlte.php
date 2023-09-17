@@ -336,6 +336,12 @@ return [
             // 'can' =>  ['bpjs', 'pendaftaran'],
         ],
         [
+            'text' => 'Unit',
+            'icon'    => 'fas fa-clinic-medical',
+            'url'  => 'unit',
+            // 'can' =>  ['bpjs', 'pendaftaran'],
+        ],
+        [
             'text' => 'Dokter',
             'icon'    => 'fas fa-user-md',
             'url'  => 'dokter',

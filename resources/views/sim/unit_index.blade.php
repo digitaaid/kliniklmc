@@ -14,19 +14,24 @@
                     $heads = ['ID', 'Nama Subspesialis', 'Kode Poliklinik', 'Kode Subspesialis', 'Status'];
                 @endphp
                 <x-adminlte-datatable id="table1" :heads="$heads" bordered hoverable compressed>
-                    @foreach ($polikliniks as $item)
+                    @foreach ($units as $item)
                         <tr>
                             <td>{{ $item->id }}</td>
-                            <td>{{ $item->namasubspesialis }}</td>
-                            <td>{{ $item->kodepoli }}</td>
-                            <td>{{ $item->kodesubspesialis }}</td>
+                            <td>{{ $item->kode }}</td>
+                            <td>{{ $item->nama }}</td>
+                            <td>{{ $item->kodejkn }}</td>
                             <td>
-                                @if ($item->status)
-                                    <a href="{{ route('poliklinik.edit', $item) }}" class="btn btn-xs btn-success">Aktif</a>
-                                @else
-                                    <a href="{{ route('poliklinik.edit', $item) }}"
-                                        class="btn btn-xs btn-danger">Non-Aktif</a>
-                                @endif
+                                @switch($item->status)
+                                    @case(1)
+                                        Pelayanan
+                                    @break
+
+                                    @case(2)
+                                        Non-Pelayanan
+                                    @break
+
+                                    @default
+                                @endswitch
                             </td>
                         </tr>
                     @endforeach

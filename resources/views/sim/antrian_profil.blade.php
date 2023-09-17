@@ -4,36 +4,58 @@
             {{ $antrian->nama }}
         </h6>
         <p class="text-muted text-center">
-            {{ $antrian->norm }}
+            RM {{ $antrian->norm }} <br>
+            BPJS {{ $antrian->nomorkartu }} <br>
+            NIK {{ $antrian->nik }} <br>
+            HP {{ $antrian->nohp }}
         </p>
         <ul class="list-group list-group-unbordered mb-3">
-            <li class="list-group-item">
-                <dl>
-                    <dt>Nomor Kartu</dt>
-                    <dd>
-                        {{ $antrian->nomorkartu }}
-                    </dd>
-                    <dt>NIK</dt>
-                    <dd>
-                        {{ $antrian->nik }}
-                    </dd>
-                    <dt>No HP</dt>
-                    <dd>
-                        {{ $antrian->nohp }}
-                    </dd>
-                </dl>
-            </li>
             <li class="list-group-item">
                 <dl>
                     <dt>Kodebooking</dt>
                     <dd>
                         {{ $antrian->kodebooking }} / {{ $antrian->method }}
+                        @if ($antrian->status)
+                            <span class="badge badge-success">Sudah Bridging</span>
+                        @else
+                            <span class="badge badge-danger">Belum Bridging</span>
+                        @endif
+                        <br>
                     </dd>
                     <dt>Nomor / Angka Antrian</dt>
                     <dd>
                         {{ $antrian->nomorantrean }} / {{ $antrian->angkaantrean }}
                     </dd>
-                    <dt>Status</dt>
+                    <dt>Jenis Pasien</dt>
+                    <dd>
+                        {{ $antrian->jenispasien }}
+                    </dd>
+                    <dt>Jenis Kunjungan</dt>
+                    <dd>
+                        @switch($antrian->jeniskunjungan)
+                            @case(1)
+                                Rujukan FKTP
+                            @break
+
+                            @case(2)
+                                Umum
+                            @break
+
+                            @case(3)
+                                Surat Kontrol
+                            @break
+
+                            @case(4)
+                                Rujukan Antar RS
+                            @break
+
+                            @default
+                                Belum Pilih Jenis Kunjungan
+                        @endswitch
+                    </dd>
+                    <dt>Nomor Referensi</dt>
+                    <dd>{{ $antrian->nomorreferensi ?? 'Belum ada nomor referensi' }}</dd>
+                    <dt>Taskid</dt>
                     <dd>
                         @switch($antrian->taskid)
                             @case(0)
@@ -69,7 +91,7 @@
                             @break
 
                             @case(99)
-                                Batal
+                                <span class="badge badge-danger">Batal</span>
                             @break
 
                             @default
@@ -80,35 +102,8 @@
             </li>
             <li class="list-group-item">
                 <dl>
-                    <dt>Jenis Pasien</dt>
-                    <dd>
-                        {{ $antrian->jenispasien }}
-                    </dd>
-                    <dt>Jenis Kunjungan</dt>
-                    <dd>
-                        @switch($antrian->jeniskunjungan)
-                            @case(1)
-                                Rujukan FKTP
-                            @break
 
-                            @case(2)
-                                Umum
-                            @break
 
-                            @case(3)
-                                Surat Kontrol
-                            @break
-
-                            @case(4)
-                                Rujukan Antar RS
-                            @break
-
-                            @default
-                                Belum Pilih Jenis Kunjungan
-                        @endswitch
-                    </dd>
-                    <dt>Nomor Referensi</dt>
-                    <dd>{{ $antrian->nomorreferensi ?? 'Belum ada nomor referensi' }}</dd>
                     <dt>SEP</dt>
                     <dd>
                         @if ($antrian->sep)

@@ -11,7 +11,7 @@
         <div class="col-12">
             <x-adminlte-card title="Data Dokter" theme="primary" icon="fas fa-info-circle" collapsible>
                 @php
-                    $heads = ['ID', 'Kode BPJS', 'Nama Dokter', 'SIP', 'Status', 'Action'];
+                    $heads = ['ID', 'Kode', 'Nama Dokter', 'Title', 'SIP', 'Kode BPJS', 'Status', 'Action'];
                 @endphp
                 <x-adminlte-datatable id="table2" :heads="$heads" bordered hoverable compressed>
                     @foreach ($dokter as $item)
@@ -19,7 +19,9 @@
                             <td>{{ $item->id }}</td>
                             <td>{{ $item->kodedokter }}</td>
                             <td>{{ $item->namadokter }}</td>
+                            <td>{{ $item->subtitle }}</td>
                             <td>{{ $item->sip }}</td>
+                            <td>{{ $item->kodejkn }}</td>
                             <td>{{ $item->status }}</td>
                             <td></td>
                         </tr>

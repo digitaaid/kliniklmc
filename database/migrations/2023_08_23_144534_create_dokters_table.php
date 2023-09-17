@@ -14,12 +14,14 @@ return new class extends Migration
         Schema::create('dokters', function (Blueprint $table) {
             $table->id();
             $table->string('namadokter');
-            $table->string('kodedokter')->nullable();
+            $table->string('kodedokter')->unique();
+            $table->string('kodejkn')->nullable();
             $table->string('subtitle')->nullable();
             $table->string('gender')->default("L");
             $table->string('sip')->nullable();
             $table->string('image')->nullable();
             $table->boolean('status')->default(1);
+            $table->string('user');
             $table->timestamps();
         });
     }

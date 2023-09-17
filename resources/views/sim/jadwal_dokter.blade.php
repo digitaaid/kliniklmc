@@ -48,8 +48,8 @@
                                         <td>
                                             <form action="{{ route('jadwaldokter.store') }}" method="POST">
                                                 @csrf
-                                                <input type="hidden" name="kodepoli" value="{{ $jadwal->kodepoli }}">
-                                                <input type="hidden" name="namapoli" value="{{ $jadwal->namapoli }}">
+                                                <input type="hidden" name="kodepoli" value="{{ $jadwal->kodesubspesialis }}">
+                                                <input type="hidden" name="namapoli" value="{{ $jadwal->namasubspesialis }}">
                                                 <input type="hidden" name="kodesubspesialis"
                                                     value="{{ $jadwal->kodesubspesialis }}">
                                                 <input type="hidden" name="namasubspesialis"
@@ -82,6 +82,15 @@
             </x-adminlte-card>
         </div>
         <div class="col-12">
+            @if ($errors->any())
+                <x-adminlte-alert title="Ops Terjadi Masalah !" theme="danger" dismissable>
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </x-adminlte-alert>
+            @endif
             <x-adminlte-card title="Jadwal Dokter Polilinik" theme="success" icon="fas fa-calendar-alt" collapsible>
                 @php
                     $heads = ['Nama Poliklinik Subspesialis', 'Dokter', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
@@ -89,10 +98,10 @@
                 @endphp
                 <x-adminlte-datatable id="table1" class="nowrap text-xs" :heads="$heads" :config="$config" striped
                     bordered hoverable compressed>
-                    @foreach ($polikliniks->where('subspesialis', 0)->where('status', 1) as $poli)
+                    @foreach ($units->where('status', 1) as $poli)
                         @foreach ($poli->jadwals->groupby('kodedokter') as $jadwals)
                             <tr>
-                                <td>{{ $polikliniks->firstWhere('kodesubspesialis', $jadwals->first()->kodesubspesialis)->namasubspesialis }}
+                                <td>{{ $units->firstWhere('kode', $jadwals->first()->kodesubspesialis)->nama }}
                                 </td>
                                 <td>{{ $jadwals->first()->namadokter }} </td>
                                 @for ($i = 1; $i <= 6; $i++)
@@ -122,29 +131,19 @@
         </div>
     </div>
     <x-adminlte-modal id="modalJadwal" title="Jadwal Praktek" theme="warning" icon="fas fa-calendar-alt">
-        @if ($errors->any())
-            <x-adminlte-alert title="Ops Terjadi Masalah !" theme="danger" dismissable>
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </x-adminlte-alert>
-        @endif
         <form name="formUpdateJadwal" id="formUpdateJadwal" method="POST">
             @csrf
             <input type="hidden" name="_method" id="_method">
             <input type="hidden" class="idjadwal" name="idjadwal" id="idjadwal">
             <x-adminlte-select2 name="kodesubspesialis" label="Poliklinik">
-                @foreach ($polikliniks as $poli)
-                    <option value="{{ $poli->kodesubspesialis }}"
-                        {{ $request->kodepoli == $poli->kodesubspesialis ? 'selected' : null }}>
-                        {{ $poli->namasubspesialis }} ({{ $poli->kodesubspesialis }})</option>
+                @foreach ($units as $item)
+                    <option value="{{ $item->kode }}" {{ $request->kodepoli == $item->kode ? 'selected' : null }}>
+                        {{ $item->nama }}</option>
                 @endforeach
             </x-adminlte-select2>
             <x-adminlte-select2 name="kodedokter" label="Dokter">
                 @foreach ($dokters as $item)
-                    <option value="{{ $item->kodedokter }}">{{ $item->namadokter }} {{ $item->kodedokter }}</option>
+                    <option value="{{ $item->kodedokter }}">{{ $item->namadokter }}</option>
                 @endforeach
             </x-adminlte-select2>
             <div class="row">
@@ -206,6 +205,8 @@
                 var urlUpdate = "{{ route('jadwaldokter.store') }}";
                 $('#formUpdateJadwal').attr('action', urlUpdate);
                 $('#_method').hide();
+                $('#_method').val(null);
+                $('.idjadwal').val(null);
                 $('#modalJadwal').modal('show');
                 $.LoadingOverlay("hide");
             });
@@ -214,7 +215,8 @@
                 $('#btnUpdate').show();
                 $('#btnCreate').hide();
                 $('#_method').show();
-
+                $("formUpdateJadwal").trigger("reset");
+                $("formDeleteJadwal").trigger("reset");
                 var id = $(this).data('id');
                 var kodesubspesialis = $(this).data('kodesubspesialis');
                 var kodedokter = $(this).data('kodedokter');
@@ -242,16 +244,6 @@
                 }
                 $.LoadingOverlay("hide", true);
                 $('#modalJadwal').modal('show');
-                // $.get("{{ route('jadwaldokter.index') }}" + '/' + jadwalid,
-                //     function(data) {
-                //         console.log(data);
-                //         // delete form
-
-
-
-                //         $.LoadingOverlay("hide", true);
-                //         $('#modalJadwal').modal('show');
-                //     })
             });
         });
     </script>
