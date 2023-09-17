@@ -560,8 +560,6 @@ class AntrianController extends APIController
             return view('sim.antrian_perawat_proses', compact([
                 'request',
                 'antrian',
-                'dokters',
-                'polikliniks',
             ]));
         } else {
             Alert::error('Mohon Maaf', 'Antrian tidak ditemukan');
@@ -582,6 +580,30 @@ class AntrianController extends APIController
             'antrians',
         ]));
     }
+    public function prosespoliklinik(Request $request)
+    {
+        $request['taskid'] = "2";
+        $request['waktu'] = now();
+        $antrian = Antrian::where('kodebooking', $request->kodebooking)->first();
+        if ($antrian) {
+            if ($antrian->taskid == 2) {
+                $antrian->update([
+                    'taskid' => $request->taskid,
+                ]);
+                Alert::success('Success', 'Antrian Assemen Keperawatan.');
+            }
+            $dokters = Dokter::where('status', '1')->pluck('namadokter', 'kodedokter');
+            $polikliniks = Unit::where('status', '1')->pluck('nama', 'kode');
+            return view('sim.antrian_poliklinik_proses', compact([
+                'request',
+                'antrian',
+            ]));
+        } else {
+            Alert::error('Mohon Maaf', 'Antrian tidak ditemukan');
+            return redirect()->back();
+        }
+    }
+
     function panggilpoliklinik(Request $request)
     {
         $request['taskid'] = "4";

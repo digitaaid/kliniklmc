@@ -371,6 +371,7 @@ return [
             'text' => 'Antrian Poliklinik',
             'icon'    => 'fas fa-users',
             'url'  => 'antrianpoliklinik',
+            'active'  => ['antrianpoliklinik', 'prosespoliklinik'],
             // 'can' =>  ['bpjs', 'pendaftaran'],
         ],
         [
