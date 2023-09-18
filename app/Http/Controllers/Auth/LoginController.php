@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class LoginController extends Controller
 {
@@ -59,6 +60,7 @@ class LoginController extends Controller
             return redirect()->route('login')->withErrors('Username / Email Tidak Ditemukan');
         }
         if (auth()->attempt(array($fieldType => $input['email'], 'password' => $input['password']))) {
+            Log::info('Percobaan Login ' . $user->name . ', ' . $user->username);
             return redirect()->route('home');
         } else {
             return redirect()->route('login')->withErrors('Username / Email dan Password Salah');

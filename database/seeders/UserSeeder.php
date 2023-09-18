@@ -58,7 +58,7 @@ class UserSeeder extends Seeder
                 'user_verify' => 1,
                 'email_verified_at' => now()
             ]);
-            $user->assignRole('Admin Super');
+            $user->assignRole($value);
         }
     }
 }

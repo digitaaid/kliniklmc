@@ -3,10 +3,13 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\WhatsappController;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
 class RegisterController extends Controller
@@ -66,13 +69,22 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+        $user =  User::create([
             'name' => $data['name'],
             'username' => $data['username'],
             'phone' => $data['phone'],
-            'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
+        Log::notice('Daftar Akun Form Register ' . $user->name . ' , ' . $user->email . ' , ' . $user->phone);
+        $request = new Request();
+        $wa = new WhatsappController();
+        $request['message'] = "*Registrasi Akun Klinik LMC* \nAnda telah registrasi akun Klinik LMC dengan data sebagai berikut.\n\nNAMA : " . $user->name . "\nPHONE : " . $user->phone . "\nEMAIL : " . $user->email . "\n\nSilahkan menunggu Administrator atau Kepegawaian untuk memverifikasi anda.";
+        $request['number'] = $user->phone;
+        $wa->send_message($request);
+        $request['number'] = "120363170262520539";
+        $request['message'] = "*Registrasi Akun Klinik LMC* \nTelah registrasi akun baru dengan data sebagai berikut.\n\nNAMA : " . $user->name . "\nPHONE : " . $user->phone . "\nEMAIL : " . $user->email . "\n\nMohon segera lakukan verifikasi registrasi tersebut.\nluthfimedicalcenter.com";
+        $wa->send_message_group($request);
+        return  $user;
     }
 }

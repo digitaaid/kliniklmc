@@ -67,29 +67,28 @@ Route::middleware('auth')->group(function () {
     Route::get('get_city', [LaravotLocationController::class, 'get_city'])->name('get_city');
     Route::get('get_district', [LaravotLocationController::class, 'get_district'])->name('get_district');
     Route::get('get_village', [LaravotLocationController::class, 'get_village'])->name('get_village');
-    Route::get('cekBarQRCode', [BarcodeController::class, 'cekBarQRCode'])->name('cekBarQRCode');
-    Route::get('cekThermalPrinter', [ThermalPrintController::class, 'cekThermalPrinter'])->name('cekThermalPrinter');
-    Route::get('testThermalPrinter', [ThermalPrintController::class, 'testThermalPrinter'])->name('testThermalPrinter');
-    Route::get('whatsapp', [WhatsappController::class, 'whatsapp'])->name('whatsapp');
     // route resource
     Route::group(['middleware' => ['permission:admin']], function () {
         Route::resource('user', UserController::class);
         Route::resource('role', RoleController::class);
         Route::resource('permission', PermissionController::class);
+        Route::get('cekBarQRCode', [BarcodeController::class, 'cekBarQRCode'])->name('cekBarQRCode');
+        Route::get('cekThermalPrinter', [ThermalPrintController::class, 'cekThermalPrinter'])->name('cekThermalPrinter');
+        Route::get('testThermalPrinter', [ThermalPrintController::class, 'testThermalPrinter'])->name('testThermalPrinter');
+        Route::get('whatsapp', [WhatsappController::class, 'whatsapp'])->name('whatsapp');
+        Route::resource('carousel', CarouselController::class);
+        Route::resource('galeri', GaleriController::class);
+        Route::resource('tanyajawab', TanyaJawabController::class);
+        Route::resource('testimoni', TestimoniController::class);
+        Route::resource('sep', SepController::class);
+        Route::resource('integrasiAPI', IntegrasiController::class);
     });
-    Route::resource('integrasiAPI', IntegrasiController::class);
     Route::resource('poliklinik', PoliklinikController::class);
     Route::resource('unit', UnitController::class);
     Route::resource('dokter', DokterController::class);
     Route::resource('jadwaldokter', JadwalDokterController::class);
     Route::resource('antrian', AntrianController::class);
     Route::resource('suratkontrol', SuratKontrolController::class);
-    Route::resource('carousel', CarouselController::class);
-    Route::resource('galeri', GaleriController::class);
-    Route::resource('tanyajawab', TanyaJawabController::class);
-    Route::resource('testimoni', TestimoniController::class);
-    Route::resource('sep', SepController::class);
-
     // form
     Route::get('form_identitaspasien', [FormController::class, 'form_identitaspasien'])->name('form_identitaspasien');
     Route::get('form_assesmentrajal', [FormController::class, 'form_assesmentrajal'])->name('form_assesmentrajal');
@@ -119,9 +118,13 @@ Route::middleware('auth')->group(function () {
     Route::get('selesaipoliklinik', [AntrianController::class, 'selesaipoliklinik'])->name('selesaipoliklinik');
     // farmasi
     Route::get('antrianfarmasi', [AntrianController::class, 'antrianfarmasi'])->name('antrianfarmasi');
-    Route::get('prosesfarmasi', [AntrianController::class, 'prosesfarmasi'])->name('prosesfarmasi');
+    Route::get('getantrianfarmasi', [AntrianController::class, 'getantrianfarmasi'])->name('getantrianfarmasi');
     Route::get('terimafarmasi', [AntrianController::class, 'terimafarmasi'])->name('terimafarmasi');
     Route::get('selesaifarmasi', [AntrianController::class, 'selesaifarmasi'])->name('selesaifarmasi');
+
+
+    Route::get('capaianantrian', [AntrianController::class, 'dashboardBulanAntrian'])->name('capaianantrian');
+
     // antrian bpjs
     Route::get('statusAntrianBpjs', [AntrianController::class, 'statusAntrianBpjs'])->name('statusAntrianBpjs');
     Route::get('poliklikAntrianBpjs', [PoliklinikController::class, 'poliklikAntrianBpjs'])->name('poliklikAntrianBpjs');

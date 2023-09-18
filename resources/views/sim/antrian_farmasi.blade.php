@@ -34,7 +34,7 @@
                         <x-adminlte-small-box
                             title="{{ $antrians->where('taskid', 6)->first()->nomorantrean ?? 'Belum Panggil' }}"
                             text="Antrian Dilayani" theme="primary" icon="fas fa-user-injured"
-                            url="{{ route('prosesfarmasi') }}?kodebooking={{ $antrians->where('taskid', 5)->first()->kodebooking ?? '00' }}"
+                            url="{{ route('terimafarmasi') }}?kodebooking={{ $antrians->where('taskid', 5)->first()->kodebooking ?? '00' }}"
                             url-text="Proses Antrian Selanjutnya" />
                     </div>
                     <div class="col-md-3">
@@ -47,8 +47,9 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-6">
-                <x-adminlte-card title="Data Antrian Farmasi" theme="warning" icon="fas fa-info-circle" collapsible>
+            <div class="col-md-12">
+                <x-adminlte-card title="Data Antrian Farmasi" theme="warning" icon="fas fa-info-circle"
+                    collapsible="{{ $antrians->where('taskid', 6)->count() ? 'collapsed' : null }}">
                     @php
                         $heads = ['No', 'Kodebooking', 'Pasien', 'Kartu BPJS', 'Unit', 'Dokter', 'Jenis Pasien', 'Method', 'Status', 'Action'];
                         $config['order'] = [[7, 'asc']];
@@ -132,10 +133,10 @@
                     </x-adminlte-datatable>
                 </x-adminlte-card>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-12">
                 <div class="row">
                     @foreach ($antrians->where('taskid', 6) as $item)
-                        <div class="col-md-6">
+                        <div class="col-md-3">
                             <div class="card card-primary">
                                 <div class="card-header">
                                     <h3 class="card-title">{{ $item->kunjungan->nama }}</h3> <br>
@@ -151,10 +152,10 @@
                                     </p>
                                     <hr>
                                     <strong><i class="fas fa-pills mr-1"></i> Resep Obat</strong>
-                                    <pre>{{ $item->kunjungan->asesmendokter->riwayat_pengobatan }}</pre>
+                                    <pre>{{ $item->kunjungan->asesmendokter->resep_obat }}</pre>
                                     <hr>
                                     <strong><i class="fas fa-pills mr-1"></i> Catatan Resep</strong>
-                                    <pre>{{ $item->kunjungan->asesmendokter->riwayat_pengobatan }}</pre>
+                                    <pre>{{ $item->kunjungan->asesmendokter->catatan_resep }}</pre>
                                 </div>
                                 <div class="card-footer">
                                     <a href="{{ route('selesaifarmasi') }}?kodebooking={{ $item->kodebooking }}"
@@ -168,11 +169,16 @@
             </div>
         @endif
     </div>
+    <audio id="myAudio">
+        <source src="{{ asset('tingtung.mp3') }}" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
 @stop
 
 @section('plugins.Datatables', true)
 @section('plugins.TempusDominusBs4', true)
 @section('plugins.Select2', true)
+@section('plugins.Sweetalert2', true)
 
 @section('css')
     <style>
@@ -181,4 +187,75 @@
             font-size: 15px !important;
         }
     </style>
+@endsection
+
+@section('js')
+    <script>
+        var x = document.getElementById("myAudio");
+
+        function playAudio() {
+            x.play();
+        }
+
+        function pauseAudio() {
+            x.pause();
+        }
+    </script>
+    <script>
+        $(document).ready(function() {
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'bottom-end',
+                showConfirmButton: false,
+                timer: 5000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+            })
+            var url = "{{ route('getantrianfarmasi') }}";
+            var tanggalperiksa = "{{ $request->tanggalperiksa }}";
+            var data = {
+                'tanggalperiksa': tanggalperiksa,
+            };
+            if (tanggalperiksa) {
+                setInterval(function() {
+                    $.ajax({
+                        url: url,
+                        data: data,
+                        type: 'GET',
+                        dataType: 'json',
+                        success: function(data) {
+                            // console.log(data);
+                            if (data.metadata.code == 200) {
+                                playAudio();
+                                Swal.fire({
+                                    title: 'Terima antrian resep obat ?',
+                                    text: "Telah dibuatkan resep obat baru oleh dokter.",
+                                    icon: 'warning',
+                                    showCancelButton: true,
+                                    confirmButtonText: 'Ya, Terima Resep'
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
+                                        pauseAudio();
+                                        var urlterima =
+                                            "{{ route('terimafarmasi') }}?kodebooking=" +
+                                            data.response.kodebooking;
+                                        window.location.href = urlterima;
+                                    }
+                                });
+                            }
+                        },
+                        error: function(data) {
+                            // console.log(data);
+                        }
+                    });
+
+
+
+                }, 5 * 1000);
+            }
+        });
+    </script>
 @endsection

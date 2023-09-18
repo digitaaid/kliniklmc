@@ -22,8 +22,8 @@
                 class="btn btn-danger mb-2 mr-1 withLoad">
                 <i class="fas fa-arrow-left"></i> Kembali
             </a>
-            <div class="btn btn-secondary mb-2 mr-1">
-                <i class="fas fa-info-circle"></i>
+            <div class="btn btn-{{ $antrian->taskid == 5 ? 'success' : 'secondary' }} mb-2 mr-1">
+                <i class="fas fa-{{ $antrian->taskid == 5 ? 'check-circle' : 'info-circle' }}"></i>
                 Status Antrian :
                 @switch($antrian->taskid)
                     @case(0)
@@ -84,13 +84,15 @@
                     <div class="tab-content">
                         <div class="active tab-pane" id="keperawatantab">
                             @if ($kunjungan)
-                                <div id="printMe">
-                                    @include('form.asesmen_perawat_rajal')
-                                </div>
-                            @else
-                                <x-adminlte-alert title="Belum dilakukan asesmen perawat" theme="danger">
-                                    Silahkan lakukan asesmen keperawatan
-                                </x-adminlte-alert>
+                                @if ($kunjungan->asesmenperawat)
+                                    <div id="printMe">
+                                        @include('form.asesmen_perawat_rajal')
+                                    </div>
+                                @else
+                                    <x-adminlte-alert title="Belum dilakukan asesmen perawat" theme="danger">
+                                        Silahkan lakukan asesmen perawat
+                                    </x-adminlte-alert>
+                                @endif
                             @endif
                         </div>
                         <div class="tab-pane" id="riwayattab">
@@ -187,7 +189,7 @@
                                         @include('form.asesmen_dokter_rajal')
                                     </div>
                                 @else
-                                    <x-adminlte-alert title="Belum dilakukan asesmen perawat" theme="danger">
+                                    <x-adminlte-alert title="Belum dilakukan asesmen dokter" theme="danger">
                                         Silahkan lakukan asesmen dokter
                                     </x-adminlte-alert>
                                 @endif
@@ -211,6 +213,10 @@
             </div>
         </div>
     </div>
+    <audio id="myAudio">
+        <source src="{{ asset('tingtung.mp3') }}" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
 
 @stop
 

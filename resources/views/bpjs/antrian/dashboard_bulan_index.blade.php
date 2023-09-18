@@ -1,7 +1,7 @@
 @extends('adminlte::page')
-@section('title', 'Dashboard Bulan - Antrian BPJS')
+@section('title', 'Capaian Antrian BPJS Per Bulan')
 @section('content_header')
-    <h1 class="m-0 text-dark">Dashboard Bulan Antrian BPJS</h1>
+    <h1 class="m-0 text-dark">Capaian Antrian BPJS Per Bulan</h1>
 @stop
 @section('content')
     <div class="row">
@@ -23,6 +23,21 @@
             </x-adminlte-card>
             @if ($antrians)
                 <div class="row">
+                    <div class="col-md-6">
+                        <x-adminlte-card title="Laporan Waktu Pelayanan Antrian" theme="success" collapsible>
+                            <div class="chart">
+                                <canvas id="jumlahChart" style="height: 300px;"></canvas>
+                            </div>
+                        </x-adminlte-card>
+                    </div>
+                    <div class="col-md-6">
+                        <x-adminlte-card title="Laporan Waktu Pelayanan Antrian" theme="success" collapsible>
+                            <div class="chart">
+                                <canvas id="waktuChart" style="height: 300px;"></canvas>
+                            </div>
+                        </x-adminlte-card>
+                    </div>
+
                     <div class="col-md-3">
                         <x-adminlte-small-box title="{{ $antrians->sum('jumlah_antrean') }}" text="Total Antrian"
                             theme="success" icon="fas fa-user-injured" />
@@ -30,9 +45,8 @@
                 </div>
                 <x-adminlte-card title="Laporan Waktu Pelayanan Antrian" theme="secondary" collapsible>
                     @php
-                        $heads = ['Tanggal','Poliklinik', 'Total', 'Tunggu Poli', 'Layan Poli', 'Terima Resep', 'Proses Farmasi', 'Total Waktu'];
+                        $heads = ['Tanggal', 'Poliklinik', 'Total', 'Tunggu Poli', 'Layan Poli', 'Terima Resep', 'Proses Farmasi', 'Total Waktu'];
                         $config = ['paging' => false];
-
                     @endphp
                     <x-adminlte-datatable id="table1" class="text-xs" :heads="$heads" :config="$config" hoverable
                         bordered compressed>
@@ -89,3 +103,73 @@
 @section('plugins.Datatables', true)
 @section('plugins.TempusDominusBs4', true)
 @section('plugins.Select2', true)
+@section('plugins.Chartjs', true)
+
+
+@section('js')
+    <script>
+        $(function() {
+            var tanggalAntrian = {!! json_encode($tanggalantrian) !!};
+            var jumlahAntrian = {!! json_encode($jumlahantrian) !!};
+            var waktuAntrian = {!! json_encode($waktuantrian) !!};
+            var jumlahChartData = {
+                labels: tanggalAntrian,
+                datasets: [{
+                    label: 'Jumlah Antrian',
+                    backgroundColor: 'rgba(60,141,188,0.9)',
+                    borderColor: 'rgba(60,141,188,0.8)',
+                    pointRadius: false,
+                    pointColor: '#3b8bba',
+                    pointStrokeColor: 'rgba(60,141,188,1)',
+                    pointHighlightFill: '#fff',
+                    pointHighlightStroke: 'rgba(60,141,188,1)',
+                    data: jumlahAntrian
+                }]
+            }
+            var waktuChartData = {
+                labels: tanggalAntrian,
+                datasets: [{
+                    label: 'Waktu Antrian (Detik)',
+                    backgroundColor: 'rgba(60,141,188,0.9)',
+                    borderColor: 'rgba(60,141,188,0.8)',
+                    pointRadius: false,
+                    pointColor: '#3b8bba',
+                    pointStrokeColor: 'rgba(60,141,188,1)',
+                    pointHighlightFill: '#fff',
+                    pointHighlightStroke: 'rgba(60,141,188,1)',
+                    data: waktuAntrian
+                }]
+            }
+            var barChartOptions = {
+                responsive: true,
+                maintainAspectRatio: false,
+                datasetFill: false
+            }
+            //-------------
+            //- BAR CHART -
+            //-------------
+            var barChartCanvas = $('#jumlahChart').get(0).getContext('2d');
+            var barChartData = $.extend(true, {}, jumlahChartData)
+            // var temp0 = jumlahChartData.datasets[0]
+            // var temp1 = jumlahChartData.datasets[1]
+            // barChartData.datasets[0] = temp1
+            // barChartData.datasets[1] = temp0
+
+            new Chart(barChartCanvas, {
+                type: 'bar',
+                data: barChartData,
+                options: barChartOptions
+            })
+
+            var waktuChartCanvas = $('#waktuChart').get(0).getContext('2d');
+            var waktuChartData = $.extend(true, {}, waktuChartData)
+            new Chart(waktuChartCanvas, {
+                type: 'bar',
+                data: waktuChartData,
+                options: barChartOptions
+            })
+
+
+        })
+    </script>
+@endsection

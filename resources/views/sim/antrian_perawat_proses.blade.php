@@ -22,7 +22,7 @@
                 class="btn btn-danger mb-2 mr-1 withLoad">
                 <i class="fas fa-arrow-left"></i> Kembali
             </a>
-            <div class="btn btn-secondary mb-2 mr-1">
+            <div class="btn btn-{{ $kunjungan->asesmenperawat ? 'success' : 'secondary' }} mb-2 mr-1">
                 <i class="fas fa-info-circle"></i>
                 Status Antrian :
                 @switch($antrian->taskid)
@@ -135,41 +135,41 @@
                                             <div class="custom-control custom-radio">
                                                 <input class="custom-control-input" type="radio" id="kesadaran1"
                                                     name="tingkat_kesadaran" value="1"
-                                                    {{ $kunjungan->asesmenperawat->tingkat_kesadaran == 1 ?? null ? 'checked' : null }}>
+                                                    {{ $kunjungan->asesmenperawat ? ($kunjungan->asesmenperawat->tingkat_kesadaran == 1 ? 'checked' : null) : null }}>
                                                 <label for="kesadaran1" class="custom-control-label">Sadar baik</label>
                                             </div>
                                             <div class="custom-control custom-radio">
                                                 <input class="custom-control-input" type="radio" id="kesadaran2"
                                                     name="tingkat_kesadaran" value="2"
-                                                    {{ $kunjungan->asesmenperawat->tingkat_kesadaran == 2 ?? null ? 'checked' : null }}>
+                                                    {{ $kunjungan->asesmenperawat ? ($kunjungan->asesmenperawat->tingkat_kesadaran == 2 ? 'checked' : null) : null }}>
                                                 <label for="kesadaran2" class="custom-control-label">Berespon dengan
                                                     kata-kata</label>
                                             </div>
                                             <div class="custom-control custom-radio">
                                                 <input class="custom-control-input" type="radio" id="kesadaran3"
                                                     name="tingkat_kesadaran" value="3"
-                                                    {{ $kunjungan->asesmenperawat->tingkat_kesadaran == 3 ?? null ? 'checked' : null }}>
+                                                    {{ $kunjungan->asesmenperawat ? ($kunjungan->asesmenperawat->tingkat_kesadaran == 3 ? 'checked' : null) : null }}>
                                                 <label for="kesadaran3" class="custom-control-label">Hanya berespons jika
                                                     dirangsang nyeri/pain</label>
                                             </div>
                                             <div class="custom-control custom-radio">
                                                 <input class="custom-control-input" type="radio" id="kesadaran4"
                                                     name="tingkat_kesadaran" value="4"
-                                                    {{ $kunjungan->asesmenperawat->tingkat_kesadaran == 4 ?? null ? 'checked' : null }}>
+                                                    {{ $kunjungan->asesmenperawat ? ($kunjungan->asesmenperawat->tingkat_kesadaran == 4 ? 'checked' : null) : null }}>
                                                 <label for="kesadaran4" class="custom-control-label">Pasien tidak
                                                     sadar/unresponsive </label>
                                             </div>
                                             <div class="custom-control custom-radio">
                                                 <input class="custom-control-input" type="radio" id="kesadaran5"
                                                     name="tingkat_kesadaran" value="5"
-                                                    {{ $kunjungan->asesmenperawat->tingkat_kesadaran == 5 ?? null ? 'checked' : null }}>
+                                                    {{ $kunjungan->asesmenperawat ? ($kunjungan->asesmenperawat->tingkat_kesadaran == 5 ? 'checked' : null) : null }}>
                                                 <label for="kesadaran5" class="custom-control-label">Gelisah /
                                                     bingung</label>
                                             </div>
                                             <div class="custom-control custom-radio">
                                                 <input class="custom-control-input" type="radio" id="kesadaran6"
                                                     name="tingkat_kesadaran" value="6"
-                                                    {{ $kunjungan->asesmenperawat->tingkat_kesadaran == 6 ?? null ? 'checked' : null }}>
+                                                    {{ $kunjungan->asesmenperawat ? ($kunjungan->asesmenperawat->tingkat_kesadaran == 6 ? 'checked' : null) : null }}>
                                                 <label for="kesadaran6" class="custom-control-label">Acute Confusional
                                                     State</label>
                                             </div>

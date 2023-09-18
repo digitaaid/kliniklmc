@@ -812,6 +812,21 @@ class AntrianController extends APIController
             'antrians',
         ]));
     }
+    public function getantrianfarmasi(Request $request)
+    {
+        if ($request->tanggalperiksa) {
+            $antrian = Antrian::whereDate('tanggalperiksa', $request->tanggalperiksa)
+                ->where('taskid', 5)
+                ->first('kodebooking');
+            if ($antrian) {
+                return $this->sendResponse($antrian, 200);
+            } else {
+                return $this->sendError('Tidak ada order',  404);
+            }
+        } else {
+            return $this->sendError('Tidak ada order',  404);
+        }
+    }
     function terimafarmasi(Request $request)
     {
         $request['taskid'] = "6";
@@ -917,7 +932,9 @@ class AntrianController extends APIController
     public function dashboardBulanAntrian(Request $request)
     {
         $antrians = null;
-        $antrianx = null;
+        $tanggalantrian = null;
+        $jumlahantrian = null;
+        $waktuantrian = null;
         if (isset($request->tanggal)) {
             $tanggal = explode('-', $request->tanggal);
             $request['tahun'] = $tanggal[0];
@@ -925,12 +942,11 @@ class AntrianController extends APIController
             $response =  $this->dashboard_bulan($request);
             if ($response->metadata->code == 200) {
                 $antrians = collect($response->response->list);
-                $antrianx = Antrian::whereYear('tanggalperiksa', '=', $request->tahun)
-                    ->whereMonth('tanggalperiksa', '=', $request->bulan)
-                    ->where('method', '!=', 'Offline')
-                    ->where('taskid', '!=', 99)
-                    ->where('taskid', '!=', 0)
-                    ->get();
+                foreach ($antrians as  $value) {
+                    $tanggalantrian[] = $value->tanggal;
+                    $jumlahantrian[] = $value->jumlah_antrean;
+                    $waktuantrian[] = $value->avg_waktu_task1 + $value->avg_waktu_task2 + $value->avg_waktu_task3 + $value->avg_waktu_task4 + $value->avg_waktu_task5 + $value->avg_waktu_task6;
+                }
                 Alert::success($response->metadata->message . ' ' . $response->metadata->code);
             } else {
                 Alert::error($response->metadata->message . ' ' . $response->metadata->code);
@@ -939,7 +955,9 @@ class AntrianController extends APIController
         return view('bpjs.antrian.dashboard_bulan_index', compact([
             'request',
             'antrians',
-            'antrianx',
+            'tanggalantrian',
+            'jumlahantrian',
+            'waktuantrian',
         ]));
     }
     public function antrianPerTanggal(Request $request)

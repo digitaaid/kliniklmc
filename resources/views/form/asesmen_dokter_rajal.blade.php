@@ -3,8 +3,7 @@
         <div class="row">
             <div class="col-md-2 border border-dark">
                 <div class="m-2  text-center">
-                    <img class="" src="{{ asset('logo3.png') }}"
-                        style="height: 80px">
+                    <img class="" src="{{ asset('logo3.png') }}" style="height: 80px">
                 </div>
             </div>
             <div class="col-md-6  border border-dark">
@@ -34,115 +33,61 @@
             </div>
             <div class="col-md-6 border border-dark">
                 <div class="m-2 ">
-                    <u><b>ANAMNESA</b></u>
+                    <u><b>PEMERIKSAAN SPESIALISTIK</b></u>
                     <dl>
-                        <dt>Keluhan Utama :</dt>
+                        <dt>Diagnosa Primer :</dt>
                         <dd>
-                            <pre>{{ $kunjungan->asesmenperawat->keluhan_utama ?? null }}</pre>
+                            {{ $kunjungan->asesmendokter->diagnosa1 ?? null }}
                         </dd>
-                        <dt>Riwayat Penyakit :</dt>
+                        <dt>Diagnosa Sekunder :</dt>
                         <dd>
-                            <pre>{{ $kunjungan->asesmenperawat->riwayat_penyakit ?? null }}</pre>
-                        </dd>
-                        <dt>Riwayat Alergi :</dt>
-                        <dd>
-                            <pre>{{ $kunjungan->asesmenperawat->riwayat_alergi ?? null }}</pre>
+                            {{ $kunjungan->asesmendokter->diagnosa2 ?? null }}
                         </dd>
                         <dt>Riwayat Pengobatan :</dt>
                         <dd>
-                            <pre>{{ $kunjungan->asesmenperawat->riwayat_pengobatan ?? null }}</pre>
+                            <pre>{{ $kunjungan->asesmendokter->riwayat_pengobatan ?? null }}</pre>
+                        </dd>
+                        <dt>Rencana Perawatan :</dt>
+                        <dd>
+                            <pre>{{ $kunjungan->asesmendokter->rencana_perawatan ?? null }}</pre>
                         </dd>
                     </dl>
                 </div>
             </div>
             <div class="col-md-6 border border-dark">
                 <div class="m-2 ">
-                    <u><b>PEMERIKSAAN FISIK</b></u>
-                    <br>
-                    <div class="row mb-2">
-                        <div class="col-md-6">
-                            <b>Denyut Jantung : </b>
-                            {{ $kunjungan->asesmenperawat->denyut_jantung ?? null }}
-                            spm <br>
-                            <b>Pernapasan : </b>
-                            {{ $kunjungan->asesmenperawat->pernapasan ?? null }} spm
-                            <br>
-                            <b>Suhu Tubuh : </b>
-                            {{ $kunjungan->asesmenperawat->suhu ?? null }} spm <br>
-                            <b>Tekanan Darah </b> <br>
-                            <b>Sistole : </b>
-                            {{ $kunjungan->asesmenperawat->sistole ?? null }} /
-                            <b>Distole : </b>
-                            {{ $kunjungan->asesmenperawat->distole ?? null }}
-                            <br>
-                        </div>
-                        <div class="col-md-6">
-                            <b>Tinggi Badan : </b>
-                            {{ $kunjungan->asesmenperawat->tinggi_badan ?? null }}
-                            cm<br>
-                            <b>Berat Badan : </b>
-                            {{ $kunjungan->asesmenperawat->berat_badan ?? null }}
-                            kg<br>
-                            <b>Index BSA : </b>
-                            {{ $kunjungan->asesmenperawat->bsa ?? null }} m2<br>
-
-                        </div>
-                    </div>
+                    <u><b>TERAPI DAN OBAT SPESIALISTIK</b></u>
                     <dl>
-                        <dt>Tingkat Kesadaran :</dt>
+                        <dt>Tindakan :</dt>
                         <dd>
-                            @if ($kunjungan->asesmenperawat)
-                                @switch($kunjungan->asesmenperawat->tingkat_kesadaran)
-                                    @case(1)
-                                        Sadar Baik
-                                    @break
-
-                                    @case(2)
-                                        Berespon dengan kata-kata
-                                    @break
-
-                                    @case(3)
-                                        Hanya berespons jika dirangsang nyeri/pain
-                                    @break
-
-                                    @case(4)
-                                        Pasien tidak sadar/unresponsive
-                                    @break
-
-                                    @case(5)
-                                        Gelisah / bingung
-                                    @break
-
-                                    @case(6)
-                                        Acute Confusional State
-                                    @break
-
-                                    @default
-                                @endswitch
-                            @endif
+                            <pre>{{ $kunjungan->asesmendokter->tindakan_medis ?? null }}</pre>
                         </dd>
-                        <dt>Tanda Vital Tubuh</dt>
+                        <dt>Instruksi Medis :</dt>
                         <dd>
-                            <pre>{{ $kunjungan->asesmenperawat->keadaan_tubuh ?? null }}</pre>
+                            <pre>{{ $kunjungan->asesmendokter->instruksi_medis ?? null }}</pre>
+                        </dd>
+                        <dt>Resep Obat :</dt>
+                        <dd>
+                            <pre>{{ $kunjungan->asesmendokter->resep_obat ?? null }}</pre>
+                        </dd>
+                        <dt>Catatan Resep :</dt>
+                        <dd>
+                            <pre>{{ $kunjungan->asesmendokter->catatan_resep ?? null }}</pre>
                         </dd>
                     </dl>
                 </div>
             </div>
             <div class="col-md-6 border border-dark">
                 <div class="m-2 ">
-                    <u><b>PEMERIKSAAN PSIKOLOGI</b></u>
+                    <u><b>PEMERIKSAAN PENUNJANG</b></u>
                     <dl>
-                        <dt>Kondisi Psikologis :</dt>
+                        <dt>Catatan Laboratorium :</dt>
                         <dd>
-                            <pre>{{ $kunjungan->asesmenperawat->status_psikologi ?? null }}</pre>
+                            <pre>{{ $kunjungan->asesmendokter->catatan_lab ?? null }}</pre>
                         </dd>
-                        <dt>Kondisi Sosial Ekonomi :</dt>
+                        <dt>Catatan Radiologi Ekonomi :</dt>
                         <dd>
-                            <pre>{{ $kunjungan->asesmenperawat->status_sosial ?? null }}</pre>
-                        </dd>
-                        <dt>Kondisi Spiritual :</dt>
-                        <dd>
-                            <pre>{{ $kunjungan->asesmenperawat->status_spiritual ?? null }}</pre>
+                            <pre>{{ $kunjungan->asesmendokter->catatan_rad ?? null }}</pre>
                         </dd>
                     </dl>
                 </div>
@@ -156,12 +101,11 @@
             </div>
             <div class="col-md-4 border-dark">
                 <b> Cirebon,
-                    {{ $kunjungan->asesmenperawat ? Carbon\Carbon::parse($kunjungan->asesmenperawat->waktu)->translatedFormat('d F Y') : now()->translatedFormat('d F Y') }}
+                    {{ $kunjungan->asesmendokter ? Carbon\Carbon::parse($kunjungan->asesmendokter->waktu)->translatedFormat('d F Y') : now()->translatedFormat('d F Y') }}
                     <br>
-                    Perawat,</b>
-
+                    Dokter DPJP,</b>
                 <br><br><br><br>
-                <b>{{ $kunjungan->asesmenperawat->user ?? null }}</b>
+                <b>{{ $kunjungan->asesmendokter->user ?? null }}</b>
             </div>
         </div>
     </div>
