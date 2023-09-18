@@ -110,8 +110,6 @@
             </li>
             <li class="list-group-item">
                 <dl>
-
-
                     <dt>SEP</dt>
                     <dd>
                         @if ($antrian->sep)
@@ -162,11 +160,15 @@
                     </dd>
                     <dt>Poliklinik</dt>
                     <dd>
-                        {{ $antrian->namapoli }}
+                        @if ($antrian->kunjungan)
+                            {{ $polikliniks[$antrian->kunjungan->unit] ?? '-' }}
+                        @endif
                     </dd>
                     <dt>Dokter</dt>
                     <dd>
-                        {{ $antrian->namadokter }}
+                        @if ($antrian->kunjungan)
+                            {{ $dokters[$antrian->kunjungan->dokter] ?? '-' }}
+                        @endif
                     </dd>
                 </dl>
             </li>

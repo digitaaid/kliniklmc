@@ -22,8 +22,8 @@
                 class="btn btn-danger mb-2 mr-1 withLoad">
                 <i class="fas fa-arrow-left"></i> Kembali
             </a>
-            <div class="btn btn-secondary mb-2 mr-1">
-                <i class="fas fa-info-circle"></i>
+            <div class="btn btn-{{ $antrian->taskid == 3 ? 'success' : 'secondary' }} mb-2 mr-1">
+                <i class="fas fa-{{ $antrian->taskid == 3 ? 'check-circle' : 'info-circle' }}"></i>
                 Status Antrian :
                 @switch($antrian->taskid)
                     @case(0)
@@ -198,10 +198,11 @@
                             </form>
                         </div>
                         <div class="tab-pane" id="septab">
-                            <x-adminlte-alert theme="warning" title="Silahkan buat SEP jika pasien BPJS">
+                            <x-adminlte-alert theme="{{ $antrian->sep ? 'success' : 'danger' }}"
+                                title="Silahkan buat SEP jika pasien BPJS">
                                 <b>Nomor SEP</b> : {{ $antrian->sep ?? 'Belum Dibuatkan' }} <br>
                                 @if ($antrian->sep)
-                                    <a class="btn btn-xs btn-success" target="_blank"
+                                    <a class="btn btn-xs btn-warning text-dark" target="_blank"
                                         href="{{ route('sep_print') }}?noSep={{ $antrian->sep }}"
                                         style="text-decoration: none">
                                         <i class="fas fa-print"></i> Print SEP
@@ -346,11 +347,11 @@
                         <div class="tab-pane" id="kunjungantab">
                             @if ($antrian->kunjungan_id)
                                 <x-adminlte-alert theme="success" title="Antrian sudah dibuatkan kunjungan">
-                                    <b>Kodekunjungan</b> : {{ $antrian->kodekunjungan }}
+                                    <b>Kodekunjungan</b> : {{ $antrian->kunjungan->kode ?? null }}
                                 </x-adminlte-alert>
                             @else
                                 <x-adminlte-alert theme="danger" title="Antrian belum dibuatkan kunjungan">
-                                    <b>Kodekunjungan</b> : {{ $antrian->kodekunjungan }}
+                                    Silahkan input untuk data kunjungan
                                 </x-adminlte-alert>
                             @endif
                             <form action="{{ route('editkunjungan') }}" method="POST">
@@ -382,7 +383,9 @@
                                                 label="Jaminan Pasien">
                                                 <option selected disabled>Pilih Jaminan</option>
                                                 @foreach ($jaminans as $key => $item)
-                                                    <option value="{{ $key }}">{{ $item }}</option>
+                                                    <option value="{{ $key }}"
+                                                        {{ $antrian->kunjungan ? ($antrian->kunjungan->jaminan == $key ? 'selected' : null) : null }}>
+                                                        {{ $item }}</option>
                                                 @endforeach
                                             </x-adminlte-select>
                                         </div>
@@ -431,44 +434,88 @@
                                     <div class="col-md-6">
                                         <x-adminlte-select igroup-size="sm" name="kodepoli" label="Poliklinik">
                                             @foreach ($polikliniks as $key => $value)
-                                                <option value="{{ $key }}">
+                                                <option value="{{ $key }}"
+                                                    {{ $antrian->kunjungan ? ($antrian->kunjungan->unit == $key ? 'selected' : null) : null }}>
                                                     {{ $value }}</option>
                                             @endforeach
                                         </x-adminlte-select>
                                         <x-adminlte-select igroup-size="sm" name="kodedokter" label="Dokter">
                                             @foreach ($dokters as $key => $value)
-                                                <option value="{{ $key }}">{{ $value }}</option>
+                                                <option value="{{ $key }}"
+                                                    {{ $antrian->kunjungan ? ($antrian->kunjungan->dokter == $key ? 'selected' : null) : null }}>
+                                                    {{ $value }}</option>
                                             @endforeach
                                         </x-adminlte-select>
                                         <x-adminlte-select igroup-size="sm" name="cara_masuk" label="Cara Masuk">
                                             <option selected disabled>Pilih Cara Masuk</option>
-                                            <option value="gp">Rujukan FKTP</option>
-                                            <option value="hosp-trans">Rujukan FKRTL</option>
-                                            <option value="mp">Rujukan Spesialis</option>
-                                            <option value="outp">Dari Rawat Jalan</option>
-                                            <option value="inp">Dari Rawat Inap</option>
-                                            <option value="emd">Dari Rawat Darurat</option>
-                                            <option value="born">Lahir di RS</option>
-                                            <option value="nursing">Rujukan Panti Jompo</option>
-                                            <option value="psych">Rujukan dari RS Jiwa</option>
-                                            <option value="rehab">Rujukan Fasilitas Rehab</option>
-                                            <option value="other">Lain-lain</option>
+                                            <option value="gp"
+                                                {{ $antrian->kunjungan->cara_masuk ?? null == 'gp' ? 'selected' : null }}>
+                                                Rujukan
+                                                FKTP</option>
+                                            <option value="hosp-trans"
+                                                {{ $antrian->kunjungan->cara_masuk ?? null == 'hosp-trans' ? 'selected' : null }}>
+                                                Rujukan FKRTL</option>
+                                            <option value="mp"
+                                                {{ $antrian->kunjungan->cara_masuk ?? null == 'mp' ? 'selected' : null }}>
+                                                Rujukan
+                                                Spesialis</option>
+                                            <option value="outp"
+                                                {{ $antrian->kunjungan->cara_masuk ?? null == 'outp' ? 'selected' : null }}>
+                                                Dari
+                                                Rawat Jalan</option>
+                                            <option value="inp"
+                                                {{ $antrian->kunjungan->cara_masuk ?? null == 'inp' ? 'selected' : null }}>
+                                                Dari
+                                                Rawat Inap</option>
+                                            <option value="emd"
+                                                {{ $antrian->kunjungan->cara_masuk ?? null == 'emd' ? 'selected' : null }}>
+                                                Dari
+                                                Rawat Darurat</option>
+                                            <option value="born"
+                                                {{ $antrian->kunjungan->cara_masuk ?? null == 'born' ? 'selected' : null }}>
+                                                Lahir
+                                                di RS</option>
+                                            <option value="nursing"
+                                                {{ $antrian->kunjungan->cara_masuk ?? null == 'nursing' ? 'selected' : null }}>
+                                                Rujukan Panti Jompo</option>
+                                            <option value="psych"
+                                                {{ $antrian->kunjungan->cara_masuk ?? null == 'psych' ? 'selected' : null }}>
+                                                Rujukan dari RS Jiwa</option>
+                                            <option value="rehab"
+                                                {{ $antrian->kunjungan->cara_masuk ?? null == 'rehab' ? 'selected' : null }}>
+                                                Rujukan Fasilitas Rehab</option>
+                                            <option value="other"
+                                                {{ $antrian->kunjungan->cara_masuk ?? null == 'other' ? 'selected' : null }}>
+                                                Lain-lain</option>
                                         </x-adminlte-select>
                                         <x-adminlte-select2 igroup-size="sm" name="diagnosa_awal" class="diagnosaid2"
                                             label="Diagnosa Awal">
+                                            @if ($antrian->kunjungan)
+                                                <option value="{{ $antrian->kunjungan->diagnosa_awal }}">
+                                                    {{ $antrian->kunjungan->diagnosa_awal }}</option>
+                                            @endif
                                         </x-adminlte-select2>
                                         <x-adminlte-select igroup-size="sm" name="jeniskunjungan"
                                             label="Jenis Kunjungan">
                                             <option selected disabled>Pilih Jenis Rujukan</option>
-                                            <option value="1">Rujukan FKTP</option>
-                                            <option value="2">Rujukan Internal / Umum</option>
-                                            <option value="3">Kontrol</option>
-                                            <option value="4">Rujukan Antar RS</option>
+                                            <option value="1"
+                                                {{ $antrian->kunjungan->jeniskunjungan ?? null == '1' ? 'selected' : null }}>
+                                                Rujukan FKTP</option>
+                                            <option value="2"
+                                                {{ $antrian->kunjungan->jeniskunjungan ?? null == '2' ? 'selected' : null }}>
+                                                Rujukan Internal / Umum</option>
+                                            <option value="3"
+                                                {{ $antrian->kunjungan->jeniskunjungan ?? null == '3' ? 'selected' : null }}>
+                                                Kontrol</option>
+                                            <option value="4"
+                                                {{ $antrian->kunjungan->jeniskunjungan ?? null == '4' ? 'selected' : null }}>
+                                                Rujukan Antar RS</option>
                                         </x-adminlte-select>
                                         <x-adminlte-input name="nomorreferensi" igroup-size="sm" label="Nomor Referensi"
-                                            placeholder="Nomor Referensi" />
+                                            placeholder="Nomor Referensi"
+                                            value="{{ $antrian->kunjungan->nomorreferensi ?? null }}" />
                                         <x-adminlte-input name="sep" igroup-size="sm" label="Nomor SEP"
-                                            placeholder="Nomor SEP" />
+                                            placeholder="Nomor SEP" value="{{ $antrian->kunjungan->sep ?? null }}" />
                                     </div>
                                 </div>
                                 <button type="submit" class="btn btn-success withLoad">
@@ -486,15 +533,18 @@
                             Pembayaran
                         </div>
                         <div class="tab-pane" id="suratkontroltab">
-                            <x-adminlte-alert theme="warning" title="Surat Kontrol untuk Pasien BPJS">
-                                @if ($antrian->suratkontrol)
-                                    <b>Nomor Surat Kontrol</b> : {{ $antrian->suratkontrol->noSuratKontrol }} <br>
-                                    <b>Tgl Rencana Kontrol</b> : {{ $antrian->suratkontrol->tglRencanaKontrol }} <br>
-                                    <a class="btn btn-xs btn-success" target="_blank"
-                                        href="{{ route('suratkontrol_print') }}?noSuratKontrol={{ $antrian->suratkontrol->noSuratKontrol }}"
-                                        style="text-decoration: none">
-                                        <i class="fas fa-print"></i> Print Surat Kontrol
-                                    </a>
+                            <x-adminlte-alert theme="{{ $antrian->suratkontrols->count() ? 'success' : 'warning' }}"
+                                title="Surat Kontrol untuk Pasien BPJS">
+                                @if ($antrian->suratkontrols->count())
+                                    @foreach ($antrian->suratkontrols as $item)
+                                        <b>Nomor Surat Kontrol</b> : {{ $item->noSuratKontrol }} <br>
+                                        <b>Tgl Rencana Kontrol</b> : {{ $item->tglRencanaKontrol }} <br>
+                                        <a class="btn btn-xs btn-warning text-dark " target="_blank"
+                                            href="{{ route('suratkontrol_print') }}?noSuratKontrol={{ $item->noSuratKontrol }}"
+                                            style="text-decoration: none">
+                                            <i class="fas fa-print"></i> Print Surat Kontrol
+                                        </a>
+                                    @endforeach
                                 @else
                                     Belum ada surat kontrol.
                                 @endif
@@ -733,6 +783,7 @@
                             var pasien = data.response.peserta;
                             $(".nama-id").val(pasien.nama);
                             $(".nik-id").val(pasien.nik);
+                            $(".nomorkartu-id").val(pasien.noKartu);
                             $(".norm-id").val(pasien.mr.noMR);
                             $(".tgllahir-id").val(pasien.tglLahir);
                             $(".gender-id").val(pasien.sex);

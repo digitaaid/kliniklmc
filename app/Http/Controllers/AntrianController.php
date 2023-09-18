@@ -460,8 +460,8 @@ class AntrianController extends APIController
         $request['status'] = 1;
         try {
             $res =  $this->tambah_antrean($request);
+            $antrian->update($request->all());
             if ($res->metadata->code == 200) {
-                $antrian->update($request->all());
                 Alert::success('Success', 'Antrian telah diperbaharui.');
             } else {
                 Alert::error('Mohon Maaf', $res->metadata->message);
@@ -493,7 +493,7 @@ class AntrianController extends APIController
             // 'sep' => 'required',
         ]);
         $antrian = Antrian::find($request->antrian_id);
-        $request['counter'] = Kunjungan::where('norm', $request->norm)->count() + 1;
+        $request['counter'] = Kunjungan::where('nomorkartu', $request->nomorkartu)->count() + 1;
         $request['kode'] = $antrian->kodebooking;
         $request['unit'] = $request->kodepoli;
         $request['dokter'] = $request->kodedokter;
@@ -519,15 +519,19 @@ class AntrianController extends APIController
         $request['taskid'] = "3";
         $request['waktu'] = now();
         $antrian = Antrian::where('kodebooking', $request->kodebooking)->first();
-        $res = $this->update_antrean($request);
-        if ($res->metadata->code == 200) {
-            $antrian->update([
-                'taskid' => $request->taskid,
-                'user1' => Auth::user()->name,
-            ]);
-            Alert::success('Success', 'Antrian dilanjutkan ke Poliklinik.');
-        } else {
-            Alert::error('Gagal', $res->metadata->message);
+        try {
+            $res = $this->update_antrean($request);
+            if ($res->metadata->code == 200) {
+                $antrian->update([
+                    'taskid' => $request->taskid,
+                    'user1' => Auth::user()->name,
+                ]);
+                Alert::success('Success', 'Antrian dilanjutkan ke Poliklinik.');
+            } else {
+                Alert::error('Mohon Maaf', $res->metadata->message);
+            }
+        } catch (\Throwable $th) {
+            Alert::error('Mohon Maaf', $th->getMessage());
         }
         return redirect()->back();
     }
