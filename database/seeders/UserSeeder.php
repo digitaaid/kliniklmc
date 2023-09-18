@@ -20,32 +20,16 @@ class UserSeeder extends Seeder
             "email" => "marwandhiaurrahman@gmail.com",
             "username" => "marwan",
             "phone" => "089529909036",
-            'password' => bcrypt('qweqwe'),
-            'user_verify' => 1,
-            'email_verified_at' => now()
-        ]);
-        $user->assignRole('Admin Super');
-        $user = User::create([
-            "name" => "Admin Super Klinik",
-            "email" => "admins@gmail.com",
-            "username" => "admins",
-            "phone" => "089529909036",
-            'password' => bcrypt('qweqwe'),
+            'password' => bcrypt('qweqwe123'),
             'user_verify' => 1,
             'email_verified_at' => now()
         ]);
         $user->assignRole('Admin Super');
         $roles = [
-            'Admin',
-            'Pasien',
             'Pendaftaran',
             'Perawat',
             'Dokter',
             'Farmasi',
-            'Laboratorium',
-            'Radiologi',
-            'Rekam Medis',
-            'Casemix',
             'Manajemen',
         ];
         foreach ($roles as  $value) {
