@@ -26,7 +26,7 @@ return new class extends Migration
             $table->string('sistole')->nullable();
             $table->string('distole')->nullable();
             $table->string('suhu')->nullable();
-            $table->string('keadaan_tubuh')->nullable();
+            $table->text('keadaan_tubuh')->nullable();
             $table->string('status_psikologi')->nullable();
             $table->text('status_sosial')->nullable();
             $table->text('status_spiritual')->nullable();

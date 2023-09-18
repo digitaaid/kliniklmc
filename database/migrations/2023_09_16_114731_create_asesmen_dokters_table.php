@@ -18,8 +18,11 @@ return new class extends Migration
             $table->text('instruksi_medis')->nullable();
             $table->string('diagnosa1')->nullable();
             $table->string('diagnosa2')->nullable();
-            $table->text('terapi')->nullable();
-            $table->text('obat')->nullable();
+            $table->text('tindakan_medis')->nullable();
+            $table->text('resep_obat')->nullable();
+            $table->text('catatan_resep')->nullable();
+            $table->text('catatan_lab')->nullable();
+            $table->text('catatan_rad')->nullable();
             $table->datetime('waktu');
             $table->string('kunjungan_id');
             $table->string('kodekunjungan');

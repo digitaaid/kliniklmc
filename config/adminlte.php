@@ -112,8 +112,8 @@ return [
             'path' => 'vendor/adminlte/dist/img/lmc-b.png',
             'alt' => 'Klinik Preloader Image',
             'effect' => 'animation__shake',
-            'width' => 200,
-            'height' => 200,
+            'width' => 10,
+            'height' => 10,
         ],
     ],
 

@@ -333,7 +333,7 @@
                                 <hr>
                                 <div class="col-md-12">
                                     <x-adminlte-select2 igroup-size="sm" name="diagAwal" label="Diagnosa Awal"
-                                        class="diagnosa-id">
+                                        class="diagnosaid1">
                                     </x-adminlte-select2>
                                     <x-adminlte-textarea igroup-size="sm" label="Catatan" name="catatan"
                                         placeholder="Catatan Pasien" />
@@ -362,16 +362,17 @@
                                         <div class="row">
                                             <x-adminlte-input fgroup-class="col-md-6" name="kodekunjungan"
                                                 label="Kode Kunjungan" igroup-size="sm" placeholder="Kode Kunjungan"
-                                                readonly />
+                                                readonly value="{{ $antrian->kunjungan->kode ?? null }}" />
                                             <x-adminlte-input fgroup-class="col-md-6" name="counter"
                                                 label="Counter Kunjungan" igroup-size="sm"
-                                                placeholder="Counter Kunjungan" readonly />
+                                                placeholder="Counter Kunjungan"
+                                                value="{{ $antrian->kunjungan->counter ?? null }}" readonly />
                                             @php
                                                 $config = ['format' => 'YYYY-MM-DD HH:mm:ss'];
                                             @endphp
                                             <x-adminlte-input-date fgroup-class="col-md-6" name="tgl_masuk"
                                                 igroup-size="sm" label="Tanggal Masuk" placeholder="Tanggal Masuk"
-                                                :config="$config">
+                                                :config="$config" value="{{ $antrian->kunjungan->tgl_masuk ?? null }}">
                                             </x-adminlte-input-date>
                                             {{-- <x-adminlte-input-date fgroup-class="col-md-6" name="tgl_pulang"
                                                 igroup-size="sm" label="Tanggal Pulang" placeholder="Tanggal Pulang"
@@ -412,17 +413,19 @@
                                                 fgroup-class="col-md-6" igroup-size="sm" placeholder="Nama Pasien"
                                                 readonly value="{{ $antrian->nama }}" />
                                             <x-adminlte-input name="tgl_lahir" class="tgllahir-id" label="Tanggal Lahir"
-                                                fgroup-class="col-md-6" readonly igroup-size="sm"
-                                                placeholder="Tanggal Lahir" />
+                                                fgroup-class="col-md-6"
+                                                value="{{ $antrian->kunjungan->tgl_lahir ?? null }}" readonly
+                                                igroup-size="sm" placeholder="Tanggal Lahir" />
                                             <x-adminlte-input name="gender" class="gender-id" label="Jenis Kelamin"
-                                                fgroup-class="col-md-6" readonly igroup-size="sm"
-                                                placeholder="Jenis Kelamin" />
-                                            <x-adminlte-input name="kelas" class="kelas-id" label="Kelas Pasien"
-                                                fgroup-class="col-md-6" readonly igroup-size="sm"
+                                                fgroup-class="col-md-6" value="{{ $antrian->kunjungan->gender ?? null }}"
+                                                readonly igroup-size="sm" placeholder="Jenis Kelamin" />
+                                            <x-adminlte-input name="kelas"
+                                                value="{{ $antrian->kunjungan->kelas ?? null }}" class="kelas-id"
+                                                label="Kelas Pasien" fgroup-class="col-md-6" readonly igroup-size="sm"
                                                 placeholder="Kelas Pasien" />
                                             <x-adminlte-input name="penjamin" class="penjamin-id" label="Penjamin"
-                                                fgroup-class="col-md-6" readonly igroup-size="sm"
-                                                placeholder="Penjamin" />
+                                                fgroup-class="col-md-6" readonly igroup-size="sm" placeholder="Penjamin"
+                                                value="{{ $antrian->kunjungan->penjamin ?? null }}" />
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -451,7 +454,7 @@
                                             <option value="rehab">Rujukan Fasilitas Rehab</option>
                                             <option value="other">Lain-lain</option>
                                         </x-adminlte-select>
-                                        <x-adminlte-select2 igroup-size="sm" name="diagAwal" class="diagnosa-id"
+                                        <x-adminlte-select2 igroup-size="sm" name="diagnosa_awal" class="diagnosaid2"
                                             label="Diagnosa Awal">
                                         </x-adminlte-select2>
                                         <x-adminlte-select igroup-size="sm" name="jeniskunjungan"
@@ -900,7 +903,27 @@
                     }
                 });
             });
-            $(".diagnosa-id").select2({
+            $(".diagnosaid1").select2({
+                theme: "bootstrap4",
+                ajax: {
+                    url: "{{ route('ref_diagnosa_api') }}",
+                    type: "get",
+                    dataType: 'json',
+                    delay: 250,
+                    data: function(params) {
+                        return {
+                            diagnosa: params.term // search term
+                        };
+                    },
+                    processResults: function(response) {
+                        return {
+                            results: response
+                        };
+                    },
+                    cache: true
+                }
+            });
+            $(".diagnosaid2").select2({
                 theme: "bootstrap4",
                 ajax: {
                     url: "{{ route('ref_diagnosa_api') }}",

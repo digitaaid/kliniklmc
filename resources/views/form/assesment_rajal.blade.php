@@ -59,18 +59,7 @@
                     </dl>
                 </td>
                 <td width="50%">
-                    <u><b>PEMERIKSAAN FISIK</b></u>
-                    <br>
-                    <b>Denyut Jantung : </b> 30 spm <br>
-                    <b>Pernapasan : </b> 30 spm <br>
-                    <b>Tekanan Darah : </b> 30 spm <br>
-                    <b>Suhu Tubuh : </b> 30 spm <br><br>
-                    <dl>
-                        <dt>Tingkat Kesadaran :</dt>
-                        <dd>A description list is perfect for defining terms.</dd>
-                        <dt>Tanda Vital Tubuh</dt>
-                        <dd>A description list is perfect for defining terms.</dd>
-                    </dl>
+
                 </td>
             </tr>
             <tr style="font-size: 10">

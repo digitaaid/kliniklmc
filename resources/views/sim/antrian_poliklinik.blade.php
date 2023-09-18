@@ -49,7 +49,7 @@
                 <x-adminlte-card title="Data Antrian Asesmen Dokter" theme="warning" icon="fas fa-info-circle"
                     collapsible>
                     @php
-                        $heads = ['No', 'Kodebooking', 'Pasien', 'Kartu BPJS', 'Unit', 'Dokter', 'Jenis Pasien', 'Method', 'Status', 'Action'];
+                        $heads = ['No', 'Kodebooking', 'Pasien', 'Kartu BPJS', 'Unit', 'Dokter', 'Jenis Pasien', 'Taskid', 'Asesmen', 'Action'];
                         $config['order'] = [[7, 'asc']];
                         $config['paging'] = false;
                         $config['scrollY'] = '300px';
@@ -65,7 +65,6 @@
                                 <td>{{ $item->namapoli }}</td>
                                 <td>{{ $item->namadokter }}</td>
                                 <td>{{ $item->jenispasien }} </td>
-                                <td>{{ $item->method }} </td>
                                 <td>
                                     @switch($item->taskid)
                                         @case(0)
@@ -109,12 +108,21 @@
                                     @endswitch
                                 </td>
                                 <td>
+                                    @if ($item->kunjungan)
+                                        @if ($item->kunjungan->asesmendokter)
+                                            <span class="badge badge-success">Sudah Asesmen</span>
+                                        @else
+                                            <span class="badge badge-danger">Belum Asesmen</span>
+                                        @endif
+                                    @endif
+                                </td>
+                                <td>
                                     @switch($item->taskid)
-                                        @case(1)
+                                        @case(3)
                                             <a href="{{ route('prosespoliklinik') }}?kodebooking={{ $item->kodebooking }}"
                                                 class="btn btn-xs btn-warning withLoad">Proses</a>
                                         @break
-                                        @case(2)
+                                        @case(4)
                                             <a href="{{ route('prosespoliklinik') }}?kodebooking={{ $item->kodebooking }}"
                                                 class="btn btn-xs btn-primary withLoad">Proses</a>
                                         @break

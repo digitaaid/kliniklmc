@@ -111,19 +111,20 @@
                                 </td>
                                 <td>
                                     @switch($item->taskid)
-                                        @case(1)
-                                            <a href="{{ route('prosespoliklinik') }}?kodebooking={{ $item->kodebooking }}"
-                                                class="btn btn-xs btn-warning withLoad">Proses</a>
+                                        @case(5)
+                                            <a href="{{ route('terimafarmasi') }}?kodebooking={{ $item->kodebooking }}"
+                                                class="btn btn-xs btn-warning withLoad">Terima</a>
                                         @break
 
-                                        @case(2)
-                                            <a href="{{ route('prosespoliklinik') }}?kodebooking={{ $item->kodebooking }}"
-                                                class="btn btn-xs btn-primary withLoad">Proses</a>
+                                        @case(6)
+                                            <a href="{{ route('selesaifarmasi') }}?kodebooking={{ $item->kodebooking }}"
+                                                class="btn btn-xs btn-success withLoad">Selesai</a>
                                         @break
 
                                         @default
-                                            <a href="{{ route('prosespoliklinik') }}?kodebooking={{ $item->kodebooking }}"
-                                                class="btn btn-xs btn-secondary withLoad">Lihat</a>
+                                            <div class="btn btn-xs btn-secondary">
+                                                Pulang
+                                            </div>
                                     @endswitch
                                 </td>
                             </tr>
@@ -133,135 +134,38 @@
             </div>
             <div class="col-md-6">
                 <div class="row">
-                    <div class="col-md-6">
-                        <div class="card card-primary">
-                            <div class="card-header">
-                                <h3 class="card-title">About Me</h3> <br>
-                                <h3 class="card-title">About Me</h3> <br>
-                                <h3 class="card-title">About Me</h3> <br>
-                                <h3 class="card-title">About Me</h3> <br>
+                    @foreach ($antrians->where('taskid', 6) as $item)
+                        <div class="col-md-6">
+                            <div class="card card-primary">
+                                <div class="card-header">
+                                    <h3 class="card-title">{{ $item->kunjungan->nama }}</h3> <br>
+
+                                </div>
+                                <!-- /.card-header -->
+                                <div class="card-body">
+                                    <p>
+                                        <b>No RM : </b> {{ $item->kunjungan->norm }} <br>
+                                        <b>Nama : </b> {{ $item->kunjungan->nama }} <br>
+                                        <b>Tgl Lahir : </b> {{ $item->kunjungan->tgl_lahir }} <br>
+                                        <b>Kelamin : </b> {{ $item->kunjungan->gender }}
+                                    </p>
+                                    <hr>
+                                    <strong><i class="fas fa-pills mr-1"></i> Resep Obat</strong>
+                                    <pre>{{ $item->kunjungan->asesmendokter->riwayat_pengobatan }}</pre>
+                                    <hr>
+                                    <strong><i class="fas fa-pills mr-1"></i> Catatan Resep</strong>
+                                    <pre>{{ $item->kunjungan->asesmendokter->riwayat_pengobatan }}</pre>
+                                </div>
+                                <div class="card-footer">
+                                    <a href="{{ route('selesaifarmasi') }}?kodebooking={{ $item->kodebooking }}"
+                                        class="btn btn-success withLoad">Selesai</a>
+                                </div>
+                                <!-- /.card-body -->
                             </div>
-                            <!-- /.card-header -->
-                            <div class="card-body">
-                                <strong><i class="fas fa-book mr-1"></i> Resep Obat</strong>
-                                <p>
-                                    B.S. in Computer Science from the University of Tennessee at Knoxville
-                                </p>
-                                <hr>
-                                <strong><i class="fas fa-map-marker-alt mr-1"></i> Catatan Resep</strong>
-                                <p>Malibu, California</p>
-                            </div>
-                            <!-- /.card-body -->
                         </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="card card-primary">
-                            <div class="card-header">
-                                <h3 class="card-title">About Me</h3> <br>
-                                <h3 class="card-title">About Me</h3> <br>
-                                <h3 class="card-title">About Me</h3> <br>
-                                <h3 class="card-title">About Me</h3> <br>
-                            </div>
-                            <!-- /.card-header -->
-                            <div class="card-body">
-                                <strong><i class="fas fa-book mr-1"></i> Resep Obat</strong>
-                                <p>
-                                    B.S. in Computer Science from the University of Tennessee at Knoxville
-                                </p>
-                                <hr>
-                                <strong><i class="fas fa-map-marker-alt mr-1"></i> Catatan Resep</strong>
-                                <p>Malibu, California</p>
-                            </div>
-                            <!-- /.card-body -->
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="card card-primary">
-                            <div class="card-header">
-                                <h3 class="card-title">About Me</h3> <br>
-                                <h3 class="card-title">About Me</h3> <br>
-                                <h3 class="card-title">About Me</h3> <br>
-                                <h3 class="card-title">About Me</h3> <br>
-                            </div>
-                            <!-- /.card-header -->
-                            <div class="card-body">
-                                <strong><i class="fas fa-book mr-1"></i> Resep Obat</strong>
-                                <p>
-                                    B.S. in Computer Science from the University of Tennessee at Knoxville
-                                </p>
-                                <hr>
-                                <strong><i class="fas fa-map-marker-alt mr-1"></i> Catatan Resep</strong>
-                                <p>Malibu, California</p>
-                            </div>
-                            <!-- /.card-body -->
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="card card-primary">
-                            <div class="card-header">
-                                <h3 class="card-title">About Me</h3> <br>
-                                <h3 class="card-title">About Me</h3> <br>
-                                <h3 class="card-title">About Me</h3> <br>
-                                <h3 class="card-title">About Me</h3> <br>
-                            </div>
-                            <!-- /.card-header -->
-                            <div class="card-body">
-                                <strong><i class="fas fa-book mr-1"></i> Resep Obat</strong>
-                                <p>
-                                    B.S. in Computer Science from the University of Tennessee at Knoxville
-                                </p>
-                                <hr>
-                                <strong><i class="fas fa-map-marker-alt mr-1"></i> Catatan Resep</strong>
-                                <p>Malibu, California</p>
-                            </div>
-                            <!-- /.card-body -->
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="card card-primary">
-                            <div class="card-header">
-                                <h3 class="card-title">About Me</h3> <br>
-                                <h3 class="card-title">About Me</h3> <br>
-                                <h3 class="card-title">About Me</h3> <br>
-                                <h3 class="card-title">About Me</h3> <br>
-                            </div>
-                            <!-- /.card-header -->
-                            <div class="card-body">
-                                <strong><i class="fas fa-book mr-1"></i> Resep Obat</strong>
-                                <p>
-                                    B.S. in Computer Science from the University of Tennessee at Knoxville
-                                </p>
-                                <hr>
-                                <strong><i class="fas fa-map-marker-alt mr-1"></i> Catatan Resep</strong>
-                                <p>Malibu, California</p>
-                            </div>
-                            <!-- /.card-body -->
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="card card-primary">
-                            <div class="card-header">
-                                <h3 class="card-title">About Me</h3> <br>
-                                <h3 class="card-title">About Me</h3> <br>
-                                <h3 class="card-title">About Me</h3> <br>
-                                <h3 class="card-title">About Me</h3> <br>
-                            </div>
-                            <!-- /.card-header -->
-                            <div class="card-body">
-                                <strong><i class="fas fa-book mr-1"></i> Resep Obat</strong>
-                                <p>
-                                    B.S. in Computer Science from the University of Tennessee at Knoxville
-                                </p>
-                                <hr>
-                                <strong><i class="fas fa-map-marker-alt mr-1"></i> Catatan Resep</strong>
-                                <p>Malibu, California</p>
-                            </div>
-                            <!-- /.card-body -->
-                        </div>
-                    </div>
+                    @endforeach
                 </div>
             </div>
-
         @endif
     </div>
 @stop
@@ -269,3 +173,12 @@
 @section('plugins.Datatables', true)
 @section('plugins.TempusDominusBs4', true)
 @section('plugins.Select2', true)
+
+@section('css')
+    <style>
+        pre {
+            padding: 0 !important;
+            font-size: 15px !important;
+        }
+    </style>
+@endsection

@@ -50,10 +50,9 @@
                             theme="danger" icon="fas fa-user-injured" />
                     </div>
                 </div>
-                <x-adminlte-card title="Data Antrian Asesmen Perawat" theme="warning" icon="fas fa-info-circle"
-                    collapsible>
+                <x-adminlte-card title="Data Antrian Asesmen Perawat" theme="warning" icon="fas fa-info-circle" collapsible>
                     @php
-                        $heads = ['No', 'Kodebooking', 'Pasien', 'Kartu BPJS', 'Unit', 'Dokter', 'Jenis Pasien', 'Method', 'Status', 'Action'];
+                        $heads = ['No', 'Kodebooking', 'Pasien', 'Kartu BPJS', 'Unit', 'Dokter', 'Jenis Pasien', 'Taskid', 'Asesment', 'Action'];
                         $config['order'] = [[7, 'asc']];
                         $config['paging'] = false;
                         $config['scrollY'] = '300px';
@@ -69,7 +68,6 @@
                                 <td>{{ $item->namapoli }}</td>
                                 <td>{{ $item->namadokter }}</td>
                                 <td>{{ $item->jenispasien }} </td>
-                                <td>{{ $item->method }} </td>
                                 <td>
                                     @switch($item->taskid)
                                         @case(0)
@@ -111,6 +109,15 @@
                                         @default
                                             {{ $item->taskid }}
                                     @endswitch
+                                </td>
+                                <td>
+                                    @if ($item->kunjungan)
+                                        @if ($item->kunjungan->asesmenperawat)
+                                            <span class="badge badge-success">Sudah Asesmen</span>
+                                        @else
+                                            <span class="badge badge-danger">Belum Asesmen</span>
+                                        @endif
+                                    @endif
                                 </td>
                                 <td>
                                     @switch($item->taskid)
