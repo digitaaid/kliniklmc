@@ -30,17 +30,25 @@
                         </div>
                         <div class="col-md-6">
                             <div class="info-box mt-4">
-                                <i class="bx bx-envelope"></i>
-                                <h3>Email Us</h3>
-                                <p>info@example.com<br>contact@example.com</p>
+                                <i class="bx bx-caret-right-square"></i>
+                                <h3>Social Media</h3>
+                                <p>
+                                    <a href="https://www.instagram.com/klinikutamalmc/">Instagram Klinik LMC</a>
+                                    <br>
+                                    <a href="https://www.youtube.com/@KLINIKLMC">Youtube Klinik LMC</a>
+
+                                </p>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="info-box mt-4">
                                 <i class="bx bx-phone-call"></i>
                                 <h3>Call Us</h3>
-                                <p>(0231) 8850943 (Call Center)<br>
-                                    0823 1169 6919 (Whatsapp)
+                                <p>
+                                    <a href="tel://02318850943">(0231) 8850943 (Call Center)</a>
+                                    <br>
+                                    <a href=" https://wa.me/6282311696919">0823 1169 6919 (Whatsapp)</a>
+
                                 </p>
                             </div>
                         </div>

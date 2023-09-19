@@ -13,15 +13,55 @@
                     <div class="testimonial-item">
                         <p>
                             <i class="bx bxs-quote-alt-left quote-icon-left"></i>
-                            Proin iaculis purus consequat sem cure digni ssim donec porttitora entum suscipit
-                            rhoncus. Accusantium quam, ultricies eget id, aliquam eget nibh et. Maecen aliquam,
-                            risus at semper.
+                            Mengantar ibunda (kanker kelenjar getah bening) kemo ke-5 disini, sudah ada hasil yang cukup
+                            significant & perawatnya ramah2. Mudah2an bisa sembuh total, aamiin.
                             <i class="bx bxs-quote-alt-right quote-icon-right"></i>
                         </p>
-                        <img src="{{ asset('medicio/assets/img/testimonials/testimonials-1.jpg') }}"
+                        <img src="{{ asset('user.png') }}"
                             class="testimonial-img" alt="">
-                        <h3>Saul Goodman</h3>
-                        <h4>Ceo &amp; Founder</h4>
+                        <h3>Adu M</h3>
+                        <h4>Pengantar Pasien</h4>
+                    </div>
+                </div><!-- End testimonial item -->
+                <div class="swiper-slide">
+                    <div class="testimonial-item">
+                        <p>
+                            <i class="bx bxs-quote-alt-left quote-icon-left"></i>
+                            Fasilitas kemonya setiap hari dan dokternya praktek setiap selasa dan sabtu..tempatnya
+                            bersih dan nyaman serta pelayanannya sangat ramah
+                            <i class="bx bxs-quote-alt-right quote-icon-right"></i>
+                        </p>
+                        <img src="{{ asset('user.png') }}"
+                            class="testimonial-img" alt="">
+                        <h3>Anita Dwi Satya Wacana</h3>
+                        <h4>Pengantar Pasien</h4>
+                    </div>
+                </div><!-- End testimonial item -->
+                <div class="swiper-slide">
+                    <div class="testimonial-item">
+                        <p>
+                            <i class="bx bxs-quote-alt-left quote-icon-left"></i>
+                            Fasilitas kemonya setiap hari..tempatnya
+                            bersih dan nyaman serta pelayanannya sangat ramah
+                            <i class="bx bxs-quote-alt-right quote-icon-right"></i>
+                        </p>
+                        <img src="{{ asset('user.png') }}"
+                            class="testimonial-img" alt="">
+                        <h3>Anita Dwi Satya Wacana</h3>
+                        <h4>Pengantar Pasien</h4>
+                    </div>
+                </div><!-- End testimonial item -->
+                <div class="swiper-slide">
+                    <div class="testimonial-item">
+                        <p>
+                            <i class="bx bxs-quote-alt-left quote-icon-left"></i>
+                            Pelayanan nya sangat Ramah dan Baik....Klinik LMC Terbaik....
+                            <i class="bx bxs-quote-alt-right quote-icon-right"></i>
+                        </p>
+                        <img src="{{ asset('user.png') }}"
+                            class="testimonial-img" alt="">
+                        <h3>Ega Azis</h3>
+                        <h4>Pengantar Pasien</h4>
                     </div>
                 </div><!-- End testimonial item -->
                 @foreach ($testimoni as $ts)
