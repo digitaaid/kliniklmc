@@ -1501,57 +1501,63 @@ class AntrianController extends APIController
             return $this->sendError($statusantrian->metadata->message, 400);
         }
         $request['keterangan'] = $request->keterangan;
-        Antrian::create($request->all());
-        try {
-            $wapi = new WhatsappController();
-            if ($request->method != "OFFLINE") {
-                switch ($request->jeniskunjungan) {
-                    case 1:
-                        $jeniskunjungan = "Rujukan FKTP";
-                        break;
+        $res = $this->tambah_antrean($request);
+        if ($res->metadata->code == 200) {
+            $request['status'] = 1;
+            Antrian::create($request->all());
+            try {
+                $wapi = new WhatsappController();
+                if ($request->method != "OFFLINE") {
+                    switch ($request->jeniskunjungan) {
+                        case 1:
+                            $jeniskunjungan = "Rujukan FKTP";
+                            break;
 
-                    case 2:
-                        $jeniskunjungan = "Umum";
-                        break;
+                        case 2:
+                            $jeniskunjungan = "Umum";
+                            break;
 
-                    case 3:
-                        $jeniskunjungan = "Surat Kontrol";
-                        break;
+                        case 3:
+                            $jeniskunjungan = "Surat Kontrol";
+                            break;
 
-                    case 4:
-                        $jeniskunjungan = "Rujukan Antar RS";
-                        break;
+                        case 4:
+                            $jeniskunjungan = "Rujukan Antar RS";
+                            break;
 
-                    default:
-                        $jeniskunjungan = "-";
-                        break;
+                        default:
+                            $jeniskunjungan = "-";
+                            break;
+                    }
+                    $request['keterangan'] = "Peserta harap datang 60 menit lebih awal dari jadwal praktik dokter. Lakukan check-in pada anjungan antrian untuk mencetak tiket antrian sebelum menuju loket pendaftaran. (TIKET MOHON TIDAK HILANG SAMPAI DENGAN SELESAI PELAYANAN)";
+                    $request['message'] = "*Antrian Berhasil di Daftarkan*\nAntrian anda berhasil didaftarkan melalui Layanan " . $request->method . " KLINIK LMC dengan data sebagai berikut : \n\n*Kode Antrian :* " . $request->kodebooking .  "\n*Angka Antrian :* " . $request->angkaantrean .  "\n*Nomor Antrian :* " . $request->nomorantrean . "\n*Jenis Pasien :* " . $request->jenispasien .  "\n*Jenis Kunjungan :* " . $jeniskunjungan .  "\n\n*Nama :* " . $request->nama . "\n*Poliklinik :* " . $request->namapoli  . "\n*Dokter :* " . $request->namadokter  .  "\n*Jam Praktek :* " . $request->jampraktek  .  "\n*Tanggal Periksa :* " . $request->tanggalperiksa . "\n\n*Keterangan :* " . $request->keterangan  .  "\n\nLink Kodebooking QR Code :\nhttps://luthfimedicalcenter.com/statusantrian?kodebooking=" . $request->kodebooking . "\n\nTerima kasih. \nSalam Hangat dan Sehat Selalu.\nUntuk pertanyaan & pengaduan silahkan hubungi :\n*Customer Care KLINIK LMC (0231)8850943 / 0823 1169 6919*";
+                    $request['number'] = $request->nohp;
+                    $wapi->send_message($request);
                 }
-                $request['keterangan'] = "Peserta harap datang 60 menit lebih awal dari jadwal praktik dokter. Lakukan check-in pada anjungan antrian untuk mencetak tiket antrian sebelum menuju loket pendaftaran. (TIKET MOHON TIDAK HILANG SAMPAI DENGAN SELESAI PELAYANAN)";
-                $request['message'] = "*Antrian Berhasil di Daftarkan*\nAntrian anda berhasil didaftarkan melalui Layanan " . $request->method . " KLINIK LMC dengan data sebagai berikut : \n\n*Kode Antrian :* " . $request->kodebooking .  "\n*Angka Antrian :* " . $request->angkaantrean .  "\n*Nomor Antrian :* " . $request->nomorantrean . "\n*Jenis Pasien :* " . $request->jenispasien .  "\n*Jenis Kunjungan :* " . $jeniskunjungan .  "\n\n*Nama :* " . $request->nama . "\n*Poliklinik :* " . $request->namapoli  . "\n*Dokter :* " . $request->namadokter  .  "\n*Jam Praktek :* " . $request->jampraktek  .  "\n*Tanggal Periksa :* " . $request->tanggalperiksa . "\n\n*Keterangan :* " . $request->keterangan  .  "\n\nLink Kodebooking QR Code :\nhttps://luthfimedicalcenter.com/statusantrian?kodebooking=" . $request->kodebooking . "\n\nTerima kasih. \nSalam Hangat dan Sehat Selalu.\nUntuk pertanyaan & pengaduan silahkan hubungi :\n*Customer Care KLINIK LMC (0231)8850943 / 0823 1169 6919*";
-                $request['number'] = $request->nohp;
-                $wapi->send_message($request);
+                $request['message'] = "Berhasil daftar antrian method " . $request->method . ".\nAngka antrian : " . $request->angkaantrean . "\nKodebooking : " . $request->kodebooking .  "\nJenis Pasien : " . $request->jenispasien . "\nNama " . $request->nama . "\nTanggal Periksa " . $request->tanggalperiksa . "\nDokter : " . $request->namadokter;
+                $request['number'] = "120363170262520539";
+                $wapi->send_message_group($request);
+            } catch (\Throwable $th) {
+                //throw $th;
             }
-            $request['message'] = "Berhasil daftar antrian method " . $request->method . ".\nAngka antrian : " . $request->angkaantrean . "\nKodebooking : " . $request->kodebooking .  "\nJenis Pasien : " . $request->jenispasien . "\nNama " . $request->nama . "\nTanggal Periksa " . $request->tanggalperiksa . "\nDokter : " . $request->namadokter;
-            $request['number'] = "120363170262520539";
-            $wapi->send_message_group($request);
-        } catch (\Throwable $th) {
-            //throw $th;
+            $data = [
+                'nomorantrean' => $request->nomorantrean,
+                'angkaantrean' => $request->angkaantrean,
+                'kodebooking' => $request->kodebooking,
+                'norm' => $request->norm,
+                'namapoli' => $request->namapoli,
+                'namadokter' => $request->namadokter,
+                'estimasidilayani' => $request->estimasidilayani,
+                'sisakuotajkn' => $request->sisakuotajkn,
+                'kuotajkn' => $request->kuotajkn,
+                'sisakuotanonjkn' => $request->sisakuotanonjkn,
+                'kuotanonjkn' => $request->kuotanonjkn,
+                'keterangan' => $request->keterangan,
+            ];
+            return $this->sendResponse($data, 200);
+        } else {
+            return $this->sendError($res->metadata->message, 400);
         }
-        $data = [
-            'nomorantrean' => $request->nomorantrean,
-            'angkaantrean' => $request->angkaantrean,
-            'kodebooking' => $request->kodebooking,
-            'norm' => $request->norm,
-            'namapoli' => $request->namapoli,
-            'namadokter' => $request->namadokter,
-            'estimasidilayani' => $request->estimasidilayani,
-            'sisakuotajkn' => $request->sisakuotajkn,
-            'kuotajkn' => $request->kuotajkn,
-            'sisakuotanonjkn' => $request->sisakuotanonjkn,
-            'kuotanonjkn' => $request->kuotanonjkn,
-            'keterangan' => $request->keterangan,
-        ];
-        return $this->sendResponse($data, 200);
     }
     public function sisa_antrian(Request $request)
     {

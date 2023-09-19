@@ -27,7 +27,7 @@
                 </header>
             </div>
             <div class="col-md-4">
-                <x-adminlte-card title="Anjungan Checkin Antrian RSUD Waled" theme="primary" icon="fas fa-qrcode">
+                <x-adminlte-card title="Informasi Pelayanan" theme="purple" icon="fas fa-qrcode">
                     <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
                         <ol class="carousel-indicators">
                             <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
@@ -101,7 +101,7 @@
                 </div>
             </div>
             <div class="col-md-4">
-                <x-adminlte-card title="Video Informasi" theme="primary" icon="fas fa-play">
+                <x-adminlte-card title="Video Informasi" theme="purple" icon="fas fa-play">
                     {{-- <iframe width="560" height="315"
                         src="https://www.youtube.com/embed/-rLm4l1yuhU?si=N2MQHFACzBjy-lc7?autoplay=1"
                         title="YouTube video player" frameborder="0" allowfullscreen></iframe> --}}
@@ -112,7 +112,7 @@
                     </video> --}}
                     {{-- <iframe width="560" height="315" src="https://www.youtube.com/embed/rLInKEMHykE?si=sWG-1mT9ydRzXGhS&amp;controls=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe> --}}
                     <iframe
-                        src="https://www.youtube.com/embed/rLInKEMHykE?si=sWG-1mT9ydRzXGhS?rel=0&modestbranding=1&autohide=1&mute=1&showinfo=0&controls=1&autoplay=1"
+                        src="https://www.youtube.com/embed/rLInKEMHykE?si=sWG-1mT9ydRzXGhS?rel=0&modestbranding=1&autohide=1&mute=1&showinfo=0&controls=1&autoplay=1&loop=1"
                         width="560" height="315" frameborder="0" allowfullscreen onload='playVideo();'> ></iframe>
                     {{-- <iframe src="https://drive.google.com/file/d/1xhCy7W5YDbGha30VPRttcxEykvV4yixz/preview" width="640"
                         height="480" allow="autoplay"></iframe> --}}

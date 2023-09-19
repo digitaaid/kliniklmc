@@ -160,6 +160,7 @@
                                             @csrf
                                             @method('DELETE')
                                             <input type="hidden" name="noSep" value="{{ $item->noSep }}">
+                                            <input type="hidden" name="user" value="{{ Auth::user()->name }}">
                                             <x-adminlte-button class="btn-xs" theme="danger" icon="fas fa-trash-alt"
                                                 type="submit"
                                                 onclick="return confirm('Apakah anda akan menghapus SEP {{ $item->noSep }} ?')" />
