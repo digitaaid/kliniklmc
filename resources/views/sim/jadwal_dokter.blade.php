@@ -118,7 +118,7 @@
                                                     data-kodedokter="{{ $jadwal->kodedokter }}"
                                                     data-hari="{{ $jadwal->hari }}" data-jadwal="{{ $jadwal->jadwal }}"
                                                     data-kapasitaspasien="{{ $jadwal->kapasitaspasien }}"
-                                                    data-libur="{{ $jadwal->libur }}" />
+                                                    data-libur="{{ $jadwal->libur }}" /> <br>
                                             @endif
                                         @endforeach
                                     </td>
@@ -126,6 +126,40 @@
                             </tr>
                         @endforeach
                     @endforeach
+                </x-adminlte-datatable>
+            </x-adminlte-card>
+            <x-adminlte-card title="Jadwal Libur Dokter" theme="warning" icon="fas fa-calendar-alt" collapsible>
+                @php
+                    $heads = ['Tanggal Libur', 'Poliklinik', 'Dokter', 'Ketrangan', 'Antrian', 'Action'];
+                    $config['paging'] = false;
+                @endphp
+                <x-adminlte-button label="Tambah Jadwal Libur" class="mr-auto" id="createJadwalLibur" theme="success"
+                    icon="fas fa-plus" />
+                <x-adminlte-datatable id="table3" class="nowrap text-xs" :heads="$heads" :config="$config" bordered
+                    hoverable compressed>
+
+                    @foreach ($jadwallibur as $item)
+                        <tr>
+                            <td>{{ $item->tanggalawal }} - {{ $item->tanggalakhir }}</td>
+                            <td>{{ $item->kodepoli }}</td>
+                            <td>{{ $item->kodedokter }}</td>
+                            <td>{{ $item->keterangan }}</td>
+                            <td>
+                                {{ App\Models\Antrian::whereBetween('tanggalperiksa', [$item->tanggalawal, $item->tanggalakhir])->where('kodedokter', $item->kodedokter)->where('kodepoli', $item->kodepoli)->count() }}
+                            </td>
+                            <td>
+                                <a class="btn btn-warning btn-xs"
+                                    href="{{ route('kirimpesanlibur') }}?jadwallibur={{ $item->id }}">
+                                    Kirim Pesan
+                                </a>
+                                <x-adminlte-button class="btn-xs btnDeleteLibur" theme="danger" icon="fas fa-trash-alt"
+                                    title="Hapus Jadwal Libur {{ $item->kodedokter }} "
+                                    data-namadokter="{{ $item->kodedokter }}" data-id="{{ $item->id }}" />
+                            </td>
+
+                        </tr>
+                    @endforeach
+
                 </x-adminlte-datatable>
             </x-adminlte-card>
         </div>
@@ -186,6 +220,41 @@
             <x-adminlte-button theme="danger" icon="fas fa-times" label="Close" data-dismiss="modal" />
         </x-slot>
     </x-adminlte-modal>
+    <x-adminlte-modal id="modalJadwalLibur" title="Jadwal Libur Dokter" theme="warning" icon="fas fa-calendar-alt">
+        <form action="{{ route('jadwallibur.store') }}" id="formLibur" method="POST">
+            @csrf
+            <x-adminlte-select2 name="kodepoli" label="Poliklinik">
+                @foreach ($units as $item)
+                    <option value="{{ $item->kode }}" {{ $request->kodepoli == $item->kode ? 'selected' : null }}>
+                        {{ $item->nama }}</option>
+                @endforeach
+            </x-adminlte-select2>
+            <x-adminlte-select2 name="kodedokter" label="Dokter">
+                @foreach ($dokters as $item)
+                    <option value="{{ $item->kodedokter }}">{{ $item->namadokter }}</option>
+                @endforeach
+            </x-adminlte-select2>
+            @php
+                $config = [
+                    'timePicker' => false,
+                    'startDate' => 'js:moment()',
+                    'locale' => ['format' => 'YYYY/MM/DD'],
+                ];
+            @endphp
+            <x-adminlte-date-range name="tanggallibur" label="Tanggal Libur" :config="$config" />
+            <x-adminlte-textarea rows=3 label="Keterangan" name="keterangan" placeholder="Keterangan">
+            </x-adminlte-textarea>
+        </form>
+        <form id="formDeleteLibur" action="" method="POST">
+            @csrf
+            @method('DELETE')
+        </form>
+        <x-slot name="footerSlot">
+            <x-adminlte-button label="Tambah" id="btnCreate" form="formLibur" class="mr-auto withLoad" type="submit"
+                theme="success" icon="fas fa-edit" />
+            <x-adminlte-button theme="danger" icon="fas fa-times" label="Close" data-dismiss="modal" />
+        </x-slot>
+    </x-adminlte-modal>
 @stop
 
 @section('plugins.Select2', true)
@@ -193,6 +262,8 @@
 @section('plugins.Datatables', true)
 @section('plugins.DateRangePicker', true)
 @section('plugins.BootstrapSwitch', true)
+@section('plugins.Sweetalert2', true)
+
 @section('js')
     <script>
         $(function() {
@@ -210,6 +281,7 @@
                 $('#modalJadwal').modal('show');
                 $.LoadingOverlay("hide");
             });
+
             $('.btnJadwal').click(function() {
                 $.LoadingOverlay("show");
                 $('#btnUpdate').show();
@@ -244,6 +316,34 @@
                 }
                 $.LoadingOverlay("hide", true);
                 $('#modalJadwal').modal('show');
+            });
+            $('#createJadwalLibur').click(function() {
+                $.LoadingOverlay("show");
+                $('#modalJadwalLibur').modal('show');
+                $.LoadingOverlay("hide");
+            });
+        });
+    </script>
+    <script>
+        $(function() {
+            $('.btnDeleteLibur').click(function(e) {
+                e.preventDefault();
+                var name = $(this).data("namadokter");
+                swal.fire({
+                    title: 'Apakah anda ingin menghapus jadwal libur ' + name + ' ?',
+                    showConfirmButton: false,
+                    showDenyButton: true,
+                    showCancelButton: true,
+                    denyButtonText: `Ya, Hapus`,
+                }).then((result) => {
+                    if (result.isDenied) {
+                        $.LoadingOverlay("show");
+                        var id = $(this).data("id");
+                        var url = "{{ route('jadwallibur.index') }}/" + id;
+                        $('#formDeleteLibur').attr('action', url);
+                        $('#formDeleteLibur').submit();
+                    }
+                })
             });
         });
     </script>

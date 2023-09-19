@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Dokter;
 use App\Models\JadwalDokter;
+use App\Models\JadwalLibur;
 use App\Models\Poliklinik;
 use App\Models\Unit;
 use Illuminate\Http\Request;
@@ -18,6 +19,7 @@ class JadwalDokterController extends Controller
         $units = Unit::where('status', 1)->get();
         $dokters = Dokter::get();
         $jadwaldokter = JadwalDokter::get();
+        $jadwallibur = JadwalLibur::get();
         $request['tanggal'] = $request->tanggal ? $request->tanggal : now()->format('Y-m-d');
         // get jadwal
         $jadwals = null;
@@ -38,6 +40,7 @@ class JadwalDokterController extends Controller
             'jadwals',
             'dokters',
             'jadwaldokter',
+            'jadwallibur',
         ]));
     }
     public function store(Request $request)
