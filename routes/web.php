@@ -58,6 +58,8 @@ Route::get('daftarumum', [AntrianController::class, 'daftarumum'])->name('daftar
 Route::post('prosesdaftarumum', [AntrianController::class, 'prosesdaftarumum'])->name('prosesdaftarumum');
 Route::get('statusantrian', [AntrianController::class, 'statusantrian'])->name('statusantrian');
 Route::get('batalantrianweb', [AntrianController::class, 'batalantrianweb'])->name('batalantrianweb');
+Route::get('ceksuratkontrol', [SuratKontrolController::class, 'ceksuratkontrol'])->name('ceksuratkontrol');
+Route::put('suratkontrol_update_web', [SuratKontrolController::class, 'suratkontrol_update_web'])->name('suratkontrol_update_web');
 // display antrian
 Route::get('displayantrian', [AntrianController::class, 'displayAntrian'])->name('displayantrian');
 Route::get('displaynomor', [AntrianController::class, 'displaynomor'])->name('displaynomor');
@@ -167,9 +169,6 @@ Route::middleware('auth')->group(function () {
     Route::get('sep_print', [SepController::class, 'print'])->name('sep_print');
     Route::get('sep_hapus', [SepController::class, 'sep_hapus'])->name('sep_hapus');
     // suratkontrol
-    Route::get('ceksuratkontrol', [SuratKontrolController::class, 'ceksuratkontrol'])->name('ceksuratkontrol');
     Route::get('suratkontrol_print', [SuratKontrolController::class, 'print'])->name('suratkontrol_print');
     Route::get('suratkontrol_hapus', [SuratKontrolController::class, 'suratkontrol_hapus'])->name('suratkontrol_hapus');
-    Route::put('suratkontrol_update_web', [SuratKontrolController::class, 'suratkontrol_update_web'])->name('suratkontrol_update_web');
-
 });
