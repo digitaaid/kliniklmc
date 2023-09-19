@@ -31,23 +31,8 @@
             <div class="col-md-12">
                 <div class="row">
                     <div class="col-md-3">
-                        <x-adminlte-small-box
-                            title="{{ $antrians->where('taskid', 2)->first()->nomorantrean ?? 'Belum Panggil' }}"
-                            text="Antrian Dilayani" theme="primary" icon="fas fa-user-injured"
-                            url="{{ route('prosesperawat') }}?kodebooking={{ $antrians->where('taskid', 1)->first()->kodebooking ?? '00' }}"
-                            url-text="Proses Antrian Selanjutnya" />
-                    </div>
-                    <div class="col-md-3">
-                        <x-adminlte-small-box title="{{ $antrians->where('taskid', 1)->count() }}" text="Sisa Antrian"
-                            theme="warning" icon="fas fa-user-injured" />
-                    </div>
-                    <div class="col-md-3">
                         <x-adminlte-small-box title="{{ $antrians->where('taskid', '!=', 99)->count() }}"
                             text="Total Antrian" theme="success" icon="fas fa-user-injured" />
-                    </div>
-                    <div class="col-md-3">
-                        <x-adminlte-small-box title="{{ $antrians->where('taskid', 99)->count() }}" text="Batal Antrian"
-                            theme="danger" icon="fas fa-user-injured" />
                     </div>
                 </div>
                 <x-adminlte-card title="Data Antrian Asesmen Perawat" theme="warning" icon="fas fa-info-circle" collapsible>
@@ -111,30 +96,22 @@
                                     @endswitch
                                 </td>
                                 <td>
-                                    @if ($item->kunjungan)
-                                        @if ($item->kunjungan->asesmenperawat)
-                                            <span class="badge badge-success">Sudah Asesmen</span>
-                                        @else
-                                            <span class="badge badge-danger">Belum Asesmen</span>
-                                        @endif
+                                    @if ($item->asesmenperawat)
+                                        <span class="badge badge-success">Sudah Asesmen</span>
+                                    @else
+                                        <span class="badge badge-danger">Belum Asesmen</span>
                                     @endif
                                 </td>
                                 <td>
-                                    @switch($item->taskid)
-                                        @case(1)
-                                            <a href="{{ route('prosesperawat') }}?kodebooking={{ $item->kodebooking }}"
-                                                class="btn btn-xs btn-warning withLoad">Proses</a>
-                                        @break
-
-                                        @case(2)
-                                            <a href="{{ route('prosesperawat') }}?kodebooking={{ $item->kodebooking }}"
-                                                class="btn btn-xs btn-primary withLoad">Proses</a>
-                                        @break
-
-                                        @default
+                                    @if ($item->taskid != 99)
+                                        @if ($item->asesmenperawat)
                                             <a href="{{ route('prosesperawat') }}?kodebooking={{ $item->kodebooking }}"
                                                 class="btn btn-xs btn-secondary withLoad">Lihat</a>
-                                    @endswitch
+                                        @else
+                                            <a href="{{ route('prosesperawat') }}?kodebooking={{ $item->kodebooking }}"
+                                                class="btn btn-xs btn-warning withLoad">Proses</a>
+                                        @endif
+                                    @endif
                                 </td>
                             </tr>
                         @endforeach

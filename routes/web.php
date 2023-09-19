@@ -11,6 +11,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\IntegrasiController;
 use App\Http\Controllers\JadwalDokterController;
 use App\Http\Controllers\JadwalLiburController;
+use App\Http\Controllers\KunjunganController;
 use App\Http\Controllers\PasienController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\PoliklinikController;
@@ -91,6 +92,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('jadwaldokter', JadwalDokterController::class);
     Route::resource('jadwallibur', JadwalLiburController::class);
     Route::resource('antrian', AntrianController::class);
+    Route::resource('kunjungan', KunjunganController::class);
     Route::resource('suratkontrol', SuratKontrolController::class);
 
     Route::get('kirimpesanlibur', [JadwalLiburController::class, 'kirimpesanlibur'])->name('kirimpesanlibur');
@@ -168,4 +170,6 @@ Route::middleware('auth')->group(function () {
     Route::get('ceksuratkontrol', [SuratKontrolController::class, 'ceksuratkontrol'])->name('ceksuratkontrol');
     Route::get('suratkontrol_print', [SuratKontrolController::class, 'print'])->name('suratkontrol_print');
     Route::get('suratkontrol_hapus', [SuratKontrolController::class, 'suratkontrol_hapus'])->name('suratkontrol_hapus');
+    Route::put('suratkontrol_update_web', [SuratKontrolController::class, 'suratkontrol_update_web'])->name('suratkontrol_update_web');
+
 });

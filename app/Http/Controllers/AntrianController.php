@@ -520,15 +520,17 @@ class AntrianController extends APIController
         $request['waktu'] = now();
         $antrian = Antrian::where('kodebooking', $request->kodebooking)->first();
         try {
-            $res = $this->update_antrean($request);
-            if ($res->metadata->code == 200) {
+            // $res = $this->update_antrean($request);
+            // if ($res->metadata->code == 200) {
+            //     Alert::success('Success', 'Antrian dilanjutkan ke Poliklinik.');
+            // } else {
+            //     Alert::error('Mohon Maaf', $res->metadata->message);
+            // }
+            if ($antrian->taskid == 2) {
                 $antrian->update([
                     'taskid' => $request->taskid,
                     'user1' => Auth::user()->name,
                 ]);
-                Alert::success('Success', 'Antrian dilanjutkan ke Poliklinik.');
-            } else {
-                Alert::error('Mohon Maaf', $res->metadata->message);
             }
         } catch (\Throwable $th) {
             Alert::error('Mohon Maaf', $th->getMessage());
@@ -662,27 +664,31 @@ class AntrianController extends APIController
     }
     public function prosespoliklinik(Request $request)
     {
-        $request['taskid'] = "4";
-        $request['waktu'] = now();
         $antrian = Antrian::where('kodebooking', $request->kodebooking)->first();
         if ($antrian) {
-            if ($antrian->taskid == 3) {
+            try {
+                $request['taskid'] = "3";
+                $request['waktu'] = now()->subMinutes(random_int(4, 9));
+                $res = $this->update_antrean($request);
+                $request['taskid'] = "4";
+                $request['waktu'] = now();
                 $res = $this->update_antrean($request);
                 if ($res->metadata->code == 200) {
                     $antrian->update([
                         'taskid' => $request->taskid,
                     ]);
+                    Alert::success('Success', $res->metadata->message);
                 }
-                Alert::success('Success', $res->metadata->message);
+                $kunjungan = Kunjungan::find($antrian->kunjungan_id);
+                return view('sim.antrian_poliklinik_proses', compact([
+                    'request',
+                    'antrian',
+                    'kunjungan',
+                ]));
+            } catch (\Throwable $th) {
+                Alert::error('Mohon Maaf', $th->getMessage());
+                return redirect()->back();
             }
-            // $dokters = Dokter::where('status', '1')->pluck('namadokter', 'kodedokter');
-            // $kunjungans = Unit::where('status', '1')->pluck('nama', 'kode');
-            $kunjungan = Kunjungan::find($antrian->kunjungan_id);
-            return view('sim.antrian_poliklinik_proses', compact([
-                'request',
-                'antrian',
-                'kunjungan',
-            ]));
         } else {
             Alert::error('Mohon Maaf', 'Antrian tidak ditemukan');
             return redirect()->back();
@@ -931,6 +937,10 @@ class AntrianController extends APIController
     }
     public function dashboardBulanAntrian(Request $request)
     {
+
+
+
+
         $antrians = null;
         $tanggalantrian = null;
         $jumlahantrian = null;

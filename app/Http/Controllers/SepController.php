@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Antrian;
+use App\Models\Sep;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -11,7 +12,11 @@ class SepController extends Controller
 {
     public function index(Request $request)
     {
-        dd($request->all());
+        $kunjungans = Sep::where('tglSep', $request->tgl_masuk)->get();
+        return view('sim.kunjungan_index', compact([
+            'request',
+            'kunjungans',
+        ]));
     }
     public function store(Request $request)
     {

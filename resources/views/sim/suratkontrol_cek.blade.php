@@ -15,15 +15,13 @@
             <form action="" id="formCekAntrian" method="GET" role="form">
                 <label for="noSuratKontrol">Nomor Surat Kontrol</label>
                 <div class="form-group mb-3">
-                    <input type="text" class="form-control" name="noSuratKontrol" id="noSuratKontrol" placeholder="Nomor Surat Kontrol"
-                        value="{{ $request->noSuratKontrol }}" required>
+                    <input type="text" class="form-control" name="noSuratKontrol" id="noSuratKontrol"
+                        placeholder="Nomor Surat Kontrol" value="{{ $request->noSuratKontrol }}" required>
                 </div>
                 <div class="col text-center">
                     <button type="submit" class="btn btn-warning preloader" form="formCekAntrian">Cek Kodebooking</button>
                 </div>
             </form>
-        </div>
-        <div class="container" data-aos="fade-up">
             @if ($request->error)
                 <div class="alert alert-danger mt-3">
                     <h5>
@@ -33,85 +31,79 @@
                     <p>{{ $request->error }}</p>
                 </div>
             @endif
-            @isset($antrian)
-                <div class="alert alert-warning mt-3" role="alert">
-                    <b>Antrian Berhasil Ditermukan.</b> Silahkan screenshot QR Code Antrian untuk memudahkan saat checkin di
-                    Anjungan.
+            @if ($request->success)
+                <div class="alert alert-success mt-3">
+                    <h5>
+                        <i class="icon fas fa-check"></i>
+                        Berhasil
+                    </h5>
+                    <p>{{ $request->success }}</p>
                 </div>
-            @endisset
+            @endif
+
         </div>
-        @isset($antrian)
+        @isset($suratkontrol)
             <div class="container" data-aos="fade-up">
                 <div class="row mt-3">
                     <div class="row ">
                         <div class="col-md-12 ">
                             <div class="card">
-                                <h5 class="card-header">Antrian Pasien</h5>
+                                <h5 class="card-header">Surat Kontrol Pasien BPJS</h5>
                                 <div class="card-body">
-                                    <div>
-                                        {!! QrCode::size(200)->generate($antrian->kodebooking) !!} <br><br>
-                                    </div>
-                                    <dl>
-                                        <dt>Kodebooking</dt>
-                                        <dd>{{ $antrian->kodebooking }}</dd>
-                                        <dt>Nomor Antrian</dt>
-                                        <dd>{{ $antrian->nomorantrean }} / {{ $antrian->angkaantrean }} </dd>
-                                        <dt>Nama Pasien</dt>
-                                        <dd>{{ $antrian->nama }}</dd>
-                                        <dt>Poliklinik</dt>
-                                        <dd>{{ $antrian->namapoli }}</dd>
-                                        <dt>Dokter</dt>
-                                        <dd>{{ $antrian->namadokter }}</dd>
-                                        <dt>Antrian Sedang Dipanggil</dt>
-                                        <dd>{{ $res->response->antreanpanggil }}</dd>
-                                        <dt>Status</dt>
-                                        <dd>
-                                            @switch($antrian->taskid)
-                                                @case(0)
-                                                    Belum Checkin
-                                                @break
-
-                                                @case(1)
-                                                    Tunggu Pendaftaran
-                                                @break
-
-                                                @case(2)
-                                                    Proses Pendaftaran
-                                                @break
-
-                                                @case(3)
-                                                    Tunggu Poliklinik
-                                                @break
-
-                                                @case(4)
-                                                    Pemeriksaan Dokter
-                                                @break
-
-                                                @case(5)
-                                                    Tunggu Farmasi
-                                                @break
-
-                                                @case(6)
-                                                    Proses Farmasi
-                                                @break
-
-                                                @case(7)
-                                                    Selesai Pelayanan
-                                                @break
-
-                                                @case(99)
-                                                    Batal
-                                                @break
-
-                                                @default
-                                            @endswitch
+                                    <dl class="row">
+                                        <dt class="col-sm-3">No Surat Kontrol</dt>
+                                        <dd class="col-sm-9">{{ $suratkontrol->noSuratKontrol }}</dd>
+                                        <dt class="col-sm-3">jnsKontrol</dt>
+                                        <dd class="col-sm-9">{{ $suratkontrol->sep->peserta->nama }}</dd>
+                                        <dt class="col-sm-3">noKartu</dt>
+                                        <dd class="col-sm-9">{{ $suratkontrol->sep->peserta->noKartu }}</dd>
+                                        <dt class="col-sm-3">kelamin</dt>
+                                        <dd class="col-sm-9">{{ $suratkontrol->sep->peserta->kelamin }}</dd>
+                                        <br><br>
+                                        <dt class="col-sm-3">tglRencanaKontrol</dt>
+                                        <dd class="col-sm-9">
+                                            <form action="{{ route('suratkontrol_update_web') }}" method="POST" id="updateSK">
+                                                @csrf
+                                                @method('PUT')
+                                                <input type="hidden" name="noSuratKontrol"
+                                                    value="{{ $suratkontrol->noSuratKontrol }}">
+                                                <input type="hidden" name="noSEP" value="{{ $suratkontrol->sep->noSep }}">
+                                                <input type="hidden" name="kodeDokter"
+                                                    value="{{ $suratkontrol->kodeDokter }}">
+                                                <input type="hidden" name="poliKontrol"
+                                                    value="{{ $suratkontrol->poliTujuan }}">
+                                                <input type="hidden" name="user"
+                                                    value="{{ $suratkontrol->sep->peserta->nama }}P">
+                                                <input type="hidden" name="tglKontrolSebelumnya"
+                                                    value="{{ $suratkontrol->tglRencanaKontrol }}">
+                                                <div class="form-group">
+                                                    <input id="tglRencanaKontrol" name="tglRencanaKontrol"
+                                                        class="single-input datepicker form-control mb-3"
+                                                        placeholder="Pick date" value="{{ $suratkontrol->tglRencanaKontrol }}">
+                                                </div>
+                                            </form>
                                         </dd>
-                                        <dt>Keterangan</dt>
-                                        <dd>{{ $antrian->keterangan }}</dd>
+                                        <dt class="col-sm-3">namaJnsKontrol</dt>
+                                        <dd class="col-sm-9">{{ $suratkontrol->namaJnsKontrol }}</dd>
+                                        <dt class="col-sm-3">namaPoliTujuan</dt>
+                                        <dd class="col-sm-9">{{ $suratkontrol->namaPoliTujuan }}</dd>
+                                        <dt class="col-sm-3">namaDokter</dt>
+                                        <dd class="col-sm-9">{{ $suratkontrol->namaDokter }}</dd>
+                                        <br><br>
+                                        <dt class="col-sm-3">noSep</dt>
+                                        <dd class="col-sm-9">{{ $suratkontrol->sep->noSep }}</dd>
+                                        <dt class="col-sm-3">jnsPelayanan</dt>
+                                        <dd class="col-sm-9">{{ $suratkontrol->sep->jnsPelayanan }}</dd>
+                                        <dt class="col-sm-3">poli</dt>
+                                        <dd class="col-sm-9">{{ $suratkontrol->sep->poli }}</dd>
+                                        <dt class="col-sm-3">diagnosa</dt>
+                                        <dd class="col-sm-9">{{ $suratkontrol->sep->diagnosa }}</dd>
                                     </dl>
+
                                 </div>
                                 <div class="card-footer text-muted">
-                                    <button class="btn btn-danger batalAntrian">Batalkan Antrian</button>
+                                    <button type="submit" class="btn btn-danger preloader" form="updateSK">Ubah Tanggal
+                                        Kontrol</button>
                                 </div>
                             </div>
                         </div>
@@ -120,77 +112,4 @@
             </div>
         @endisset
     </section>
-@endsection
-
-@section('js')
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script>
-        $(function() {
-            $('.batalAntrian').click(function() {
-                Swal.fire({
-                    title: 'Apa alasan anda ingin membatalkan antrian ?',
-                    input: 'text',
-                    inputAttributes: {
-                        autocapitalize: 'off'
-                    },
-                    showCancelButton: true,
-                    confirmButtonText: 'Ya, Batalkan Antrian',
-                    showLoaderOnConfirm: true,
-                    preConfirm: (keterangan) => {
-                        var keterangan = keterangan;
-                        var kodebooking = $('#kodebooking').val();
-                        return {
-                            keterangan: keterangan,
-                            kodebooking: kodebooking,
-                        }
-                    },
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        $.LoadingOverlay("show");
-                        var kodebooking = result.value.kodebooking;
-                        var keterangan = result.value.keterangan;
-                        $.ajax({
-                            url: "{{ route('batalantrianweb') }}",
-                            data: {
-                                kodebooking: kodebooking,
-                                keterangan: keterangan,
-                            },
-                            type: "GET",
-                            dataType: 'json',
-                            success: function(data) {
-                                console.log(data);
-                                if (data.metadata.code == 200) {
-                                    Swal.fire({
-                                        title: 'Success',
-                                        text: data.metadata.message,
-                                        icon: 'success',
-                                        confirmButtonText: 'Ok'
-                                    }).then((result) => {
-                                        $.LoadingOverlay("show");
-                                        window.location.href =
-                                            "{{ route('statusantrian') }}" +
-                                            "?kodebooking=" +
-                                            kodebooking;
-                                    })
-                                } else {
-                                    Swal.fire({
-                                        title: 'Maaf',
-                                        text: data.metadata.message,
-                                        icon: 'error',
-                                        confirmButtonText: 'Tutup'
-                                    });
-                                }
-                                $.LoadingOverlay("hide");
-                            },
-                            error: function(data) {
-                                console.log(data);
-                                alert('Error');
-                                $.LoadingOverlay("hide");
-                            },
-                        });
-                    }
-                });
-            });
-        });
-    </script>
 @endsection

@@ -24,14 +24,14 @@
             @if ($antrians)
                 <div class="row">
                     <div class="col-md-6">
-                        <x-adminlte-card title="Laporan Waktu Pelayanan Antrian" theme="success" collapsible>
+                        <x-adminlte-card title="Capaian Jumlah Pelayanan Antrian" theme="success" collapsible>
                             <div class="chart">
                                 <canvas id="jumlahChart" style="height: 300px;"></canvas>
                             </div>
                         </x-adminlte-card>
                     </div>
                     <div class="col-md-6">
-                        <x-adminlte-card title="Laporan Waktu Pelayanan Antrian" theme="success" collapsible>
+                        <x-adminlte-card title="Capaian Waktu Pelayanan Antrian" theme="success" collapsible>
                             <div class="chart">
                                 <canvas id="waktuChart" style="height: 300px;"></canvas>
                             </div>

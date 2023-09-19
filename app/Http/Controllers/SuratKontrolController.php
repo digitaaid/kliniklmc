@@ -15,6 +15,14 @@ use RealRashid\SweetAlert\Facades\Alert;
 
 class SuratKontrolController extends APIController
 {
+    public function index(Request $request)
+    {
+        $kunjungans = SuratKontrol::where('tglRencanaKontrol', $request->tgl_masuk)->get();
+        return view('sim.kunjungan_index', compact([
+            'request',
+            'kunjungans',
+        ]));
+    }
     public function suratKontrolBpjs(Request $request)
     {
         $suratkontrol = null;
@@ -56,11 +64,11 @@ class SuratKontrolController extends APIController
     public function store(Request $request)
     {
         $poli = Poliklinik::where('kodesubspesialis', $request->poliKontrol)->first();
-        $vclaim = new VclaimController();
         $request['user'] = Auth::user()->name;
         $request['noSep'] = $request->noSEP;
         $request['noSepAsalKontrol'] = $request->noSEP;
         $request['tglTerbitKontrol'] = now()->format('Y-m-d');
+        $vclaim = new VclaimController();
         $response = $vclaim->suratkontrol_insert($request);
         if ($response->metadata->code == 200) {
             $suratkontrol = $response->response;
@@ -176,23 +184,53 @@ class SuratKontrolController extends APIController
             return redirect()->back();
         }
     }
+    public function suratkontrol_update_web(Request $request)
+    {
+        $api = new VclaimController();
+        $res = $api->suratkontrol_update($request);
+        if ($res->metadata->code == 200) {
+            $request['success'] =  "Berhasil update tanggal surat kontrol.";
+        } else {
+            $request['error'] =  $res->metadata->message;
+        }
+        try {
+            $res = $api->suratkontrol_nomor($request);
+            if ($res->metadata->code == 200) {
+                $suratkontrol = $res->response;
+            } else {
+                $request['error'] =  $res->metadata->message;
+                Alert::error('Mohon Maaf', $res->metadata->message);
+            }
+        } catch (\Throwable $th) {
+            $request['error'] = $th->getMessage();
+            Alert::error('Gagal', $th->getMessage());
+        }
+        return view('sim.suratkontrol_cek', compact([
+            'request',
+            'suratkontrol',
+        ]));
+    }
     public function ceksuratkontrol(Request $request)
     {
-        $antrian = null;
-        $res = null;
-        if ($request->kodebooking) {
-            $antrian = Antrian::where('kodebooking', $request->kodebooking)->first();
-            if ($antrian) {
-                $request['kodebooking'] = $antrian->kodebooking;
-                $res = $this->sisa_antrian($request);
-            } else {
-                $request['error'] = "Kodebooking antrian tidak ditemukan.";
+        $suratkontrol = null;
+        if ($request->noSuratKontrol) {
+            $vclaim = new VclaimController();
+            try {
+                $res = $vclaim->suratkontrol_nomor($request);
+                if ($res->metadata->code == 200) {
+                    $suratkontrol = $res->response;
+                } else {
+                    $request['error'] =  $res->metadata->message;
+                    Alert::error('Mohon Maaf', $res->metadata->message);
+                }
+            } catch (\Throwable $th) {
+                $request['error'] = $th->getMessage();
+                Alert::error('Gagal', $th->getMessage());
             }
         }
         return view('sim.suratkontrol_cek', compact([
             'request',
-            'res',
-            'antrian',
+            'suratkontrol',
         ]));
     }
 }

@@ -21,6 +21,8 @@ class Antrian extends Model
     {
         return $this->belongsTo(Kunjungan::class);
     }
-
-
+    public function asesmenperawat()
+    {
+        return $this->hasOne(AsesmenPerawat::class);
+    }
 }

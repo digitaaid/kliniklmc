@@ -168,12 +168,6 @@
     </x-adminlte-modal>
 @stop
 @section('adminlte_css')
-<style>
-    body{
-        background: #6f42c1 !important;
-    }
-</style>
-@endsection
 @section('adminlte_js')
     <script src="{{ asset('vendor/moment/moment.min.js') }}"></script>
     <script src="{{ asset('loading-overlay/loadingoverlay.min.js') }}"></script>
