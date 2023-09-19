@@ -176,4 +176,23 @@ class SuratKontrolController extends APIController
             return redirect()->back();
         }
     }
+    public function ceksuratkontrol(Request $request)
+    {
+        $antrian = null;
+        $res = null;
+        if ($request->kodebooking) {
+            $antrian = Antrian::where('kodebooking', $request->kodebooking)->first();
+            if ($antrian) {
+                $request['kodebooking'] = $antrian->kodebooking;
+                $res = $this->sisa_antrian($request);
+            } else {
+                $request['error'] = "Kodebooking antrian tidak ditemukan.";
+            }
+        }
+        return view('sim.suratkontrol_cek', compact([
+            'request',
+            'res',
+            'antrian',
+        ]));
+    }
 }

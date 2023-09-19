@@ -382,8 +382,26 @@ return [
         ],
         [
             'text' => 'Capaian Antrian',
-            'icon'    => 'fas fa-users',
+            'icon'    => 'fas fa-chart-line',
             'url'  => 'capaianantrian',
+        ],
+        [
+            'text' => 'Kunjungan',
+            'icon'    => 'fas fa-users',
+            'url'  => 'kunjungan',
+            'can' => 'admin',
+        ],
+        [
+            'text' => 'SEP',
+            'icon'    => 'fas fa-users',
+            'url'  => 'sep',
+            'can' => 'admin',
+        ],
+        [
+            'text' => 'Surat Kontrol',
+            'icon'    => 'fas fa-users',
+            'url'  => 'suratkontrol',
+            'can' => 'admin',
         ],
 
         // REKAMMEDIS

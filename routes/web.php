@@ -93,7 +93,6 @@ Route::middleware('auth')->group(function () {
     Route::resource('antrian', AntrianController::class);
     Route::resource('suratkontrol', SuratKontrolController::class);
 
-
     Route::get('kirimpesanlibur', [JadwalLiburController::class, 'kirimpesanlibur'])->name('kirimpesanlibur');
     // form
     Route::get('form_identitaspasien', [FormController::class, 'form_identitaspasien'])->name('form_identitaspasien');
@@ -166,6 +165,7 @@ Route::middleware('auth')->group(function () {
     Route::get('sep_print', [SepController::class, 'print'])->name('sep_print');
     Route::get('sep_hapus', [SepController::class, 'sep_hapus'])->name('sep_hapus');
     // suratkontrol
+    Route::get('ceksuratkontrol', [SuratKontrolController::class, 'ceksuratkontrol'])->name('ceksuratkontrol');
     Route::get('suratkontrol_print', [SuratKontrolController::class, 'print'])->name('suratkontrol_print');
     Route::get('suratkontrol_hapus', [SuratKontrolController::class, 'suratkontrol_hapus'])->name('suratkontrol_hapus');
 });

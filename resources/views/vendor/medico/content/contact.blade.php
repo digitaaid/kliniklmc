@@ -36,7 +36,6 @@
                                     <a href="https://www.instagram.com/klinikutamalmc/">Instagram Klinik LMC</a>
                                     <br>
                                     <a href="https://www.youtube.com/@KLINIKLMC">Youtube Klinik LMC</a>
-
                                 </p>
                             </div>
                         </div>
