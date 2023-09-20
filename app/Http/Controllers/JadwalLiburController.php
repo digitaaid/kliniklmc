@@ -38,7 +38,7 @@ class JadwalLiburController extends Controller
         if ($antrians->count()) {
             foreach ($antrians as  $value) {
                 $request['number'] = $value->nohp;
-                $request['message'] = "Mohon maaf, antrian atas nama pasien " . $value->nama . " pada tanggal " . $value->tanggalperiksa . " dengan nomor antrian " . $value->nomorantrean . " dibatalkan karena dokter tidak praktek / diliburkan. \n\nSilahkan daftar ulang dijadwal hari yang lain. Terimakasih.\nLink Daftar : luthfimedicalcenter.com/daftar\n\Terimakasih, \nSalam Hangat dan Sehat Selalu.";
+                $request['message'] = "Mohon maaf, antrian atas nama pasien " . $value->nama . " pada tanggal " . $value->tanggalperiksa . " dengan nomor antrian " . $value->nomorantrean . " dibatalkan karena dokter tidak praktek / diliburkan. \nSilahkan daftar ulang dijadwal hari yang lain. Terimakasih.\nLink Daftar : luthfimedicalcenter.com/daftar\n\nTerimakasih, \nSalam Hangat dan Sehat Selalu.";
                 $wa = new WhatsappController();
                 $wa->send_message($request);
                 Alert::success('Succes', 'Berhasil kirim pesan informasi libur');
