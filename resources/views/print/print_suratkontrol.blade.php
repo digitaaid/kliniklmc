@@ -8,16 +8,7 @@
         <div class="col-md-12">
             <div id="printMe">
                 <section class="invoice p-3 mb-1">
-                    <div class="row">
-                        <img src="{{ asset('img/bpjs.png') }}" style="height: 70px">
-                        <div class="col text-center">
-                            <b>RUMAH SAKIT UMUM DAERAH WALED KABUPATEN CIREBON</b><br>
-                            Jalan Raden Walangsungsang Kecamatan Waled Kabupaten Cirebon 45188<br>
-                            www.rsudwaled.id - brsud.waled@gmail.com - Whatasapp 0895 4000 60700 - Call Center (0231) 661126
-                        </div>
-                        <img src="{{ asset('medicio/assets/img/lmc.png') }}" style="height: 70px">
-                        <hr width="100%" hight="30px" class="m-1 " color="black" size="50px" />
-                    </div>
+                    @include('print.print_kop')
                     <div class="row invoice-info">
                         <div class="col-sm-12 invoice-col text-center">
                             <b class="text-md">SURAT KONTROL RAWAT JALAN</b> <br>
