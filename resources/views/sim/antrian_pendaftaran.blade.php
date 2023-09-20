@@ -50,11 +50,10 @@
                             theme="danger" icon="fas fa-user-injured" />
                     </div>
                 </div>
-                <x-adminlte-card title="Data Antrian Pendaftaran" theme="warning" icon="fas fa-info-circle"
-                    collapsible>
+                <x-adminlte-card title="Data Antrian Pendaftaran" theme="warning" icon="fas fa-info-circle" collapsible>
                     @php
-                        $heads = ['No', 'Kodebooking', 'Pasien', 'Kartu BPJS', 'Unit', 'Dokter', 'Jenis Pasien', 'Method', 'Status', 'Action'];
-                        $config['order'] = [[8, 'asc']];
+                        $heads = ['No', 'Kodebooking', 'Pasien', 'Kartu BPJS', 'Unit / Dokter', 'Jenis Pasien', 'Method', 'Status', 'Action'];
+                        $config['order'] = [7, 'asc'];
                         $config['paging'] = false;
                         $config['scrollY'] = '300px';
                     @endphp
@@ -66,8 +65,7 @@
                                 <td>{{ $item->kodebooking }}</td>
                                 <td>{{ $item->norm }} {{ $item->nama }}</td>
                                 <td>{{ $item->nomorkartu }}</td>
-                                <td>{{ $item->namapoli }}</td>
-                                <td>{{ $item->namadokter }}</td>
+                                <td>{{ $item->kodepoli }} / {{ $item->namadokter }}</td>
                                 <td>{{ $item->jenispasien }} </td>
                                 <td>{{ $item->method }} </td>
                                 <td>

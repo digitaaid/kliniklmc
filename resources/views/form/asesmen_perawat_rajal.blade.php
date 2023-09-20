@@ -4,7 +4,7 @@
             @include('form.assesmen_kop')
             <div class="text-center col-md-12 border border-dark bg-warning">
                 <div class="m-2 ">
-                    <b>ASESMEN PERAWAT RAWAT JALAN</b>
+                    <b>ASESMEN AWAL RAWAT JALAN</b>
                 </div>
             </div>
             <div class="col-md-6 border border-dark">

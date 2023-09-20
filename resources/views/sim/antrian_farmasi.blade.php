@@ -14,7 +14,8 @@
                                 $config = ['format' => 'YYYY-MM-DD'];
                             @endphp
                             <x-adminlte-input-date name="tanggalperiksa" label="Tanggal Antrian"
-                                value="{{ $request->tanggalperiksa }}" placeholder="Pilih Tanggal" :config="$config">
+                                value="{{ $request->tanggalperiksa ?? now()->format('Y-m-d') }}" placeholder="Pilih Tanggal"
+                                :config="$config">
                                 <x-slot name="prependSlot">
                                     <div class="input-group-text bg-primary">
                                         <i class="fas fa-calendar-alt"></i>
@@ -30,28 +31,40 @@
         @if (isset($antrians))
             <div class="col-md-12">
                 <div class="row">
-                    <div class="col-md-3">
+                    {{-- <div class="col-md-3">
                         <x-adminlte-small-box
                             title="{{ $antrians->where('taskid', 6)->first()->nomorantrean ?? 'Belum Panggil' }}"
                             text="Antrian Dilayani" theme="primary" icon="fas fa-user-injured"
                             url="{{ route('terimafarmasi') }}?kodebooking={{ $antrians->where('taskid', 5)->first()->kodebooking ?? '00' }}"
                             url-text="Proses Antrian Selanjutnya" />
+                    </div> --}}
+                    <div class="col-md-3">
+                        <x-adminlte-small-box
+                            title="{{ $antrians->where('taskid', '>=', 5)->where('taskid', '<', 7)->count() }}"
+                            text="Sisa Resep" theme="warning" icon="fas fa-user-injured" />
                     </div>
                     <div class="col-md-3">
-                        <x-adminlte-small-box title="{{ $antrians->where('taskid', '<=', 3)->count() }}" text="Sisa Antrian"
-                            theme="warning" icon="fas fa-user-injured" />
+                        <x-adminlte-small-box title="{{ $antrians->where('taskid', 7)->count() }}"
+                            text="Total Resep Selesai" theme="success" icon="fas fa-user-injured" />
                     </div>
                     <div class="col-md-3">
-                        <x-adminlte-small-box title="{{ $antrians->where('taskid', '!=', 99)->count() }}"
-                            text="Total Antrian" theme="success" icon="fas fa-user-injured" />
+                        <x-adminlte-small-box
+                            title="{{ $antrians->where('taskid', 7)->where('jenispasien', 'JKN')->count() }}"
+                            text="Total Resep JKN" theme="primary" icon="fas fa-user-injured" />
                     </div>
+                    <div class="col-md-3">
+                        <x-adminlte-small-box
+                            title="{{ $antrians->where('taskid', 7)->where('jenispasien', 'NON-JKN')->count() }}"
+                            text="Total Resep NON-JKN" theme="primary" icon="fas fa-user-injured" />
+                    </div>
+
                 </div>
             </div>
             <div class="col-md-12">
                 <x-adminlte-card title="Data Antrian Farmasi" theme="warning" icon="fas fa-info-circle"
                     collapsible="{{ $antrians->where('taskid', 6)->count() ? 'collapsed' : null }}">
                     @php
-                        $heads = ['No', 'Kodebooking', 'Pasien', 'Kartu BPJS', 'Unit', 'Dokter', 'Jenis Pasien', 'Method', 'Status', 'Action'];
+                        $heads = ['No', 'Kodebooking', 'Pasien', 'Kartu BPJS', 'Unit / Dokter', 'Jenis Pasien', 'Method', 'Status', 'Action'];
                         $config['order'] = [[7, 'asc']];
                         $config['paging'] = false;
                         $config['scrollY'] = '300px';
@@ -64,8 +77,7 @@
                                 <td>{{ $item->kodebooking }}</td>
                                 <td>{{ $item->norm }} {{ $item->nama }}</td>
                                 <td>{{ $item->nomorkartu }}</td>
-                                <td>{{ $item->namapoli }}</td>
-                                <td>{{ $item->namadokter }}</td>
+                                <td>{{ $item->kodeunit }} / {{ $item->namadokter }}</td>
                                 <td>{{ $item->jenispasien }} </td>
                                 <td>{{ $item->method }} </td>
                                 <td>
@@ -75,19 +87,19 @@
                                         @break
 
                                         @case(1)
-                                            <span class="badge badge-warning">1. Menunggu Pendaftaran</span>
+                                            <span class="badge badge-warning">97. Menunggu Pendaftaran</span>
                                         @break
 
                                         @case(2)
-                                            <span class="badge badge-primary">0. Proses Pendaftaran</span>
+                                            <span class="badge badge-primary">96. Proses Pendaftaran</span>
                                         @break
 
                                         @case(3)
-                                            <span class="badge badge-warning">3. Menunggu Poliklinik</span>
+                                            <span class="badge badge-warning">95. Menunggu Poliklinik</span>
                                         @break
 
                                         @case(4)
-                                            <span class="badge badge-primary">4. Pelayanan Poliklinik</span>
+                                            <span class="badge badge-primary">94. Pelayanan Poliklinik</span>
                                         @break
 
                                         @case(5)
@@ -122,9 +134,15 @@
                                                 class="btn btn-xs btn-success withLoad">Selesai</a>
                                         @break
 
+                                        @case(7)
+                                            <a href="{{ route('print_asesmenfarmasi') }}?kodebooking={{ $item->kodebooking }}"
+                                                class="btn btn-xs btn-warning" target="_blank"> <i class="fas fa-print"></i>
+                                                Print</a>
+                                        @break
+
                                         @default
                                             <div class="btn btn-xs btn-secondary">
-                                                Pulang
+                                                Belum
                                             </div>
                                     @endswitch
                                 </td>
@@ -139,6 +157,7 @@
                         <div class="col-md-3">
                             <div class="card card-primary">
                                 <div class="card-header">
+                                    <h3 class="card-title">{{ $item->nomorantrean }}</h3> <br>
                                     <h3 class="card-title">{{ $item->kunjungan->nama }}</h3> <br>
 
                                 </div>
@@ -160,6 +179,8 @@
                                 <div class="card-footer">
                                     <a href="{{ route('selesaifarmasi') }}?kodebooking={{ $item->kodebooking }}"
                                         class="btn btn-success withLoad">Selesai</a>
+                                    <a href="{{ route('print_asesmenfarmasi') }}?kodebooking={{ $item->kodebooking }}"
+                                        class="btn btn-warning" target="_blank"> <i class="fas fa-print"></i> Print</a>
                                 </div>
                                 <!-- /.card-body -->
                             </div>

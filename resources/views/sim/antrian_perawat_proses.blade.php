@@ -127,9 +127,6 @@
                                             <x-adminlte-input name="tinggi_badan" fgroup-class="col-md-6"
                                                 label="Tinggi Badan" igroup-size="sm" placeholder="Tinggi Badan"
                                                 value="{{ $antrian->asesmenperawat->tinggi_badan ?? null }}" />
-                                            <x-adminlte-input name="bsa" fgroup-class="col-md-6" label="Index BSA"
-                                                igroup-size="sm" placeholder="Index BSA"
-                                                value="{{ $antrian->asesmenperawat->bsa ?? null }}" />
                                         </div>
                                         <div class="form-group">
                                             <div class="custom-control custom-radio">

@@ -85,9 +85,9 @@ Route::middleware('auth')->group(function () {
         Route::resource('galeri', GaleriController::class);
         Route::resource('tanyajawab', TanyaJawabController::class);
         Route::resource('testimoni', TestimoniController::class);
-        Route::resource('sep', SepController::class);
         Route::resource('integrasiAPI', IntegrasiController::class);
     });
+    Route::resource('sep', SepController::class);
     Route::resource('poliklinik', PoliklinikController::class);
     Route::resource('unit', UnitController::class);
     Route::resource('dokter', DokterController::class);
@@ -130,6 +130,8 @@ Route::middleware('auth')->group(function () {
     Route::get('getantrianfarmasi', [AntrianController::class, 'getantrianfarmasi'])->name('getantrianfarmasi');
     Route::get('terimafarmasi', [AntrianController::class, 'terimafarmasi'])->name('terimafarmasi');
     Route::get('selesaifarmasi', [AntrianController::class, 'selesaifarmasi'])->name('selesaifarmasi');
+
+    Route::get('print_asesmenfarmasi', [FormController::class, 'print_asesmenfarmasi'])->name('print_asesmenfarmasi');
 
 
     Route::get('capaianantrian', [AntrianController::class, 'dashboardBulanAntrian'])->name('capaianantrian');

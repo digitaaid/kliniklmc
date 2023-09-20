@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Antrian;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
@@ -35,4 +36,14 @@ class FormController extends Controller
         return view('form.pemeriksaan_dokter', compact(['request']));
     }
 
+    public function print_asesmenfarmasi(Request $request)
+    {
+        $antrian = Antrian::firstWhere('kodebooking', $request->kodebooking);
+        $kunjungan = $antrian->kunjungan;
+        return view('print.print_asesmen_resep_obat', compact([
+            'request',
+            'antrian',
+            'kunjungan',
+        ]));
+    }
 }

@@ -125,11 +125,15 @@
                                 <input type="hidden" name="kunjungan_id" value="{{ $antrian->kunjungan->id ?? null }}">
                                 <div class="row">
                                     <div class="col-md-6">
+                                        <x-adminlte-textarea igroup-size="sm" rows=3 label="Diagnosa"
+                                            name="diagnosa" placeholder="Diagnosa">
+                                            {{ $kunjungan->asesmendokter->diagnosa ?? null }}
+                                        </x-adminlte-textarea>
                                         <x-adminlte-select2 name="diagnosa1" class="diagnosaid1"
-                                            label="Diagnosa Primer : {{ $kunjungan->asesmendokter->diagnosa1 ?? null }}">
+                                            label="Diagnosa Primer ICD-10 : {{ $kunjungan->asesmendokter->diagnosa1 ?? null }}">
                                         </x-adminlte-select2>
                                         <x-adminlte-select2 name="diagnosa2[]" class="diagnosaid2"
-                                            label="Diagnosa Sekunder  : {{ $kunjungan->asesmendokter->diagnosa2 ?? null }}"
+                                            label="Diagnosa Sekunder ICD-10 : {{ $kunjungan->asesmendokter->diagnosa2 ?? null }}"
                                             multiple>
                                         </x-adminlte-select2>
                                         <x-adminlte-textarea igroup-size="sm" rows=3 label="Riwayat Pengobatan"

@@ -31,14 +31,22 @@
             <div class="col-md-12">
                 <div class="row">
                     <div class="col-md-3">
+                        <x-adminlte-small-box title="{{ $antrians->where('taskid', '!=', 99)->count() - $antrian_asesmen }}"
+                            text="Belum Asesmen Perawat" theme="warning" icon="fas fa-user-injured" />
+                    </div>
+                    <div class="col-md-3">
+                        <x-adminlte-small-box title="{{ $antrian_asesmen }}" text="Sudah Asesmen Perawat" theme="primary"
+                            icon="fas fa-user-injured" />
+                    </div>
+                    <div class="col-md-3">
                         <x-adminlte-small-box title="{{ $antrians->where('taskid', '!=', 99)->count() }}"
                             text="Total Antrian" theme="success" icon="fas fa-user-injured" />
                     </div>
                 </div>
                 <x-adminlte-card title="Data Antrian Asesmen Perawat" theme="warning" icon="fas fa-info-circle" collapsible>
                     @php
-                        $heads = ['No', 'Kodebooking', 'Pasien', 'Kartu BPJS', 'Unit', 'Dokter', 'Jenis Pasien', 'Taskid', 'Asesment', 'Action'];
-                        $config['order'] = [[7, 'asc']];
+                        $heads = ['No', 'Kodebooking', 'Pasien', 'Kartu BPJS', 'Unit / Dokter', 'Taskid', 'Asesment', 'Action'];
+                        $config['order'] = [6, 'asc'];
                         $config['paging'] = false;
                         $config['scrollY'] = '300px';
                     @endphp
@@ -50,9 +58,7 @@
                                 <td>{{ $item->kodebooking }}</td>
                                 <td>{{ $item->norm }} {{ $item->nama }}</td>
                                 <td>{{ $item->nomorkartu }}</td>
-                                <td>{{ $item->namapoli }}</td>
-                                <td>{{ $item->namadokter }}</td>
-                                <td>{{ $item->jenispasien }} </td>
+                                <td>{{ $item->kodepoli }} / {{ $item->namadokter }}</td>
                                 <td>
                                     @switch($item->taskid)
                                         @case(0)
@@ -60,7 +66,7 @@
                                         @break
 
                                         @case(1)
-                                            <span class="badge badge-warning">1. Menunggu Pendaftaran</span>
+                                            <span class="badge badge-warning">97. Menunggu Pendaftaran</span>
                                         @break
 
                                         @case(2)
@@ -97,9 +103,9 @@
                                 </td>
                                 <td>
                                     @if ($item->asesmenperawat)
-                                        <span class="badge badge-success">Sudah Asesmen</span>
+                                        <span class="badge badge-success">1. Sudah Asesmen</span>
                                     @else
-                                        <span class="badge badge-danger">Belum Asesmen</span>
+                                        <span class="badge badge-danger">0. Belum Asesmen</span>
                                     @endif
                                 </td>
                                 <td>

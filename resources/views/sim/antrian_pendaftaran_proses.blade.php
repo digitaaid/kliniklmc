@@ -336,7 +336,7 @@
                                     <x-adminlte-select2 igroup-size="sm" name="diagAwal" label="Diagnosa Awal"
                                         class="diagnosaid1">
                                     </x-adminlte-select2>
-                                    <x-adminlte-textarea igroup-size="sm" label="Catatan" name="catatan"
+                                    <x-adminlte-textarea igroup-size="sm" label="Catatan / Keluhan" name="catatan"
                                         placeholder="Catatan Pasien" />
                                     <button type="submit" class="btn btn-warning withLoad">
                                         <i class="fas fa-file-medical"></i> Buat SEP

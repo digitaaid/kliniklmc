@@ -351,7 +351,7 @@ return [
             'text' => 'Jadwal Dokter',
             'icon'    => 'fas fa-calendar-alt',
             'url'  => 'jadwaldokter',
-            'can' => 'manajemen',
+            'can' =>  ['pendaftaran', 'bpjs', 'manajemen'],
         ],
         [
             'text' => 'Antrian Pendaftaran',
@@ -468,7 +468,7 @@ return [
                     'icon'    => 'fas fa-calendar-alt',
                     'url'  => 'jadwalDokterAntrianBpjs',
                     'shift'   => 'ml-2',
-                    'can' =>  ['bpjs', 'pendaftaran', 'manajemen'],
+                    'can' =>  ['pendaftaran', 'bpjs', 'manajemen'],
                 ],
                 [
                     'text' => 'Cek Fingerprint Peserta',

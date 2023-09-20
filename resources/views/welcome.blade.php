@@ -7,8 +7,7 @@
             <ol class="carousel-indicators" id="hero-carousel-indicators"></ol>
             <div class="carousel-inner" role="listbox">
                 <!-- Slide 1 -->
-                <div class="carousel-item active"
-                    style="background-image: url({{ asset('medicio/assets/img/slide/slide-1.jpg') }})">
+                <div class="carousel-item active" style="background-image: url({{ asset('img/3.jpg') }})">
                     <div class="container">
                         <h2>Selamat Datang di LMC</span></h2>
                         <p>
@@ -128,7 +127,7 @@
             </div>
             <div class="row">
                 <div class="col-lg-6" data-aos="fade-right">
-                    <img src="{{ asset('medicio/assets/img/about.jpg') }}" class="img-fluid" alt="">
+                    <img src="{{ asset('img/2.jpg') }}" class="img-fluid" alt="">
                 </div>
                 <div class="col-lg-6 pt-4 pt-lg-0 content" data-aos="fade-left">
                     <p>
@@ -319,45 +318,25 @@
             </div>
             <div class="gallery-slider swiper">
                 <div class="swiper-wrapper align-items-center">
-                    <div class="swiper-slide"><a class="gallery-lightbox"
-                            href="{{ asset('medicio/assets/img/gallery/gallery-1.jpg') }}"><img
-                                src="{{ asset('medicio/assets/img/gallery/gallery-1.jpg') }}" class="img-fluid"
-                                alt=""></a>
+                    <div class="swiper-slide"><a class="gallery-lightbox" href="{{ asset('img/3.jpg') }}"><img
+                                src="{{ asset('img/3.jpg') }}" class="img-fluid" alt=""></a>
                     </div>
-                    <div class="swiper-slide"><a class="gallery-lightbox"
-                            href="{{ asset('medicio/assets/img/gallery/gallery-2.jpg') }}"><img
-                                src="{{ asset('medicio/assets/img/gallery/gallery-2.jpg') }}" class="img-fluid"
-                                alt=""></a>
+
+                    <div class="swiper-slide"><a class="gallery-lightbox" href="{{ asset('img/2.jpg') }}"><img
+                                src="{{ asset('img/2.jpg') }}" class="img-fluid" alt=""></a>
                     </div>
-                    <div class="swiper-slide"><a class="gallery-lightbox"
-                            href="{{ asset('medicio/assets/img/gallery/gallery-3.jpg') }}"><img
-                                src="{{ asset('medicio/assets/img/gallery/gallery-3.jpg') }}" class="img-fluid"
-                                alt=""></a>
+
+                    <div class="swiper-slide"><a class="gallery-lightbox" href="{{ asset('img/4.jpg') }}"><img
+                                src="{{ asset('img/4.jpg') }}" class="img-fluid" alt=""></a>
                     </div>
-                    <div class="swiper-slide"><a class="gallery-lightbox"
-                            href="{{ asset('medicio/assets/img/gallery/gallery-4.jpg') }}"><img
-                                src="{{ asset('medicio/assets/img/gallery/gallery-4.jpg') }}" class="img-fluid"
-                                alt=""></a>
+                    <div class="swiper-slide"><a class="gallery-lightbox" href="{{ asset('img/5.jpg') }}"><img
+                                src="{{ asset('img/5.jpg') }}" class="img-fluid" alt=""></a>
                     </div>
-                    <div class="swiper-slide"><a class="gallery-lightbox"
-                            href="{{ asset('medicio/assets/img/gallery/gallery-5.jpg') }}"><img
-                                src="{{ asset('medicio/assets/img/gallery/gallery-5.jpg') }}" class="img-fluid"
-                                alt=""></a>
+                    <div class="swiper-slide"><a class="gallery-lightbox" href="{{ asset('img/6.jpg') }}"><img
+                                src="{{ asset('img/6.jpg') }}" class="img-fluid" alt=""></a>
                     </div>
-                    <div class="swiper-slide"><a class="gallery-lightbox"
-                            href="{{ asset('medicio/assets/img/gallery/gallery-6.jpg') }}"><img
-                                src="{{ asset('medicio/assets/img/gallery/gallery-6.jpg') }}" class="img-fluid"
-                                alt=""></a>
-                    </div>
-                    <div class="swiper-slide"><a class="gallery-lightbox"
-                            href="{{ asset('medicio/assets/img/gallery/gallery-7.jpg') }}"><img
-                                src="{{ asset('medicio/assets/img/gallery/gallery-7.jpg') }}" class="img-fluid"
-                                alt=""></a>
-                    </div>
-                    <div class="swiper-slide"><a class="gallery-lightbox"
-                            href="{{ asset('medicio/assets/img/gallery/gallery-8.jpg') }}"><img
-                                src="{{ asset('medicio/assets/img/gallery/gallery-8.jpg') }}" class="img-fluid"
-                                alt=""></a>
+                    <div class="swiper-slide"><a class="gallery-lightbox" href="{{ asset('img/1.jpg') }}"><img
+                                src="{{ asset('img/1.jpg') }}" class="img-fluid" alt=""></a>
                     </div>
                 </div>
                 <div class="swiper-pagination"></div>
