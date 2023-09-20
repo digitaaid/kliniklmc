@@ -14,7 +14,7 @@ class DokterSeeder extends Seeder
     public function run(): void
     {
         Dokter::create([
-            "namadokter" => "dr. Mohamad Luthfi., Sp.PD., MMRS, FINASIM",
+            "namadokter" => "dr. Mohamad Luthfi, SpPD., KHOM., FINASIM., MMRS.",
             "kodedokter" => "8297",
             "kodejkn" => "8297",
             "gender" => "L",
