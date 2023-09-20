@@ -23,7 +23,13 @@
                             <td>{{ $item->sip }}</td>
                             <td>{{ $item->kodejkn }}</td>
                             <td>{{ $item->status }}</td>
-                            <td></td>
+                            <td>
+                                <x-adminlte-button class="btn-xs btnEdit" theme="warning" icon="fas fa-edit"
+                                    title="Edit Dokter {{ $item->namadokter }}" data-id="{{ $item->id }}"
+                                    data-namadokter="{{ $item->namadokter }}" data-kodedokter="{{ $item->kodedokter }}"
+                                    data-subtitle="{{ $item->subtitle }}" data-sip="{{ $item->sip }}"
+                                    data-kodejkn="{{ $item->kodejkn }}" />
+                            </td>
                         </tr>
                     @endforeach
                 </x-adminlte-datatable>
@@ -32,21 +38,57 @@
         </div>
     </div>
     <x-adminlte-modal id="modalEdit" title="Edit Dokter" theme="warning" icon="fas fa-user-plus">
-        <form name="formInput" id="formInput" method="POST">
+        <form name="formDokter" id="formDokter" method="POST">
             @csrf
-            @method('PATCH')
-            <input type="hidden" name="id" id="id" value="">
-            <x-adminlte-input name="kodedokter" placeholder="Kode BPJS" label="Kode BPJS" readonly />
-            <x-adminlte-input name="kode_paramedis" placeholder="Kode Dokter" label="Kode Dokter" readonly />
+            <input type="hidden" name="id" id="id">
+            <input type="hidden" name="_method" id="method">
             <x-adminlte-input name="namadokter" placeholder="Nama Dokter" label="Nama Dokter" />
-            <x-adminlte-input name="sip_dr" placeholder="SIP" label="SIP" />
+            <x-adminlte-input name="kodedokter" placeholder="Kode Dokter" label="Kode Dokter" />
+            <x-adminlte-input name="subtitle" placeholder="Subtitle" label="Subtitle" />
+            <x-adminlte-input name="sip" placeholder="SIP Dokter" label="SIP Dokter" />
+            <x-adminlte-input name="kodejkn" placeholder="Kode BPJS" label="Kode BPJS" />
             <x-slot name="footerSlot">
-                <x-adminlte-button class="mr-auto" type="submit" form="formInput" label="Update" theme="success"
-                    icon="fas fa-save" />
-                <x-adminlte-button theme="danger " label="Tutup" icon="fas fa-times" data-dismiss="modal" />
+                <x-adminlte-button id="btnStore" class="mr-auto" type="submit" icon="fas fa-save" theme="success"
+                    label="Simpan" />
+                <x-adminlte-button id="btnUpdate" class="mr-auto" type="submit" icon="fas fa-edit" theme="warning"
+                    label="Update" />
+                <x-adminlte-button theme="danger" icon="fas fa-times" label="Kembali" data-dismiss="modal" />
             </x-slot>
         </form>
     </x-adminlte-modal>
+    {{-- <x-adminlte-modal id="modalUser" title="User" icon="fas fa-user" theme="success" v-centered static-backdrop>
+        <form action="" id="formUser" method="POST">
+            @csrf
+            <input type="hidden" name="id" id="id">
+            <input type="hidden" name="_method" id="method">
+            <x-adminlte-input name="name" label="Nama" placeholder="Nama Lengkap" enable-old-support required />
+            <x-adminlte-select2 id="role" name="role" label="Role / Jabatan" enable-old-support required>
+                <option value="" selected disabled>Pilih Role / Jabatan</option>
+                @foreach ($roles as $item)
+                    <option value="{{ $item }}">{{ $item }}</option>
+                @endforeach
+            </x-adminlte-select2>
+            <x-adminlte-input name="phone" type="number" label="Nomor HP / Telepon"
+                placeholder="Nomor HP / Telepon yang dapat dihubungi" enable-old-support />
+            <x-adminlte-input name="email" type="email" label="Email" placeholder="Email" enable-old-support
+                required />
+            <x-adminlte-input name="username" label="Username" placeholder="Username" enable-old-support required />
+            <x-adminlte-input name="password" type="password" label="Password" placeholder="Password" required />
+            <x-adminlte-input name="password_confirmation" type="password" label="Konfirmasi Password"
+                placeholder="Konfirmasi Password" required />
+        </form>
+        <form id="formDelete" action="" method="POST">
+            @csrf
+            @method('DELETE')
+        </form>
+        <x-slot name="footerSlot">
+            <x-adminlte-button id="btnStore" class="mr-auto" type="submit" icon="fas fa-save" theme="success"
+                label="Simpan" />
+            <x-adminlte-button id="btnUpdate" class="mr-auto" type="submit" icon="fas fa-edit" theme="warning"
+                label="Update" />
+            <x-adminlte-button theme="danger" icon="fas fa-times" label="Kembali" data-dismiss="modal" />
+        </x-slot>
+    </x-adminlte-modal> --}}
 @stop
 
 @section('plugins.Select2', true)
@@ -55,25 +97,36 @@
 @section('js')
     <script>
         $(function() {
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
             $('.btnEdit').click(function() {
-                var id = $(this).data('id');
                 $.LoadingOverlay("show");
+                $('#btnStore').hide();
+                $('#btnUpdate').show();
+                $('#formDokter').trigger("reset");
+                // get
+                var id = $(this).data("id");
+                var namadokter = $(this).data("namadokter");
+                var kodedokter = $(this).data("kodedokter");
+                var subtitle = $(this).data("subtitle");
+                var sip = $(this).data("sip");
+                var kodejkn = $(this).data("kodejkn");
+                // set
+                $('#id').val(id);
+                $('#namadokter').val(namadokter);
+                $('#kodedokter').val(kodedokter);
+                $('#subtitle').val(subtitle);
+                $('#sip').val(sip);
+                $('#kodejkn').val(kodejkn);
+                $('#modalEdit').modal('show');
+                $.LoadingOverlay("hide");
+            });
+            $('#btnUpdate').click(function(e) {
+                $.LoadingOverlay("show");
+                e.preventDefault();
+                var id = $('#id').val();
                 var url = "{{ route('dokter.index') }}/" + id;
-                $.get(url, function(data) {
-                    var urlAction = "{{ route('dokter.index') }}/" + id;
-                    $('#formInput').attr('action', urlAction);
-                    $('#kodedokter').val(data.kodedokter);
-                    $('#namadokter').val(data.namadokter);
-                    $('#kode_paramedis').val(data.paramedis.kode_paramedis);
-                    $('#sip_dr').val(data.paramedis.sip_dr);
-                    $('#modalEdit').modal('show');
-                })
-                $.LoadingOverlay("hide", true);
+                $('#formDokter').attr('action', url);
+                $('#method').val('PUT');
+                $('#formDokter').submit();
             });
         });
     </script>

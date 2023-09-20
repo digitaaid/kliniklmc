@@ -30,6 +30,18 @@ class DokterController extends Controller
         Alert::success($response->metadata->message, 'Data Dokter Telah Di Refresh');
         return redirect()->route('dokter.index');
     }
+    public function update($id, Request $request)
+    {
+        $request->validate([
+            'namadokter' => 'required',
+            'kodedokter' => 'required',
+            'subtitle' => 'required',
+        ]);
+        $dokter = Dokter::find($id);
+        $dokter->update($request->all());
+        Alert::success("Success", 'Data dokter berhasil diupdate.');
+        return redirect()->route('dokter.index');
+    }
     public function dokterAntrianBpjs()
     {
         $controller = new AntrianController();
