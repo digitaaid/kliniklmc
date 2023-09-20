@@ -229,38 +229,38 @@
                 <div class="col-lg-4 col-md-6 icon-box" data-aos="zoom-in" data-aos-delay="100">
                     <div class="icon"><i class="fas fa-hospital"></i></div>
                     <h4 class="title"><a href="">Poliklinik / Rawat Jalan</a></h4>
-                    <p class="description">Voluptatum deleniti atque corrupti quos dolores et quas molestias
-                        excepturi sint occaecati cupiditate non provident</p>
+                    {{-- <p class="description">Voluptatum deleniti atque corrupti quos dolores et quas molestias
+                        excepturi sint occaecati cupiditate non provident</p> --}}
                 </div>
                 <div class="col-lg-4 col-md-6 icon-box" data-aos="zoom-in" data-aos-delay="200">
                     <div class="icon"><i class="fas fa-hand-holding-medical"></i></div>
                     <h4 class="title"><a href="">Kemoterapi</a></h4>
-                    <p class="description">Minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                        ex ea commodo consequat tarad limino ata</p>
+                    {{-- <p class="description">Minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
+                        ex ea commodo consequat tarad limino ata</p> --}}
                 </div>
                 <div class="col-lg-4 col-md-6 icon-box" data-aos="zoom-in" data-aos-delay="300">
                     <div class="icon"><i class="fas fa-vials"></i></div>
                     <h4 class="title"><a href="">Laboratorium</a></h4>
-                    <p class="description">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
-                        dolore eu fugiat nulla pariatur</p>
+                    {{-- <p class="description">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
+                        dolore eu fugiat nulla pariatur</p> --}}
                 </div>
                 <div class="col-lg-4 col-md-6 icon-box" data-aos="zoom-in" data-aos-delay="100">
                     <div class="icon"><i class="fas fa-x-ray"></i></div>
                     <h4 class="title"><a href="">Radiologi</a></h4>
-                    <p class="description">Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
-                        officia deserunt mollit anim id est laborum</p>
+                    {{-- <p class="description">Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
+                        officia deserunt mollit anim id est laborum</p> --}}
                 </div>
                 <div class="col-lg-4 col-md-6 icon-box" data-aos="zoom-in" data-aos-delay="200">
                     <div class="icon"><i class="fas fa-diagnoses"></i></div>
                     <h4 class="title"><a href="">Cytotoxic Handling</a></h4>
-                    <p class="description">At vero eos et accusamus et iusto odio dignissimos ducimus qui
-                        blanditiis praesentium voluptatum deleniti atque</p>
+                    {{-- <p class="description">At vero eos et accusamus et iusto odio dignissimos ducimus qui
+                        blanditiis praesentium voluptatum deleniti atque</p> --}}
                 </div>
                 <div class="col-lg-4 col-md-6 icon-box" data-aos="zoom-in" data-aos-delay="300">
                     <div class="icon"><i class="fas fa-pills"></i></div>
                     <h4 class="title"><a href="">Farmasi</a></h4>
-                    <p class="description">Et harum quidem rerum facilis est et expedita distinctio. Nam libero
-                        tempore, cum soluta nobis est eligendi</p>
+                    {{-- <p class="description">Et harum quidem rerum facilis est et expedita distinctio. Nam libero
+                        tempore, cum soluta nobis est eligendi</p> --}}
                 </div>
             </div>
 
@@ -318,25 +318,24 @@
             </div>
             <div class="gallery-slider swiper">
                 <div class="swiper-wrapper align-items-center">
-                    <div class="swiper-slide"><a class="gallery-lightbox" href="{{ asset('img/3.jpg') }}"><img
-                                src="{{ asset('img/3.jpg') }}" class="img-fluid" alt=""></a>
+                    <div class="swiper-slide"><a class="gallery-lightbox" href="{{ asset('img/3.jpg') }}">
+                            <img src="{{ asset('img/3.jpg') }}" class="img-fluid" alt=""></a>
+                    </div>
+                    <div class="swiper-slide"><a class="gallery-lightbox" href="{{ asset('img/2.jpg') }}">
+                            <img src="{{ asset('img/2.jpg') }}" class="img-fluid" alt=""></a>
                     </div>
 
-                    <div class="swiper-slide"><a class="gallery-lightbox" href="{{ asset('img/2.jpg') }}"><img
-                                src="{{ asset('img/2.jpg') }}" class="img-fluid" alt=""></a>
+                    <div class="swiper-slide"><a class="gallery-lightbox" href="{{ asset('img/4.jpg') }}">
+                            <img src="{{ asset('img/4.jpg') }}" class="img-fluid" alt=""></a>
                     </div>
-
-                    <div class="swiper-slide"><a class="gallery-lightbox" href="{{ asset('img/4.jpg') }}"><img
-                                src="{{ asset('img/4.jpg') }}" class="img-fluid" alt=""></a>
+                    <div class="swiper-slide"><a class="gallery-lightbox" href="{{ asset('img/5.jpg') }}">
+                            <img src="{{ asset('img/5.jpg') }}" class="img-fluid" alt=""></a>
                     </div>
-                    <div class="swiper-slide"><a class="gallery-lightbox" href="{{ asset('img/5.jpg') }}"><img
-                                src="{{ asset('img/5.jpg') }}" class="img-fluid" alt=""></a>
+                    <div class="swiper-slide"><a class="gallery-lightbox" href="{{ asset('img/6.jpg') }}">
+                            <img src="{{ asset('img/6.jpg') }}" class="img-fluid" alt=""></a>
                     </div>
-                    <div class="swiper-slide"><a class="gallery-lightbox" href="{{ asset('img/6.jpg') }}"><img
-                                src="{{ asset('img/6.jpg') }}" class="img-fluid" alt=""></a>
-                    </div>
-                    <div class="swiper-slide"><a class="gallery-lightbox" href="{{ asset('img/1.jpg') }}"><img
-                                src="{{ asset('img/1.jpg') }}" class="img-fluid" alt=""></a>
+                    <div class="swiper-slide"><a class="gallery-lightbox" href="{{ asset('img/1.jpg') }}">
+                            <img src="{{ asset('img/1.jpg') }}" class="img-fluid" alt=""></a>
                     </div>
                 </div>
                 <div class="swiper-pagination"></div>
