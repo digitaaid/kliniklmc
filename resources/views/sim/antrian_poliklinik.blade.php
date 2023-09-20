@@ -72,11 +72,11 @@
                                         @break
 
                                         @case(1)
-                                            <span class="badge badge-warning">1. Menunggu Pendaftaran</span>
+                                            <span class="badge badge-warning">97. Menunggu Pendaftaran</span>
                                         @break
 
                                         @case(2)
-                                            <span class="badge badge-primary">0. Proses Pendaftaran</span>
+                                            <span class="badge badge-primary">96. Proses Pendaftaran</span>
                                         @break
 
                                         @case(3)
@@ -108,13 +108,11 @@
                                     @endswitch
                                 </td>
                                 <td>
-                                    @if ($item->kunjungan)
-                                        @if ($item->kunjungan->asesmendokter)
+                                        @if ($item->asesmendokter)
                                             <span class="badge badge-success">Sudah Asesmen</span>
                                         @else
                                             <span class="badge badge-danger">Belum Asesmen</span>
                                         @endif
-                                    @endif
                                 </td>
                                 <td>
                                     @switch($item->taskid)
