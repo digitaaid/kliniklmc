@@ -585,6 +585,7 @@ class AntrianController extends APIController
     public function antrianperawat(Request $request)
     {
         $antrians = null;
+        $antrian_asesmen = null;
         $dokters = Dokter::where('status', '1')->pluck('namadokter', 'kodedokter');
         $polikliniks = Poliklinik::where('status', '1')->pluck('namasubspesialis', 'kodesubspesialis');
         if ($request->tanggalperiksa) {
