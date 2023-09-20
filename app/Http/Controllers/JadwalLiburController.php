@@ -32,12 +32,13 @@ class JadwalLiburController extends Controller
     {
         $jadwal = JadwalLibur::find($request->jadwallibur);
         $antrians = Antrian::whereBetween('tanggalperiksa', [$jadwal->tanggalawal, $jadwal->tanggalakhir])
+            ->where('method', '!=', 'OFFLINE')
             ->where('kodepoli', $jadwal->kodepoli)
             ->where('kodedokter', $jadwal->kodedokter)->get();
         if ($antrians->count()) {
             foreach ($antrians as  $value) {
                 $request['number'] = $value->nohp;
-                $request['message'] = "Mohon maaf, antrian atas nama pasien " . $value->nama . " pada tanggal " . $value->tanggalperiksa . " dengan nomor antrian " . $value->nomorantrean . " dibatalkan karena dokter tidak bisa hadir / diliburkan. \nSilahkan daftar ulang dijadwal hari yang lain. Terimakasih.\n\nLink Daftar : luthfimedicalcenter.com/daftar";
+                $request['message'] = "Mohon maaf, antrian atas nama pasien " . $value->nama . " pada tanggal " . $value->tanggalperiksa . " dengan nomor antrian " . $value->nomorantrean . " dibatalkan karena dokter tidak praktek / diliburkan. \n\nSilahkan daftar ulang dijadwal hari yang lain. Terimakasih.\nLink Daftar : luthfimedicalcenter.com/daftar\n\Terimakasih, \nSalam Hangat dan Sehat Selalu.";
                 $wa = new WhatsappController();
                 $wa->send_message($request);
                 Alert::success('Succes', 'Berhasil kirim pesan informasi libur');
