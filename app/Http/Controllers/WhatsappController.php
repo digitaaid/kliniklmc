@@ -17,18 +17,21 @@ class WhatsappController extends Controller
     }
     public function whatsapp(Request $request)
     {
+        $res = null;
         if ($request->message) {
             $request['number'] = "089529909036";
             $res = $this->send_message($request);
-            $request['number'] = "120363170262520539";
-            $res = $this->send_message_group($request);
+            // $request['number'] = "120363170262520539";
+            // $res = $this->send_message_group($request);
             if ($res->status == "true") {
+                $res = json_encode($res);
                 Alert::success('Success', 'Pesan testing terkirim');
             } else {
                 Alert::error('Error', 'Pesan testing gagal terkirim');
+                $res = json_encode($res);
             }
         }
-        return view('admin.whatsapp', compact(['request']));
+        return view('admin.whatsapp', compact(['request', 'res']));
         // return $response;
     }
     public function send_message(Request $request)

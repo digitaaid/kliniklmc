@@ -83,16 +83,14 @@
                 <div class="card-body">
                     <div class="tab-content">
                         <div class="active tab-pane" id="keperawatantab">
-                            @if ($kunjungan)
-                                @if ($kunjungan->asesmenperawat)
-                                    <div id="printMe">
-                                        @include('form.asesmen_perawat_rajal')
-                                    </div>
-                                @else
-                                    <x-adminlte-alert title="Belum dilakukan asesmen perawat" theme="danger">
-                                        Silahkan lakukan asesmen perawat
-                                    </x-adminlte-alert>
-                                @endif
+                            @if ($antrian->asesmenperawat)
+                                <div id="printMe">
+                                    @include('form.asesmen_perawat_rajal')
+                                </div>
+                            @else
+                                <x-adminlte-alert title="Belum dilakukan asesmen perawat" theme="danger">
+                                    Silahkan lakukan asesmen perawat
+                                </x-adminlte-alert>
                             @endif
                         </div>
                         <div class="tab-pane" id="riwayattab">

@@ -190,7 +190,7 @@
                                     </div>
                                 </div>
                                 <button type="submit" class="btn btn-success withLoad">
-                                    <i class="fas fa-edit"></i> Update Identitas
+                                    <i class="fas fa-edit"></i> Integrasi Antrian
                                 </button>
                                 <div class="btn btn-warning">
                                     <i class="fas fa-user-plus"></i> Pasien Baru

@@ -19,7 +19,7 @@
                         placeholder="Nomor Surat Kontrol" value="{{ $request->noSuratKontrol }}" required>
                 </div>
                 <div class="col text-center">
-                    <button type="submit" class="btn btn-warning preloader" form="formCekAntrian">Cek Kodebooking</button>
+                    <button type="submit" class="btn btn-warning preloader" form="formCekAntrian">Cek Surat Kontrol</button>
                 </div>
             </form>
             @if ($request->error)

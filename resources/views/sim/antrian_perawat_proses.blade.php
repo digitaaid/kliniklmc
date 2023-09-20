@@ -22,7 +22,7 @@
                 class="btn btn-danger mb-2 mr-1 withLoad">
                 <i class="fas fa-arrow-left"></i> Kembali
             </a>
-            <div class="btn btn-{{ $kunjungan->asesmenperawat ? 'success' : 'secondary' }} mb-2 mr-1">
+            <div class="btn btn-{{ $antrian->asesmenperawat ? 'success' : 'secondary' }} mb-2 mr-1">
                 <i class="fas fa-info-circle"></i>
                 Status Antrian :
                 @switch($antrian->taskid)
@@ -88,95 +88,95 @@
                                     <div class="col-md-6">
                                         <x-adminlte-textarea igroup-size="sm" rows=3 label="Keluhan Utama"
                                             name="keluhan_utama" placeholder="Keluhan Utama">
-                                            {{ $kunjungan->asesmenperawat->keluhan_utama ?? null }}
+                                            {{ $antrian->asesmenperawat->keluhan_utama ?? null }}
                                         </x-adminlte-textarea>
-                                        {{-- {{ dd($kunjungan->asesmenperawat) }} --}}
+                                        {{-- {{ dd($antrian->asesmenperawat) }} --}}
                                         <x-adminlte-textarea igroup-size="sm" rows=3 label="Riwayat Penyakit"
                                             name="riwayat_penyakit" placeholder="Riwayat Penyakit">
-                                            {{ $kunjungan->asesmenperawat->riwayat_penyakit ?? null }}
+                                            {{ $antrian->asesmenperawat->riwayat_penyakit ?? null }}
                                         </x-adminlte-textarea>
                                         <x-adminlte-textarea igroup-size="sm" rows=3 label="Riwayat Alergi"
                                             name="riwayat_alergi" placeholder="Riwayat Alergi">
-                                            {{ $kunjungan->asesmenperawat->riwayat_alergi ?? null }}
+                                            {{ $antrian->asesmenperawat->riwayat_alergi ?? null }}
                                         </x-adminlte-textarea>
                                         <x-adminlte-textarea igroup-size="sm" rows=3 label="Riwayat Pengobatan"
                                             name="riwayat_pengobatan" placeholder="Riwayat Pengobatan">
-                                            {{ $kunjungan->asesmenperawat->riwayat_pengobatan ?? null }}
+                                            {{ $antrian->asesmenperawat->riwayat_pengobatan ?? null }}
                                         </x-adminlte-textarea>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="row">
                                             <x-adminlte-input name="denyut_jantung" fgroup-class="col-md-6"
                                                 label="Denyut Jantung" igroup-size="sm" placeholder="Denyut Jantung"
-                                                value="{{ $kunjungan->asesmenperawat->denyut_jantung ?? null }}" />
+                                                value="{{ $antrian->asesmenperawat->denyut_jantung ?? null }}" />
                                             <x-adminlte-input name="pernapasan" fgroup-class="col-md-6" label="Pernapasan"
                                                 igroup-size="sm" placeholder="Pernapasan"
-                                                value="{{ $kunjungan->asesmenperawat->pernapasan ?? null }}" />
+                                                value="{{ $antrian->asesmenperawat->pernapasan ?? null }}" />
                                             <x-adminlte-input name="sistole" fgroup-class="col-md-6" label="Sistole"
                                                 igroup-size="sm" placeholder="Sistole"
-                                                value="{{ $kunjungan->asesmenperawat->sistole ?? null }}" />
+                                                value="{{ $antrian->asesmenperawat->sistole ?? null }}" />
                                             <x-adminlte-input name="distole" fgroup-class="col-md-6" label="Distole"
                                                 igroup-size="sm" placeholder="Distole"
-                                                value="{{ $kunjungan->asesmenperawat->distole ?? null }}" />
+                                                value="{{ $antrian->asesmenperawat->distole ?? null }}" />
                                             <x-adminlte-input name="suhu" fgroup-class="col-md-6" label="Suhu Tubuh"
                                                 igroup-size="sm" placeholder="Suhu Tubuh"
-                                                value="{{ $kunjungan->asesmenperawat->suhu ?? null }}" />
+                                                value="{{ $antrian->asesmenperawat->suhu ?? null }}" />
                                             <x-adminlte-input name="berat_badan" fgroup-class="col-md-6" label="Berat Batan"
                                                 igroup-size="sm" placeholder="Berat Batan"
-                                                value="{{ $kunjungan->asesmenperawat->berat_badan ?? null }}" />
+                                                value="{{ $antrian->asesmenperawat->berat_badan ?? null }}" />
                                             <x-adminlte-input name="tinggi_badan" fgroup-class="col-md-6"
                                                 label="Tinggi Badan" igroup-size="sm" placeholder="Tinggi Badan"
-                                                value="{{ $kunjungan->asesmenperawat->tinggi_badan ?? null }}" />
+                                                value="{{ $antrian->asesmenperawat->tinggi_badan ?? null }}" />
                                             <x-adminlte-input name="bsa" fgroup-class="col-md-6" label="Index BSA"
                                                 igroup-size="sm" placeholder="Index BSA"
-                                                value="{{ $kunjungan->asesmenperawat->bsa ?? null }}" />
+                                                value="{{ $antrian->asesmenperawat->bsa ?? null }}" />
                                         </div>
                                         <div class="form-group">
                                             <div class="custom-control custom-radio">
                                                 <input class="custom-control-input" type="radio" id="kesadaran1"
                                                     name="tingkat_kesadaran" value="1"
-                                                    {{ $kunjungan->asesmenperawat ? ($kunjungan->asesmenperawat->tingkat_kesadaran == 1 ? 'checked' : null) : null }}>
+                                                    {{ $antrian->asesmenperawat ? ($antrian->asesmenperawat->tingkat_kesadaran == 1 ? 'checked' : null) : null }}>
                                                 <label for="kesadaran1" class="custom-control-label">Sadar baik</label>
                                             </div>
                                             <div class="custom-control custom-radio">
                                                 <input class="custom-control-input" type="radio" id="kesadaran2"
                                                     name="tingkat_kesadaran" value="2"
-                                                    {{ $kunjungan->asesmenperawat ? ($kunjungan->asesmenperawat->tingkat_kesadaran == 2 ? 'checked' : null) : null }}>
+                                                    {{ $antrian->asesmenperawat ? ($antrian->asesmenperawat->tingkat_kesadaran == 2 ? 'checked' : null) : null }}>
                                                 <label for="kesadaran2" class="custom-control-label">Berespon dengan
                                                     kata-kata</label>
                                             </div>
                                             <div class="custom-control custom-radio">
                                                 <input class="custom-control-input" type="radio" id="kesadaran3"
                                                     name="tingkat_kesadaran" value="3"
-                                                    {{ $kunjungan->asesmenperawat ? ($kunjungan->asesmenperawat->tingkat_kesadaran == 3 ? 'checked' : null) : null }}>
+                                                    {{ $antrian->asesmenperawat ? ($antrian->asesmenperawat->tingkat_kesadaran == 3 ? 'checked' : null) : null }}>
                                                 <label for="kesadaran3" class="custom-control-label">Hanya berespons jika
                                                     dirangsang nyeri/pain</label>
                                             </div>
                                             <div class="custom-control custom-radio">
                                                 <input class="custom-control-input" type="radio" id="kesadaran4"
                                                     name="tingkat_kesadaran" value="4"
-                                                    {{ $kunjungan->asesmenperawat ? ($kunjungan->asesmenperawat->tingkat_kesadaran == 4 ? 'checked' : null) : null }}>
+                                                    {{ $antrian->asesmenperawat ? ($antrian->asesmenperawat->tingkat_kesadaran == 4 ? 'checked' : null) : null }}>
                                                 <label for="kesadaran4" class="custom-control-label">Pasien tidak
                                                     sadar/unresponsive </label>
                                             </div>
                                             <div class="custom-control custom-radio">
                                                 <input class="custom-control-input" type="radio" id="kesadaran5"
                                                     name="tingkat_kesadaran" value="5"
-                                                    {{ $kunjungan->asesmenperawat ? ($kunjungan->asesmenperawat->tingkat_kesadaran == 5 ? 'checked' : null) : null }}>
+                                                    {{ $antrian->asesmenperawat ? ($antrian->asesmenperawat->tingkat_kesadaran == 5 ? 'checked' : null) : null }}>
                                                 <label for="kesadaran5" class="custom-control-label">Gelisah /
                                                     bingung</label>
                                             </div>
                                             <div class="custom-control custom-radio">
                                                 <input class="custom-control-input" type="radio" id="kesadaran6"
                                                     name="tingkat_kesadaran" value="6"
-                                                    {{ $kunjungan->asesmenperawat ? ($kunjungan->asesmenperawat->tingkat_kesadaran == 6 ? 'checked' : null) : null }}>
+                                                    {{ $antrian->asesmenperawat ? ($antrian->asesmenperawat->tingkat_kesadaran == 6 ? 'checked' : null) : null }}>
                                                 <label for="kesadaran6" class="custom-control-label">Acute Confusional
                                                     State</label>
                                             </div>
                                         </div>
                                         <x-adminlte-textarea igroup-size="sm" rows=4 label="Tanda Vital Keadaan Tubuh"
                                             name="keadaan_tubuh" placeholder="Tanda Vital Fisik">
-                                            {{ $kunjungan->asesmenperawat->keadaan_tubuh ?? null }}
+                                            {{ $antrian->asesmenperawat->keadaan_tubuh ?? null }}
                                         </x-adminlte-textarea>
                                     </div>
                                 </div>
@@ -185,15 +185,15 @@
                                     <div class="col-md-6">
                                         <x-adminlte-textarea igroup-size="sm" rows=2 label="Status Psikologi"
                                             name="status_psikologi" placeholder="Status Psikologi">
-                                            {{ $kunjungan->asesmenperawat->status_psikologi ?? null }}
+                                            {{ $antrian->asesmenperawat->status_psikologi ?? null }}
                                         </x-adminlte-textarea>
                                         <x-adminlte-textarea igroup-size="sm" rows=2 label="Status Sosial"
                                             name="status_sosial" placeholder="Status Sosial">
-                                            {{ $kunjungan->asesmenperawat->status_sosial ?? null }}
+                                            {{ $antrian->asesmenperawat->status_sosial ?? null }}
                                         </x-adminlte-textarea>
                                         <x-adminlte-textarea igroup-size="sm" rows=2 label="Status Spiritual"
                                             name="status_spiritual" placeholder="Status Spiritual">
-                                            {{ $kunjungan->asesmenperawat->status_spiritual ?? null }}
+                                            {{ $antrian->asesmenperawat->status_spiritual ?? null }}
                                         </x-adminlte-textarea>
                                     </div>
                                     <div class="col-md-6">
@@ -206,7 +206,7 @@
                         </div>
                         <div class="tab-pane" id="resumetab">
                             @if ($kunjungan)
-                                @if ($kunjungan->asesmenperawat)
+                                @if ($antrian->asesmenperawat)
                                     <div id="printMe">
                                         @include('form.asesmen_perawat_rajal')
                                     </div>

@@ -12,7 +12,7 @@
                 <a href="https://wwebjs.dev" target="_blank">https://wwebjs.dev</a>
                 <br>
                 Whatsapp URL :
-                <a href="http://{{ env('WHATASAPP_URL') }}" target="_blank">http://{{ env('WHATASAPP_URL') }}</a>
+                <a href="{{ env('WHATASAPP_URL') }}" target="_blank">http://{{ env('WHATASAPP_URL') }}</a>
                 <br>
                 <br>
                 <form action="">
@@ -22,6 +22,9 @@
                     </x-adminlte-textarea>
                     <x-adminlte-button icon="fas fa-paper-plane" type="submit" theme="success" label="Send Test Message" />
                 </form>
+                <p>
+                    {{ $res }}
+                </p>
             </x-adminlte-card>
         </div>
     </div>
