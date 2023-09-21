@@ -14,7 +14,8 @@
                                 $config = ['format' => 'YYYY-MM-DD'];
                             @endphp
                             <x-adminlte-input-date name="tgl_masuk" label="Tanggal Masuk Kunjungan"
-                                value="{{ $request->tanggalperiksa }}" placeholder="Pilih Tanggal" :config="$config">
+                                value="{{ $request->tgl_masuk ?? now()->format('Y-m-d') }}" placeholder="Pilih Tanggal"
+                                :config="$config">
                                 <x-slot name="prependSlot">
                                     <div class="input-group-text bg-primary">
                                         <i class="fas fa-calendar-alt"></i>
@@ -52,13 +53,24 @@
                 </div> --}}
                 <x-adminlte-card title="Data Kunjungan Pasien" theme="warning" icon="fas fa-info-circle" collapsible>
                     @php
-                        $heads = ['No', 'Tgl Masuk', 'Tgl Pulang', 'Counter / Kode', 'Jaminan', 'Pasien', 'Status', 'Action'];
-                        $config['order'] = [[8, 'asc']];
+                        $heads = ['No', 'Tgl Masuk', 'Counter / Kode', 'Pasien', 'Jaminan', 'Jenis Kunjungan', 'Status'];
+                        $config['order'] = [1, 'asc'];
                         $config['paging'] = false;
                         $config['scrollY'] = '300px';
                     @endphp
                     <x-adminlte-datatable id="table1" class="nowrap" :heads="$heads" :config="$config" bordered
                         hoverable compressed>
+                        @foreach ($kunjungans as $item)
+                            <tr>
+                                <td>{{ $loop->iteration }}</td>
+                                <td>{{ $item->tgl_masuk }}</td>
+                                <td>{{ $item->counter }} / {{ $item->kode }}</td>
+                                <td>{{ $item->norm }} {{ $item->nama }}</td>
+                                <td>{{ $item->jaminan }}</td>
+                                <td>{{ $item->jeniskunjungan }}</td>
+                                <td>{{ $item->status }}</td>
+                            </tr>
+                        @endforeach
                     </x-adminlte-datatable>
                 </x-adminlte-card>
             </div>
