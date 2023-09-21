@@ -43,11 +43,11 @@
                             {{ $kunjungan->asesmenperawat->pernapasan ?? null }} spm
                             <br>
                             <b>Suhu Tubuh : </b>
-                            {{ $kunjungan->asesmenperawat->suhu ?? null }} spm <br>
+                            {{ $kunjungan->asesmenperawat->suhu ?? null }} celcius <br>
                             <b>Tekanan Darah </b> <br>
                             <b>Sistole : </b>
                             {{ $kunjungan->asesmenperawat->sistole ?? null }} /
-                            <b>Distole : </b>
+                            <b>Diastole : </b>
                             {{ $kunjungan->asesmenperawat->distole ?? null }}
                             <br>
                         </div>

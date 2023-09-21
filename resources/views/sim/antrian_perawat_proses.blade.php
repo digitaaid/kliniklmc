@@ -116,8 +116,8 @@
                                             <x-adminlte-input name="sistole" fgroup-class="col-md-6" label="Sistole"
                                                 igroup-size="sm" placeholder="Sistole"
                                                 value="{{ $antrian->asesmenperawat->sistole ?? null }}" />
-                                            <x-adminlte-input name="distole" fgroup-class="col-md-6" label="Distole"
-                                                igroup-size="sm" placeholder="Distole"
+                                            <x-adminlte-input name="distole" fgroup-class="col-md-6" label="Diastole"
+                                                igroup-size="sm" placeholder="Diastole"
                                                 value="{{ $antrian->asesmenperawat->distole ?? null }}" />
                                             <x-adminlte-input name="suhu" fgroup-class="col-md-6"
                                                 label="Suhu Tubuh (celcius)" igroup-size="sm"

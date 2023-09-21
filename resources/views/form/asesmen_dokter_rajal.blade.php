@@ -47,7 +47,7 @@
                             <b>Tekanan Darah </b> <br>
                             <b>Sistole : </b>
                             {{ $kunjungan->asesmenperawat->sistole ?? null }} /
-                            <b>Distole : </b>
+                            <b>Diastole : </b>
                             {{ $kunjungan->asesmenperawat->distole ?? null }}
                             <br>
                         </div>
