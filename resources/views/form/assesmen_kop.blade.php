@@ -18,7 +18,9 @@
         <div>
             No RM : <b>{{ $kunjungan->norm }}</b> <br>
             Nama : <b>{{ $kunjungan->nama }}</b> <br>
-            Tgl Lahir : <b>{{ $kunjungan->tgl_lahir }}</b> <br>
+            Tgl Lahir : <b>{{ $kunjungan->tgl_lahir }}
+                ({{ \Carbon\Carbon::parse($kunjungan->tgl_lahir)->diffInYears($kunjungan->tgl_masuk) }}
+                tahun)</b> <br>
             Kelamin : <b>{{ $kunjungan->gender }}</b>
         </div>
     </div>

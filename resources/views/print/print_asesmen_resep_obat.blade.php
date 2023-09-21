@@ -24,17 +24,14 @@
                             <b>
                                 No RM : {{ $kunjungan->norm }} <br>
                                 Nama : {{ $kunjungan->nama }} <br>
-                                Tgl Lahir : {{ $kunjungan->tgl_lahir }} <br>
+                                Tgl Lahir : {{ $kunjungan->tgl_lahir }}
+                                ({{ \Carbon\Carbon::parse($kunjungan->tgl_lahir)->diffInYears($kunjungan->tgl_masuk) }}
+                                tahun) <br>
                                 Kelamin : {{ $kunjungan->gender }}
                             </b>
                         </div>
                         <div class="col-md-8  border border-dark">
-                            <b>Tgl</b> : {{ $antrian->asesmendokter->waktu ?? '-' }}<br>
                             <dl>
-                                <dt>Riwayat Alergi Obat :</dt>
-                                <dd>
-                                    <pre>{{ $antrian->asesmenperawat->riwayat_alergi ?? null }}</pre>
-                                </dd>
                                 <dt>Resep Obat :</dt>
                                 <dd>
                                     <pre>{{ $antrian->asesmendokter->resep_obat ?? null }}</pre>
@@ -49,6 +46,7 @@
                             <div class="row">
                                 <div class="col-md-12 border border-dark">
                                     <b>Barat Badan</b> : {{ $antrian->asesmenperawat->berat_badan ?? '-' }} kg<br>
+                                    <b>Tgl</b> : {{ $antrian->asesmendokter->waktu ?? '-' }}<br>
                                     <dl>
                                         <dt>Unit :</dt>
                                         <dd>
@@ -57,6 +55,10 @@
                                         <dt>Dokter :</dt>
                                         <dd>
                                             {{ $antrian->namadokter ?? '-' }}
+                                        </dd>
+                                        <dt>Riwayat Alergi Obat :</dt>
+                                        <dd>
+                                            <pre>{{ $antrian->asesmenperawat->riwayat_alergi ?? null }}</pre>
                                         </dd>
                                     </dl>
                                 </div>
@@ -116,7 +118,7 @@
                             <div class="row">
                                 <div class="col-md-12 border border-dark text-center">
                                     <b>Menerima Obat Beserta Informasi</b>
-                                    <br><br><br>
+                                    <br><br>
                                     (Pasien / Keluarga)
                                 </div>
                             </div>
@@ -130,8 +132,8 @@
                                 <div class="col-md-6 border border-dark text-center"><b>Menjadi</b></div>
                             </div>
                             <div class="row">
-                                <div class="col-md-6 border border-dark text-center"><br><br><br></div>
-                                <div class="col-md-6 border border-dark text-center"><br><br><br></div>
+                                <div class="col-md-6 border border-dark text-center"><br><br></div>
+                                <div class="col-md-6 border border-dark text-center"><br><br></div>
                             </div>
 
                         </div>
@@ -141,9 +143,9 @@
                                 <div class="col-md-6 border border-dark text-center"><b>Disetujui</b></div>
                             </div>
                             <div class="row">
-                                <div class="col-md-6 border border-dark text-center"><br><br><br>{{ Auth::user()->name }}
+                                <div class="col-md-6 border border-dark text-center"><br><br>{{ Auth::user()->name }}
                                 </div>
-                                <div class="col-md-6 border border-dark text-center"><br><br><br>..................</div>
+                                <div class="col-md-6 border border-dark text-center"><br><br>..................</div>
                             </div>
                         </div>
                     </div>
@@ -170,6 +172,8 @@
         pre {
             border: none;
             outline: none;
+            padding: 0 !important;
+            font-size: 15px !important;
         }
 
         .main-footer {
