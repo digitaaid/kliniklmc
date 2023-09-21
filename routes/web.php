@@ -63,6 +63,12 @@ Route::put('suratkontrol_update_web', [SuratKontrolController::class, 'suratkont
 // display antrian
 Route::get('displayantrian', [AntrianController::class, 'displayAntrian'])->name('displayantrian');
 Route::get('displaynomor', [AntrianController::class, 'displaynomor'])->name('displaynomor');
+// anjungan
+Route::get('anjunganantrian', [AntrianController::class, 'anjunganantrian'])->name('anjunganantrian');
+Route::get('checkinantrian', [AntrianController::class, 'checkinantrian'])->name('checkinantrian');
+Route::get('ambilkarcis', [AntrianController::class, 'ambilkarcis'])->name('ambilkarcis');
+Route::get('karcisantrian', [AntrianController::class, 'karcisantrian'])->name('karcisantrian');
+Route::get('testprinterthermal', [ThermalPrintController::class, 'testprinterthermal'])->name('testprinterthermal');
 
 
 Route::middleware('auth')->group(function () {
@@ -96,18 +102,11 @@ Route::middleware('auth')->group(function () {
     Route::resource('antrian', AntrianController::class);
     Route::resource('kunjungan', KunjunganController::class);
     Route::resource('suratkontrol', SuratKontrolController::class);
-
     Route::get('kirimpesanlibur', [JadwalLiburController::class, 'kirimpesanlibur'])->name('kirimpesanlibur');
     // form
     Route::get('form_identitaspasien', [FormController::class, 'form_identitaspasien'])->name('form_identitaspasien');
     Route::get('form_assesmentrajal', [FormController::class, 'form_assesmentrajal'])->name('form_assesmentrajal');
     Route::get('form_assesmentdokter', [FormController::class, 'form_assesmentdokter'])->name('form_assesmentdokter');
-    // anjungan
-    Route::get('anjunganantrian', [AntrianController::class, 'anjunganantrian'])->name('anjunganantrian');
-    Route::get('checkinantrian', [AntrianController::class, 'checkinantrian'])->name('checkinantrian');
-    Route::get('ambilkarcis', [AntrianController::class, 'ambilkarcis'])->name('ambilkarcis');
-    Route::get('karcisantrian', [AntrianController::class, 'karcisantrian'])->name('karcisantrian');
-    Route::get('testprinterthermal', [ThermalPrintController::class, 'testprinterthermal'])->name('testprinterthermal');
     // pendaftaran
     Route::get('antrianpendaftaran', [AntrianController::class, 'antrianpendaftaran'])->name('antrianpendaftaran');
     Route::get('prosespendaftaran', [AntrianController::class, 'prosespendaftaran'])->name('prosespendaftaran');
