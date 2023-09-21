@@ -143,8 +143,7 @@
                                 <div class="col-md-6 border border-dark text-center"><b>Disetujui</b></div>
                             </div>
                             <div class="row">
-                                <div class="col-md-6 border border-dark text-center"><br><br>{{ Auth::user()->name }}
-                                </div>
+                                <div class="col-md-6 border border-dark text-center"><br><br>..................</div>
                                 <div class="col-md-6 border border-dark text-center"><br><br>..................</div>
                             </div>
                         </div>
