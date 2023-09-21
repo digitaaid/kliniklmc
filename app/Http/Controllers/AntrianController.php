@@ -462,6 +462,41 @@ class AntrianController extends APIController
             $res =  $this->tambah_antrean($request);
             $antrian->update($request->all());
             if ($res->metadata->code == 200) {
+                try {
+                    $wapi = new WhatsappController();
+                    switch ($request->jeniskunjungan) {
+                        case 1:
+                            $jeniskunjungan = "Rujukan FKTP";
+                            break;
+
+                        case 2:
+                            $jeniskunjungan = "Umum";
+                            break;
+
+                        case 3:
+                            $jeniskunjungan = "Surat Kontrol";
+                            break;
+
+                        case 4:
+                            $jeniskunjungan = "Rujukan Antar RS";
+                            break;
+
+                        default:
+                            $jeniskunjungan = "-";
+                            break;
+                    }
+                    $request['keterangan'] = "Silahkan menunggu untuk mendapatkan pelayanan. (TIKET MOHON TIDAK HILANG SAMPAI DENGAN SELESAI PELAYANAN)";
+                    $request['message'] = "*Pendaftaran Berhasil*\nAntrian anda berhasil didaftarkan ke sistem KLINIK LMC dengan data sebagai berikut : \n\n*Kode Antrian :* " . $request->kodebooking .  "\n*Angka Antrian :* " . $request->angkaantrean .  "\n*Nomor Antrian :* " . $request->nomorantrean . "\n*Jenis Pasien :* " . $request->jenispasien .  "\n*Jenis Kunjungan :* " . $jeniskunjungan .  "\n\n*Nama :* " . $request->nama . "\n*Poliklinik :* " . $request->namapoli  . "\n*Dokter :* " . $request->namadokter  .  "\n*Jam Praktek :* " . $request->jampraktek  .  "\n*Tanggal Periksa :* " . $request->tanggalperiksa . "\n\n*Keterangan :* " . $request->keterangan  .  "\n\nLink Kodebooking QR Code :\nhttps://luthfimedicalcenter.com/statusantrian?kodebooking=" . $request->kodebooking . "\n\nTerima kasih. \nSalam Hangat dan Sehat Selalu.\nUntuk pertanyaan & pengaduan silahkan hubungi :\n*Customer Care KLINIK LMC (0231)8850943 / 0823 1169 6919*";
+                    $request['number'] = $request->nohp;
+                    $wapi->send_message($request);
+                    $request['number'] = '089529909036';
+                    $wapi->send_message($request);
+                    $request['message'] = "Berhasil integrasi antrian \nAngka antrian : " . $request->angkaantrean . "\nKodebooking : " . $request->kodebooking .  "\nJenis Pasien : " . $request->jenispasien . "\nNama " . $request->nama . "\nTanggal Periksa " . $request->tanggalperiksa . "\nDokter : " . $request->namadokter;
+                    $request['number'] = "120363170262520539";
+                    $wapi->send_message_group($request);
+                } catch (\Throwable $th) {
+                    //throw $th;
+                }
                 Alert::success('Success', 'Antrian telah diperbaharui.');
             } else {
                 Alert::error('Mohon Maaf', $res->metadata->message);
