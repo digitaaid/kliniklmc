@@ -19,8 +19,8 @@
                                 </div>
                             </div>
                             <div class="col-md-6 text-md-end">
-                                <p>Kontak: email@example.com</p>
-                                <p>Telepon: (123) 456-7890</p>
+                                <p>Whatsapp : 0823 1169 6919</p>
+                                <p>Telepon : (0231) 8850943</p>
                             </div>
                         </div>
                     </div>

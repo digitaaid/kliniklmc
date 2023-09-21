@@ -107,10 +107,11 @@
                                     <div class="col-md-6">
                                         <div class="row">
                                             <x-adminlte-input name="denyut_jantung" fgroup-class="col-md-6"
-                                                label="Denyut Jantung" igroup-size="sm" placeholder="Denyut Jantung"
+                                                label="Denyut Jantung (spm)" igroup-size="sm"
+                                                placeholder="Denyut Jantung (spm)"
                                                 value="{{ $antrian->asesmenperawat->denyut_jantung ?? null }}" />
-                                            <x-adminlte-input name="pernapasan" fgroup-class="col-md-6" label="Pernapasan"
-                                                igroup-size="sm" placeholder="Pernapasan"
+                                            <x-adminlte-input name="pernapasan" fgroup-class="col-md-6"
+                                                label="Pernapasan (spm)" igroup-size="sm" placeholder="Pernapasan (spm)"
                                                 value="{{ $antrian->asesmenperawat->pernapasan ?? null }}" />
                                             <x-adminlte-input name="sistole" fgroup-class="col-md-6" label="Sistole"
                                                 igroup-size="sm" placeholder="Sistole"
@@ -118,14 +119,15 @@
                                             <x-adminlte-input name="distole" fgroup-class="col-md-6" label="Distole"
                                                 igroup-size="sm" placeholder="Distole"
                                                 value="{{ $antrian->asesmenperawat->distole ?? null }}" />
-                                            <x-adminlte-input name="suhu" fgroup-class="col-md-6" label="Suhu Tubuh"
-                                                igroup-size="sm" placeholder="Suhu Tubuh"
+                                            <x-adminlte-input name="suhu" fgroup-class="col-md-6"
+                                                label="Suhu Tubuh (celcius)" igroup-size="sm"
+                                                placeholder="Suhu Tubuh (celcius)"
                                                 value="{{ $antrian->asesmenperawat->suhu ?? null }}" />
-                                            <x-adminlte-input name="berat_badan" fgroup-class="col-md-6" label="Berat Batan"
-                                                igroup-size="sm" placeholder="Berat Batan"
+                                            <x-adminlte-input name="berat_badan" fgroup-class="col-md-6"
+                                                label="Berat Badan (kg)" igroup-size="sm" placeholder="Berat Badan (kg)"
                                                 value="{{ $antrian->asesmenperawat->berat_badan ?? null }}" />
                                             <x-adminlte-input name="tinggi_badan" fgroup-class="col-md-6"
-                                                label="Tinggi Badan" igroup-size="sm" placeholder="Tinggi Badan"
+                                                label="Tinggi Badan (cm)" igroup-size="sm" placeholder="Tinggi Badan (cm)"
                                                 value="{{ $antrian->asesmenperawat->tinggi_badan ?? null }}" />
                                         </div>
                                         <div class="form-group">

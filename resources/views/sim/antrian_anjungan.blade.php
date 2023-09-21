@@ -21,8 +21,8 @@
                                     </div>
                                 </div>
                                 <div class="col-md-6 text-md-end">
-                                    <p>Kontak: email@example.com</p>
-                                    <p>Telepon: (123) 456-7890</p>
+                                    <p>Whatsapp : 0823 1169 6919</p>
+                                    <p>Telepon : (0231) 8850943</p>
                                 </div>
                             </div>
                         </div>
@@ -64,11 +64,13 @@
                                     </div>
                                 </div>
                             </div>
-                            <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                            <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button"
+                                data-slide="prev">
                                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                                 <span class="sr-only">Previous</span>
                             </a>
-                            <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                            <a class="carousel-control-next" href="#carouselExampleIndicators" role="button"
+                                data-slide="next">
                                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
                                 <span class="sr-only">Next</span>
                             </a>
