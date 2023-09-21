@@ -34,7 +34,7 @@
                             <dl>
                                 <dt>Resep Obat :</dt>
                                 <dd>
-                                    <pre>{{ $antrian->asesmendokter->resep_obat ?? null }}</pre>
+                                    <pre id="resepobat">{{ $antrian->asesmendokter->resep_obat ?? null }}</pre>
                                 </dd>
                                 <dt>Catatan Resep :</dt>
                                 <dd>
@@ -173,7 +173,14 @@
             border: none;
             outline: none;
             padding: 0 !important;
-            font-size: 15px !important;
+            font-size: 15px;
+        }
+
+        #resepobat {
+            font-size: 22px !important;
+            border: none;
+            outline: none;
+            padding: 0 !important;
         }
 
         .main-footer {
