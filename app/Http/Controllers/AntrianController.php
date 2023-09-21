@@ -686,6 +686,13 @@ class AntrianController extends APIController
         Alert::success('Success', 'Simpan Assemen Keperawatan.');
         return redirect()->back();
     }
+    function uploadpenunjang(Request $request)
+    {
+        $url = 'http://103.39.50.206/lmc/public/uploadfile';
+        $res = Http::post($url, $request);
+        dd($res, json_decode($res->body()), $res->status());
+    }
+
     // poliklinik
     public function antrianpoliklinik(Request $request)
     {

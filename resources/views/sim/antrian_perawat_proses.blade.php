@@ -71,6 +71,9 @@
                         <li class="nav-item"><a class="nav-link active" href="#keperawatantab"
                                 data-toggle="tab">Keperawatan</a>
                         </li>
+                        <li class="nav-item"><a class="nav-link" href="#filepenunjangtab" data-toggle="tab">File
+                                Penunjang</a>
+                        </li>
                         <li class="nav-item"><a class="nav-link" href="#resumetab" data-toggle="tab">Resume</a>
                         </li>
                     </ul>
@@ -127,7 +130,8 @@
                                                 label="Berat Badan (kg)" igroup-size="sm" placeholder="Berat Badan (kg)"
                                                 value="{{ $antrian->asesmenperawat->berat_badan ?? null }}" />
                                             <x-adminlte-input name="tinggi_badan" fgroup-class="col-md-6"
-                                                label="Tinggi Badan (cm)" igroup-size="sm" placeholder="Tinggi Badan (cm)"
+                                                label="Tinggi Badan (cm)" igroup-size="sm"
+                                                placeholder="Tinggi Badan (cm)"
                                                 value="{{ $antrian->asesmenperawat->tinggi_badan ?? null }}" />
                                         </div>
                                         <div class="form-group">
@@ -203,6 +207,21 @@
                                 </button>
                             </form>
                         </div>
+                        <div class="tab-pane" id="filepenunjangtab">
+                            <form action="{{ route('uploadpenunjang') }}" method="POST" enctype="multipart/form-data">
+                                @csrf
+                                <input type="hidden" name="kodebooking" value="{{ $antrian->kodebooking }}">
+                                <input type="hidden" name="antrian_id" value="{{ $antrian->id }}">
+                                <input type="hidden" name="kodekunjungan"
+                                    value="{{ $antrian->kunjungan->kode ?? null }}">
+                                <input type="hidden" name="kunjungan_id" value="{{ $antrian->kunjungan->id ?? null }}">
+                                <x-adminlte-input name="nama" placeholder="Nama / Keterangan File" igroup-size="sm" label="Nama File" enable-old-support
+                                    required />
+                                <x-adminlte-input-file name="file" placeholder="Pilih file yang akan diupload" igroup-size="sm" label="Upload Image" required />
+                                <x-adminlte-button type="submit" icon="fas fa-save" theme="success"
+                                    icon="fas fa-upload" label="Upload" />
+                            </form>
+                        </div>
                         <div class="tab-pane" id="resumetab">
                             @if ($kunjungan)
                                 @if ($antrian->asesmenperawat)
@@ -228,7 +247,7 @@
 @section('plugins.DateRangePicker', true)
 @section('plugins.Sweetalert2', true)
 @section('plugins.Select2', true)
-
+@section('plugins.BsCustomFileInput', true)
 @section('js')
 
 @endsection

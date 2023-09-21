@@ -36,48 +36,33 @@
                         </ol>
                         <div class="carousel-inner">
                             <div class="carousel-item active">
-                                <img class="d-block w-100" src="{{ asset('img/1.jpg') }}" alt="First slide">
-                                <div class="carousel-caption d-none d-md-block">
-                                    <h5>...</h5>
-                                    <p>...</p>
-                                </div>
-                            </div>
-                            <div class="carousel-item active">
-                                <img class="d-block w-100" src="{{ asset('img/2.jpg') }}" alt="First slide">
-                                <div class="carousel-caption d-none d-md-block">
-                                    <h5>...</h5>
-                                    <p>...</p>
-                                </div>
-                            </div>
-                            <div class="carousel-item active">
                                 <img class="d-block w-100" src="{{ asset('img/3.jpg') }}" alt="First slide">
                                 <div class="carousel-caption d-none d-md-block">
                                     <h5>...</h5>
                                     <p>...</p>
                                 </div>
                             </div>
-                            <div class="carousel-item active">
+                            <div class="carousel-item">
                                 <img class="d-block w-100" src="{{ asset('img/4.jpg') }}" alt="First slide">
                                 <div class="carousel-caption d-none d-md-block">
                                     <h5>...</h5>
                                     <p>...</p>
                                 </div>
                             </div>
-                            <div class="carousel-item active">
+                            <div class="carousel-item">
                                 <img class="d-block w-100" src="{{ asset('img/5.jpg') }}" alt="First slide">
                                 <div class="carousel-caption d-none d-md-block">
                                     <h5>...</h5>
                                     <p>...</p>
                                 </div>
                             </div>
-                            <div class="carousel-item active">
+                            <div class="carousel-item">
                                 <img class="d-block w-100" src="{{ asset('img/6.jpg') }}" alt="First slide">
                                 <div class="carousel-caption d-none d-md-block">
                                     <h5>...</h5>
                                     <p>...</p>
                                 </div>
                             </div>
-
                         </div>
                         <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
                             <span class="carousel-control-prev-icon" aria-hidden="true"></span>

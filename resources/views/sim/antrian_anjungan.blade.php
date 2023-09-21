@@ -40,24 +40,28 @@
                             </ol>
                             <div class="carousel-inner">
                                 <div class="carousel-item active">
-                                    <img class="d-block w-100" src="{{ asset('medicio/assets/img/slide/slide-1.jpg') }}"
-                                        alt="First slide">
+                                    <img class="d-block w-100" src="{{ asset('img/3.jpg') }}" alt="First slide">
                                     <div class="carousel-caption d-none d-md-block">
                                         <h5>...</h5>
                                         <p>...</p>
                                     </div>
                                 </div>
                                 <div class="carousel-item">
-                                    <img class="d-block w-100" src="{{ asset('medicio/assets/img/slide/slide-2.jpg') }}"
-                                        alt="Second slide">
+                                    <img class="d-block w-100" src="{{ asset('img/4.jpg') }}" alt="First slide">
                                     <div class="carousel-caption d-none d-md-block">
                                         <h5>...</h5>
                                         <p>...</p>
                                     </div>
                                 </div>
                                 <div class="carousel-item">
-                                    <img class="d-block w-100" src="{{ asset('medicio/assets/img/slide/slide-3.jpg') }}"
-                                        alt="Third slide">
+                                    <img class="d-block w-100" src="{{ asset('img/5.jpg') }}" alt="First slide">
+                                    <div class="carousel-caption d-none d-md-block">
+                                        <h5>...</h5>
+                                        <p>...</p>
+                                    </div>
+                                </div>
+                                <div class="carousel-item">
+                                    <img class="d-block w-100" src="{{ asset('img/6.jpg') }}" alt="First slide">
                                     <div class="carousel-caption d-none d-md-block">
                                         <h5>...</h5>
                                         <p>...</p>
@@ -119,7 +123,8 @@
                         <x-adminlte-input name="kodebooking" label="Silahkan scan QR Code Antrian atau masukan Kode Antrian"
                             placeholder="Masukan Kode Antrian untuk Checkin" igroup-size="lg">
                             <x-slot name="appendSlot">
-                                <x-adminlte-button name="btn_checkin" id="btn_checkin" theme="success" label="Checkin!" />
+                                <x-adminlte-button name="btn_checkin" id="btn_checkin" theme="success"
+                                    label="Checkin!" />
                             </x-slot>
                             <x-slot name="prependSlot">
                                 <div class="input-group-text text-success">

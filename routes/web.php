@@ -119,6 +119,7 @@ Route::middleware('auth')->group(function () {
     Route::get('antrianperawat', [AntrianController::class, 'antrianperawat'])->name('antrianperawat');
     Route::get('prosesperawat', [AntrianController::class, 'prosesperawat'])->name('prosesperawat');
     Route::post('editasesmenperawat', [AntrianController::class, 'editasesmenperawat'])->name('editasesmenperawat');
+    Route::post('uploadpenunjang', [AntrianController::class, 'uploadpenunjang'])->name('uploadpenunjang');
     // poliklinik
     Route::get('antrianpoliklinik', [AntrianController::class, 'antrianpoliklinik'])->name('antrianpoliklinik');
     Route::get('prosespoliklinik', [AntrianController::class, 'prosespoliklinik'])->name('prosespoliklinik');
