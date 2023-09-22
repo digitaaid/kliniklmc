@@ -910,12 +910,12 @@ class AntrianController extends APIController
         $request['keterangan'] = "Pasien dilanjutkan ke farmasi";
         try {
             $res = $this->update_antrean($request);
-            if ($res->metadata->code == 200) {
-                $antrian->update($request->all());
-                $request['nomorantrean'] = $antrian->angkaantrean;
-                $request['jenisresep'] = 'racikan';
-                $res_farmasi = $this->tambah_antrean_farmasi($request);
-            }
+            // if ($res->metadata->code == 200) {
+            $antrian->update($request->all());
+            $request['nomorantrean'] = $antrian->angkaantrean;
+            $request['jenisresep'] = 'racikan';
+            $res_farmasi = $this->tambah_antrean_farmasi($request);
+            // }
             Alert::success('Success', $res->metadata->message);
         } catch (\Throwable $th) {
             Alert::error('Gagal', $th->getMessage());
@@ -978,12 +978,12 @@ class AntrianController extends APIController
         $request['waktu'] = now();
         $antrian = Antrian::where('kodebooking', $request->kodebooking)->first();
         $res = $this->update_antrean($request);
-        if ($res->metadata->code == 200) {
+        // if ($res->metadata->code == 200) {
             $antrian->update([
                 'taskid' => $request->taskid,
                 'keterangan' => "Pasien telah selesai semua pelayanan",
             ]);
-        }
+        // }
         Alert::success('Success', $res->metadata->message);
         return redirect()->back();
     }
