@@ -231,13 +231,12 @@
 
                                         {{ $itemobat->keterangan }} <br>
                                     @endforeach
-
-
-
-                                    <pre>{{ $item->kunjungan->asesmendokter->resep_obat }}</pre>
+                                    <br>
+                                    <br>
+                                    <p>{{ $item->kunjungan->asesmendokter->resep_obat }}</p>
                                     <hr>
                                     <strong><i class="fas fa-pills mr-1"></i> Catatan Resep</strong>
-                                    <pre>{{ $item->kunjungan->asesmendokter->catatan_resep }}</pre>
+                                    <p>{{ $item->kunjungan->asesmendokter->catatan_resep }}</p>
                                 </div>
                                 <div class="card-footer">
                                     <a href="{{ route('selesaifarmasi') }}?kodebooking={{ $item->kodebooking }}"
