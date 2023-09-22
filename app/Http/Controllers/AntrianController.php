@@ -909,19 +909,21 @@ class AntrianController extends APIController
         $request['waktu'] = now();
         $request['user3'] = Auth::user()->name;
         $antrian = Antrian::where('kodebooking', $request->kodebooking)->first();
-        $request['keterangan'] = "Pasien dilanjutkan ke farmasi";
-        // try {
-        $antrian->update($request->all());
-        $res = $this->update_antrean($request);
-        // if ($res->metadata->code == 200) {
-        $request['nomorantrean'] = $antrian->angkaantrean;
-        $request['jenisresep'] = 'racikan';
-        $res_farmasi = $this->tambah_antrean_farmasi($request);
-        // }
-        Alert::success('Success', $res->metadata->message);
-        // } catch (\Throwable $th) {
-        //     Alert::error('Gagal', $th->getMessage());
-        // }
+        if ($antrian->taskid == 4) {
+            $request['keterangan'] = "Pasien dilanjutkan ke farmasi";
+            // try {
+            $antrian->update($request->all());
+            $res = $this->update_antrean($request);
+            // if ($res->metadata->code == 200) {
+            $request['nomorantrean'] = $antrian->angkaantrean;
+            $request['jenisresep'] = 'racikan';
+            $res_farmasi = $this->tambah_antrean_farmasi($request);
+            // }
+            Alert::success('Success', $res->metadata->message);
+            // } catch (\Throwable $th) {
+            //     Alert::error('Gagal', $th->getMessage());
+            // }
+        }
         return redirect()->back();
     }
     // farmasi
