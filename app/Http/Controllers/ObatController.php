@@ -23,6 +23,14 @@ class ObatController extends Controller
         Excel::import(new ObatsImport, $file);
         return redirect()->route('obat.index');
     }
+    public function store(Request $request)
+    {
+        Obat::updateOrCreate([
+            'nama' => $request->nama,
+        ]);
+        Alert::success('Success', 'Data Nama Obat Disimpan.');
+        return redirect()->route('obat.index');
+    }
     public function update($id, Request $request)
     {
         $obat = Obat::find($id);

@@ -16,7 +16,7 @@
                     $config['paging'] = false;
                     $config['scrollY'] = '500px';
                 @endphp
-                <x-adminlte-button name="btnTambah" class="btn-sm mb-2" theme="success" label="Tambah Obat" icon="fas fa-plus" />
+                <x-adminlte-button id="btnTambah" class="btn-sm mb-2" theme="success" label="Tambah Obat" icon="fas fa-plus" />
                 <x-adminlte-datatable id="table1" :heads="$heads" :config="$config" bordered hoverable compressed>
                     @foreach ($obats as $item)
                         <tr>
@@ -35,7 +35,7 @@
         </div>
     </div>
     <x-adminlte-modal id="modalObat" title="Obat" icon="fas fa-pills" theme="success" v-centered static-backdrop>
-        <form action="" id="formUser" method="POST">
+        <form action="" id="formObat" method="POST">
             @csrf
             <input type="hidden" name="id" id="id">
             <input type="hidden" name="_method" id="method">
@@ -62,8 +62,7 @@
                 $.LoadingOverlay("show");
                 $('#btnStore').show();
                 $('#btnUpdate').hide();
-                $('#formUser').trigger("reset");
-                $("#role").val('').change();
+                $('#formObat').trigger("reset");
                 $('#modalObat').modal('show');
                 $.LoadingOverlay("hide");
             });
@@ -71,7 +70,7 @@
                 $.LoadingOverlay("show");
                 $('#btnStore').hide();
                 $('#btnUpdate').show();
-                $('#formUser').trigger("reset");
+                $('#formObat').trigger("reset");
                 // get
                 $('#id').val($(this).data("id"));
                 $('#nama').val($(this).data("nama"));
@@ -81,10 +80,10 @@
             $('#btnStore').click(function(e) {
                 $.LoadingOverlay("show");
                 e.preventDefault();
-                var url = "{{ route('user.store') }}";
-                $('#formUser').attr('action', url);
+                var url = "{{ route('obat.store') }}";
+                $('#formObat').attr('action', url);
                 $("#method").prop('', true);
-                $('#formUser').submit();
+                $('#formObat').submit();
 
             });
             $('#btnUpdate').click(function(e) {
@@ -92,29 +91,29 @@
                 e.preventDefault();
                 var id = $('#id').val();
                 var url = "{{ route('obat.index') }}/" + id;
-                $('#formUser').attr('action', url);
+                $('#formObat').attr('action', url);
                 $('#method').val('PUT');
-                $('#formUser').submit();
+                $('#formObat').submit();
             });
-            $('.btnDelete').click(function(e) {
-                e.preventDefault();
-                var name = $(this).data("name");
-                swal.fire({
-                    title: 'Apakah anda ingin menghapus user ' + name + ' ?',
-                    showConfirmButton: false,
-                    showDenyButton: true,
-                    showCancelButton: true,
-                    denyButtonText: `Ya, Hapus`,
-                }).then((result) => {
-                    if (result.isDenied) {
-                        $.LoadingOverlay("show");
-                        var id = $(this).data("id");
-                        var url = "{{ route('obat.index') }}/" + id;
-                        $('#formDelete').attr('action', url);
-                        $('#formDelete').submit();
-                    }
-                })
-            });
+            // $('.btnDelete').click(function(e) {
+            //     e.preventDefault();
+            //     var name = $(this).data("name");
+            //     swal.fire({
+            //         title: 'Apakah anda ingin menghapus user ' + name + ' ?',
+            //         showConfirmButton: false,
+            //         showDenyButton: true,
+            //         showCancelButton: true,
+            //         denyButtonText: `Ya, Hapus`,
+            //     }).then((result) => {
+            //         if (result.isDenied) {
+            //             $.LoadingOverlay("show");
+            //             var id = $(this).data("id");
+            //             var url = "{{ route('obat.index') }}/" + id;
+            //             $('#formDelete').attr('action', url);
+            //             $('#formDelete').submit();
+            //         }
+            //     })
+            // });
         });
     </script>
 @endsection
