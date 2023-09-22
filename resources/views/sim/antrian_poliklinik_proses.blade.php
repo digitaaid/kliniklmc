@@ -294,16 +294,16 @@
                                 <hr>
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <x-adminlte-textarea igroup-size="sm" rows=2 label="Catatan Laboratorium"
+                                        <x-adminlte-textarea igroup-size="sm" rows=4 label="Catatan Laboratorium"
                                             name="catatan_lab" placeholder="Catatan Laboratorium">
                                             {{ $kunjungan->asesmendokter->catatan_lab ?? null }}
                                         </x-adminlte-textarea>
-                                        <x-adminlte-textarea igroup-size="sm" rows=2 label="Catatan Radiologi"
+                                    </div>
+                                    <div class="col-md-6">
+                                        <x-adminlte-textarea igroup-size="sm" rows=4 label="Catatan Radiologi"
                                             name="catatan_rad" placeholder="Catatan Radiologi">
                                             {{ $kunjungan->asesmendokter->catatan_rad ?? null }}
                                         </x-adminlte-textarea>
-                                    </div>
-                                    <div class="col-md-6">
                                     </div>
                                 </div>
                                 <button type="submit" class="btn btn-success withLoad">
