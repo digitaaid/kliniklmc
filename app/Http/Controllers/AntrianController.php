@@ -733,18 +733,20 @@ class AntrianController extends APIController
         $antrian = Antrian::where('kodebooking', $request->kodebooking)->first();
         if ($antrian) {
             try {
-                $request['taskid'] = "3";
-                $request['waktu'] = now()->subMinutes(random_int(4, 9));
-                $res = $this->update_antrean($request);
-                $request['taskid'] = "4";
-                $request['waktu'] = now();
-                $res = $this->update_antrean($request);
-                // if ($res->metadata->code == 200) {
-                $antrian->update([
-                    'taskid' => $request->taskid,
-                ]);
-                Alert::success('Success', $res->metadata->message);
-                // }
+                if ($antrian->taskid == 3) {
+                    $request['taskid'] = "3";
+                    $request['waktu'] = now()->subMinutes(random_int(4, 9));
+                    $res = $this->update_antrean($request);
+                    $request['taskid'] = "4";
+                    $request['waktu'] = now();
+                    $res = $this->update_antrean($request);
+                    // if ($res->metadata->code == 200) {
+                    $antrian->update([
+                        'taskid' => $request->taskid,
+                    ]);
+                    Alert::success('Success', $res->metadata->message);
+                    // }
+                }
                 $kunjungan = Kunjungan::find($antrian->kunjungan_id);
                 return view('sim.antrian_poliklinik_proses', compact([
                     'request',
