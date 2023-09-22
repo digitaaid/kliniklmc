@@ -554,21 +554,21 @@ class AntrianController extends APIController
     }
     function lanjutpoliklinik(Request $request)
     {
-        $request['taskid'] = "3";
-        $request['waktu'] = now();
         $antrian = Antrian::where('kodebooking', $request->kodebooking)->first();
         try {
-            // $res = $this->update_antrean($request);
-            // if ($res->metadata->code == 200) {
-            //     Alert::success('Success', 'Antrian dilanjutkan ke Poliklinik.');
-            // } else {
-            //     Alert::error('Mohon Maaf', $res->metadata->message);
-            // }
             if ($antrian->taskid == 2) {
+                $request['taskid'] = "3";
+                $request['waktu'] = now();
                 $antrian->update([
                     'taskid' => $request->taskid,
                     'user1' => Auth::user()->name,
                 ]);
+                $res = $this->update_antrean($request);
+                if ($res->metadata->code == 200) {
+                    Alert::success('Success',  $res->metadata->message);
+                } else {
+                    Alert::error('Mohon Maaf', $res->metadata->message);
+                }
             }
         } catch (\Throwable $th) {
             Alert::error('Mohon Maaf', $th->getMessage());
