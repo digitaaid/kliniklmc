@@ -739,12 +739,12 @@ class AntrianController extends APIController
                 $request['taskid'] = "4";
                 $request['waktu'] = now();
                 $res = $this->update_antrean($request);
-                if ($res->metadata->code == 200) {
-                    $antrian->update([
-                        'taskid' => $request->taskid,
-                    ]);
-                    Alert::success('Success', $res->metadata->message);
-                }
+                // if ($res->metadata->code == 200) {
+                $antrian->update([
+                    'taskid' => $request->taskid,
+                ]);
+                Alert::success('Success', $res->metadata->message);
+                // }
                 $kunjungan = Kunjungan::find($antrian->kunjungan_id);
                 return view('sim.antrian_poliklinik_proses', compact([
                     'request',
