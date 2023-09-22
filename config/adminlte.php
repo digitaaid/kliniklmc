@@ -384,7 +384,7 @@ return [
             'text' => 'Obat',
             'icon'    => 'fas fa-pills',
             'url'  => 'obat',
-            'can' => 'farmasi',
+            // 'can' => 'farmasi',
         ],
         [
             'text' => 'Capaian Antrian',
