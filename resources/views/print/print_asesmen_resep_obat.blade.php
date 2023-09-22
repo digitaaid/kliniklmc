@@ -34,68 +34,72 @@
                             <dl>
                                 <dt>Resep Obat :</dt>
                                 @if ($antrian->resepobat)
-                                Kode Resep : {{ $antrian->resepobat->kode }} <br>
-                                Waktu : {{ $antrian->resepobat->waktu }} <br>
-                                @foreach ($antrian->resepobat->resepdetail as $itemobat)
-                                    <b> R/ {{ $itemobat->nama }} </b> ({{ $itemobat->jumlah }}) <br>
-                                    &emsp;&emsp;
-                                    @switch($itemobat->interval)
-                                        @case('qod')
-                                            1x1
-                                        @break
+                                    Kode Resep : {{ $antrian->resepobat->kode }} <br>
+                                    Waktu : {{ $antrian->resepobat->waktu }} <br>
+                                    @if ($antrian->resepobat)
+                                        @foreach ($antrian->resepobat->resepdetail as $itemobat)
+                                            <b> R/ {{ $itemobat->nama }} </b> ({{ $itemobat->jumlah }}) <br>
+                                            &emsp;&emsp;
+                                            @switch($itemobat->interval)
+                                                @case('qod')
+                                                    1x1
+                                                @break
 
-                                        @case('bid')
-                                            2x1
-                                        @break
+                                                @case('bid')
+                                                    2x1
+                                                @break
 
-                                        @case('tid')
-                                            3x1
-                                        @break
+                                                @case('tid')
+                                                    3x1
+                                                @break
 
-                                        @case('qid')
-                                            4x1
-                                        @break
+                                                @case('qid')
+                                                    4x1
+                                                @break
 
-                                        @case('prn')
-                                            SESUAI KEBUTUHAN
-                                        @break
+                                                @case('prn')
+                                                    SESUAI KEBUTUHAN
+                                                @break
 
-                                        @case('q3h')
-                                            SETIAP 3 JAM
-                                        @break
+                                                @case('q3h')
+                                                    SETIAP 3 JAM
+                                                @break
 
-                                        @case('q4h')
-                                            SETIAP 4 JAM
-                                        @break
+                                                @case('q4h')
+                                                    SETIAP 4 JAM
+                                                @break
 
-                                        @default
-                                    @endswitch
-
-
-                                    @switch($itemobat->waktu)
-                                        @case('pc')
-                                            SETELAH MAKAN
-                                        @break
-
-                                        @case('ac')
-                                            SEBELUM MAKAN
-                                        @break
-
-                                        @case('hs')
-                                            SEBELUM TIDUR
-                                        @break
-
-                                        @case('int')
-                                            DIANTARA WAKTU MAKAN
-                                        @break
-
-                                        @default
-                                    @endswitch
+                                                @default
+                                            @endswitch
 
 
-                                    {{ $itemobat->keterangan }} <br>
-                                @endforeach
-                            @endif
+                                            @switch($itemobat->waktu)
+                                                @case('pc')
+                                                    SETELAH MAKAN
+                                                @break
+
+                                                @case('ac')
+                                                    SEBELUM MAKAN
+                                                @break
+
+                                                @case('hs')
+                                                    SEBELUM TIDUR
+                                                @break
+
+                                                @case('int')
+                                                    DIANTARA WAKTU MAKAN
+                                                @break
+
+                                                @default
+                                            @endswitch
+
+
+                                            {{ $itemobat->keterangan }} <br>
+                                        @endforeach
+                                    @endif
+
+
+                                @endif
 
                                 <dd>
                                     <pre id="resepobat">{{ $antrian->asesmendokter->resep_obat ?? null }}</pre>
