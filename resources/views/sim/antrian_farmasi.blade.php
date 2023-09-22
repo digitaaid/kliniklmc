@@ -171,8 +171,9 @@
                                     </p>
                                     <hr>
                                     <strong><i class="fas fa-pills mr-1"></i> Resep Obat</strong>
+                                    <br>
                                     @foreach ($item->resepobat->resepdetail as $itemobat)
-                                        {{-- <b> R/ {{ $itemobat->nama }} </b> ({{ $itemobat->jumlah }}) <br> --}}
+                                        <b> R/ {{ $itemobat->nama }} </b> ({{ $itemobat->jumlah }}) <br>
                                         &emsp;&emsp;
                                         @switch($itemobat->interval)
                                             @case('qod')
