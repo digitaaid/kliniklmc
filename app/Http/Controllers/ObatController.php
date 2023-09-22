@@ -6,6 +6,7 @@ use App\Imports\ObatsImport;
 use App\Models\Obat;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class ObatController extends Controller
 {
@@ -20,6 +21,15 @@ class ObatController extends Controller
     {
         $file = public_path('obat.xlsx');
         Excel::import(new ObatsImport, $file);
+        return redirect()->route('obat.index');
+    }
+    public function update($id, Request $request)
+    {
+        $obat = Obat::find($id);
+        $obat->update([
+            'nama' => $request->nama,
+        ]);
+        Alert::success('Success', 'Data Nama Obat Diperbaharui.');
         return redirect()->route('obat.index');
     }
     public function reset_obat()
