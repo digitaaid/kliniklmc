@@ -235,7 +235,6 @@
 
                                     {{ $itemobat->keterangan }} <br>
                                 @endforeach
-
                             @endif
                             <pre>{{ $kunjungan->asesmendokter->resep_obat ?? null }}</pre>
                         </dd>
@@ -283,7 +282,7 @@
     <style>
         pre {
             padding: 0 !important;
-            font-size: 15px !important;
+            font-size: 12px !important;
         }
     </style>
 @endsection
