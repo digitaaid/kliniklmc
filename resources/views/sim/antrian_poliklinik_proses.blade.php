@@ -124,9 +124,13 @@
                                 <input type="hidden" name="kodekunjungan" value="{{ $antrian->kunjungan->kode ?? null }}">
                                 <input type="hidden" name="kunjungan_id" value="{{ $antrian->kunjungan->id ?? null }}">
                                 <div class="row">
-                                    <div class="col-md-6">
-                                        <x-adminlte-textarea igroup-size="sm" rows=3 label="Diagnosa"
-                                            name="diagnosa" placeholder="Diagnosa">
+                                    <div class="col-md-5">
+                                        <x-adminlte-textarea igroup-size="sm" rows=3 label="Keluhan Utama"
+                                            name="keluhan_utama" placeholder="Keluhan Utama">
+                                            {{ $kunjungan->asesmenperawat->keluhan_utama ?? null }}
+                                        </x-adminlte-textarea>
+                                        <x-adminlte-textarea igroup-size="sm" rows=3 label="Diagnosa" name="diagnosa"
+                                            placeholder="Diagnosa">
                                             {{ $kunjungan->asesmendokter->diagnosa ?? null }}
                                         </x-adminlte-textarea>
                                         <x-adminlte-select2 name="diagnosa1" class="diagnosaid1"
@@ -140,12 +144,12 @@
                                             name="riwayat_pengobatan" placeholder="Riwayat Pengobatan">
                                             {{ $kunjungan->asesmendokter->riwayat_pengobatan ?? null }}
                                         </x-adminlte-textarea>
+                                    </div>
+                                    <div class="col-md-7">
                                         <x-adminlte-textarea igroup-size="sm" rows=3 label="Rencana Perawatan"
                                             name="rencana_perawatan" placeholder="Rencana Perawatan">
                                             {{ $kunjungan->asesmendokter->rencana_perawatan ?? null }}
                                         </x-adminlte-textarea>
-                                    </div>
-                                    <div class="col-md-6">
                                         <x-adminlte-textarea igroup-size="sm" rows=3 label="Instruksi Medis"
                                             name="instruksi_medis" placeholder="Instruksi Medis">
                                             {{ $kunjungan->asesmendokter->instruksi_medis ?? null }}
@@ -154,10 +158,134 @@
                                             name="tindakan_medis" placeholder="Tindakan Medis">
                                             {{ $kunjungan->asesmendokter->tindakan_medis ?? null }}
                                         </x-adminlte-textarea>
-                                        <x-adminlte-textarea igroup-size="sm" rows=3 label="Resep Obat" name="resep_obat"
-                                            placeholder="Resep Obat">
+
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+
+                                    {{-- resep obat --}}
+                                    <div class="col-md-12">
+                                        @if ($antrian->resepobat)
+                                            <x-adminlte-alert title="Sudah Pemberian Resep Obat" theme="success">
+                                                <p>
+                                                    Kode : {{ $antrian->resepobat->kode }} <br>
+                                                    Waktu : {{ $antrian->resepobat->waktu }}
+                                                </p>
+                                            </x-adminlte-alert>
+                                        @endif
+                                        <label class="mb-2">Resep Obat</label>
+                                        <button id="addObatInput" type="button" class="btn btn-xs btn-success mb-2">
+                                            <span class="fas fa-plus">
+                                            </span> Tambah Obat
+                                        </button>
+                                        @if ($antrian->resepobat)
+                                            @foreach ($antrian->resepobat->resepdetail as $itemobat)
+                                                <div id="row" class="row">
+                                                    <div class="form-group">
+                                                        <div class="input-group input-group-sm">
+                                                            <select name="obat[]" class="form-control cariObat">
+                                                                <option value="{{ $itemobat->obat_id }}">
+                                                                    {{ $itemobat->nama }}</option>
+                                                            </select>
+                                                            <input type="number" name="jumlah[]"
+                                                                value="{{ $itemobat->jumlah }}" placeholder="Jumlah"
+                                                                class="form-control" multiple>
+                                                            <select name="frekuensi[]"class="form-control frekuensilObat">
+                                                                <option selected disabled>Interval</option>
+                                                                <option value="qod"
+                                                                    {{ $itemobat->interval == 'qod' ? 'selected' : null }}>
+                                                                    1 x 1</option>
+                                                                <option value="bid"
+                                                                    {{ $itemobat->interval == 'bid' ? 'selected' : null }}>
+                                                                    2 x 1</option>
+                                                                <option value="tid"
+                                                                    {{ $itemobat->interval == 'tid' ? 'selected' : null }}>
+                                                                    3 x 1</option>
+                                                                <option value="qid"
+                                                                    {{ $itemobat->interval == 'qid' ? 'selected' : null }}>
+                                                                    4 x 1</option>
+                                                                <option value="prn"
+                                                                    {{ $itemobat->interval == 'prn' ? 'selected' : null }}>
+                                                                    Sesuai Kebutuhan</option>
+                                                                <option value="q3h"
+                                                                    {{ $itemobat->interval == 'q3h' ? 'selected' : null }}>
+                                                                    Setiap 3 Jam</option>
+                                                                <option value="q4h"
+                                                                    {{ $itemobat->interval == 'q4h' ? 'selected' : null }}>
+                                                                    Setiap 4 Jam</option>
+                                                            </select>
+                                                            <select name="waktuobat[]" class="form-control waktuObat">
+                                                                <option selected>Waktu Obat</option>
+                                                                <option value="pc"
+                                                                    {{ $itemobat->waktu == 'pc' ? 'selected' : null }}>
+                                                                    Setelah Makan</option>
+                                                                <option value="ac"
+                                                                    {{ $itemobat->waktu == 'ac' ? 'selected' : null }}>
+                                                                    Sebelum Makan</option>
+                                                                <option value="hs"
+                                                                    {{ $itemobat->waktu == 'hs' ? 'selected' : null }}>
+                                                                    Sebelum Tidur</option>
+                                                                <option value="int"
+                                                                    {{ $itemobat->waktu == 'int' ? 'selected' : null }}>
+                                                                    Diantara Waktu Makan</option>
+                                                            </select>
+                                                            <input type="text" name="keterangan_obat[]"
+                                                                value="{{ $itemobat->keterangan }}"
+                                                                placeholder="Keterangan Obat" class="form-control"
+                                                                multiple>
+                                                            <button type="button" class="btn btn-xs btn-danger"
+                                                                id="deleteRowObat"><i class="fas fa-trash "></i>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                {{-- test detail <br> --}}
+                                            @endforeach
+                                        @endif
+                                        <div id="rowTindakan" class="row">
+                                            <div class="form-group">
+                                                <div class="input-group input-group-sm">
+                                                    <select name="obat[]" class="form-control cariObat">
+                                                        <option selected disabled>Cari Nama Obat</option>
+                                                    </select>
+                                                    <input type="number" name="jumlah[]" placeholder="Jumlah"
+                                                        class="form-control" multiple>
+                                                    <select name="frekuensi[]" class="form-control frekuensilObat">
+                                                        <option selected disabled>Interval</option>
+                                                        <option value="qod">1 x 1</option>
+                                                        <option value="bid">2 x 1</option>
+                                                        <option value="tid">3 x 1</option>
+                                                        <option value="qid">4 x 1</option>
+                                                        <option value="prn">Sesuai Kebutuhan</option>
+                                                        <option value="q3h">Setiap 3 Jam</option>
+                                                        <option value="q4h">Setiap 4 Jam</option>
+                                                    </select>
+                                                    <select name="waktuobat[]" class="form-control waktuObat">
+                                                        <option selected>Waktu Obat</option>
+                                                        <option value="pc">Setelah Makan</option>
+                                                        <option value="ac">Sebelum Makan</option>
+                                                        <option value="hs">Sebelum Tidur</option>
+                                                        <option value="int">Diantara Waktu Makan</option>
+                                                    </select>
+                                                    <input type="text" name="keterangan_obat[]"
+                                                        placeholder="Keterangan Obat" class="form-control" multiple>
+                                                    <button type="button" class="btn btn-xs btn-warning">
+                                                        <i class="fas fa-pills "></i>
+                                                    </button>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="newObat"></div>
+
+                                    </div>
+                                    <div class="col-md-6">
+                                        <x-adminlte-textarea igroup-size="sm" rows=3 label="Resep Obat (Free Text)"
+                                            name="resep_obat" placeholder="Resep Obat (Text)">
                                             {{ $kunjungan->asesmendokter->resep_obat ?? null }}
                                         </x-adminlte-textarea>
+                                    </div>
+                                    <div class="col-md-6">
                                         <x-adminlte-textarea igroup-size="sm" rows=3 label="Catatan Resep"
                                             name="catatan_resep" placeholder="Catatan Resep">
                                             {{ $kunjungan->asesmendokter->catatan_resep ?? null }}
@@ -219,7 +347,6 @@
         <source src="{{ asset('tingtung.mp3') }}" type="audio/mpeg">
         Your browser does not support the audio element.
     </audio>
-
 @stop
 
 @section('plugins.Datatables', true)
@@ -251,6 +378,27 @@
                     cache: true
                 }
             });
+            $(".cariObat").select2({
+                placeholder: 'Pencarian Nama Obat',
+                theme: "bootstrap4",
+                ajax: {
+                    url: "{{ route('ref_obat_cari') }}",
+                    type: "get",
+                    dataType: 'json',
+                    delay: 100,
+                    data: function(params) {
+                        return {
+                            nama: params.term // search term
+                        };
+                    },
+                    processResults: function(response) {
+                        return {
+                            results: response
+                        };
+                    },
+                    cache: true
+                }
+            });
             $(".diagnosaid2").select2({
                 theme: "bootstrap4",
                 ajax: {
@@ -272,6 +420,57 @@
                 }
             });
         });
+    </script>
+    {{-- dynamic input --}}
+    <script>
+        $("#addObatInput").click(function() {
+            newRowAdd =
+                '<div id="row" class="row"><div class="form-group"><div class="input-group input-group-sm">' +
+                '<select name="obat[]" class="form-control cariObat"><option selected disabled>Cari Nama Obat</option></select>' +
+                '<input type="number" name="jumlah[]" placeholder="Jumlah" class="form-control" multiple>' +
+                '<select name="frekuensi[]"class="form-control frekuensilObat"> <option selected disabled>Interval</option>' +
+                '<option value="qod">1 x 1</option>' +
+                '<option value="bid">2 x 1</option>' +
+                '<option value="tid">3 x 1</option>' +
+                '<option value="qid">4 x 1</option>' +
+                '<option value="prn">Sesuai Kebutuhan</option>' +
+                '<option value="q3h">Setiap 3 Jam</option>' +
+                '<option value="q4h">Setiap 4 Jam</option>' +
+                '</select> ' +
+                '<select name="waktuobat[]" class="form-control waktuObat"><option selected>Waktu Obat</option>' +
+                '<option value="pc">Setelah Makan</option>' +
+                '<option value="ac">Sebelum Makan</option>' +
+                '<option value="hs">Sebelum Tidur</option>' +
+                '<option value="int">Diantara Waktu Makan</option>' +
+                '</select> ' +
+                '<input type="text" name="keterangan_obat[]" placeholder="Keterangan Obat" class="form-control" multiple>' +
+                '<button type="button" class="btn btn-xs btn-danger" id="deleteRowObat"><i class="fas fa-trash "></i> </div></div></div>';
+            $('#newObat').append(newRowAdd);
+            $(".cariObat").select2({
+                placeholder: 'Pencarian Nama Obat',
+                theme: "bootstrap4",
+                ajax: {
+                    url: "{{ route('ref_obat_cari') }}",
+                    type: "get",
+                    dataType: 'json',
+                    delay: 100,
+                    data: function(params) {
+                        return {
+                            nama: params.term // search term
+                        };
+                    },
+                    processResults: function(response) {
+                        return {
+                            results: response
+                        };
+                    },
+                    cache: true
+                }
+            });
+        });
+        $("body").on("click", "#deleteRowObat", function() {
+            $(this).parents("#row").remove();
+        })
     </script>
 
 @endsection

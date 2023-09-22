@@ -13,24 +13,13 @@ return new class extends Migration
     {
         Schema::create('resep_obat_details', function (Blueprint $table) {
             $table->id();
+            $table->string('resep_id');
             $table->string('koderesep');
-            $table->string('idresep');
             $table->string('nama');
             $table->integer('jumlah');
-            $table->string('sediaan');
-            $table->string('metode_pemberian');
-            $table->string('dosis');
-            $table->string('satuan');
-            $table->string('interval');
-            $table->string('aturan_tambahan')->nullable();
-            $table->text('catatan')->nullable();
-            $table->string('dokter');
-            $table->string('petugas');
-            $table->string('nohp')->nullable();
-            $table->datetime('waktu');
-            $table->string('status')->default(0);
-            $table->string('pengkajian');
-
+            $table->string('interval')->nullable();
+            $table->string('waktu')->nullable();
+            $table->text('keterangan');
             $table->timestamps();
         });
     }

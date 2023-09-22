@@ -8,4 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class ResepObat extends Model
 {
     use HasFactory;
+    protected $guarded = ['id'];
+
+
+    public function resepdetail()
+    {
+        return $this->hasMany(ResepObatDetail::class, 'resep_id', 'id');
+    }
 }

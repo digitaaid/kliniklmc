@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AntrianController;
+use App\Http\Controllers\ApotekController;
 use App\Http\Controllers\SuratKontrolController;
 use App\Http\Controllers\VclaimController;
 use Illuminate\Http\Request;
@@ -20,7 +21,7 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-
+// ANTRIAN
 Route::prefix('antrian')->group(function () {
     // API BPJS
     Route::get('ref_poli', [AntrianController::class, 'ref_poli'])->name('ref_poli');
@@ -104,4 +105,9 @@ Route::prefix('vclaim')->group(function () {
     // FINGERPRINT
     Route::get('fingerprint_peserta', [VclaimController::class, 'fingerprint_peserta'])->name('fingerprint_peserta');
     Route::get('fingerprint_sep', [VclaimController::class, 'fingerprint_sep'])->name('fingerprint_sep');
+});
+// APOTEK
+Route::prefix('apotek')->group(function () {
+    // REFERENSI
+    Route::get('referensi_dpho', [ApotekController::class, 'referensi_dpho'])->name('referensi_dpho');
 });

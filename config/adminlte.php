@@ -381,6 +381,12 @@ return [
             'can' => 'farmasi',
         ],
         [
+            'text' => 'Obat',
+            'icon'    => 'fas fa-pills',
+            'url'  => 'obat',
+            'can' => 'farmasi',
+        ],
+        [
             'text' => 'Capaian Antrian',
             'icon'    => 'fas fa-chart-line',
             'url'  => 'capaianantrian',

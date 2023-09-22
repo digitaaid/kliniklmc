@@ -53,9 +53,9 @@
 
 @section('adminlte_js')
     @stack('js')
-    @yield('js')
     @include('sweetalert::alert')
     <script src="{{ asset('loading-overlay/loadingoverlay.min.js') }}"></script>
+    @yield('js')
     <script>
         $(function() {
             $(".withLoad").click(function() {

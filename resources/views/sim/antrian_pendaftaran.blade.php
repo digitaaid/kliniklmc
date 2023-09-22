@@ -104,6 +104,8 @@
 
                                         @case(99)
                                             <span class="badge badge-danger">99. Batal</span>
+                                            <a href="{{ route('tidakjadibatal') }}?kodebooking={{ $item->kodebooking }}"
+                                                class="btn btn-xs btn-primary withLoad"><i class="fas fa-sync"></i> </a>
                                         @break
 
                                         @default

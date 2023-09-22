@@ -29,4 +29,8 @@ class Antrian extends Model
     {
         return $this->hasOne(AsesmenDokter::class);
     }
+    public function resepobat()
+    {
+        return $this->hasOne(ResepObat::class);
+    }
 }

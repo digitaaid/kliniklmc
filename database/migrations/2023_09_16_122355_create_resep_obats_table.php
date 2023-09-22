@@ -13,14 +13,17 @@ return new class extends Migration
     {
         Schema::create('resep_obats', function (Blueprint $table) {
             $table->id();
+            $table->string('kunjungan_id');
+            $table->string('kodekunjungan');
+            $table->string('antrian_id');
+            $table->string('kodebooking');
+
             $table->string('kode');
             $table->string('berat_badan')->nullable();
             $table->string('tinggi_badan')->nullable();
             $table->string('bsa')->nullable();
 
             $table->datetime('waktu');
-            $table->string('kunjungan');
-            $table->string('counter');
             $table->string('norm');
             $table->string('nama');
             $table->string('tgl_lahir');

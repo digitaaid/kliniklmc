@@ -10,7 +10,10 @@ use App\Models\IntegrasiApi;
 use App\Models\JadwalDokter;
 use App\Models\Jaminan;
 use App\Models\Kunjungan;
+use App\Models\Obat;
 use App\Models\Poliklinik;
+use App\Models\ResepObat;
+use App\Models\ResepObatDetail;
 use App\Models\Unit;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -578,16 +581,16 @@ class AntrianController extends APIController
         $antrian = Antrian::where('kodebooking', $request->kodebooking)->first();
         if ($antrian) {
             try {
-                $res = $this->batal_antrean($request);
-                if ($res->metadata->code == 200) {
-                    $antrian->update([
-                        'taskid' => $request->taskid,
-                        'user1' => Auth::user()->name,
-                    ]);
-                    Alert::success('Success', 'Antrian telah dibatalkan.');
-                } else {
-                    Alert::error('Gagal', $res->metadata->message);
-                }
+                // $res = $this->batal_antrean($request);
+                // if ($res->metadata->code == 200) {
+                $antrian->update([
+                    'taskid' => $request->taskid,
+                    'user1' => Auth::user()->name,
+                ]);
+                Alert::success('Success', 'Antrian telah dibatalkan.');
+                // } else {
+                //     Alert::error('Gagal', $res->metadata->message);
+                // }
             } catch (\Throwable $th) {
                 Alert::error('Mohon Maaf', $th->getMessage());
             }
@@ -596,6 +599,25 @@ class AntrianController extends APIController
         }
         return redirect()->back();
     }
+    function tidakjadibatal(Request $request)
+    {
+        $request['taskid'] = "1";
+        $antrian = Antrian::where('kodebooking', $request->kodebooking)->first();
+        if ($antrian) {
+            try {
+                $antrian->update([
+                    'taskid' => $request->taskid,
+                    'user1' => Auth::user()->name,
+                ]);
+            } catch (\Throwable $th) {
+                Alert::error('Mohon Maaf', $th->getMessage());
+            }
+        } else {
+            Alert::error('Mohon Maaf', 'Antrian tidak ditemukan.');
+        }
+        return redirect()->back();
+    }
+
     function batalantrianweb(Request $request)
     {
         $request['taskid'] = "99";
@@ -767,6 +789,10 @@ class AntrianController extends APIController
             }
             $request['diagnosa2'] = $diagnosa2;
         }
+        $asesmenperawat = $kunjungan->asesmenperawat;
+        $asesmenperawat->update([
+            'keluhan_utama' => $request->keluhan_utama
+        ]);
         AsesmenDokter::updateOrCreate(
             [
                 'kodebooking' => $request->kodebooking,
@@ -776,6 +802,54 @@ class AntrianController extends APIController
             ],
             $request->all()
         );
+        if ($request->obat) {
+            $request['status'] = 0;
+            $request['tinggi_badan'] = $kunjungan->asesmenperawat->tinggi_badan ?? null;
+            $request['berat_badan'] = $kunjungan->asesmenperawat->berat_badan ?? null;
+            $request['bsa'] = $kunjungan->asesmenperawat->bsa ?? null;
+            $request['kode'] = $kunjungan->kode;
+            $resep = ResepObat::updateOrCreate(
+                [
+                    'kodebooking' => $request->kodebooking,
+                    'antrian_id' => $request->antrian_id,
+                    'kodekunjungan' => $request->kodekunjungan,
+                    'kunjungan_id' => $request->kunjungan_id,
+                ],
+                $request->all()
+            );
+            // hapus obat jika tidak diresepkan
+            if ($resep->resepdetail) {
+                foreach ($resep->resepdetail as  $obadetail) {
+                    $ada = 0;
+                    foreach ($request->obat as $key => $obatid) {
+                        if ($obadetail->obat_id == $obatid) {
+                            $ada = 1;
+                        }
+                    }
+                    if ($ada == 0) {
+                        $obadetail->delete();
+                    }
+                }
+            }
+            // peresepan
+            foreach ($request->obat as $key => $value) {
+                $obat = Obat::find($value);
+                $resepdetail = ResepObatDetail::updateOrCreate(
+                    [
+                        'koderesep' => $resep->kodebooking,
+                        'resep_id' => $resep->id,
+                        'obat_id' =>  $obat->id,
+                    ],
+                    [
+                        'nama' => $obat->nama,
+                        'jumlah' => $request->jumlah[$key] ?? 0,
+                        'interval' => $request->frekuensi[$key] ?? null,
+                        'waktu' => $request->waktuobat[$key] ?? null,
+                        'keterangan' => $request->keterangan_obat[$key] ?? null,
+                    ]
+                );
+            }
+        }
         Alert::success('Success', 'Simpan Assemen Dokter.');
         return redirect()->back();
     }

@@ -173,6 +173,20 @@
                         </dd>
                         <dt>Resep Obat :</dt>
                         <dd>
+                            @if ($antrian->resepobat)
+                                Kode Resep : {{ $antrian->resepobat->kode }} <br>
+                                Waktu : {{ $antrian->resepobat->waktu }} <br>
+                                @foreach ($antrian->resepobat->resepdetail as $itemobat)
+                                    <b>
+                                        {{ $loop->iteration }}. {{ $itemobat->nama }} {{ $itemobat->interval }}
+                                        Jumlah
+                                        {{ $itemobat->jumlah }}
+                                        {{ $itemobat->waktu }}
+                                    </b>
+                                    {{ $itemobat->keterangan }} <br>
+                                @endforeach
+
+                            @endif
                             <pre>{{ $kunjungan->asesmendokter->resep_obat ?? null }}</pre>
                         </dd>
                         <dt>Catatan Resep :</dt>
