@@ -171,6 +171,68 @@
                                     </p>
                                     <hr>
                                     <strong><i class="fas fa-pills mr-1"></i> Resep Obat</strong>
+                                    @foreach ($item->resepobat->resepdetail as $itemobat)
+                                        {{-- <b> R/ {{ $itemobat->nama }} </b> ({{ $itemobat->jumlah }}) <br> --}}
+                                        &emsp;&emsp;
+                                        @switch($itemobat->interval)
+                                            @case('qod')
+                                                1x1
+                                            @break
+
+                                            @case('bid')
+                                                2x1
+                                            @break
+
+                                            @case('tid')
+                                                3x1
+                                            @break
+
+                                            @case('qid')
+                                                4x1
+                                            @break
+
+                                            @case('prn')
+                                                SESUAI KEBUTUHAN
+                                            @break
+
+                                            @case('q3h')
+                                                SETIAP 3 JAM
+                                            @break
+
+                                            @case('q4h')
+                                                SETIAP 4 JAM
+                                            @break
+
+                                            @default
+                                        @endswitch
+
+
+                                        @switch($itemobat->waktu)
+                                            @case('pc')
+                                                SETELAH MAKAN
+                                            @break
+
+                                            @case('ac')
+                                                SEBELUM MAKAN
+                                            @break
+
+                                            @case('hs')
+                                                SEBELUM TIDUR
+                                            @break
+
+                                            @case('int')
+                                                DIANTARA WAKTU MAKAN
+                                            @break
+
+                                            @default
+                                        @endswitch
+
+
+                                        {{ $itemobat->keterangan }} <br>
+                                    @endforeach
+
+
+
                                     <pre>{{ $item->kunjungan->asesmendokter->resep_obat }}</pre>
                                     <hr>
                                     <strong><i class="fas fa-pills mr-1"></i> Catatan Resep</strong>
