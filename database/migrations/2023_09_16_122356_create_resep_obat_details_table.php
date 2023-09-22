@@ -15,11 +15,12 @@ return new class extends Migration
             $table->id();
             $table->string('resep_id');
             $table->string('koderesep');
+            $table->string('obat_id');
             $table->string('nama');
             $table->integer('jumlah');
             $table->string('interval')->nullable();
             $table->string('waktu')->nullable();
-            $table->text('keterangan');
+            $table->text('keterangan')->nullable();
             $table->timestamps();
         });
     }

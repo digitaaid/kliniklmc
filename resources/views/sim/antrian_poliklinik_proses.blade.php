@@ -163,7 +163,6 @@
                                 </div>
                                 <hr>
                                 <div class="row">
-
                                     {{-- resep obat --}}
                                     <div class="col-md-12">
                                         @if ($antrian->resepobat)
