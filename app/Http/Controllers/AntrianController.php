@@ -617,7 +617,6 @@ class AntrianController extends APIController
         }
         return redirect()->back();
     }
-
     function batalantrianweb(Request $request)
     {
         $request['taskid'] = "99";
