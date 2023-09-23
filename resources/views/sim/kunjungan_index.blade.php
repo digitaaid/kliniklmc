@@ -66,7 +66,7 @@
                                 <td>{{ $item->tgl_masuk }}</td>
                                 <td>{{ $item->kode }}</td>
                                 <td>{{ $item->norm }} {{ $item->nama }}</td>
-                                <td>{{ $item->jaminans->nama ?? "-"  }}
+                                <td>{{ $item->jaminans->nama ?? '-' }}
                                     {{-- @if ($item->jaminan)
                                         {{ $item->jaminans }}
                                     @endif --}}
@@ -94,22 +94,38 @@
                                     <br>
                                     {{ $item->nomorreferensi }}
                                 </td>
-                                <td>{{ $item->sep }}</td>
+                                <td>
+                                    @if ($item->sep)
+                                        <a class="btn btn-xs btn-success" target="_blank"
+                                            href="{{ route('sep_print') }}?noSep={{ $item->sep }}"
+                                            style="text-decoration: none">
+                                            <i class="fas fa-print"></i> {{ $item->sep }}
+                                        </a>
+                                    @else
+                                        -
+                                    @endif
+                                </td>
                                 <td>
                                     @if ($item->asesmendokter)
                                         <a class="btn btn-xs btn-success" target="_blank"
                                             href="{{ route('print_asesmendokter') }}?id={{ $item->asesmendokter->kodekunjungan }}">
                                             <i class="fas fa-print"></i> Asesmen Dokter</a>
+                                    @else
+                                        -
                                     @endif
 
                                 </td>
                                 <td>
-                                    @if ($item->resepobat)
-                                        <a href="{{ route('print_asesmenfarmasi') }}?kodebooking={{ $item->kodebooking }}"
+                                    {{-- {{ $item->kode }} {{ $item->antrian->kodebooking }} --}}
+                                    @if ($item->antrian->kodebooking)
+                                        <a href="{{ route('print_asesmenfarmasi') }}?kodebooking={{ $item->antrian->kodebooking }}"
                                             class="btn btn-xs btn-success" target="_blank"> <i class="fas fa-print"></i>
                                             Resep
                                             Obat</a>
+                                    @else
+                                        -
                                     @endif
+
                                 </td>
                                 <td>{{ $item->status }}</td>
                             </tr>

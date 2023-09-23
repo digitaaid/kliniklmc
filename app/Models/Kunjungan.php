@@ -22,8 +22,8 @@ class Kunjungan extends Model
     {
         return $this->belongsTo(Jaminan::class, 'jaminan', 'kode');
     }
-    public function resepobat()
+    public function antrian()
     {
-        return $this->hasOne(ResepObat::class);
+        return $this->belongsTo(Antrian::class,  'kode', 'kodebooking');
     }
 }
