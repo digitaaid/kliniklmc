@@ -23,7 +23,6 @@ class SocialiteController extends Controller
             if ($user) {
                 $user->update([
                     'email' => $user_google->email,
-                    'name' => $user_google->name,
                     'google_id' => $user_google->id,
                     'avatar' => $user_google->avatar,
                     'avatar_original' => $user_google->avatar_original,
