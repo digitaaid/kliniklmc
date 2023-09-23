@@ -11,11 +11,28 @@ use RealRashid\SweetAlert\Facades\Alert;
 
 class PasienController extends APIController
 {
-    public function index()
+    public function index(Request $request)
     {
-        $pasiens = Pasien::get();
+
+        if ($request->search) {
+            $pasiens = Pasien::orderBy('norm', 'desc')
+                ->where('norm', 'LIKE', "%{$request->search}%")
+                ->orWhere('nama', 'LIKE', "%{$request->search}%")
+                ->orWhere('nomorkartu', 'LIKE', "%{$request->search}%")
+                ->orWhere('nik', 'LIKE', "%{$request->search}%")
+                ->simplePaginate(20);
+        } else {
+            $pasiens = Pasien::orderBy('norm', 'desc')->simplePaginate(20);;
+        }
+        $total_pasien = Pasien::count();
+        // $pasien_jkn = Pasien::where('no_Bpjs', '!=', '')->count();
+        // $pasien_nik = Pasien::where('nik_bpjs', '!=', '')->count();
+        // $pasien_laki = Pasien::where('jenis_kelamin', 'L')->count();
+        // $pasien_perempuan = Pasien::where('jenis_kelamin', 'P')->count();
         return view('sim.pasien_index', compact([
+            'request',
             'pasiens',
+            'total_pasien',
         ]));
     }
     public function create()

@@ -15,17 +15,32 @@ class PasiensImport implements ToCollection
             if ((int) $row[4]) {
                 $tgllahir = \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject((int) $row[4]);
                 // dd($tgllahir);
-            }else{
+            } else {
                 $tgllahir = now();
+            }
+            switch ($row[1]) {
+                case 'Tn':
+                    $gender = 'L';
+                    break;
+                case 'Ny':
+                    $gender = 'P';
+                    break;
+                case 'Nn':
+                    $gender = 'P';
+                    break;
+
+                default:
+                    $gender = null;
+                    break;
             }
             // dd($row,);
             // dd(Carbon::parse($tgllahir)->format('Y-m-d'));
             Pasien::updateOrCreate(
                 [
-                    'norm' => $row[0],
+                    'norm' =>  sprintf("%06d",  $row[0]),
                 ],
                 [
-                    'gender' => $row[1],
+                    'gender' => $gender,
                     'nama' => $row[2],
                     'tempat_lahir' => $row[3],
                     'tgl_lahir' =>  Carbon::parse($tgllahir)->format('Y-m-d'),

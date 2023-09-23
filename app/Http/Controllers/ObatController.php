@@ -19,9 +19,9 @@ class ObatController extends Controller
     }
     public function create()
     {
-        $file = public_path('obat.xlsx');
-        Excel::import(new ObatsImport, $file);
-        return redirect()->route('obat.index');
+        // $file = public_path('obat.xlsx');
+        // Excel::import(new ObatsImport, $file);
+        // return redirect()->route('obat.index');
     }
     public function store(Request $request)
     {

@@ -8,32 +8,61 @@
     <div class="row">
         <div class="col-md-12">
             <x-adminlte-card title="Data Pasien" theme="primary" icon="fas fa-info-circle" collapsible>
+                <div class="row">
+                    <div class="col-md-8">
+                        <x-adminlte-button id="btnTambah" class="btn-sm mb-2" theme="success" label="Tambah Pasien"
+                            icon="fas fa-plus" />
+                    </div>
+                    <div class="col-md-4">
+                        <form action="" method="get">
+                            <x-adminlte-input name="search" placeholder="Pencarian NIK / Nama" igroup-size="sm"
+                                value="{{ $request->search }}">
+                                <x-slot name="appendSlot">
+                                    <x-adminlte-button type="submit" theme="outline-primary" label="Cari" />
+                                </x-slot>
+                                <x-slot name="prependSlot">
+                                    <div class="input-group-text text-primary">
+                                        <i class="fas fa-search"></i>
+                                    </div>
+                                </x-slot>
+                            </x-adminlte-input>
+                        </form>
+                    </div>
+                </div>
                 @php
-                    $heads = ['No', 'Nama Pasien', 'Tgl Lahir', 'Satuan', 'Action'];
-                    $config['order'] = [1, 'asc'];
+                    $heads = ['No', 'No RM', 'No BPJS', 'NIK', 'Nama Pasien', 'Gender', 'No HP', 'Tgl Lahir', 'Action'];
+                    $config['order'] = [1, 'desc'];
                     $config['paging'] = false;
-                    $config['scrollY'] = '500px';
+                    $config['lengthMenu'] = false;
+                    $config['searching'] = false;
+                    $config['info'] = false;
                 @endphp
-                <x-adminlte-button id="btnTambah" class="btn-sm mb-2" theme="success" label="Tambah Pasien" icon="fas fa-plus" />
                 <x-adminlte-datatable id="table1" :heads="$heads" :config="$config" bordered hoverable compressed>
                     @foreach ($pasiens as $item)
                         <tr>
                             <td>{{ $item->id }}</td>
                             <td>{{ $item->norm }}</td>
-                            <td>{{ $item->nama }}</td>
-                            <td>{{ $item->tgl_lahir }}</td>
-                            <td>{{ $item->gender }}</td>
-                            {{-- <td>{{ $item->tempat_lahir }}</td>
                             <td>{{ $item->nomorkartu }}</td>
-                            <td>{{ $item->nomorkartu }}</td> --}}
-                            {{-- <td>
-                                <x-adminlte-button class="btn-xs btnEdit" theme="warning" icon="fas fa-edit"
-                                    title="Edit Obat {{ $item->nama }}" data-id="{{ $item->id }}"
-                                    data-nama="{{ $item->nama }}" />
-                            </td> --}}
+                            <td>{{ $item->nik }}</td>
+                            <td>{{ $item->nama }}</td>
+                            <td>{{ $item->gender }}</td>
+                            <td>{{ $item->nohp }}</td>
+                            <td>{{ $item->tgl_lahir }}</td>
+                            <td></td>
                         </tr>
                     @endforeach
                 </x-adminlte-datatable>
+                <div class="row">
+                    <div class="col-md-5">
+                        Tampil data {{ $pasiens->firstItem() }} sampai {{ $pasiens->lastItem() }} dari total
+                        {{ $total_pasien }}
+                    </div>
+                    <div class="col-md-7">
+                        <div class="float-right pagination-sm">
+                            {{ $pasiens->links() }}
+                        </div>
+                    </div>
+                </div>
             </x-adminlte-card>
         </div>
     </div>
