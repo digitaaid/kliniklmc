@@ -66,10 +66,10 @@
                                 <td>{{ $item->tgl_masuk }}</td>
                                 <td>{{ $item->kode }}</td>
                                 <td>{{ $item->norm }} {{ $item->nama }}</td>
-                                <td>{{ $item->jaminan }}
-                                    @if ($item->jaminan)
+                                <td>{{ $item->jaminans->nama ?? "-"  }}
+                                    {{-- @if ($item->jaminan)
                                         {{ $item->jaminans }}
-                                    @endif
+                                    @endif --}}
                                 </td>
                                 <td>
                                     @switch($item->jeniskunjungan)
