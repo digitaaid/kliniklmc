@@ -54,8 +54,8 @@
         $(document).ready(function() {
             window.print();
         });
-        // setTimeout(function() {
-        //     window.top.close();
-        // }, 2000);
+        setTimeout(function() {
+            window.top.close();
+        }, 2000);
     </script>
 @endsection
