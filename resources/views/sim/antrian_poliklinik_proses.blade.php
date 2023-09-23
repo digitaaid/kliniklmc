@@ -109,8 +109,8 @@
                                         <a href="{{ route('hapusfilepenunjang') }}?id={{ $file->id }}"
                                             class="btn btn-xs btn-danger mb-1">Hapus File</a>
                                         <br>
-                                        <embed type="{{ $file->type }}" src="{{ $file->fileurl }}" width="100%"
-                                            height="400px">
+                                        <iframe type="{{ $file->type }}" src="{{ $file->fileurl }}" width="100%"
+                                            height="400px"></iframe>
                                     </x-adminlte-card>
                                 @endforeach
                                 <hr>
@@ -156,8 +156,7 @@
                                 @csrf
                                 <input type="hidden" name="kodebooking" value="{{ $antrian->kodebooking }}">
                                 <input type="hidden" name="antrian_id" value="{{ $antrian->id }}">
-                                <input type="hidden" name="kodekunjungan"
-                                    value="{{ $antrian->kunjungan->kode ?? null }}">
+                                <input type="hidden" name="kodekunjungan" value="{{ $antrian->kunjungan->kode ?? null }}">
                                 <input type="hidden" name="kunjungan_id" value="{{ $antrian->kunjungan->id ?? null }}">
                                 <div class="row">
                                     <div class="col-md-6">
