@@ -291,7 +291,7 @@
     <style>
         pre {
             padding: 0 !important;
-            font-size: 12px !important;
+            font-size: 15px !important;
         }
     </style>
 @endsection

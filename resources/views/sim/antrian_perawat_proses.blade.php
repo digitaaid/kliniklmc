@@ -71,6 +71,8 @@
                         <li class="nav-item"><a class="nav-link active" href="#keperawatantab"
                                 data-toggle="tab">Keperawatan</a>
                         </li>
+                        <li class="nav-item"><a class="nav-link" href="#doktertab" data-toggle="tab">Dokter</a>
+                        </li>
                         <li class="nav-item"><a class="nav-link" href="#filepenunjangtab" data-toggle="tab">File
                                 Penunjang</a>
                         </li>
@@ -206,6 +208,17 @@
                                     <i class="fas fa-file-medical"></i> Simpan Assesmen Keperawatan
                                 </button>
                             </form>
+                        </div>
+                        <div class="active tab-pane" id="doktertab">
+                            @if ($antrian->asesmendokter)
+                                <div id="printMe">
+                                    @include('form.asesmen_dokter_rajal')
+                                </div>
+                            @else
+                                <x-adminlte-alert title="Belum dilakukan asesmen dokter" theme="danger">
+                                    Silahkan lakukan asesmen dokter
+                                </x-adminlte-alert>
+                            @endif
                         </div>
                         <div class="tab-pane" id="filepenunjangtab">
                             <form action="{{ route('uploadpenunjang') }}" method="POST" enctype="multipart/form-data">
