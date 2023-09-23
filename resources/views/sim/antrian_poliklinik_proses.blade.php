@@ -109,8 +109,8 @@
                                         <a href="{{ route('hapusfilepenunjang') }}?id={{ $file->id }}"
                                             class="btn btn-xs btn-danger mb-1">Hapus File</a>
                                         <br>
-                                        <iframe type="{{ $file->type }}" src="{{ $file->fileurl }}" width="100%"
-                                            height="400px"></iframe>
+                                        <object type="{{ $file->type }}" src="{{ $file->fileurl }}" width="100%"
+                                            height="400px"></object>
                                     </x-adminlte-card>
                                 @endforeach
                                 <hr>
