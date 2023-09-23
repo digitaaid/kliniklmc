@@ -32,7 +32,7 @@
             </div>
             <div class="col-md-6 border border-dark">
                 <div class="m-2 ">
-                    <u><b>PEMERIKSAAN FISIK</b></u>
+                    <u><b>TANDA VITAL TUBUH</b></u>
                     <br>
                     <div class="row mb-2">
                         <div class="col-md-6">
@@ -59,7 +59,8 @@
                             {{ $kunjungan->asesmenperawat->berat_badan ?? null }}
                             kg<br>
                             <b>Index BSA : </b>
-                            {{ $kunjungan->asesmenperawat->bsa ?? null }} m2<br>
+                            {{ number_format(sqrt(($kunjungan->asesmenperawat->tinggi_badan * $kunjungan->asesmenperawat->berat_badan) / 3600), 2) ?? null }}
+                            m2<br>
 
                         </div>
                     </div>
@@ -163,6 +164,10 @@
                 <div class="m-2 ">
                     <u><b>TERAPI DAN OBAT SPESIALISTIK</b></u>
                     <dl>
+                        <dt>Pemeriksaan Fisik :</dt>
+                        <dd>
+                            <pre>{{ $kunjungan->asesmendokter->pemeriksaan_fisik ?? null }}</pre>
+                        </dd>
                         <dt>Tindakan :</dt>
                         <dd>
                             <pre>{{ $kunjungan->asesmendokter->tindakan_medis ?? null }}</pre>

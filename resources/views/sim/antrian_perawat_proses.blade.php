@@ -177,8 +177,8 @@
                                                     State</label>
                                             </div>
                                         </div>
-                                        <x-adminlte-textarea igroup-size="sm" rows=4 label="Tanda Vital Keadaan Tubuh"
-                                            name="keadaan_tubuh" placeholder="Tanda Vital Fisik">
+                                        <x-adminlte-textarea igroup-size="sm" rows=4 label="Tanda Vital Tubuh"
+                                            name="keadaan_tubuh" placeholder="Tanda Vital Tubuh">
                                             {{ $antrian->asesmenperawat->keadaan_tubuh ?? null }}
                                         </x-adminlte-textarea>
                                     </div>
@@ -215,9 +215,10 @@
                                 <input type="hidden" name="kodekunjungan"
                                     value="{{ $antrian->kunjungan->kode ?? null }}">
                                 <input type="hidden" name="kunjungan_id" value="{{ $antrian->kunjungan->id ?? null }}">
-                                <x-adminlte-input name="nama" placeholder="Nama / Keterangan File" igroup-size="sm" label="Nama File" enable-old-support
-                                    required />
-                                <x-adminlte-input-file name="file" placeholder="Pilih file yang akan diupload" igroup-size="sm" label="Upload Image" required />
+                                <x-adminlte-input name="nama" placeholder="Nama / Keterangan File" igroup-size="sm"
+                                    label="Nama File" enable-old-support required />
+                                <x-adminlte-input-file name="file" placeholder="Pilih file yang akan diupload"
+                                    igroup-size="sm" label="Upload Image" required />
                                 <x-adminlte-button type="submit" icon="fas fa-save" theme="success"
                                     icon="fas fa-upload" label="Upload" />
                             </form>

@@ -1,33 +1,36 @@
 @extends('adminlte::page')
-
-@section('title', 'Obat')
-
+@section('title', 'Pasien')
 @section('content_header')
-    <h1>Obat</h1>
+    <h1>Pasien</h1>
 @stop
 
 @section('content')
     <div class="row">
         <div class="col-md-12">
-            <x-adminlte-card title="Data Obat" theme="primary" icon="fas fa-info-circle" collapsible>
+            <x-adminlte-card title="Data Pasien" theme="primary" icon="fas fa-info-circle" collapsible>
                 @php
-                    $heads = ['No', 'Nama Obat', 'Satuan', 'Action'];
+                    $heads = ['No', 'Nama Pasien', 'Tgl Lahir', 'Satuan', 'Action'];
                     $config['order'] = [1, 'asc'];
                     $config['paging'] = false;
                     $config['scrollY'] = '500px';
                 @endphp
-                <x-adminlte-button id="btnTambah" class="btn-sm mb-2" theme="success" label="Tambah Obat" icon="fas fa-plus" />
+                <x-adminlte-button id="btnTambah" class="btn-sm mb-2" theme="success" label="Tambah Pasien" icon="fas fa-plus" />
                 <x-adminlte-datatable id="table1" :heads="$heads" :config="$config" bordered hoverable compressed>
-                    @foreach ($obats as $item)
+                    @foreach ($pasiens as $item)
                         <tr>
                             <td>{{ $item->id }}</td>
+                            <td>{{ $item->norm }}</td>
                             <td>{{ $item->nama }}</td>
-                            <td>{{ $item->satuan }}</td>
-                            <td>
+                            <td>{{ $item->tgl_lahir }}</td>
+                            <td>{{ $item->gender }}</td>
+                            {{-- <td>{{ $item->tempat_lahir }}</td>
+                            <td>{{ $item->nomorkartu }}</td>
+                            <td>{{ $item->nomorkartu }}</td> --}}
+                            {{-- <td>
                                 <x-adminlte-button class="btn-xs btnEdit" theme="warning" icon="fas fa-edit"
                                     title="Edit Obat {{ $item->nama }}" data-id="{{ $item->id }}"
                                     data-nama="{{ $item->nama }}" />
-                            </td>
+                            </td> --}}
                         </tr>
                     @endforeach
                 </x-adminlte-datatable>

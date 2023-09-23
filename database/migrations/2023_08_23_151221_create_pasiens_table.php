@@ -13,6 +13,21 @@ return new class extends Migration
     {
         Schema::create('pasiens', function (Blueprint $table) {
             $table->id();
+            $table->string('norm')->unique();
+            $table->string('nomorkartu')->nullable();
+            $table->string('nik')->nullable();
+            $table->string('nama')->nullable();
+            $table->string('nohp')->nullable();
+            $table->string('gender')->nullable();
+            $table->string('tempat_lahir')->nullable();
+            $table->date('tgl_lahir')->nullable();
+            $table->string('desa_id')->nullable();
+            $table->string('kecamatan_id')->nullable();
+            $table->string('kabupaaten_id')->nullable();
+            $table->string('provinsi_id')->nullable();
+            $table->text('alamat')->nullable();
+            $table->string('status')->default(1);
+            $table->string('keterangan')->nullable();
             $table->timestamps();
         });
     }

@@ -2,13 +2,28 @@
 
 namespace App\Http\Controllers;
 
+use App\Imports\PasiensImport;
 use App\Models\Pasien;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Maatwebsite\Excel\Facades\Excel;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class PasienController extends APIController
 {
+    public function index()
+    {
+        $pasiens = Pasien::get();
+        return view('sim.pasien_index', compact([
+            'pasiens',
+        ]));
+    }
+    public function create()
+    {
+        $file = public_path('pasien.xlsx');
+        Excel::import(new PasiensImport, $file);
+        return redirect()->route('pasien.index');
+    }
     public function fingerprintPeserta(Request $request)
     {
         $peserta = null;

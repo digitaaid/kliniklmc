@@ -124,7 +124,7 @@
                                 <input type="hidden" name="kodekunjungan" value="{{ $antrian->kunjungan->kode ?? null }}">
                                 <input type="hidden" name="kunjungan_id" value="{{ $antrian->kunjungan->id ?? null }}">
                                 <div class="row">
-                                    <div class="col-md-5">
+                                    <div class="col-md-6">
                                         <x-adminlte-textarea igroup-size="sm" rows=3 label="Keluhan Utama"
                                             name="keluhan_utama" placeholder="Keluhan Utama">
                                             {{ $kunjungan->asesmenperawat->keluhan_utama ?? null }}
@@ -145,10 +145,10 @@
                                             {{ $kunjungan->asesmendokter->riwayat_pengobatan ?? null }}
                                         </x-adminlte-textarea>
                                     </div>
-                                    <div class="col-md-7">
-                                        <x-adminlte-textarea igroup-size="sm" rows=3 label="Rencana Perawatan"
-                                            name="rencana_perawatan" placeholder="Rencana Perawatan">
-                                            {{ $kunjungan->asesmendokter->rencana_perawatan ?? null }}
+                                    <div class="col-md-6">
+                                        <x-adminlte-textarea igroup-size="sm" rows=4 label="Pemeriksaan Fisik"
+                                            name="pemeriksaan_fisik" placeholder="Pemeriksaan Fisik">
+                                            {{ $antrian->asesmendokter->pemeriksaan_fisik ?? null }}
                                         </x-adminlte-textarea>
                                         <x-adminlte-textarea igroup-size="sm" rows=3 label="Instruksi Medis"
                                             name="instruksi_medis" placeholder="Instruksi Medis">
@@ -158,7 +158,10 @@
                                             name="tindakan_medis" placeholder="Tindakan Medis">
                                             {{ $kunjungan->asesmendokter->tindakan_medis ?? null }}
                                         </x-adminlte-textarea>
-
+                                        <x-adminlte-textarea igroup-size="sm" rows=3 label="Rencana Perawatan"
+                                            name="rencana_perawatan" placeholder="Rencana Perawatan">
+                                            {{ $kunjungan->asesmendokter->rencana_perawatan ?? null }}
+                                        </x-adminlte-textarea>
                                     </div>
                                 </div>
                                 <hr>

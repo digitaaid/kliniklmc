@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('textdiagnosa1')->nullable();
             $table->string('diagnosa2')->nullable();
             $table->string('textdiagnosa2')->nullable();
+            $table->text('pemeriksaan_fisik')->nullable();
             $table->text('tindakan_medis')->nullable();
             $table->text('resep_obat')->nullable();
             $table->text('catatan_resep')->nullable();

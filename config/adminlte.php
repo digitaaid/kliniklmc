@@ -330,6 +330,12 @@ return [
             'can' => 'pendaftaran',
         ],
         [
+            'text' => 'Pasien',
+            'icon'    => 'fas fa-user-injured',
+            'url'  => 'pasien',
+            'can' => 'manajemen',
+        ],
+        [
             'text' => 'Poliklinik',
             'icon'    => 'fas fa-clinic-medical',
             'url'  => 'poliklinik',

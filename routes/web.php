@@ -95,6 +95,7 @@ Route::middleware('auth')->group(function () {
         Route::resource('integrasiAPI', IntegrasiController::class);
     });
     Route::resource('sep', SepController::class);
+    Route::resource('pasien', PasienController::class);
     Route::resource('poliklinik', PoliklinikController::class);
     Route::resource('unit', UnitController::class);
     Route::resource('dokter', DokterController::class);

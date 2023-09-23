@@ -563,12 +563,13 @@ class AntrianController extends APIController
                     'taskid' => $request->taskid,
                     'user1' => Auth::user()->name,
                 ]);
-                $res = $this->update_antrean($request);
-                if ($res->metadata->code == 200) {
-                    Alert::success('Success',  $res->metadata->message);
-                } else {
-                    Alert::error('Mohon Maaf', $res->metadata->message);
-                }
+                Alert('Success', 'Pasien dilanjutkan ke poliklinik');
+                // $res = $this->update_antrean($request);
+                // if ($res->metadata->code == 200) {
+                // Alert::success('Success',  $res->metadata->message);
+                // } else {
+                //     Alert::error('Mohon Maaf', $res->metadata->message);
+                // }
             }
         } catch (\Throwable $th) {
             Alert::error('Mohon Maaf', $th->getMessage());
@@ -619,17 +620,17 @@ class AntrianController extends APIController
     }
     function batalantrianweb(Request $request)
     {
-        $request['taskid'] = "99";
         $antrian = Antrian::where('kodebooking', $request->kodebooking)->first();
         if ($antrian) {
             try {
-                $res = $this->batal_antrean($request);
+                $request['taskid'] = "99";
+                // $res = $this->batal_antrean($request);
                 $antrian->update([
                     'taskid' => $request->taskid,
                     'keterangan' => $request->keterangan,
                     'user1' => $antrian->nama,
                 ]);
-                return $this->sendResponse($res->metadata->message, 200);
+                return $this->sendResponse('Antrian telah dibatalkan', 200);
             } catch (\Throwable $th) {
                 return $this->sendError('Mohon Maaf', $th->getMessage(), 400);
             }
@@ -791,7 +792,7 @@ class AntrianController extends APIController
         }
         $asesmenperawat = $kunjungan->asesmenperawat;
         $asesmenperawat->update([
-            'keluhan_utama' => $request->keluhan_utama
+            'keluhan_utama' => $request->keluhan_utama,
         ]);
         AsesmenDokter::updateOrCreate(
             [

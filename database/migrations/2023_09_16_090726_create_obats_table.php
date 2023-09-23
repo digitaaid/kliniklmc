@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('obats', function (Blueprint $table) {
             $table->id();
             $table->string('nama');
-            $table->string('satuan');
+            $table->string('satuan')->nullable();
             $table->timestamps();
         });
     }
