@@ -189,6 +189,10 @@
                                             1x1
                                         @break
 
+                                        @case('dod')
+                                            1x2
+                                        @break
+
                                         @case('bid')
                                             2x1
                                         @break

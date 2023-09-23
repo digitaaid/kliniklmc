@@ -198,6 +198,9 @@
                                                                 <option value="qod"
                                                                     {{ $itemobat->interval == 'qod' ? 'selected' : null }}>
                                                                     1 x 1</option>
+                                                                <option value="dod"
+                                                                    {{ $itemobat->interval == 'dod' ? 'selected' : null }}>
+                                                                    1 x 2</option>
                                                                 <option value="bid"
                                                                     {{ $itemobat->interval == 'bid' ? 'selected' : null }}>
                                                                     2 x 1</option>
@@ -207,7 +210,7 @@
                                                                 <option value="qid"
                                                                     {{ $itemobat->interval == 'qid' ? 'selected' : null }}>
                                                                     4 x 1</option>
-                                                                <option value="prn"
+                                                                {{-- <option value="prn"
                                                                     {{ $itemobat->interval == 'prn' ? 'selected' : null }}>
                                                                     Sesuai Kebutuhan</option>
                                                                 <option value="q3h"
@@ -215,7 +218,7 @@
                                                                     Setiap 3 Jam</option>
                                                                 <option value="q4h"
                                                                     {{ $itemobat->interval == 'q4h' ? 'selected' : null }}>
-                                                                    Setiap 4 Jam</option>
+                                                                    Setiap 4 Jam</option> --}}
                                                             </select>
                                                             <select name="waktuobat[]" class="form-control waktuObat">
                                                                 <option selected>Waktu Obat</option>
@@ -255,12 +258,13 @@
                                                     <select name="frekuensi[]" class="form-control frekuensilObat">
                                                         <option selected disabled>Interval</option>
                                                         <option value="qod">1 x 1</option>
+                                                        <option value="dod">1 x 2</option>
                                                         <option value="bid">2 x 1</option>
                                                         <option value="tid">3 x 1</option>
                                                         <option value="qid">4 x 1</option>
-                                                        <option value="prn">Sesuai Kebutuhan</option>
+                                                        {{-- <option value="prn">Sesuai Kebutuhan</option>
                                                         <option value="q3h">Setiap 3 Jam</option>
-                                                        <option value="q4h">Setiap 4 Jam</option>
+                                                        <option value="q4h">Setiap 4 Jam</option> --}}
                                                     </select>
                                                     <select name="waktuobat[]" class="form-control waktuObat">
                                                         <option selected>Waktu Obat</option>
@@ -432,12 +436,10 @@
                 '<input type="number" name="jumlah[]" placeholder="Jumlah" class="form-control" multiple>' +
                 '<select name="frekuensi[]"class="form-control frekuensilObat"> <option selected disabled>Interval</option>' +
                 '<option value="qod">1 x 1</option>' +
+                '<option value="dod">1 x 2</option>' +
                 '<option value="bid">2 x 1</option>' +
                 '<option value="tid">3 x 1</option>' +
                 '<option value="qid">4 x 1</option>' +
-                '<option value="prn">Sesuai Kebutuhan</option>' +
-                '<option value="q3h">Setiap 3 Jam</option>' +
-                '<option value="q4h">Setiap 4 Jam</option>' +
                 '</select> ' +
                 '<select name="waktuobat[]" class="form-control waktuObat"><option selected>Waktu Obat</option>' +
                 '<option value="pc">Setelah Makan</option>' +
