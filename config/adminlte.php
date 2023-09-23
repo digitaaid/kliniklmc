@@ -333,7 +333,7 @@ return [
             'text' => 'Pasien',
             'icon'    => 'fas fa-user-injured',
             'url'  => 'pasien',
-            'can' => 'manajemen',
+            // 'can' => 'manajemen',
         ],
         [
             'text' => 'Poliklinik',
