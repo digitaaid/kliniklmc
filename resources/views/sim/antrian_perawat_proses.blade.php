@@ -248,7 +248,7 @@
                                             class="btn btn-xs btn-danger mb-1">Hapus File</a>
                                         <br>
                                         <object data="{{ $file->fileurl }}" width="100%"
-                                            height="400px"> </object>
+                                            height="700px"> </object>
                                     </x-adminlte-card>
                                 @endforeach
                             @endif
