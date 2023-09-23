@@ -53,7 +53,7 @@
                 </div> --}}
                 <x-adminlte-card title="Data Kunjungan Pasien" theme="warning" icon="fas fa-info-circle" collapsible>
                     @php
-                        $heads = ['No', 'Tgl Masuk', 'Counter / Kode', 'Pasien', 'Jaminan', 'Jenis Kunjungan', 'SEP', 'Asesmen', 'Resep', 'Status'];
+                        $heads = ['No', 'Tgl Masuk', 'Kode', 'Pasien', 'Jaminan', 'Jenis Kunjungan', 'SEP', 'Asesmen', 'Resep', 'Status'];
                         $config['order'] = [1, 'asc'];
                         $config['paging'] = false;
                         $config['scrollY'] = '300px';
@@ -64,12 +64,43 @@
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $item->tgl_masuk }}</td>
-                                <td>{{ $item->counter }} / {{ $item->kode }}</td>
+                                <td>{{ $item->kode }}</td>
                                 <td>{{ $item->norm }} {{ $item->nama }}</td>
-                                <td>{{ $item->jaminan }}</td>
-                                <td>{{ $item->jeniskunjungan }}</td>
+                                <td>{{ $item->jaminans->nama }}</td>
+                                <td>
+                                    @switch($item->jeniskunjungan)
+                                        @case(1)
+                                            Rujukan FKTP
+                                        @break
+
+                                        @case(2)
+                                            Umum / Rujukan Internal
+                                        @break
+
+                                        @case(3)
+                                            Surat Kontrol
+                                        @break
+
+                                        @case(4)
+                                            Rujukan Antar RS
+                                        @break
+
+                                        @default
+                                    @endswitch
+                                    <br>
+                                    {{ $item->nomorreferensi }}
+                                </td>
                                 <td>{{ $item->sep }}</td>
-                                <td>{{ $item->asesmendoker }}</td>
+                                <td>{{ $item->asesmendokter->id }}
+                                    <a class="btn btn-xs btn-success" target="_blank"
+                                        href="{{ route('print_asesmendokter') }}?id={{ $item->asesmendokter->kodekunjungan }}">
+                                        <i class="fas fa-print"></i> Asesmen Dokter</a>
+                                </td>
+                                <td>{{ $item->resepobat }}
+                                    <a href="{{ route('print_asesmenfarmasi') }}?kodebooking={{ $item->kodebooking }}"
+                                        class="btn btn-xs btn-success" target="_blank"> <i class="fas fa-print"></i> Resep
+                                        Obat</a>
+                                </td>
                                 <td>{{ $item->status }}</td>
                             </tr>
                         @endforeach

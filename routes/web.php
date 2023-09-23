@@ -138,7 +138,8 @@ Route::middleware('auth')->group(function () {
     Route::get('getantrianfarmasi', [AntrianController::class, 'getantrianfarmasi'])->name('getantrianfarmasi');
     Route::get('terimafarmasi', [AntrianController::class, 'terimafarmasi'])->name('terimafarmasi');
     Route::get('selesaifarmasi', [AntrianController::class, 'selesaifarmasi'])->name('selesaifarmasi');
-
+    // print
+    Route::get('print_asesmendokter', [FormController::class, 'print_asesmendokter'])->name('print_asesmendokter');
     Route::get('print_asesmenfarmasi', [FormController::class, 'print_asesmenfarmasi'])->name('print_asesmenfarmasi');
 
 

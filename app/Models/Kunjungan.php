@@ -18,4 +18,12 @@ class Kunjungan extends Model
     {
         return $this->hasOne(AsesmenDokter::class);
     }
+    public function jaminans()
+    {
+        return $this->belongsTo(Jaminan::class, 'jaminan', 'id');
+    }
+    public function resepobat()
+    {
+        return $this->hasOne(ResepObat::class);
+    }
 }

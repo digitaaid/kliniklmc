@@ -1,7 +1,7 @@
 @extends('adminlte::print')
-@section('title', 'Asesmen Resep Obat')
+@section('title', 'Print Asesmen Resep Obat')
 @section('content_header')
-    <h1>Asesmen Resep Obat</h1>
+    <h1>Print Asesmen Resep Obat</h1>
 @stop
 @section('content')
     <div class="row">

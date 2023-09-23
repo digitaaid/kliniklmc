@@ -404,6 +404,12 @@ return [
             'can' => 'admin',
         ],
         [
+            'text' => 'Jaminan',
+            'icon'    => 'fas fa-users',
+            'url'  => 'jaminan',
+            'can' => 'admin',
+        ],
+        [
             'text' => 'SEP',
             'icon'    => 'fas fa-users',
             'url'  => 'sep',

@@ -292,6 +292,8 @@
         pre {
             padding: 0 !important;
             font-size: 15px !important;
+            border: none;
+            outline: none;
         }
     </style>
 @endsection
