@@ -20,7 +20,7 @@ class Kunjungan extends Model
     }
     public function jaminans()
     {
-        return $this->belongsTo(Jaminan::class, 'jaminan', 'id');
+        return $this->belongsTo(Jaminan::class, 'jaminan', 'kode');
     }
     public function resepobat()
     {
