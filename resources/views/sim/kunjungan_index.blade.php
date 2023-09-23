@@ -66,7 +66,7 @@
                                 <td>{{ $item->tgl_masuk }}</td>
                                 <td>{{ $item->kode }}</td>
                                 <td>{{ $item->norm }} {{ $item->nama }}</td>
-                                <td>{{ $item->jaminans->nama }}</td>
+                                <td>{{ $item->jaminan ? $item->jaminans->nama : $item->jaminan }}</td>
                                 <td>
                                     @switch($item->jeniskunjungan)
                                         @case(1)
@@ -91,15 +91,21 @@
                                     {{ $item->nomorreferensi }}
                                 </td>
                                 <td>{{ $item->sep }}</td>
-                                <td>{{ $item->asesmendokter->id }}
-                                    <a class="btn btn-xs btn-success" target="_blank"
-                                        href="{{ route('print_asesmendokter') }}?id={{ $item->asesmendokter->kodekunjungan }}">
-                                        <i class="fas fa-print"></i> Asesmen Dokter</a>
+                                <td>
+                                    @if ($item->asesmendokter)
+                                        <a class="btn btn-xs btn-success" target="_blank"
+                                            href="{{ route('print_asesmendokter') }}?id={{ $item->asesmendokter->kodekunjungan }}">
+                                            <i class="fas fa-print"></i> Asesmen Dokter</a>
+                                    @endif
+
                                 </td>
-                                <td>{{ $item->resepobat }}
-                                    <a href="{{ route('print_asesmenfarmasi') }}?kodebooking={{ $item->kodebooking }}"
-                                        class="btn btn-xs btn-success" target="_blank"> <i class="fas fa-print"></i> Resep
-                                        Obat</a>
+                                <td>
+                                    @if ($item->resepobat)
+                                        <a href="{{ route('print_asesmenfarmasi') }}?kodebooking={{ $item->kodebooking }}"
+                                            class="btn btn-xs btn-success" target="_blank"> <i class="fas fa-print"></i>
+                                            Resep
+                                            Obat</a>
+                                    @endif
                                 </td>
                                 <td>{{ $item->status }}</td>
                             </tr>
