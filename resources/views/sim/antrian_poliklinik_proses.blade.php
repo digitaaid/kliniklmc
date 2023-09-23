@@ -73,6 +73,9 @@
                         </li>
                         <li class="nav-item"><a class="nav-link " href="#riwayattab" data-toggle="tab">Riwayat</a>
                         </li>
+                        <li class="nav-item"><a class="nav-link " href="#filepenunjangtab" data-toggle="tab">File
+                                Penunjang</a>
+                        </li>
                         <li class="nav-item"><a class="nav-link " href="#labtab" data-toggle="tab">Laboratorium</a>
                         </li>
                         <li class="nav-item"><a class="nav-link " href="#radtab" data-toggle="tab">Radiologi</a>
@@ -95,6 +98,38 @@
                         </div>
                         <div class="tab-pane" id="riwayattab">
                             Riwayat Kunjungan
+                        </div>
+                        <div class="tab-pane" id="filepenunjangtab">
+                            @if ($antrian->fileuploads)
+                                @foreach ($antrian->fileuploads as $file)
+                                    <x-adminlte-card title="{{ $file->nama }}" theme="info" icon="fas fa-file"
+                                        collapsible="collapsed">
+                                        <a href="{{ $file->fileurl }}" target="_blank"
+                                            class="btn btn-xs btn-primary mr-1 mb-1">Donwload</a>
+                                        <a href="{{ route('hapusfilepenunjang') }}?id={{ $file->id }}"
+                                            class="btn btn-xs btn-danger mb-1">Hapus File</a>
+                                        <br>
+                                        <embed type="{{ $file->type }}" src="{{ $file->fileurl }}" width="100%"
+                                            height="400px">
+                                    </x-adminlte-card>
+                                @endforeach
+                                <hr>
+                            @endif
+                            {{-- <form action="{{ route('uploadpenunjang') }}" method="POST" enctype="multipart/form-data">
+                                @csrf
+                                <input type="hidden" name="kodebooking" value="{{ $antrian->kodebooking }}">
+                                <input type="hidden" name="antrian_id" value="{{ $antrian->id }}">
+                                <input type="hidden" name="kodekunjungan" value="{{ $antrian->kunjungan->kode ?? null }}">
+                                <input type="hidden" name="kunjungan_id" value="{{ $antrian->kunjungan->id ?? null }}">
+                                <input type="hidden" name="norm" value="{{ $antrian->norm ?? null }}">
+                                <input type="hidden" name="namapasien" value="{{ $antrian->nama ?? null }}">
+                                <x-adminlte-input name="nama" placeholder="Nama / Keterangan File" igroup-size="sm"
+                                    label="Nama File" enable-old-support required />
+                                <x-adminlte-input-file name="file" placeholder="Pilih file yang akan diupload"
+                                    igroup-size="sm" label="Upload Image" />
+                                <x-adminlte-button type="submit" icon="fas fa-save" theme="success" icon="fas fa-upload"
+                                    label="Upload" />
+                            </form> --}}
                         </div>
                         <div class="tab-pane" id="riwayattab">
                             Laboratorium
@@ -121,7 +156,8 @@
                                 @csrf
                                 <input type="hidden" name="kodebooking" value="{{ $antrian->kodebooking }}">
                                 <input type="hidden" name="antrian_id" value="{{ $antrian->id }}">
-                                <input type="hidden" name="kodekunjungan" value="{{ $antrian->kunjungan->kode ?? null }}">
+                                <input type="hidden" name="kodekunjungan"
+                                    value="{{ $antrian->kunjungan->kode ?? null }}">
                                 <input type="hidden" name="kunjungan_id" value="{{ $antrian->kunjungan->id ?? null }}">
                                 <div class="row">
                                     <div class="col-md-6">

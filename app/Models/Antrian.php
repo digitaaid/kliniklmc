@@ -33,4 +33,8 @@ class Antrian extends Model
     {
         return $this->hasOne(ResepObat::class);
     }
+    public function fileuploads()
+    {
+        return $this->hasMany(FileUploadPasien::class);
+    }
 }

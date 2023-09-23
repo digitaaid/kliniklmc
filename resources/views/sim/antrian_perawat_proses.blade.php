@@ -209,7 +209,7 @@
                                 </button>
                             </form>
                         </div>
-                        <div class="active tab-pane" id="doktertab">
+                        <div class="tab-pane" id="doktertab">
                             @if ($antrian->asesmendokter)
                                 <div id="printMe">
                                     @include('form.asesmen_dokter_rajal')
@@ -228,13 +228,30 @@
                                 <input type="hidden" name="kodekunjungan"
                                     value="{{ $antrian->kunjungan->kode ?? null }}">
                                 <input type="hidden" name="kunjungan_id" value="{{ $antrian->kunjungan->id ?? null }}">
+                                <input type="hidden" name="norm" value="{{ $antrian->norm ?? null }}">
+                                <input type="hidden" name="namapasien" value="{{ $antrian->nama ?? null }}">
                                 <x-adminlte-input name="nama" placeholder="Nama / Keterangan File" igroup-size="sm"
                                     label="Nama File" enable-old-support required />
                                 <x-adminlte-input-file name="file" placeholder="Pilih file yang akan diupload"
-                                    igroup-size="sm" label="Upload Image" required />
+                                    igroup-size="sm" label="Upload Image" />
                                 <x-adminlte-button type="submit" icon="fas fa-save" theme="success"
                                     icon="fas fa-upload" label="Upload" />
                             </form>
+                            @if ($antrian->fileuploads)
+                                <hr>
+                                @foreach ($antrian->fileuploads as $file)
+                                    <x-adminlte-card title="{{ $file->nama }}" theme="info" icon="fas fa-file"
+                                        collapsible="collapsed">
+                                        <a href="{{ $file->fileurl }}" target="_blank"
+                                            class="btn btn-xs btn-primary mr-1 mb-1">Donwload</a>
+                                        <a href="{{ route('hapusfilepenunjang') }}?id={{ $file->id }}"
+                                            class="btn btn-xs btn-danger mb-1">Hapus File</a>
+                                        <br>
+                                        <embed type="{{ $file->type }}" src="{{ $file->fileurl }}" width="100%"
+                                            height="400px">
+                                    </x-adminlte-card>
+                                @endforeach
+                            @endif
                         </div>
                         <div class="tab-pane" id="resumetab">
                             @if ($kunjungan)
