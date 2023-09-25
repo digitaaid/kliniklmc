@@ -38,7 +38,7 @@
                             url-text="Proses Antrian Selanjutnya" />
                     </div>
                     <div class="col-md-3">
-                        <x-adminlte-small-box title="{{ $antrians->where('taskid', '<=', 3)->count() }}" text="Sisa Antrian"
+                        <x-adminlte-small-box title="{{ $antrians->where('taskid', '>=', 2)->where('taskid', '<=', 3)->count() }}" text="Sisa Antrian"
                             theme="warning" icon="fas fa-user-injured" />
                     </div>
                     <div class="col-md-3">
