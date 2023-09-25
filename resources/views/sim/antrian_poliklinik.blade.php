@@ -42,12 +42,12 @@
                             theme="warning" icon="fas fa-user-injured" />
                     </div>
                     <div class="col-md-3">
-                        <x-adminlte-small-box title="{{ $antrians->where('taskid', '!=', 99)->count() }}"
+                        <x-adminlte-small-box
+                            title="{{ $antrians->where('taskid', '>=', 2)->where('taskid', '!=', 99)->count() }}"
                             text="Total Antrian" theme="success" icon="fas fa-user-injured" />
                     </div>
                 </div>
-                <x-adminlte-card title="Data Antrian Asesmen Dokter" theme="warning" icon="fas fa-info-circle"
-                    collapsible>
+                <x-adminlte-card title="Data Antrian Asesmen Dokter" theme="warning" icon="fas fa-info-circle" collapsible>
                     @php
                         $heads = ['No', 'Kodebooking', 'Pasien', 'Kartu BPJS', 'Unit', 'Dokter', 'Jenis Pasien', 'Taskid', 'Asesmen', 'Action'];
                         $config['order'] = [[7, 'asc']];
@@ -108,11 +108,11 @@
                                     @endswitch
                                 </td>
                                 <td>
-                                        @if ($item->asesmendokter)
-                                            <span class="badge badge-success">Sudah Asesmen</span>
-                                        @else
-                                            <span class="badge badge-danger">Belum Asesmen</span>
-                                        @endif
+                                    @if ($item->asesmendokter)
+                                        <span class="badge badge-success">Sudah Asesmen</span>
+                                    @else
+                                        <span class="badge badge-danger">Belum Asesmen</span>
+                                    @endif
                                 </td>
                                 <td>
                                     @switch($item->taskid)
@@ -120,10 +120,12 @@
                                             <a href="{{ route('prosespoliklinik') }}?kodebooking={{ $item->kodebooking }}"
                                                 class="btn btn-xs btn-warning withLoad">Proses</a>
                                         @break
+
                                         @case(4)
                                             <a href="{{ route('prosespoliklinik') }}?kodebooking={{ $item->kodebooking }}"
                                                 class="btn btn-xs btn-primary withLoad">Proses</a>
                                         @break
+
                                         @default
                                             <a href="{{ route('prosespoliklinik') }}?kodebooking={{ $item->kodebooking }}"
                                                 class="btn btn-xs btn-secondary withLoad">Lihat</a>
