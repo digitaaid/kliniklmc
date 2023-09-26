@@ -158,7 +158,7 @@
                             <h2>{{ $jadwal->jadwal }}</h2>
                         </div>
                         <div class="col" style="font-size: 20">
-                            <b> {{ $jadwal->namasubspesialis }} </b><br>
+                            <b>POLI {{ $jadwal->namasubspesialis }} </b><br>
                             {{ $jadwal->namadokter }}
                         </div>
                     </div>
@@ -176,7 +176,7 @@
                             <h2>{{ $jadwal->jadwal }}</h2>
                         </div>
                         <div class="col" style="font-size: 20">
-                            <b> {{ $jadwal->namasubspesialis }} </b><br>
+                            <b>POLI {{ $jadwal->namasubspesialis }} </b><br>
                             {{ $jadwal->namadokter }}
                         </div>
                     </div>
