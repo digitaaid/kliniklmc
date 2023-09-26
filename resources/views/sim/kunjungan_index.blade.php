@@ -53,7 +53,7 @@
                 </div> --}}
                 <x-adminlte-card title="Data Kunjungan Pasien" theme="warning" icon="fas fa-info-circle" collapsible>
                     @php
-                        $heads = ['No', 'Tgl Masuk', 'Kode', 'Pasien', 'Jaminan', 'Jenis Kunjungan', 'SEP', 'Asesmen', 'Resep', 'Status'];
+                        $heads = ['No', 'Tgl Masuk', 'Kode', 'Pasien', 'Unit', 'Jaminan', 'Jenis Kunjungan', 'SEP', 'Asesmen', 'Resep', 'Status'];
                         $config['order'] = [1, 'asc'];
                         $config['paging'] = false;
                         $config['scrollY'] = '300px';
@@ -66,6 +66,7 @@
                                 <td>{{ $item->tgl_masuk }}</td>
                                 <td>{{ $item->kode }}</td>
                                 <td>{{ $item->norm }} {{ $item->nama }}</td>
+                                <td>{{ $item->unit->nama }}</td>
                                 <td>{{ $item->jaminans->nama ?? '-' }}
                                     {{-- @if ($item->jaminan)
                                         {{ $item->jaminans }}
