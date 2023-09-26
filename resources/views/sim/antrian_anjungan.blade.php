@@ -148,9 +148,9 @@
             </div>
         </div>
     </div>
-    <x-adminlte-modal id="modalBPJS" size="xl" title="Ambil Antrian BPJS" theme="success" icon="fas fa-user-plus">
+    <x-adminlte-modal id="modalBPJS" size="xl" title="Ambil Antrian BPJS" theme="purple" icon="fas fa-user-plus">
         @foreach ($jadwals as $jadwal)
-            <a class="card m-2 bg-success withLoad"
+            <a class="card m-2 bg-purple withLoad"
                 href="{{ route('ambilkarcis') }}?jenispasien=JKN&jadwal={{ $jadwal->id }}">
                 <div class="card-body">
                     <div class="row">
@@ -166,9 +166,9 @@
             </a>
         @endforeach
     </x-adminlte-modal>
-    <x-adminlte-modal id="modalUMUM" size="xl" title="Ambil Antrian UMUM" theme="success" icon="fas fa-user-plus">
+    <x-adminlte-modal id="modalUMUM" size="xl" title="Ambil Antrian UMUM" theme="purple" icon="fas fa-user-plus">
         @foreach ($jadwals as $jadwal)
-            <a class="card bg-success withLoad"
+            <a class="card bg-purple withLoad"
                 href="{{ route('ambilkarcis') }}?jenispasien=NON-JKN&jadwal={{ $jadwal->id }}">
                 <div class="card-body">
                     <div class="row">
