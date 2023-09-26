@@ -123,8 +123,7 @@
                         <x-adminlte-input name="kodebooking" label="Silahkan scan QR Code Antrian atau masukan Kode Antrian"
                             placeholder="Masukan Kode Antrian untuk Checkin" igroup-size="lg">
                             <x-slot name="appendSlot">
-                                <x-adminlte-button name="btn_checkin" id="btn_checkin" theme="success"
-                                    label="Checkin!" />
+                                <x-adminlte-button name="btn_checkin" id="btn_checkin" theme="success" label="Checkin!" />
                             </x-slot>
                             <x-slot name="prependSlot">
                                 <div class="input-group-text text-success">
@@ -151,12 +150,18 @@
     </div>
     <x-adminlte-modal id="modalBPJS" size="xl" title="Ambil Antrian BPJS" theme="success" icon="fas fa-user-plus">
         @foreach ($jadwals as $jadwal)
-            <a class="card bg-success withLoad"
+            <a class="card m-2 bg-success withLoad"
                 href="{{ route('ambilkarcis') }}?jenispasien=JKN&jadwal={{ $jadwal->id }}">
-                <div class="card-body  text-center">
-                    {{ $jadwal->jadwal }}
-                    {{ $jadwal->namadokter }}
-                    ({{ $jadwal->namasubspesialis }})
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col  text-center">
+                            <h2>{{ $jadwal->jadwal }}</h2>
+                        </div>
+                        <div class="col" style="font-size: 20">
+                            <b> {{ $jadwal->namasubspesialis }} </b><br>
+                            {{ $jadwal->namadokter }}
+                        </div>
+                    </div>
                 </div>
             </a>
         @endforeach
@@ -165,10 +170,16 @@
         @foreach ($jadwals as $jadwal)
             <a class="card bg-success withLoad"
                 href="{{ route('ambilkarcis') }}?jenispasien=NON-JKN&jadwal={{ $jadwal->id }}">
-                <div class="card-body  text-center">
-                    {{ $jadwal->jadwal }}
-                    {{ $jadwal->namadokter }}
-                    ({{ $jadwal->namasubspesialis }})
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col  text-center">
+                            <h2>{{ $jadwal->jadwal }}</h2>
+                        </div>
+                        <div class="col" style="font-size: 20">
+                            <b> {{ $jadwal->namasubspesialis }} </b><br>
+                            {{ $jadwal->namadokter }}
+                        </div>
+                    </div>
                 </div>
             </a>
         @endforeach
