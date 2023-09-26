@@ -503,7 +503,7 @@
                                                 Rujukan FKTP</option>
                                             <option value="2"
                                                 {{ $antrian->kunjungan->jeniskunjungan ?? null == '2' ? 'selected' : null }}>
-                                                Rujukan Internal / Umum</option>
+                                                Umum</option>
                                             <option value="3"
                                                 {{ $antrian->kunjungan->jeniskunjungan ?? null == '3' ? 'selected' : null }}>
                                                 Kontrol</option>

@@ -79,7 +79,7 @@
                                         @break
 
                                         @case(2)
-                                            Umum / Rujukan Internal
+                                            Umum
                                         @break
 
                                         @case(3)
