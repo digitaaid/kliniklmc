@@ -66,7 +66,7 @@
                                 <td>{{ $item->tgl_masuk }}</td>
                                 <td>{{ $item->kode }}</td>
                                 <td>{{ $item->norm }} {{ $item->nama }}</td>
-                                <td>{{ $item->unit->nama }}</td>
+                                <td>{{ $item->units->nama }}</td>
                                 <td>{{ $item->jaminans->nama ?? '-' }}
                                     {{-- @if ($item->jaminan)
                                         {{ $item->jaminans }}
