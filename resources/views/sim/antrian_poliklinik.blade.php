@@ -38,8 +38,9 @@
                             url-text="Proses Antrian Selanjutnya" />
                     </div>
                     <div class="col-md-3">
-                        <x-adminlte-small-box title="{{ $antrians->where('taskid', '>=', 2)->where('taskid', '<=', 3)->count() }}" text="Sisa Antrian"
-                            theme="warning" icon="fas fa-user-injured" />
+                        <x-adminlte-small-box
+                            title="{{ $antrians->where('taskid', '>=', 2)->where('taskid', '<=', 3)->count() }}"
+                            text="Sisa Antrian" theme="warning" icon="fas fa-user-injured" />
                     </div>
                     <div class="col-md-3">
                         <x-adminlte-small-box
@@ -49,7 +50,7 @@
                 </div>
                 <x-adminlte-card title="Data Antrian Asesmen Dokter" theme="warning" icon="fas fa-info-circle" collapsible>
                     @php
-                        $heads = ['No', 'Kodebooking', 'Pasien', 'Kartu BPJS', 'Unit', 'Dokter', 'Jenis Pasien', 'Taskid', 'Asesmen', 'Action'];
+                        $heads = ['No', 'Kodebooking', 'Pasien', 'Kartu BPJS', 'Jenis Pasien', 'Unit', 'Dokter', 'Taskid', 'Asesmen', 'Action'];
                         $config['order'] = [[7, 'asc']];
                         $config['paging'] = false;
                         $config['scrollY'] = '300px';
@@ -62,9 +63,9 @@
                                 <td>{{ $item->kodebooking }}</td>
                                 <td>{{ $item->norm }} {{ $item->nama }}</td>
                                 <td>{{ $item->nomorkartu }}</td>
-                                <td>{{ $item->namapoli }}</td>
-                                <td>{{ $item->namadokter }}</td>
                                 <td>{{ $item->jenispasien }} </td>
+                                <td>{{ $item->kunjungan->units->nama }}</td>
+                                <td>{{ $item->namadokter }}</td>
                                 <td>
                                     @switch($item->taskid)
                                         @case(0)

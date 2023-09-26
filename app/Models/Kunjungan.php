@@ -26,4 +26,8 @@ class Kunjungan extends Model
     {
         return $this->belongsTo(Antrian::class,  'kode', 'kodebooking');
     }
+    public function units()
+    {
+        return $this->hasOne(Unit::class,  'kode', 'unit');
+    }
 }

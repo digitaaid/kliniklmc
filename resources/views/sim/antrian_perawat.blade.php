@@ -31,7 +31,8 @@
             <div class="col-md-12">
                 <div class="row">
                     <div class="col-md-3">
-                        <x-adminlte-small-box title="{{ $antrians->where('taskid', '>=', 2)->where('taskid', '!=', 99)->count() - $antrian_asesmen }}"
+                        <x-adminlte-small-box
+                            title="{{ $antrians->where('taskid', '>=', 2)->where('taskid', '!=', 99)->count() - $antrian_asesmen }}"
                             text="Belum Asesmen Perawat" theme="warning" icon="fas fa-user-injured" />
                     </div>
                     <div class="col-md-3">
@@ -39,14 +40,15 @@
                             icon="fas fa-user-injured" />
                     </div>
                     <div class="col-md-3">
-                        <x-adminlte-small-box title="{{ $antrians->where('taskid', '>=', 2)->where('taskid', '!=', 99)->count() }}"
+                        <x-adminlte-small-box
+                            title="{{ $antrians->where('taskid', '>=', 2)->where('taskid', '!=', 99)->count() }}"
                             text="Total Antrian" theme="success" icon="fas fa-user-injured" />
                     </div>
                 </div>
                 <x-adminlte-card title="Data Antrian Asesmen Perawat" theme="warning" icon="fas fa-info-circle" collapsible>
                     @php
-                        $heads = ['No', 'Kodebooking', 'Pasien', 'Kartu BPJS', 'Unit / Dokter', 'Taskid', 'Asesment', 'Action'];
-                        $config['order'] =  [[6, 'asc'],[5, 'asc']] ;
+                        $heads = ['No', 'Kodebooking', 'Pasien', 'Kartu BPJS', 'Jenis Pasien', 'Unit ', ' Dokter', 'Taskid', 'Asesment', 'Action'];
+                        $config['order'] = [[6, 'asc'], [5, 'asc']];
                         $config['paging'] = false;
                         $config['scrollY'] = '300px';
                     @endphp
@@ -58,7 +60,9 @@
                                 <td>{{ $item->kodebooking }}</td>
                                 <td>{{ $item->norm }} {{ $item->nama }}</td>
                                 <td>{{ $item->nomorkartu }}</td>
-                                <td>{{ $item->kodepoli }} / {{ $item->namadokter }}</td>
+                                <td>{{ $item->jenispasien }} </td>
+                                <td>{{ $item->kunjungan->units->nama }}</td>
+                                <td>{{ $item->namadokter }}</td>
                                 <td>
                                     @switch($item->taskid)
                                         @case(0)
