@@ -92,8 +92,8 @@
 
                                         @default
                                     @endswitch
-                                    <br>
-                                    {{ $item->nomorreferensi }}
+                                    {{-- <br>
+                                    {{ $item->nomorreferensi }} --}}
                                 </td>
                                 <td>
                                     @if ($item->sep)
