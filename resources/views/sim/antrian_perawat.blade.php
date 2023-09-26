@@ -48,7 +48,7 @@
                 <x-adminlte-card title="Data Antrian Asesmen Perawat" theme="warning" icon="fas fa-info-circle" collapsible>
                     @php
                         $heads = ['No', 'Kodebooking', 'Pasien', 'Kartu BPJS', 'Jenis Pasien', 'Unit ', ' Dokter', 'Taskid', 'Asesment', 'Action'];
-                        $config['order'] = [[6, 'asc'], [5, 'asc']];
+                        $config['order'] = [[8, 'asc'], [7, 'asc']];
                         $config['paging'] = false;
                         $config['scrollY'] = '300px';
                     @endphp
