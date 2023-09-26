@@ -336,6 +336,12 @@ return [
             // 'can' => 'manajemen',
         ],
         [
+            'text' => 'Kunjungan',
+            'icon'    => 'fas fa-users',
+            'url'  => 'kunjungan',
+            // 'can' => 'admin',
+        ],
+        [
             'text' => 'Poliklinik',
             'icon'    => 'fas fa-clinic-medical',
             'url'  => 'poliklinik',
@@ -397,12 +403,7 @@ return [
             'icon'    => 'fas fa-chart-line',
             'url'  => 'capaianantrian',
         ],
-        [
-            'text' => 'Kunjungan',
-            'icon'    => 'fas fa-users',
-            'url'  => 'kunjungan',
-            'can' => 'admin',
-        ],
+
         [
             'text' => 'Jaminan',
             'icon'    => 'fas fa-users',
