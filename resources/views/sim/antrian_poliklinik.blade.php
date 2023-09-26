@@ -64,7 +64,7 @@
                                 <td>{{ $item->norm }} {{ $item->nama }}</td>
                                 <td>{{ $item->nomorkartu }}</td>
                                 <td>{{ $item->jenispasien }} </td>
-                                <td>{{ $item->kunjungan->units->nama }}</td>
+                                <td>{{ $item->kunjungan ? $item->kunjungan->units->nama : '-'}}</td>
                                 <td>{{ $item->namadokter }}</td>
                                 <td>
                                     @switch($item->taskid)
