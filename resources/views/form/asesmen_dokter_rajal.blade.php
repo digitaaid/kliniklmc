@@ -217,6 +217,14 @@
                                             SETIAP 4 JAM
                                         @break
 
+                                        @case('303')
+                                            3 Setiap Pagi dan Malam
+                                        @break
+
+                                        @case('202')
+                                            2 Setiap Pagi dan Malam
+                                        @break
+
                                         @default
                                     @endswitch
 

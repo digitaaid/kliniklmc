@@ -109,8 +109,7 @@
                                         <a href="{{ route('hapusfilepenunjang') }}?id={{ $file->id }}"
                                             class="btn btn-xs btn-danger mb-1">Hapus File</a>
                                         <br>
-                                        <object data="{{ $file->fileurl }}" width="100%"
-                                            height="700px"></object>
+                                        <object data="{{ $file->fileurl }}" width="100%" height="700px"></object>
                                     </x-adminlte-card>
                                 @endforeach
                                 <hr>
@@ -245,6 +244,12 @@
                                                                 <option value="qid"
                                                                     {{ $itemobat->interval == 'qid' ? 'selected' : null }}>
                                                                     4 x 1</option>
+                                                                <option value="202"
+                                                                    {{ $itemobat->interval == '202' ? 'selected' : null }}>
+                                                                    2-0-2</option>
+                                                                <option value="303"
+                                                                    {{ $itemobat->interval == '303' ? 'selected' : null }}>
+                                                                    3-0-3</option>
                                                                 {{-- <option value="prn"
                                                                     {{ $itemobat->interval == 'prn' ? 'selected' : null }}>
                                                                     Sesuai Kebutuhan</option>
