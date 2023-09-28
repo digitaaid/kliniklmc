@@ -74,11 +74,11 @@
                                                 @break
 
                                                 @case('303')
-                                                    3 Setiap Pagi dan Malam
+                                                    3 TAB/CAP SETIAP PAGI DAN MALAM
                                                 @break
 
                                                 @case('202')
-                                                    2 Setiap Pagi dan Malam
+                                                    2 TAB/CAP SETIAP PAGI DAN MALAM
                                                 @break
 
                                                 @default
