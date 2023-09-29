@@ -225,7 +225,7 @@
                         <div class="tab-pane" id="riwayattab">
                             @if ($antrian->pasien)
                                 @foreach ($antrian->pasien->kunjungans as $kunjungan)
-                                    <x-adminlte-card title="{{ $kunjungan->tgl_masuk }}" theme="info"
+                                    <x-adminlte-card title="KUNJUNGAN {{ $kunjungan->tgl_masuk }}" theme="info"
                                         icon="fas fa-file" collapsible="collapsed">
                                         @if ($kunjungan->asesmendokter)
                                             @include('form.asesmen_dokter_rajal')
@@ -258,7 +258,7 @@
                             @if ($antrian->pasien->fileuploads)
                                 <hr>
                                 @foreach ($antrian->pasien->fileuploads as $file)
-                                    <x-adminlte-card title="{{ $file->nama }}" theme="info" icon="fas fa-file"
+                                    <x-adminlte-card title="{{ $file->nama }} {{ $file->created_at }}" theme="info" icon="fas fa-file"
                                         collapsible="collapsed">
                                         <a href="{{ $file->fileurl }}" target="_blank"
                                             class="btn btn-xs btn-primary mr-1 mb-1">Donwload</a>
