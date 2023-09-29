@@ -9,4 +9,13 @@ class Pasien extends Model
 {
     use HasFactory;
     protected $guarded = ['id'];
+
+    public function kunjungans()
+    {
+        return $this->hasMany(Kunjungan::class, 'norm', 'norm');
+    }
+    public function fileuploads()
+    {
+        return $this->hasMany(FileUploadPasien::class, 'norm', 'norm');
+    }
 }

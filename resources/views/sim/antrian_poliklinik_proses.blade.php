@@ -302,6 +302,8 @@
                                                         <option value="bid">2 x 1</option>
                                                         <option value="tid">3 x 1</option>
                                                         <option value="qid">4 x 1</option>
+                                                        <option value="202">2-0-2</option>
+                                                        <option value="303">3-0-3</option>
                                                         {{-- <option value="prn">Sesuai Kebutuhan</option>
                                                         <option value="q3h">Setiap 3 Jam</option>
                                                         <option value="q4h">Setiap 4 Jam</option> --}}
@@ -480,6 +482,8 @@
                 '<option value="bid">2 x 1</option>' +
                 '<option value="tid">3 x 1</option>' +
                 '<option value="qid">4 x 1</option>' +
+                '<option value="202">2-0-2</option>' +
+                '<option value="303">3-0-3</option>' +
                 '</select> ' +
                 '<select name="waktuobat[]" class="form-control waktuObat"><option selected>Waktu Obat</option>' +
                 '<option value="pc">Setelah Makan</option>' +

@@ -73,6 +73,8 @@
                         </li>
                         <li class="nav-item"><a class="nav-link" href="#doktertab" data-toggle="tab">Dokter</a>
                         </li>
+                        <li class="nav-item"><a class="nav-link" href="#riwayattab" data-toggle="tab">Riwayat</a>
+                        </li>
                         <li class="nav-item"><a class="nav-link" href="#filepenunjangtab" data-toggle="tab">File
                                 Penunjang</a>
                         </li>
@@ -220,6 +222,22 @@
                                 </x-adminlte-alert>
                             @endif
                         </div>
+                        <div class="tab-pane" id="riwayattab">
+                            @if ($antrian->pasien->kunjungans)
+                                @foreach ($antrian->pasien->kunjungans as $kunjungan)
+                                    <x-adminlte-card title="{{ $kunjungan->tgl_masuk }}" theme="info"
+                                        icon="fas fa-file" collapsible="collapsed">
+                                        @if ($kunjungan->asesmendokter)
+                                            @include('form.asesmen_dokter_rajal')
+                                        @else
+                                            <x-adminlte-alert title="Belum dilakukan asesmen dokter" theme="danger">
+                                                Silahkan lakukan asesmen dokter
+                                            </x-adminlte-alert>
+                                        @endif
+                                    </x-adminlte-card>
+                                @endforeach
+                            @endif
+                        </div>
                         <div class="tab-pane" id="filepenunjangtab">
                             <form action="{{ route('uploadpenunjang') }}" method="POST" enctype="multipart/form-data">
                                 @csrf
@@ -237,18 +255,18 @@
                                 <x-adminlte-button type="submit" icon="fas fa-save" theme="success"
                                     icon="fas fa-upload" label="Upload" />
                             </form>
-                            @if ($antrian->fileuploads)
+                            @if ($antrian->fileuploads || $antrian->pasien->fileuploads)
                                 <hr>
-                                @foreach ($antrian->fileuploads as $file)
+                                @foreach ($antrian->pasien->fileuploads as $file)
                                     <x-adminlte-card title="{{ $file->nama }}" theme="info" icon="fas fa-file"
                                         collapsible="collapsed">
                                         <a href="{{ $file->fileurl }}" target="_blank"
                                             class="btn btn-xs btn-primary mr-1 mb-1">Donwload</a>
                                         <a href="{{ route('hapusfilepenunjang') }}?id={{ $file->id }}"
-                                            class="btn btn-xs btn-danger mb-1">Hapus File</a>
+                                            class="btn btn-xs btn-danger mr-1 mb-1">Hapus File</a>
+                                        Diupload pada tanggal : {{ $file->created_at }}
                                         <br>
-                                        <object data="{{ $file->fileurl }}" width="100%"
-                                            height="700px"> </object>
+                                        <object data="{{ $file->fileurl }}" width="100%" height="700px"> </object>
                                     </x-adminlte-card>
                                 @endforeach
                             @endif
