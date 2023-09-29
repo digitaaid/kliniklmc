@@ -9,10 +9,14 @@ class Antrian extends Model
 {
     use HasFactory;
     protected $guarded = ['id'];
-
+    protected $appends = ['norm6digit'];
+    public function getNorm6digitAttribute()
+    {
+        return substr($this->norm, -6);
+    }
     public function pasien()
     {
-        return $this->hasOne(Pasien::class, 'norm', 'norm');
+        return $this->hasOne(Pasien::class,  'norm', 'norm6digit');
     }
     public function jadwals()
     {
