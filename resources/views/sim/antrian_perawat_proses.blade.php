@@ -224,6 +224,7 @@
                         </div>
                         <div class="tab-pane" id="riwayattab">
                             @if ($antrian->pasien)
+                                {{ $antrian->pasien }}
                                 @foreach ($antrian->pasien->kunjungans as $kunjungan)
                                     <x-adminlte-card title="{{ $kunjungan->tgl_masuk }}" theme="info"
                                         icon="fas fa-file" collapsible="collapsed">
