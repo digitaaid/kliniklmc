@@ -113,8 +113,8 @@
                             @endif
                         </div>
                         <div class="tab-pane" id="filepenunjangtab">
-                            @if ($antrian->pasien->fileuploads)
-                                @foreach ($antrian->pasien->fileuploads as $file)
+                            @if ($antrian->fileuploads)
+                                @foreach ($antrian->fileuploads as $file)
                                     <x-adminlte-card title="{{ $file->nama }} {{ $file->created_at }}" theme="info"
                                         icon="fas fa-file" collapsible="collapsed">
                                         <a href="{{ $file->fileurl }}" target="_blank"
