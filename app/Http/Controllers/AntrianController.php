@@ -676,10 +676,10 @@ class AntrianController extends APIController
     {
         $antrian = Antrian::with(['kunjungan', 'kunjungan.asesmenperawat'])->where('kodebooking', $request->kodebooking)->first();
         if ($antrian) {
-            if (!$antrian->pasien) {
-                Alert::error('Mohon Maaf', 'Silahkan perbaiki data norm pasien terlebih dahulu menjadi ' . $antrian->norm);
-                return redirect()->back();
-            }
+            // if (!$antrian->pasien) {
+            //     Alert::error('Mohon Maaf', 'Silahkan perbaiki data norm pasien terlebih dahulu menjadi ' . $antrian->norm);
+            //     return redirect()->back();
+            // }
             $dokters = Dokter::where('status', '1')->pluck('namadokter', 'kodedokter');
             $polikliniks = Unit::where('status', '1')->pluck('nama', 'kode');
             $kunjungan = $antrian->kunjungan;
