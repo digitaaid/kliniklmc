@@ -256,9 +256,9 @@
                                 <x-adminlte-button type="submit" icon="fas fa-save" theme="success"
                                     icon="fas fa-upload" label="Upload" />
                             </form>
-                            @if ($antrian->fileuploads)
+                            @if ($antrian->pasien->fileuploads)
                                 <hr>
-                                @foreach ($antrian->fileuploads as $file)
+                                @foreach ($antrian->pasien->fileuploads as $file)
                                     <x-adminlte-card title="{{ $file->nama }}" theme="info" icon="fas fa-file"
                                         collapsible="collapsed">
                                         <a href="{{ $file->fileurl }}" target="_blank"

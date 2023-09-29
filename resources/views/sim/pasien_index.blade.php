@@ -48,7 +48,11 @@
                             <td>{{ $item->gender }}</td>
                             <td>{{ $item->nohp }}</td>
                             <td>{{ $item->tgl_lahir }}</td>
-                            <td></td>
+                            <td>
+                                <x-adminlte-button class="btn-xs btnEdit" theme="warning" icon="fas fa-edit"
+                                    title="Edit Pasien {{ $item->nama }}" data-id="{{ $item->id }}"
+                                    data-nama="{{ $item->nama }}" data-norm="{{ $item->norm }}" />
+                            </td>
                         </tr>
                     @endforeach
                 </x-adminlte-datatable>
@@ -66,12 +70,13 @@
             </x-adminlte-card>
         </div>
     </div>
-    <x-adminlte-modal id="modalObat" title="Obat" icon="fas fa-pills" theme="success" v-centered static-backdrop>
-        <form action="" id="formObat" method="POST">
+    <x-adminlte-modal id="modalPasien" title="Pasien" icon="fas fa-pills" theme="success" v-centered static-backdrop>
+        <form action="" id="formPasien" method="POST">
             @csrf
             <input type="hidden" name="id" id="id">
             <input type="hidden" name="_method" id="method">
-            <x-adminlte-input name="nama" label="Nama Obat" placeholder="Nama Lengkap" enable-old-support required />
+            <x-adminlte-input name="nama" label="Nama Lengkap" placeholder="Nama Lengkap" enable-old-support required />
+            <x-adminlte-input name="norm" label="No RM" placeholder="No RM" enable-old-support required />
         </form>
         <form id="formDelete" action="" method="POST">
             @csrf
@@ -94,38 +99,39 @@
                 $.LoadingOverlay("show");
                 $('#btnStore').show();
                 $('#btnUpdate').hide();
-                $('#formObat').trigger("reset");
-                $('#modalObat').modal('show');
+                $('#formPasien').trigger("reset");
+                $('#modalPasien').modal('show');
                 $.LoadingOverlay("hide");
             });
             $('.btnEdit').click(function() {
                 $.LoadingOverlay("show");
                 $('#btnStore').hide();
                 $('#btnUpdate').show();
-                $('#formObat').trigger("reset");
+                $('#formPasien').trigger("reset");
                 // get
                 $('#id').val($(this).data("id"));
                 $('#nama').val($(this).data("nama"));
-                $('#modalObat').modal('show');
+                $('#norm').val($(this).data("norm"));
+                $('#modalPasien').modal('show');
                 $.LoadingOverlay("hide");
             });
             $('#btnStore').click(function(e) {
                 $.LoadingOverlay("show");
                 e.preventDefault();
-                var url = "{{ route('obat.store') }}";
-                $('#formObat').attr('action', url);
+                var url = "{{ route('pasien.store') }}";
+                $('#formPasien').attr('action', url);
                 $("#method").prop('', true);
-                $('#formObat').submit();
+                $('#formPasien').submit();
 
             });
             $('#btnUpdate').click(function(e) {
                 $.LoadingOverlay("show");
                 e.preventDefault();
                 var id = $('#id').val();
-                var url = "{{ route('obat.index') }}/" + id;
-                $('#formObat').attr('action', url);
+                var url = "{{ route('pasien.index') }}/" + id;
+                $('#formPasien').attr('action', url);
                 $('#method').val('PUT');
-                $('#formObat').submit();
+                $('#formPasien').submit();
             });
             // $('.btnDelete').click(function(e) {
             //     e.preventDefault();

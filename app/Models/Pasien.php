@@ -12,10 +12,10 @@ class Pasien extends Model
 
     public function kunjungans()
     {
-        return $this->hasMany(Kunjungan::class, 'norm', 'norm6digit');
+        return $this->hasMany(Kunjungan::class, 'norm', 'norm');
     }
     public function fileuploads()
     {
-        return $this->hasMany(FileUploadPasien::class,  'norm6digit', 'norm');
+        return $this->hasMany(FileUploadPasien::class,  'norm', 'norm');
     }
 }

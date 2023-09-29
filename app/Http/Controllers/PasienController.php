@@ -41,6 +41,13 @@ class PasienController extends APIController
         Excel::import(new PasiensImport, $file);
         return redirect()->route('pasien.index');
     }
+    public function update($id, Request $request)
+    {
+        $pasien = Pasien::find($id);
+        $pasien->update($request->all());
+        Alert::success('Success', 'Data Pasien Diperbaharui.');
+        return redirect()->back();
+    }
     public function fingerprintPeserta(Request $request)
     {
         $peserta = null;
