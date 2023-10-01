@@ -76,7 +76,26 @@
             <input type="hidden" name="id" id="id">
             <input type="hidden" name="_method" id="method">
             <x-adminlte-input name="nama" label="Nama Lengkap" placeholder="Nama Lengkap" enable-old-support required />
-            <x-adminlte-input name="norm" label="No RM" placeholder="No RM" enable-old-support required />
+            <x-adminlte-input name="norm" label="No RM" placeholder="No RM" enable-old-support />
+            <x-adminlte-input name="nik" label="NIK" placeholder="NIK" enable-old-support />
+            <x-adminlte-input name="nomorkartu" label="No BPJS" placeholder="no BPJS" enable-old-support />
+            <x-adminlte-input name="nohp" label="No HP" placeholder="No HP" enable-old-support />
+            <x-adminlte-select2 name="gender" label="Jenis Kelamin">
+                <option selected disabled>Jenis Kelamin</option>
+                <option value="P">Perempuan</option>
+                <option value="L">Laki-Laki</option>
+            </x-adminlte-select2>
+            <x-adminlte-select2 name="tempat_lahir" label="Tempat Lahir">
+            </x-adminlte-select2>
+            @php
+                $config = ['format' => 'YYYY-MM-DD'];
+            @endphp
+            <x-adminlte-input-date name="tgl_lahir" label="Tanggal Lahir" placeholder="Pilih Tanggal Lahir"
+                :config="$config">
+            </x-adminlte-input-date>
+            <x-adminlte-textarea igroup-size="sm" rows=4 label="Alamat" name="alamat" placeholder="Alamat">
+            </x-adminlte-textarea>
+
         </form>
         <form id="formDelete" action="" method="POST">
             @csrf

@@ -64,12 +64,7 @@ Route::put('suratkontrol_update_web', [SuratKontrolController::class, 'suratkont
 // display antrian
 Route::get('displayantrian', [AntrianController::class, 'displayAntrian'])->name('displayantrian');
 Route::get('displaynomor', [AntrianController::class, 'displaynomor'])->name('displaynomor');
-// anjungan
-Route::get('anjunganantrian', [AntrianController::class, 'anjunganantrian'])->name('anjunganantrian');
-Route::get('checkinantrian', [AntrianController::class, 'checkinantrian'])->name('checkinantrian');
-Route::get('ambilkarcis', [AntrianController::class, 'ambilkarcis'])->name('ambilkarcis');
-Route::get('karcisantrian', [AntrianController::class, 'karcisantrian'])->name('karcisantrian');
-Route::get('testprinterthermal', [ThermalPrintController::class, 'testprinterthermal'])->name('testprinterthermal');
+
 
 
 Route::middleware('auth')->group(function () {
@@ -109,6 +104,12 @@ Route::middleware('auth')->group(function () {
     Route::resource('obat', ObatController::class);
     Route::get('reset_obat', [ObatController::class, 'reset_obat'])->name('reset_obat');
     Route::get('ref_obat_cari', [ObatController::class, 'ref_obat_cari'])->name('ref_obat_cari');
+    // anjungan
+    Route::get('anjunganantrian', [AntrianController::class, 'anjunganantrian'])->name('anjunganantrian');
+    Route::get('checkinantrian', [AntrianController::class, 'checkinantrian'])->name('checkinantrian');
+    Route::get('ambilkarcis', [AntrianController::class, 'ambilkarcis'])->name('ambilkarcis');
+    Route::get('karcisantrian', [AntrianController::class, 'karcisantrian'])->name('karcisantrian');
+    Route::get('testprinterthermal', [ThermalPrintController::class, 'testprinterthermal'])->name('testprinterthermal');
     // form
     Route::get('form_identitaspasien', [FormController::class, 'form_identitaspasien'])->name('form_identitaspasien');
     Route::get('form_assesmentrajal', [FormController::class, 'form_assesmentrajal'])->name('form_assesmentrajal');
