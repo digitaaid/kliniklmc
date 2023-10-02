@@ -64,6 +64,7 @@ Route::put('suratkontrol_update_web', [SuratKontrolController::class, 'suratkont
 // display antrian
 Route::get('displayantrian', [AntrianController::class, 'displayAntrian'])->name('displayantrian');
 Route::get('displaynomor', [AntrianController::class, 'displaynomor'])->name('displaynomor');
+Route::get('updatenomorantrean', [AntrianController::class, 'updatenomorantrean'])->name('updatenomorantrean');
 
 Route::middleware('auth')->group(function () {
     Route::get('/home', [HomeController::class, 'index'])->name('home');
@@ -115,6 +116,7 @@ Route::middleware('auth')->group(function () {
     // pendaftaran
     Route::get('antrianpendaftaran', [AntrianController::class, 'antrianpendaftaran'])->name('antrianpendaftaran');
     Route::get('prosespendaftaran', [AntrianController::class, 'prosespendaftaran'])->name('prosespendaftaran');
+    Route::get('panggilpendaftaran', [AntrianController::class, 'panggilpendaftaran'])->name('panggilpendaftaran');
     Route::post('editantrian', [AntrianController::class, 'editantrian'])->name('editantrian');
     Route::post('editkunjungan', [AntrianController::class, 'editkunjungan'])->name('editkunjungan');
     Route::get('lanjutpoliklinik', [AntrianController::class, 'lanjutpoliklinik'])->name('lanjutpoliklinik');

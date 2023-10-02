@@ -5,7 +5,7 @@
     <link rel="shortcut icon" href="{{ asset('medicio/assets/img/lmc.png') }}" />
     <div class="wrapper">
         <div class="row p-1">
-            <div class="col-md-12 mb-2">
+            {{-- <div class="col-md-12 mb-2">
                 <header class="bg-purple text-white p-4">
                     <div class="container">
                         <div class="row">
@@ -25,8 +25,8 @@
                         </div>
                     </div>
                 </header>
-            </div>
-            <div class="col-md-4">
+            </div> --}}
+            {{-- <div class="col-md-4">
                 <x-adminlte-card title="Informasi Pelayanan" theme="purple" icon="fas fa-qrcode">
                     <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
                         <ol class="carousel-indicators">
@@ -74,7 +74,7 @@
                         </a>
                     </div>
                 </x-adminlte-card>
-            </div>
+            </div> --}}
             <div class="col-md-4">
                 <div class="card bg-success">
                     <div class="card-body">
@@ -124,6 +124,16 @@
             </div>
         </div>
     </div>
+    <audio id="suarabel" src="{{ asset('rekaman/Airport_Bell.mp3') }}"></audio>
+    <audio id="panggilannomorantrian" src="{{ asset('rekaman/panggilannomorantrian.mp3') }}"></audio>
+    <audio id="diloketpendaftaran" src="{{ asset('rekaman/diloketpendaftaran.mp3') }}"></audio>
+    <audio id="dipoliklinik" src="{{ asset('rekaman/dipoliklinik.mp3') }}"></audio>
+    <audio id="poliklinik" src="{{ asset('rekaman/poliklinik/008.mp3') }}"></audio>
+    <audio id="difarmasi" src="{{ asset('rekaman/difarmasi.mp3') }}"></audio>
+    <audio id="nomor0" src=""></audio>
+    <audio id="nomor1" src=""></audio>
+    <audio id="belas" src="{{ asset('rekaman/belas.mp3') }}"></audio>
+    <audio id="puluh" src="{{ asset('rekaman/puluh.mp3') }}"></audio>
 @stop
 @section('adminlte_css')
 @endsection
@@ -139,17 +149,165 @@
                 type: "GET",
                 dataType: 'json',
                 success: function(data) {
+                    console.log(data);
                     $('#pendaftaran').html(data.response.pendaftaran);
                     $('#pendaftaranselanjutnya').html(data.response.pendaftaranselanjutnya);
                     $('#poliklinik').html(data.response.poliklinik);
                     $('#poliklinikselanjutnya').html(data.response.poliklinikselanjutnya);
                     $('#farmasi').html(data.response.farmasi);
                     $('#farmasiselanjutnya').html(data.response.farmasiselanjutnya);
+                    if (data.response.pendaftaranstatus == 0) {
+                        var url = "{{ route('updatenomorantrean') }}?kodebooking=" + data.response
+                            .pendaftarankodebooking;
+                        $.ajax({
+                            url: url,
+                            type: "GET",
+                            dataType: 'json',
+                            success: function(data) {
+                                console.log(data);
+                                console.log('lempar angka antrian ' + angkaantrean);
+                                panggilpendaftaran(angkaantrean);
+                            },
+                        });
+                    }
+                    if (data.response.pendaftaranstatus == 0) {
+                        var url = "{{ route('updatenomorantrean') }}?kodebooking=" + data.response
+                            .pendaftarankodebooking;
+                        $.ajax({
+                            url: url,
+                            type: "GET",
+                            dataType: 'json',
+                            success: function(res) {
+                                panggilpendaftaran(data.response.pendaftaran);
+                            },
+                        });
+                    }
+                    if (data.response.poliklinikstatus == 0) {
+                        var url = "{{ route('updatenomorantrean') }}?kodebooking=" + data.response
+                            .poliklinikkodebooking;
+                        $.ajax({
+                            url: url,
+                            type: "GET",
+                            dataType: 'json',
+                            success: function(res) {
+                                panggilpoliklinik(data.response.poliklinik);
+                            },
+                        });
+                    }
                 },
                 error: function(data) {
                     console.log(data);
                 }
             });
-        }, 2000);
+        }, 3000);
+    </script>
+
+    <script type="text/javascript">
+        function panggilpendaftaran(angkaantrian) {
+            document.getElementById('suarabel').pause();
+            document.getElementById('suarabel').currentTime = 0;
+            document.getElementById('suarabel').play();
+            totalwaktu = document.getElementById('suarabel').duration * 1000;
+            setTimeout(function() {
+                document.getElementById('panggilannomorantrian').pause();
+                document.getElementById('panggilannomorantrian').currentTime = 0;
+                document.getElementById('panggilannomorantrian').play();
+            }, totalwaktu);
+            totalwaktu = totalwaktu + 2500;
+            panggilangka(angkaantrian);
+            setTimeout(function() {
+                document.getElementById('diloketpendaftaran').pause();
+                document.getElementById('diloketpendaftaran').currentTime = 0;
+                document.getElementById('diloketpendaftaran').play();
+            }, totalwaktu);
+        }
+
+        function panggilpoliklinik(angkaantrian) {
+            document.getElementById('suarabel').pause();
+            document.getElementById('suarabel').currentTime = 0;
+            document.getElementById('suarabel').play();
+            totalwaktu = document.getElementById('suarabel').duration * 1000;
+            setTimeout(function() {
+                document.getElementById('panggilannomorantrian').pause();
+                document.getElementById('panggilannomorantrian').currentTime = 0;
+                document.getElementById('panggilannomorantrian').play();
+            }, totalwaktu);
+            totalwaktu = totalwaktu + 2500;
+            panggilangka(angkaantrian);
+            setTimeout(function() {
+                document.getElementById('dipoliklinik').pause();
+                document.getElementById('dipoliklinik').currentTime = 0;
+                document.getElementById('dipoliklinik').play();
+            }, totalwaktu);
+        }
+
+        function panggilangka(angkaantrian) {
+            if (angkaantrian < 10) {
+                $("#nomor0").attr("src", "{{ route('landingpage') }}/public/rekaman/" + angkaantrian + ".mp3");
+                setTimeout(function() {
+                    document.getElementById('nomor0').pause();
+                    document.getElementById('nomor0').currentTime = 0;
+                    document.getElementById('nomor0').play();
+                }, totalwaktu);
+                totalwaktu = totalwaktu + 1000;
+            } else if (angkaantrian == 10) {
+                $("#nomor0").attr("src", "{{ route('landingpage') }}/public/rekaman/sepuluh.mp3");
+                setTimeout(function() {
+                    document.getElementById('nomor0').pause();
+                    document.getElementById('nomor0').currentTime = 0;
+                    document.getElementById('nomor0').play();
+                }, totalwaktu);
+                totalwaktu = totalwaktu + 1000;
+            } else if (angkaantrian == 11) {
+                $("#nomor0").attr("src", "{{ route('landingpage') }}/public/rekaman/sebelas.mp3");
+                setTimeout(function() {
+                    document.getElementById('nomor0').pause();
+                    document.getElementById('nomor0').currentTime = 0;
+                    document.getElementById('nomor0').play();
+                }, totalwaktu);
+                totalwaktu = totalwaktu + 1000;
+            } else if (angkaantrian < 20) {
+                var nomor1 = angkaantrian.charAt(1);
+                $("#nomor0").attr("src", "{{ route('landingpage') }}/public/rekaman/" + nomor1 + ".mp3");
+                setTimeout(function() {
+                    document.getElementById('nomor0').pause();
+                    document.getElementById('nomor0').currentTime = 0;
+                    document.getElementById('nomor0').play();
+                }, totalwaktu);
+                totalwaktu = totalwaktu + 1000;
+                setTimeout(function() {
+                    document.getElementById('belas').pause();
+                    document.getElementById('belas').currentTime = 0;
+                    document.getElementById('belas').play();
+                }, totalwaktu);
+                totalwaktu = totalwaktu + 1000;
+            } else if (angkaantrian < 100) {
+                var angka = angkaantrian;
+                var angka1 = angka.charAt(0);
+                $("#nomor0").attr("src", "{{ route('landingpage') }}/public/rekaman/" + angka1 + ".mp3");
+                setTimeout(function() {
+                    document.getElementById('nomor0').pause();
+                    document.getElementById('nomor0').currentTime = 0;
+                    document.getElementById('nomor0').play();
+                }, totalwaktu);
+                totalwaktu = totalwaktu + 1000;
+                setTimeout(function() {
+                    document.getElementById('puluh').pause();
+                    document.getElementById('puluh').currentTime = 0;
+                    document.getElementById('puluh').play();
+                }, totalwaktu);
+                totalwaktu = totalwaktu + 1000;
+                var angka2 = angka.charAt(1);
+                if (angka2 != 0) {
+                    $("#nomor1").attr("src", "{{ route('landingpage') }}/public/rekaman/" + angka2 + ".mp3");
+                    setTimeout(function() {
+                        document.getElementById('nomor1').pause();
+                        document.getElementById('nomor1').currentTime = 0;
+                        document.getElementById('nomor1').play();
+                    }, totalwaktu);
+                    totalwaktu = totalwaktu + 1000;
+                }
+            }
+        }
     </script>
 @stop

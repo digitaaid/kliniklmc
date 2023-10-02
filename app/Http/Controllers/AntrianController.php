@@ -414,6 +414,22 @@ class AntrianController extends APIController
             return redirect()->to($url);
         }
     }
+    function panggilpendaftaran(Request $request)
+    {
+        $request->validate([
+            'kodebooking' => 'required',
+        ]);
+        $antrian = Antrian::where('kodebooking', $request->kodebooking)->first();
+        if ($antrian) {
+            $antrian->update([
+                'panggil' => 0,
+            ]);
+            Alert::success('Success', 'Antrian telah dipanggil.');
+        } else {
+            Alert::error('Mohon Maaf', 'Antrian tidak ditemukan.');
+        }
+        return redirect()->back();
+    }
     function editantrian(Request $request)
     {
         $request->validate([
@@ -1058,17 +1074,34 @@ class AntrianController extends APIController
     }
     public function displaynomor()
     {
-        $antrian = Antrian::where('tanggalperiksa', now()->format('Y-m-d'))->get();
+        $antrian = Antrian::where('tanggalperiksa', now()->format('Y-m-d'))->orderBy('updated_at', 'DESC')->get();
         $data = [
-            "pendaftaran" => $antrian->where('taskid', 2)->first()->nomorantrean ?? "-",
-            "pendaftaranselanjutnya" => $antrian->where('taskid', 1)->first()->nomorantrean ?? "-",
-            "poliklinik" => $antrian->where('taskid', 4)->first()->nomorantrean ?? "-",
-            "poliklinikselanjutnya" => $antrian->where('taskid', 3)->first()->nomorantrean ?? "-",
-            "farmasi" => $antrian->where('taskid', 6)->first()->nomorantrean ?? "-",
-            "farmasiselanjutnya" => $antrian->where('taskid', 5)->first()->nomorantrean ?? "-",
+            "pendaftaran" => $antrian->where('taskid', 2)->first()->angkaantrean ?? "-",
+            "pendaftaranstatus" => $antrian->where('taskid', 2)->first()->panggil ?? "-",
+            "pendaftaranselanjutnya" => $antrian->where('taskid', 1)->first()->angkaantrean ?? "-",
+            "pendaftarankodebooking" => $antrian->where('taskid', 2)->first()->kodebooking ?? "-",
+            "poliklinik" => $antrian->where('taskid', 4)->first()->angkaantrean ?? "-",
+            "poliklinikstatus" => $antrian->where('taskid', 4)->first()->panggil ?? "-",
+            "poliklinikselanjutnya" => $antrian->where('taskid', 3)->first()->angkaantrean ?? "-",
+            "poliklinikkodebooking" => $antrian->where('taskid', 4)->first()->kodebooking ?? "-",
+            "farmasi" => $antrian->where('taskid', 6)->first()->angkaantrean ?? "-",
+            "farmasiselanjutnya" => $antrian->where('taskid', 5)->first()->angkaantrean ?? "-",
         ];
         return $this->sendResponse($data, 200);
     }
+    public function updatenomorantrean(Request $request)
+    {
+        $antrian = Antrian::where('kodebooking', $request->kodebooking)->first();
+        if ($antrian) {
+            $antrian->update([
+                'panggil' => 1,
+            ]);
+            return $this->sendResponse('Antrian telah dipanggil', 200);
+        } else {
+            return $this->sendError('Antrian tidak ditemukan', 400);
+        }
+    }
+
     public function statusAntrianBpjs()
     {
         $api = IntegrasiApi::where('name', 'Antrian BPJS')->first();
@@ -1111,10 +1144,6 @@ class AntrianController extends APIController
     }
     public function dashboardBulanAntrian(Request $request)
     {
-
-
-
-
         $antrians = null;
         $tanggalantrian = null;
         $jumlahantrian = null;

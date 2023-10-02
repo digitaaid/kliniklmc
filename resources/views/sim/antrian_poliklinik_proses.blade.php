@@ -22,6 +22,10 @@
                 class="btn btn-danger mb-2 mr-1 withLoad">
                 <i class="fas fa-arrow-left"></i> Kembali
             </a>
+            <a href="{{ route('panggilpendaftaran') }}?kodebooking={{ $antrian->kodebooking }}"
+                class="btn btn-primary mb-2 mr-1 withLoad">
+                <i class="fas fa-sync"></i> Panggil
+            </a>
             <div class="btn btn-{{ $antrian->taskid == 5 ? 'success' : 'secondary' }} mb-2 mr-1">
                 <i class="fas fa-{{ $antrian->taskid == 5 ? 'check-circle' : 'info-circle' }}"></i>
                 Status Antrian :

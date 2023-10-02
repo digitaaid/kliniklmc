@@ -22,6 +22,10 @@
                 class="btn btn-danger mb-2 mr-1 withLoad">
                 <i class="fas fa-arrow-left"></i> Kembali
             </a>
+            <a href="{{ route('panggilpendaftaran') }}?kodebooking={{ $antrian->kodebooking }}"
+                class="btn btn-primary mb-2 mr-1 withLoad">
+                <i class="fas fa-sync"></i> Panggil
+            </a>
             <div class="btn btn-{{ $antrian->taskid == 3 ? 'success' : 'secondary' }} mb-2 mr-1">
                 <i class="fas fa-{{ $antrian->taskid == 3 ? 'check-circle' : 'info-circle' }}"></i>
                 Status Antrian :
@@ -120,8 +124,7 @@
                                         <x-adminlte-input name="norm" class="norm-id" label="No RM" igroup-size="sm"
                                             placeholder="No RM" value="{{ $antrian->norm }}" />
                                         <x-adminlte-input name="nama" class="nama-id" label="Nama Pasien"
-                                            igroup-size="sm" placeholder="Nama Pasien" readonly
-                                            value="{{ $antrian->nama }}" />
+                                            igroup-size="sm" placeholder="Nama Pasien" value="{{ $antrian->nama }}" />
                                         <x-adminlte-input name="nohp" class="nohp-id" label="Nomor HP" igroup-size="sm"
                                             placeholder="Nomor HP" value="{{ $antrian->nohp }}" />
                                     </div>
@@ -414,20 +417,20 @@
                                                 value="{{ $antrian->norm }}" />
                                             <x-adminlte-input name="nama" class="nama-id" label="Nama Pasien"
                                                 fgroup-class="col-md-6" igroup-size="sm" placeholder="Nama Pasien"
-                                                readonly value="{{ $antrian->nama }}" />
+                                                value="{{ $antrian->nama }}" />
                                             <x-adminlte-input name="tgl_lahir" class="tgllahir-id" label="Tanggal Lahir"
                                                 fgroup-class="col-md-6"
-                                                value="{{ $antrian->kunjungan->tgl_lahir ?? null }}" readonly
-                                                igroup-size="sm" placeholder="Tanggal Lahir" />
+                                                value="{{ $antrian->kunjungan->tgl_lahir ?? null }}" igroup-size="sm"
+                                                placeholder="Tanggal Lahir" />
                                             <x-adminlte-input name="gender" class="gender-id" label="Jenis Kelamin"
                                                 fgroup-class="col-md-6" value="{{ $antrian->kunjungan->gender ?? null }}"
-                                                readonly igroup-size="sm" placeholder="Jenis Kelamin" />
+                                                igroup-size="sm" placeholder="Jenis Kelamin" />
                                             <x-adminlte-input name="kelas"
                                                 value="{{ $antrian->kunjungan->kelas ?? null }}" class="kelas-id"
-                                                label="Kelas Pasien" fgroup-class="col-md-6" readonly igroup-size="sm"
+                                                label="Kelas Pasien" fgroup-class="col-md-6" igroup-size="sm"
                                                 placeholder="Kelas Pasien" />
                                             <x-adminlte-input name="penjamin" class="penjamin-id" label="Penjamin"
-                                                fgroup-class="col-md-6" readonly igroup-size="sm" placeholder="Penjamin"
+                                                fgroup-class="col-md-6" igroup-size="sm" placeholder="Penjamin"
                                                 value="{{ $antrian->kunjungan->penjamin ?? null }}" />
                                         </div>
                                     </div>
