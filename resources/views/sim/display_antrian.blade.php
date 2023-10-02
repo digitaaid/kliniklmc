@@ -5,7 +5,7 @@
     <link rel="shortcut icon" href="{{ asset('medicio/assets/img/lmc.png') }}" />
     <div class="wrapper">
         <div class="row p-1">
-            {{-- <div class="col-md-12 mb-2">
+            <div class="col-md-12 mb-2">
                 <header class="bg-purple text-white p-4">
                     <div class="container">
                         <div class="row">
@@ -25,8 +25,8 @@
                         </div>
                     </div>
                 </header>
-            </div> --}}
-            {{-- <div class="col-md-4">
+            </div>
+            <div class="col-md-4">
                 <x-adminlte-card title="Informasi Pelayanan" theme="purple" icon="fas fa-qrcode">
                     <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
                         <ol class="carousel-indicators">
@@ -74,7 +74,7 @@
                         </a>
                     </div>
                 </x-adminlte-card>
-            </div> --}}
+            </div>
             <div class="col-md-4">
                 <div class="card bg-success">
                     <div class="card-body">
