@@ -1075,16 +1075,17 @@ class AntrianController extends APIController
     public function displaynomor()
     {
         $antrian = Antrian::where('tanggalperiksa', now()->format('Y-m-d'))->get();
+        $antrianakhir = Antrian::where('tanggalperiksa', now()->format('Y-m-d'))->orderBy('updated_at', 'DESC')->get();
         $data = [
-            "pendaftaran" => $antrian->where('taskid', 2)->first()->angkaantrean ?? "-",
-            "pendaftaranstatus" => $antrian->where('taskid', 2)->first()->panggil ?? "-",
+            "pendaftaran" => $antrianakhir->where('taskid', 2)->first()->angkaantrean ?? "-",
+            "pendaftaranstatus" => $antrianakhir->where('taskid', 2)->first()->panggil ?? "-",
+            "pendaftarankodebooking" => $antrianakhir->where('taskid', 2)->first()->kodebooking ?? "-",
             "pendaftaranselanjutnya" => $antrian->where('taskid', 1)->first()->angkaantrean ?? "-",
-            "pendaftarankodebooking" => $antrian->where('taskid', 2)->first()->kodebooking ?? "-",
-            "poliklinik" => $antrian->where('taskid', 4)->first()->angkaantrean ?? "-",
-            "poliklinikstatus" => $antrian->where('taskid', 4)->first()->panggil ?? "-",
+            "poliklinik" => $antrianakhir->where('taskid', 4)->first()->angkaantrean ?? "-",
+            "poliklinikstatus" => $antrianakhir->where('taskid', 4)->first()->panggil ?? "-",
+            "poliklinikkodebooking" => $antrianakhir->where('taskid', 4)->first()->kodebooking ?? "-",
             "poliklinikselanjutnya" => $antrian->where('taskid', 3)->first()->angkaantrean ?? "-",
-            "poliklinikkodebooking" => $antrian->where('taskid', 4)->first()->kodebooking ?? "-",
-            "farmasi" => $antrian->orderBy('updated_at', 'DESC')->where('taskid', 7)->first()->angkaantrean ?? "-",
+            "farmasi" => $antrianakhir->where('taskid', 7)->first()->angkaantrean ?? "-",
             "farmasiselanjutnya" => $antrian->where('taskid', 6)->first()->angkaantrean ?? "-",
         ];
         return $this->sendResponse($data, 200);
