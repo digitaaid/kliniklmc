@@ -1074,7 +1074,7 @@ class AntrianController extends APIController
     }
     public function displaynomor()
     {
-        $antrian = Antrian::where('tanggalperiksa', now()->format('Y-m-d'))->orderBy('updated_at', 'DESC')->get();
+        $antrian = Antrian::where('tanggalperiksa', now()->format('Y-m-d'))->get();
         $data = [
             "pendaftaran" => $antrian->where('taskid', 2)->first()->angkaantrean ?? "-",
             "pendaftaranstatus" => $antrian->where('taskid', 2)->first()->panggil ?? "-",
