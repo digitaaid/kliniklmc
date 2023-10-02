@@ -537,12 +537,13 @@ class AntrianController extends APIController
             // 'nomorreferensi' => 'required',
             // 'sep' => 'required',
         ]);
-        if ($request->jeniskunjungan != "2") {
-            $request->validate([
-                'nomorreferensi' => 'required',
-                'sep' => 'required',
-            ]);
-        }
+        // if ($request->jeniskunjungan != "2") {
+        //     $request->validate([
+        //         'nomorreferensi' => 'required',
+        //         'sep' => 'required',
+        //     ]);
+        // }else{
+        // }
         $antrian = Antrian::find($request->antrian_id);
         $request['counter'] = Kunjungan::where('nomorkartu', $request->nomorkartu)->count() + 1;
         $request['kode'] = $antrian->kodebooking;
