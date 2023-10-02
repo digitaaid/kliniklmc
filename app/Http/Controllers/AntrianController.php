@@ -1084,8 +1084,8 @@ class AntrianController extends APIController
             "poliklinikstatus" => $antrian->where('taskid', 4)->first()->panggil ?? "-",
             "poliklinikselanjutnya" => $antrian->where('taskid', 3)->first()->angkaantrean ?? "-",
             "poliklinikkodebooking" => $antrian->where('taskid', 4)->first()->kodebooking ?? "-",
-            "farmasi" => $antrian->where('taskid', 6)->first()->angkaantrean ?? "-",
-            "farmasiselanjutnya" => $antrian->where('taskid', 5)->first()->angkaantrean ?? "-",
+            "farmasi" => $antrian->where('taskid', 7)->first()->angkaantrean ?? "-",
+            "farmasiselanjutnya" => $antrian->where('taskid', 6)->first()->angkaantrean ?? "-",
         ];
         return $this->sendResponse($data, 200);
     }
