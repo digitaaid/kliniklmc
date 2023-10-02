@@ -255,11 +255,25 @@
                                 <x-adminlte-button type="submit" icon="fas fa-save" theme="success"
                                     icon="fas fa-upload" label="Upload" />
                             </form>
-                            @if ($antrian->fileuploads)
+                            @if ($antrian->pasien->fileuploads)
+                                <hr>
+                                @foreach ($antrian->pasien->fileuploads as $file)
+                                    <x-adminlte-card title="{{ $file->nama }} {{ $file->created_at }}" theme="info"
+                                        icon="fas fa-file" collapsible="collapsed">
+                                        <a href="{{ $file->fileurl }}" target="_blank"
+                                            class="btn btn-xs btn-primary mr-1 mb-1">Donwload</a>
+                                        <a href="{{ route('hapusfilepenunjang') }}?id={{ $file->id }}"
+                                            class="btn btn-xs btn-danger mr-1 mb-1">Hapus File</a>
+                                        Diupload pada tanggal : {{ $file->created_at }}
+                                        <br>
+                                        <object data="{{ $file->fileurl }}" width="100%" height="700px"> </object>
+                                    </x-adminlte-card>
+                                @endforeach
+                            @else
                                 <hr>
                                 @foreach ($antrian->fileuploads as $file)
-                                    <x-adminlte-card title="{{ $file->nama }} {{ $file->created_at }}" theme="info" icon="fas fa-file"
-                                        collapsible="collapsed">
+                                    <x-adminlte-card title="{{ $file->nama }} {{ $file->created_at }}" theme="info"
+                                        icon="fas fa-file" collapsible="collapsed">
                                         <a href="{{ $file->fileurl }}" target="_blank"
                                             class="btn btn-xs btn-primary mr-1 mb-1">Donwload</a>
                                         <a href="{{ route('hapusfilepenunjang') }}?id={{ $file->id }}"
