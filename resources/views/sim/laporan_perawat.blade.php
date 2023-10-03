@@ -27,14 +27,9 @@
         @if (isset($antrians))
             <div class="col-md-12">
                 <div class="row">
-
                     <div class="col-md-3">
                         <x-adminlte-small-box title="{{ $antrians->where('taskid', '!=', 99)->count() }}"
                             text="Total Antrian" theme="success" icon="fas fa-user-injured" />
-                    </div>
-                    <div class="col-md-3">
-                        <x-adminlte-small-box title="{{ $antrians->where('taskid', 99)->count() }}" text="Batal Antrian"
-                            theme="danger" icon="fas fa-user-injured" />
                     </div>
                     <div class="col-md-3">
                         <x-adminlte-small-box

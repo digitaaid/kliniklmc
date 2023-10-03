@@ -1,7 +1,7 @@
 @extends('adminlte::page')
-@section('title', 'Laporan Pendaftaran')
+@section('title', 'Laporan Farmasi')
 @section('content_header')
-    <h1>Laporan Pendaftaran</h1>
+    <h1>Laporan Farmasi</h1>
 @stop
 @section('content')
     <div class="row">
@@ -27,27 +27,24 @@
         @if (isset($antrians))
             <div class="col-md-12">
                 <div class="row">
-
                     <div class="col-md-3">
                         <x-adminlte-small-box title="{{ $antrians->where('taskid', '!=', 99)->count() }}"
                             text="Total Antrian" theme="success" icon="fas fa-user-injured" />
                     </div>
                     <div class="col-md-3">
-                        <x-adminlte-small-box title="{{ $antrians->where('taskid', 99)->count() }}" text="Batal Antrian"
-                            theme="danger" icon="fas fa-user-injured" />
-                    </div>
-                    <div class="col-md-3">
-                        <x-adminlte-small-box title="{{ $antrians->where('jenispasien', 'JKN')->where('taskid', '!=', 99)->count() }}"
+                        <x-adminlte-small-box
+                            title="{{ $antrians->where('jenispasien', 'JKN')->where('taskid', '!=', 99)->count() }}"
                             text="Pasien JKN" theme="primary" icon="fas fa-user-injured" />
                     </div>
                     <div class="col-md-3">
-                        <x-adminlte-small-box title="{{ $antrians->where('jenispasien', 'NON-JKN')->where('taskid', '!=', 99)->count() }}"
+                        <x-adminlte-small-box
+                            title="{{ $antrians->where('jenispasien', 'NON-JKN')->where('taskid', '!=', 99)->count() }}"
                             text="Pasien UMUM" theme="primary" icon="fas fa-user-injured" />
                     </div>
                 </div>
                 <x-adminlte-card title="Data Antrian Pendaftaran" theme="warning" icon="fas fa-info-circle" collapsible>
                     @php
-                        $heads = ['No', 'Tanggal', 'No RM', 'Pasien', 'Kartu BPJS', 'Jenis Pasien', 'Method', 'Action', 'PIC'];
+                        $heads = ['No', 'Tanggal', 'No RM', 'Pasien', 'Kartu BPJS', 'Jenis Pasien', 'Method', 'Asesmen', 'PIC'];
                         $config['order'] = [1, 'asc'];
                         $config['paging'] = false;
                         $config['scrollY'] = '300px';
@@ -64,49 +61,15 @@
                                 <td>{{ $item->jenispasien }} </td>
                                 <td>{{ $item->method }} </td>
                                 <td>
-                                    @switch($item->taskid)
-                                        @case(0)
-                                            98. Belum Checkin
-                                        @break
-
-                                        @case(1)
-                                            1. Menunggu Pendaftaran
-                                        @break
-
-                                        @case(2)
-                                            0. Proses Pendaftaran
-                                        @break
-
-                                        @case(3)
-                                            3. Menunggu Poliklinik
-                                        @break
-
-                                        @case(4)
-                                            4. Pelayanan Poliklinik
-                                        @break
-
-                                        @case(5)
-                                            5. Tunggu Farmasi
-                                        @break
-
-                                        @case(6)
-                                            6. Racik Obat
-                                        @break
-
-                                        @case(7)
-                                            7. Selesai
-                                        @break
-
-                                        @case(99)
-                                            99. Batal
-                                        @break
-
-                                        @default
-                                            {{ $item->taskid }}
-                                    @endswitch
+                                    @if ($item->asesmendokter)
+                                        Sudah
+                                    @else
+                                        Belum
+                                    @endif
                                 </td>
-                                <td>{{ $item->user1 }} </td>
-
+                                <td>
+                                    {{ $item->user4 }}
+                                </td>
                             </tr>
                         @endforeach
                     </x-adminlte-datatable>
