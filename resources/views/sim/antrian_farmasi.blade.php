@@ -138,6 +138,11 @@
                                             <a href="{{ route('print_asesmenfarmasi') }}?kodebooking={{ $item->kodebooking }}"
                                                 class="btn btn-xs btn-warning" target="_blank"> <i class="fas fa-print"></i>
                                                 Print</a>
+
+                                            <a href="{{ route('panggilpendaftaran') }}?kodebooking={{ $item->kodebooking }}"
+                                                class="btn btn-primary btn-xs withLoad">
+                                                <i class="fas fa-volume-down"></i>
+                                            </a>
                                         @break
 
                                         @default
@@ -232,10 +237,13 @@
                                         @endforeach
                                     @endif
                                     <br>
-                                    <p>{{ $item->kunjungan->asesmendokter->resep_obat }}</p>
-                                    <hr>
-                                    <strong><i class="fas fa-pills mr-1"></i> Catatan Resep</strong>
-                                    <pre>{{ $item->kunjungan->asesmendokter->catatan_resep }}</pre>
+                                    @if ($item->kunjungan->asesmendokter)
+                                        <p>{{ $item->kunjungan->asesmendokter->resep_obat }}</p>
+                                        <hr>
+                                        <strong><i class="fas fa-pills mr-1"></i> Catatan Resep</strong>
+                                        <pre>{{ $item->kunjungan->asesmendokter->catatan_resep }}</pre>
+                                    @endif
+
                                 </div>
                                 <div class="card-footer">
                                     <a href="{{ route('selesaifarmasi') }}?kodebooking={{ $item->kodebooking }}"

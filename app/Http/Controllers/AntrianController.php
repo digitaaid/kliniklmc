@@ -553,13 +553,12 @@ class AntrianController extends APIController
             // 'nomorreferensi' => 'required',
             // 'sep' => 'required',
         ]);
-        // if ($request->jeniskunjungan != "2") {
-        //     $request->validate([
-        //         'nomorreferensi' => 'required',
-        //         'sep' => 'required',
-        //     ]);
-        // }else{
-        // }
+        if ($request->jeniskunjungan != "2") {
+            $request->validate([
+                'nomorreferensi' => 'required',
+                'sep' => 'required',
+            ]);
+        }
         $antrian = Antrian::find($request->antrian_id);
         $request['counter'] = Kunjungan::where('nomorkartu', $request->nomorkartu)->count() + 1;
         $request['kode'] = $antrian->kodebooking;
@@ -832,6 +831,7 @@ class AntrianController extends APIController
                     // if ($res->metadata->code == 200) {
                     $antrian->update([
                         'taskid' => $request->taskid,
+                        'panggil' => 0,
                     ]);
                     Alert::success('Success', $res->metadata->message);
                     // }
@@ -1040,6 +1040,21 @@ class AntrianController extends APIController
         }
         return redirect()->back();
     }
+    function panggilfarmasi(Request $request)
+    {
+        $antrian = Antrian::where('kodebooking', $request->kodebooking)->first();
+        try {
+            $antrian->update([
+                'taskid' => $request->taskid,
+                'panggil' => 0,
+                'keterangan' => "Pasien telah selesai semua pelayanan",
+            ]);
+            Alert::success('Success', 'Antrian dipanggil farmasi');
+        } catch (\Throwable $th) {
+            Alert::error('Gagal', $th->getMessage());
+        }
+        return redirect()->back();
+    }
     function selesaifarmasi(Request $request)
     {
         $antrian = Antrian::where('kodebooking', $request->kodebooking)->first();
@@ -1050,6 +1065,7 @@ class AntrianController extends APIController
             // if ($res->metadata->code == 200) {
             $antrian->update([
                 'taskid' => $request->taskid,
+                'panggil' => 0,
                 'keterangan' => "Pasien telah selesai semua pelayanan",
             ]);
             // }
@@ -1086,6 +1102,8 @@ class AntrianController extends APIController
             "poliklinikkodebooking" => $antrianakhir->where('taskid', 4)->first()->kodebooking ?? "-",
             "poliklinikselanjutnya" => $antrian->where('taskid', 3)->first()->angkaantrean ?? "-",
             "farmasi" => $antrianakhir->where('taskid', 7)->first()->angkaantrean ?? "-",
+            "farmasistatus" => $antrianakhir->where('taskid', 7)->first()->panggil ?? "-",
+            "farmasikodebooking" => $antrianakhir->where('taskid', 7)->first()->kodebooking ?? "-",
             "farmasiselanjutnya" => $antrian->where('taskid', 6)->first()->angkaantrean ?? "-",
         ];
         return $this->sendResponse($data, 200);
@@ -1199,11 +1217,28 @@ class AntrianController extends APIController
                 Alert::error('Error ' . $response->metadata->code,  $response->metadata->message);
                 return redirect()->route('bpjs.antrian.antrian_per_tanggal');
             }
+
+            $res =  $this->taskid_antrean($request);
+            if ($res->metadata->code == 200) {
+                $taskid = $res->response;
+            }
         }
         return view('bpjs.antrian.antrian_per_kodebooking', compact([
-            'request', 'antrian'
+            'request',
+            'antrian',
+            'taskid',
         ]));
     }
+    public function antrianKodebookingLanjut(Request $request)
+    {
+        // $request['waktu'] = now();
+        // $res = $this->update_antrean($request);
+        $request['keterangan'] = "Batal";
+        $res = $this->batal_antrean($request);
+        Alert::success('Success',  $res->metadata->message);
+        return redirect()->back();
+    }
+
     public function antrianBelumDilayani(Request $request)
     {
         $request['tanggal'] = now()->format('Y-m-d');

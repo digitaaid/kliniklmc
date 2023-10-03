@@ -38,8 +38,6 @@
                         <dd class="col-sm-8">{{ $antrian->nokapst }}</dd>
                         <dt class="col-sm-4">No HP</dt>
                         <dd class="col-sm-8">{{ $antrian->nohp }}</dd>
-
-
                         <dt class="col-sm-4">Jenis Kunjungan</dt>
                         <dd class="col-sm-8">{{ $antrian->jeniskunjungan }}</dd>
                         <dt class="col-sm-4">No Referensi</dt>
@@ -64,6 +62,31 @@
                         <dd class="col-sm-8">{{ $antrian->daftarfp ? 'Sudah Fingerprint' : 'Belum Fingerprint' }}</dd> --}}
                     </dl>
                 </x-adminlte-profile-widget>
+            </div>
+
+            <div class="col-md-8">
+                <x-adminlte-card title="Data Task ID Antrian" theme="secondary" collapsible>
+                    @php
+                        $heads = ['Task ID', 'Taskname', 'Waktu RS', 'Waktu BPJS', 'Kodebooking', 'Action'];
+                    @endphp
+                    <x-adminlte-datatable id="table2" class="text-xs" :heads="$heads" hoverable bordered compressed>
+                        @isset($taskid)
+                            @foreach ($taskid as $item)
+                                <tr>
+                                    <td>{{ $item->taskid }}</td>
+                                    <td>{{ $item->taskname }}</td>
+                                    <td>{{ $item->wakturs }}</td>
+                                    <td>{{ $item->waktu }}</td>
+                                    <td>{{ $item->kodebooking }}</td>
+                                    <td>
+                                        <a class="btn btn-primary btn-xs"
+                                            href="{{ route('antrianKodebookingLanjut') }}?kodebooking={{ $item->kodebooking }}&taskid={{ $item->taskid + 1 }}">Lanjut</a>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        @endisset
+                    </x-adminlte-datatable>
+                </x-adminlte-card>
             </div>
         @endisset
 

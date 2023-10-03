@@ -30,7 +30,7 @@
         <div class="col-md-12">
             <x-adminlte-card title="Data Waktu Antrian" theme="primary" icon="fas fa-info-circle" collapsible>
                 @php
-                    $heads = ['Tanggal', 'Antrean', 'Pasien', 'No HP', 'Poliklinik', 'No Referensi', 'Estimasi', 'Created at', 'Status'];
+                    $heads = ['Tanggal', 'Kodebooking', 'Nomor', 'No RM', 'No BPJS', 'Poliklinik', 'No Referensi', 'Created at', 'Status', 'Action'];
                 @endphp
                 <x-adminlte-datatable id="table1" class="nowrap" :heads="$heads" bordered hoverable compressed>
                     <div class="hidden" hidden>
@@ -41,28 +41,31 @@
                             <tr>
                                 <td>{{ $item->tanggal }}</td>
                                 <td>
-                                    <a
-                                        href="{{ route('antrianPerKodebooking') }}?kodebooking={{ $item->kodebooking }}" target="_blank">
+                                    <a href="{{ route('antrianPerKodebooking') }}?kodebooking={{ $item->kodebooking }}"
+                                        target="_blank">
                                         {{ $item->kodebooking }}
                                     </a>
-                                    <br>
+                                </td>
+                                <td>
                                     {{ $item->noantrean }}
                                 </td>
                                 <td>
-                                    {{ $item->norekammedis }} <br>
+                                    {{ $item->norekammedis }}
+                                </td>
+                                <td>
                                     {{ $item->nokapst }}
                                 </td>
-                                <td>{{ $item->nohp }}</td>
                                 <td>
-                                    {{ $item->kodepoli }} <br>
-                                    {{ $item->kodedokter }}
+                                    {{ $item->kodepoli }} / {{ $item->kodedokter }}
                                 </td>
-                                <td>{{ $item->jeniskunjungan }} <br>
-                                    {{ $item->nomorreferensi }}
+                                <td>
+                                    {{ $item->jeniskunjungan }} / {{ $item->nomorreferensi }}
                                 </td>
-                                <td>{{ date('Y-m-d H:i:s', $item->estimasidilayani / 1000) }} </td>
-                                <td>{{ date('Y-m-d H:i:s', $item->createdtime / 1000) }}<br>{{ $item->sumberdata }}</td>
+                                <td>{{ date('Y-m-d H:i:s', $item->createdtime / 1000) }}</td>
                                 <td>{{ $item->status }} {{ $item->ispeserta }}</td>
+                                <td>
+
+                                </td>
                             </tr>
                         @endforeach
                     @endif

@@ -163,22 +163,20 @@
                             url: url,
                             type: "GET",
                             dataType: 'json',
-                            success: function(data) {
-                                console.log(data);
-                                console.log('lempar angka antrian ' + angkaantrean);
-                                panggilpendaftaran(angkaantrean);
+                            success: function(res) {
+                                panggilpendaftaran(data.response.pendaftaran);
                             },
                         });
                     }
-                    if (data.response.pendaftaranstatus == 0) {
+                    if (data.response.farmasistatus == 0) {
                         var url = "{{ route('updatenomorantrean') }}?kodebooking=" + data.response
-                            .pendaftarankodebooking;
+                            .farmasikodebooking;
                         $.ajax({
                             url: url,
                             type: "GET",
                             dataType: 'json',
                             success: function(res) {
-                                panggilpendaftaran(data.response.pendaftaran);
+                                panggilfarmasi(data.response.farmasi);
                             },
                         });
                     }
@@ -221,7 +219,6 @@
                 document.getElementById('diloketpendaftaran').play();
             }, totalwaktu);
         }
-
         function panggilpoliklinik(angkaantrian) {
             document.getElementById('suarabel').pause();
             document.getElementById('suarabel').currentTime = 0;
@@ -240,7 +237,24 @@
                 document.getElementById('dipoliklinik').play();
             }, totalwaktu);
         }
-
+        function panggilfarmasi(angkaantrian) {
+            document.getElementById('suarabel').pause();
+            document.getElementById('suarabel').currentTime = 0;
+            document.getElementById('suarabel').play();
+            totalwaktu = document.getElementById('suarabel').duration * 1000;
+            setTimeout(function() {
+                document.getElementById('panggilannomorantrian').pause();
+                document.getElementById('panggilannomorantrian').currentTime = 0;
+                document.getElementById('panggilannomorantrian').play();
+            }, totalwaktu);
+            totalwaktu = totalwaktu + 2500;
+            panggilangka(angkaantrian);
+            setTimeout(function() {
+                document.getElementById('difarmasi').pause();
+                document.getElementById('difarmasi').currentTime = 0;
+                document.getElementById('difarmasi').play();
+            }, totalwaktu);
+        }
         function panggilangka(angkaantrian) {
             if (angkaantrian < 10) {
                 $("#nomor0").attr("src", "{{ route('landingpage') }}/public/rekaman/" + angkaantrian + ".mp3");

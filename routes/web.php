@@ -160,6 +160,7 @@ Route::middleware('auth')->group(function () {
     Route::get('jadwalOperasi', [JadwalOperasiController::class, 'jadwalOperasi'])->name('jadwalOperasi');
     Route::get('antrianPerTanggal', [AntrianController::class, 'antrianPerTanggal'])->name('antrianPerTanggal');
     Route::get('antrianPerKodebooking', [AntrianController::class, 'antrianPerKodebooking'])->name('antrianPerKodebooking');
+    Route::get('antrianKodebookingLanjut', [AntrianController::class, 'antrianKodebookingLanjut'])->name('antrianKodebookingLanjut');
     Route::get('antrianBelumDilayani', [AntrianController::class, 'antrianBelumDilayani'])->name('antrianBelumDilayani');
     Route::get('antrianPerDokter', [AntrianController::class, 'antrianPerDokter'])->name('antrianPerDokter');
     // vclaim bpjs
