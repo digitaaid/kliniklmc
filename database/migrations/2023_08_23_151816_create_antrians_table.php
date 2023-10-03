@@ -43,6 +43,7 @@ return new class extends Migration
             $table->string('sep')->nullable();
             $table->string('nomorrujukan')->nullable();
             $table->string('nomorsuratkontrol')->nullable();
+            $table->string('perujuk')->nullable();
             $table->string('jadwal_id');
             $table->string('method');
             $table->integer('taskid')->default(0);

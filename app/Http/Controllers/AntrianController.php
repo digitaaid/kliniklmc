@@ -444,6 +444,7 @@ class AntrianController extends APIController
             'kodepoli' => 'required',
             'kodedokter' => 'required',
         ]);
+        $vclaim = new VclaimController();
         $antrian = Antrian::where('kodebooking', $request->kodebooking)->first();
         if ($request->jenispasien == "JKN") {
             $request->validate([
@@ -453,12 +454,26 @@ class AntrianController extends APIController
             if ($request->noSurat) {
                 $request['jeniskunjungan'] = 3;
                 $request['nomorsuratkontrol'] = $request->noSurat;
+                $request['noSuratKontrol'] = $request->noSurat;
+                $res =  $vclaim->suratkontrol_nomor($request);
+                if ($res->metadata->code == 200) {
+                    $request['perujuk'] = $res->response->sep->provPerujuk->nmProviderPerujuk;
+                } else {
+                    dd($res);
+                }
             } else {
                 $request['nomorrujukan'] = $request->noRujukan;
                 if ($request->asalRujukan == 2) {
                     $request['jeniskunjungan'] = 4;
+                    $res =  $vclaim->rujukan_rs_nomor($request);
                 } else {
                     $request['jeniskunjungan'] = 1;
+                    $res =  $vclaim->rujukan_nomor($request);
+                }
+                if ($res->metadata->code == 200) {
+                    $request['perujuk'] = $res->response->rujukan->provPerujuk->nama;
+                } else {
+                    dd($res);
                 }
             }
             $request['nomorreferensi'] = $request->noRujukan ?? $request->noSurat;
