@@ -61,41 +61,39 @@
                                 <td>
                                     @switch($item->taskid)
                                         @case(0)
-                                            <span class="badge badge-secondary">98. Belum Checkin</span>
+                                            98. Belum Checkin
                                         @break
 
                                         @case(1)
-                                            <span class="badge badge-warning">1. Menunggu Pendaftaran</span>
+                                            1. Menunggu Pendaftaran
                                         @break
 
                                         @case(2)
-                                            <span class="badge badge-primary">0. Proses Pendaftaran</span>
+                                           0. Proses Pendaftaran
                                         @break
 
                                         @case(3)
-                                            <span class="badge badge-warning">3. Menunggu Poliklinik</span>
+                                           3. Menunggu Poliklinik
                                         @break
 
                                         @case(4)
-                                            <span class="badge badge-primary">4. Pelayanan Poliklinik</span>
+                                           4. Pelayanan Poliklinik
                                         @break
 
                                         @case(5)
-                                            <span class="badge badge-warning">5. Tunggu Farmasi</span>
+                                           5. Tunggu Farmasi
                                         @break
 
                                         @case(6)
-                                            <span class="badge badge-primary">6. Racik Obat</span>
+                                           6. Racik Obat
                                         @break
 
                                         @case(7)
-                                            <span class="badge badge-success">7. Selesai</span>
+                                           7. Selesai
                                         @break
 
                                         @case(99)
-                                            <span class="badge badge-danger">99. Batal</span>
-                                            <a href="{{ route('tidakjadibatal') }}?kodebooking={{ $item->kodebooking }}"
-                                                class="btn btn-xs btn-primary withLoad"><i class="fas fa-sync"></i> </a>
+                                            99. Batal
                                         @break
 
                                         @default
