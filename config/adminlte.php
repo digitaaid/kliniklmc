@@ -386,6 +386,12 @@ return [
             'can' => 'perawat',
         ],
         [
+            'text' => 'Laporan Perawat',
+            'icon'    => 'fas fa-chart-line',
+            'url'  => 'laporanperawat',
+            'can' => 'perawat',
+        ],
+        [
             'text' => 'Antrian Poliklinik',
             'icon'    => 'fas fa-users',
             'url'  => 'antrianpoliklinik',
@@ -396,6 +402,12 @@ return [
             'text' => 'Antrian Farmasi',
             'icon'    => 'fas fa-users',
             'url'  => 'antrianfarmasi',
+            'can' => 'farmasi',
+        ],
+        [
+            'text' => 'Laporan Farmasi',
+            'icon'    => 'fas fa-chart-line',
+            'url'  => 'laporanfarmasi',
             'can' => 'farmasi',
         ],
         [

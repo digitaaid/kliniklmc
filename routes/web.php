@@ -5,6 +5,7 @@ use App\Http\Controllers\APIController;
 use App\Http\Controllers\BarcodeController;
 use App\Http\Controllers\CarouselController;
 use App\Http\Controllers\DokterController;
+use App\Http\Controllers\FarmasiController;
 use App\Http\Controllers\FormController;
 use App\Http\Controllers\GaleriController;
 use App\Http\Controllers\HomeController;
@@ -16,6 +17,7 @@ use App\Http\Controllers\LaravoltIndonesiaController;
 use App\Http\Controllers\ObatController;
 use App\Http\Controllers\PasienController;
 use App\Http\Controllers\PendaftaranController;
+use App\Http\Controllers\PerawatController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\PoliklinikController;
 use App\Http\Controllers\RoleController;
@@ -132,6 +134,7 @@ Route::middleware('auth')->group(function () {
     Route::post('editasesmenperawat', [AntrianController::class, 'editasesmenperawat'])->name('editasesmenperawat');
     Route::post('uploadpenunjang', [AntrianController::class, 'uploadpenunjang'])->name('uploadpenunjang');
     Route::get('hapusfilepenunjang', [AntrianController::class, 'hapusfilepenunjang'])->name('hapusfilepenunjang');
+    Route::get('laporanperawat', [PerawatController::class, 'laporanperawat'])->name('laporanperawat');
     // poliklinik
     Route::get('antrianpoliklinik', [AntrianController::class, 'antrianpoliklinik'])->name('antrianpoliklinik');
     Route::get('prosespoliklinik', [AntrianController::class, 'prosespoliklinik'])->name('prosespoliklinik');
@@ -143,6 +146,7 @@ Route::middleware('auth')->group(function () {
     Route::get('getantrianfarmasi', [AntrianController::class, 'getantrianfarmasi'])->name('getantrianfarmasi');
     Route::get('terimafarmasi', [AntrianController::class, 'terimafarmasi'])->name('terimafarmasi');
     Route::get('selesaifarmasi', [AntrianController::class, 'selesaifarmasi'])->name('selesaifarmasi');
+    Route::get('laporanfarmasi', [FarmasiController::class, 'laporanfarmasi'])->name('laporanfarmasi');
     // print
     Route::get('print_asesmendokter', [FormController::class, 'print_asesmendokter'])->name('print_asesmendokter');
     Route::get('print_asesmenfarmasi', [FormController::class, 'print_asesmenfarmasi'])->name('print_asesmenfarmasi');
