@@ -43,7 +43,7 @@
                 <x-adminlte-card title="Data Antrian Pendaftaran" theme="warning" icon="fas fa-info-circle" collapsible>
                     @php
                         $heads = ['No', 'Tanggal', 'No RM','Pasien', 'Kartu BPJS', 'Jenis Pasien', 'Method', 'Action','PIC'];
-                        $config['order'] = [7, 'asc'];
+                        $config['order'] = [1, 'asc'];
                         $config['paging'] = false;
                         $config['scrollY'] = '300px';
                     @endphp
