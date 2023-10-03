@@ -41,4 +41,8 @@ class Antrian extends Model
     {
         return $this->hasMany(FileUploadPasien::class);
     }
+    public function unit()
+    {
+        return $this->hasOne(Unit::class, 'kode', 'kodepoli');
+    }
 }

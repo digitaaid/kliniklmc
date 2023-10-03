@@ -373,6 +373,12 @@ return [
             'can' => 'pendaftaran',
         ],
         [
+            'text' => 'Laporan Pendaftaran',
+            'icon'    => 'fas fa-chart-line',
+            'url'  => 'laporanpendaftaran',
+            'can' => 'pendaftaran',
+        ],
+        [
             'text' => 'Antrian Perawat',
             'icon'    => 'fas fa-users',
             'url'  => 'antrianperawat',

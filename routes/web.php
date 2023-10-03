@@ -14,6 +14,7 @@ use App\Http\Controllers\JadwalLiburController;
 use App\Http\Controllers\KunjunganController;
 use App\Http\Controllers\ObatController;
 use App\Http\Controllers\PasienController;
+use App\Http\Controllers\PendaftaranController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\PoliklinikController;
 use App\Http\Controllers\RoleController;
@@ -122,6 +123,7 @@ Route::middleware('auth')->group(function () {
     Route::get('lanjutpoliklinik', [AntrianController::class, 'lanjutpoliklinik'])->name('lanjutpoliklinik');
     Route::get('batalantrian', [AntrianController::class, 'batalantrian'])->name('batalantrian');
     Route::get('tidakjadibatal', [AntrianController::class, 'tidakjadibatal'])->name('tidakjadibatal');
+    Route::get('laporanpendaftaran', [PendaftaranController::class, 'laporanpendaftaran'])->name('laporanpendaftaran');
     // perawat
     Route::get('antrianperawat', [AntrianController::class, 'antrianperawat'])->name('antrianperawat');
     Route::get('prosesperawat', [AntrianController::class, 'prosesperawat'])->name('prosesperawat');
