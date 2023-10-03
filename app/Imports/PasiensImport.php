@@ -37,7 +37,7 @@ class PasiensImport implements ToCollection
             // dd(Carbon::parse($tgllahir)->format('Y-m-d'));
             Pasien::updateOrCreate(
                 [
-                    'norm' =>  sprintf("%06d",  $row[0]),
+                    'norm' =>  sprintf("%09d",  $row[0]),
                 ],
                 [
                     'gender' => $gender,

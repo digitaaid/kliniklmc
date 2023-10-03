@@ -38,9 +38,17 @@ class PasienController extends APIController
     }
     public function create()
     {
-        // $file = public_path('pasien.xlsx');
-        // Excel::import(new PasiensImport, $file);
-        // return redirect()->route('pasien.index');
+        $file = public_path('pasien.xlsx');
+        Excel::import(new PasiensImport, $file);
+        return redirect()->route('pasien.index');
+    }
+    public function reset()
+    {
+        $pasiens = Pasien::all();
+        foreach ($pasiens as  $value) {
+            $value->delete();
+        }
+        return redirect()->route('pasien.index');
     }
     public function store(Request $request)
     {
@@ -51,7 +59,7 @@ class PasienController extends APIController
             'gender' => 'required',
         ]);
         if (empty($request->norm)) {
-            $pasien_terakhir = Pasien::latest()->first();
+            $pasien_terakhir = Pasien::orderBy('norm', 'desc')->first();
             if ($pasien_terakhir) {
                 $norm = sprintf("%09d", $pasien_terakhir->norm + 1);
             } else {

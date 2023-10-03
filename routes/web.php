@@ -93,7 +93,7 @@ Route::middleware('auth')->group(function () {
     });
     Route::resource('sep', SepController::class);
     Route::resource('pasien', PasienController::class);
-    Route::resource('poliklinik', PoliklinikController::class);
+    Route::get('pasienreset', [PasienController::class, 'reset'])->name('pasienreset');
     Route::resource('unit', UnitController::class);
     Route::resource('dokter', DokterController::class);
     Route::resource('jadwaldokter', JadwalDokterController::class);
