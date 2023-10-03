@@ -37,17 +37,19 @@
                             theme="danger" icon="fas fa-user-injured" />
                     </div>
                     <div class="col-md-3">
-                        <x-adminlte-small-box title="{{ $antrians->where('jenispasien', 'JKN')->where('taskid', '!=', 99)->count() }}"
+                        <x-adminlte-small-box
+                            title="{{ $antrians->where('jenispasien', 'JKN')->where('taskid', '!=', 99)->count() }}"
                             text="Pasien JKN" theme="primary" icon="fas fa-user-injured" />
                     </div>
                     <div class="col-md-3">
-                        <x-adminlte-small-box title="{{ $antrians->where('jenispasien', 'NON-JKN')->where('taskid', '!=', 99)->count() }}"
+                        <x-adminlte-small-box
+                            title="{{ $antrians->where('jenispasien', 'NON-JKN')->where('taskid', '!=', 99)->count() }}"
                             text="Pasien UMUM" theme="primary" icon="fas fa-user-injured" />
                     </div>
                 </div>
                 <x-adminlte-card title="Data Antrian Pendaftaran" theme="warning" icon="fas fa-info-circle" collapsible>
                     @php
-                        $heads = ['No', 'Tanggal', 'No RM', 'Pasien', 'Kartu BPJS', 'Jenis Pasien', 'Method', 'Action', 'PIC'];
+                        $heads = ['No', 'Tanggal', 'No RM', 'Pasien', 'Kartu BPJS', 'Asal Perujuk', 'Jenis Pasien', 'Method', 'Action', 'PIC'];
                         $config['order'] = [1, 'asc'];
                         $config['paging'] = false;
                         $config['scrollY'] = '300px';
@@ -61,6 +63,7 @@
                                 <td>{{ $item->norm }}</td>
                                 <td>{{ $item->nama }}</td>
                                 <td>{{ $item->nomorkartu }}</td>
+                                <td>{{ $item->perujuk }}</td>
                                 <td>{{ $item->jenispasien }} </td>
                                 <td>{{ $item->method }} </td>
                                 <td>

@@ -128,6 +128,7 @@ Route::middleware('auth')->group(function () {
     Route::get('batalantrian', [AntrianController::class, 'batalantrian'])->name('batalantrian');
     Route::get('tidakjadibatal', [AntrianController::class, 'tidakjadibatal'])->name('tidakjadibatal');
     Route::get('laporanpendaftaran', [PendaftaranController::class, 'laporanpendaftaran'])->name('laporanpendaftaran');
+    Route::get('laporanperujuk', [PendaftaranController::class, 'laporanperujuk'])->name('laporanperujuk');
     // perawat
     Route::get('antrianperawat', [AntrianController::class, 'antrianperawat'])->name('antrianperawat');
     Route::get('prosesperawat', [AntrianController::class, 'prosesperawat'])->name('prosesperawat');
