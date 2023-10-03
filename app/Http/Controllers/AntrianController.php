@@ -517,7 +517,7 @@ class AntrianController extends APIController
                     $request['number'] = '6289529909036@c.us';
                     $wapi->send_message($request);
                     // notif group
-                    $request['message'] = "Berhasil integrasi antrian \nAngka antrian : " . $request->angkaantrean . "\nKodebooking : " . $request->kodebooking .  "\nJenis Pasien : " . $request->jenispasien . "\nNama " . $request->nama . "\nTanggal Periksa " . $request->tanggalperiksa . "\nDokter : " . $request->namadokter;
+                    $request['message'] = "Berhasil integrasi antrian \nAngka antrian : " . $request->angkaantrean . "\nKodebooking : " . $request->kodebooking .  "\nJenis Pasien : " . $request->jenispasien . "\nNama " . $request->nama . "\nTanggal Periksa " . $request->tanggalperiksa . "\nDokter : " . $request->namadokter . "\nUser : " . Auth::user()->name;
                     $request['number'] = "120363170262520539";
                     $wapi->send_message_group($request);
                 } catch (\Throwable $th) {
