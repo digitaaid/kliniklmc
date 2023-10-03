@@ -37,11 +37,11 @@
                             theme="danger" icon="fas fa-user-injured" />
                     </div>
                     <div class="col-md-3">
-                        <x-adminlte-small-box title="{{ $antrians->where('jenispasien', 'JKN')->count() }}"
+                        <x-adminlte-small-box title="{{ $antrians->where('jenispasien', 'JKN')->where('taskid', '!=', 99)->count() }}"
                             text="Pasien JKN" theme="primary" icon="fas fa-user-injured" />
                     </div>
                     <div class="col-md-3">
-                        <x-adminlte-small-box title="{{ $antrians->where('jenispasien', 'NON-JKN')->count() }}"
+                        <x-adminlte-small-box title="{{ $antrians->where('jenispasien', 'NON-JKN')->where('taskid', '!=', 99)->count() }}"
                             text="Pasien UMUM" theme="primary" icon="fas fa-user-injured" />
                     </div>
                 </div>
