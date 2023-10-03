@@ -27,10 +27,7 @@
         @if (isset($antrians))
             <div class="col-md-12">
                 <div class="row">
-                    <div class="col-md-3">
-                        <x-adminlte-small-box title="{{ $antrians->where('taskid', 1)->count() }}" text="Sisa Antrian"
-                            theme="warning" icon="fas fa-user-injured" />
-                    </div>
+
                     <div class="col-md-3">
                         <x-adminlte-small-box title="{{ $antrians->where('taskid', '!=', 99)->count() }}"
                             text="Total Antrian" theme="success" icon="fas fa-user-injured" />
@@ -39,10 +36,18 @@
                         <x-adminlte-small-box title="{{ $antrians->where('taskid', 99)->count() }}" text="Batal Antrian"
                             theme="danger" icon="fas fa-user-injured" />
                     </div>
+                    <div class="col-md-3">
+                        <x-adminlte-small-box title="{{ $antrians->where('jenispasien', 'JKN')->count() }}"
+                            text="Pasien JKN" theme="primary" icon="fas fa-user-injured" />
+                    </div>
+                    <div class="col-md-3">
+                        <x-adminlte-small-box title="{{ $antrians->where('jenispasien', 'NON-JKN')->count() }}"
+                            text="Pasien UMUM" theme="primary" icon="fas fa-user-injured" />
+                    </div>
                 </div>
                 <x-adminlte-card title="Data Antrian Pendaftaran" theme="warning" icon="fas fa-info-circle" collapsible>
                     @php
-                        $heads = ['No', 'Tanggal', 'No RM','Pasien', 'Kartu BPJS', 'Jenis Pasien', 'Method', 'Action','PIC'];
+                        $heads = ['No', 'Tanggal', 'No RM', 'Pasien', 'Kartu BPJS', 'Jenis Pasien', 'Method', 'Action', 'PIC'];
                         $config['order'] = [1, 'asc'];
                         $config['paging'] = false;
                         $config['scrollY'] = '300px';
@@ -69,27 +74,27 @@
                                         @break
 
                                         @case(2)
-                                           0. Proses Pendaftaran
+                                            0. Proses Pendaftaran
                                         @break
 
                                         @case(3)
-                                           3. Menunggu Poliklinik
+                                            3. Menunggu Poliklinik
                                         @break
 
                                         @case(4)
-                                           4. Pelayanan Poliklinik
+                                            4. Pelayanan Poliklinik
                                         @break
 
                                         @case(5)
-                                           5. Tunggu Farmasi
+                                            5. Tunggu Farmasi
                                         @break
 
                                         @case(6)
-                                           6. Racik Obat
+                                            6. Racik Obat
                                         @break
 
                                         @case(7)
-                                           7. Selesai
+                                            7. Selesai
                                         @break
 
                                         @case(99)
