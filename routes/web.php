@@ -12,6 +12,7 @@ use App\Http\Controllers\IntegrasiController;
 use App\Http\Controllers\JadwalDokterController;
 use App\Http\Controllers\JadwalLiburController;
 use App\Http\Controllers\KunjunganController;
+use App\Http\Controllers\LaravoltIndonesiaController;
 use App\Http\Controllers\ObatController;
 use App\Http\Controllers\PasienController;
 use App\Http\Controllers\PendaftaranController;
@@ -71,9 +72,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/home', [HomeController::class, 'index'])->name('home');
     Route::get('profile', [UserController::class, 'profile'])->name('profile'); #ok
     // settingan umum
-    Route::get('get_city', [LaravotLocationController::class, 'get_city'])->name('get_city');
-    Route::get('get_district', [LaravotLocationController::class, 'get_district'])->name('get_district');
-    Route::get('get_village', [LaravotLocationController::class, 'get_village'])->name('get_village');
+    Route::get('get_city', [LaravoltIndonesiaController::class, 'get_city'])->name('get_city');
+    Route::get('get_district', [LaravoltIndonesiaController::class, 'get_district'])->name('get_district');
+    Route::get('get_village', [LaravoltIndonesiaController::class, 'get_village'])->name('get_village');
+    Route::get('get_kabupaten_name', [LaravoltIndonesiaController::class, 'get_kabupaten_name'])->name('get_kabupaten_name');
     // route resource
     Route::group(['middleware' => ['permission:admin']], function () {
         Route::resource('user', UserController::class);

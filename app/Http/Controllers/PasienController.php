@@ -6,6 +6,7 @@ use App\Imports\PasiensImport;
 use App\Models\Pasien;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Laravolt\Indonesia\Models\Kabupaten;
 use Maatwebsite\Excel\Facades\Excel;
 use RealRashid\SweetAlert\Facades\Alert;
 
@@ -13,7 +14,6 @@ class PasienController extends APIController
 {
     public function index(Request $request)
     {
-
         if ($request->search) {
             $pasiens = Pasien::orderBy('norm', 'desc')
                 ->where('norm', 'LIKE', "%{$request->search}%")
@@ -25,6 +25,7 @@ class PasienController extends APIController
             $pasiens = Pasien::orderBy('norm', 'desc')->simplePaginate(20);;
         }
         $total_pasien = Pasien::count();
+        $kabupaten = Kabupaten::where('province_code', '32')->pluck('name', 'code');
         // $pasien_jkn = Pasien::where('no_Bpjs', '!=', '')->count();
         // $pasien_nik = Pasien::where('nik_bpjs', '!=', '')->count();
         // $pasien_laki = Pasien::where('jenis_kelamin', 'L')->count();
@@ -37,8 +38,35 @@ class PasienController extends APIController
     }
     public function create()
     {
-        $file = public_path('pasien.xlsx');
-        Excel::import(new PasiensImport, $file);
+        // $file = public_path('pasien.xlsx');
+        // Excel::import(new PasiensImport, $file);
+        // return redirect()->route('pasien.index');
+    }
+    public function store(Request $request)
+    {
+        $request->validate([
+            'nama' => 'required',
+            'nik' => 'required|digits:16',
+            'nohp' => 'required',
+            'gender' => 'required',
+        ]);
+        if (empty($request->norm)) {
+            $pasien_terakhir = Pasien::latest()->first();
+            if ($pasien_terakhir) {
+                $norm = sprintf("%09d", $pasien_terakhir->norm + 1);
+            } else {
+                $norm = '000000001';
+            }
+            $request['norm'] = $norm;
+        }
+        $pasien = Pasien::updateOrCreate(
+            [
+                'nik' => $request->nik,
+                'norm' => $request->norm,
+            ],
+            $request->all()
+        );
+        Alert::success('Sucess','Data Pasien Berhasil Ditambahkan.');
         return redirect()->route('pasien.index');
     }
     public function update($id, Request $request)

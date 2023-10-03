@@ -7,6 +7,15 @@
 @section('content')
     <div class="row">
         <div class="col-md-12">
+            @if ($errors->any())
+                <x-adminlte-alert title="Ops Terjadi Masalah !" theme="danger" dismissable>
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </x-adminlte-alert>
+            @endif
             <x-adminlte-card title="Data Pasien" theme="primary" icon="fas fa-info-circle" collapsible>
                 <div class="row">
                     <div class="col-md-8">
@@ -70,7 +79,7 @@
             </x-adminlte-card>
         </div>
     </div>
-    <x-adminlte-modal id="modalPasien" title="Pasien" icon="fas fa-pills" theme="success" v-centered static-backdrop>
+    <x-adminlte-modal id="modalPasien" title="Pasien" icon="fas fa-user-injured" theme="success" static-backdrop>
         <form action="" id="formPasien" method="POST">
             @csrf
             <input type="hidden" name="id" id="id">
@@ -86,6 +95,10 @@
                 <option value="L">Laki-Laki</option>
             </x-adminlte-select2>
             <x-adminlte-select2 name="tempat_lahir" label="Tempat Lahir">
+                {{-- @foreach ($collection as $item)
+
+                @endforeach
+                <option value=""></option> --}}
             </x-adminlte-select2>
             @php
                 $config = ['format' => 'YYYY-MM-DD'];
@@ -111,6 +124,8 @@
     </x-adminlte-modal>
 @stop
 @section('plugins.Datatables', true)
+@section('plugins.TempusDominusBs4', true)
+@section('plugins.Select2', true)
 @section('js')
     <script>
         $(function() {
@@ -171,6 +186,30 @@
             //         }
             //     })
             // });
+        });
+    </script>
+    <script>
+        $(function() {
+            $("#tempat_lahir").select2({
+                theme: "bootstrap4",
+                ajax: {
+                    url: "{{ route('get_kabupaten_name') }}",
+                    type: "get",
+                    dataType: 'json',
+                    delay: 250,
+                    data: function(params) {
+                        return {
+                            search: params.term // search term
+                        };
+                    },
+                    processResults: function(response) {
+                        return {
+                            results: response
+                        };
+                    },
+                    cache: true
+                }
+            });
         });
     </script>
 @endsection
