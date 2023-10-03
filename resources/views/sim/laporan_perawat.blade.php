@@ -72,8 +72,13 @@
                                         Belum
                                     @endif
                                 </td>
-                                <td>{{ $item->user2 }} </td>
-
+                                <td>
+                                    @if ($item->asesmenperawat)
+                                        {{ $item->asesmenperawat->user }}
+                                    @else
+                                        -
+                                    @endif
+                                </td>
                             </tr>
                         @endforeach
                     </x-adminlte-datatable>
