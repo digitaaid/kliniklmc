@@ -423,6 +423,12 @@ return [
             'can' => 'farmasi',
         ],
         [
+            'text' => 'Obat Kemoterapi',
+            'icon'    => 'fas fa-pills',
+            'url'  => 'obatkemoterapi',
+            'can' => 'farmasi',
+        ],
+        [
             'text' => 'Capaian Antrian',
             'icon'    => 'fas fa-chart-line',
             'url'  => 'capaianantrian',

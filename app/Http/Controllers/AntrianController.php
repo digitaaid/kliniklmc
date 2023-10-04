@@ -1234,6 +1234,7 @@ class AntrianController extends APIController
     public function antrianPerKodebooking(Request $request)
     {
         $antrian = null;
+        $taskid = null;
         if ($request->kodebooking) {
             $request['kodeBooking'] = $request->kodebooking;
             $response = $this->antrian_kodebooking($request);

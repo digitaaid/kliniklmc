@@ -63,7 +63,6 @@
                     </dl>
                 </x-adminlte-profile-widget>
             </div>
-
             <div class="col-md-8">
                 <x-adminlte-card title="Data Task ID Antrian" theme="secondary" collapsible>
                     @php
@@ -79,8 +78,8 @@
                                     <td>{{ $item->waktu }}</td>
                                     <td>{{ $item->kodebooking }}</td>
                                     <td>
-                                        <a class="btn btn-primary btn-xs"
-                                            href="{{ route('antrianKodebookingLanjut') }}?kodebooking={{ $item->kodebooking }}&taskid={{ $item->taskid + 1 }}">Lanjut</a>
+                                        {{-- <a class="btn btn-primary btn-xs"
+                                            href="{{ route('antrianKodebookingLanjut') }}?kodebooking={{ $item->kodebooking }}&taskid={{ $item->taskid + 1 }}">Lanjut</a> --}}
                                     </td>
                                 </tr>
                             @endforeach

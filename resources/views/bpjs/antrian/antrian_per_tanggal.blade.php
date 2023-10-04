@@ -64,7 +64,10 @@
                                 <td>{{ date('Y-m-d H:i:s', $item->createdtime / 1000) }}</td>
                                 <td>{{ $item->status }} {{ $item->ispeserta }}</td>
                                 <td>
-
+                                    @if ($item->status != 'Selesai dilayani')
+                                        <a class="btn btn-danger btn-xs"
+                                            href="{{ route('antrianKodebookingLanjut') }}?kodebooking={{ $item->kodebooking }}">Batal</a>
+                                    @endif
                                 </td>
                             </tr>
                         @endforeach
