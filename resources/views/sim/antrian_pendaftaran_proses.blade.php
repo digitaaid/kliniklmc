@@ -452,43 +452,43 @@
                                         <x-adminlte-select igroup-size="sm" name="cara_masuk" label="Cara Masuk">
                                             <option selected disabled>Pilih Cara Masuk</option>
                                             <option value="gp"
-                                                {{ $antrian->kunjungan->cara_masuk ?? null == 'gp' ? 'selected' : null }}>
+                                                {{ $antrian->kunjungan ? ($antrian->kunjungan->cara_masuk == 'gp' ? 'selected' : null) : null }}>
                                                 Rujukan
                                                 FKTP</option>
                                             <option value="hosp-trans"
-                                                {{ $antrian->kunjungan->cara_masuk ?? null == 'hosp-trans' ? 'selected' : null }}>
+                                                {{ $antrian->kunjungan ? ($antrian->kunjungan->cara_masuk == 'hosp-trans' ? 'selected' : null) : null }}>
                                                 Rujukan FKRTL</option>
                                             <option value="mp"
-                                                {{ $antrian->kunjungan->cara_masuk ?? null == 'mp' ? 'selected' : null }}>
+                                                {{ $antrian->kunjungan ? ($antrian->kunjungan->cara_masuk == 'mp' ? 'selected' : null) : null }}>
                                                 Rujukan
                                                 Spesialis</option>
                                             <option value="outp"
-                                                {{ $antrian->kunjungan->cara_masuk ?? null == 'outp' ? 'selected' : null }}>
+                                                {{ $antrian->kunjungan ? ($antrian->kunjungan->cara_masuk == 'outp' ? 'selected' : null) : null }}>
                                                 Dari
                                                 Rawat Jalan</option>
                                             <option value="inp"
-                                                {{ $antrian->kunjungan->cara_masuk ?? null == 'inp' ? 'selected' : null }}>
+                                                {{ $antrian->kunjungan ? ($antrian->kunjungan->cara_masuk == 'inp' ? 'selected' : null) : null }}>
                                                 Dari
                                                 Rawat Inap</option>
                                             <option value="emd"
-                                                {{ $antrian->kunjungan->cara_masuk ?? null == 'emd' ? 'selected' : null }}>
+                                                {{ $antrian->kunjungan ? ($antrian->kunjungan->cara_masuk == 'emd' ? 'selected' : null) : null }}>
                                                 Dari
                                                 Rawat Darurat</option>
                                             <option value="born"
-                                                {{ $antrian->kunjungan->cara_masuk ?? null == 'born' ? 'selected' : null }}>
+                                                {{ $antrian->kunjungan ? ($antrian->kunjungan->cara_masuk == 'born' ? 'selected' : null) : null }}>
                                                 Lahir
                                                 di RS</option>
                                             <option value="nursing"
-                                                {{ $antrian->kunjungan->cara_masuk ?? null == 'nursing' ? 'selected' : null }}>
+                                                {{ $antrian->kunjungan ? ($antrian->kunjungan->cara_masuk == 'nursing' ? 'selected' : null) : null }}>
                                                 Rujukan Panti Jompo</option>
                                             <option value="psych"
-                                                {{ $antrian->kunjungan->cara_masuk ?? null == 'psych' ? 'selected' : null }}>
+                                                {{ $antrian->kunjungan ? ($antrian->kunjungan->cara_masuk == 'psych' ? 'selected' : null) : null }}>
                                                 Rujukan dari RS Jiwa</option>
                                             <option value="rehab"
-                                                {{ $antrian->kunjungan->cara_masuk ?? null == 'rehab' ? 'selected' : null }}>
+                                                {{ $antrian->kunjungan ? ($antrian->kunjungan->cara_masuk == 'rehab' ? 'selected' : null) : null }}>
                                                 Rujukan Fasilitas Rehab</option>
                                             <option value="other"
-                                                {{ $antrian->kunjungan->cara_masuk ?? null == 'other' ? 'selected' : null }}>
+                                                {{ $antrian->kunjungan ? ($antrian->kunjungan->cara_masuk == 'other' ? 'selected' : null) : null }}>
                                                 Lain-lain</option>
                                         </x-adminlte-select>
                                         <x-adminlte-select2 igroup-size="sm" name="diagnosa_awal" class="diagnosaid2"
@@ -502,16 +502,16 @@
                                             label="Jenis Kunjungan">
                                             <option selected disabled>Pilih Jenis Rujukan</option>
                                             <option value="1"
-                                                {{ $antrian->kunjungan->jeniskunjungan ?? null == '1' ? 'selected' : null }}>
+                                                {{ $antrian->kunjungan ? ($antrian->kunjungan->jeniskunjungan == '1' ? 'selected' : null) : null }}>
                                                 Rujukan FKTP</option>
                                             <option value="2"
-                                                {{ $antrian->kunjungan->jeniskunjungan ?? null == '2' ? 'selected' : null }}>
+                                                {{ $antrian->kunjungan ? ($antrian->kunjungan->jeniskunjungan == '2' ? 'selected' : null) : null }}>
                                                 Umum</option>
                                             <option value="3"
-                                                {{ $antrian->kunjungan->jeniskunjungan ?? null == '3' ? 'selected' : null }}>
+                                                {{ $antrian->kunjungan ? ($antrian->kunjungan->jeniskunjungan == '3' ? 'selected' : null) : null }}>
                                                 Kontrol</option>
                                             <option value="4"
-                                                {{ $antrian->kunjungan->jeniskunjungan ?? null == '4' ? 'selected' : null }}>
+                                                {{ $antrian->kunjungan ? ($antrian->kunjungan->jeniskunjungan == '4' ? 'selected' : null) : null }}>
                                                 Rujukan Antar RS</option>
                                         </x-adminlte-select>
                                         <x-adminlte-input name="nomorreferensi" igroup-size="sm" label="Nomor Referensi"
