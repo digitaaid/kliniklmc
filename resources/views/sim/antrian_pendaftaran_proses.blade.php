@@ -502,16 +502,16 @@
                                             label="Jenis Kunjungan">
                                             <option selected disabled>Pilih Jenis Rujukan</option>
                                             <option value="1"
-                                                {{ $antrian->kunjungan ? $antrian->kunjungan->jeniskunjungan : null == '1' ? 'selected' : null }}>
+                                                {{ $antrian->kunjungan->jeniskunjungan ?? null == '1' ? 'selected' : null }}>
                                                 Rujukan FKTP</option>
                                             <option value="2"
-                                                {{ $antrian->kunjungan ? $antrian->kunjungan->jeniskunjungan : null == '2' ? 'selected' : null }}>
+                                                {{ $antrian->kunjungan->jeniskunjungan ?? null == '2' ? 'selected' : null }}>
                                                 Umum</option>
                                             <option value="3"
-                                                {{ $antrian->kunjungan ? $antrian->kunjungan->jeniskunjungan : null == '3' ? 'selected' : null }}>
+                                                {{ $antrian->kunjungan->jeniskunjungan ?? null == '3' ? 'selected' : null }}>
                                                 Kontrol</option>
                                             <option value="4"
-                                                {{ $antrian->kunjungan ? $antrian->kunjungan->jeniskunjungan : null == '4' ? 'selected' : null }}>
+                                                {{ $antrian->kunjungan->jeniskunjungan ?? null == '4' ? 'selected' : null }}>
                                                 Rujukan Antar RS</option>
                                         </x-adminlte-select>
                                         <x-adminlte-input name="nomorreferensi" igroup-size="sm" label="Nomor Referensi"
