@@ -11,7 +11,7 @@
         <div class="col-12">
             <x-adminlte-card title="Data Dokter" theme="primary" icon="fas fa-info-circle" collapsible>
                 @php
-                    $heads = ['ID', 'Kode', 'Nama Dokter', 'Title', 'SIP', 'Kode BPJS', 'Status', 'Action'];
+                    $heads = ['ID', 'Kode', 'Nama Dokter', 'Sex', 'Title', 'SIP', 'Kode BPJS', 'Status', 'Action'];
                 @endphp
                 <x-adminlte-datatable id="table2" :heads="$heads" bordered hoverable compressed>
                     @foreach ($dokter as $item)
@@ -19,6 +19,7 @@
                             <td>{{ $item->id }}</td>
                             <td>{{ $item->kodedokter }}</td>
                             <td>{{ $item->namadokter }}</td>
+                            <td>{{ $item->gender }}</td>
                             <td>{{ $item->subtitle }}</td>
                             <td>{{ $item->sip }}</td>
                             <td>{{ $item->kodejkn }}</td>
@@ -27,7 +28,7 @@
                                 <x-adminlte-button class="btn-xs btnEdit" theme="warning" icon="fas fa-edit"
                                     title="Edit Dokter {{ $item->namadokter }}" data-id="{{ $item->id }}"
                                     data-namadokter="{{ $item->namadokter }}" data-kodedokter="{{ $item->kodedokter }}"
-                                    data-subtitle="{{ $item->subtitle }}" data-sip="{{ $item->sip }}"
+                                    data-subtitle="{{ $item->subtitle }}" data-gender="{{ $item->gender }}" data-sip="{{ $item->sip }}"
                                     data-kodejkn="{{ $item->kodejkn }}" />
                             </td>
                         </tr>
@@ -45,6 +46,7 @@
             <x-adminlte-input name="namadokter" placeholder="Nama Dokter" label="Nama Dokter" />
             <x-adminlte-input name="kodedokter" placeholder="Kode Dokter" label="Kode Dokter" />
             <x-adminlte-input name="subtitle" placeholder="Subtitle" label="Subtitle" />
+            <x-adminlte-input name="gender" placeholder="Gender" label="Gender" />
             <x-adminlte-input name="sip" placeholder="SIP Dokter" label="SIP Dokter" />
             <x-adminlte-input name="kodejkn" placeholder="Kode BPJS" label="Kode BPJS" />
             <x-slot name="footerSlot">
@@ -93,7 +95,6 @@
 
 @section('plugins.Select2', true)
 @section('plugins.Datatables', true)
-
 @section('js')
     <script>
         $(function() {
@@ -102,20 +103,14 @@
                 $('#btnStore').hide();
                 $('#btnUpdate').show();
                 $('#formDokter').trigger("reset");
-                // get
                 var id = $(this).data("id");
-                var namadokter = $(this).data("namadokter");
-                var kodedokter = $(this).data("kodedokter");
-                var subtitle = $(this).data("subtitle");
-                var sip = $(this).data("sip");
-                var kodejkn = $(this).data("kodejkn");
-                // set
                 $('#id').val(id);
-                $('#namadokter').val(namadokter);
-                $('#kodedokter').val(kodedokter);
-                $('#subtitle').val(subtitle);
-                $('#sip').val(sip);
-                $('#kodejkn').val(kodejkn);
+                $('#namadokter').val($(this).data("namadokter"));
+                $('#kodedokter').val( $(this).data("kodedokter"));
+                $('#subtitle').val($(this).data("subtitle"));
+                $('#gender').val($(this).data("gender"));
+                $('#sip').val($(this).data("sip"));
+                $('#kodejkn').val($(this).data("kodejkn"));
                 $('#modalEdit').modal('show');
                 $.LoadingOverlay("hide");
             });

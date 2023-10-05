@@ -1,5 +1,5 @@
     <!-- ======= Top Bar ======= -->
-    <div id="topbar" class="d-flex align-items-center fixed-top">
+    {{-- <div id="topbar" class="d-flex align-items-center fixed-top">
         <div class="container d-flex align-items-center justify-content-center justify-content-md-between">
             <div class="align-items-center d-none d-md-flex">
                 <a class="scrollto" href="{{ route('landingpage') }}#jadwal" style="color: white">
@@ -12,7 +12,7 @@
                 </a>
             </div>
         </div>
-    </div>
+    </div> --}}
     <!-- ======= Header ======= -->
     <header id="header" class="fixed-top">
         <div class="container d-flex align-items-center">
@@ -20,8 +20,7 @@
                 <img src="{{ asset('medicio/assets/img/lmc-l.png') }}" alt="">
             </a>
             <!-- Uncomment below if you prefer to use an image logo -->
-            <!-- <h1 class="logo me-auto"><a href="index.html">Medicio</a></h1> -->
-
+            <!-- <h1 class="logo me-auto"><a hrefp="index.html">Medicio</a></h1> -->
             <nav id="navbar" class="navbar order-last order-lg-0">
                 <ul>
                     <li><a class="nav-link scrollto " href="{{ route('landingpage') }}">Home</a></li>
