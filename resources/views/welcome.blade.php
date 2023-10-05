@@ -9,10 +9,9 @@
                 <!-- Slide 1 -->
                 <div class="carousel-item active" style="background-image: url({{ asset('img/3.jpg') }})">
                     <div class="container">
-                        <h2>Selamat Datang di LMC</span></h2>
+                        <h2>HELLO</span></h2>
                         <p>
-                            Selamat datang di Klinik Hematologi Kami! Kami siap memberikan pelayanan terbaik untuk kesehatan
-                            Anda. Temukan solusi hematologi yang tepat bersama tim profesional kami.
+                            Selamat datang di Klinik Utama Luthfi Medical Center. Kami siap memberikan pelayanan terbaik untuk kesehatan anda.
                         </p>
                         <a href="#about" class="btn-get-started scrollto">Tentang Kami</a>
                     </div>
