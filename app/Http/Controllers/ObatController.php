@@ -36,6 +36,7 @@ class ObatController extends Controller
         $obat = Obat::find($id);
         $obat->update([
             'nama' => $request->nama,
+            'jenisobat' => $request->jenisobat,
         ]);
         Alert::success('Success', 'Data Nama Obat Diperbaharui.');
         return redirect()->route('obat.index');
@@ -48,7 +49,6 @@ class ObatController extends Controller
         }
         return redirect()->route('obat.index');
     }
-
     public function ref_obat_cari(Request $request)
     {
         $data = array();

@@ -117,7 +117,22 @@
                             @endif
                         </div>
                         <div class="tab-pane" id="filepenunjangtab">
-                            @if ($antrian->fileuploads)
+                            @if ($antrian->pasien)
+                                @if ($antrian->pasien->fileuploads)
+                                    @foreach ($antrian->pasien->fileuploads as $file)
+                                        <x-adminlte-card title="{{ $file->nama }}" theme="info" icon="fas fa-file"
+                                            collapsible="collapsed">
+                                            <a href="{{ $file->fileurl }}" target="_blank"
+                                                class="btn btn-xs btn-primary mr-1 mb-1">Donwload</a>
+                                            <a href="{{ route('hapusfilepenunjang') }}?id={{ $file->id }}"
+                                                class="btn btn-xs btn-danger mr-1 mb-1">Hapus File</a>
+                                            Diupload pada tanggal : {{ $file->created_at }}
+                                            <br>
+                                            <object data="{{ $file->fileurl }}" width="100%" height="700px"> </object>
+                                        </x-adminlte-card>
+                                    @endforeach
+                                @endif
+                            @else
                                 @foreach ($antrian->fileuploads as $file)
                                     <x-adminlte-card title="{{ $file->nama }} {{ $file->created_at }}" theme="info"
                                         icon="fas fa-file" collapsible="collapsed">
@@ -157,7 +172,8 @@
                                 @csrf
                                 <input type="hidden" name="kodebooking" value="{{ $antrian->kodebooking }}">
                                 <input type="hidden" name="antrian_id" value="{{ $antrian->id }}">
-                                <input type="hidden" name="kodekunjungan" value="{{ $antrian->kunjungan->kode ?? null }}">
+                                <input type="hidden" name="kodekunjungan"
+                                    value="{{ $antrian->kunjungan->kode ?? null }}">
                                 <input type="hidden" name="kunjungan_id" value="{{ $antrian->kunjungan->id ?? null }}">
                                 <div class="row">
                                     <div class="col-md-6">

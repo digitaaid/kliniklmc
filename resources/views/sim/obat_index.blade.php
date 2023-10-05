@@ -11,7 +11,7 @@
         <div class="col-md-12">
             <x-adminlte-card title="Data Obat" theme="primary" icon="fas fa-info-circle" collapsible>
                 @php
-                    $heads = ['No', 'Nama Obat', 'Satuan', 'Action'];
+                    $heads = ['No', 'Nama Obat', 'Satuan', 'Jenis Obat', 'Action'];
                     $config['order'] = [1, 'asc'];
                     $config['paging'] = false;
                     $config['scrollY'] = '500px';
@@ -23,6 +23,7 @@
                             <td>{{ $item->id }}</td>
                             <td>{{ $item->nama }}</td>
                             <td>{{ $item->satuan }}</td>
+                            <td>{{ $item->jenisobat }}</td>
                             <td>
                                 <x-adminlte-button class="btn-xs btnEdit" theme="warning" icon="fas fa-edit"
                                     title="Edit Obat {{ $item->nama }}" data-id="{{ $item->id }}"
@@ -40,6 +41,11 @@
             <input type="hidden" name="id" id="id">
             <input type="hidden" name="_method" id="method">
             <x-adminlte-input name="nama" label="Nama Obat" placeholder="Nama Lengkap" enable-old-support required />
+            <x-adminlte-select2 name="jenisobat" label="Jenis Obat">
+                <option value="">Jenis Obat (Kosong)</option>
+                <option value="Obat Kemoterapi">Obat Kemoterapi</option>
+                <option value="Penunjang Kemoterapi">Penunjang Kemoterapi</option>
+            </x-adminlte-select2>
         </form>
         <form id="formDelete" action="" method="POST">
             @csrf
