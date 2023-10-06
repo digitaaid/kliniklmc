@@ -59,9 +59,9 @@
                             {{ $kunjungan->asesmenperawat->berat_badan ?? null }}
                             kg<br>
                             <b>Index BSA : </b>
-                            {{-- @if ($kunjungan->asesmenperawat->tinggi_badan && $kunjungan->asesmenperawat->berat_badan)
+                            @if ($kunjungan->asesmenperawat)
                                 {{ number_format(sqrt(($kunjungan->asesmenperawat->tinggi_badan * $kunjungan->asesmenperawat->berat_badan) / 3600), 2) ?? null }}
-                            @endif --}}
+                            @endif
                             m2<br>
                         </div>
                     </div>
