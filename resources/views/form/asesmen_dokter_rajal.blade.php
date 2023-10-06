@@ -59,7 +59,9 @@
                             {{ $kunjungan->asesmenperawat->berat_badan ?? null }}
                             kg<br>
                             <b>Index BSA : </b>
-                            {{ number_format(sqrt(($kunjungan->asesmenperawat->tinggi_badan * $kunjungan->asesmenperawat->berat_badan) / 3600), 2) ?? null }}
+                            @if ($kunjungan->asesmenperawat->tinggi_badan && $kunjungan->asesmenperawat->berat_badan)
+                                {{ number_format(sqrt(($kunjungan->asesmenperawat->tinggi_badan * $kunjungan->asesmenperawat->berat_badan) / 3600), 2) ?? null }}
+                            @endif
                             m2<br>
 
                         </div>
@@ -218,11 +220,11 @@
                                         @break
 
                                         @case('303')
-                                        3 TAB/CAP SETIAP PAGI DAN MALAM
+                                            3 TAB/CAP SETIAP PAGI DAN MALAM
                                         @break
 
                                         @case('202')
-                                        2 TAB/CAP SETIAP PAGI DAN MALAM
+                                            2 TAB/CAP SETIAP PAGI DAN MALAM
                                         @break
 
                                         @default
