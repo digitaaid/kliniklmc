@@ -61,7 +61,7 @@ class UserController extends Controller
         DB::table('model_has_roles')->where('model_id', $request->id)->delete();
         $user->assignRole($request->role);
         Alert::success('Success', 'Data User Disimpan');
-        return redirect()->route('user.index');
+        return redirect()->back();
     }
     public function update($id, Request $request)
     {
@@ -83,26 +83,19 @@ class UserController extends Controller
         DB::table('model_has_roles')->where('model_id', $request->id)->delete();
         $user->assignRole($request->role);
         Alert::success('Success', 'Data User Diupdate');
-        return redirect()->route('user.index');
+        return redirect()->back();
     }
     public function destroy(User $user)
     {
         $user->delete();
         Alert::success('Success', 'Data Telah Dihapus');
-        return redirect()->route('user.index');
+        return redirect()->back();
     }
     public function profile()
     {
         $user = Auth::user();
         $roles = Role::pluck('name', 'name')->all();
         $userRole = $user->roles->pluck('name', 'name')->all();
-        // $genders = Gender::pluck('name', 'name')->all();
-        // $agamas = Agama::pluck('name', 'name')->all();
-        // $perkawinans = Perkawinan::pluck('name', 'name')->all();
-        // $provinces = Province::pluck('name', 'id');
-        // $cities = City::where('province_code', $user->province_id)->pluck('name', 'id')->all();
-        // $districts = District::where('city_code', $user->city_id)->pluck('name', 'id')->all();
-        // $villages = Village::where('district_code', $user->district_id)->pluck('name', 'id')->all();
         return view('admin.user_profile', compact(
             'user',
             'roles',
@@ -111,7 +104,8 @@ class UserController extends Controller
     }
     public function profile_update(Request $request)
     {
-        $user = Auth::user();
+        $id = Auth::user()->id;
+        $user = User::find($id);
         $request->validate([
             'name' => 'required',
             'email' => 'unique:users,email,' . $user->id,
@@ -132,6 +126,6 @@ class UserController extends Controller
         $request['number'] = $user->phone;
         $wa->send_message($request);
         Alert::success('Success', 'Akun telah diverifikasi');
-        return back();
+        return redirect()->back();
     }
 }
