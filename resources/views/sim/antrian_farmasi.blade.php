@@ -64,7 +64,7 @@
                 <x-adminlte-card title="Data Antrian Farmasi" theme="warning" icon="fas fa-info-circle"
                     collapsible="{{ $antrians->where('taskid', 6)->count() ? 'collapsed' : null }}">
                     @php
-                        $heads = ['No', 'Kodebooking', 'Pasien', 'Kartu BPJS', 'Unit / Dokter', 'Jenis Pasien', 'Method', 'Status', 'Action'];
+                        $heads = ['No', 'Kodebooking', 'Pasien', 'Kartu BPJS', 'Unit', 'Dokter', 'Jenis Pasien', 'Method', 'Status', 'Action'];
                         $config['order'] = [[7, 'asc']];
                         $config['paging'] = false;
                         $config['scrollY'] = '300px';
@@ -77,7 +77,8 @@
                                 <td>{{ $item->kodebooking }}</td>
                                 <td>{{ $item->norm }} {{ $item->nama }}</td>
                                 <td>{{ $item->nomorkartu }}</td>
-                                <td>{{ $item->kodeunit }} / {{ $item->namadokter }}</td>
+                                <td>{{ $item->kunjungan ? $item->kunjungan->units->nama : '-' }}</td>
+                                <td>{{ $item->namadokter }}</td>
                                 <td>{{ $item->jenispasien }} </td>
                                 <td>{{ $item->method }} </td>
                                 <td>

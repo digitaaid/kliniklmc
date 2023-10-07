@@ -304,7 +304,6 @@ class AntrianController extends APIController
             return $this->sendError('Antrian tidak ditemukan', 400);
         }
     }
-
     public function statusAntrianBpjs()
     {
         $api = IntegrasiApi::where('name', 'Antrian BPJS')->first();

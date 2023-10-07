@@ -44,7 +44,7 @@
                 </div>
                 <x-adminlte-card title="Data Antrian Pendaftaran" theme="warning" icon="fas fa-info-circle" collapsible>
                     @php
-                        $heads = ['No', 'Tanggal', 'No RM', 'Pasien', 'Kartu BPJS', 'Jenis Pasien', 'Method', 'Asesmen', 'PIC'];
+                        $heads = ['No', 'Tanggal', 'No RM', 'Pasien', 'Kartu BPJS', 'Jenis Pasien', 'Method', 'PIC'];
                         $config['order'] = [1, 'asc'];
                         $config['paging'] = false;
                         $config['scrollY'] = '300px';
@@ -61,14 +61,7 @@
                                 <td>{{ $item->jenispasien }} </td>
                                 <td>{{ $item->method }} </td>
                                 <td>
-                                    @if ($item->asesmendokter)
-                                        Sudah
-                                    @else
-                                        Belum
-                                    @endif
-                                </td>
-                                <td>
-                                    {{ $item->user4 }}
+                                    {{ $item->pic4 ? $item->pic4->name : $item->user4 }}
                                 </td>
                             </tr>
                         @endforeach
