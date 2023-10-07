@@ -63,11 +63,12 @@
                                     data-gender="{{ $item->gender }}" data-tempat_lahir="{{ $item->tempat_lahir }}"
                                     data-tgl_lahir="{{ $item->tgl_lahir }}" data-nik="{{ $item->nik }}"
                                     data-nomorkartu="{{ $item->nomorkartu }}" data-norm="{{ $item->norm }}"
-                                    data-alamat="{{ $item->alamat }}" />
+                                    data-alamat="{{ $item->alamat }}" data-created="{{ $item->created_at }}"
+                                    data-updated="{{ $item->updated_at }}"
+                                    data-user="{{ $item->pic ? $item->pic->name : $item->user }}" />
                             </td>
                             <td>
                                 {{ $item->pic ? $item->pic->name : $item->user }}
-
                             </td>
 
                         </tr>
@@ -117,6 +118,14 @@
                     </x-adminlte-input-date>
                     <x-adminlte-textarea igroup-size="sm" rows=4 label="Alamat" name="alamat" placeholder="Alamat">
                     </x-adminlte-textarea>
+                    <p>
+                        <b>PIC : </b>
+                        <span id='user'></span><br>
+                        <b>Waktu diperbaharui : </b>
+                        <span id='updated'></span><br>
+                        <b>Waktu didaftarkan : </b>
+                        <span id='created'></span><br>
+                    </p>
                 </div>
             </div>
 
@@ -164,7 +173,9 @@
                 $('#tgl_lahir').val($(this).data("tgl_lahir"));
                 $('#alamat').val($(this).data("alamat"));
                 $('#gender').val($(this).data("gender")).change();
-
+                $('#user').html($(this).data("user"));
+                $('#updated').html($(this).data("updated"));
+                $('#created').html($(this).data("created"));
                 if ($(this).data("tempat_lahir")) {
                     $('#tempat_lahir').append('<option selected value="' + $(this).data("tempat_lahir") +
                         '">' + $(
