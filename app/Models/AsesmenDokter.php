@@ -13,4 +13,8 @@ class AsesmenDokter extends Model
     {
         return $this->belongsTo(Antrian::class);
     }
+    public function pic()
+    {
+        return $this->hasOne(User::class,  'id', 'user');
+    }
 }

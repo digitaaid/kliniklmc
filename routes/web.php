@@ -63,7 +63,7 @@ Route::post('prosesdaftarbpjs', [AntrianController::class, 'prosesdaftarbpjs'])-
 Route::get('daftarumum', [AntrianController::class, 'daftarumum'])->name('daftarumum');
 Route::post('prosesdaftarumum', [AntrianController::class, 'prosesdaftarumum'])->name('prosesdaftarumum');
 Route::get('statusantrian', [AntrianController::class, 'statusantrian'])->name('statusantrian');
-Route::get('batalantrianweb', [AntrianController::class, 'batalantrianweb'])->name('batalantrianweb');
+Route::get('batalantrianweb', [PendaftaranController::class, 'batalantrianweb'])->name('batalantrianweb');
 Route::get('ceksuratkontrol', [SuratKontrolController::class, 'ceksuratkontrol'])->name('ceksuratkontrol');
 Route::put('suratkontrol_update_web', [SuratKontrolController::class, 'suratkontrol_update_web'])->name('suratkontrol_update_web');
 // display antrian
@@ -114,26 +114,25 @@ Route::middleware('auth')->group(function () {
     Route::post('store_resepkemoterapi', [FarmasiController::class, 'store_resepkemoterapi'])->name('store_resepkemoterapi');
     Route::get('get_resepkemoterapi', [FarmasiController::class, 'get_resepkemoterapi'])->name('get_resepkemoterapi');
     // anjungan
-    Route::get('anjunganantrian', [AntrianController::class, 'anjunganantrian'])->name('anjunganantrian');
-    Route::get('checkinantrian', [AntrianController::class, 'checkinantrian'])->name('checkinantrian');
-    Route::get('ambilkarcis', [AntrianController::class, 'ambilkarcis'])->name('ambilkarcis');
-    Route::get('karcisantrian', [AntrianController::class, 'karcisantrian'])->name('karcisantrian');
+    Route::get('anjunganantrian', [PendaftaranController::class, 'anjunganantrian'])->name('anjunganantrian');
+    Route::get('checkinantrian', [PendaftaranController::class, 'checkinantrian'])->name('checkinantrian');
+    Route::get('ambilkarcis', [PendaftaranController::class, 'ambilkarcis'])->name('ambilkarcis');
+    Route::get('karcisantrian', [PendaftaranController::class, 'karcisantrian'])->name('karcisantrian');
     Route::get('testprinterthermal', [ThermalPrintController::class, 'testprinterthermal'])->name('testprinterthermal');
     // form
     Route::get('form_identitaspasien', [FormController::class, 'form_identitaspasien'])->name('form_identitaspasien');
     Route::get('form_assesmentrajal', [FormController::class, 'form_assesmentrajal'])->name('form_assesmentrajal');
     Route::get('form_assesmentdokter', [FormController::class, 'form_assesmentdokter'])->name('form_assesmentdokter');
     // pendaftaran
-    Route::get('antrianpendaftaran', [AntrianController::class, 'antrianpendaftaran'])->name('antrianpendaftaran');
-    Route::get('prosespendaftaran', [AntrianController::class, 'prosespendaftaran'])->name('prosespendaftaran');
-    Route::get('panggilpendaftaran', [AntrianController::class, 'panggilpendaftaran'])->name('panggilpendaftaran');
-    Route::post('editantrian', [AntrianController::class, 'editantrian'])->name('editantrian');
-    Route::post('editkunjungan', [AntrianController::class, 'editkunjungan'])->name('editkunjungan');
-    Route::get('lanjutpoliklinik', [AntrianController::class, 'lanjutpoliklinik'])->name('lanjutpoliklinik');
-    Route::get('batalantrian', [AntrianController::class, 'batalantrian'])->name('batalantrian');
-    Route::get('tidakjadibatal', [AntrianController::class, 'tidakjadibatal'])->name('tidakjadibatal');
+    Route::get('antrianpendaftaran', [PendaftaranController::class, 'antrianpendaftaran'])->name('antrianpendaftaran');
+    Route::get('prosespendaftaran', [PendaftaranController::class, 'prosespendaftaran'])->name('prosespendaftaran');
+    Route::get('panggilpendaftaran', [PendaftaranController::class, 'panggilpendaftaran'])->name('panggilpendaftaran');
+    Route::post('editantrian', [PendaftaranController::class, 'editantrian'])->name('editantrian');
+    Route::post('editkunjungan', [PendaftaranController::class, 'editkunjungan'])->name('editkunjungan');
+    Route::get('lanjutpoliklinik', [PendaftaranController::class, 'lanjutpoliklinik'])->name('lanjutpoliklinik');
+    Route::get('batalantrian', [PendaftaranController::class, 'batalantrian'])->name('batalantrian');
+    Route::get('tidakjadibatal', [PendaftaranController::class, 'tidakjadibatal'])->name('tidakjadibatal');
     Route::get('laporanpendaftaran', [PendaftaranController::class, 'laporanpendaftaran'])->name('laporanpendaftaran');
-    Route::get('laporanperujuk', [PendaftaranController::class, 'laporanperujuk'])->name('laporanperujuk');
     // perawat
     Route::get('antrianperawat', [PerawatController::class, 'antrianperawat'])->name('antrianperawat');
     Route::get('prosesperawat', [PerawatController::class, 'prosesperawat'])->name('prosesperawat');
@@ -142,11 +141,11 @@ Route::middleware('auth')->group(function () {
     Route::get('hapusfilepenunjang', [PerawatController::class, 'hapusfilepenunjang'])->name('hapusfilepenunjang');
     Route::get('laporanperawat', [PerawatController::class, 'laporanperawat'])->name('laporanperawat');
     // poliklinik
-    Route::get('antrianpoliklinik', [AntrianController::class, 'antrianpoliklinik'])->name('antrianpoliklinik');
-    Route::get('prosespoliklinik', [AntrianController::class, 'prosespoliklinik'])->name('prosespoliklinik');
-    Route::post('editasesmendokter', [AntrianController::class, 'editasesmendokter'])->name('editasesmendokter');
-    Route::get('lanjutfarmasi', [AntrianController::class, 'lanjutfarmasi'])->name('lanjutfarmasi');
-    Route::get('selesaipoliklinik', [AntrianController::class, 'selesaipoliklinik'])->name('selesaipoliklinik');
+    Route::get('antrianpoliklinik', [DokterController::class, 'antrianpoliklinik'])->name('antrianpoliklinik');
+    Route::get('prosespoliklinik', [DokterController::class, 'prosespoliklinik'])->name('prosespoliklinik');
+    Route::post('editasesmendokter', [DokterController::class, 'editasesmendokter'])->name('editasesmendokter');
+    Route::get('lanjutfarmasi', [DokterController::class, 'lanjutfarmasi'])->name('lanjutfarmasi');
+    Route::get('selesaipoliklinik', [DokterController::class, 'selesaipoliklinik'])->name('selesaipoliklinik');
     // farmasi
     Route::get('antrianfarmasi', [AntrianController::class, 'antrianfarmasi'])->name('antrianfarmasi');
     Route::get('getantrianfarmasi', [AntrianController::class, 'getantrianfarmasi'])->name('getantrianfarmasi');

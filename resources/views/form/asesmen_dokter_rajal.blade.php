@@ -292,7 +292,13 @@
                     <br>
                     Dokter DPJP,</b>
                 <br><br><br><br>
-                <b>{{ $kunjungan->asesmendokter->user ?? null }}</b>
+                <b>
+                    @if ($kunjungan->asesmendokter->pic)
+                        {{ $kunjungan->asesmendokter->pic->name }}
+                    @else
+                        {{ $kunjungan->asesmendokter->user }}
+                    @endif
+                </b>
             </div>
         </div>
     </div>

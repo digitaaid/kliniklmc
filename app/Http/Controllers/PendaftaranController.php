@@ -35,7 +35,8 @@ class PendaftaranController extends APIController
         $antrian = Antrian::where('kodebooking', $request->kodebooking)->first();
         if ($antrian) {
             try {
-                // $res = $this->update_antrean($request);
+                // $api = new AntrianController();
+                // $res = $api->update_antrean($request);
                 // if ($res->metadata->code == 200) {
                 $antrian->update([
                     'taskid' => $request->taskid,
@@ -85,7 +86,8 @@ class PendaftaranController extends APIController
             $jadwal_estimasi = Carbon::createFromFormat('Y-m-d H:i:s', $timestamp, 'Asia/Jakarta')->addMinutes(5 * ($antiranhari + 1));
             $request['estimasidilayani'] = $jadwal_estimasi->timestamp * 1000;
             // status antrian
-            $statusantrian = $this->status_antrian($request);
+            $api = new AntrianController();
+            $statusantrian = $api->status_antrian($request);
             if ($statusantrian->metadata->code == 200) {
                 $request['sisakuotajkn']  = $statusantrian->response->sisakuotajkn;
                 $request['kuotajkn']  = $statusantrian->response->kuotajkn;
@@ -251,7 +253,8 @@ class PendaftaranController extends APIController
         $request['keterangan'] = "Antrian proses di pendaftaran";
         $request['status'] = 1;
         try {
-            $res =  $this->tambah_antrean($request);
+            $api = new AntrianController();
+            $res =  $api->tambah_antrean($request);
             $antrian->update($request->all());
             if ($res->metadata->code == 200) {
                 try {
@@ -365,7 +368,8 @@ class PendaftaranController extends APIController
                     'user1' => Auth::user()->id,
                 ]);
                 Alert('Success', 'Pasien dilanjutkan ke poliklinik');
-                // $res = $this->update_antrean($request);
+                // $api = new AntrianController();
+                // $res = $api->update_antrean($request);
                 // if ($res->metadata->code == 200) {
                 // Alert::success('Success',  $res->metadata->message);
                 // } else {
@@ -383,7 +387,8 @@ class PendaftaranController extends APIController
         $antrian = Antrian::where('kodebooking', $request->kodebooking)->first();
         if ($antrian) {
             try {
-                // $res = $this->batal_antrean($request);
+                // $api = new AntrianController();
+                // $res = $api->batal_antrean($request);
                 // if ($res->metadata->code == 200) {
                 $antrian->update([
                     'taskid' => $request->taskid,
