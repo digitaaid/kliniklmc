@@ -101,7 +101,7 @@ class LaravoltIndonesiaController extends Controller
         foreach ($city as $item) {
             $response[] = array(
                 "id" => $item->name,
-                "text" => $item->name
+                "text" => $item->name . '(' . $item->code . ')',
             );
         }
         return response()->json($response);

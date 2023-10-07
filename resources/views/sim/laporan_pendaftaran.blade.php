@@ -108,8 +108,7 @@
                                             {{ $item->taskid }}
                                     @endswitch
                                 </td>
-                                <td>{{ $item->user1 }} </td>
-
+                                <td>{{ $item->pic1 ? $item->pic1->name : $item->user1 }} </td>
                             </tr>
                         @endforeach
                     </x-adminlte-datatable>

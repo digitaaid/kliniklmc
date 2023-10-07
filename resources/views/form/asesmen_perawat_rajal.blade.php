@@ -138,7 +138,14 @@
                     Perawat,</b>
 
                 <br><br><br><br>
-                <b>{{ $kunjungan->asesmenperawat->user ?? null }}</b>
+                <b>
+                    @if ($kunjungan->asesmenperawat->pic)
+                        {{ $kunjungan->asesmenperawat->pic->name }}
+                    @else
+                        {{ $kunjungan->asesmenperawat->user }}
+                    @endif
+
+                </b>
             </div>
         </div>
     </div>

@@ -378,12 +378,12 @@ return [
             'url'  => 'laporanpendaftaran',
             'can' => 'pendaftaran',
         ],
-                [
-            'text' => 'Laporan Perujuk',
-            'icon'    => 'fas fa-chart-line',
-            'url'  => 'laporanperujuk',
-            'can' => 'pendaftaran',
-        ],
+        // [
+        //     'text' => 'Laporan Perujuk',
+        //     'icon'    => 'fas fa-chart-line',
+        //     'url'  => 'laporanperujuk',
+        //     'can' => 'pendaftaran',
+        // ],
         [
             'text' => 'Antrian Perawat',
             'icon'    => 'fas fa-users',

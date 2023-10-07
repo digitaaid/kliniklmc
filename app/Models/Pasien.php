@@ -18,7 +18,6 @@ class Pasien extends Model
     {
         return $this->hasMany(FileUploadPasien::class,  'norm', 'norm');
     }
-
     public function pic()
     {
         return $this->hasOne(User::class,  'id', 'user');

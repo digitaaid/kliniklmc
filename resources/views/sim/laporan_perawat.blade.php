@@ -69,7 +69,11 @@
                                 </td>
                                 <td>
                                     @if ($item->asesmenperawat)
-                                        {{ $item->asesmenperawat->user }}
+                                        @if ($item->asesmenperawat->pic)
+                                            {{ $item->asesmenperawat->pic->name }}
+                                        @else
+                                            {{ $item->asesmenperawat->user }}
+                                        @endif
                                     @else
                                         -
                                     @endif

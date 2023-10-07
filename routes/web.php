@@ -113,7 +113,6 @@ Route::middleware('auth')->group(function () {
     Route::get('obatkemoterapi', [FarmasiController::class, 'obatkemoterapi'])->name('obatkemoterapi');
     Route::post('store_resepkemoterapi', [FarmasiController::class, 'store_resepkemoterapi'])->name('store_resepkemoterapi');
     Route::get('get_resepkemoterapi', [FarmasiController::class, 'get_resepkemoterapi'])->name('get_resepkemoterapi');
-
     // anjungan
     Route::get('anjunganantrian', [AntrianController::class, 'anjunganantrian'])->name('anjunganantrian');
     Route::get('checkinantrian', [AntrianController::class, 'checkinantrian'])->name('checkinantrian');
@@ -136,11 +135,11 @@ Route::middleware('auth')->group(function () {
     Route::get('laporanpendaftaran', [PendaftaranController::class, 'laporanpendaftaran'])->name('laporanpendaftaran');
     Route::get('laporanperujuk', [PendaftaranController::class, 'laporanperujuk'])->name('laporanperujuk');
     // perawat
-    Route::get('antrianperawat', [AntrianController::class, 'antrianperawat'])->name('antrianperawat');
-    Route::get('prosesperawat', [AntrianController::class, 'prosesperawat'])->name('prosesperawat');
-    Route::post('editasesmenperawat', [AntrianController::class, 'editasesmenperawat'])->name('editasesmenperawat');
-    Route::post('uploadpenunjang', [AntrianController::class, 'uploadpenunjang'])->name('uploadpenunjang');
-    Route::get('hapusfilepenunjang', [AntrianController::class, 'hapusfilepenunjang'])->name('hapusfilepenunjang');
+    Route::get('antrianperawat', [PerawatController::class, 'antrianperawat'])->name('antrianperawat');
+    Route::get('prosesperawat', [PerawatController::class, 'prosesperawat'])->name('prosesperawat');
+    Route::post('editasesmenperawat', [PerawatController::class, 'editasesmenperawat'])->name('editasesmenperawat');
+    Route::post('uploadpenunjang', [PerawatController::class, 'uploadpenunjang'])->name('uploadpenunjang');
+    Route::get('hapusfilepenunjang', [PerawatController::class, 'hapusfilepenunjang'])->name('hapusfilepenunjang');
     Route::get('laporanperawat', [PerawatController::class, 'laporanperawat'])->name('laporanperawat');
     // poliklinik
     Route::get('antrianpoliklinik', [AntrianController::class, 'antrianpoliklinik'])->name('antrianpoliklinik');
