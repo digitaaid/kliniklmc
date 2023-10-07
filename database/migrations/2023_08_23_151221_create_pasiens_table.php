@@ -28,6 +28,7 @@ return new class extends Migration
             $table->text('alamat')->nullable();
             $table->string('status')->default(1);
             $table->string('keterangan')->nullable();
+            $table->string('user')->default(1);
             $table->timestamps();
         });
     }

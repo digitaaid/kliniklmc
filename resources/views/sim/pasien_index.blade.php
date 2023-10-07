@@ -39,7 +39,7 @@
                     </div>
                 </div>
                 @php
-                    $heads = ['No', 'No RM', 'No BPJS', 'NIK', 'Nama Pasien', 'Gender', 'No HP', 'Tgl Lahir', 'Action'];
+                    $heads = ['No', 'No RM', 'No BPJS', 'NIK', 'Nama Pasien', 'Gender', 'Tgl Lahir', 'Action', 'PIC'];
                     $config['order'] = [1, 'desc'];
                     $config['paging'] = false;
                     $config['lengthMenu'] = false;
@@ -55,13 +55,21 @@
                             <td>{{ $item->nik }}</td>
                             <td>{{ $item->nama }}</td>
                             <td>{{ $item->gender }}</td>
-                            <td>{{ $item->nohp }}</td>
-                            <td>{{ $item->tgl_lahir }}</td>
+                            <td>{{ $item->tgl_lahir }} ({{ Carbon\Carbon::parse($item->tgl_lahir)->age }} tahun) </td>
                             <td>
-                                <x-adminlte-button class="btn-xs btnEdit" theme="warning" icon="fas fa-edit"
+                                <x-adminlte-button class="btn-xs btnEdit" theme="warning" label="Edit" icon="fas fa-edit"
                                     title="Edit Pasien {{ $item->nama }}" data-id="{{ $item->id }}"
-                                    data-nama="{{ $item->nama }}" data-norm="{{ $item->norm }}" />
+                                    data-nama="{{ $item->nama }}" data-nohp="{{ $item->nohp }}"
+                                    data-gender="{{ $item->gender }}" data-tempat_lahir="{{ $item->tempat_lahir }}"
+                                    data-tgl_lahir="{{ $item->tgl_lahir }}" data-nik="{{ $item->nik }}"
+                                    data-nomorkartu="{{ $item->nomorkartu }}" data-norm="{{ $item->norm }}"
+                                    data-alamat="{{ $item->alamat }}" />
                             </td>
+                            <td>
+                                {{ $item->pic ? $item->pic->name : $item->user }}
+
+                            </td>
+
                         </tr>
                     @endforeach
                 </x-adminlte-datatable>
@@ -79,35 +87,39 @@
             </x-adminlte-card>
         </div>
     </div>
-    <x-adminlte-modal id="modalPasien" title="Pasien" icon="fas fa-user-injured" theme="success" static-backdrop>
+    <x-adminlte-modal id="modalPasien" title="Pasien" size="xl" icon="fas fa-user-injured" theme="success">
         <form action="" id="formPasien" method="POST">
             @csrf
             <input type="hidden" name="id" id="id">
             <input type="hidden" name="_method" id="method">
-            <x-adminlte-input name="nama" label="Nama Lengkap" placeholder="Nama Lengkap" enable-old-support required />
-            <x-adminlte-input name="norm" label="No RM" placeholder="No RM" enable-old-support />
-            <x-adminlte-input name="nik" label="NIK" placeholder="NIK" enable-old-support />
-            <x-adminlte-input name="nomorkartu" label="No BPJS" placeholder="no BPJS" enable-old-support />
-            <x-adminlte-input name="nohp" label="No HP" placeholder="No HP" enable-old-support />
-            <x-adminlte-select2 name="gender" label="Jenis Kelamin">
-                <option selected disabled>Jenis Kelamin</option>
-                <option value="P">Perempuan</option>
-                <option value="L">Laki-Laki</option>
-            </x-adminlte-select2>
-            <x-adminlte-select2 name="tempat_lahir" label="Tempat Lahir">
-                {{-- @foreach ($collection as $item)
+            <div class="row">
+                <div class="col-md-6">
+                    <x-adminlte-input name="nama" label="Nama Lengkap" placeholder="Nama Lengkap" enable-old-support
+                        required />
+                    <x-adminlte-input name="norm" label="No RM" placeholder="No RM" enable-old-support />
+                    <x-adminlte-input name="nik" label="NIK" placeholder="NIK" enable-old-support />
+                    <x-adminlte-input name="nomorkartu" label="No BPJS" placeholder="no BPJS" enable-old-support />
+                    <x-adminlte-input name="nohp" label="No HP" placeholder="No HP" enable-old-support />
+                </div>
+                <div class="col-md-6">
+                    <x-adminlte-select2 name="gender" label="Jenis Kelamin">
+                        <option selected disabled>Jenis Kelamin</option>
+                        <option value="P">Perempuan</option>
+                        <option value="L">Laki-Laki</option>
+                    </x-adminlte-select2>
+                    <x-adminlte-select2 name="tempat_lahir" label="Tempat Lahir">
+                    </x-adminlte-select2>
+                    @php
+                        $config = ['format' => 'YYYY-MM-DD'];
+                    @endphp
+                    <x-adminlte-input-date name="tgl_lahir" label="Tanggal Lahir" placeholder="Pilih Tanggal Lahir"
+                        :config="$config">
+                    </x-adminlte-input-date>
+                    <x-adminlte-textarea igroup-size="sm" rows=4 label="Alamat" name="alamat" placeholder="Alamat">
+                    </x-adminlte-textarea>
+                </div>
+            </div>
 
-                @endforeach
-                <option value=""></option> --}}
-            </x-adminlte-select2>
-            @php
-                $config = ['format' => 'YYYY-MM-DD'];
-            @endphp
-            <x-adminlte-input-date name="tgl_lahir" label="Tanggal Lahir" placeholder="Pilih Tanggal Lahir"
-                :config="$config">
-            </x-adminlte-input-date>
-            <x-adminlte-textarea igroup-size="sm" rows=4 label="Alamat" name="alamat" placeholder="Alamat">
-            </x-adminlte-textarea>
 
         </form>
         <form id="formDelete" action="" method="POST">
@@ -146,6 +158,19 @@
                 $('#id').val($(this).data("id"));
                 $('#nama').val($(this).data("nama"));
                 $('#norm').val($(this).data("norm"));
+                $('#nik').val($(this).data("nik"));
+                $('#nomorkartu').val($(this).data("nomorkartu"));
+                $('#nohp').val($(this).data("nohp"));
+                $('#tgl_lahir').val($(this).data("tgl_lahir"));
+                $('#alamat').val($(this).data("alamat"));
+                $('#gender').val($(this).data("gender")).change();
+
+                if ($(this).data("tempat_lahir")) {
+                    $('#tempat_lahir').append('<option selected value="' + $(this).data("tempat_lahir") +
+                        '">' + $(
+                            this).data("tempat_lahir") + '</option>');
+                }
+
                 $('#modalPasien').modal('show');
                 $.LoadingOverlay("hide");
             });

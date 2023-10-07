@@ -33,6 +33,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\VclaimController;
 use App\Http\Controllers\WhatsappController;
 use App\Models\JadwalLibur;
+use App\Models\Poliklinik;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -98,6 +99,7 @@ Route::middleware('auth')->group(function () {
     Route::get('pasienreset', [PasienController::class, 'reset'])->name('pasienreset');
     Route::resource('unit', UnitController::class);
     Route::resource('dokter', DokterController::class);
+    Route::resource('poliklinik', PoliklinikController::class);
     Route::resource('jadwaldokter', JadwalDokterController::class);
     Route::resource('jadwallibur', JadwalLiburController::class);
     Route::resource('antrian', AntrianController::class);

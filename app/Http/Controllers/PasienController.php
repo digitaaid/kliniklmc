@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Imports\PasiensImport;
 use App\Models\Pasien;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Laravolt\Indonesia\Models\Kabupaten;
 use Maatwebsite\Excel\Facades\Excel;
@@ -67,6 +68,7 @@ class PasienController extends APIController
             }
             $request['norm'] = $norm;
         }
+        $request['user'] = Auth::user()->id;
         $pasien = Pasien::updateOrCreate(
             [
                 'nik' => $request->nik,
@@ -74,11 +76,12 @@ class PasienController extends APIController
             ],
             $request->all()
         );
-        Alert::success('Sucess','Data Pasien Berhasil Ditambahkan.');
+        Alert::success('Sucess', 'Data Pasien Berhasil Ditambahkan.');
         return redirect()->route('pasien.index');
     }
     public function update($id, Request $request)
     {
+        $request['user'] = Auth::user()->id;
         $pasien = Pasien::find($id);
         $pasien->update($request->all());
         Alert::success('Success', 'Data Pasien Diperbaharui.');
