@@ -13,6 +13,94 @@ use RealRashid\SweetAlert\Facades\Alert;
 
 class FarmasiController extends APIController
 {
+    // farmasi
+    public function antrianfarmasi(Request $request)
+    {
+        $antrians = null;
+        if ($request->tanggalperiksa) {
+            $antrians = Antrian::where('tanggalperiksa', $request->tanggalperiksa)->where('taskid', '!=', 99)->get();
+        } else {
+            // $request['tanggalperiksa'] = now()->format('Y-m-d');
+        }
+        return view('sim.antrian_farmasi', compact([
+            'request',
+            'antrians',
+        ]));
+    }
+    public function getantrianfarmasi(Request $request)
+    {
+        if ($request->tanggalperiksa) {
+            $antrian = Antrian::whereDate('tanggalperiksa', $request->tanggalperiksa)
+                ->where('taskid', 5)
+                ->first('kodebooking');
+            if ($antrian) {
+                return $this->sendResponse($antrian, 200);
+            } else {
+                return $this->sendError('Tidak ada order',  404);
+            }
+        } else {
+            return $this->sendError('Tidak ada order',  404);
+        }
+    }
+    function terimafarmasi(Request $request)
+    {
+        $antrian = Antrian::where('kodebooking', $request->kodebooking)->first();
+        try {
+            $request['taskid'] = "6";
+            $request['waktu'] = now();
+            if ($antrian->taskid == 5) {
+                $api = new AntrianController();
+                $res = $api->update_antrean($request);
+                $antrian->update([
+                    'taskid' => $request->taskid,
+                    'user4' => Auth::user()->id,
+                    'keterangan' => "Resep Pasien sudah diterima di farmasi.",
+                ]);
+                Alert::success('Success', $res->metadata->message);
+            }
+        } catch (\Throwable $th) {
+            Alert::error('Gagal', $th->getMessage());
+        }
+        return redirect()->back();
+    }
+    function panggilfarmasi(Request $request)
+    {
+        $antrian = Antrian::where('kodebooking', $request->kodebooking)->first();
+        try {
+            $antrian->update([
+                'taskid' => $request->taskid,
+                'panggil' => 0,
+                'user4' => Auth::user()->id,
+                'keterangan' => "Pasien telah selesai semua pelayanan",
+            ]);
+            Alert::success('Success', 'Antrian dipanggil farmasi');
+        } catch (\Throwable $th) {
+            Alert::error('Gagal', $th->getMessage());
+        }
+        return redirect()->back();
+    }
+    function selesaifarmasi(Request $request)
+    {
+        $antrian = Antrian::where('kodebooking', $request->kodebooking)->first();
+        try {
+            $request['taskid'] = "7";
+            $request['waktu'] = now();
+            $api = new AntrianController();
+            $res = $api->update_antrean($request);
+            // if ($res->metadata->code == 200) {
+            $antrian->update([
+                'taskid' => $request->taskid,
+                'panggil' => 0,
+                'user4' => Auth::user()->id,
+                'keterangan' => "Pasien telah selesai semua pelayanan",
+            ]);
+            // }
+            Alert::success('Success', $res->metadata->message);
+        } catch (\Throwable $th) {
+            Alert::error('Gagal', $th->getMessage());
+        }
+        return redirect()->back();
+    }
     public function laporanfarmasi(Request $request)
     {
         $antrians = null;

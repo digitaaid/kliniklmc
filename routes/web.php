@@ -147,10 +147,10 @@ Route::middleware('auth')->group(function () {
     Route::get('lanjutfarmasi', [DokterController::class, 'lanjutfarmasi'])->name('lanjutfarmasi');
     Route::get('selesaipoliklinik', [DokterController::class, 'selesaipoliklinik'])->name('selesaipoliklinik');
     // farmasi
-    Route::get('antrianfarmasi', [AntrianController::class, 'antrianfarmasi'])->name('antrianfarmasi');
-    Route::get('getantrianfarmasi', [AntrianController::class, 'getantrianfarmasi'])->name('getantrianfarmasi');
-    Route::get('terimafarmasi', [AntrianController::class, 'terimafarmasi'])->name('terimafarmasi');
-    Route::get('selesaifarmasi', [AntrianController::class, 'selesaifarmasi'])->name('selesaifarmasi');
+    Route::get('antrianfarmasi', [FarmasiController::class, 'antrianfarmasi'])->name('antrianfarmasi');
+    Route::get('getantrianfarmasi', [FarmasiController::class, 'getantrianfarmasi'])->name('getantrianfarmasi');
+    Route::get('terimafarmasi', [FarmasiController::class, 'terimafarmasi'])->name('terimafarmasi');
+    Route::get('selesaifarmasi', [FarmasiController::class, 'selesaifarmasi'])->name('selesaifarmasi');
     Route::get('laporanfarmasi', [FarmasiController::class, 'laporanfarmasi'])->name('laporanfarmasi');
     // print
     Route::get('print_asesmendokter', [FormController::class, 'print_asesmendokter'])->name('print_asesmendokter');
