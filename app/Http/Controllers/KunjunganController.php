@@ -9,9 +9,10 @@ class KunjunganController extends Controller
 {
     public function index(Request $request)
     {
-        $kunjungans = null;
         if ($request->tgl_masuk) {
             $kunjungans = Kunjungan::whereDate('tgl_masuk', $request->tgl_masuk)->get();
+        }else{
+            $kunjungans = Kunjungan::simplePaginate(25);
         }
         return view('sim.kunjungan_index', compact([
             'request',

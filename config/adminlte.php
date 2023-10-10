@@ -330,6 +330,56 @@ return [
             'can' => 'pendaftaran',
         ],
         [
+            'text' => 'Antrian Pendaftaran',
+            'icon'    => 'fas fa-users',
+            'url'  => 'antrianpendaftaran',
+            'active'  => ['antrianpendaftaran', 'prosespendaftaran'],
+            'can' => 'pendaftaran',
+        ],
+        [
+            'text' => 'Laporan Pendaftaran',
+            'icon'    => 'fas fa-chart-line',
+            'url'  => 'laporanpendaftaran',
+            'can' => 'pendaftaran',
+        ],
+        [
+            'text' => 'Antrian Perawat',
+            'icon'    => 'fas fa-users',
+            'url'  => 'antrianperawat',
+            'active'  => ['antrianperawat', 'prosesperawat'],
+            'can' => 'perawat',
+        ],
+        [
+            'text' => 'Laporan Perawat',
+            'icon'    => 'fas fa-chart-line',
+            'url'  => 'laporanperawat',
+            'can' => 'perawat',
+        ],
+        [
+            'text' => 'Antrian Poliklinik',
+            'icon'    => 'fas fa-users',
+            'url'  => 'antrianpoliklinik',
+            'active'  => ['antrianpoliklinik', 'prosespoliklinik'],
+            'can' => 'dokter',
+        ],
+        [
+            'text' => 'Antrian Farmasi',
+            'icon'    => 'fas fa-users',
+            'url'  => 'antrianfarmasi',
+            'can' => 'farmasi',
+        ],
+        [
+            'text' => 'Laporan Farmasi',
+            'icon'    => 'fas fa-chart-line',
+            'url'  => 'laporanfarmasi',
+            'can' => 'farmasi',
+        ],
+        [
+            'text' => 'Capaian Antrian',
+            'icon'    => 'fas fa-chart-line',
+            'url'  => 'capaianantrian',
+        ],
+        [
             'text' => 'Pasien',
             'icon'    => 'fas fa-user-injured',
             'url'  => 'pasien',
@@ -365,57 +415,7 @@ return [
             'url'  => 'jadwaldokter',
             'can' =>  ['pendaftaran', 'bpjs', 'manajemen'],
         ],
-        [
-            'text' => 'Antrian Pendaftaran',
-            'icon'    => 'fas fa-users',
-            'url'  => 'antrianpendaftaran',
-            'active'  => ['antrianpendaftaran', 'prosespendaftaran'],
-            'can' => 'pendaftaran',
-        ],
-        [
-            'text' => 'Laporan Pendaftaran',
-            'icon'    => 'fas fa-chart-line',
-            'url'  => 'laporanpendaftaran',
-            'can' => 'pendaftaran',
-        ],
-        // [
-        //     'text' => 'Laporan Perujuk',
-        //     'icon'    => 'fas fa-chart-line',
-        //     'url'  => 'laporanperujuk',
-        //     'can' => 'pendaftaran',
-        // ],
-        [
-            'text' => 'Antrian Perawat',
-            'icon'    => 'fas fa-users',
-            'url'  => 'antrianperawat',
-            'active'  => ['antrianperawat', 'prosesperawat'],
-            'can' => 'perawat',
-        ],
-        [
-            'text' => 'Laporan Perawat',
-            'icon'    => 'fas fa-chart-line',
-            'url'  => 'laporanperawat',
-            'can' => 'perawat',
-        ],
-        [
-            'text' => 'Antrian Poliklinik',
-            'icon'    => 'fas fa-users',
-            'url'  => 'antrianpoliklinik',
-            'active'  => ['antrianpoliklinik', 'prosespoliklinik'],
-            'can' => 'dokter',
-        ],
-        [
-            'text' => 'Antrian Farmasi',
-            'icon'    => 'fas fa-users',
-            'url'  => 'antrianfarmasi',
-            'can' => 'farmasi',
-        ],
-        [
-            'text' => 'Laporan Farmasi',
-            'icon'    => 'fas fa-chart-line',
-            'url'  => 'laporanfarmasi',
-            'can' => 'farmasi',
-        ],
+
         [
             'text' => 'Obat',
             'icon'    => 'fas fa-pills',
@@ -428,12 +428,6 @@ return [
             'url'  => 'obatkemoterapi',
             'can' => 'farmasi',
         ],
-        [
-            'text' => 'Capaian Antrian',
-            'icon'    => 'fas fa-chart-line',
-            'url'  => 'capaianantrian',
-        ],
-
         [
             'text' => 'Jaminan',
             'icon'    => 'fas fa-users',
