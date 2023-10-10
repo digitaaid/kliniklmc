@@ -531,6 +531,22 @@
                         </div>
                         <div class="tab-pane" id="riwayattab">
                             Riwayat Pasien
+                            @if ($antrian->pasien)
+                                @foreach ($antrian->pasien->kunjungans as $kunjungan)
+                                    <x-adminlte-card title="KUNJUNGAN {{ $kunjungan->tgl_masuk }}" theme="info"
+                                        icon="fas fa-file" collapsible="collapsed">
+                                        @if ($kunjungan->asesmendokter)
+                                            @include('form.asesmen_dokter_rajal')
+                                        @else
+                                            <x-adminlte-alert title="Belum dilakukan asesmen dokter" theme="danger">
+                                                Silahkan lakukan asesmen dokter
+                                            </x-adminlte-alert>
+                                        @endif
+                                    </x-adminlte-card>
+                                @endforeach
+                            @else
+                                Belum ada riwayat pasien
+                            @endif
                         </div>
                         <div class="tab-pane" id="pembayarantab">
                             Pembayaran

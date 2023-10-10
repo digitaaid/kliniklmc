@@ -16,7 +16,7 @@ use RealRashid\SweetAlert\Facades\Alert;
 
 class PendaftaranController extends APIController
 {
-    // pendaftaran
+    // anjungan
     public function anjunganantrian()
     {
         $jadwals = JadwalDokter::where('hari',  now()->dayOfWeek)->get();
@@ -81,7 +81,7 @@ class PendaftaranController extends APIController
             $request['kodebooking'] = strtoupper(uniqid());
             $antiranhari = Antrian::where('tanggalperiksa', $request->tanggalperiksa)->count();
             $request['angkaantrean'] =  $antiranhari + 1;
-            $request['nomorantrean'] = 'A' . sprintf("%03d", $antiranhari + 1);
+            $request['nomorantrean'] = 'A' .  $antiranhari + 1;
             $timestamp = $request->tanggalperiksa . ' ' . explode('-', $request->jampraktek)[0] . ':00';
             $jadwal_estimasi = Carbon::createFromFormat('Y-m-d H:i:s', $timestamp, 'Asia/Jakarta')->addMinutes(5 * ($antiranhari + 1));
             $request['estimasidilayani'] = $jadwal_estimasi->timestamp * 1000;

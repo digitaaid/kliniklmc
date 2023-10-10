@@ -236,6 +236,8 @@
                                         @endif
                                     </x-adminlte-card>
                                 @endforeach
+                            @else
+                                Belum ada riwayat pasien
                             @endif
                         </div>
                         <div class="tab-pane" id="filepenunjangtab">
@@ -259,8 +261,8 @@
                                 @if ($antrian->pasien->fileuploads)
                                     <hr>
                                     @foreach ($antrian->pasien->fileuploads as $file)
-                                        <x-adminlte-card title="{{ $file->nama }}"
-                                            theme="info" icon="fas fa-file" collapsible="collapsed">
+                                        <x-adminlte-card title="{{ $file->nama }}" theme="info" icon="fas fa-file"
+                                            collapsible="collapsed">
                                             <a href="{{ $file->fileurl }}" target="_blank"
                                                 class="btn btn-xs btn-primary mr-1 mb-1">Donwload</a>
                                             <a href="{{ route('hapusfilepenunjang') }}?id={{ $file->id }}"

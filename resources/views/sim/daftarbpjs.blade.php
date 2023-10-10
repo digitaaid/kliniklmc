@@ -34,32 +34,39 @@
                 data-aos-delay="100">
                 @csrf
                 <div class="form-group mb-3">
+                    <label for="nomorkartu"><b>No Kartu BPJS : </b></label>
                     <input type="text" class="form-control" name="nomorkartu" id="nomorkartu"
                         placeholder="Nomor Kartu BPJS" value="{{ $request->nomorkartu }}"
                         {{ $request->nik ? 'readonly' : null }}>
                 </div>
                 <div class="form-group mb-3">
+                    <label for="nohp"><b>No HP / Whatsapp : </b></label>
                     <input type="text" class="form-control" name="nohp" id="nohp" placeholder="Nomor HP"
                         value="{{ $request->nohp }}">
                 </div>
                 @if ($request->nik && $request->nohp)
                     <div class="form-group mb-3">
+                        <label for="nik"><b>NIK : </b></label>
                         <input type="text" class="form-control" name="nik" id="nik" placeholder="NIK"
                             value="{{ $request->nik }}" readonly>
                     </div>
                     <div class="form-group mb-3">
+                        <label for="nama"><b>Nama : </b></label>
                         <input type="text" class="form-control" name="nama" id="nama" placeholder="Nama"
                             value="{{ $request->nama }}" readonly>
                     </div>
                     <div class="form-group mb-3">
+                        <label for="norm"><b>No Rekam Medis : </b></label>
                         <input type="text" class="form-control" name="norm" id="norm" placeholder="Nomor RM"
                             value="{{ $request->norm }}" readonly>
                     </div>
                     <div class="form-group mb-3">
+                        <label for="tanggalperiksa"><b>Tanggal Periksa : </b></label>
                         <input type="text" class="form-control datepicker" name="tanggalperiksa" id="tanggalperiksa"
                             placeholder="Tanggal Periksa" value="{{ $request->tanggalperiksa }}">
                     </div>
                     <div class="form-group mb-3">
+                        <label for="jeniskunjungan"><b>Jenis Kunjungan : </b></label>
                         <select name="jeniskunjungan" id="jeniskunjungan" class="form-select">
                             <option selected disabled>Pilih Jenis Kunjungan</option>
                             <option value="1" {{ $request->jeniskunjungan == '1' ? 'selected' : null }}>Rujukan FKTP
@@ -74,6 +81,7 @@
                 @if ($request->tanggalperiksa && $jadwals->count() && $request->jeniskunjungan)
                     @if ($rujukans || $suratkontrols)
                         <div class="form-group mb-3">
+                            <label for="jadwal"><b>Jadwal Dokter : </b></label>
                             <select name="jadwal" id="jadwal" class="form-select" required>
                                 <option selected disabled>Pilih Jadwal Dokter</option>
                                 @foreach ($jadwals as $item)
@@ -86,6 +94,7 @@
                             </select>
                         </div>
                         <div class="form-group mb-3">
+                            <label for="jadwal"><b>No Rujukan / Surat Kontrol : </b></label>
                             <select name="nomorreferensi" id="nomorreferensi" class="form-select" required>
                                 <option selected disabled>Pilih Nomor Referensi</option>
                                 @isset($suratkontrols)

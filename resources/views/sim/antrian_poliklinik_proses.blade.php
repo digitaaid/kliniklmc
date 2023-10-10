@@ -114,6 +114,8 @@
                                         @endif
                                     </x-adminlte-card>
                                 @endforeach
+                            @else
+                                Belum ada riwayat pasien
                             @endif
                         </div>
                         <div class="tab-pane" id="filepenunjangtab">

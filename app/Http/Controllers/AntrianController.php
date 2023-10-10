@@ -908,7 +908,7 @@ class AntrianController extends APIController
         }
         $request['kodebooking'] = strtoupper(uniqid());
         $antiranhari = Antrian::where('tanggalperiksa', $request->tanggalperiksa)->count();
-        $request['nomorantrean'] = 'A' . sprintf("%03d", $antiranhari + 1);
+        $request['nomorantrean'] = 'A' . $antiranhari + 1;
         $request['angkaantrean'] =  $antiranhari + 1;
         $timestamp = $request->tanggalperiksa . ' ' . explode('-', $request->jampraktek)[0] . ':00';
         $jadwal_estimasi = Carbon::createFromFormat('Y-m-d H:i:s', $timestamp, 'Asia/Jakarta')->addMinutes(5 * ($antiranhari + 1));
