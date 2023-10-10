@@ -530,7 +530,6 @@
                             </form>
                         </div>
                         <div class="tab-pane" id="riwayattab">
-                            Riwayat Pasien
                             @if ($antrian->pasien)
                                 @foreach ($antrian->pasien->kunjungans as $kunjungan)
                                     <x-adminlte-card title="KUNJUNGAN {{ $kunjungan->tgl_masuk }}" theme="info"

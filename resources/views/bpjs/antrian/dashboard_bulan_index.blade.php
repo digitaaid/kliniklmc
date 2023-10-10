@@ -104,8 +104,6 @@
 @section('plugins.TempusDominusBs4', true)
 @section('plugins.Select2', true)
 @section('plugins.Chartjs', true)
-
-
 @section('js')
     <script>
         $(function() {
