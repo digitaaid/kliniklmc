@@ -9,10 +9,9 @@
             <div id="printMe">
                 @include('form.asesmen_dokter_rajal')
             </div>
-            <button class="btn btn-success btnPrint" onclick="printDiv('printMe')"><i class="fas fa-print"> Print
-                    Laporan</i>
+            {{-- <button class="btn btn-success btnPrint" onclick="printDiv('printMe')"><i class="fas fa-print"> Print
+                    Laporan</i> --}}
         </div>
-
     </div>
 @stop
 

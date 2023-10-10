@@ -9,27 +9,7 @@
             <div id="printMe">
                 <section class="invoice p-3 mb-1">
                     <div class="row">
-                        <div class="col-md-2 border border-dark">
-                            <div class="m-2  text-center">
-                                <img class="" src="{{ asset('medicio/assets/img/lmc.png') }}" style="height: 80px">
-                            </div>
-                        </div>
-                        <div class="col-md-6  border border-dark">
-                            <b>KLINIK UTAMA LUTHFI MEDICAL CENTER</b><br>
-                            Jl. Raya Sunan Gunung Jati No. 100 A/B <br>
-                            Desa Pasindangan Kec. Gunungjati Kab. Cirebon Jawa Barat 45151<br>
-                            www.luthfimedicalcenter.com - Call Center (0231) 8850943 / 0823 1169 6919
-                        </div>
-                        <div class="col-md-4  border border-dark">
-                            <b>
-                                No RM : {{ $kunjungan->norm }} <br>
-                                Nama : {{ $kunjungan->nama }} <br>
-                                Tgl Lahir : {{ $kunjungan->tgl_lahir }}
-                                ({{ \Carbon\Carbon::parse($kunjungan->tgl_lahir)->diffInYears($kunjungan->tgl_masuk) }}
-                                tahun) <br>
-                                Kelamin : {{ $kunjungan->gender }}
-                            </b>
-                        </div>
+                        @include('form.assesmen_kop')
                         <div class="col-md-8  border border-dark">
                             <dl>
                                 <dt>Resep Obat :</dt>
@@ -230,10 +210,9 @@
                     </div>
                 </section>
             </div>
-            <button class="btn btn-success btnPrint" onclick="printDiv('printMe')"><i class="fas fa-print"> Print
-                    Laporan</i>
+            {{-- <button class="btn btn-success btnPrint" onclick="printDiv('printMe')"><i class="fas fa-print"> Print
+                    Laporan</i> --}}
         </div>
-
     </div>
 @stop
 
