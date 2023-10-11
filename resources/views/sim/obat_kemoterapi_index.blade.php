@@ -11,7 +11,7 @@
         <div class="col-md-12">
             <x-adminlte-card title="Data Resep Obat Kemoterapi" theme="primary" icon="fas fa-info-circle" collapsible>
                 @php
-                    $heads = ['Waktu', 'Kode', 'No RM', 'Nama Pasien', 'Diagnosa', 'Regimen', 'Action'];
+                    $heads = ['Waktu', 'Kode', 'No RM', 'Nama Pasien', 'Regimen', 'PIC', 'Status', 'Action'];
                     $config['order'] = [1, 'asc'];
                     $config['paging'] = false;
                     $config['scrollY'] = '500px';
@@ -24,10 +24,11 @@
                             <td>{{ $item->kode }}</td>
                             <td>{{ $item->norm }}</td>
                             <td>{{ $item->nama }}</td>
-                            <td>{{ $item->diagnosa }}</td>
                             <td>{{ $item->regimen }}</td>
+                            <td>{{ $item->pic ? $item->pic->name : $item->user }}</td>
+                            <td>{{ $item->status }}</td>
                             <td>
-                                <x-adminlte-button class="btn-xs btnEdit" theme="warning" icon="fas fa-edit"
+                                <x-adminlte-button class="btn-xs btnEdit" label="Edit" theme="warning" icon="fas fa-edit"
                                     title="Edit Resep Kemterapi {{ $item->nama }}" data-id="{{ $item->id }}"
                                     data-nama="{{ $item->nama }}" data-kode="{{ $item->kode }}"
                                     data-waktu="{{ $item->waktu }}" data-norm="{{ $item->norm }}"

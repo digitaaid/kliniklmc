@@ -14,4 +14,8 @@ class ResepKemoterapi extends Model
     {
         return $this->hasMany(ResepObatDetail::class, 'koderesep', 'kode');
     }
+    public function pic()
+    {
+        return $this->hasOne(User::class,  'id', 'user');
+    }
 }
