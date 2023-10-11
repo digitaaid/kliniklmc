@@ -152,6 +152,7 @@ Route::middleware('auth')->group(function () {
     Route::get('terimafarmasi', [FarmasiController::class, 'terimafarmasi'])->name('terimafarmasi');
     Route::get('selesaifarmasi', [FarmasiController::class, 'selesaifarmasi'])->name('selesaifarmasi');
     Route::get('laporanfarmasi', [FarmasiController::class, 'laporanfarmasi'])->name('laporanfarmasi');
+    Route::get('laporanobat', [FarmasiController::class, 'laporanobat'])->name('laporanobat');
     // print
     Route::get('print_asesmendokter', [FormController::class, 'print_asesmendokter'])->name('print_asesmendokter');
     Route::get('print_asesmenfarmasi', [FormController::class, 'print_asesmenfarmasi'])->name('print_asesmenfarmasi');

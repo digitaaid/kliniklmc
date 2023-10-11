@@ -429,6 +429,12 @@ return [
             'can' => 'farmasi',
         ],
         [
+            'text' => 'Laporan Obat',
+            'icon'    => 'fas fa-chart-line',
+            'url'  => 'laporanobat',
+            'can' => 'farmasi',
+        ],
+        [
             'text' => 'Jaminan',
             'icon'    => 'fas fa-users',
             'url'  => 'jaminan',

@@ -117,6 +117,23 @@ class FarmasiController extends APIController
             'antrians',
         ]));
     }
+    public function laporanobat(Request $request)
+    {
+        if ($request->tanggal) {
+            $tanggal = explode('-', $request->tanggal);
+            $request['tanggalawal'] = Carbon::parse($tanggal[0])->format('Y-m-d');
+            $request['tanggalakhir'] = Carbon::parse($tanggal[1])->format('Y-m-d');
+            $antrians = Antrian::whereBetween('tanggalperiksa', [$request->tanggalawal, $request->tanggalakhir])
+                ->where('taskid', '!=', 99)
+                ->get();
+        }else{
+            $obats = ResepObatDetail::get()->groupBy('nama');
+        }
+        return view('sim.laporan_obat', compact([
+            'request',
+            'obats',
+        ]));
+    }
     public function obatkemoterapi(Request $request)
     {
         $reseps = ResepKemoterapi::get();
