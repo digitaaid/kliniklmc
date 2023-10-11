@@ -21,8 +21,6 @@
                     <div class="row invoice-info">
                         <div class="col-sm-12 invoice-col text-center">
                             <b class="text-md">PERMINTAAN OBAT KEMOTERAPI</b> <br>
-                            <br>
-                            <br>
                         </div>
                         <div class="col-sm-6 invoice-col">
                             <dl class="row">
@@ -38,8 +36,6 @@
                                 <dd class="col-sm-8 m-0">{{ $resep->regimen }}</b></dd>
                             </dl>
                         </div>
-
-
                     </div>
                     <div class="row invoice-info">
                         <div class="col-sm-6 invoice-col">
@@ -92,8 +88,6 @@
                                 </tbody>
                             </table>
                         </div>
-
-
                         <div class="col-sm-6 mt-1">
                             <b> Dokter DPJP,</b>
                             <br><br><br><br>
