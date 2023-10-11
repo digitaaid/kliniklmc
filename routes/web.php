@@ -155,6 +155,7 @@ Route::middleware('auth')->group(function () {
     // print
     Route::get('print_asesmendokter', [FormController::class, 'print_asesmendokter'])->name('print_asesmendokter');
     Route::get('print_asesmenfarmasi', [FormController::class, 'print_asesmenfarmasi'])->name('print_asesmenfarmasi');
+    Route::get('print_resepkemoterapi', [FormController::class, 'print_resepkemoterapi'])->name('print_resepkemoterapi');
 
 
     Route::get('capaianantrian', [AntrianController::class, 'dashboardBulanAntrian'])->name('capaianantrian');

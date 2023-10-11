@@ -32,6 +32,9 @@
                                     data-nama="{{ $item->nama }}" data-kode="{{ $item->kode }}"
                                     data-waktu="{{ $item->waktu }}" data-norm="{{ $item->norm }}"
                                     data-diagnosa="{{ $item->diagnosa }}" data-regimen="{{ $item->regimen }}" />
+                                <a href="{{ route('print_resepkemoterapi') }}?kode={{ $item->kode }}"
+                                    class="btn btn-xs btn-success" target="_blank"> <i class="fas fa-print"></i>
+                                    Print</a>
                             </td>
                         </tr>
                     @endforeach

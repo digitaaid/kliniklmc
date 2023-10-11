@@ -10,4 +10,8 @@ class ResepKemoterapi extends Model
     use HasFactory;
     protected $guarded = ['id'];
 
+    public function resepdetail()
+    {
+        return $this->hasMany(ResepObatDetail::class, 'koderesep', 'kode');
+    }
 }

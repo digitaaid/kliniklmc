@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Antrian;
 use App\Models\AsesmenDokter;
+use App\Models\Obat;
+use App\Models\ResepKemoterapi;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
@@ -36,7 +38,6 @@ class FormController extends Controller
         }
         return view('form.pemeriksaan_dokter', compact(['request']));
     }
-
     public function print_asesmenfarmasi(Request $request)
     {
         $antrian = Antrian::firstWhere('kodebooking', $request->kodebooking);
@@ -47,7 +48,6 @@ class FormController extends Controller
             'kunjungan',
         ]));
     }
-
     public function print_asesmendokter(Request $request)
     {
         $asesmen = AsesmenDokter::firstWhere('kodekunjungan', $request->id);
@@ -57,6 +57,18 @@ class FormController extends Controller
             'request',
             'antrian',
             'kunjungan',
+        ]));
+    }
+    public function print_resepkemoterapi(Request $request)
+    {
+        $resep = ResepKemoterapi::firstWhere('kode', $request->kode);
+        $obatkemo = Obat::where('jenisobat','Obat Kemoterapi')->get();
+        $penunjangkemo = Obat::where('jenisobat','Penunjang Kemoterapi')->get();
+        return view('print.print_resep_kemoterapi', compact([
+            'request',
+            'resep',
+            'obatkemo',
+            'penunjangkemo',
         ]));
     }
 }
