@@ -24,7 +24,7 @@
             </a>
             <a href="{{ route('panggilpendaftaran') }}?kodebooking={{ $antrian->kodebooking }}"
                 class="btn btn-primary mb-2 mr-1 withLoad">
-                <i class="fas fa-sync"></i> Panggil
+                <i class="fas fa-volume-up"></i> Panggil
             </a>
             <div class="btn btn-{{ $antrian->taskid == 3 ? 'success' : 'secondary' }} mb-2 mr-1">
                 <i class="fas fa-{{ $antrian->taskid == 3 ? 'check-circle' : 'info-circle' }}"></i>

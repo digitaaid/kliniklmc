@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\AntrianController;
-use App\Http\Controllers\APIController;
 use App\Http\Controllers\BarcodeController;
 use App\Http\Controllers\CarouselController;
 use App\Http\Controllers\DokterController;
@@ -50,10 +49,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('', [HomeController::class, 'landingpage'])->name('landingpage');
 Auth::routes();
-Route::get('verifikasi_akun', [VerificationController::class, 'verifikasi_akun'])->name('verifikasi_akun');
-Route::post('verifikasi_kirim', [VerificationController::class, 'verifikasi_kirim'])->name('verifikasi_kirim');
-Route::get('user_verifikasi/{user}', [UserController::class, 'user_verifikasi'])->name('user_verifikasi');
-Route::get('delete_verifikasi', [UserController::class, 'delete_verifikasi'])->name('delete_verifikasi');
 Route::get('login/google/redirect', [SocialiteController::class, 'redirect'])->middleware(['guest'])->name('login.google'); #redirect google login
 Route::get('login/google/callback', [SocialiteController::class, 'callback'])->middleware(['guest'])->name('login.goole.callback'); #callback google login
 // daftar pasien
@@ -82,6 +77,7 @@ Route::middleware('auth')->group(function () {
     // route resource
     Route::group(['middleware' => ['permission:admin']], function () {
         Route::resource('user', UserController::class);
+        Route::get('user_verifikasi/{user}', [UserController::class, 'user_verifikasi'])->name('user_verifikasi');
         Route::resource('role', RoleController::class);
         Route::resource('permission', PermissionController::class);
         Route::get('cekBarQRCode', [BarcodeController::class, 'cekBarQRCode'])->name('cekBarQRCode');

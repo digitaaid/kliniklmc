@@ -149,7 +149,6 @@
                 type: "GET",
                 dataType: 'json',
                 success: function(data) {
-                    console.log(data);
                     $('#pendaftaran').html(data.response.pendaftaran);
                     $('#pendaftaranselanjutnya').html(data.response.pendaftaranselanjutnya);
                     $('#poliklinik').html(data.response.poliklinik);
@@ -197,7 +196,7 @@
                     console.log(data);
                 }
             });
-        }, 3000);
+        }, 4000);
     </script>
 
     <script type="text/javascript">

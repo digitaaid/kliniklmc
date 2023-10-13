@@ -217,7 +217,7 @@ return [
     'sidebar_collapse_remember_no_transition' => true,
     'sidebar_scrollbar_theme' => 'os-theme-light',
     'sidebar_scrollbar_auto_hide' => 'l',
-    'sidebar_nav_accordion' => true,
+    'sidebar_nav_accordion' => false,
     'sidebar_nav_animation_speed' => 300,
 
     /*
@@ -316,175 +316,181 @@ return [
             'url'         => 'home',
             'icon'        => 'fas fa-home',
         ],
-        // PENDAFTARAN
+        // ANTRIAN
         [
-            'text' => 'Anjungan Antrian',
-            'icon'    => 'fas fa-desktop',
-            'url'  => 'anjunganantrian',
+            'text'    => 'Aplikasi Antrian',
+            'icon'    => 'fas fa-users',
             'can' => 'pendaftaran',
-        ],
-        [
-            'text' => 'Display Antrian',
-            'icon'    => 'fas fa-desktop',
-            'url'  => 'displayantrian',
-            'can' => 'pendaftaran',
-        ],
-        [
-            'text' => 'Antrian Pendaftaran',
-            'icon'    => 'fas fa-users',
-            'url'  => 'antrianpendaftaran',
-            'active'  => ['antrianpendaftaran', 'prosespendaftaran'],
-            'can' => 'pendaftaran',
-        ],
-        [
-            'text' => 'Laporan Pendaftaran',
-            'icon'    => 'fas fa-chart-line',
-            'url'  => 'laporanpendaftaran',
-            'can' => 'pendaftaran',
-        ],
-        [
-            'text' => 'Antrian Perawat',
-            'icon'    => 'fas fa-users',
-            'url'  => 'antrianperawat',
-            'active'  => ['antrianperawat', 'prosesperawat'],
-            'can' => 'perawat',
-        ],
-        [
-            'text' => 'Laporan Perawat',
-            'icon'    => 'fas fa-chart-line',
-            'url'  => 'laporanperawat',
-            'can' => 'perawat',
-        ],
-        [
-            'text' => 'Antrian Poliklinik',
-            'icon'    => 'fas fa-users',
-            'url'  => 'antrianpoliklinik',
-            'active'  => ['antrianpoliklinik', 'prosespoliklinik'],
-            'can' => 'dokter',
-        ],
-        [
-            'text' => 'Antrian Farmasi',
-            'icon'    => 'fas fa-users',
-            'url'  => 'antrianfarmasi',
-            'can' => 'farmasi',
-        ],
-        [
-            'text' => 'Laporan Farmasi',
-            'icon'    => 'fas fa-chart-line',
-            'url'  => 'laporanfarmasi',
-            'can' => 'farmasi',
-        ],
-        [
-            'text' => 'Capaian Antrian',
-            'icon'    => 'fas fa-chart-line',
-            'url'  => 'capaianantrian',
-        ],
-        [
-            'text' => 'Pasien',
-            'icon'    => 'fas fa-user-injured',
-            'url'  => 'pasien',
-            // 'can' => 'manajemen',
-        ],
-        [
-            'text' => 'Kunjungan',
-            'icon'    => 'fas fa-users',
-            'url'  => 'kunjungan',
-            // 'can' => 'admin',
-        ],
-        [
-            'text' => 'Poliklinik',
-            'icon'    => 'fas fa-clinic-medical',
-            'url'  => 'poliklinik',
-            'can' => 'manajemen',
-        ],
-        [
-            'text' => 'Unit',
-            'icon'    => 'fas fa-clinic-medical',
-            'url'  => 'unit',
-            'can' => 'manajemen',
-        ],
-        [
-            'text' => 'Dokter',
-            'icon'    => 'fas fa-user-md',
-            'url'  => 'dokter',
-            'can' => 'manajemen',
-        ],
-        [
-            'text' => 'Jadwal Dokter',
-            'icon'    => 'fas fa-calendar-alt',
-            'url'  => 'jadwaldokter',
-            'can' =>  ['pendaftaran', 'bpjs', 'manajemen'],
-        ],
-
-        [
-            'text' => 'Obat',
-            'icon'    => 'fas fa-pills',
-            'url'  => 'obat',
-            'can' => 'farmasi',
-        ],
-        [
-            'text' => 'Obat Kemoterapi',
-            'icon'    => 'fas fa-pills',
-            'url'  => 'obatkemoterapi',
-            'can' => 'farmasi',
-        ],
-        [
-            'text' => 'Laporan Obat',
-            'icon'    => 'fas fa-chart-line',
-            'url'  => 'laporanobat',
-            'can' => 'farmasi',
-        ],
-        [
-            'text' => 'Jaminan',
-            'icon'    => 'fas fa-users',
-            'url'  => 'jaminan',
-            'can' => 'admin',
-        ],
-        [
-            'text' => 'SEP',
-            'icon'    => 'fas fa-users',
-            'url'  => 'sep',
-            'can' => 'admin',
-        ],
-        [
-            'text' => 'Surat Kontrol',
-            'icon'    => 'fas fa-users',
-            'url'  => 'suratkontrol',
-            'can' => 'admin',
-        ],
-
-        // REKAMMEDIS
-        [
-            'text'    => 'Rekam Medis',
-            'icon'    => 'fas fa-file',
-            'can' => 'rekam-medis',
             'submenu' => [
                 [
-                    'text' => 'Form Identitas Pasien',
-                    'icon'    => 'fas fa-file-medical',
-                    'url'  => 'form_identitaspasien',
-                    'can' => 'rekam-medis',
+                    'text' => 'Anjungan Antrian',
+                    'icon'    => 'fas fa-desktop',
+                    'url'  => 'anjunganantrian',
+                    'shift'   => 'ml-2',
+                    'can' => 'pendaftaran',
                 ],
                 [
-                    'text' => 'Form General Consent',
-                    'icon'    => 'fas fa-file-medical',
-                    'url'  => 'form_generalconsent',
-                    'can' => 'rekam-medis',
-                ],
-                [
-                    'text' => 'Form Assesment Perawat',
-                    'icon'    => 'fas fa-file-medical',
-                    'url'  => 'form_generalconsent',
-                    'can' => 'rekam-medis',
-                ],
-                [
-                    'text' => 'Form Assesment Dokter',
-                    'icon'    => 'fas fa-file-medical',
-                    'url'  => 'form_generalconsent',
-                    'can' => 'rekam-medis',
+                    'text' => 'Display Antrian',
+                    'icon'    => 'fas fa-desktop',
+                    'url'  => 'displayantrian',
+                    'shift'   => 'ml-2',
+                    'can' => 'pendaftaran',
                 ],
             ],
         ],
+        // PENDAFTARAN
+        [
+            'text'    => 'Pelayanan',
+            'icon'    => 'fas fa-hand-holding-medical',
+            'submenu' => [
+                [
+                    'text' => 'Antrian Pendaftaran',
+                    'icon'    => 'fas fa-users',
+                    'shift'   => 'ml-2',
+                    'url'  => 'antrianpendaftaran',
+                    'active'  => ['antrianpendaftaran', 'prosespendaftaran'],
+                    'can' => 'pendaftaran',
+                ],
+                [
+                    'text' => 'Antrian Perawat',
+                    'icon'    => 'fas fa-users',
+                    'url'  => 'antrianperawat',
+                    'active'  => ['antrianperawat', 'prosesperawat'],
+                    'shift'   => 'ml-2',
+                    'can' => 'perawat',
+                ],
+                [
+                    'text' => 'Antrian Poliklinik',
+                    'icon'    => 'fas fa-users',
+                    'url'  => 'antrianpoliklinik',
+                    'active'  => ['antrianpoliklinik', 'prosespoliklinik'],
+                    'shift'   => 'ml-2',
+                    'can' => 'dokter',
+                ],
+                [
+                    'text' => 'Antrian Farmasi',
+                    'icon'    => 'fas fa-users',
+                    'url'  => 'antrianfarmasi',
+                    'shift'   => 'ml-2',
+                    'can' => 'farmasi',
+                ],
+                [
+                    'text' => 'Obat Kemoterapi',
+                    'icon'    => 'fas fa-pills',
+                    'url'  => 'obatkemoterapi',
+                    'shift'   => 'ml-2',
+                    'can' => 'farmasi',
+                ],
+            ]
+        ],
+        // PENGELOLAAN
+        [
+            'text'    => 'Pengelolaan',
+            'icon'    => 'fas fa-chart-line',
+            'submenu' => [
+                [
+                    'text' => 'Pasien',
+                    'icon'    => 'fas fa-user-injured',
+                    'shift'   => 'ml-2',
+                    'url'  => 'pasien',
+                    'can' => 'pendaftaran',
+                ],
+                [
+                    'text' => 'Kunjungan',
+                    'icon'    => 'fas fa-users',
+                    'shift'   => 'ml-2',
+                    'url'  => 'kunjungan',
+                    'can' => 'pendaftaran',
+                ],
+                [
+                    'text' => 'Poliklinik',
+                    'icon'    => 'fas fa-clinic-medical',
+                    'url'  => 'poliklinik',
+                    'shift'   => 'ml-2',
+                    'can' => 'manajemen',
+                ],
+                [
+                    'text' => 'Unit',
+                    'icon'    => 'fas fa-clinic-medical',
+                    'shift'   => 'ml-2',
+                    'url'  => 'unit',
+                    'can' => 'manajemen',
+                ],
+                [
+                    'text' => 'Dokter',
+                    'icon'    => 'fas fa-user-md',
+                    'url'  => 'dokter',
+                    'can' => 'manajemen',
+                    'shift'   => 'ml-2',
+
+                ],
+                [
+                    'text' => 'Jadwal Dokter',
+                    'icon'    => 'fas fa-calendar-alt',
+                    'url'  => 'jadwaldokter',
+                    'can' =>  ['pendaftaran', 'bpjs', 'manajemen','dokter'],
+                    'shift'   => 'ml-2',
+
+                ],
+                [
+                    'text' => 'Obat',
+                    'icon'    => 'fas fa-pills',
+                    'url'  => 'obat',
+                    'can' => 'farmasi',
+                    'shift'   => 'ml-2',
+
+                ],
+                [
+                    'text' => 'Jaminan',
+                    'icon'    => 'fas fa-users',
+                    'url'  => 'jaminan',
+                    'shift'   => 'ml-2',
+                    'can' => 'admin',
+                ],
+            ],
+        ],
+        // LAPORAN
+        [
+            'text'    => 'Laporan',
+            'icon'    => 'fas fa-chart-line',
+            'submenu' => [
+                [
+                    'text' => 'Capaian Antrian',
+                    'icon'    => 'fas fa-chart-line',
+                    'url'  => 'capaianantrian',
+                    'shift'   => 'ml-2',
+                ],
+                [
+                    'text' => 'Laporan Pendaftaran',
+                    'icon'    => 'fas fa-chart-line',
+                    'url'  => 'laporanpendaftaran',
+                    'can' => 'pendaftaran',
+                    'shift'   => 'ml-2',
+                ],
+                [
+                    'text' => 'Laporan Perawat',
+                    'icon'    => 'fas fa-chart-line',
+                    'url'  => 'laporanperawat',
+                    'can' => 'perawat',
+                    'shift'   => 'ml-2',
+                ],
+                [
+                    'text' => 'Laporan Farmasi',
+                    'icon'    => 'fas fa-chart-line',
+                    'url'  => 'laporanfarmasi',
+                    'can' => 'farmasi',
+                    'shift'   => 'ml-2',
+                ],
+                [
+                    'text' => 'Laporan Obat',
+                    'icon'    => 'fas fa-chart-line',
+                    'url'  => 'laporanobat',
+                    'shift'   => 'ml-2',
+                    'can' => 'farmasi',
+                ],
+            ],
+        ],
+
         // ANTRIAN BPJS
         [
             'text'    => 'Integrasi Antrian BPJS',
@@ -678,6 +684,20 @@ return [
                 ],
                 [
                     'text' => 'SEP',
+                    'icon'    => 'fas fa-users',
+                    'url'  => 'sep',
+                    'shift'   => 'ml-2',
+                    'can' => 'admin',
+                ],
+                [
+                    'text' => 'Surat Kontrol',
+                    'icon'    => 'fas fa-users',
+                    'url'  => 'suratkontrol',
+                    'shift'   => 'ml-2',
+                    'can' => 'admin',
+                ],
+                [
+                    'text' => 'SEP',
                     'icon'    => 'fas fa-chart-line',
                     'shift'   => 'ml-2',
                     'submenu' => [
@@ -780,7 +800,7 @@ return [
                 ],
             ],
         ],
-        ['header' => 'MENU AKUN'],
+        ['header' => 'PENGATURAN AKUN'],
         // USER ACCESS CONTROLL
         [
             'text'    => 'User Access Control',
