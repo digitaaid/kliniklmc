@@ -63,7 +63,7 @@ return [
     |
     */
 
-    'logo' => '<b>Klinik</b>LMC',
+    'logo' => '<b>Klinik LMC</b>',
     'logo_img' => 'vendor/adminlte/dist/img/lmc-b.png',
     'logo_img_class' => 'brand-image img-circle elevation-3',
     'logo_img_xl' => null,
@@ -89,8 +89,8 @@ return [
             'path' =>  'vendor/adminlte/dist/img/lmc-b.png',
             'alt' => 'Auth Logo',
             'class' => '',
-            'width' => 50,
-            'height' => 50,
+            'width' => 70,
+            'height' => 70,
         ],
     ],
 
@@ -167,7 +167,7 @@ return [
     |
     */
 
-    'classes_auth_card' => 'card-outline card-primary',
+    'classes_auth_card' => 'card-outline card-purple',
     'classes_auth_header' => '',
     'classes_auth_body' => '',
     'classes_auth_footer' => '',

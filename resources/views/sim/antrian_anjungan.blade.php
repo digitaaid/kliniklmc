@@ -2,7 +2,7 @@
 {{-- @inject('layoutHelper', 'JeroenNoten\LaravelAdminLte\Helpers\LayoutHelper') --}}
 @section('title', 'Mesin Anjungan Antrian')
 @section('body')
-    <link rel="shortcut icon" href="{{ asset('medicio/assets/img/lmc.png') }}" />
+    <link rel="shortcut icon" href="{{ asset('medicio/assets/img/lmc-l.png') }}" />
     <div class="wrapper">
         <div class="row p-1">
             <div class="col-md-12">
@@ -16,7 +16,7 @@
                                             alt="">
                                         <div class="col">
                                             <h1>Klinik LMC</h1>
-                                            <p>Luthfi Medical Center</p>
+                                            <h4>Luthfi Medical Center</h4>
                                         </div>
                                     </div>
                                 </div>
@@ -186,6 +186,13 @@
     </x-adminlte-modal>
 @stop
 @section('adminlte_css')
+<style>
+    body{
+        background-color: rebeccapurple;
+    }
+</style>
+{{-- #6f42c1!important --}}
+@stop
 @section('adminlte_js')
     <script src="{{ asset('vendor/moment/moment.min.js') }}"></script>
     <script src="{{ asset('loading-overlay/loadingoverlay.min.js') }}"></script>
@@ -241,6 +248,6 @@
             location.reload();
         });
     </script>
+    @include('sweetalert::alert')
 @stop
-@section('plugins.Datatables', true)-
-@include('sweetalert::alert')
+@section('plugins.Datatables', true)

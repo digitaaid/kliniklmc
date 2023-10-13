@@ -24,6 +24,10 @@ class HomeController extends Controller
         $request['bulan'] = now()->format('m');
         $request['waktu'] = 'rs';
         $api = new AntrianController();
+        $antrians = null;
+        $tanggalantrian = null;
+        $jumlahantrian = null;
+        $waktuantrian = null;
         $response =  $api->dashboard_bulan($request);
         if ($response->metadata->code == 200) {
             $antrians = collect($response->response->list);
