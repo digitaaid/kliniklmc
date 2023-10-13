@@ -9,5 +9,9 @@ class ResepObatDetail extends Model
 {
     use HasFactory;
     protected $guarded = ['id'];
+    public function obat()
+    {
+        return $this->belongsTo(Obat::class, 'obat_id','id');
+    }
 
 }

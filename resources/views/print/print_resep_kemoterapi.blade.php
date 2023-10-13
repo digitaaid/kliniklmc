@@ -50,16 +50,14 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($obatkemo as $item)
+                                    @foreach ($resep->resepdetail->where('obat.jenisobat', 'Obat Kemoterapi') as $item)
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
                                             <td>{{ $item->nama }}</td>
-                                            <td>{{ $resep->resepdetail->where('obat_id', $item->id)->first() ? $resep->resepdetail->where('obat_id', $item->id)->first()->jumlah : '-' }}
-                                            </td>
+                                            <td>{{ $item->jumlah }}</td>
                                             <td></td>
                                         </tr>
                                     @endforeach
-
                                 </tbody>
                             </table>
                         </div>
@@ -75,16 +73,14 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($penunjangkemo as $item)
+                                    @foreach ($resep->resepdetail->where('obat.jenisobat', 'Penunjang Kemoterapi') as $item)
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
                                             <td>{{ $item->nama }}</td>
-                                            <td>{{ $resep->resepdetail->where('obat_id', $item->id)->first() ? $resep->resepdetail->where('obat_id', $item->id)->first()->jumlah : '-' }}
-                                            </td>
+                                            <td>{{ $item->jumlah }}</td>
                                             <td></td>
                                         </tr>
                                     @endforeach
-
                                 </tbody>
                             </table>
                         </div>

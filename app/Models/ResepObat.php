@@ -9,10 +9,8 @@ class ResepObat extends Model
 {
     use HasFactory;
     protected $guarded = ['id'];
-
-
     public function resepdetail()
     {
-        return $this->hasMany(ResepObatDetail::class, 'resep_id', 'id');
+        return $this->hasMany(ResepObatDetail::class, 'koderesep', 'kode');
     }
 }
