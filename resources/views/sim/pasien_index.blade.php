@@ -49,7 +49,7 @@
                 <x-adminlte-datatable id="table1" :heads="$heads" :config="$config" bordered hoverable compressed>
                     @foreach ($pasiens as $item)
                         <tr>
-                            <td>{{ $item->id }}</td>
+                            <td>{{ $loop->iteration }}</td>
                             <td>{{ $item->norm }}</td>
                             <td>{{ $item->nomorkartu }}</td>
                             <td>{{ $item->nik }}</td>
