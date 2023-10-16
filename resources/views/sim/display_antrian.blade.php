@@ -5,29 +5,70 @@
     <link rel="shortcut icon" href="{{ asset('medicio/assets/img/lmc.png') }}" />
     <div class="wrapper">
         <div class="row p-1">
-            <div class="col-md-12 mb-2">
-                <header class="bg-purple text-white p-4">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="row">
-                                    <img src="{{ asset('medicio/assets/img/lmc-b.png') }}" width="100" alt="">
-                                    <div class="col">
-                                        <h1>Klinik LMC</h1>
-                                        <p>Luthfi Medical Center</p>
+            <div class="col-md-12">
+                <div class="card">
+                    <header class="bg-purple text-white p-4">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <img src="{{ asset('medicio/assets/img/lmc-b.png') }}" width="100"
+                                            alt="">
+                                        <div class="col">
+                                            <h1>Klinik LMC</h1>
+                                            <h4>Luthfi Medical Center</h4>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-md-6 text-md-end">
-                                <p>Whatsapp : 0823 1169 6919</p>
-                                <p>Telepon : (0231) 8850943</p>
+                                <div class="col-md-6 text-md-end">
+                                    <p>Whatsapp : 0823 1169 6919</p>
+                                    <p>Telepon : (0231) 8850943</p>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </header>
+                    </header>
+                </div>
             </div>
-            <div class="col-md-4">
-                <x-adminlte-card title="Informasi Pelayanan" theme="purple" icon="fas fa-qrcode">
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="card-header bg-blue">
+                        <div class="text-center">
+                            <h4>Antrian Pendaftaran</h4>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="text-center">
+                            <h1><span id="pendaftaran">-</span></h1>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header bg-blue">
+                        <div class="text-center">
+                            <h4>Antrian Dokter</h4>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="text-center">
+                            <h1><span id="poliklinik">-</span></h1>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header bg-blue">
+                        <div class="text-center">
+                            <h4>Antrian Farmasi</h4>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="text-center">
+                            <h1><span id="farmasi">-</span></h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-5">
+                <x-adminlte-card>
                     <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
                         <ol class="carousel-indicators">
                             <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
@@ -36,28 +77,31 @@
                         </ol>
                         <div class="carousel-inner">
                             <div class="carousel-item active">
-                                <img class="d-block w-100" src="{{ asset('img/3.jpg') }}" alt="First slide">
+                                <img class="d-block w-100" height="450" width="100%" src="{{ asset('img/3.jpg') }}" alt="First slide">
                                 <div class="carousel-caption d-none d-md-block">
                                     <h5>...</h5>
                                     <p>...</p>
                                 </div>
                             </div>
                             <div class="carousel-item">
-                                <img class="d-block w-100" src="{{ asset('img/4.jpg') }}" alt="First slide">
+                                <img class="d-block w-100" height="450" width="100%" src="{{ asset('img/4.jpg') }}"
+                                    alt="First slide">
                                 <div class="carousel-caption d-none d-md-block">
                                     <h5>...</h5>
                                     <p>...</p>
                                 </div>
                             </div>
                             <div class="carousel-item">
-                                <img class="d-block w-100" src="{{ asset('img/5.jpg') }}" alt="First slide">
+                                <img class="d-block w-100" height="450" width="100%" src="{{ asset('img/5.jpg') }}"
+                                    alt="First slide">
                                 <div class="carousel-caption d-none d-md-block">
                                     <h5>...</h5>
                                     <p>...</p>
                                 </div>
                             </div>
                             <div class="carousel-item">
-                                <img class="d-block w-100" src="{{ asset('img/6.jpg') }}" alt="First slide">
+                                <img class="d-block w-100" height="450" width="100%" src="{{ asset('img/6.jpg') }}"
+                                    alt="First slide">
                                 <div class="carousel-caption d-none d-md-block">
                                     <h5>...</h5>
                                     <p>...</p>
@@ -76,36 +120,7 @@
                 </x-adminlte-card>
             </div>
             <div class="col-md-4">
-                <div class="card bg-success">
-                    <div class="card-body">
-                        <div class="text-center">
-                            <h1>Antrian Pendaftaran</h1>
-                            <h1><span id="pendaftaran">-</span></h1>
-                            <h5>Estimasi Antrian Selanjutnya <span id="pendaftaranselanjutnya">-</span></h5>
-                        </div>
-                    </div>
-                </div>
-                <div class="card bg-success">
-                    <div class="card-body">
-                        <div class="text-center">
-                            <h1>Antrian Dokter</h1>
-                            <h1><span id="poliklinik">-</span></h1>
-                            <h5>Estimasi Antrian Selanjutnya <span id="poliklinikselanjutnya">-</span></h5>
-                        </div>
-                    </div>
-                </div>
-                <div class="card bg-success">
-                    <div class="card-body">
-                        <div class="text-center">
-                            <h1>Antrian Farmasi</h1>
-                            <h1><span id="farmasi">-</span></h1>
-                            <h5>Estimasi Antrian Selanjutnya <span id="farmasiselanjutnya">-</span></h5>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <x-adminlte-card title="Video Informasi" theme="purple" icon="fas fa-play">
+                <x-adminlte-card>
                     {{-- <iframe width="560" height="315"
                         src="https://www.youtube.com/embed/-rLm4l1yuhU?si=N2MQHFACzBjy-lc7?autoplay=1"
                         title="YouTube video player" frameborder="0" allowfullscreen></iframe> --}}
@@ -117,12 +132,56 @@
                     {{-- <iframe width="560" height="315" src="https://www.youtube.com/embed/rLInKEMHykE?si=sWG-1mT9ydRzXGhS&amp;controls=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe> --}}
                     <iframe
                         src="https://www.youtube.com/embed/rLInKEMHykE?si=sWG-1mT9ydRzXGhS?rel=0&modestbranding=1&autohide=1&mute=1&showinfo=0&controls=1&autoplay=1&loop=1"
-                        width="560" height="315" frameborder="0" allowfullscreen onload='playVideo();'> ></iframe>
+                        width="100%" height="450" frameborder="0" allowfullscreen onload='playVideo();'> ></iframe>
                     {{-- <iframe src="https://drive.google.com/file/d/1xhCy7W5YDbGha30VPRttcxEykvV4yixz/preview" width="640"
                         height="480" allow="autoplay"></iframe> --}}
                 </x-adminlte-card>
             </div>
         </div>
+        {{-- <div class="row justify-content-center">
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="card-header bg-blue">
+                        <div class="text-center">
+                            <h4>Antrian Pendaftaran</h4>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="text-center">
+                            <h1><span id="pendaftaran">-</span></h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="card-header bg-blue">
+                        <div class="text-center">
+                            <h4>Antrian Dokter</h4>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="text-center">
+                            <h1><span id="poliklinik">-</span></h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="card-header bg-blue">
+                        <div class="text-center">
+                            <h4>Antrian Farmasi</h4>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="text-center">
+                            <h1><span id="farmasi">-</span></h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> --}}
     </div>
     <audio id="suarabel" src="{{ asset('rekaman/Airport_Bell.mp3') }}"></audio>
     <audio id="panggilannomorantrian" src="{{ asset('rekaman/panggilannomorantrian.mp3') }}"></audio>
@@ -136,6 +195,11 @@
     <audio id="puluh" src="{{ asset('rekaman/puluh.mp3') }}"></audio>
 @stop
 @section('adminlte_css')
+    <style>
+        body {
+            background-color: rebeccapurple;
+        }
+    </style>
 @endsection
 @section('adminlte_js')
     <script type="text/javascript">
@@ -218,6 +282,7 @@
                 document.getElementById('diloketpendaftaran').play();
             }, totalwaktu);
         }
+
         function panggilpoliklinik(angkaantrian) {
             document.getElementById('suarabel').pause();
             document.getElementById('suarabel').currentTime = 0;
@@ -236,6 +301,7 @@
                 document.getElementById('dipoliklinik').play();
             }, totalwaktu);
         }
+
         function panggilfarmasi(angkaantrian) {
             document.getElementById('suarabel').pause();
             document.getElementById('suarabel').currentTime = 0;
@@ -254,6 +320,7 @@
                 document.getElementById('difarmasi').play();
             }, totalwaktu);
         }
+
         function panggilangka(angkaantrian) {
             if (angkaantrian < 10) {
                 $("#nomor0").attr("src", "{{ route('landingpage') }}/public/rekaman/" + angkaantrian + ".mp3");

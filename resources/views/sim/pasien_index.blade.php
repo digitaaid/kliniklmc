@@ -95,11 +95,23 @@
             <input type="hidden" name="_method" id="method">
             <div class="row">
                 <div class="col-md-6">
+                    <x-adminlte-input name="norm" label="No RM" placeholder="No RM" enable-old-support />
+                    <x-adminlte-input name="nik" label="NIK" placeholder="NIK" enable-old-support>
+                        <x-slot name="appendSlot">
+                            <div class="btn btn-primary btnCariNIK">
+                                <i class="fas fa-sync"></i> Sync
+                            </div>
+                        </x-slot>
+                    </x-adminlte-input>
+                    <x-adminlte-input name="nomorkartu" label="No BPJS" placeholder="no BPJS" enable-old-support>
+                        <x-slot name="appendSlot">
+                            <div class="btn btn-primary btnCariKartu">
+                                <i class="fas fa-sync"></i> Sync
+                            </div>
+                        </x-slot>
+                    </x-adminlte-input>
                     <x-adminlte-input name="nama" label="Nama Lengkap" placeholder="Nama Lengkap" enable-old-support
                         required />
-                    <x-adminlte-input name="norm" label="No RM" placeholder="No RM" enable-old-support />
-                    <x-adminlte-input name="nik" label="NIK" placeholder="NIK" enable-old-support />
-                    <x-adminlte-input name="nomorkartu" label="No BPJS" placeholder="no BPJS" enable-old-support />
                     <x-adminlte-input name="nohp" label="No HP" placeholder="No HP" enable-old-support />
                 </div>
                 <div class="col-md-6">
@@ -146,6 +158,7 @@
 @stop
 @section('plugins.Datatables', true)
 @section('plugins.TempusDominusBs4', true)
+@section('plugins.Sweetalert2', true)
 @section('plugins.Select2', true)
 @section('js')
     <script>
@@ -226,6 +239,99 @@
     </script>
     <script>
         $(function() {
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 5000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+            });
+            $('.btnCariKartu').click(function() {
+                $.LoadingOverlay("show");
+                var nomorkartu = $("#nomorkartu").val();
+                var url = "{{ route('peserta_nomorkartu') }}?nomorkartu=" + nomorkartu +
+                    "&tanggal={{ now()->format('Y-m-d') }}";
+                $.get(url, function(data, status) {
+                    if (status == "success") {
+                        if (data.metadata.code == 200) {
+                            Toast.fire({
+                                icon: 'success',
+                                title: 'Pasien Ditemukan'
+                            });
+                            var pasien = data.response.peserta;
+                            $("#nama").val(pasien.nama);
+                            $("#nik").val(pasien.nik);
+                            $("#nomorkartu").val(pasien.noKartu);
+                            $("#tgllahir").val(pasien.tglLahir);
+                            $("#gender").val(pasien.sex);
+                            if (pasien.mr.noMR == null) {
+                                Swal.fire(
+                                    'Mohon Maaf !',
+                                    "Pasien baru belum memiliki no RM",
+                                    'error'
+                                )
+                            }
+                            console.log(pasien);
+                        } else {
+                            // alert(data.metadata.message);
+                            Swal.fire(
+                                'Mohon Maaf !',
+                                data.metadata.message,
+                                'error'
+                            )
+                        }
+                    } else {
+                        console.log(data);
+                        alert("Error Status: " + status);
+                    }
+                });
+                $.LoadingOverlay("hide");
+            });
+            $('.btnCariNIK').click(function() {
+                $.LoadingOverlay("show");
+                var nik = $("#nik").val();
+                var url = "{{ route('peserta_nik') }}?nik=" + nik +
+                    "&tanggal={{ now()->format('Y-m-d') }}";
+                $.get(url, function(data, status) {
+                    if (status == "success") {
+                        if (data.metadata.code == 200) {
+                            Toast.fire({
+                                icon: 'success',
+                                title: 'Pasien Ditemukan'
+                            });
+                            var pasien = data.response.peserta;
+                            $("#nama").val(pasien.nama);
+                            $("#nik").val(pasien.nik);
+                            $("#nomorkartu").val(pasien.noKartu);
+                            $("#tgllahir").val(pasien.tglLahir);
+                            $("#gender").val(pasien.sex);
+                            if (pasien.mr.noMR == null) {
+                                Swal.fire(
+                                    'Mohon Maaf !',
+                                    "Pasien baru belum memiliki no RM",
+                                    'error'
+                                )
+                            }
+                            console.log(pasien);
+                        } else {
+                            // alert(data.metadata.message);
+                            Swal.fire(
+                                'Mohon Maaf !',
+                                data.metadata.message,
+                                'error'
+                            )
+                        }
+                    } else {
+                        console.log(data);
+                        alert("Error Status: " + status);
+                    }
+                });
+                $.LoadingOverlay("hide");
+            });
             $("#tempat_lahir").select2({
                 theme: "bootstrap4",
                 ajax: {
