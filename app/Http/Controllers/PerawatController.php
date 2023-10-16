@@ -64,7 +64,7 @@ class PerawatController extends Controller
             return redirect()->back();
         }
     }
-    function editasesmenperawat(Request $request)
+    public function editasesmenperawat(Request $request)
     {
         $request->validate([
             'kodebooking' => 'required',
@@ -97,7 +97,7 @@ class PerawatController extends Controller
         Alert::success('Success', 'Simpan Assemen Keperawatan.');
         return redirect()->back();
     }
-    function uploadpenunjang(Request $request)
+    public function uploadpenunjang(Request $request)
     {
         try {
             $url = 'http://103.39.50.206/lmc/public/api/uploadfile';
@@ -148,7 +148,7 @@ class PerawatController extends Controller
 
         return redirect()->back();
     }
-    function hapusfilepenunjang(Request $request)
+    public function hapusfilepenunjang(Request $request)
     {
         $file = FileUploadPasien::find($request->id);
         $file->delete();

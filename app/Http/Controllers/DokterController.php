@@ -64,7 +64,6 @@ class DokterController extends Controller
             'dokters',
         ]));
     }
-
     // poliklinik
     public function antrianpoliklinik(Request $request)
     {
@@ -230,12 +229,15 @@ class DokterController extends Controller
                     Alert::success('Success', 'Antrian selesai di Poliklinik.');
                 } else {
                     Alert::error('Gagal', $res->metadata->message);
+                    return redirect()->back();
                 }
             }
         } catch (\Throwable $th) {
             Alert::error('Gagal', $th->getMessage());
+            return redirect()->back();
         }
-        return redirect()->back();
+        $url = route('antrianpoliklinik') . "?tanggalperiksa=" . $antrian->tanggalperiksa;
+        return redirect()->to($url);
     }
     function lanjutfarmasi(Request $request)
     {
@@ -258,7 +260,9 @@ class DokterController extends Controller
             }
         } catch (\Throwable $th) {
             Alert::error('Gagal', $th->getMessage());
+            return redirect()->back();
         }
-        return redirect()->back();
+        $url = route('antrianpoliklinik') . "?tanggalperiksa=" . $antrian->tanggalperiksa;
+        return redirect()->to($url);
     }
 }
