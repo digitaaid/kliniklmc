@@ -428,7 +428,7 @@ return [
                     'text' => 'Jadwal Dokter',
                     'icon'    => 'fas fa-calendar-alt',
                     'url'  => 'jadwaldokter',
-                    'can' =>  ['pendaftaran', 'bpjs', 'manajemen','dokter'],
+                    'can' =>  ['pendaftaran', 'bpjs', 'manajemen', 'dokter'],
                     'shift'   => 'ml-2',
 
                 ],
@@ -669,25 +669,11 @@ return [
                     'can' => ['bpjs', 'pendaftaran', 'manajemen'],
                 ],
                 [
-                    'text' => 'Surat Kontrol & SPRI',
-                    'icon'    => 'fas fa-id-card',
-                    'url'  => 'suratKontrolBpjs',
-                    'shift'   => 'ml-2',
-                    'can' => ['bpjs', 'pendaftaran', 'manajemen'],
-                ],
-                [
                     'text' => 'Rujukan',
                     'icon'    => 'fas fa-id-card',
                     'url'  => 'rujukanBpjs',
                     'shift'   => 'ml-2',
                     'can' => ['bpjs', 'pendaftaran', 'manajemen'],
-                ],
-                [
-                    'text' => 'SEP',
-                    'icon'    => 'fas fa-users',
-                    'url'  => 'sep',
-                    'shift'   => 'ml-2',
-                    'can' => 'admin',
                 ],
                 [
                     'text' => 'Surat Kontrol',
@@ -702,21 +688,13 @@ return [
                     'shift'   => 'ml-2',
                     'submenu' => [
                         [
-                            'text' => 'Data SEP',
+                            'text' => 'SEP Kunjungan',
                             'icon'    => 'fas fa-id-card',
-                            'url'  => 'vclaim/sep_internal',
-                            'shift'   => 'ml-3',
-                            'can' => ['bpjs', 'pendaftaran', 'manajemen'],
-                        ],
-                        [
-                            'text' => 'SEP Internal',
-                            'icon'    => 'fas fa-id-card',
-                            'url'  => 'vclaim/sep_internal',
+                            'url'  => 'sepkunjungan',
                             'shift'   => 'ml-3',
                             'can' => ['bpjs', 'pendaftaran', 'manajemen'],
                         ],
                     ]
-
                 ],
 
             ],

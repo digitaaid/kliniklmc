@@ -38,8 +38,10 @@
             <x-adminlte-card title="Data Klaim BPJS" theme="secondary" collapsible>
                 @php
                     $heads = ['FPK / SEP', 'Tgl Msuk / Plg', 'Poli / Kelas', 'Pasien', 'INACBG', 'Status', 'byTarifGruper', 'byTopup', 'byPengajuan', 'bySetujui', 'byTarifRS', 'LabaRugi'];
-                @endphp
-                <x-adminlte-datatable id="table2" class="nowrap text-xs" :heads="$heads" bordered hoverable compressed>
+                    $config['scrollY'] = '500px';
+                    $config['paging'] = false;
+               @endphp
+                <x-adminlte-datatable id="table2" class="nowrap text-xs" :config="$config" :heads="$heads" bordered hoverable compressed>
                     @php
                         $byTarifRS = 0;
                         $byTarifGruper = 0;

@@ -111,4 +111,15 @@ class PasienController extends APIController
             'peserta'
         ]));
     }
+    public function search(Request $request)
+    {
+        $pasiens = Pasien::orderBy('norm', 'desc')
+            ->where('norm', 'LIKE', "%{$request->search}%")
+            ->orWhere('nama', 'LIKE', "%{$request->search}%")
+            ->orWhere('nomorkartu', 'LIKE', "%{$request->search}%")
+            ->orWhere('nik', 'LIKE', "%{$request->search}%")
+            ->limit(20)
+            ->get();
+        return $this->sendResponse($pasiens, 200);
+    }
 }

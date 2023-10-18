@@ -93,6 +93,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('sep', SepController::class);
     Route::resource('pasien', PasienController::class);
     Route::get('pasienreset', [PasienController::class, 'reset'])->name('pasienreset');
+    Route::get('pasiensearch', [PasienController::class, 'search'])->name('pasiensearch');
     Route::resource('unit', UnitController::class);
     Route::resource('dokter', DokterController::class);
     Route::resource('poliklinik', PoliklinikController::class);
@@ -164,7 +165,7 @@ Route::middleware('auth')->group(function () {
     Route::get('jadwalDokterAntrianBpjs', [JadwalDokterController::class, 'jadwalDokterAntrianBpjs'])->name('jadwalDokterAntrianBpjs');
     Route::get('fingerprintPeserta', [PasienController::class, 'fingerprintPeserta'])->name('fingerprintPeserta');
     Route::get('antrianBpjsConsole', [AntrianController::class, 'antrianConsole'])->name('antrianBpjsConsole');
-    Route::get('antrianBpjs', [AntrianController::class, 'index'])->name('antrianBpjs');
+    Route::get('antrianBpjs', [PendaftaranController::class, 'antrianpendaftaran'])->name('antrianBpjs');
     Route::get('listTaskID', [AntrianController::class, 'listTaskID'])->name('listTaskID');
     Route::get('dashboardTanggalAntrian', [AntrianController::class, 'dashboardTanggalAntrian'])->name('dashboardTanggalAntrian');
     Route::get('dashboardBulanAntrian', [AntrianController::class, 'dashboardBulanAntrian'])->name('dashboardBulanAntrian');

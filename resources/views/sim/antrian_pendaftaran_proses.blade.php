@@ -195,8 +195,8 @@
                                 <button type="submit" class="btn btn-success withLoad">
                                     <i class="fas fa-edit"></i> Integrasi Antrian
                                 </button>
-                                <div class="btn btn-warning">
-                                    <i class="fas fa-user-plus"></i> Pasien Baru
+                                <div class="btn btn-warning" id="btnModalPasien">
+                                    <i class="fas fa-search"></i> Pencarian Pasien
                                 </div>
                             </form>
                         </div>
@@ -524,9 +524,6 @@
                                 <button type="submit" class="btn btn-success withLoad">
                                     <i class="fas fa-edit"></i> Simpan Kunjungan
                                 </button>
-                                <div class="btn btn-warning">
-                                    <i class="fas fa-user-plus"></i> Pasien Baru
-                                </div>
                             </form>
                         </div>
                         <div class="tab-pane" id="riwayattab">
@@ -719,6 +716,33 @@
             <x-adminlte-button theme="danger" icon="fas fa-times" label="Tutup" data-dismiss="modal" />
         </x-slot>
     </x-adminlte-modal>
+    <x-adminlte-modal id="modalPasien" name="modalPasien" title="Pasien" theme="success" icon="fas fa-user-injured"
+        size="xl">
+        <div class="row">
+            <div class="col-md-7">
+                <x-adminlte-button id="btnTambah" class="btn-sm mb-2" theme="success" label="Tambah Pasien"
+                    icon="fas fa-plus" />
+            </div>
+            <div class="col-md-5">
+                <form action="" method="get">
+                    <x-adminlte-input name="search" placeholder="Pencarian No RM / BPJS / NIK / Nama" igroup-size="sm">
+                        <x-slot name="appendSlot">
+                            <x-adminlte-button id="btnCariPasien" theme="primary" icon="fas fa-search" label="Cari" />
+                        </x-slot>
+                    </x-adminlte-input>
+                </form>
+            </div>
+        </div>
+        @php
+            $heads = ['No RM', 'No BPJS', 'NIK', 'Nama Pasien', 'Tgl Lahir', 'Action'];
+            $config['paging'] = false;
+            $config['info'] = false;
+            $config['searching'] = false;
+        @endphp
+        <x-adminlte-datatable id="tablePasien" class="nowrap text-xs" :heads="$heads" :config="$config" bordered
+            hoverable compressed>
+        </x-adminlte-datatable>
+    </x-adminlte-modal>
 @stop
 
 @section('plugins.Datatables', true)
@@ -901,6 +925,43 @@
                         $.LoadingOverlay("hide");
                     }
                 });
+            });
+            $('#btnModalPasien').click(function() {
+                $('#modalPasien').modal('show');
+            });
+            $('#btnCariPasien').click(function() {
+                $.LoadingOverlay("show");
+                var search = $("#search").val();
+                var url = "{{ route('pasiensearch') }}?search=" + search;
+                var table = $('#tablePasien').DataTable();
+                table.rows().remove().draw();
+                $.ajax({
+                    url: url,
+                    type: "GET",
+                    dataType: 'json',
+                    success: function(data) {
+                        $.each(data.response, function(key, value) {
+                            console.log(value);
+                            table.row.add([
+                                value.norm,
+                                value.nomorkartu,
+                                value.nik,
+                                value.nama,
+                                value.tgl_lahir,
+                                "<button class='btnPilihPasien btn btn-success btn-xs mr-1' data-norm=" +
+                                value.norm +
+                                " >Pilih</button>",
+                            ]).draw(false);
+                        });
+                        $.LoadingOverlay("hide");
+                    },
+                    error: function(data) {
+                        alert('Error');
+                        console.log(data);
+                        $.LoadingOverlay("hide");
+                    }
+                });
+
             });
             $('.btnCariSuratKontrol').click(function() {
                 $.LoadingOverlay("show");

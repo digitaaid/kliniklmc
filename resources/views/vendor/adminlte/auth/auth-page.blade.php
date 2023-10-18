@@ -18,7 +18,8 @@
             background-attachment: fixed;
             background-position: center;
             background-blend-mode: overlay;
-            background-size: 100% 500
+            background-size: 100% 100%
+
         }
         .register-page {
             background-image: url('{{ asset('img/2.jpg') }}');
@@ -26,7 +27,7 @@
             background-attachment: fixed;
             background-position: center;
             background-blend-mode: overlay;
-            background-size: 100% 500
+            background-size: 100% 100%
         }
     </style>
 @stop

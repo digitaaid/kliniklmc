@@ -10,7 +10,6 @@
                 <form action="" method="get">
                     <div class="row">
                         <div class="col-md-12">
-
                             @php
                                 $config = [
                                     'timePicker' => false,

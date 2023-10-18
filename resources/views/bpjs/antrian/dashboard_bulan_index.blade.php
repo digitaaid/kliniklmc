@@ -11,7 +11,7 @@
                     @php
                         $config = ['format' => 'YYYY-MM'];
                     @endphp
-                    <x-adminlte-input-date name="tanggal" placeholder="Silahkan Pilih Tanggal" value="{{ $request->tanggal }}"
+                    <x-adminlte-input-date name="tanggal" placeholder="Silahkan Pilih Tanggal" value="{{ $request->tanggal ?? now()->format('Y-m') }}"
                         label="Bulan Periksa" :config="$config" />
                     <x-adminlte-select name="waktu" label="Waktu">
                         <option value="rs">Waktu RS</option>

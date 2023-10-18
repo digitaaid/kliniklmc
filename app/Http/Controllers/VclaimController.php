@@ -722,14 +722,14 @@ class VclaimController extends APIController
     public function suratkontrol_tanggal(Request $request)
     {
         $validator = Validator::make(request()->all(), [
-            "tanggalMulai" => "required|date",
-            "tanggalAkhir" => "required|date",
-            "formatFilter" => "required",
+            "tglawal" => "required|date",
+            "tglakhir" => "required|date",
+            "formatfilter" => "required",
         ]);
         if ($validator->fails()) {
             return $this->sendError($validator->errors()->first(), 400);
         }
-        $url =  $this->api()->base_url . "RencanaKontrol/ListRencanaKontrol/tglAwal/" . $request->tanggalMulai . "/tglAkhir/" . $request->tanggalAkhir .  "/filter/" . $request->formatFilter;
+        $url =  $this->api()->base_url . "RencanaKontrol/ListRencanaKontrol/tglAwal/" . $request->tglawal . "/tglAkhir/" . $request->tglakhir .  "/filter/" . $request->formatfilter;
         $signature = $this->signature();
         $response = Http::withHeaders($signature)->get($url);
         return $this->response_decrypt($response, $signature);

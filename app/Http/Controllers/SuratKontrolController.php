@@ -17,10 +17,22 @@ class SuratKontrolController extends APIController
 {
     public function index(Request $request)
     {
-        $kunjungans = SuratKontrol::where('tglRencanaKontrol', $request->tgl_masuk)->get();
-        return view('sim.kunjungan_index', compact([
+        $suratkontrols = null;
+        if ($request->tanggal && $request->formatfilter) {
+            $request['tglawal']  = Carbon::parse(explode('-', $request->tanggal)[0])->format('Y-m-d');
+            $request['tglakhir'] = Carbon::parse(explode('-', $request->tanggal)[1])->format('Y-m-d');
+
+            $vclaim = new VclaimController();
+            $res = $vclaim->suratkontrol_tanggal($request);
+            if ($res->metadata->code == 200) {
+                $suratkontrols = $res->response->list;
+            } else {
+                Alert::error('Mohon Maaf', $res->metadata->message);
+            }
+        }
+        return view('sim.suratkontrol_index', compact([
             'request',
-            'kunjungans',
+            'suratkontrols',
         ]));
     }
     public function suratKontrolBpjs(Request $request)
