@@ -9,6 +9,7 @@ use App\Models\Jaminan;
 use App\Models\Kunjungan;
 use App\Models\Poliklinik;
 use App\Models\Unit;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -422,5 +423,20 @@ class PendaftaranController extends APIController
             'request',
             'antrians',
         ]));
+    }
+    public function pdflaporanpendaftaran(Request $request)
+    {
+        $antrians = null;
+        if ($request->tanggal) {
+            $tanggal = explode('-', $request->tanggal);
+            $request['tanggalawal'] = Carbon::parse($tanggal[0])->format('Y-m-d');
+            $request['tanggalakhir'] = Carbon::parse($tanggal[1])->format('Y-m-d');
+            $antrians = Antrian::whereBetween('tanggalperiksa', [$request->tanggalawal, $request->tanggalakhir])->get();
+        }
+        $pdf = Pdf::loadView('sim.pdf_laporan_pendaftaran', compact([
+            'request',
+            'antrians',
+        ]));
+        return $pdf->stream();
     }
 }

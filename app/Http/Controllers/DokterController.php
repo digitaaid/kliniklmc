@@ -243,7 +243,6 @@ class DokterController extends Controller
     {
         $antrian = Antrian::where('kodebooking', $request->kodebooking)->first();
         try {
-            if ($antrian->taskid == 4) {
                 $request['keterangan'] = "Pasien dilanjutkan ke farmasi";
                 $request['taskid'] = "5";
                 $request['waktu'] = now();
@@ -257,7 +256,6 @@ class DokterController extends Controller
                 $res_farmasi = $api->tambah_antrean_farmasi($request);
                 // }
                 Alert::success('Success', $res->metadata->message);
-            }
         } catch (\Throwable $th) {
             Alert::error('Gagal', $th->getMessage());
             return redirect()->back();

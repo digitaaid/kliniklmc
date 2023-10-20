@@ -10,7 +10,6 @@
                 <form action="" method="get">
                     <div class="row">
                         <div class="col-md-12">
-
                             @php
                                 $config = [
                                     'timePicker' => false,
@@ -27,7 +26,6 @@
         @if (isset($antrians))
             <div class="col-md-12">
                 <div class="row">
-
                     <div class="col-md-3">
                         <x-adminlte-small-box title="{{ $antrians->where('taskid', '!=', 99)->count() }}"
                             text="Total Antrian" theme="success" icon="fas fa-user-injured" />
@@ -48,6 +46,8 @@
                     </div>
                 </div>
                 <x-adminlte-card title="Data Antrian Pendaftaran" theme="warning" icon="fas fa-info-circle" collapsible>
+                    <a href="{{ route('pdflaporanpendaftaran') }}?tanggal={{ $request->tanggal }}" target="_blank"
+                        rel="noopener noreferrer" class="btn btn-primary">Print PDF</a>
                     @php
                         $heads = ['No', 'Tanggal', 'No RM', 'Pasien', 'Kartu BPJS', 'Asal Perujuk', 'Jenis Pasien', 'Method', 'Action', 'PIC'];
                         $config['order'] = [1, 'asc'];
