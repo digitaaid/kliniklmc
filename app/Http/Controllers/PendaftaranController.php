@@ -287,14 +287,14 @@ class PendaftaranController extends APIController
             //throw $th;
         }
         $res =  $api->tambah_antrean($request);
-        if ($res->metadata->code == 200) {
-            $antrian->update([
-                'status' => 1
-            ]);
-            Alert::success('Success', 'Antrian telah diperbaharui.');
-        } else {
-            Alert::error('Mohon Maaf', $res->metadata->message);
-        }
+        // if ($res->metadata->code == 200) {
+        $antrian->update([
+            'status' => 1
+        ]);
+        Alert::success('Success', 'Antrian telah diperbaharui.');
+        // } else {
+        //     Alert::error('Mohon Maaf', $res->metadata->message);
+        // }
         return redirect()->back();
     }
     function editkunjungan(Request $request)
@@ -437,6 +437,6 @@ class PendaftaranController extends APIController
             'request',
             'antrians',
         ]));
-        return $pdf->stream();
+        return $pdf->download();
     }
 }
