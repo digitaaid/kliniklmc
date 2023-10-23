@@ -103,7 +103,7 @@ class PerawatController extends Controller
             $url = 'http://103.39.50.206/lmc/public/api/uploadfile';
             $file               = request('file');
             $file_path          = $file->getPathname();
-            $file_mime          = $file->getMimeType();
+            $file_mime          = $file->getMimeType('application/pdf');
             $file_uploaded_name = $file->getClientOriginalName();
             $client = new Client();
             $response = $client->request("POST", $url, [
