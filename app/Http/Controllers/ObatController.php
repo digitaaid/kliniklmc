@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\ObatExport;
 use App\Imports\ObatsImport;
 use App\Models\Obat;
 use Illuminate\Http\Request;
@@ -64,4 +65,9 @@ class ObatController extends Controller
         }
         return response()->json($data);
     }
+    public function obatexport()
+    {
+        return Excel::download(new ObatExport, 'obat.xlsx');
+    }
+
 }

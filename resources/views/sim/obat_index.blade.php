@@ -11,12 +11,13 @@
         <div class="col-md-12">
             <x-adminlte-card title="Data Obat" theme="primary" icon="fas fa-info-circle" collapsible>
                 @php
-                    $heads = ['No', 'Nama Obat', 'Satuan', 'Jenis Obat', 'Action'];
+                    $heads = ['Kode', 'Nama Obat', 'Satuan', 'Jenis Obat', 'Action'];
                     $config['order'] = [1, 'asc'];
                     $config['paging'] = false;
                     $config['scrollY'] = '500px';
                 @endphp
-                <x-adminlte-button id="btnTambah" class="btn-sm mb-2" theme="success" label="Tambah Obat" icon="fas fa-plus" />
+                <x-adminlte-button id="btnTambah" class="btn-sm" theme="success" label="Tambah Obat" icon="fas fa-plus" />
+                <a href="{{ route('obatexport') }}" class="btn btn-sm btn-primary"><i class="fas fa-print"></i> Export</a>
                 <x-adminlte-datatable id="table1" :heads="$heads" :config="$config" bordered hoverable compressed>
                     @foreach ($obats as $item)
                         <tr>

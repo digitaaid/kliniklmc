@@ -149,6 +149,7 @@ Route::middleware('auth')->group(function () {
     Route::get('reset_obat', [ObatController::class, 'reset_obat'])->name('reset_obat');
     Route::get('ref_obat_cari', [ObatController::class, 'ref_obat_cari'])->name('ref_obat_cari');
     Route::get('obatkemoterapi', [FarmasiController::class, 'obatkemoterapi'])->name('obatkemoterapi');
+    Route::get('obatexport', [ObatController::class, 'obatexport'])->name('obatexport');
     Route::post('store_resepkemoterapi', [FarmasiController::class, 'store_resepkemoterapi'])->name('store_resepkemoterapi');
     Route::get('get_resepkemoterapi', [FarmasiController::class, 'get_resepkemoterapi'])->name('get_resepkemoterapi');
     // print
