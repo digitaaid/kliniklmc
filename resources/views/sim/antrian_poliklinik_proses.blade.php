@@ -5,10 +5,7 @@
 @stop
 @section('content')
     <div class="row">
-        <div class="col-md-3">
-            @include('sim.antrian_profil')
-        </div>
-        <div class="col-md-9">
+        <div class="col-md-12">
             @if ($errors->any())
                 <x-adminlte-alert title="Ops Terjadi Masalah !" theme="danger" dismissable>
                     <ul>
@@ -69,6 +66,9 @@
                     @default
                 @endswitch
             </div>
+            @include('sim.antrian_profil2')
+        </div>
+        <div class="col-md-12">
             <div class="card">
                 <div class="card-header p-2">
                     <ul class="nav nav-pills">
@@ -311,7 +311,6 @@
                                             <div class="form-group">
                                                 <div class="input-group input-group-sm">
                                                     <select name="obat[]" class="form-control cariObat">
-                                                        <option selected disabled>Cari Nama Obat</option>
                                                     </select>
                                                     <input type="number" name="jumlah[]" placeholder="Jumlah"
                                                         class="form-control" multiple>
@@ -428,6 +427,8 @@
         $(function() {
             $(".diagnosaid1").select2({
                 theme: "bootstrap4",
+                multiple: true,
+                maximumSelectionLength: 1,
                 ajax: {
                     url: "{{ route('ref_diagnosa_api') }}",
                     type: "get",
@@ -449,6 +450,8 @@
             $(".cariObat").select2({
                 placeholder: 'Pencarian Nama Obat',
                 theme: "bootstrap4",
+                multiple: true,
+                maximumSelectionLength: 1,
                 ajax: {
                     url: "{{ route('ref_obat_cari') }}",
                     type: "get",
@@ -494,7 +497,7 @@
         $("#addObatInput").click(function() {
             newRowAdd =
                 '<div id="row" class="row"><div class="form-group"><div class="input-group input-group-sm">' +
-                '<select name="obat[]" class="form-control cariObat"><option selected disabled>Cari Nama Obat</option></select>' +
+                '<select name="obat[]" class="form-control cariObat"></select>' +
                 '<input type="number" name="jumlah[]" placeholder="Jumlah" class="form-control" multiple>' +
                 '<select name="frekuensi[]"class="form-control frekuensilObat"> <option selected disabled>Interval</option>' +
                 '<option value="qod">1 x 1</option>' +
@@ -517,6 +520,8 @@
             $(".cariObat").select2({
                 placeholder: 'Pencarian Nama Obat',
                 theme: "bootstrap4",
+                multiple: true,
+                maximumSelectionLength: 1,
                 ajax: {
                     url: "{{ route('ref_obat_cari') }}",
                     type: "get",
