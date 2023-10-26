@@ -68,7 +68,7 @@
             </div>
             @include('sim.antrian_profil2')
         </div>
-        <div class="col-md-12">
+        <div class="col-md-6">
             <div class="card">
                 <div class="card-header p-2">
                     <ul class="nav nav-pills">
@@ -104,9 +104,9 @@
                             @if ($antrian->pasien)
                                 @foreach ($antrian->pasien->kunjungans as $kunjungan)
                                     <x-adminlte-card title="KUNJUNGAN {{ $kunjungan->tgl_masuk }}" theme="info"
-                                        icon="fas fa-file" collapsible="collapsed">
+                                        icon="fas fa-file" collapsible="">
                                         @if ($kunjungan->asesmendokter)
-                                            @include('form.asesmen_dokter_rajal')
+                                            @include('form.asesmen_dokter_rajal2')
                                         @else
                                             <x-adminlte-alert title="Belum dilakukan asesmen dokter" theme="danger">
                                                 Silahkan lakukan asesmen dokter
@@ -122,14 +122,15 @@
                             @if ($antrian->pasien)
                                 @if ($antrian->pasien->fileuploads)
                                     @foreach ($antrian->pasien->fileuploads as $file)
-                                        <x-adminlte-card title="{{ $file->nama }}" theme="info" icon="fas fa-file"
-                                            collapsible="collapsed">
-                                            <a href="{{ $file->fileurl }}" target="_blank"
-                                                class="btn btn-xs btn-primary mr-1 mb-1">Donwload</a>
-                                            <a href="{{ route('hapusfilepenunjang') }}?id={{ $file->id }}"
-                                                class="btn btn-xs btn-danger mr-1 mb-1">Hapus File</a>
-                                            Diupload pada tanggal : {{ $file->created_at }}
-                                            <br>
+                                        <x-adminlte-card body-class="p-0" title="{{ $file->nama }}" theme="info"
+                                            icon="fas fa-file" collapsible="">
+                                            <x-slot name="toolsSlot">
+                                                Uploaded at : {{ $file->created_at }}
+                                                <a href="{{ $file->fileurl }}" target="_blank" class="btn btn-xs btn-tool"><i
+                                                        class="fas fa-download"></i></a>
+                                                <a href="{{ route('hapusfilepenunjang') }}?id={{ $file->id }}"
+                                                    class="btn btn-xs btn-tool"> <i class="fas fa-trash"></i></a>
+                                            </x-slot>
                                             <object data="{{ $file->fileurl }}" width="100%" height="700px"> </object>
                                         </x-adminlte-card>
                                     @endforeach
@@ -139,9 +140,9 @@
                                     <x-adminlte-card title="{{ $file->nama }} {{ $file->created_at }}" theme="info"
                                         icon="fas fa-file" collapsible="collapsed">
                                         <a href="{{ $file->fileurl }}" target="_blank"
-                                            class="btn btn-xs btn-primary mr-1 mb-1">Donwload</a>
+                                            class="btn btn-xs btn-tool">Donwload</a>
                                         <a href="{{ route('hapusfilepenunjang') }}?id={{ $file->id }}"
-                                            class="btn btn-xs btn-danger mr-1 mb-1">Hapus File</a>
+                                            class="btn btn-xs btn-tool">Hapus File</a>
                                         Diupload pada tanggal : {{ $file->created_at }}
                                         <br>
                                         <object data="{{ $file->fileurl }}" width="100%" height="700px"> </object>
@@ -158,6 +159,8 @@
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="col-md-6">
             <div class="card">
                 <div class="card-header p-2">
                     <ul class="nav nav-pills">
@@ -410,10 +413,6 @@
             </div>
         </div>
     </div>
-    <audio id="myAudio">
-        <source src="{{ asset('tingtung.mp3') }}" type="audio/mpeg">
-        Your browser does not support the audio element.
-    </audio>
 @stop
 
 @section('plugins.Datatables', true)
