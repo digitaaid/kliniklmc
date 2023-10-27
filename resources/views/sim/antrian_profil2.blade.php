@@ -70,12 +70,7 @@
                     <dt class="col-sm-4 m-0">SEP</dt>
                     <dd class="col-sm-8 m-0">
                         @if ($antrian->sep)
-                            {{ $antrian->sep }} <br>
-                            <a class="btn btn-xs btn-success" target="_blank"
-                                href="{{ route('sep_print') }}?noSep={{ $antrian->sep }}"
-                                style="text-decoration: none">
-                                <i class="fas fa-print"></i> Print SEP
-                            </a>
+                            {{ $antrian->sep }}
                         @else
                             Belum ada SEP
                         @endif
@@ -86,12 +81,6 @@
                             @foreach ($antrian->suratkontrols as $item)
                                 {{ $item->noSuratKontrol }}
                                 ({{ $item->tglRencanaKontrol }})
-                                <br>
-                                <a class="btn btn-xs btn-success" target="_blank"
-                                    href="{{ route('suratkontrol_print') }}?noSuratKontrol={{ $item->noSuratKontrol }}"
-                                    style="text-decoration: none">
-                                    <i class="fas fa-print"></i> Print Surat Kontrol
-                                </a>
                                 <br>
                             @endforeach
                         @else
