@@ -3,6 +3,9 @@
 @section('content_header')
     <h1>Assesmen Dokter</h1>
 @stop
+@section('css')
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" />
+@endsection
 @section('content')
     <div class="row">
         <div class="col-md-12">
@@ -83,7 +86,7 @@
                         </li>
                         <li class="nav-item"><a class="nav-link" href="#reseptab" data-toggle="tab">Resep</a>
                         </li>
-                        <li class="nav-item"><a class="nav-link" href="#reseptab" data-toggle="tab">Tindakan</a>
+                        <li class="nav-item"><a class="nav-link" href="#tindakantab" data-toggle="tab">Tindakan</a>
                         </li>
                         <li class="nav-item"><a class="nav-link" href="#labtab" data-toggle="tab">Laboratorium</a>
                         </li>
@@ -197,10 +200,6 @@
                                                             {{ $kunjungan->asesmendokter->diagnosa1 ?? null }} <br>
                                                             Diag. Sekunder ICD-10 :
                                                             {{ $kunjungan->asesmendokter->diagnosa2 ?? null }}
-                                                        </dd>
-                                                        <dt>Rencana Perawatan :</dt>
-                                                        <dd>
-                                                            <pre>{{ $kunjungan->asesmendokter->rencana_perawatan ?? null }}</pre>
                                                         </dd>
                                                         <dt>Pemeriksaan Fisik :</dt>
                                                         <dd>
@@ -375,8 +374,8 @@
                                             name="keluhan_utama" placeholder="Keluhan Utama">
                                             {{ $kunjungan->asesmenperawat->keluhan_utama ?? null }}
                                         </x-adminlte-textarea>
-                                        <x-adminlte-textarea igroup-size="sm" rows=3 label="Diagnosa" name="diagnosa"
-                                            placeholder="Diagnosa">
+                                        <x-adminlte-textarea igroup-size="sm" rows=3 label="Diagnosa" id="diagnosaauto"
+                                            name="diagnosa" placeholder="Diagnosa">
                                             {{ $kunjungan->asesmendokter->diagnosa ?? null }}
                                         </x-adminlte-textarea>
                                         <x-adminlte-select2 name="diagnosa1" class="diagnosaid1"
@@ -496,7 +495,6 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                {{-- test detail <br> --}}
                                             @endforeach
                                         @endif
                                         <div id="rowTindakan" class="row">
@@ -536,7 +534,6 @@
                                             </div>
                                         </div>
                                         <div id="newObat"></div>
-
                                     </div>
                                     <div class="col-md-6">
                                         <x-adminlte-textarea igroup-size="sm" rows=3 label="Resep Obat (Free Text)"
@@ -596,6 +593,12 @@
                                 class="btn btn-danger withLoad">
                                 <i class="fas fa-times"></i> Batal
                             </a>
+                        </div>
+                        <div class="tab-pane" id="reseptab">
+                            Resep
+                        </div>
+                        <div class="tab-pane" id="tindakantab">
+                            Tindakan
                         </div>
                         <div class="tab-pane" id="labtab">
                             Laboratorium
@@ -739,5 +742,43 @@
             $(this).parents("#row").remove();
         })
     </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script type="text/javascript">
+        var path = "{{ route('diagnosa_autocomplete') }}";
+        $("#diagnosaauto").autocomplete({
+            source: function(request, response) {
+                $.ajax({
+                    url: path,
+                    type: 'GET',
+                    dataType: "json",
+                    data: {
+                        search: request.term
+                    },
+                    success: function(data) {
+                        response(data);
+                    }
+                });
+            },
+            select: function(event, ui) {
+                $('#diagnosaauto').val(ui.item.label);
+                console.log(ui.item);
+                return false;
+            }
+        });
+    </script>
+    {{-- <script type="text/javascript">
+        var path = "{{ route('diagnosa_autocomplete') }}";
+        $('#diagnosaauto').typeahead({
+                source: function (query, process) {
+                    return $.get(path, {
+                        query: query
+                    }, function (data) {
+                        return process(data);
+                    });
+                }
+            });
 
+    </script> --}}
 @endsection
+
+

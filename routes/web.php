@@ -3,6 +3,7 @@
 use App\Http\Controllers\AntrianController;
 use App\Http\Controllers\BarcodeController;
 use App\Http\Controllers\CarouselController;
+use App\Http\Controllers\DiagnosaController;
 use App\Http\Controllers\DokterController;
 use App\Http\Controllers\FarmasiController;
 use App\Http\Controllers\FormController;
@@ -95,6 +96,7 @@ Route::middleware('auth')->group(function () {
     Route::get('pasienreset', [PasienController::class, 'reset'])->name('pasienreset');
     Route::get('pasiensearch', [PasienController::class, 'search'])->name('pasiensearch');
     Route::resource('unit', UnitController::class);
+    Route::resource('diagnosa', DiagnosaController::class);
     Route::resource('dokter', DokterController::class);
     Route::resource('poliklinik', PoliklinikController::class);
     Route::resource('jadwaldokter', JadwalDokterController::class);
@@ -105,6 +107,7 @@ Route::middleware('auth')->group(function () {
     Route::get('kirimpesanlibur', [JadwalLiburController::class, 'kirimpesanlibur'])->name('kirimpesanlibur');
     // farmasi
     Route::resource('obat', ObatController::class);
+    Route::get('diagnosa_autocomplete', [DiagnosaController::class, 'diagnosa_autocomplete'])->name('diagnosa_autocomplete');
     // anjungan
     Route::get('anjunganantrian', [PendaftaranController::class, 'anjunganantrian'])->name('anjunganantrian');
     Route::get('checkinantrian', [PendaftaranController::class, 'checkinantrian'])->name('checkinantrian');
