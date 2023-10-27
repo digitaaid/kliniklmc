@@ -5,10 +5,7 @@
 @stop
 @section('content')
     <div class="row">
-        <div class="col-md-3">
-            @include('sim.antrian_profil')
-        </div>
-        <div class="col-md-9">
+        <div class="col-md-12">
             @if ($errors->any())
                 <x-adminlte-alert title="Ops Terjadi Masalah !" theme="danger" dismissable>
                     <ul>
@@ -69,7 +66,741 @@
                     @default
                 @endswitch
             </div>
-            <div class="card">
+            @include('sim.antrian_profil2')
+        </div>
+        <div class="col-md-12">
+            <div class="card card-primary card-outline">
+                <div class="card-body box-profile p-3" style="overflow-y: auto ;max-height: 600px ;">
+                    <div id="accordion" role="tablist" aria-multiselectable="true">
+                        <div class="card card-info mb-1">
+                            <div class="card-header" role="tab" id="headingOne">
+                                <h3 class="card-title">
+                                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne"
+                                        aria-expanded="true" aria-controls="collapseOne">
+                                        Riwayat Kunjungan
+                                    </a>
+                                </h3>
+                            </div>
+                            <div id="collapseOne" class="collapse" role="tabpanel" aria-labelledby="headingOne">
+                                <div class="card-body">
+                                    @include('sim.tabel_riwayat_pasien')
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card card-info mb-1">
+                            <div class="card-header" role="tab" id="headAntrian">
+                                <h3 class="card-title">
+                                    <a data-toggle="collapse" data-parent="#accordion" href="#collAntrian"
+                                        aria-expanded="true" aria-controls="collAntrian">
+                                        Antrian
+                                        @if ($antrian->status)
+                                            <i class="fas fa-check-circle"></i> (Sudah Terintegrasi)
+                                        @else
+                                            <i class="fas fa-times-circle"></i> (Belum Terintegrasi)
+                                        @endif
+                                    </a>
+                                </h3>
+                            </div>
+                            <div id="collAntrian" class="collapse" role="tabpanel" aria-labelledby="headAntrian">
+                                <div class="card-body">
+                                    <form action="{{ route('editantrian') }}" method="POST">
+                                        @csrf
+                                        <input type="hidden" name="kodebooking" value="{{ $antrian->kodebooking }}">
+                                        <input type="hidden" name="antrian_id" value="{{ $antrian->id }}">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <x-adminlte-input name="nomorkartu" class="nomorkartu-id" igroup-size="sm"
+                                                    label="Nomor Kartu" value="{{ $antrian->nomorkartu }}"
+                                                    placeholder="Nomor Kartu">
+                                                    <x-slot name="appendSlot">
+                                                        <div class="btn btn-primary btnCariKartu">
+                                                            <i class="fas fa-search"></i> Cari
+                                                        </div>
+                                                    </x-slot>
+                                                </x-adminlte-input>
+                                                <x-adminlte-input name="nik" class="nik-id" igroup-size="sm"
+                                                    label="NIK" placeholder="NIK" value="{{ $antrian->nik }}">
+                                                    <x-slot name="appendSlot">
+                                                        <div class="btn btn-primary btnCariNIK">
+                                                            <i class="fas fa-search"></i> Cari
+                                                        </div>
+                                                    </x-slot>
+                                                </x-adminlte-input>
+                                                <x-adminlte-input name="norm" class="norm-id" label="No RM"
+                                                    igroup-size="sm" placeholder="No RM" value="{{ $antrian->norm }}" />
+                                                <x-adminlte-input name="nama" class="nama-id" label="Nama Pasien"
+                                                    igroup-size="sm" placeholder="Nama Pasien"
+                                                    value="{{ $antrian->nama }}" />
+                                                <x-adminlte-input name="nohp" class="nohp-id" label="Nomor HP"
+                                                    igroup-size="sm" placeholder="Nomor HP" value="{{ $antrian->nohp }}" />
+                                            </div>
+                                            <div class="col-md-6">
+                                                @php
+                                                    $config = ['format' => 'YYYY-MM-DD'];
+                                                @endphp
+                                                <x-adminlte-input-date name="tanggalperiksa" class="tanggalperiksa-id"
+                                                    igroup-size="sm" label="Tanggal Periksa"
+                                                    value="{{ $antrian->tanggalperiksa }}" placeholder="Tanggal Periksa"
+                                                    :config="$config">
+                                                </x-adminlte-input-date>
+                                                <x-adminlte-select igroup-size="sm" name="jenispasien"
+                                                    label="Jenis Pasien">
+                                                    <option selected disabled>Pilih Jenis Pasien</option>
+                                                    <option value="JKN"
+                                                        {{ $antrian->jenispasien == 'JKN' ? 'selected' : null }}>JKN
+                                                    </option>
+                                                    <option value="NON-JKN"
+                                                        {{ $antrian->jenispasien == 'NON-JKN' ? 'selected' : null }}>
+                                                        NON-JKN
+                                                    </option>
+                                                </x-adminlte-select>
+                                                <x-adminlte-select igroup-size="sm" name="kodepoli" label="Poliklinik">
+                                                    @foreach ($polikliniks as $key => $value)
+                                                        <option value="{{ $key }}">
+                                                            {{ $value }}</option>
+                                                    @endforeach
+                                                </x-adminlte-select>
+                                                <x-adminlte-select igroup-size="sm" name="kodedokter" label="Dokter">
+                                                    @foreach ($dokters as $key => $value)
+                                                        <option value="{{ $key }}">{{ $value }}</option>
+                                                    @endforeach
+                                                </x-adminlte-select>
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <x-adminlte-select igroup-size="sm" name="asalRujukan"
+                                                            label="Jenis Rujukan">
+                                                            <option selected disabled>Pilih Jenis Rujukan</option>
+                                                            <option value="1"
+                                                                {{ $antrian->jeniskunjungan == '1' ? 'selected' : null }}>
+                                                                Rujukan
+                                                                FKTP</option>
+                                                            <option value="2"
+                                                                {{ $antrian->jeniskunjungan == '4' ? 'selected' : null }}>
+                                                                Rujukan
+                                                                Antar RS</option>
+                                                        </x-adminlte-select>
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        <x-adminlte-input name="noRujukan" class="noRujukan-id"
+                                                            igroup-size="sm" label="Nomor Rujukan"
+                                                            placeholder="Nomor Rujukan" readonly
+                                                            value="{{ $antrian->nomorrujukan }}">
+                                                            <x-slot name="appendSlot">
+                                                                <div class="btn btn-primary btnCariRujukan">
+                                                                    <i class="fas fa-search"></i> Cari
+                                                                </div>
+                                                            </x-slot>
+                                                        </x-adminlte-input>
+                                                    </div>
+                                                </div>
+                                                <x-adminlte-input name="noSurat" class="noSurat-id" igroup-size="sm"
+                                                    label="Nomor Surat Kontrol" placeholder="Nomor Surat Kontrol"
+                                                    value="{{ $antrian->nomorsuratkontrol }}" readonly>
+                                                    <x-slot name="appendSlot">
+                                                        <div class="btn btn-primary btnCariSuratKontrol">
+                                                            <i class="fas fa-search"></i> Cari
+                                                        </div>
+                                                    </x-slot>
+                                                </x-adminlte-input>
+                                            </div>
+                                        </div>
+                                        <button type="submit" class="btn btn-success withLoad">
+                                            <i class="fas fa-edit"></i> Integrasi Antrian
+                                        </button>
+                                        <div class="btn btn-warning" id="btnModalPasien">
+                                            <i class="fas fa-search"></i> Pencarian Pasien
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        @if ($antrian->jenispasien == 'JKN')
+                            <div class="card card-info mb-1">
+                                <div class="card-header" role="tab" id="headSEP">
+                                    <h3 class="card-title">
+                                        <a data-toggle="collapse" data-parent="#accordion" href="#collSEP"
+                                            aria-expanded="true" aria-controls="collSEP">
+                                            SEP
+                                        </a>
+                                    </h3>
+                                </div>
+                                <div id="collSEP" class="collapse" role="tabpanel" aria-labelledby="headSEP">
+                                    <div class="card-body">
+                                        <x-adminlte-alert theme="{{ $antrian->sep ? 'success' : 'danger' }}"
+                                            title="Silahkan buat SEP jika pasien BPJS">
+                                            <b>Nomor SEP</b> : {{ $antrian->sep ?? 'Belum Dibuatkan' }} <br>
+                                            @if ($antrian->sep)
+                                                <a class="btn btn-xs btn-warning text-dark" target="_blank"
+                                                    href="{{ route('sep_print') }}?noSep={{ $antrian->sep }}"
+                                                    style="text-decoration: none">
+                                                    <i class="fas fa-print"></i> Print SEP
+                                                </a>
+                                            @endif
+                                        </x-adminlte-alert>
+                                        <form action="{{ route('sep.store') }}" method="POST">
+                                            @csrf
+                                            <input type="hidden" name="kodebooking"
+                                                value="{{ $antrian->kodebooking }}">
+                                            <input type="hidden" name="antrian_id" value="{{ $antrian->id }}">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <x-adminlte-input name="noKartu" class="nomorkartu-id"
+                                                        igroup-size="sm" label="Nomor Kartu" placeholder="Nomor Kartu"
+                                                        value="{{ $antrian->nomorkartu }}" readonly />
+                                                    <x-adminlte-input name="noMR" class="norm-id" label="No RM"
+                                                        igroup-size="sm" placeholder="No RM"
+                                                        value="{{ $antrian->norm }}" readonly />
+                                                    <x-adminlte-input name="nama" class="nama-id" label="Nama Pasien"
+                                                        igroup-size="sm" placeholder="Nama Pasien"
+                                                        value="{{ $antrian->nama }}" readonly />
+                                                    <x-adminlte-input name="noTelp" class="nohp-id" label="Nomor HP"
+                                                        igroup-size="sm" placeholder="Nomor HP"
+                                                        value="{{ $antrian->nohp }}" readonly />
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="row">
+                                                        <div class="col-md-4">
+                                                            <x-adminlte-select igroup-size="sm" name="asalRujukan"
+                                                                label="Jenis Rujukan">
+                                                                <option value="1">Rujukan FKTP</option>
+                                                                <option value="2">Rujukan Antar RS</option>
+                                                            </x-adminlte-select>
+                                                        </div>
+                                                        <div class="col-md-8">
+                                                            <x-adminlte-input name="noRujukan" class="noRujukan-id"
+                                                                igroup-size="sm" label="Nomor Rujukan"
+                                                                placeholder="Nomor Rujukan" readonly>
+                                                                <x-slot name="appendSlot">
+                                                                    <div class="btn btn-primary btnCariRujukan">
+                                                                        <i class="fas fa-search"></i> Cari
+                                                                    </div>
+                                                                </x-slot>
+                                                            </x-adminlte-input>
+                                                        </div>
+                                                    </div>
+                                                    <x-adminlte-input name="noSurat" class="noSurat-id" igroup-size="sm"
+                                                        label="Nomor Surat Kontrol" placeholder="Nomor Surat Kontrol"
+                                                        readonly>
+                                                        <x-slot name="appendSlot">
+                                                            <div class="btn btn-primary btnCariSuratKontrol">
+                                                                <i class="fas fa-search"></i> Cari
+                                                            </div>
+                                                        </x-slot>
+                                                    </x-adminlte-input>
+                                                    <input type="hidden" name="tglRujukan" id="tglrujukan"
+                                                        value="">
+                                                    <input type="hidden" name="ppkRujukan" id="ppkrujukan"
+                                                        value="">
+                                                </div>
+                                            </div>
+                                            <hr>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <x-adminlte-select igroup-size="sm" name="klsRawatHak"
+                                                        label="Jenis Pelayanan">
+                                                        <option disabled>Pilih Kelas Pasien</option>
+                                                        <option value="1">Kelas 1</option>
+                                                        <option value="2">Kelas 2</option>
+                                                        <option value="3">Kelas 3</option>
+                                                    </x-adminlte-select>
+                                                    <x-adminlte-select igroup-size="sm" name="jnsPelayanan"
+                                                        label="Jenis Pelayanan">
+                                                        <option disabled>Pilih Jenis Pelayanan</option>
+                                                        <option value="2" selected>Rawat Jalan</option>
+                                                        <option value="1">Rawat Inap</option>
+                                                    </x-adminlte-select>
+                                                    <x-adminlte-select2 igroup-size="sm" name="tujuan"
+                                                        label="Poliklinik" required>
+                                                        <option selected disabled>Pilih Poliklinik</option>
+                                                        @foreach ($polikliniks as $key => $item)
+                                                            <option value="{{ $key }}">{{ $item }}
+                                                            </option>
+                                                        @endforeach
+                                                    </x-adminlte-select2>
+                                                    <x-adminlte-select2 igroup-size="sm" name="dpjpLayan"
+                                                        label="Dokter DPJP" required>
+                                                        <option selected disabled>Pilih Dokter DPJP</option>
+                                                        @foreach ($dokters as $key => $item)
+                                                            <option value="{{ $key }}">{{ $item }}
+                                                            </option>
+                                                        @endforeach
+                                                    </x-adminlte-select2>
+
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <x-adminlte-select igroup-size="sm" name="tujuanKunj"
+                                                        label="Tujuan Kunjungan">
+                                                        <option value="0">Normal</option>
+                                                        <option value="1">Prosedur</option>
+                                                        <option value="2">Konsul Dokter</option>
+                                                    </x-adminlte-select>
+                                                    <x-adminlte-select igroup-size="sm" name="flagProcedure"
+                                                        label="Flag Procedur">
+                                                        <option value="">Normal</option>
+                                                        <option value="0">Prosedur Tidak Berkelanjutan</option>
+                                                        <option value="1">Prosedur dan Terapi Berkelanjutan</option>
+                                                    </x-adminlte-select>
+                                                    <x-adminlte-select igroup-size="sm" name="kdPenunjang"
+                                                        label="Penunjang">
+                                                        <option value="">Normal</option>
+                                                        <option value="1">Radioterapi</option>
+                                                        <option value="2">Kemoterapi</option>
+                                                        <option value="3">Rehabilitasi Medik</option>
+                                                        <option value="4">Rehabilitasi Psikososial</option>
+                                                        <option value="5">Transfusi Darah</option>
+                                                        <option value="6">Pelayanan Gigi</option>
+                                                        <option value="7">Laboratorium</option>
+                                                        <option value="8">USG</option>
+                                                        <option value="9">Lain-Lain</option>
+                                                        <option value="10">Farmasi</option>
+                                                        <option value="11">MRI</option>
+                                                        <option value="12">HEMODIALISA</option>
+                                                    </x-adminlte-select>
+                                                    <x-adminlte-select igroup-size="sm" name="assesmentPel"
+                                                        label="Assesment Pelayanan">
+                                                        <option value="">Normal</option>
+                                                        <option value="0">Poli tujuan beda dengan poli rujukan dan
+                                                            hari beda
+                                                        </option>
+                                                        <option value="1">Poli spesialis tidak tersedia pada hari
+                                                            sebelumnya
+                                                        </option>
+                                                        <option value="2">Jam Poli telah berakhir pada hari sebelumnya
+                                                        </option>
+                                                        <option value="3">Dokter Spesialis yang dimaksud tidak praktek
+                                                            pada
+                                                            hari
+                                                            sebelumnya</option>
+                                                        <option value="4">Atas Instruksi RS</option>
+                                                        <option value="5">Tujuan Kontrol</option>
+                                                    </x-adminlte-select>
+                                                </div>
+                                            </div>
+                                            <hr>
+                                            <div class="col-md-12">
+                                                <x-adminlte-select2 igroup-size="sm" name="diagAwal"
+                                                    label="Diagnosa Awal" class="diagnosaid1">
+                                                </x-adminlte-select2>
+                                                <x-adminlte-textarea igroup-size="sm" label="Catatan / Keluhan"
+                                                    name="catatan" placeholder="Catatan Pasien" />
+                                                <button type="submit" class="btn btn-warning withLoad">
+                                                    <i class="fas fa-file-medical"></i> Buat SEP
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card card-info mb-1">
+                                <div class="card-header" role="tab" id="headSK">
+                                    <h3 class="card-title">
+                                        <a data-toggle="collapse" data-parent="#accordion" href="#collSK"
+                                            aria-expanded="true" aria-controls="collSK">
+                                            Surat Kontrol
+                                        </a>
+                                    </h3>
+                                </div>
+                                <div id="collSK" class="collapse" role="tabpanel" aria-labelledby="headSK">
+                                    <div class="card-body">
+                                        <x-adminlte-alert
+                                            theme="{{ $antrian->suratkontrols->count() ? 'success' : 'warning' }}"
+                                            title="Surat Kontrol untuk Pasien BPJS">
+                                            @if ($antrian->suratkontrols->count())
+                                                @foreach ($antrian->suratkontrols as $item)
+                                                    <b>Nomor Surat Kontrol</b> : {{ $item->noSuratKontrol }} <br>
+                                                    <b>Tgl Rencana Kontrol</b> : {{ $item->tglRencanaKontrol }} <br>
+                                                    <a class="btn btn-xs btn-warning text-dark " target="_blank"
+                                                        href="{{ route('suratkontrol_print') }}?noSuratKontrol={{ $item->noSuratKontrol }}"
+                                                        style="text-decoration: none">
+                                                        <i class="fas fa-print"></i> Print Surat Kontrol
+                                                    </a>
+                                                @endforeach
+                                            @else
+                                                Belum ada surat kontrol.
+                                            @endif
+                                        </x-adminlte-alert>
+                                        <form action="{{ route('suratkontrol.store') }}" method="POST">
+                                            @csrf
+                                            <input type="hidden" name="kodebooking"
+                                                value="{{ $antrian->kodebooking }}">
+                                            <input type="hidden" name="antrian_id" value="{{ $antrian->id }}">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <x-adminlte-input name="nomorkartu" class="nomorkartu-id"
+                                                        igroup-size="sm" label="Nomor Kartu" placeholder="Nomor Kartu"
+                                                        value="{{ $antrian->nomorkartu }}" readonly />
+                                                    <x-adminlte-input name="norm" class="norm-id" label="No RM"
+                                                        igroup-size="sm" placeholder="No RM "
+                                                        value="{{ $antrian->norm }}" readonly />
+                                                    <x-adminlte-input name="nama" class="nama-id" label="Nama Pasien"
+                                                        igroup-size="sm" placeholder="Nama Pasien"
+                                                        value="{{ $antrian->nama }}" readonly />
+                                                    <x-adminlte-input name="nohp" class="nohp-id" label="Nomor HP"
+                                                        igroup-size="sm" placeholder="Nomor HP"
+                                                        value="{{ $antrian->nohp }}" readonly />
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <x-adminlte-input name="noSEP" class="noSEP-id" igroup-size="sm"
+                                                        label="Nomor SEP" placeholder="Nomor SEP">
+                                                        <x-slot name="appendSlot">
+                                                            <div class="btn btn-primary btnCariSEP">
+                                                                <i class="fas fa-search"></i> Cari SEP
+                                                            </div>
+                                                        </x-slot>
+                                                    </x-adminlte-input>
+                                                    @php
+                                                        $config = ['format' => 'YYYY-MM-DD'];
+                                                    @endphp
+                                                    <x-adminlte-input-date name="tglRencanaKontrol"
+                                                        class="tglRencanaKontrol-id" igroup-size="sm"
+                                                        label="Tanggal Rencana Kontrol"
+                                                        value="{{ $request->tglRencanaKontrol }}"
+                                                        placeholder="Pilih Tanggal Rencana Kontrol" :config="$config">
+                                                        <x-slot name="appendSlot">
+                                                            <div class="btn btn-primary btnCariPoli">
+                                                                <i class="fas fa-search"></i> Cari Poli
+                                                            </div>
+                                                        </x-slot>
+                                                    </x-adminlte-input-date>
+                                                    <x-adminlte-select igroup-size="sm" name="poliKontrol"
+                                                        class="poliKontrol-id" label="Poliklinik">
+                                                        <option selected disabled>Silahkan Klik Cari Poliklinik</option>
+                                                        <x-slot name="appendSlot">
+                                                            <div class="btn btn-primary btnCariDokter">
+                                                                <i class="fas fa-search"></i> Cari Dokter
+                                                            </div>
+                                                        </x-slot>
+                                                    </x-adminlte-select>
+                                                    <x-adminlte-select igroup-size="sm" name="kodeDokter"
+                                                        class="kodeDokter-id" label="Dokter">
+                                                        <option selected disabled>Silahkan Klik Cari Dokter</option>
+                                                    </x-adminlte-select>
+                                                    <x-adminlte-textarea igroup-size="sm" label="Catatan" name="catatan"
+                                                        placeholder="Catatan Pasien" />
+                                                </div>
+                                            </div>
+                                            <button type="submit" class="btn btn-warning withLoad"> <i
+                                                    class="fas fa-save"></i>
+                                                Buat
+                                                Surat Kontrol</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
+                        <div class="card card-info mb-1">
+                            <div class="card-header" role="tab" id="headKunj">
+                                <h3 class="card-title">
+                                    <a data-toggle="collapse" data-parent="#accordion" href="#collKunj"
+                                        aria-expanded="true" aria-controls="collKunj">
+                                        Kunjungan
+                                        @if ($antrian->kunjungan_id)
+                                            <i class="fas fa-check-circle"></i> (Sudah Terintegrasi)
+                                        @else
+                                            <i class="fas fa-times-circle"></i> (Belum Terintegrasi)
+                                        @endif
+                                    </a>
+                                </h3>
+                            </div>
+                            <div id="collKunj" class="collapse" role="tabpanel" aria-labelledby="headKunj">
+                                <div class="card-body">
+                                    <form action="{{ route('editkunjungan') }}" method="POST">
+                                        @csrf
+                                        <input type="hidden" name="kodebooking" value="{{ $antrian->kodebooking }}">
+                                        <input type="hidden" name="antrian_id" value="{{ $antrian->id }}">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="row">
+                                                    <x-adminlte-input fgroup-class="col-md-6" name="kodekunjungan"
+                                                        label="Kode Kunjungan" igroup-size="sm"
+                                                        placeholder="Kode Kunjungan" readonly
+                                                        value="{{ $antrian->kunjungan->kode ?? null }}" />
+                                                    <x-adminlte-input fgroup-class="col-md-6" name="counter"
+                                                        label="Counter Kunjungan" igroup-size="sm"
+                                                        placeholder="Counter Kunjungan"
+                                                        value="{{ $antrian->kunjungan->counter ?? null }}" readonly />
+                                                    @php
+                                                        $config = ['format' => 'YYYY-MM-DD HH:mm:ss'];
+                                                    @endphp
+                                                    <x-adminlte-input-date fgroup-class="col-md-6" name="tgl_masuk"
+                                                        igroup-size="sm" label="Tanggal Masuk"
+                                                        placeholder="Tanggal Masuk" :config="$config"
+                                                        value="{{ $antrian->kunjungan->tgl_masuk ?? null }}">
+                                                    </x-adminlte-input-date>
+                                                    {{-- <x-adminlte-input-date fgroup-class="col-md-6" name="tgl_pulang"
+                                                    igroup-size="sm" label="Tanggal Pulang" placeholder="Tanggal Pulang"
+                                                    :config="$config">
+                                                </x-adminlte-input-date> --}}
+                                                    <x-adminlte-select igroup-size="sm" fgroup-class="col-md-6"
+                                                        name="jaminan" label="Jaminan Pasien">
+                                                        <option selected disabled>Pilih Jaminan</option>
+                                                        @foreach ($jaminans as $key => $item)
+                                                            <option value="{{ $key }}"
+                                                                {{ $antrian->kunjungan ? ($antrian->kunjungan->jaminan == $key ? 'selected' : null) : null }}>
+                                                                {{ $item }}</option>
+                                                        @endforeach
+                                                    </x-adminlte-select>
+                                                </div>
+                                                <hr>
+                                                <div class="row">
+                                                    <x-adminlte-input name="nomorkartu" class="nomorkartu-id"
+                                                        fgroup-class="col-md-6" igroup-size="sm" label="Nomor Kartu"
+                                                        value="{{ $antrian->nomorkartu }}" placeholder="Nomor Kartu">
+                                                        <x-slot name="appendSlot">
+                                                            <div class="btn btn-primary btnCariKartu">
+                                                                <i class="fas fa-search"></i> Cari
+                                                            </div>
+                                                        </x-slot>
+                                                    </x-adminlte-input>
+                                                    <x-adminlte-input name="nik" class="nik-id"
+                                                        fgroup-class="col-md-6" igroup-size="sm" label="NIK"
+                                                        placeholder="NIK" value="{{ $antrian->nik }}">
+                                                        <x-slot name="appendSlot">
+                                                            <div class="btn btn-primary btnCariNIK">
+                                                                <i class="fas fa-search"></i> Cari
+                                                            </div>
+                                                        </x-slot>
+                                                    </x-adminlte-input>
+                                                    <x-adminlte-input name="norm" class="norm-id" label="No RM"
+                                                        fgroup-class="col-md-6" igroup-size="sm" placeholder="No RM"
+                                                        value="{{ $antrian->norm }}" />
+                                                    <x-adminlte-input name="nama" class="nama-id" label="Nama Pasien"
+                                                        fgroup-class="col-md-6" igroup-size="sm"
+                                                        placeholder="Nama Pasien" value="{{ $antrian->nama }}" />
+                                                    <x-adminlte-input name="tgl_lahir" class="tgllahir-id"
+                                                        label="Tanggal Lahir" fgroup-class="col-md-6"
+                                                        value="{{ $antrian->kunjungan->tgl_lahir ?? null }}"
+                                                        igroup-size="sm" placeholder="Tanggal Lahir" />
+                                                    <x-adminlte-input name="gender" class="gender-id"
+                                                        label="Jenis Kelamin" fgroup-class="col-md-6"
+                                                        value="{{ $antrian->kunjungan->gender ?? null }}"
+                                                        igroup-size="sm" placeholder="Jenis Kelamin" />
+                                                    <x-adminlte-input name="kelas"
+                                                        value="{{ $antrian->kunjungan->kelas ?? null }}" class="kelas-id"
+                                                        label="Kelas Pasien" fgroup-class="col-md-6" igroup-size="sm"
+                                                        placeholder="Kelas Pasien" />
+                                                    <x-adminlte-input name="penjamin" class="penjamin-id"
+                                                        label="Penjamin" fgroup-class="col-md-6" igroup-size="sm"
+                                                        placeholder="Penjamin"
+                                                        value="{{ $antrian->kunjungan->penjamin ?? null }}" />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <x-adminlte-select igroup-size="sm" name="kodepoli" label="Poliklinik">
+                                                    @foreach ($polikliniks as $key => $value)
+                                                        <option value="{{ $key }}"
+                                                            {{ $antrian->kunjungan ? ($antrian->kunjungan->unit == $key ? 'selected' : null) : null }}>
+                                                            {{ $value }}</option>
+                                                    @endforeach
+                                                </x-adminlte-select>
+                                                <x-adminlte-select igroup-size="sm" name="kodedokter" label="Dokter">
+                                                    @foreach ($dokters as $key => $value)
+                                                        <option value="{{ $key }}"
+                                                            {{ $antrian->kunjungan ? ($antrian->kunjungan->dokter == $key ? 'selected' : null) : null }}>
+                                                            {{ $value }}</option>
+                                                    @endforeach
+                                                </x-adminlte-select>
+                                                <x-adminlte-select igroup-size="sm" name="cara_masuk" label="Cara Masuk">
+                                                    <option selected disabled>Pilih Cara Masuk</option>
+                                                    <option value="gp"
+                                                        {{ $antrian->kunjungan ? ($antrian->kunjungan->cara_masuk == 'gp' ? 'selected' : null) : null }}>
+                                                        Rujukan
+                                                        FKTP</option>
+                                                    <option value="hosp-trans"
+                                                        {{ $antrian->kunjungan ? ($antrian->kunjungan->cara_masuk == 'hosp-trans' ? 'selected' : null) : null }}>
+                                                        Rujukan FKRTL</option>
+                                                    <option value="mp"
+                                                        {{ $antrian->kunjungan ? ($antrian->kunjungan->cara_masuk == 'mp' ? 'selected' : null) : null }}>
+                                                        Rujukan
+                                                        Spesialis</option>
+                                                    <option value="outp"
+                                                        {{ $antrian->kunjungan ? ($antrian->kunjungan->cara_masuk == 'outp' ? 'selected' : null) : null }}>
+                                                        Dari
+                                                        Rawat Jalan</option>
+                                                    <option value="inp"
+                                                        {{ $antrian->kunjungan ? ($antrian->kunjungan->cara_masuk == 'inp' ? 'selected' : null) : null }}>
+                                                        Dari
+                                                        Rawat Inap</option>
+                                                    <option value="emd"
+                                                        {{ $antrian->kunjungan ? ($antrian->kunjungan->cara_masuk == 'emd' ? 'selected' : null) : null }}>
+                                                        Dari
+                                                        Rawat Darurat</option>
+                                                    <option value="born"
+                                                        {{ $antrian->kunjungan ? ($antrian->kunjungan->cara_masuk == 'born' ? 'selected' : null) : null }}>
+                                                        Lahir
+                                                        di RS</option>
+                                                    <option value="nursing"
+                                                        {{ $antrian->kunjungan ? ($antrian->kunjungan->cara_masuk == 'nursing' ? 'selected' : null) : null }}>
+                                                        Rujukan Panti Jompo</option>
+                                                    <option value="psych"
+                                                        {{ $antrian->kunjungan ? ($antrian->kunjungan->cara_masuk == 'psych' ? 'selected' : null) : null }}>
+                                                        Rujukan dari RS Jiwa</option>
+                                                    <option value="rehab"
+                                                        {{ $antrian->kunjungan ? ($antrian->kunjungan->cara_masuk == 'rehab' ? 'selected' : null) : null }}>
+                                                        Rujukan Fasilitas Rehab</option>
+                                                    <option value="other"
+                                                        {{ $antrian->kunjungan ? ($antrian->kunjungan->cara_masuk == 'other' ? 'selected' : null) : null }}>
+                                                        Lain-lain</option>
+                                                </x-adminlte-select>
+                                                <x-adminlte-select2 igroup-size="sm" name="diagnosa_awal"
+                                                    class="diagnosaid2" label="Diagnosa Awal">
+                                                    @if ($antrian->kunjungan)
+                                                        <option value="{{ $antrian->kunjungan->diagnosa_awal }}">
+                                                            {{ $antrian->kunjungan->diagnosa_awal }}</option>
+                                                    @endif
+                                                </x-adminlte-select2>
+                                                <x-adminlte-select igroup-size="sm" name="jeniskunjungan"
+                                                    label="Jenis Kunjungan">
+                                                    <option selected disabled>Pilih Jenis Rujukan</option>
+                                                    <option value="1"
+                                                        {{ $antrian->kunjungan ? ($antrian->kunjungan->jeniskunjungan == '1' ? 'selected' : null) : null }}>
+                                                        Rujukan FKTP</option>
+                                                    <option value="2"
+                                                        {{ $antrian->kunjungan ? ($antrian->kunjungan->jeniskunjungan == '2' ? 'selected' : null) : null }}>
+                                                        Umum</option>
+                                                    <option value="3"
+                                                        {{ $antrian->kunjungan ? ($antrian->kunjungan->jeniskunjungan == '3' ? 'selected' : null) : null }}>
+                                                        Kontrol</option>
+                                                    <option value="4"
+                                                        {{ $antrian->kunjungan ? ($antrian->kunjungan->jeniskunjungan == '4' ? 'selected' : null) : null }}>
+                                                        Rujukan Antar RS</option>
+                                                </x-adminlte-select>
+                                                <x-adminlte-input name="nomorreferensi" igroup-size="sm"
+                                                    label="Nomor Referensi" placeholder="Nomor Referensi"
+                                                    value="{{ $antrian->kunjungan->nomorreferensi ?? null }}" />
+                                                <x-adminlte-input name="sep" igroup-size="sm" label="Nomor SEP"
+                                                    placeholder="Nomor SEP"
+                                                    value="{{ $antrian->kunjungan->sep ?? null }}" />
+                                            </div>
+                                        </div>
+                                        <button type="submit" class="btn btn-success withLoad">
+                                            <i class="fas fa-edit"></i> Simpan Kunjungan
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card card-info mb-1">
+                            <div class="card-header" role="tab" id="headKasir">
+                                <h3 class="card-title">
+                                    <a data-toggle="collapse" data-parent="#accordion" href="#collKasir"
+                                        aria-expanded="true" aria-controls="collKasir">
+                                        Kasir
+                                    </a>
+                                </h3>
+                            </div>
+                            <div id="collKasir" class="collapse" role="tabpanel" aria-labelledby="headKasir">
+                                <div class="card-body">
+                                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry
+                                    richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor
+                                    brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor,
+                                    sunt aliqua put a bird on it squid single-origin coffee nulla assumenda
+                                    shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson
+                                    cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo.
+                                    Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt
+                                    you probably haven't heard of them accusamus labore sustainable VHS.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card card-info mb-1">
+                            <div class="card-header" role="tab" id="headFile">
+                                <h3 class="card-title">
+                                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseFile"
+                                        aria-expanded="true" aria-controls="collapseFile">
+                                        File Penunjang
+                                    </a>
+                                </h3>
+                            </div>
+                            <div id="collapseFile" class="collapse" role="tabpanel" aria-labelledby="headFile">
+                                <div class="card-body">
+                                    <style>
+                                        .card.card-tabs .card-tools {
+                                            margin: 0px !important;
+                                        }
+                                    </style>
+                                    @if ($antrian->pasien)
+                                        @if ($antrian->pasien->fileuploads)
+                                            <div class="row">
+                                                @foreach ($antrian->pasien->fileuploads as $file)
+                                                    <div class="col-md-6">
+                                                        <x-adminlte-card header-class="p-2" body-class="p-0"
+                                                            title="{{ $file->nama }}" theme="secondary"
+                                                            icon="fas fa-file" collapsible="">
+                                                            <x-slot name="toolsSlot">
+                                                                Uploaded at : {{ $file->created_at }}
+                                                                <a href="{{ $file->fileurl }}" target="_blank"
+                                                                    class="btn btn-xs btn-tool"><i
+                                                                        class="fas fa-download"></i></a>
+                                                                <a href="{{ route('hapusfilepenunjang') }}?id={{ $file->id }}"
+                                                                    class="btn btn-xs btn-tool"> <i
+                                                                        class="fas fa-trash"></i></a>
+                                                            </x-slot>
+                                                            <object data="{{ $file->fileurl }}" width="100%"
+                                                                height="500px">
+                                                            </object>
+                                                        </x-adminlte-card>
+                                                    </div>
+                                                @endforeach
+                                            </div>
+                                        @endif
+                                    @else
+                                        @foreach ($antrian->fileuploads as $file)
+                                            <x-adminlte-card header-class="p-2" body-class="p-0"
+                                                title="{{ $file->nama }} {{ $file->created_at }}" theme="info"
+                                                icon="fas fa-file" collapsible="collapsed">
+                                                <x-slot name="toolsSlot" class="m-0">
+                                                    Uploaded at : {{ $file->created_at }}
+                                                    <a href="{{ $file->fileurl }}" target="_blank"
+                                                        class="btn btn-xs btn-tool"><i class="fas fa-download"></i></a>
+                                                    <a href="{{ route('hapusfilepenunjang') }}?id={{ $file->id }}"
+                                                        class="btn btn-xs btn-tool"> <i class="fas fa-trash"></i></a>
+                                                </x-slot>
+                                                <object data="{{ $file->fileurl }}" width="100%" height="500px">
+                                                </object>
+                                            </x-adminlte-card>
+                                        @endforeach
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card card-info mb-1">
+                            <div class="card-header" role="tab" id="headPrev">
+                                <h3 class="card-title">
+                                    <a data-toggle="collapse" data-parent="#accordion" href="#collPreview"
+                                        aria-expanded="true" aria-controls="collPreview">
+                                        Preview Berkas Pendaftaran
+                                    </a>
+                                </h3>
+                            </div>
+                            <div id="collPreview" class="collapse" role="tabpanel" aria-labelledby="headPrev">
+                                <div class="card-body">
+                                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry
+                                    richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor
+                                    brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor,
+                                    sunt aliqua put a bird on it squid single-origin coffee nulla assumenda
+                                    shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson
+                                    cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo.
+                                    Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt
+                                    you probably haven't heard of them accusamus labore sustainable VHS.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    @if ($antrian->kunjungan)
+                        <a href="{{ route('lanjutpoliklinik') }}?kodebooking={{ $antrian->kodebooking }}"
+                            class="btn btn-warning withLoad">
+                            <i class="fas fa-user-plus"></i> Lanjut Pemeriksaan Dokter
+                        </a>
+                    @endif
+                    <a href="{{ route('batalantrian') }}?kodebooking={{ $antrian->kodebooking }}&keterangan=Dibatalkan dipendaftaran {{ Auth::user()->name }}"
+                        class="btn btn-danger withLoad">
+                        <i class="fas fa-times"></i> Batal
+                    </a>
+                </div>
+            </div>
+            {{-- <div class="card">
                 <div class="card-header p-2">
                     <ul class="nav nav-pills">
                         <li class="nav-item"><a class="nav-link active" href="#antriantab" data-toggle="tab">Antrian</a>
@@ -89,557 +820,29 @@
                 <div class="card-body">
                     <div class="tab-content">
                         <div class="active tab-pane" id="antriantab">
-                            @if ($antrian->status)
-                                <x-adminlte-alert theme="success" title="Antrian sudah bridgingkan">
-                                    <b>Kodebooking</b> : {{ $antrian->kodebooking }}
-                                </x-adminlte-alert>
-                            @else
-                                <x-adminlte-alert theme="danger" title="Antrian belum bridgingkan">
-                                    <b>Kodebooking</b> : {{ $antrian->kodebooking }}
-                                </x-adminlte-alert>
-                            @endif
-                            <form action="{{ route('editantrian') }}" method="POST">
-                                @csrf
-                                <input type="hidden" name="kodebooking" value="{{ $antrian->kodebooking }}">
-                                <input type="hidden" name="antrian_id" value="{{ $antrian->id }}">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <x-adminlte-input name="nomorkartu" class="nomorkartu-id" igroup-size="sm"
-                                            label="Nomor Kartu" value="{{ $antrian->nomorkartu }}"
-                                            placeholder="Nomor Kartu">
-                                            <x-slot name="appendSlot">
-                                                <div class="btn btn-primary btnCariKartu">
-                                                    <i class="fas fa-search"></i> Cari
-                                                </div>
-                                            </x-slot>
-                                        </x-adminlte-input>
-                                        <x-adminlte-input name="nik" class="nik-id" igroup-size="sm" label="NIK"
-                                            placeholder="NIK" value="{{ $antrian->nik }}">
-                                            <x-slot name="appendSlot">
-                                                <div class="btn btn-primary btnCariNIK">
-                                                    <i class="fas fa-search"></i> Cari
-                                                </div>
-                                            </x-slot>
-                                        </x-adminlte-input>
-                                        <x-adminlte-input name="norm" class="norm-id" label="No RM" igroup-size="sm"
-                                            placeholder="No RM" value="{{ $antrian->norm }}" />
-                                        <x-adminlte-input name="nama" class="nama-id" label="Nama Pasien"
-                                            igroup-size="sm" placeholder="Nama Pasien" value="{{ $antrian->nama }}" />
-                                        <x-adminlte-input name="nohp" class="nohp-id" label="Nomor HP" igroup-size="sm"
-                                            placeholder="Nomor HP" value="{{ $antrian->nohp }}" />
-                                    </div>
-                                    <div class="col-md-6">
-                                        @php
-                                            $config = ['format' => 'YYYY-MM-DD'];
-                                        @endphp
-                                        <x-adminlte-input-date name="tanggalperiksa" class="tanggalperiksa-id"
-                                            igroup-size="sm" label="Tanggal Periksa"
-                                            value="{{ $antrian->tanggalperiksa }}" placeholder="Tanggal Periksa"
-                                            :config="$config">
-                                        </x-adminlte-input-date>
-                                        <x-adminlte-select igroup-size="sm" name="jenispasien" label="Jenis Pasien">
-                                            <option selected disabled>Pilih Jenis Pasien</option>
-                                            <option value="JKN"
-                                                {{ $antrian->jenispasien == 'JKN' ? 'selected' : null }}>JKN</option>
-                                            <option value="NON-JKN"
-                                                {{ $antrian->jenispasien == 'NON-JKN' ? 'selected' : null }}>NON-JKN
-                                            </option>
-                                        </x-adminlte-select>
-                                        <x-adminlte-select igroup-size="sm" name="kodepoli" label="Poliklinik">
-                                            @foreach ($polikliniks as $key => $value)
-                                                <option value="{{ $key }}">
-                                                    {{ $value }}</option>
-                                            @endforeach
-                                        </x-adminlte-select>
-                                        <x-adminlte-select igroup-size="sm" name="kodedokter" label="Dokter">
-                                            @foreach ($dokters as $key => $value)
-                                                <option value="{{ $key }}">{{ $value }}</option>
-                                            @endforeach
-                                        </x-adminlte-select>
-                                        <div class="row">
-                                            <div class="col-md-4">
-                                                <x-adminlte-select igroup-size="sm" name="asalRujukan"
-                                                    label="Jenis Rujukan">
-                                                    <option selected disabled>Pilih Jenis Rujukan</option>
-                                                    <option value="1"
-                                                        {{ $antrian->jeniskunjungan == '1' ? 'selected' : null }}>Rujukan
-                                                        FKTP</option>
-                                                    <option value="2"
-                                                        {{ $antrian->jeniskunjungan == '4' ? 'selected' : null }}>Rujukan
-                                                        Antar RS</option>
-                                                </x-adminlte-select>
-                                            </div>
-                                            <div class="col-md-8">
-                                                <x-adminlte-input name="noRujukan" class="noRujukan-id" igroup-size="sm"
-                                                    label="Nomor Rujukan" placeholder="Nomor Rujukan" readonly
-                                                    value="{{ $antrian->nomorrujukan }}">
-                                                    <x-slot name="appendSlot">
-                                                        <div class="btn btn-primary btnCariRujukan">
-                                                            <i class="fas fa-search"></i> Cari
-                                                        </div>
-                                                    </x-slot>
-                                                </x-adminlte-input>
-                                            </div>
-                                        </div>
-                                        <x-adminlte-input name="noSurat" class="noSurat-id" igroup-size="sm"
-                                            label="Nomor Surat Kontrol" placeholder="Nomor Surat Kontrol"
-                                            value="{{ $antrian->nomorsuratkontrol }}" readonly>
-                                            <x-slot name="appendSlot">
-                                                <div class="btn btn-primary btnCariSuratKontrol">
-                                                    <i class="fas fa-search"></i> Cari
-                                                </div>
-                                            </x-slot>
-                                        </x-adminlte-input>
-                                    </div>
-                                </div>
-                                <button type="submit" class="btn btn-success withLoad">
-                                    <i class="fas fa-edit"></i> Integrasi Antrian
-                                </button>
-                                <div class="btn btn-warning" id="btnModalPasien">
-                                    <i class="fas fa-search"></i> Pencarian Pasien
-                                </div>
-                            </form>
                         </div>
                         <div class="tab-pane" id="septab">
-                            <x-adminlte-alert theme="{{ $antrian->sep ? 'success' : 'danger' }}"
-                                title="Silahkan buat SEP jika pasien BPJS">
-                                <b>Nomor SEP</b> : {{ $antrian->sep ?? 'Belum Dibuatkan' }} <br>
-                                @if ($antrian->sep)
-                                    <a class="btn btn-xs btn-warning text-dark" target="_blank"
-                                        href="{{ route('sep_print') }}?noSep={{ $antrian->sep }}"
-                                        style="text-decoration: none">
-                                        <i class="fas fa-print"></i> Print SEP
-                                    </a>
-                                @endif
-                            </x-adminlte-alert>
-                            <form action="{{ route('sep.store') }}" method="POST">
-                                @csrf
-                                <input type="hidden" name="kodebooking" value="{{ $antrian->kodebooking }}">
-                                <input type="hidden" name="antrian_id" value="{{ $antrian->id }}">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <x-adminlte-input name="noKartu" class="nomorkartu-id" igroup-size="sm"
-                                            label="Nomor Kartu" placeholder="Nomor Kartu"
-                                            value="{{ $antrian->nomorkartu }}" readonly />
-                                        <x-adminlte-input name="noMR" class="norm-id" label="No RM" igroup-size="sm"
-                                            placeholder="No RM" value="{{ $antrian->norm }}" readonly />
-                                        <x-adminlte-input name="nama" class="nama-id" label="Nama Pasien"
-                                            igroup-size="sm" placeholder="Nama Pasien" value="{{ $antrian->nama }}"
-                                            readonly />
-                                        <x-adminlte-input name="noTelp" class="nohp-id" label="Nomor HP"
-                                            igroup-size="sm" placeholder="Nomor HP" value="{{ $antrian->nohp }}"
-                                            readonly />
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="row">
-                                            <div class="col-md-4">
-                                                <x-adminlte-select igroup-size="sm" name="asalRujukan"
-                                                    label="Jenis Rujukan">
-                                                    <option value="1">Rujukan FKTP</option>
-                                                    <option value="2">Rujukan Antar RS</option>
-                                                </x-adminlte-select>
-                                            </div>
-                                            <div class="col-md-8">
-                                                <x-adminlte-input name="noRujukan" class="noRujukan-id" igroup-size="sm"
-                                                    label="Nomor Rujukan" placeholder="Nomor Rujukan" readonly>
-                                                    <x-slot name="appendSlot">
-                                                        <div class="btn btn-primary btnCariRujukan">
-                                                            <i class="fas fa-search"></i> Cari
-                                                        </div>
-                                                    </x-slot>
-                                                </x-adminlte-input>
-                                            </div>
-                                        </div>
-                                        <x-adminlte-input name="noSurat" class="noSurat-id" igroup-size="sm"
-                                            label="Nomor Surat Kontrol" placeholder="Nomor Surat Kontrol" readonly>
-                                            <x-slot name="appendSlot">
-                                                <div class="btn btn-primary btnCariSuratKontrol">
-                                                    <i class="fas fa-search"></i> Cari
-                                                </div>
-                                            </x-slot>
-                                        </x-adminlte-input>
-                                        <input type="hidden" name="tglRujukan" id="tglrujukan" value="">
-                                        <input type="hidden" name="ppkRujukan" id="ppkrujukan" value="">
-                                    </div>
-                                </div>
-                                <hr>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <x-adminlte-select igroup-size="sm" name="klsRawatHak" label="Jenis Pelayanan">
-                                            <option disabled>Pilih Kelas Pasien</option>
-                                            <option value="1">Kelas 1</option>
-                                            <option value="2">Kelas 2</option>
-                                            <option value="3">Kelas 3</option>
-                                        </x-adminlte-select>
-                                        <x-adminlte-select igroup-size="sm" name="jnsPelayanan" label="Jenis Pelayanan">
-                                            <option disabled>Pilih Jenis Pelayanan</option>
-                                            <option value="2" selected>Rawat Jalan</option>
-                                            <option value="1">Rawat Inap</option>
-                                        </x-adminlte-select>
-                                        <x-adminlte-select2 igroup-size="sm" name="tujuan" label="Poliklinik" required>
-                                            <option selected disabled>Pilih Poliklinik</option>
-                                            @foreach ($polikliniks as $key => $item)
-                                                <option value="{{ $key }}">{{ $item }}</option>
-                                            @endforeach
-                                        </x-adminlte-select2>
-                                        <x-adminlte-select2 igroup-size="sm" name="dpjpLayan" label="Dokter DPJP"
-                                            required>
-                                            <option selected disabled>Pilih Dokter DPJP</option>
-                                            @foreach ($dokters as $key => $item)
-                                                <option value="{{ $key }}">{{ $item }}</option>
-                                            @endforeach
-                                        </x-adminlte-select2>
 
-                                    </div>
-                                    <div class="col-md-6">
-                                        <x-adminlte-select igroup-size="sm" name="tujuanKunj" label="Tujuan Kunjungan">
-                                            <option value="0">Normal</option>
-                                            <option value="1">Prosedur</option>
-                                            <option value="2">Konsul Dokter</option>
-                                        </x-adminlte-select>
-                                        <x-adminlte-select igroup-size="sm" name="flagProcedure" label="Flag Procedur">
-                                            <option value="">Normal</option>
-                                            <option value="0">Prosedur Tidak Berkelanjutan</option>
-                                            <option value="1">Prosedur dan Terapi Berkelanjutan</option>
-                                        </x-adminlte-select>
-                                        <x-adminlte-select igroup-size="sm" name="kdPenunjang" label="Penunjang">
-                                            <option value="">Normal</option>
-                                            <option value="1">Radioterapi</option>
-                                            <option value="2">Kemoterapi</option>
-                                            <option value="3">Rehabilitasi Medik</option>
-                                            <option value="4">Rehabilitasi Psikososial</option>
-                                            <option value="5">Transfusi Darah</option>
-                                            <option value="6">Pelayanan Gigi</option>
-                                            <option value="7">Laboratorium</option>
-                                            <option value="8">USG</option>
-                                            <option value="9">Lain-Lain</option>
-                                            <option value="10">Farmasi</option>
-                                            <option value="11">MRI</option>
-                                            <option value="12">HEMODIALISA</option>
-                                        </x-adminlte-select>
-                                        <x-adminlte-select igroup-size="sm" name="assesmentPel"
-                                            label="Assesment Pelayanan">
-                                            <option value="">Normal</option>
-                                            <option value="0">Poli tujuan beda dengan poli rujukan dan hari beda
-                                            </option>
-                                            <option value="1">Poli spesialis tidak tersedia pada hari sebelumnya
-                                            </option>
-                                            <option value="2">Jam Poli telah berakhir pada hari sebelumnya
-                                            </option>
-                                            <option value="3">Dokter Spesialis yang dimaksud tidak praktek pada
-                                                hari
-                                                sebelumnya</option>
-                                            <option value="4">Atas Instruksi RS</option>
-                                            <option value="5">Tujuan Kontrol</option>
-                                        </x-adminlte-select>
-                                    </div>
-                                </div>
-                                <hr>
-                                <div class="col-md-12">
-                                    <x-adminlte-select2 igroup-size="sm" name="diagAwal" label="Diagnosa Awal"
-                                        class="diagnosaid1">
-                                    </x-adminlte-select2>
-                                    <x-adminlte-textarea igroup-size="sm" label="Catatan / Keluhan" name="catatan"
-                                        placeholder="Catatan Pasien" />
-                                    <button type="submit" class="btn btn-warning withLoad">
-                                        <i class="fas fa-file-medical"></i> Buat SEP
-                                    </button>
-                                </div>
-                            </form>
                         </div>
                         <div class="tab-pane" id="kunjungantab">
-                            @if ($antrian->kunjungan_id)
-                                <x-adminlte-alert theme="success" title="Antrian sudah dibuatkan kunjungan">
-                                    <b>Kodekunjungan</b> : {{ $antrian->kunjungan->kode ?? null }}
-                                </x-adminlte-alert>
-                            @else
-                                <x-adminlte-alert theme="danger" title="Antrian belum dibuatkan kunjungan">
-                                    Silahkan input untuk data kunjungan
-                                </x-adminlte-alert>
-                            @endif
-                            <form action="{{ route('editkunjungan') }}" method="POST">
-                                @csrf
-                                <input type="hidden" name="kodebooking" value="{{ $antrian->kodebooking }}">
-                                <input type="hidden" name="antrian_id" value="{{ $antrian->id }}">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="row">
-                                            <x-adminlte-input fgroup-class="col-md-6" name="kodekunjungan"
-                                                label="Kode Kunjungan" igroup-size="sm" placeholder="Kode Kunjungan"
-                                                readonly value="{{ $antrian->kunjungan->kode ?? null }}" />
-                                            <x-adminlte-input fgroup-class="col-md-6" name="counter"
-                                                label="Counter Kunjungan" igroup-size="sm"
-                                                placeholder="Counter Kunjungan"
-                                                value="{{ $antrian->kunjungan->counter ?? null }}" readonly />
-                                            @php
-                                                $config = ['format' => 'YYYY-MM-DD HH:mm:ss'];
-                                            @endphp
-                                            <x-adminlte-input-date fgroup-class="col-md-6" name="tgl_masuk"
-                                                igroup-size="sm" label="Tanggal Masuk" placeholder="Tanggal Masuk"
-                                                :config="$config" value="{{ $antrian->kunjungan->tgl_masuk ?? null }}">
-                                            </x-adminlte-input-date>
-                                            {{-- <x-adminlte-input-date fgroup-class="col-md-6" name="tgl_pulang"
-                                                igroup-size="sm" label="Tanggal Pulang" placeholder="Tanggal Pulang"
-                                                :config="$config">
-                                            </x-adminlte-input-date> --}}
-                                            <x-adminlte-select igroup-size="sm" fgroup-class="col-md-6" name="jaminan"
-                                                label="Jaminan Pasien">
-                                                <option selected disabled>Pilih Jaminan</option>
-                                                @foreach ($jaminans as $key => $item)
-                                                    <option value="{{ $key }}"
-                                                        {{ $antrian->kunjungan ? ($antrian->kunjungan->jaminan == $key ? 'selected' : null) : null }}>
-                                                        {{ $item }}</option>
-                                                @endforeach
-                                            </x-adminlte-select>
-                                        </div>
-                                        <hr>
-                                        <div class="row">
-                                            <x-adminlte-input name="nomorkartu" class="nomorkartu-id"
-                                                fgroup-class="col-md-6" igroup-size="sm" label="Nomor Kartu"
-                                                value="{{ $antrian->nomorkartu }}" placeholder="Nomor Kartu">
-                                                <x-slot name="appendSlot">
-                                                    <div class="btn btn-primary btnCariKartu">
-                                                        <i class="fas fa-search"></i> Cari
-                                                    </div>
-                                                </x-slot>
-                                            </x-adminlte-input>
-                                            <x-adminlte-input name="nik" class="nik-id" fgroup-class="col-md-6"
-                                                igroup-size="sm" label="NIK" placeholder="NIK"
-                                                value="{{ $antrian->nik }}">
-                                                <x-slot name="appendSlot">
-                                                    <div class="btn btn-primary btnCariNIK">
-                                                        <i class="fas fa-search"></i> Cari
-                                                    </div>
-                                                </x-slot>
-                                            </x-adminlte-input>
-                                            <x-adminlte-input name="norm" class="norm-id" label="No RM"
-                                                fgroup-class="col-md-6" igroup-size="sm" placeholder="No RM"
-                                                value="{{ $antrian->norm }}" />
-                                            <x-adminlte-input name="nama" class="nama-id" label="Nama Pasien"
-                                                fgroup-class="col-md-6" igroup-size="sm" placeholder="Nama Pasien"
-                                                value="{{ $antrian->nama }}" />
-                                            <x-adminlte-input name="tgl_lahir" class="tgllahir-id" label="Tanggal Lahir"
-                                                fgroup-class="col-md-6"
-                                                value="{{ $antrian->kunjungan->tgl_lahir ?? null }}" igroup-size="sm"
-                                                placeholder="Tanggal Lahir" />
-                                            <x-adminlte-input name="gender" class="gender-id" label="Jenis Kelamin"
-                                                fgroup-class="col-md-6" value="{{ $antrian->kunjungan->gender ?? null }}"
-                                                igroup-size="sm" placeholder="Jenis Kelamin" />
-                                            <x-adminlte-input name="kelas"
-                                                value="{{ $antrian->kunjungan->kelas ?? null }}" class="kelas-id"
-                                                label="Kelas Pasien" fgroup-class="col-md-6" igroup-size="sm"
-                                                placeholder="Kelas Pasien" />
-                                            <x-adminlte-input name="penjamin" class="penjamin-id" label="Penjamin"
-                                                fgroup-class="col-md-6" igroup-size="sm" placeholder="Penjamin"
-                                                value="{{ $antrian->kunjungan->penjamin ?? null }}" />
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <x-adminlte-select igroup-size="sm" name="kodepoli" label="Poliklinik">
-                                            @foreach ($polikliniks as $key => $value)
-                                                <option value="{{ $key }}"
-                                                    {{ $antrian->kunjungan ? ($antrian->kunjungan->unit == $key ? 'selected' : null) : null }}>
-                                                    {{ $value }}</option>
-                                            @endforeach
-                                        </x-adminlte-select>
-                                        <x-adminlte-select igroup-size="sm" name="kodedokter" label="Dokter">
-                                            @foreach ($dokters as $key => $value)
-                                                <option value="{{ $key }}"
-                                                    {{ $antrian->kunjungan ? ($antrian->kunjungan->dokter == $key ? 'selected' : null) : null }}>
-                                                    {{ $value }}</option>
-                                            @endforeach
-                                        </x-adminlte-select>
-                                        <x-adminlte-select igroup-size="sm" name="cara_masuk" label="Cara Masuk">
-                                            <option selected disabled>Pilih Cara Masuk</option>
-                                            <option value="gp"
-                                                {{ $antrian->kunjungan ? ($antrian->kunjungan->cara_masuk == 'gp' ? 'selected' : null) : null }}>
-                                                Rujukan
-                                                FKTP</option>
-                                            <option value="hosp-trans"
-                                                {{ $antrian->kunjungan ? ($antrian->kunjungan->cara_masuk == 'hosp-trans' ? 'selected' : null) : null }}>
-                                                Rujukan FKRTL</option>
-                                            <option value="mp"
-                                                {{ $antrian->kunjungan ? ($antrian->kunjungan->cara_masuk == 'mp' ? 'selected' : null) : null }}>
-                                                Rujukan
-                                                Spesialis</option>
-                                            <option value="outp"
-                                                {{ $antrian->kunjungan ? ($antrian->kunjungan->cara_masuk == 'outp' ? 'selected' : null) : null }}>
-                                                Dari
-                                                Rawat Jalan</option>
-                                            <option value="inp"
-                                                {{ $antrian->kunjungan ? ($antrian->kunjungan->cara_masuk == 'inp' ? 'selected' : null) : null }}>
-                                                Dari
-                                                Rawat Inap</option>
-                                            <option value="emd"
-                                                {{ $antrian->kunjungan ? ($antrian->kunjungan->cara_masuk == 'emd' ? 'selected' : null) : null }}>
-                                                Dari
-                                                Rawat Darurat</option>
-                                            <option value="born"
-                                                {{ $antrian->kunjungan ? ($antrian->kunjungan->cara_masuk == 'born' ? 'selected' : null) : null }}>
-                                                Lahir
-                                                di RS</option>
-                                            <option value="nursing"
-                                                {{ $antrian->kunjungan ? ($antrian->kunjungan->cara_masuk == 'nursing' ? 'selected' : null) : null }}>
-                                                Rujukan Panti Jompo</option>
-                                            <option value="psych"
-                                                {{ $antrian->kunjungan ? ($antrian->kunjungan->cara_masuk == 'psych' ? 'selected' : null) : null }}>
-                                                Rujukan dari RS Jiwa</option>
-                                            <option value="rehab"
-                                                {{ $antrian->kunjungan ? ($antrian->kunjungan->cara_masuk == 'rehab' ? 'selected' : null) : null }}>
-                                                Rujukan Fasilitas Rehab</option>
-                                            <option value="other"
-                                                {{ $antrian->kunjungan ? ($antrian->kunjungan->cara_masuk == 'other' ? 'selected' : null) : null }}>
-                                                Lain-lain</option>
-                                        </x-adminlte-select>
-                                        <x-adminlte-select2 igroup-size="sm" name="diagnosa_awal" class="diagnosaid2"
-                                            label="Diagnosa Awal">
-                                            @if ($antrian->kunjungan)
-                                                <option value="{{ $antrian->kunjungan->diagnosa_awal }}">
-                                                    {{ $antrian->kunjungan->diagnosa_awal }}</option>
-                                            @endif
-                                        </x-adminlte-select2>
-                                        <x-adminlte-select igroup-size="sm" name="jeniskunjungan"
-                                            label="Jenis Kunjungan">
-                                            <option selected disabled>Pilih Jenis Rujukan</option>
-                                            <option value="1"
-                                                {{ $antrian->kunjungan ? ($antrian->kunjungan->jeniskunjungan == '1' ? 'selected' : null) : null }}>
-                                                Rujukan FKTP</option>
-                                            <option value="2"
-                                                {{ $antrian->kunjungan ? ($antrian->kunjungan->jeniskunjungan == '2' ? 'selected' : null) : null }}>
-                                                Umum</option>
-                                            <option value="3"
-                                                {{ $antrian->kunjungan ? ($antrian->kunjungan->jeniskunjungan == '3' ? 'selected' : null) : null }}>
-                                                Kontrol</option>
-                                            <option value="4"
-                                                {{ $antrian->kunjungan ? ($antrian->kunjungan->jeniskunjungan == '4' ? 'selected' : null) : null }}>
-                                                Rujukan Antar RS</option>
-                                        </x-adminlte-select>
-                                        <x-adminlte-input name="nomorreferensi" igroup-size="sm" label="Nomor Referensi"
-                                            placeholder="Nomor Referensi"
-                                            value="{{ $antrian->kunjungan->nomorreferensi ?? null }}" />
-                                        <x-adminlte-input name="sep" igroup-size="sm" label="Nomor SEP"
-                                            placeholder="Nomor SEP" value="{{ $antrian->kunjungan->sep ?? null }}" />
-                                    </div>
-                                </div>
-                                <button type="submit" class="btn btn-success withLoad">
-                                    <i class="fas fa-edit"></i> Simpan Kunjungan
-                                </button>
-                            </form>
+
                         </div>
                         <div class="tab-pane" id="riwayattab">
-                            @if ($antrian->pasien)
-                                @foreach ($antrian->pasien->kunjungans as $kunjungan)
-                                    <x-adminlte-card title="KUNJUNGAN {{ $kunjungan->tgl_masuk }}" theme="info"
-                                        icon="fas fa-file" collapsible="collapsed">
-                                        @if ($kunjungan->asesmendokter)
-                                            @include('form.asesmen_dokter_rajal')
-                                        @else
-                                            <x-adminlte-alert title="Belum dilakukan asesmen dokter" theme="danger">
-                                                Silahkan lakukan asesmen dokter
-                                            </x-adminlte-alert>
-                                        @endif
-                                    </x-adminlte-card>
-                                @endforeach
-                            @else
-                                Belum ada riwayat pasien
-                            @endif
+
                         </div>
                         <div class="tab-pane" id="pembayarantab">
                             Pembayaran
                         </div>
                         <div class="tab-pane" id="suratkontroltab">
-                            <x-adminlte-alert theme="{{ $antrian->suratkontrols->count() ? 'success' : 'warning' }}"
-                                title="Surat Kontrol untuk Pasien BPJS">
-                                @if ($antrian->suratkontrols->count())
-                                    @foreach ($antrian->suratkontrols as $item)
-                                        <b>Nomor Surat Kontrol</b> : {{ $item->noSuratKontrol }} <br>
-                                        <b>Tgl Rencana Kontrol</b> : {{ $item->tglRencanaKontrol }} <br>
-                                        <a class="btn btn-xs btn-warning text-dark " target="_blank"
-                                            href="{{ route('suratkontrol_print') }}?noSuratKontrol={{ $item->noSuratKontrol }}"
-                                            style="text-decoration: none">
-                                            <i class="fas fa-print"></i> Print Surat Kontrol
-                                        </a>
-                                    @endforeach
-                                @else
-                                    Belum ada surat kontrol.
-                                @endif
-                            </x-adminlte-alert>
-                            <form action="{{ route('suratkontrol.store') }}" method="POST">
-                                @csrf
-                                <input type="hidden" name="kodebooking" value="{{ $antrian->kodebooking }}">
-                                <input type="hidden" name="antrian_id" value="{{ $antrian->id }}">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <x-adminlte-input name="nomorkartu" class="nomorkartu-id" igroup-size="sm"
-                                            label="Nomor Kartu" placeholder="Nomor Kartu"
-                                            value="{{ $antrian->nomorkartu }}" readonly />
-                                        <x-adminlte-input name="norm" class="norm-id" label="No RM" igroup-size="sm"
-                                            placeholder="No RM " value="{{ $antrian->norm }}" readonly />
-                                        <x-adminlte-input name="nama" class="nama-id" label="Nama Pasien"
-                                            igroup-size="sm" placeholder="Nama Pasien" value="{{ $antrian->nama }}"
-                                            readonly />
-                                        <x-adminlte-input name="nohp" class="nohp-id" label="Nomor HP"
-                                            igroup-size="sm" placeholder="Nomor HP" value="{{ $antrian->nohp }}"
-                                            readonly />
-                                    </div>
-                                    <div class="col-md-6">
-                                        <x-adminlte-input name="noSEP" class="noSEP-id" igroup-size="sm"
-                                            label="Nomor SEP" placeholder="Nomor SEP">
-                                            <x-slot name="appendSlot">
-                                                <div class="btn btn-primary btnCariSEP">
-                                                    <i class="fas fa-search"></i> Cari SEP
-                                                </div>
-                                            </x-slot>
-                                        </x-adminlte-input>
-                                        @php
-                                            $config = ['format' => 'YYYY-MM-DD'];
-                                        @endphp
-                                        <x-adminlte-input-date name="tglRencanaKontrol" class="tglRencanaKontrol-id"
-                                            igroup-size="sm" label="Tanggal Rencana Kontrol"
-                                            value="{{ $request->tglRencanaKontrol }}"
-                                            placeholder="Pilih Tanggal Rencana Kontrol" :config="$config">
-                                            <x-slot name="appendSlot">
-                                                <div class="btn btn-primary btnCariPoli">
-                                                    <i class="fas fa-search"></i> Cari Poli
-                                                </div>
-                                            </x-slot>
-                                        </x-adminlte-input-date>
-                                        <x-adminlte-select igroup-size="sm" name="poliKontrol" class="poliKontrol-id"
-                                            label="Poliklinik">
-                                            <option selected disabled>Silahkan Klik Cari Poliklinik</option>
-                                            <x-slot name="appendSlot">
-                                                <div class="btn btn-primary btnCariDokter">
-                                                    <i class="fas fa-search"></i> Cari Dokter
-                                                </div>
-                                            </x-slot>
-                                        </x-adminlte-select>
-                                        <x-adminlte-select igroup-size="sm" name="kodeDokter" class="kodeDokter-id"
-                                            label="Dokter">
-                                            <option selected disabled>Silahkan Klik Cari Dokter</option>
-                                        </x-adminlte-select>
-                                        <x-adminlte-textarea igroup-size="sm" label="Catatan" name="catatan"
-                                            placeholder="Catatan Pasien" />
-                                    </div>
-                                </div>
-                                <button type="submit" class="btn btn-warning withLoad"> <i class="fas fa-save"></i>
-                                    Buat
-                                    Surat Kontrol</button>
-                            </form>
+
                         </div>
                         <div class="tab-pane" id="resumetab">
                             <br>
-                            <a href="{{ route('lanjutpoliklinik') }}?kodebooking={{ $antrian->kodebooking }}"
-                                class="btn btn-warning withLoad">
-                                <i class="fas fa-user-plus"></i> Lanjut Pemeriksaan Dokter
-                            </a>
-                            <a href="{{ route('batalantrian') }}?kodebooking={{ $antrian->kodebooking }}&keterangan=Dibatalkan dipendaftaran {{ Auth::user()->name }}"
-                                class="btn btn-danger withLoad">
-                                <i class="fas fa-times"></i> Batal
-                            </a>
+
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> --}}
         </div>
     </div>
     <x-adminlte-modal id="modalRujukan" name="modalRujukan" title="Peserta Rujukan Peserta" theme="success"

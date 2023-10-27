@@ -21,6 +21,8 @@
                             {{ $antrian->kunjungan->tgl_lahir ?? '-' }}
                             ({{ \Carbon\Carbon::parse($antrian->kunjungan->tgl_masuk)->diffInYears($antrian->kunjungan->tgl_lahir) }}
                             tahun)
+                        @else
+                            -
                         @endif
                     </dd>
                     <dt class="col-sm-3 m-0">HP</dt>
@@ -111,7 +113,7 @@
                 <dl class="row">
                     <dt class="col-sm-4 m-0">Diagnosa</dt>
                     <dd class="col-sm-8 m-0">
-                        {{ $antrian->kunjungan->diagnosa_awal ?? null }}
+                        {{ $antrian->kunjungan->diagnosa_awal ?? '-' }}
                     </dd>
                     <dt class="col-sm-4 m-0">Status</dt>
                     <dd class="col-sm-8 m-0">
