@@ -1,5 +1,5 @@
 <div class="card card-primary card-outline">
-    <div class="card-body box-profile">
+    <div class="card-body box-profile  p-3">
         <h6 class="text-center">
             IDENTITAS PASIEN
             {{-- {{ $antrian->nama }} --}}
@@ -104,6 +104,15 @@
                             <span class="badge badge-danger">Belum Integrasi </span>
                         @endif
                     </dd>
+
+                </dl>
+            </div>
+            <div class="col-md-3">
+                <dl class="row">
+                    <dt class="col-sm-4 m-0">Diagnosa</dt>
+                    <dd class="col-sm-8 m-0">
+                        {{ $antrian->kunjungan->diagnosa_awal ?? null }}
+                    </dd>
                     <dt class="col-sm-4 m-0">Status</dt>
                     <dd class="col-sm-8 m-0">
                         @switch($antrian->taskid)
@@ -147,12 +156,6 @@
                         @endswitch
                     </dd>
                 </dl>
-            </div>
-            <div class="col-md-3">
-                <dt>Diagnosa Awal</dt>
-                <dd>
-                    {{ $antrian->kunjungan->diagnosa_awal ?? null }}
-                </dd>
             </div>
         </div>
     </div>

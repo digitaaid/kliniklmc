@@ -68,28 +68,289 @@
             </div>
             @include('sim.antrian_profil2')
         </div>
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-header p-2">
-                    <ul class="nav nav-pills">
-                        <li class="nav-item"><a class="nav-link active" href="#keperawatantab"
-                                data-toggle="tab">Keperawatan</a>
+        <div class="col-md-12">
+            <div class="card card-primary card-tabs">
+                <div class="card-header  p-0 pl-1 pt-1">
+                    <ul class="nav nav-tabs">
+                        <li class="nav-item"><a class="nav-link active" href="#riwayattab" data-toggle="tab">Riwayat</a>
                         </li>
-                        <li class="nav-item"><a class="nav-link " href="#riwayattab" data-toggle="tab">Riwayat</a>
-                        </li>
-                        <li class="nav-item"><a class="nav-link " href="#filepenunjangtab" data-toggle="tab">File
+                        <li class="nav-item"><a class="nav-link" href="#filepenunjangtab" data-toggle="tab">File
                                 Penunjang</a>
                         </li>
-                        <li class="nav-item"><a class="nav-link " href="#labtab" data-toggle="tab">Laboratorium</a>
+                        <li class="nav-item"><a class="nav-link" href="#anamnesatab" data-toggle="tab">Anamnesa</a>
                         </li>
-                        <li class="nav-item"><a class="nav-link " href="#radtab" data-toggle="tab">Radiologi</a>
+                        <li class="nav-item"><a class="nav-link" href="#doktertab" data-toggle="tab">Konsultasi</a>
                         </li>
-
+                        <li class="nav-item"><a class="nav-link" href="#reseptab" data-toggle="tab">Resep</a>
+                        </li>
+                        <li class="nav-item"><a class="nav-link" href="#reseptab" data-toggle="tab">Tindakan</a>
+                        </li>
+                        <li class="nav-item"><a class="nav-link" href="#labtab" data-toggle="tab">Laboratorium</a>
+                        </li>
+                        <li class="nav-item"><a class="nav-link" href="#radtab" data-toggle="tab">Radiologi</a>
+                        </li>
+                        <li class="nav-item"><a class="nav-link" href="#resumetab" data-toggle="tab">Resume</a>
+                        </li>
                     </ul>
                 </div>
-                <div class="card-body">
+                <div class="card-body" style="overflow-y: auto; max-height: 600px">
                     <div class="tab-content">
-                        <div class="active tab-pane" id="keperawatantab">
+                        <div class="active tab-pane" id="riwayattab">
+                            <table class="table table-sm table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Data Registrasi</th>
+                                        <th>Anamnesa</th>
+                                        <th>Konsultasi Dokter</th>
+                                        <th>Obat</th>
+                                        <th>Penunjang</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <style>
+                                        pre {
+                                            padding: 0 !important;
+                                            margin-bottom: 0 !important;
+                                            font-size: 15px !important;
+                                            border: none;
+                                            outline: none;
+                                        }
+                                    </style>
+                                    @if ($antrian->pasien)
+                                        @foreach ($antrian->pasien->kunjungans as $kunjungan)
+                                            <tr>
+                                                <td>
+                                                    {{ \Carbon\Carbon::parse($kunjungan->tgl_masuk)->format('d/m/Y h:m:s') }}
+                                                    ({{ $kunjungan->kode }})
+                                                    <br>
+                                                    <b>{{ $kunjungan->units->nama }}</b>
+                                                </td>
+                                                <td>
+                                                    <dl>
+                                                        <dt>Keluhan Utama :</dt>
+                                                        <dd>
+                                                            <pre>{{ $kunjungan->asesmenperawat->keluhan_utama ?? null }}</pre>
+                                                        </dd>
+                                                        <dt>Riwayat Pengobatan :</dt>
+                                                        <dd>
+                                                            <pre>{{ $kunjungan->asesmenperawat->riwayat_pengobatan ?? null }}</pre>
+                                                        </dd>
+                                                        <dt>Tanda Vital :</dt>
+                                                        <dd>
+                                                            Denyut Nadi :
+                                                            {{ $kunjungan->asesmenperawat->denyut_jantung ?? null }}
+                                                            x/menit<br>
+                                                            Pernapasan :
+                                                            {{ $kunjungan->asesmenperawat->pernapasan ?? null }}
+                                                            x/menit<br>
+                                                            Suhu Tubuh : {{ $kunjungan->asesmenperawat->suhu ?? null }}
+                                                            celcius<br>
+                                                            Tekanan Darah :
+                                                            {{ $kunjungan->asesmenperawat->sistole ?? null }} /
+                                                            {{ $kunjungan->asesmenperawat->distole ?? null }} mmHg<br>
+                                                            Tinggi / Berat / BSA :
+                                                            {{ $kunjungan->asesmenperawat->tinggi_badan ?? null }} cm /
+                                                            {{ $kunjungan->asesmenperawat->berat_badan ?? null }} kg /
+                                                            @if ($kunjungan->asesmenperawat)
+                                                                {{ number_format(sqrt(($kunjungan->asesmenperawat->tinggi_badan * $kunjungan->asesmenperawat->berat_badan) / 3600), 2) ?? null }}
+                                                            @endif m2 <br>
+                                                            Kesadaran :
+                                                            @switch($kunjungan->asesmenperawat->tingkat_kesadaran)
+                                                                @case(1)
+                                                                    Sadar Baik
+                                                                @break
+
+                                                                @case(2)
+                                                                    Berespon dengan kata-kata
+                                                                @break
+
+                                                                @case(3)
+                                                                    Hanya berespons jika dirangsang nyeri/pain
+                                                                @break
+
+                                                                @case(4)
+                                                                    Pasien tidak sadar/unresponsive
+                                                                @break
+
+                                                                @case(5)
+                                                                    Gelisah / bingung
+                                                                @break
+
+                                                                @case(6)
+                                                                    Acute Confusional State
+                                                                @break
+
+                                                                @default
+                                                            @endswitch
+                                                            <br>
+                                                            Tanda Vital Tubuh :
+                                                            {{ $kunjungan->asesmenperawat->keadaan_tubuh ?? '-' }}
+                                                        </dd>
+                                                    </dl>
+                                                </td>
+                                                <td>
+                                                    <dl>
+                                                        <dt>Diagnosa</dt>
+                                                        <dd>
+                                                            {{ $kunjungan->asesmendokter->diagnosa ?? null }} <br>
+                                                            Diag. Primer ICD-10 :
+                                                            {{ $kunjungan->asesmendokter->diagnosa1 ?? null }} <br>
+                                                            Diag. Sekunder ICD-10 :
+                                                            {{ $kunjungan->asesmendokter->diagnosa2 ?? null }}
+                                                        </dd>
+                                                        <dt>Rencana Perawatan :</dt>
+                                                        <dd>
+                                                            <pre>{{ $kunjungan->asesmendokter->rencana_perawatan ?? null }}</pre>
+                                                        </dd>
+                                                        <dt>Pemeriksaan Fisik :</dt>
+                                                        <dd>
+                                                            <pre>{{ $kunjungan->asesmendokter->pemeriksaan_fisik ?? null }}</pre>
+                                                        </dd>
+                                                        <dt>Tindakan :</dt>
+                                                        <dd>
+                                                            <pre>{{ $kunjungan->asesmendokter->tindakan_medis ?? null }}</pre>
+                                                        </dd>
+                                                        <dt>Instruksi Medis :</dt>
+                                                        <dd>
+                                                            <pre>{{ $kunjungan->asesmendokter->instruksi_medis ?? null }}</pre>
+                                                        </dd>
+                                                    </dl>
+                                                </td>
+                                                <td>
+                                                    <dd>
+                                                        @if ($kunjungan->resepobat)
+                                                            @foreach ($kunjungan->resepobat->resepdetail as $itemobat)
+                                                                <b> R/ {{ $itemobat->nama }} </b>
+                                                                ({{ $itemobat->jumlah }})
+                                                                @switch($itemobat->interval)
+                                                                    @case('qod')
+                                                                        1x1
+                                                                    @break
+
+                                                                    @case('dod')
+                                                                        1x2
+                                                                    @break
+
+                                                                    @case('bid')
+                                                                        2x1
+                                                                    @break
+
+                                                                    @case('tid')
+                                                                        3x1
+                                                                    @break
+
+                                                                    @case('qid')
+                                                                        4x1
+                                                                    @break
+
+                                                                    @case('prn')
+                                                                        SESUAI KEBUTUHAN
+                                                                    @break
+
+                                                                    @case('q3h')
+                                                                        SETIAP 3 JAM
+                                                                    @break
+
+                                                                    @case('q4h')
+                                                                        SETIAP 4 JAM
+                                                                    @break
+
+                                                                    @case('303')
+                                                                        3 TAB/CAP SETIAP PAGI DAN MALAM
+                                                                    @break
+
+                                                                    @case('202')
+                                                                        2 TAB/CAP SETIAP PAGI DAN MALAM
+                                                                    @break
+
+                                                                    @default
+                                                                @endswitch
+                                                                @switch($itemobat->waktu)
+                                                                    @case('pc')
+                                                                        SETELAH MAKAN
+                                                                    @break
+
+                                                                    @case('ac')
+                                                                        SEBELUM MAKAN
+                                                                    @break
+
+                                                                    @case('hs')
+                                                                        SEBELUM TIDUR
+                                                                    @break
+
+                                                                    @case('int')
+                                                                        DIANTARA WAKTU MAKAN
+                                                                    @break
+
+                                                                    @default
+                                                                @endswitch
+                                                                {{ $itemobat->keterangan }} <br>
+                                                            @endforeach
+                                                        @endif
+                                                    </dd>
+                                                    <dt>Catatan Resep :</dt>
+                                                    <dd>
+                                                        <pre>{{ $kunjungan->asesmendokter->resep_obat ?? null }}</pre>
+                                                        <pre>{{ $kunjungan->asesmendokter->catatan_resep ?? null }}</pre>
+                                                    </dd>
+                                                </td>
+                                                <td>-</td>
+                                            </tr>
+                                        @endforeach
+                                    @else
+                                        <tr>
+                                            Belum ada riwayat pasien
+                                        </tr>
+                                    @endif
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="tab-pane" id="filepenunjangtab">
+                            <style>
+                                .card.card-tabs .card-tools {
+                                    margin: 0px !important;
+                                }
+                            </style>
+                            @if ($antrian->pasien)
+                                @if ($antrian->pasien->fileuploads)
+                                    <div class="row">
+                                        @foreach ($antrian->pasien->fileuploads as $file)
+                                            <div class="col-md-6">
+                                                <x-adminlte-card header-class="p-2" body-class="p-0"
+                                                    title="{{ $file->nama }}" theme="info" icon="fas fa-file"
+                                                    collapsible="">
+                                                    <x-slot name="toolsSlot">
+                                                        Uploaded at : {{ $file->created_at }}
+                                                        <a href="{{ $file->fileurl }}" target="_blank"
+                                                            class="btn btn-xs btn-tool"><i class="fas fa-download"></i></a>
+                                                        <a href="{{ route('hapusfilepenunjang') }}?id={{ $file->id }}"
+                                                            class="btn btn-xs btn-tool"> <i class="fas fa-trash"></i></a>
+                                                    </x-slot>
+                                                    <object data="{{ $file->fileurl }}" width="100%" height="500px">
+                                                    </object>
+                                                </x-adminlte-card>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                @endif
+                            @else
+                                @foreach ($antrian->fileuploads as $file)
+                                    <x-adminlte-card header-class="p-2" body-class="p-0"
+                                        title="{{ $file->nama }} {{ $file->created_at }}" theme="info"
+                                        icon="fas fa-file" collapsible="collapsed">
+                                        <x-slot name="toolsSlot" class="m-0">
+                                            Uploaded at : {{ $file->created_at }}
+                                            <a href="{{ $file->fileurl }}" target="_blank" class="btn btn-xs btn-tool"><i
+                                                    class="fas fa-download"></i></a>
+                                            <a href="{{ route('hapusfilepenunjang') }}?id={{ $file->id }}"
+                                                class="btn btn-xs btn-tool"> <i class="fas fa-trash"></i></a>
+                                        </x-slot>
+                                        <object data="{{ $file->fileurl }}" width="100%" height="500px"> </object>
+                                    </x-adminlte-card>
+                                @endforeach
+                            @endif
+                        </div>
+                        <div class="tab-pane" id="anamnesatab">
                             @if ($antrian->asesmenperawat)
                                 <div id="printMe">
                                     @include('form.asesmen_perawat_rajal')
@@ -100,79 +361,7 @@
                                 </x-adminlte-alert>
                             @endif
                         </div>
-                        <div class="tab-pane" id="riwayattab">
-                            @if ($antrian->pasien)
-                                @foreach ($antrian->pasien->kunjungans as $kunjungan)
-                                    <x-adminlte-card title="KUNJUNGAN {{ $kunjungan->tgl_masuk }}" theme="info"
-                                        icon="fas fa-file" collapsible="">
-                                        @if ($kunjungan->asesmendokter)
-                                            @include('form.asesmen_dokter_rajal2')
-                                        @else
-                                            <x-adminlte-alert title="Belum dilakukan asesmen dokter" theme="danger">
-                                                Silahkan lakukan asesmen dokter
-                                            </x-adminlte-alert>
-                                        @endif
-                                    </x-adminlte-card>
-                                @endforeach
-                            @else
-                                Belum ada riwayat pasien
-                            @endif
-                        </div>
-                        <div class="tab-pane" id="filepenunjangtab">
-                            @if ($antrian->pasien)
-                                @if ($antrian->pasien->fileuploads)
-                                    @foreach ($antrian->pasien->fileuploads as $file)
-                                        <x-adminlte-card body-class="p-0" title="{{ $file->nama }}" theme="info"
-                                            icon="fas fa-file" collapsible="">
-                                            <x-slot name="toolsSlot">
-                                                Uploaded at : {{ $file->created_at }}
-                                                <a href="{{ $file->fileurl }}" target="_blank" class="btn btn-xs btn-tool"><i
-                                                        class="fas fa-download"></i></a>
-                                                <a href="{{ route('hapusfilepenunjang') }}?id={{ $file->id }}"
-                                                    class="btn btn-xs btn-tool"> <i class="fas fa-trash"></i></a>
-                                            </x-slot>
-                                            <object data="{{ $file->fileurl }}" width="100%" height="700px"> </object>
-                                        </x-adminlte-card>
-                                    @endforeach
-                                @endif
-                            @else
-                                @foreach ($antrian->fileuploads as $file)
-                                    <x-adminlte-card title="{{ $file->nama }} {{ $file->created_at }}" theme="info"
-                                        icon="fas fa-file" collapsible="collapsed">
-                                        <a href="{{ $file->fileurl }}" target="_blank"
-                                            class="btn btn-xs btn-tool">Donwload</a>
-                                        <a href="{{ route('hapusfilepenunjang') }}?id={{ $file->id }}"
-                                            class="btn btn-xs btn-tool">Hapus File</a>
-                                        Diupload pada tanggal : {{ $file->created_at }}
-                                        <br>
-                                        <object data="{{ $file->fileurl }}" width="100%" height="700px"> </object>
-                                    </x-adminlte-card>
-                                @endforeach
-                            @endif
-                        </div>
-                        <div class="tab-pane" id="labtab">
-                            Laboratorium
-                        </div>
-                        <div class="tab-pane" id="radtab">
-                            Radiologi
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-header p-2">
-                    <ul class="nav nav-pills">
-                        <li class="nav-item"><a class="nav-link active" href="#doktertab" data-toggle="tab">Dokter</a>
-                        </li>
-                        <li class="nav-item"><a class="nav-link" href="#resumetab" data-toggle="tab">Resume</a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="card-body">
-                    <div class="tab-content">
-                        <div class="active tab-pane" id="doktertab">
+                        <div class="tab-pane" id="doktertab">
                             <form action="{{ route('editasesmendokter') }}" method="POST">
                                 @csrf
                                 <input type="hidden" name="kodebooking" value="{{ $antrian->kodebooking }}">
@@ -407,6 +596,12 @@
                                 class="btn btn-danger withLoad">
                                 <i class="fas fa-times"></i> Batal
                             </a>
+                        </div>
+                        <div class="tab-pane" id="labtab">
+                            Laboratorium
+                        </div>
+                        <div class="tab-pane" id="radtab">
+                            Radiologi
                         </div>
                     </div>
                 </div>

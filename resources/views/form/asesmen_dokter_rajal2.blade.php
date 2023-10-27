@@ -61,7 +61,6 @@
                                 {{ number_format(sqrt(($kunjungan->asesmenperawat->tinggi_badan * $kunjungan->asesmenperawat->berat_badan) / 3600), 2) ?? null }}
                             @endif
                             m2<br>
-
                         </div>
                     </div>
                     <dl>

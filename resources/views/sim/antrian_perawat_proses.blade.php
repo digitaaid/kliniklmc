@@ -128,7 +128,7 @@
                                                 igroup-size="sm" placeholder="Diastole" type="number"
                                                 value="{{ $antrian->asesmenperawat->distole ?? null }}" />
                                             <x-adminlte-input name="suhu" fgroup-class="col-md-6"
-                                                label="Suhu Tubuh (celcius)" igroup-size="sm" type="number"
+                                                label="Suhu Tubuh (celcius)" igroup-size="sm"
                                                 placeholder="Suhu Tubuh (celcius)"
                                                 value="{{ $antrian->asesmenperawat->suhu ?? null }}" />
                                             <x-adminlte-input name="berat_badan" fgroup-class="col-md-6"
