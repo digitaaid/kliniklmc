@@ -33,4 +33,8 @@ class Kunjungan extends Model
     {
         return $this->hasOne(Unit::class,  'kode', 'unit');
     }
+    public function resepobat()
+    {
+        return $this->hasOne(ResepObat::class);
+    }
 }
