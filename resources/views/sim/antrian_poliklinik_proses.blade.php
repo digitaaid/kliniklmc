@@ -374,7 +374,7 @@
                                                             </option>
                                                         @endforeach
                                                     @else
-                                                        <option value="{{ $$antrian->asesmendokter->diagnosa }}" selected>
+                                                        <option value="{{ $antrian->asesmendokter->diagnosa }}" selected>
                                                             {{ $$antrian->asesmendokter->diagnosa }}
                                                         </option>
                                                     @endif
