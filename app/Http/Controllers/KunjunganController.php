@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Kunjungan;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
-class KunjunganController extends Controller
+class KunjunganController extends APIController
 {
     public function index(Request $request)
     {
@@ -18,5 +19,14 @@ class KunjunganController extends Controller
             'request',
             'kunjungans',
         ]));
+    }
+    public function kunjunganwaktu(Request $request)
+    {
+        $kunjungans = null;
+        if ($request->waktu) {
+            $tanggal = Carbon::parse($request->waktu)->format('Y-m-d');
+            $kunjungans = Kunjungan::whereDate('tgl_masuk', $tanggal)->get();
+        }
+        return $this->sendResponse($kunjungans, 200);
     }
 }

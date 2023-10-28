@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('resep_kemoterapis', function (Blueprint $table) {
             $table->id();
+            $table->string('kunjungan_id')->nullable();
+            $table->string('kodekunjungan')->nullable();
             $table->string('kode');
             $table->datetime('waktu');
             $table->string('norm');

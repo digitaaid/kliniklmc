@@ -99,16 +99,13 @@ Route::middleware('auth')->group(function () {
     Route::resource('diagnosa', DiagnosaController::class);
     Route::resource('dokter', DokterController::class);
     Route::resource('poliklinik', PoliklinikController::class);
+    Route::resource('obat', ObatController::class);
     Route::resource('jadwaldokter', JadwalDokterController::class);
     Route::resource('jadwallibur', JadwalLiburController::class);
     Route::resource('antrian', AntrianController::class);
     Route::resource('kunjungan', KunjunganController::class);
     Route::resource('suratkontrol', SuratKontrolController::class);
     Route::get('kirimpesanlibur', [JadwalLiburController::class, 'kirimpesanlibur'])->name('kirimpesanlibur');
-    // farmasi
-    Route::resource('obat', ObatController::class);
-    Route::get('diagnosasearch', [DiagnosaController::class, 'search'])->name('diagnosa.search');
-    Route::get('diagnosaexport', [DiagnosaController::class, 'export'])->name('diagnosa.export');
     // anjungan
     Route::get('anjunganantrian', [PendaftaranController::class, 'anjunganantrian'])->name('anjunganantrian');
     Route::get('checkinantrian', [PendaftaranController::class, 'checkinantrian'])->name('checkinantrian');
@@ -137,6 +134,8 @@ Route::middleware('auth')->group(function () {
     Route::post('uploadpenunjang', [PerawatController::class, 'uploadpenunjang'])->name('uploadpenunjang');
     Route::get('hapusfilepenunjang', [PerawatController::class, 'hapusfilepenunjang'])->name('hapusfilepenunjang');
     Route::get('laporanperawat', [PerawatController::class, 'laporanperawat'])->name('laporanperawat');
+    Route::get('diagnosasearch', [DiagnosaController::class, 'search'])->name('diagnosa.search');
+    Route::get('diagnosaexport', [DiagnosaController::class, 'export'])->name('diagnosa.export');
     // poliklinik
     Route::get('antrianpoliklinik', [DokterController::class, 'antrianpoliklinik'])->name('antrianpoliklinik');
     Route::get('prosespoliklinik', [DokterController::class, 'prosespoliklinik'])->name('prosespoliklinik');
@@ -163,6 +162,7 @@ Route::middleware('auth')->group(function () {
 
 
     Route::get('capaianantrian', [AntrianController::class, 'dashboardBulanAntrian'])->name('capaianantrian');
+    Route::get('kunjunganwaktu', [KunjunganController::class, 'kunjunganwaktu'])->name('kunjunganwaktu');
 
     // antrian bpjs
     Route::get('statusAntrianBpjs', [AntrianController::class, 'statusAntrianBpjs'])->name('statusAntrianBpjs');
