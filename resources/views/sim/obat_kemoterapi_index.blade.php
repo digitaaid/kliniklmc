@@ -89,9 +89,9 @@
                         </x-slot>
                     </x-adminlte-input>
                     <x-adminlte-input name="nama" label="Nama Pasien" placeholder="Nama Pasien" igroup-size="sm"
-                        enable-old-support required readonly />
+                        enable-old-support required />
                     <x-adminlte-input name="norm" label="No RM" placeholder="No RM" igroup-size="sm" enable-old-support
-                        required readonly />
+                        required />
                 </div>
                 <div class="col-md-6">
                     <x-adminlte-input name="diagnosa" label="Diagnosa" placeholder="Diagnosa" igroup-size="sm"
