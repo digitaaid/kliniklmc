@@ -366,15 +366,18 @@
                                                 </x-adminlte-textarea> --}}
                                                 <x-adminlte-select2 name="diagnosa[]" class="diagnosa" label="Diagnosa :"
                                                     multiple>
-
-                                                    @forelse (json_decode($antrian->asesmendokter->diagnosa) as $item)
-                                                        <option value="{{ $item }}" selected> {{ $item }}
-                                                        </option>
-                                                    @empty
+                                                    @if (is_array(json_decode($antrian->asesmendokter->diagnosa)) ||
+                                                            is_object(json_decode($antrian->asesmendokter->diagnosa)))
+                                                        @foreach (json_decode($antrian->asesmendokter->diagnosa) as $item)
+                                                            <option value="{{ $item }}" selected>
+                                                                {{ $item }}
+                                                            </option>
+                                                        @endforeach
+                                                    @else
                                                         <option value="{{ $$antrian->asesmendokter->diagnosa }}" selected>
                                                             {{ $$antrian->asesmendokter->diagnosa }}
                                                         </option>
-                                                    @endforelse
+                                                    @endif
                                                 </x-adminlte-select2>
                                                 <x-adminlte-select2 name="diagnosa1" class="diagnosaid1"
                                                     label="Diagnosa Primer ICD-10 : {{ $kunjungan->asesmendokter->diagnosa1 ?? null }}">
