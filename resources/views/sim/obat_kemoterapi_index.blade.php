@@ -231,7 +231,7 @@
                                     "<button class='btnPilihKunjungan btn btn-success btn-xs' data-id=" +
                                     value.id + " data-kode=" +
                                     value.kode +
-                                    " data-nama=" + value.nama + " data-norm=" + value
+                                    " data-nama='" + value.nama + "' data-norm=" + value
                                     .norm + "  >Pilih</button>";
                                 table.row.add([
                                     value.tgl_masuk,
