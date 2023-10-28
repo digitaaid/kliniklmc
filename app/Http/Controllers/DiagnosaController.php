@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\DiagnosaExport;
 use App\Imports\DiagnosaImport;
 use App\Models\Diagnosa;
 use Illuminate\Http\Request;
@@ -40,12 +41,11 @@ class DiagnosaController extends Controller
         Alert::success('Success', 'Data Diagnosa Diperbaharui.');
         return redirect()->route('diagnosa.index');
     }
-    function diagnosa_autocomplete(Request $request)
+    function search(Request $request)
     {
         $data = array();
         $diag = Diagnosa::where('diagnosa', 'LIKE', '%' . $request->search . '%')
-            ->get();
-
+            ->limit(20)->get();
         foreach ($diag as $item) {
             $data[] = array(
                 "id" => $item->diagnosa,
@@ -54,4 +54,9 @@ class DiagnosaController extends Controller
         }
         return response()->json($data);
     }
+    public function export()
+    {
+        return Excel::download(new DiagnosaExport, 'diagnosa.xlsx');
+    }
+
 }

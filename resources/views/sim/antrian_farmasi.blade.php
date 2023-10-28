@@ -31,13 +31,6 @@
         @if (isset($antrians))
             <div class="col-md-12">
                 <div class="row">
-                    {{-- <div class="col-md-3">
-                        <x-adminlte-small-box
-                            title="{{ $antrians->where('taskid', 6)->first()->nomorantrean ?? 'Belum Panggil' }}"
-                            text="Antrian Dilayani" theme="primary" icon="fas fa-user-injured"
-                            url="{{ route('terimafarmasi') }}?kodebooking={{ $antrians->where('taskid', 5)->first()->kodebooking ?? '00' }}"
-                            url-text="Proses Antrian Selanjutnya" />
-                    </div> --}}
                     <div class="col-md-3">
                         <x-adminlte-small-box
                             title="{{ $antrians->where('taskid', '>=', 5)->where('taskid', '<', 7)->count() }}"
@@ -57,7 +50,6 @@
                             title="{{ $antrians->where('taskid', 7)->where('jenispasien', 'NON-JKN')->count() }}"
                             text="Total Resep NON-JKN" theme="primary" icon="fas fa-user-injured" />
                     </div>
-
                 </div>
             </div>
             <div class="col-md-12">
@@ -163,11 +155,9 @@
                         <div class="col-md-3">
                             <div class="card card-primary">
                                 <div class="card-header">
-                                    <h3 class="card-title">{{ $item->nomorantrean }}</h3> <br>
+                                    <h3 class="card-title">{{ $item->nomorantrean }} ({{ $item->jenispasien }})</h3> <br>
                                     <h3 class="card-title">{{ $item->kunjungan->nama }}</h3> <br>
-
                                 </div>
-                                <!-- /.card-header -->
                                 <div class="card-body">
                                     <p>
                                         <b>No RM : </b> {{ $item->kunjungan->norm }} <br>
@@ -252,7 +242,6 @@
                                     <a href="{{ route('print_asesmenfarmasi') }}?kodebooking={{ $item->kodebooking }}"
                                         class="btn btn-warning" target="_blank"> <i class="fas fa-print"></i> Print</a>
                                 </div>
-                                <!-- /.card-body -->
                             </div>
                         </div>
                     @endforeach

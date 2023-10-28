@@ -107,7 +107,8 @@ Route::middleware('auth')->group(function () {
     Route::get('kirimpesanlibur', [JadwalLiburController::class, 'kirimpesanlibur'])->name('kirimpesanlibur');
     // farmasi
     Route::resource('obat', ObatController::class);
-    Route::get('diagnosa_autocomplete', [DiagnosaController::class, 'diagnosa_autocomplete'])->name('diagnosa_autocomplete');
+    Route::get('diagnosasearch', [DiagnosaController::class, 'search'])->name('diagnosa.search');
+    Route::get('diagnosaexport', [DiagnosaController::class, 'export'])->name('diagnosa.export');
     // anjungan
     Route::get('anjunganantrian', [PendaftaranController::class, 'anjunganantrian'])->name('anjunganantrian');
     Route::get('checkinantrian', [PendaftaranController::class, 'checkinantrian'])->name('checkinantrian');

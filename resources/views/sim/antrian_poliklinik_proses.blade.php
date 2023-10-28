@@ -364,8 +364,7 @@
                                                     id="diagnosaauto" name="diagnosa" placeholder="Diagnosa">
                                                     {{ $kunjungan->asesmendokter->diagnosa ?? null }}
                                                 </x-adminlte-textarea> --}}
-                                                <x-adminlte-select2 name="diagnosa[]" class="diagnosa"
-                                                    label="Diagnosa :"
+                                                <x-adminlte-select2 name="diagnosa[]" class="diagnosa" label="Diagnosa :"
                                                     multiple>
                                                     @foreach (json_decode($antrian->asesmendokter->diagnosa) as $item)
                                                         <option value="{{ $item }}" selected> {{ $item }}
@@ -735,7 +734,7 @@
             $(".diagnosa").select2({
                 theme: "bootstrap4",
                 ajax: {
-                    url: "{{ route('diagnosa_autocomplete') }}",
+                    url: "{{ route('diagnosa.search') }}",
                     type: "get",
                     dataType: 'json',
                     delay: 250,

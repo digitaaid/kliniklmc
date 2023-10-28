@@ -14,7 +14,8 @@
                     $config['scrollY'] = '500px';
                 @endphp
                 <x-adminlte-button id="btnTambah" class="btn-sm" theme="success" label="Tambah Diagnosa" icon="fas fa-plus" />
-                {{-- <a href="{{ route('obatexport') }}" class="btn btn-sm btn-primary"><i class="fas fa-print"></i> Export</a> --}}
+                <a href="{{ route('diagnosa.export') }}" class="btn btn-sm btn-primary"><i class="fas fa-print"></i> Export
+                    Excel</a>
                 <x-adminlte-datatable id="table1" :heads="$heads" :config="$config" bordered hoverable compressed>
                     @foreach ($diagnosa as $item)
                         <tr>
