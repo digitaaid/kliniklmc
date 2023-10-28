@@ -91,7 +91,7 @@
                     @if ($kunjungan->files->count() != 0)
                         <b>Berkas Penunjang</b><br>
                         @foreach ($kunjungan->files as $file)
-                            <button class="btn btn-xs btn-primary" data-nama="{{ $file->nama }}"
+                            <button class="btn btn-xs btn-primary m-1" data-nama="{{ $file->nama }}"
                                 data-fileurl="{{ $file->fileurl }}"><i class="fas fa-file-medical"></i>
                                 {{ $file->nama }}</button>
                             <br>
