@@ -67,7 +67,7 @@
         </div>
     </div>
     <x-adminlte-modal id="modalObat" title="Resep Obat Kemoterapi" size='xl' icon="fas fa-pills" theme="success"
-        v-centered static-backdrop>
+        static-backdrop scrollable>
         <form action="" id="formObat" method="POST">
             @csrf
             <input type="hidden" name="id" id="id">
