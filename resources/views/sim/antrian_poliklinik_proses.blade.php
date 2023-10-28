@@ -375,7 +375,7 @@
                                                         @endforeach
                                                     @else
                                                         <option value="{{ $antrian->asesmendokter->diagnosa }}" selected>
-                                                            {{ $$antrian->asesmendokter->diagnosa }}
+                                                            {{ $antrian->asesmendokter->diagnosa }}
                                                         </option>
                                                     @endif
                                                 </x-adminlte-select2>
