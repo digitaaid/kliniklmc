@@ -81,6 +81,10 @@ class DokterController extends Controller
     public function prosespoliklinik(Request $request)
     {
         $antrian = Antrian::where('kodebooking', $request->kodebooking)->first();
+
+        // foreach (json_decode($antrian->asesmendokter->diagnosa) as $key => $value) {
+        //     dd($value);
+        // }
         if ($antrian) {
             try {
                 if ($antrian->taskid == 3) {

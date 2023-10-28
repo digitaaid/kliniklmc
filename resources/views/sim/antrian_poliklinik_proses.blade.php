@@ -75,6 +75,15 @@
             <div class="card card-primary card-outline">
                 <div class="card-body box-profile p-3" style="overflow-y: auto ;max-height: 600px ;">
                     <div id="accordion" role="tablist" aria-multiselectable="true">
+                        <style>
+                            pre {
+                                padding: 0 !important;
+                                margin-bottom: 0 !important;
+                                font-size: 14px !important;
+                                border: none;
+                                outline: none;
+                            }
+                        </style>
                         {{-- riwayatpasien --}}
                         <div class="card card-info mb-1">
                             <div class="card-header" role="tab" id="headingOne">
@@ -85,8 +94,8 @@
                                     </a>
                                 </h3>
                             </div>
-                            <div id="collapseOne" class="collapse" role="tabpanel" aria-labelledby="headingOne">
-                                <div class="card-body">
+                            <div id="collapseOne" class="collapse show" role="tabpanel" aria-labelledby="headingOne">
+                                <div class="card-body p-1">
                                     @include('sim.tabel_riwayat_pasien')
                                 </div>
                             </div>
@@ -315,6 +324,9 @@
                                 </div>
                             </div>
                         </div>
+                        <button type="submit" form="formPerawat" class="btn btn-success mb-1 w-100 withLoad">
+                            <i class="fas fa-edit"></i> Simpan & Tanda Tangan Pemeriksaan Perawat
+                        </button>
                         {{-- dokter --}}
                         <form action="{{ route('editasesmendokter') }}" method="POST">
                             @csrf
@@ -348,10 +360,18 @@
                                                     name="keluhan_utama" placeholder="Keluhan Utama">
                                                     {{ $kunjungan->asesmenperawat->keluhan_utama ?? null }}
                                                 </x-adminlte-textarea>
-                                                <x-adminlte-textarea igroup-size="sm" rows=3 label="Diagnosa"
+                                                {{-- <x-adminlte-textarea igroup-size="sm" rows=3 label="Diagnosa"
                                                     id="diagnosaauto" name="diagnosa" placeholder="Diagnosa">
                                                     {{ $kunjungan->asesmendokter->diagnosa ?? null }}
-                                                </x-adminlte-textarea>
+                                                </x-adminlte-textarea> --}}
+                                                <x-adminlte-select2 name="diagnosa[]" class="diagnosa"
+                                                    label="Diagnosa :"
+                                                    multiple>
+                                                    @foreach (json_decode($antrian->asesmendokter->diagnosa) as $item)
+                                                        <option value="{{ $item }}" selected> {{ $item }}
+                                                        </option>
+                                                    @endforeach
+                                                </x-adminlte-select2>
                                                 <x-adminlte-select2 name="diagnosa1" class="diagnosaid1"
                                                     label="Diagnosa Primer ICD-10 : {{ $kunjungan->asesmendokter->diagnosa1 ?? null }}">
                                                 </x-adminlte-select2>
@@ -712,6 +732,26 @@
                     cache: true
                 }
             });
+            $(".diagnosa").select2({
+                theme: "bootstrap4",
+                ajax: {
+                    url: "{{ route('diagnosa_autocomplete') }}",
+                    type: "get",
+                    dataType: 'json',
+                    delay: 250,
+                    data: function(params) {
+                        return {
+                            search: params.term // search term
+                        };
+                    },
+                    processResults: function(response) {
+                        return {
+                            results: response
+                        };
+                    },
+                    cache: true
+                }
+            });
         });
     </script>
     {{-- dynamic input --}}
@@ -767,41 +807,4 @@
             $(this).parents("#row").remove();
         })
     </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-    <script type="text/javascript">
-        var path = "{{ route('diagnosa_autocomplete') }}";
-        $("#diagnosaauto").autocomplete({
-            source: function(request, response) {
-                $.ajax({
-                    url: path,
-                    type: 'GET',
-                    dataType: "json",
-                    data: {
-                        search: request.term
-                    },
-                    success: function(data) {
-                        response(data);
-                    }
-                });
-            },
-            select: function(event, ui) {
-                $('#diagnosaauto').val(ui.item.label);
-                console.log(ui.item);
-                return false;
-            }
-        });
-    </script>
-    {{-- <script type="text/javascript">
-        var path = "{{ route('diagnosa_autocomplete') }}";
-        $('#diagnosaauto').typeahead({
-                source: function (query, process) {
-                    return $.get(path, {
-                        query: query
-                    }, function (data) {
-                        return process(data);
-                    });
-                }
-            });
-
-    </script> --}}
 @endsection

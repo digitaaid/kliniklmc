@@ -68,6 +68,7 @@
             <div class="card card-primary card-outline">
                 <div class="card-body box-profile p-3" style="overflow-y: auto ;max-height: 600px ;">
                     <div id="accordion" role="tablist" aria-multiselectable="true">
+
                         {{-- riwayatpasien --}}
                         <div class="card card-info mb-1">
                             <div class="card-header" role="tab" id="headingOne">
@@ -337,9 +338,6 @@
                         <button type="submit" form="formPerawat" class="btn btn-success w-100 withLoad">
                             <i class="fas fa-edit"></i> Simpan & Tanda Tangan Pemeriksaan Perawat
                         </button>
-
-
-
                     </div>
                 </div>
                 <div class="card-footer">

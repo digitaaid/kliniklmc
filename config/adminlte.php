@@ -447,6 +447,13 @@ return [
                     'shift'   => 'ml-2',
                     'can' => 'admin',
                 ],
+                [
+                    'text' => 'Diagnosa',
+                    'icon'    => 'fas fa-users',
+                    'url'  => 'diagnosa',
+                    'shift'   => 'ml-2',
+                    'can' =>  ['perawat', 'admin',  'dokter'],
+                ],
             ],
         ],
         // LAPORAN

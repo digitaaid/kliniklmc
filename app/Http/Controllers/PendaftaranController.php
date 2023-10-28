@@ -361,7 +361,8 @@ class PendaftaranController extends APIController
         } catch (\Throwable $th) {
             Alert::error('Mohon Maaf', $th->getMessage());
         }
-        return redirect()->back();
+        $url = route('antrianpendaftaran') . "?tanggalperiksa=" . $antrian->tanggalperiksa;
+        return redirect()->to($url);
     }
     function batalantrian(Request $request)
     {
