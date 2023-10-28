@@ -221,6 +221,12 @@
                                         <a data-toggle="collapse" data-parent="#accordion" href="#collSEP"
                                             aria-expanded="true" aria-controls="collSEP">
                                             SEP
+                                            @if ($antrian->sep)
+                                                <i class="fas fa-check-circle"></i> (Sudah Tercetak No SEP
+                                                {{ $antrian->sep }})
+                                            @else
+                                                <i class="fas fa-times-circle"></i> (Belum Cetak SEP)
+                                            @endif
                                         </a>
                                     </h3>
                                 </div>
