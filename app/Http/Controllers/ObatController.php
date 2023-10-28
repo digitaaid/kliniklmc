@@ -6,6 +6,7 @@ use App\Exports\ObatExport;
 use App\Imports\ObatsImport;
 use App\Models\Obat;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
 use RealRashid\SweetAlert\Facades\Alert;
 
@@ -26,9 +27,13 @@ class ObatController extends Controller
     }
     public function store(Request $request)
     {
-        Obat::updateOrCreate([
-            'nama' => $request->nama,
-        ]);
+        $request['user'] = Auth::user()->id;
+        Obat::updateOrCreate(
+            [
+                'nama' => $request->nama,
+            ],
+            $request->all()
+        );
         Alert::success('Success', 'Data Nama Obat Disimpan.');
         return redirect()->route('obat.index');
     }
@@ -38,6 +43,10 @@ class ObatController extends Controller
         $obat->update([
             'nama' => $request->nama,
             'jenisobat' => $request->jenisobat,
+            'harga' => $request->harga,
+            'satuan' => $request->satuan,
+            'tipebarang' => $request->tipebarang,
+            'user' => Auth::user()->id,
         ]);
         Alert::success('Success', 'Data Nama Obat Diperbaharui.');
         return redirect()->route('obat.index');
@@ -68,6 +77,12 @@ class ObatController extends Controller
     public function obatexport()
     {
         return Excel::download(new ObatExport, 'obat.xlsx');
+    }
+    public function obatimport(Request $request)
+    {
+        Excel::import(new ObatsImport, $request->file);
+        Alert::success('Success', 'Import Obat Berhasil.');
+        return redirect()->route('obat.index');
     }
 
 }

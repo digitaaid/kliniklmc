@@ -15,10 +15,13 @@ class ObatExport implements FromCollection, WithHeadings
     public function headings(): array
     {
         return [
-            'ID',
-            'Nama Obat',
-            'Satuan',
-            'Jenis Obat',
+            'id',
+            'nama_obat',
+            'satuan',
+            'harga_satuan',
+            'tipe_barang',
+            'jenis_obat',
+            'user',
             'created_at',
             'updated_at',
         ];

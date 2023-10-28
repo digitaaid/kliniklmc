@@ -676,7 +676,7 @@ return [
     'IDR' => [
         'name'                => 'Rupiah',
         'code'                => 360,
-        'precision'           => 1,
+        'precision'           => 0,
         'subunit'             => 1,
         'symbol'              => 'Rp ',
         'symbol_first'        => true,
