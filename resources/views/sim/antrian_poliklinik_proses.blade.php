@@ -75,15 +75,7 @@
             <div class="card card-primary card-outline">
                 <div class="card-body box-profile p-3" style="overflow-y: auto ;max-height: 600px ;">
                     <div id="accordion" role="tablist" aria-multiselectable="true">
-                        <style>
-                            pre {
-                                padding: 0 !important;
-                                margin-bottom: 0 !important;
-                                font-size: 14px !important;
-                                border: none;
-                                outline: none;
-                            }
-                        </style>
+
                         {{-- riwayatpasien --}}
                         <div class="card card-info mb-1">
                             <div class="card-header" role="tab" id="headingOne">

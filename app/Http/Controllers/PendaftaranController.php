@@ -147,7 +147,7 @@ class PendaftaranController extends APIController
     }
     public function prosespendaftaran(Request $request)
     {
-        $antrian = Antrian::where('kodebooking', $request->kodebooking)->first();
+        $antrian = Antrian::with(['suratkontrols', 'kunjungan', 'fileuploads', 'pasien'])->where('kodebooking', $request->kodebooking)->first();
         if ($antrian) {
             if ($antrian->taskid == 1) {
                 $antrian->update([
@@ -155,6 +155,10 @@ class PendaftaranController extends APIController
                 ]);
                 Alert::success('Success', 'Antrian dipanggil ke pendaftaran.');
             }
+            $kunjungans = Kunjungan::where('norm', $antrian->norm)
+            ->with(['units', 'asesmenperawat', 'asesmendokter', 'files', 'resepobat', 'resepobat.resepdetail'])
+            ->orderBy('tgl_masuk', 'DESC')
+            ->get();
             $dokters = Dokter::where('status', '1')->pluck('namadokter', 'kodedokter');
             $polikliniks = Unit::where('status', '1')->pluck('nama', 'kode');
             $jaminans = Jaminan::pluck('nama', 'kode');
@@ -163,6 +167,7 @@ class PendaftaranController extends APIController
                 'antrian',
                 'dokters',
                 'jaminans',
+                'kunjungans',
                 'polikliniks',
             ]));
         } else {

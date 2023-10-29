@@ -687,6 +687,51 @@
                             </div>
                         </div>
                         <div class="card card-info mb-1">
+                            <div class="card-header" role="tab" id="headLay">
+                                <h3 class="card-title">
+                                    <a data-toggle="collapse" data-parent="#accordion" href="#collLay"
+                                        aria-expanded="true" aria-controls="collLay">
+                                        Layanan & Tindakan
+                                        {{-- @if ($antrian->kunjungan_id)
+                                            <i class="fas fa-check-circle"></i> (Sudah Terintegrasi)
+                                        @else
+                                            <i class="fas fa-times-circle"></i> (Belum Terintegrasi)
+                                        @endif --}}
+                                    </a>
+                                </h3>
+                            </div>
+                            <div id="collLay" class="collapse" role="tabpanel" aria-labelledby="headLay">
+                                <div class="card-body">
+                                    <form action="{{ route('editkunjungan') }}" method="POST">
+                                        @csrf
+                                        <input type="hidden" name="kodebooking" value="{{ $antrian->kodebooking }}">
+                                        <input type="hidden" name="antrian_id" value="{{ $antrian->id }}">
+                                        <div class="form-group">
+                                            <div class="custom-control custom-checkbox">
+                                                <input class="custom-control-input" type="checkbox" id="kemoterapi"
+                                                    name="kemoterapi" value="Kemoterapi">
+                                                <label for="kemoterapi" class="custom-control-label">Kemoterapi</label>
+                                            </div>
+                                            <div class="custom-control custom-checkbox">
+                                                <input class="custom-control-input" type="checkbox" id="radiologi"
+                                                    name="radiologi" value="radiologi">
+                                                <label for="radiologi" class="custom-control-label">Radiologi</label>
+                                            </div>
+                                            <div class="custom-control custom-checkbox">
+                                                <input class="custom-control-input" type="checkbox" id="Laboratorium"
+                                                    name="Laboratorium" value="Laboratorium">
+                                                <label for="Laboratorium"
+                                                    class="custom-control-label">Laboratorium</label>
+                                            </div>
+                                        </div>
+                                        <button type="submit" class="btn btn-success withLoad">
+                                            <i class="fas fa-edit"></i> Simpan Kunjungan
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card card-info mb-1">
                             <div class="card-header" role="tab" id="headKasir">
                                 <h3 class="card-title">
                                     <a data-toggle="collapse" data-parent="#accordion" href="#collKasir"

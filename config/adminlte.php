@@ -454,6 +454,13 @@ return [
                     'shift'   => 'ml-2',
                     'can' =>  ['perawat', 'admin',  'dokter'],
                 ],
+                [
+                    'text' => 'Tarif Layanan & Tindakan',
+                    'icon'    => 'fas fa-users',
+                    'url'  => 'tarif',
+                    'shift'   => 'ml-2',
+                    'can' =>  ['manajemen', 'admin'],
+                ],
             ],
         ],
         // LAPORAN

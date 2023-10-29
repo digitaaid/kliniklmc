@@ -42,13 +42,11 @@ class PerawatController extends Controller
     {
         $antrian = Antrian::with(['kunjungan', 'kunjungan.asesmenperawat'])->where('kodebooking', $request->kodebooking)->first();
         if ($antrian) {
-            // if (!$antrian->pasien) {
-            //     Alert::error('Mohon Maaf', 'Silahkan perbaiki data norm pasien terlebih dahulu menjadi ' . $antrian->norm);
-            //     return redirect()->back();
-            // }
-            // $dokters = Dokter::where('status', '1')->pluck('namadokter', 'kodedokter');
-            // $polikliniks = Unit::where('status', '1')->pluck('nama', 'kode');
             $kunjungan = $antrian->kunjungan;
+            $kunjungans = Kunjungan::where('norm', $antrian->norm)
+                ->with(['units', 'asesmenperawat', 'asesmendokter', 'files', 'resepobat', 'resepobat.resepdetail'])
+                ->orderBy('tgl_masuk', 'DESC')
+                ->get();
             if (empty($antrian->asesmenperawat)) {
                 Alert::info('Informasi', 'Silahkan Lakukan Assemen Keperawatan.');
             }
@@ -56,7 +54,7 @@ class PerawatController extends Controller
                 'request',
                 'antrian',
                 // 'dokters',
-                // 'polikliniks',
+                'kunjungans',
                 'kunjungan',
             ]));
         } else {

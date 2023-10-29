@@ -5,9 +5,18 @@
     $config['bLengthChange'] = false;
     $config['ordering'] = false;
 @endphp
+<style>
+    pre {
+        padding: 0 !important;
+        margin-bottom: 0 !important;
+        font-size: 14px !important;
+        border: none;
+        outline: none;
+    }
+</style>
 <x-adminlte-datatable id="table1" :heads="$heads" :config="$config" bordered hoverable compressed>
     @if ($antrian->pasien)
-        @foreach ($antrian->pasien->kunjungans as $kunjungan)
+        @foreach ($kunjungans as $kunjungan)
             <tr>
                 <td>
                     {{ \Carbon\Carbon::parse($kunjungan->tgl_masuk)->format('d/m/Y h:m:s') }}

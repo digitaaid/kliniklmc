@@ -104,10 +104,15 @@ class DokterController extends Controller
                     // }
                 }
                 $kunjungan = Kunjungan::find($antrian->kunjungan_id);
+                $kunjungans = Kunjungan::where('norm', $antrian->norm)
+                    ->with(['units', 'asesmenperawat', 'asesmendokter', 'files', 'resepobat', 'resepobat.resepdetail'])
+                    ->orderBy('tgl_masuk', 'DESC')
+                    ->get();
                 return view('sim.antrian_poliklinik_proses', compact([
                     'request',
                     'antrian',
                     'kunjungan',
+                    'kunjungans',
                 ]));
             } catch (\Throwable $th) {
                 Alert::error('Mohon Maaf', $th->getMessage());
@@ -247,19 +252,19 @@ class DokterController extends Controller
     {
         $antrian = Antrian::where('kodebooking', $request->kodebooking)->first();
         try {
-                $request['keterangan'] = "Pasien dilanjutkan ke farmasi";
-                $request['taskid'] = "5";
-                $request['waktu'] = now();
-                $request['user3'] = Auth::user()->id;
-                $api = new AntrianController();
-                $res = $api->update_antrean($request);
-                $antrian->update($request->all());
-                // if ($res->metadata->code == 200) {
-                $request['nomorantrean'] = $antrian->angkaantrean;
-                $request['jenisresep'] = 'racikan';
-                $res_farmasi = $api->tambah_antrean_farmasi($request);
-                // }
-                Alert::success('Success', $res->metadata->message);
+            $request['keterangan'] = "Pasien dilanjutkan ke farmasi";
+            $request['taskid'] = "5";
+            $request['waktu'] = now();
+            $request['user3'] = Auth::user()->id;
+            $api = new AntrianController();
+            $res = $api->update_antrean($request);
+            $antrian->update($request->all());
+            // if ($res->metadata->code == 200) {
+            $request['nomorantrean'] = $antrian->angkaantrean;
+            $request['jenisresep'] = 'racikan';
+            $res_farmasi = $api->tambah_antrean_farmasi($request);
+            // }
+            Alert::success('Success', $res->metadata->message);
         } catch (\Throwable $th) {
             Alert::error('Gagal', $th->getMessage());
             return redirect()->back();

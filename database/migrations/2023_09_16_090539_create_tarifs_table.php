@@ -13,6 +13,11 @@ return new class extends Migration
     {
         Schema::create('tarifs', function (Blueprint $table) {
             $table->id();
+            $table->string('nama');
+            $table->string('jenislayanan')->nullable();
+            $table->string('jenispasien')->default('SEMUA');
+            $table->double('harga')->default(0);
+            $table->string('user');
             $table->timestamps();
         });
     }
