@@ -29,35 +29,35 @@
                         <dl>
                             <dt>Keluhan Utama :</dt>
                             <dd>
-                                <pre>{{ $kunjungan->asesmenperawat->keluhan_utama ?? null }}</pre>
+                                <pre>{{ $kunjungan->asesmenperawat->keluhan_utama ?? '-' }}</pre>
                             </dd>
                             <dt>Riwayat Pengobatan :</dt>
                             <dd>
-                                <pre>{{ $kunjungan->asesmenperawat->riwayat_pengobatan ?? null }}</pre>
+                                <pre>{{ $kunjungan->asesmenperawat->riwayat_pengobatan ?? '-' }}</pre>
                             </dd>
                             <dt>Tanda Vital :</dt>
                             <dd>
                                 Denyut Nadi :
-                                {{ $kunjungan->asesmenperawat->denyut_jantung ?? null }}
+                                {{ $kunjungan->asesmenperawat->denyut_jantung ?? '-' }}
                                 x/menit<br>
                                 Pernapasan :
-                                {{ $kunjungan->asesmenperawat->pernapasan ?? null }}
+                                {{ $kunjungan->asesmenperawat->pernapasan ?? '-' }}
                                 x/menit<br>
                                 Suhu Tubuh :
-                                {{ $kunjungan->asesmenperawat->suhu ?? null }}
+                                {{ $kunjungan->asesmenperawat->suhu ?? '-' }}
                                 celcius<br>
                                 Tekanan Darah :
-                                {{ $kunjungan->asesmenperawat->sistole ?? null }}
+                                {{ $kunjungan->asesmenperawat->sistole ?? '-' }}
                                 /
-                                {{ $kunjungan->asesmenperawat->distole ?? null }}
+                                {{ $kunjungan->asesmenperawat->distole ?? '-' }}
                                 mmHg<br>
                                 Tinggi / Berat / BSA :
-                                {{ $kunjungan->asesmenperawat->tinggi_badan ?? null }}
+                                {{ $kunjungan->asesmenperawat->tinggi_badan ?? '-' }}
                                 cm /
-                                {{ $kunjungan->asesmenperawat->berat_badan ?? null }}
+                                {{ $kunjungan->asesmenperawat->berat_badan ?? '-' }}
                                 kg /
                                 @if ($kunjungan->asesmenperawat)
-                                    {{ number_format(sqrt(($kunjungan->asesmenperawat->tinggi_badan * $kunjungan->asesmenperawat->berat_badan) / 3600), 2) ?? null }}
+                                    {{ number_format(sqrt(($kunjungan->asesmenperawat->tinggi_badan * $kunjungan->asesmenperawat->berat_badan) / 3600), 2) ?? '-' }}
                                 @endif m2 <br>
                                 Kesadaran :
                                 @switch($kunjungan->asesmenperawat->tingkat_kesadaran)
@@ -90,6 +90,14 @@
                                 <br>
                                 Tanda Vital Tubuh :
                                 {{ $kunjungan->asesmenperawat->keadaan_tubuh ?? '-' }}
+                            </dd>
+                            <dt>Riwayat Penyakit :</dt>
+                            <dd>
+                                <pre>{{ $kunjungan->asesmenperawat->riwayat_penyakit ?? '-' }}</pre>
+                            </dd>
+                            <dt>Riwayat Alergi :</dt>
+                            <dd>
+                                <pre>{{ $kunjungan->asesmenperawat->riwayat_alergi ?? '-' }}</pre>
                             </dd>
                         </dl>
                     @else
