@@ -412,6 +412,11 @@
                                         </a>
                                     </h3>
                                 </div>
+                                <style>
+                                    .cariObat {
+                                        width: 300px !important;
+                                    }
+                                </style>
                                 <div id="collResep" class="collapse" role="tabpanel" aria-labelledby="headResep">
                                     <div class="card-body">
                                         <div class="row">
