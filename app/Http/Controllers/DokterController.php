@@ -162,6 +162,7 @@ class DokterController extends Controller
             }
             $request['diagnosa2'] = $diagnosa2;
         }
+        $request['diagnosa'] = json_encode($request->diagnosa);
         $asesmenperawat = $kunjungan->asesmenperawat;
         $asesmenperawat->update([
             'keluhan_utama' => $request->keluhan_utama,
