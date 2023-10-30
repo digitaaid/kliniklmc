@@ -238,5 +238,5 @@
 <x-adminlte-modal id="modalFilePenunjang" name="modalFilePenunjang" title="File Penunjang" theme="success"
     icon="fas fa-file-medical" size="xl">
     <iframe id="dataFilePenunjang" src="" height="600px" width="100%" title="Iframe Example"></iframe>
-    <a href="{{ $file->fileurl }}" target="_blank" class="btn btn-xs"><i class="fas fa-download"></i>Download</a>
+    <a href="" id="urlFilePenunjang" target="_blank" class="btn btn-xs"><i class="fas fa-download"></i>Download</a>
 </x-adminlte-modal>

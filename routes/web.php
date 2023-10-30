@@ -26,6 +26,7 @@ use App\Http\Controllers\SepController;
 use App\Http\Controllers\SocialiteController;
 use App\Http\Controllers\SuratKontrolController;
 use App\Http\Controllers\TanyaJawabController;
+use App\Http\Controllers\TarifController;
 use App\Http\Controllers\TestimoniController;
 use App\Http\Controllers\ThermalPrintController;
 use App\Http\Controllers\UnitController;
@@ -105,6 +106,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('antrian', AntrianController::class);
     Route::resource('kunjungan', KunjunganController::class);
     Route::resource('suratkontrol', SuratKontrolController::class);
+    Route::resource('tarif', TarifController::class);
     Route::get('kirimpesanlibur', [JadwalLiburController::class, 'kirimpesanlibur'])->name('kirimpesanlibur');
     // anjungan
     Route::get('anjunganantrian', [PendaftaranController::class, 'anjunganantrian'])->name('anjunganantrian');
