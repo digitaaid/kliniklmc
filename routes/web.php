@@ -124,6 +124,9 @@ Route::middleware('auth')->group(function () {
     Route::get('panggilpendaftaran', [PendaftaranController::class, 'panggilpendaftaran'])->name('panggilpendaftaran');
     Route::post('editantrian', [PendaftaranController::class, 'editantrian'])->name('editantrian');
     Route::post('editkunjungan', [PendaftaranController::class, 'editkunjungan'])->name('editkunjungan');
+    Route::post('editlayananpendaftaran', [PendaftaranController::class, 'editlayananpendaftaran'])->name('editlayananpendaftaran');
+    Route::get('ref_tarif_pendaftaran', [TarifController::class, 'ref_tarif_pendaftaran'])->name('ref_tarif_pendaftaran');
+    Route::get('ref_tarif_layanan', [TarifController::class, 'ref_tarif_layanan'])->name('ref_tarif_layanan');
     Route::get('lanjutpoliklinik', [PendaftaranController::class, 'lanjutpoliklinik'])->name('lanjutpoliklinik');
     Route::get('batalantrian', [PendaftaranController::class, 'batalantrian'])->name('batalantrian');
     Route::get('tidakjadibatal', [PendaftaranController::class, 'tidakjadibatal'])->name('tidakjadibatal');

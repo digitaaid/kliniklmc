@@ -81,10 +81,8 @@ class DokterController extends Controller
     public function prosespoliklinik(Request $request)
     {
         $antrian = Antrian::where('kodebooking', $request->kodebooking)->first();
-
-        // foreach (json_decode($antrian->asesmendokter->diagnosa) as $key => $value) {
-        //     dd($value);
-        // }
+        $urlicare = null;
+        $messageicare = null;
         if ($antrian) {
             try {
                 if ($antrian->taskid == 3) {
@@ -103,6 +101,17 @@ class DokterController extends Controller
                     Alert::success('Success', $res->metadata->message);
                     // }
                 }
+                // icare
+                $api = new IcareController();
+                $request['nomorkartu'] = $antrian->nomorkartu;
+                $request['kodedokter'] = $antrian->kodedokter;
+                $res =  $api->icare($request);
+                if ($res->metadata->code == 200) {
+                    $urlicare = $res->response->url;
+                    $messageicare = 'ok';
+                } else {
+                    $messageicare = $res->metadata->message;
+                }
                 $kunjungan = Kunjungan::find($antrian->kunjungan_id);
                 $kunjungans = Kunjungan::where('norm', $antrian->norm)
                     ->with(['units', 'asesmenperawat', 'asesmendokter', 'files', 'resepobat', 'resepobat.resepdetail'])
@@ -111,6 +120,8 @@ class DokterController extends Controller
                 return view('sim.antrian_poliklinik_proses', compact([
                     'request',
                     'antrian',
+                    'urlicare',
+                    'messageicare',
                     'kunjungan',
                     'kunjungans',
                 ]));

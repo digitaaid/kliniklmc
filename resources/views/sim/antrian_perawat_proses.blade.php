@@ -69,21 +69,7 @@
                 <div class="card-body box-profile p-3" style="overflow-y: auto ;max-height: 600px ;">
                     <div id="accordion" role="tablist" aria-multiselectable="true">
                         {{-- riwayatpasien --}}
-                        <div class="card card-info mb-1">
-                            <div class="card-header" role="tab" id="headingOne">
-                                <h3 class="card-title">
-                                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne"
-                                        aria-expanded="true" aria-controls="collapseOne">
-                                        Riwayat Pasien ({{ $antrian->pasien->kunjungans->count() }} Kunjungan)
-                                    </a>
-                                </h3>
-                            </div>
-                            <div id="collapseOne" class="collapse" role="tabpanel" aria-labelledby="headingOne">
-                                <div class="card-body">
-                                    @include('sim.tabel_riwayat_pasien')
-                                </div>
-                            </div>
-                        </div>
+                        @include('sim.tabel_riwayat_pasien')
                         {{-- filepenunjang --}}
                         <div class="card card-info mb-1">
                             <div class="card-header" role="tab" id="headFile">

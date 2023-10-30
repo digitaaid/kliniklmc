@@ -18,9 +18,23 @@
                 @endphp
                 <x-adminlte-button id="btnTambah" class="btn-sm" theme="success" label="Tambah Tarif" icon="fas fa-plus" />
                 <a href="{{ route('obatexport') }}" class="btn btn-sm btn-primary"><i class="fas fa-print"></i> Export</a>
-                <div class="btn btn-sm btn-primary btnModalImport"><i class="fas fa-file-medical"></i> Import</div>
+                {{-- <div class="btn btn-sm btn-primary btnModalImport"><i class="fas fa-file-medical"></i> Import</div> --}}
                 <x-adminlte-datatable id="table1" :heads="$heads" :config="$config" bordered hoverable compressed>
-
+                    @foreach ($tarifs as $item)
+                        <tr>
+                            <td>{{ $item->id }}</td>
+                            <td>{{ $item->nama }}</td>
+                            <td>{{ $item->klasifikasi }}</td>
+                            <td>{{ money($item->harga, 'IDR') }}</td>
+                            <td>{{ $item->jenispasien }}</td>
+                            <td>
+                                <x-adminlte-button class="btn-xs btnEdit" theme="warning" icon="fas fa-edit"
+                                    title="Edit Obat {{ $item->nama }}" data-id="{{ $item->id }}"
+                                    data-nama="{{ $item->nama }}" data-klasifikasi="{{ $item->klasifikasi }}"
+                                    data-jenispasien="{{ $item->jenispasien }}" data-harga="{{ $item->harga }}" />
+                            </td>
+                        </tr>
+                    @endforeach
                 </x-adminlte-datatable>
             </x-adminlte-card>
         </div>
@@ -97,35 +111,33 @@
                 $('#id').val($(this).data("id"));
                 $('#nama').val($(this).data("nama"));
                 $('#harga').val($(this).data("harga"));
-                $('#satuan').val($(this).data("satuan")).change();
-                $('#jenisobat').val($(this).data("jenisobat")).change();
-                $('#tipebarang').val($(this).data("tipebarang")).change();
+                $('#klasifikasi').val($(this).data("klasifikasi")).change();
+                $('#jenispasien').val($(this).data("jenispasien")).change();
                 $('#modalTarif').modal('show');
                 $.LoadingOverlay("hide");
             });
             $('#btnStore').click(function(e) {
                 $.LoadingOverlay("show");
                 e.preventDefault();
-                var url = "{{ route('obat.store') }}";
+                var url = "{{ route('tarif.store') }}";
                 $('#formTarif').attr('action', url);
                 $("#method").prop('', true);
                 $('#formTarif').submit();
-
             });
             $('#btnUpdate').click(function(e) {
                 $.LoadingOverlay("show");
                 e.preventDefault();
                 var id = $('#id').val();
-                var url = "{{ route('obat.index') }}/" + id;
+                var url = "{{ route('tarif.index') }}/" + id;
                 $('#formTarif').attr('action', url);
                 $('#method').val('PUT');
                 $('#formTarif').submit();
             });
-            $('.btnModalImport').click(function() {
-                $.LoadingOverlay("show");
-                $('#modalImport').modal('show');
-                $.LoadingOverlay("hide");
-            });
+            // $('.btnModalImport').click(function() {
+            //     $.LoadingOverlay("show");
+            //     $('#modalImport').modal('show');
+            //     $.LoadingOverlay("hide");
+            // });
             // $('.btnDelete').click(function(e) {
             //     e.preventDefault();
             //     var name = $(this).data("name");
@@ -139,7 +151,7 @@
             //         if (result.isDenied) {
             //             $.LoadingOverlay("show");
             //             var id = $(this).data("id");
-            //             var url = "{{ route('obat.index') }}/" + id;
+            //             var url = "{{ route('tarif.index') }}/" + id;
             //             $('#formDelete').attr('action', url);
             //             $('#formDelete').submit();
             //         }

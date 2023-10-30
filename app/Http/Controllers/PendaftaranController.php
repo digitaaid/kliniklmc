@@ -350,6 +350,58 @@ class PendaftaranController extends APIController
         Alert::success('Success', 'Kunjungan antrian telah disimpan');
         return redirect()->back();
     }
+    function editlayananpendaftaran(Request $request)
+    {
+        dd($request->all());
+        $request->validate([
+            'kodebooking' => 'required',
+            'antrian_id' => 'required',
+            'tgl_masuk' => 'required',
+            'jaminan' => 'required',
+            'nomorkartu' => 'required',
+            'nik' => 'required|digits:16',
+            'norm' => 'required|digits:9',
+            'nama' => 'required',
+            'tgl_lahir' => 'required|date',
+            'gender' => 'required',
+            'kelas' => 'required',
+            'penjamin' => 'required',
+            'kodepoli' => 'required',
+            'cara_masuk' => 'required',
+            'jeniskunjungan' => 'required',
+            // 'nomorreferensi' => 'required',
+            // 'sep' => 'required',
+        ]);
+        if ($request->jeniskunjungan != "2") {
+            $request->validate([
+                'nomorreferensi' => 'required',
+                'sep' => 'required',
+            ]);
+        }
+        $antrian = Antrian::find($request->antrian_id);
+        $request['counter'] = Kunjungan::where('nomorkartu', $request->nomorkartu)->count() + 1;
+        $request['kode'] = $antrian->kodebooking;
+        $request['unit'] = $request->kodepoli;
+        $request['dokter'] = $request->kodedokter;
+        $request['diagnosa_awal'] = 'C50';
+        $request['alasan_masuk'] = $request->cara_masuk;
+        $request['status'] = 1;
+        $request['user1'] = Auth::user()->id;
+        if ($antrian->kunjungan_id) {
+            $kunjungan = Kunjungan::find($antrian->kunjungan_id);
+            $kunjungan->update($request->all());
+        } else {
+            $kunjungan = Kunjungan::create($request->all());
+        }
+        $antrian->update([
+            'kunjungan_id' => $kunjungan->id,
+            'kodekunjungan' => $kunjungan->kode,
+            'user1' =>  Auth::user()->id,
+        ]);
+        Alert::success('Success', 'Kunjungan antrian telah disimpan');
+        return redirect()->back();
+    }
+
     function lanjutpoliklinik(Request $request)
     {
         $antrian = Antrian::where('kodebooking', $request->kodebooking)->first();

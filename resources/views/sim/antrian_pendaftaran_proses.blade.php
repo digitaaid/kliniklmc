@@ -72,21 +72,7 @@
             <div class="card card-primary card-outline">
                 <div class="card-body box-profile p-3" style="overflow-y: auto ;max-height: 600px ;">
                     <div id="accordion" role="tablist" aria-multiselectable="true">
-                        <div class="card card-info mb-1">
-                            <div class="card-header" role="tab" id="headingOne">
-                                <h3 class="card-title">
-                                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne"
-                                        aria-expanded="true" aria-controls="collapseOne">
-                                        Riwayat Kunjungan
-                                    </a>
-                                </h3>
-                            </div>
-                            <div id="collapseOne" class="collapse" role="tabpanel" aria-labelledby="headingOne">
-                                <div class="card-body">
-                                    @include('sim.tabel_riwayat_pasien')
-                                </div>
-                            </div>
-                        </div>
+
                         <div class="card card-info mb-1">
                             <div class="card-header" role="tab" id="headAntrian">
                                 <h3 class="card-title">
@@ -143,8 +129,7 @@
                                                     value="{{ $antrian->tanggalperiksa }}" placeholder="Tanggal Periksa"
                                                     :config="$config">
                                                 </x-adminlte-input-date>
-                                                <x-adminlte-select igroup-size="sm" name="jenispasien"
-                                                    label="Jenis Pasien">
+                                                <x-adminlte-select igroup-size="sm" name="jenispasien" label="Jenis Pasien">
                                                     <option selected disabled>Pilih Jenis Pasien</option>
                                                     <option value="JKN"
                                                         {{ $antrian->jenispasien == 'JKN' ? 'selected' : null }}>JKN
@@ -686,156 +671,162 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="card card-info mb-1">
-                            <div class="card-header" role="tab" id="headLay">
-                                <h3 class="card-title">
-                                    <a data-toggle="collapse" data-parent="#accordion" href="#collLay"
-                                        aria-expanded="true" aria-controls="collLay">
-                                        Layanan & Tindakan
-                                        {{-- @if ($antrian->kunjungan_id)
+                        @if ($antrian->kunjungan)
+                            <div class="card card-info mb-1">
+                                <div class="card-header" role="tab" id="headLay">
+                                    <h3 class="card-title">
+                                        <a data-toggle="collapse" data-parent="#accordion" href="#collLay"
+                                            aria-expanded="true" aria-controls="collLay">
+                                            Layanan & Tindakan
+                                            {{-- @if ($antrian->kunjungan_id)
                                             <i class="fas fa-check-circle"></i> (Sudah Terintegrasi)
                                         @else
                                             <i class="fas fa-times-circle"></i> (Belum Terintegrasi)
                                         @endif --}}
-                                    </a>
-                                </h3>
-                            </div>
-                            <div id="collLay" class="collapse" role="tabpanel" aria-labelledby="headLay">
-                                <div class="card-body">
-                                    <form action="{{ route('editkunjungan') }}" method="POST">
-                                        @csrf
-                                        <input type="hidden" name="kodebooking" value="{{ $antrian->kodebooking }}">
-                                        <input type="hidden" name="antrian_id" value="{{ $antrian->id }}">
-                                        <div class="form-group">
-                                            <div class="custom-control custom-checkbox">
-                                                <input class="custom-control-input" type="checkbox" id="kemoterapi"
-                                                    name="kemoterapi" value="Kemoterapi">
-                                                <label for="kemoterapi" class="custom-control-label">Kemoterapi</label>
-                                            </div>
-                                            <div class="custom-control custom-checkbox">
-                                                <input class="custom-control-input" type="checkbox" id="radiologi"
-                                                    name="radiologi" value="radiologi">
-                                                <label for="radiologi" class="custom-control-label">Radiologi</label>
-                                            </div>
-                                            <div class="custom-control custom-checkbox">
-                                                <input class="custom-control-input" type="checkbox" id="Laboratorium"
-                                                    name="Laboratorium" value="Laboratorium">
-                                                <label for="Laboratorium"
-                                                    class="custom-control-label">Laboratorium</label>
-                                            </div>
-                                        </div>
-                                        {{-- <button type="submit" class="btn btn-success withLoad">
-                                            <i class="fas fa-edit"></i> Simpan Kunjungan
-                                        </button> --}}
-                                    </form>
+                                        </a>
+                                    </h3>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="card card-info mb-1">
-                            <div class="card-header" role="tab" id="headKasir">
-                                <h3 class="card-title">
-                                    <a data-toggle="collapse" data-parent="#accordion" href="#collKasir"
-                                        aria-expanded="true" aria-controls="collKasir">
-                                        Kasir
-                                    </a>
-                                </h3>
-                            </div>
-                            <div id="collKasir" class="collapse" role="tabpanel" aria-labelledby="headKasir">
-                                <div class="card-body">
-                                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry
-                                    richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor
-                                    brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor,
-                                    sunt aliqua put a bird on it squid single-origin coffee nulla assumenda
-                                    shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson
-                                    cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo.
-                                    Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt
-                                    you probably haven't heard of them accusamus labore sustainable VHS.
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card card-info mb-1">
-                            <div class="card-header" role="tab" id="headFile">
-                                <h3 class="card-title">
-                                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseFile"
-                                        aria-expanded="true" aria-controls="collapseFile">
-                                        File Penunjang
-                                    </a>
-                                </h3>
-                            </div>
-                            <div id="collapseFile" class="collapse" role="tabpanel" aria-labelledby="headFile">
-                                <div class="card-body">
-                                    <style>
-                                        .card.card-tabs .card-tools {
-                                            margin: 0px !important;
-                                        }
-                                    </style>
-                                    @if ($antrian->pasien)
-                                        @if ($antrian->pasien->fileuploads)
+                                <div id="collLay" class="collapse" role="tabpanel" aria-labelledby="headLay">
+                                    <div class="card-body">
+                                        <style>
+                                            .cariLayanan {
+                                                width: 300px !important;
+                                            }
+
+                                            .cariLayananPasien {
+                                                width: 300px !important;
+                                            }
+                                        </style>
+                                        <form action="{{ route('editlayananpendaftaran') }}" method="POST">
+                                            @csrf
+                                            <input type="hidden" name="kodekunjungan"
+                                                value="{{ $antrian->kodekunjungan }}">
+                                            <input type="hidden" name="kunjungan_id"
+                                                value="{{ $antrian->kunjungan_id }}">
                                             <div class="row">
-                                                @foreach ($antrian->pasien->fileuploads as $file)
-                                                    <div class="col-md-6">
-                                                        <x-adminlte-card header-class="p-2" body-class="p-0"
-                                                            title="{{ $file->nama }}" theme="secondary"
-                                                            icon="fas fa-file" collapsible="">
-                                                            <x-slot name="toolsSlot">
-                                                                Uploaded at : {{ $file->created_at }}
-                                                                <a href="{{ $file->fileurl }}" target="_blank"
-                                                                    class="btn btn-xs btn-tool"><i
-                                                                        class="fas fa-download"></i></a>
-                                                                <a href="{{ route('hapusfilepenunjang') }}?id={{ $file->id }}"
-                                                                    class="btn btn-xs btn-tool"> <i
-                                                                        class="fas fa-trash"></i></a>
-                                                            </x-slot>
-                                                            <object data="{{ $file->fileurl }}" width="100%"
-                                                                height="500px">
-                                                            </object>
-                                                        </x-adminlte-card>
+                                                <div class="col-md-6">
+                                                    <label class="mb-2">Layanan Administrasi & Pendaftaran Pasien :
+                                                    </label>
+                                                    <button id="addLayanan" type="button"
+                                                        class="btn btn-xs btn-success mb-2">
+                                                        <span class="fas fa-plus">
+                                                        </span> Tambah Layanan
+                                                    </button>
+                                                    <div id="rowTindakan" class="row">
+                                                        <div class="form-group">
+                                                            <div class="input-group input-group-sm">
+                                                                <select name="layanan[]" class="form-control cariLayanan">
+                                                                </select>
+                                                                <input type="number" name="jumlah[]"
+                                                                    placeholder="Jumlah" class="form-control" multiple>
+                                                                <button type="button" class="btn btn-xs btn-warning">
+                                                                    <i class="fas fa-hand-holding-medical "></i>
+                                                                </button>
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                @endforeach
+                                                    <div id="newObat"></div>
+                                                    <div class="form-group">
+                                                        <div class="custom-control custom-checkbox">
+                                                            <input class="custom-control-input" type="checkbox"
+                                                                id="kemoterapi" name="kemoterapi" value="Kemoterapi">
+                                                            <label for="kemoterapi"
+                                                                class="custom-control-label">Kemoterapi</label>
+                                                        </div>
+                                                        <div class="custom-control custom-checkbox">
+                                                            <input class="custom-control-input" type="checkbox"
+                                                                id="radiologi" name="radiologi" value="radiologi">
+                                                            <label for="radiologi"
+                                                                class="custom-control-label">Radiologi</label>
+                                                        </div>
+                                                        <div class="custom-control custom-checkbox">
+                                                            <input class="custom-control-input" type="checkbox"
+                                                                id="Laboratorium" name="Laboratorium"
+                                                                value="Laboratorium">
+                                                            <label for="Laboratorium"
+                                                                class="custom-control-label">Laboratorium</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label class="mb-2">Layanan Tindakan Pasien : </label>
+                                                    <button id="addLayananPasien" type="button"
+                                                        class="btn btn-xs btn-success mb-2">
+                                                        <span class="fas fa-plus">
+                                                        </span> Tambah Layanan
+                                                    </button>
+                                                    <div id="rowTindakanPasien" class="row">
+                                                        <div class="form-group">
+                                                            <div class="input-group input-group-sm">
+                                                                <select name="layanan[]"
+                                                                    class="form-control cariLayananPasien">
+                                                                </select>
+                                                                <input type="number" name="jumlah[]"
+                                                                    placeholder="Jumlah" class="form-control" multiple>
+                                                                <button type="button" class="btn btn-xs btn-warning">
+                                                                    <i class="fas fa-hand-holding-medical "></i>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div id="newLayananPasien"></div>
+                                                </div>
                                             </div>
-                                        @endif
-                                    @else
-                                        @foreach ($antrian->fileuploads as $file)
-                                            <x-adminlte-card header-class="p-2" body-class="p-0"
-                                                title="{{ $file->nama }} {{ $file->created_at }}" theme="info"
-                                                icon="fas fa-file" collapsible="collapsed">
-                                                <x-slot name="toolsSlot" class="m-0">
-                                                    Uploaded at : {{ $file->created_at }}
-                                                    <a href="{{ $file->fileurl }}" target="_blank"
-                                                        class="btn btn-xs btn-tool"><i class="fas fa-download"></i></a>
-                                                    <a href="{{ route('hapusfilepenunjang') }}?id={{ $file->id }}"
-                                                        class="btn btn-xs btn-tool"> <i class="fas fa-trash"></i></a>
-                                                </x-slot>
-                                                <object data="{{ $file->fileurl }}" width="100%" height="500px">
-                                                </object>
-                                            </x-adminlte-card>
-                                        @endforeach
-                                    @endif
+                                            <button type="submit" class="btn btn-success withLoad">
+                                                <i class="fas fa-edit"></i> Simpan Layanan & Tindakan
+                                            </button>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="card card-info mb-1">
-                            <div class="card-header" role="tab" id="headPrev">
-                                <h3 class="card-title">
-                                    <a data-toggle="collapse" data-parent="#accordion" href="#collPreview"
-                                        aria-expanded="true" aria-controls="collPreview">
-                                        Preview Berkas Pendaftaran
-                                    </a>
-                                </h3>
-                            </div>
-                            <div id="collPreview" class="collapse" role="tabpanel" aria-labelledby="headPrev">
-                                <div class="card-body">
-                                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry
-                                    richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor
-                                    brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor,
-                                    sunt aliqua put a bird on it squid single-origin coffee nulla assumenda
-                                    shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson
-                                    cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo.
-                                    Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt
-                                    you probably haven't heard of them accusamus labore sustainable VHS.
+
+                            <div class="card card-info mb-1">
+                                <div class="card-header" role="tab" id="headKasir">
+                                    <h3 class="card-title">
+                                        <a data-toggle="collapse" data-parent="#accordion" href="#collKasir"
+                                            aria-expanded="true" aria-controls="collKasir">
+                                            Kasir
+                                        </a>
+                                    </h3>
+                                </div>
+                                <div id="collKasir" class="collapse" role="tabpanel" aria-labelledby="headKasir">
+                                    <div class="card-body">
+                                        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry
+                                        richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor
+                                        brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor,
+                                        sunt aliqua put a bird on it squid single-origin coffee nulla assumenda
+                                        shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson
+                                        cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo.
+                                        Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt
+                                        you probably haven't heard of them accusamus labore sustainable VHS.
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                            {{-- riwayatpasien --}}
+                            @include('sim.tabel_riwayat_pasien')
+                            <div class="card card-info mb-1">
+                                <div class="card-header" role="tab" id="headPrev">
+                                    <h3 class="card-title">
+                                        <a data-toggle="collapse" data-parent="#accordion" href="#collPreview"
+                                            aria-expanded="true" aria-controls="collPreview">
+                                            Preview Berkas Pendaftaran
+                                        </a>
+                                    </h3>
+                                </div>
+                                <div id="collPreview" class="collapse" role="tabpanel" aria-labelledby="headPrev">
+                                    <div class="card-body">
+                                        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry
+                                        richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor
+                                        brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor,
+                                        sunt aliqua put a bird on it squid single-origin coffee nulla assumenda
+                                        shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson
+                                        cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo.
+                                        Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt
+                                        you probably haven't heard of them accusamus labore sustainable VHS.
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
                     </div>
                 </div>
                 <div class="card-footer">
@@ -851,49 +842,6 @@
                     </a>
                 </div>
             </div>
-            {{-- <div class="card">
-                <div class="card-header p-2">
-                    <ul class="nav nav-pills">
-                        <li class="nav-item"><a class="nav-link active" href="#antriantab" data-toggle="tab">Antrian</a>
-                        </li>
-                        <li class="nav-item"><a class="nav-link" href="#septab" data-toggle="tab">SEP</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#kunjungantab" data-toggle="tab">Kunjungan</a>
-                        <li class="nav-item"><a class="nav-link" href="#pembayarantab" data-toggle="tab">Pembayaran</a>
-                        <li class="nav-item"><a class="nav-link" href="#riwayattab" data-toggle="tab">Riwayat</a>
-                        </li>
-                        <li class="nav-item"><a class="nav-link" href="#suratkontroltab" data-toggle="tab">Surat
-                                Kontrol</a>
-                        </li>
-                        <li class="nav-item"><a class="nav-link" href="#resumetab" data-toggle="tab">Resume</a>
-
-                    </ul>
-                </div>
-                <div class="card-body">
-                    <div class="tab-content">
-                        <div class="active tab-pane" id="antriantab">
-                        </div>
-                        <div class="tab-pane" id="septab">
-
-                        </div>
-                        <div class="tab-pane" id="kunjungantab">
-
-                        </div>
-                        <div class="tab-pane" id="riwayattab">
-
-                        </div>
-                        <div class="tab-pane" id="pembayarantab">
-                            Pembayaran
-                        </div>
-                        <div class="tab-pane" id="suratkontroltab">
-
-                        </div>
-                        <div class="tab-pane" id="resumetab">
-                            <br>
-
-                        </div>
-                    </div>
-                </div>
-            </div> --}}
         </div>
     </div>
     <x-adminlte-modal id="modalRujukan" name="modalRujukan" title="Peserta Rujukan Peserta" theme="success"
@@ -1371,7 +1319,6 @@
                                     value.diagnosa,
                                     btn,
                                 ]).draw(false);
-
                             });
                             $('.btnPilihSEP').click(function() {
                                 var nomorsep = $(this).data('id');
@@ -1523,7 +1470,126 @@
                     }
                 });
             });
+
         });
+    </script>
+    {{-- dynamic input --}}
+
+    <script>
+        $(".cariLayanan").select2({
+            placeholder: 'Pencarian Pelayanan',
+            theme: "bootstrap4",
+            multiple: true,
+            maximumSelectionLength: 1,
+            ajax: {
+                url: "{{ route('ref_tarif_pendaftaran') }}?jenispasien={{ $antrian->jenispasien }}",
+                type: "get",
+                dataType: 'json',
+                delay: 100,
+                data: function(params) {
+                    return {
+                        nama: params.term // search term
+                    };
+                },
+                processResults: function(response) {
+                    return {
+                        results: response
+                    };
+                },
+                cache: true
+            }
+        });
+        $("#addLayanan").click(function() {
+            newRowAdd =
+                '<div id="row" class="row"><div class="form-group"><div class="input-group input-group-sm">' +
+                '<select name="layanan[]" class="form-control cariLayanan"></select>' +
+                '<input type="number" name="jumlah[]" placeholder="Jumlah" class="form-control" multiple>' +
+                '<button type="button" class="btn btn-xs btn-danger" id="deleteLayanan"><i class="fas fa-trash "></i> </div></div></div>';
+            $('#newObat').append(newRowAdd);
+            $(".cariLayanan").select2({
+                placeholder: 'Pencarian Pelayanan',
+                theme: "bootstrap4",
+                multiple: true,
+                maximumSelectionLength: 1,
+                ajax: {
+                    url: "{{ route('ref_tarif_pendaftaran') }}?jenispasien={{ $antrian->jenispasien }}",
+                    type: "get",
+                    dataType: 'json',
+                    delay: 100,
+                    data: function(params) {
+                        return {
+                            nama: params.term // search term
+                        };
+                    },
+                    processResults: function(response) {
+                        return {
+                            results: response
+                        };
+                    },
+                    cache: true
+                }
+            });
+        });
+        $("body").on("click", "#deleteLayanan", function() {
+            $(this).parents("#row").remove();
+        })
+        $(".cariLayananPasien").select2({
+            placeholder: 'Pencarian Pelayanan',
+            theme: "bootstrap4",
+            multiple: true,
+            maximumSelectionLength: 1,
+            ajax: {
+                url: "{{ route('ref_tarif_layanan') }}?jenispasien={{ $antrian->jenispasien }}",
+                type: "get",
+                dataType: 'json',
+                delay: 100,
+                data: function(params) {
+                    return {
+                        nama: params.term // search term
+                    };
+                },
+                processResults: function(response) {
+                    return {
+                        results: response
+                    };
+                },
+                cache: true
+            }
+        });
+        $("#addLayananPasien").click(function() {
+            newRowAdd =
+                '<div id="row" class="row"><div class="form-group"><div class="input-group input-group-sm">' +
+                '<select name="layanan[]" class="form-control cariLayananPasien"></select>' +
+                '<input type="number" name="jumlah[]" placeholder="Jumlah" class="form-control" multiple>' +
+                '<button type="button" class="btn btn-xs btn-danger" id="deleteLayananPasien"><i class="fas fa-trash "></i> </div></div></div>';
+            $('#newLayananPasien').append(newRowAdd);
+            $(".cariLayananPasien").select2({
+                placeholder: 'Pencarian Pelayanan',
+                theme: "bootstrap4",
+                multiple: true,
+                maximumSelectionLength: 1,
+                ajax: {
+                    url: "{{ route('ref_tarif_layanan') }}?jenispasien={{ $antrian->jenispasien }}",
+                    type: "get",
+                    dataType: 'json',
+                    delay: 100,
+                    data: function(params) {
+                        return {
+                            nama: params.term // search term
+                        };
+                    },
+                    processResults: function(response) {
+                        return {
+                            results: response
+                        };
+                    },
+                    cache: true
+                }
+            });
+        });
+        $("body").on("click", "#deleteLayananPasien", function() {
+            $(this).parents("#row").remove();
+        })
     </script>
     <script>
         $(function() {
