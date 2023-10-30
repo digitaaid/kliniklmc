@@ -724,9 +724,9 @@
                                                     class="custom-control-label">Laboratorium</label>
                                             </div>
                                         </div>
-                                        <button type="submit" class="btn btn-success withLoad">
+                                        {{-- <button type="submit" class="btn btn-success withLoad">
                                             <i class="fas fa-edit"></i> Simpan Kunjungan
-                                        </button>
+                                        </button> --}}
                                     </form>
                                 </div>
                             </div>

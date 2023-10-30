@@ -33,16 +33,12 @@
                 <dl class="row">
                     <dt class="col-sm-4 m-0">Antrian</dt>
                     <dd class="col-sm-8 m-0">
-                        {{ $antrian->nomorantrean }}
+                        {{ $antrian->nomorantrean }} ({{ $antrian->kodebooking }})
                         @if ($antrian->status)
                             <span class="badge badge-success">Sudah Bridging</span>
                         @else
                             <span class="badge badge-danger">Belum Bridging</span>
                         @endif
-                    </dd>
-                    <dt class="col-sm-4 m-0">Kodebooking</dt>
-                    <dd class="col-sm-8 m-0">
-                        {{ $antrian->kodebooking }}
                     </dd>
                     <dt class="col-sm-4 m-0">Jns Kunjungan</dt>
                     <dd class="col-sm-8 m-0">
