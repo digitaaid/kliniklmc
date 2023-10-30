@@ -108,7 +108,7 @@
                     @if ($kunjungan->files->count() != 0)
                         <b>Berkas Penunjang</b><br>
                         @foreach ($kunjungan->files as $file)
-                            <button class="btn btn-xs btn-primary m-1" data-nama="{{ $file->nama }}"
+                            <button class="btn btn-xs btn-primary m-1 btnFilePenunjang" data-nama="{{ $file->nama }}"
                                 data-fileurl="{{ $file->fileurl }}"><i class="fas fa-file-medical"></i>
                                 {{ $file->nama }}</button>
                             <br>
@@ -235,3 +235,8 @@
         </tr>
     @endif
 </x-adminlte-datatable>
+<x-adminlte-modal id="modalFilePenunjang" name="modalFilePenunjang" title="File Penunjang" theme="success"
+    icon="fas fa-file-medical" size="xl">
+    <iframe id="dataFilePenunjang" src="" height="600px" width="100%" title="Iframe Example"></iframe>
+    <a href="{{ $file->fileurl }}" target="_blank" class="btn btn-xs"><i class="fas fa-download"></i>Download</a>
+</x-adminlte-modal>

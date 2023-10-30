@@ -806,4 +806,12 @@
             $(this).parents("#row").remove();
         })
     </script>
+    <script>
+        $(function() {
+            $('.btnFilePenunjang').click(function() {
+                $('#dataFilePenunjang').attr('src', $(this).data('fileurl'));
+                $('#modalFilePenunjang').modal('show');
+            });
+        });
+    </script>
 @endsection

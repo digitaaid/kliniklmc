@@ -200,7 +200,10 @@
                                                     name="keluhan_utama" placeholder="Keluhan Utama">
                                                     {{ $antrian->asesmenperawat->keluhan_utama ?? null }}
                                                 </x-adminlte-textarea>
-                                                {{-- {{ dd($antrian->asesmenperawat) }} --}}
+                                                <x-adminlte-textarea igroup-size="sm" rows=3 label="Riwayat Pengobatan"
+                                                    name="riwayat_pengobatan" placeholder="Riwayat Pengobatan">
+                                                    {{ $antrian->asesmenperawat->riwayat_pengobatan ?? null }}
+                                                </x-adminlte-textarea>
                                                 <x-adminlte-textarea igroup-size="sm" rows=3 label="Riwayat Penyakit"
                                                     name="riwayat_penyakit" placeholder="Riwayat Penyakit">
                                                     {{ $antrian->asesmenperawat->riwayat_penyakit ?? null }}
@@ -208,10 +211,6 @@
                                                 <x-adminlte-textarea igroup-size="sm" rows=3 label="Riwayat Alergi"
                                                     name="riwayat_alergi" placeholder="Riwayat Alergi">
                                                     {{ $antrian->asesmenperawat->riwayat_alergi ?? null }}
-                                                </x-adminlte-textarea>
-                                                <x-adminlte-textarea igroup-size="sm" rows=3 label="Riwayat Pengobatan"
-                                                    name="riwayat_pengobatan" placeholder="Riwayat Pengobatan">
-                                                    {{ $antrian->asesmenperawat->riwayat_pengobatan ?? null }}
                                                 </x-adminlte-textarea>
                                                 <x-adminlte-textarea igroup-size="sm" rows=2 label="Status Psikologi"
                                                     name="status_psikologi" placeholder="Status Psikologi">
@@ -304,7 +303,9 @@
                                         </div>
 
                                     </form>
-
+                                    <button type="submit" form="formPerawat" class="btn btn-success w-100 withLoad">
+                                        <i class="fas fa-edit"></i> Simpan & Tanda Tangan Pemeriksaan Perawat
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -334,9 +335,7 @@
                                 </div>
                             </div>
                         </div>
-                        <button type="submit" form="formPerawat" class="btn btn-success w-100 withLoad">
-                            <i class="fas fa-edit"></i> Simpan & Tanda Tangan Pemeriksaan Perawat
-                        </button>
+
                     </div>
                 </div>
                 <div class="card-footer">
@@ -357,5 +356,12 @@
 @section('plugins.Select2', true)
 @section('plugins.BsCustomFileInput', true)
 @section('js')
-
+    <script>
+        $(function() {
+            $('.btnFilePenunjang').click(function() {
+                $('#dataFilePenunjang').attr('src', $(this).data('fileurl'));
+                $('#modalFilePenunjang').modal('show');
+            });
+        });
+    </script>
 @endsection

@@ -67,6 +67,10 @@
                                 Belum Pilih Jenis Kunjungan
                         @endswitch
                     </dd>
+                    <dt class="col-sm-4 m-0">No Referensi</dt>
+                    <dd class="col-sm-8 m-0">
+                        {{ $antrian->nomorreferensi ?? '-' }}
+                    </dd>
                     <dt class="col-sm-4 m-0">SEP</dt>
                     <dd class="col-sm-8 m-0">
                         @if ($antrian->sep)
