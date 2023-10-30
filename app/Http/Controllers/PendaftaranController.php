@@ -156,9 +156,9 @@ class PendaftaranController extends APIController
                 Alert::success('Success', 'Antrian dipanggil ke pendaftaran.');
             }
             $kunjungans = Kunjungan::where('norm', $antrian->norm)
-            ->with(['units', 'asesmenperawat', 'asesmendokter', 'files', 'resepobat', 'resepobat.resepdetail'])
-            ->orderBy('tgl_masuk', 'DESC')
-            ->get();
+                ->with(['units', 'asesmenperawat', 'asesmendokter', 'files', 'resepobat', 'resepobat.resepdetail'])
+                ->orderBy('tgl_masuk', 'DESC')
+                ->get();
             $dokters = Dokter::where('status', '1')->pluck('namadokter', 'kodedokter');
             $polikliniks = Unit::where('status', '1')->pluck('nama', 'kode');
             $jaminans = Jaminan::pluck('nama', 'kode');
@@ -194,8 +194,8 @@ class PendaftaranController extends APIController
         $request->validate([
             'kodebooking' => 'required',
             'nomorkartu' => 'required',
-            'nik' => 'required',
-            'norm' => 'required',
+            'nik' => 'required|digits:16',
+            'norm' => 'required|digits:9',
             'nama' => 'required',
             'nohp' => 'required',
             'tanggalperiksa' => 'required',
@@ -310,8 +310,8 @@ class PendaftaranController extends APIController
             'tgl_masuk' => 'required',
             'jaminan' => 'required',
             'nomorkartu' => 'required',
-            'nik' => 'required',
-            'norm' => 'required',
+            'nik' => 'required|digits:16',
+            'norm' => 'required|digits:9',
             'nama' => 'required',
             'tgl_lahir' => 'required|date',
             'gender' => 'required',
