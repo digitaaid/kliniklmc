@@ -346,17 +346,20 @@
                                                 </x-adminlte-textarea> --}}
                                                 <x-adminlte-select2 name="diagnosa[]" class="diagnosa" label="Diagnosa :"
                                                     multiple>
-                                                    @if (is_array(json_decode($antrian->asesmendokter->diagnosa)) ||
-                                                            is_object(json_decode($antrian->asesmendokter->diagnosa)))
-                                                        @foreach (json_decode($antrian->asesmendokter->diagnosa) as $item)
-                                                            <option value="{{ $item }}" selected>
-                                                                {{ $item }}
+                                                    @if ($antrian->asesmendokter)
+                                                        @if (is_array(json_decode($antrian->asesmendokter->diagnosa)) ||
+                                                                is_object(json_decode($antrian->asesmendokter->diagnosa)))
+                                                            @foreach (json_decode($antrian->asesmendokter->diagnosa) as $item)
+                                                                <option value="{{ $item }}" selected>
+                                                                    {{ $item }}
+                                                                </option>
+                                                            @endforeach
+                                                        @else
+                                                            <option value="{{ $antrian->asesmendokter->diagnosa }}"
+                                                                selected>
+                                                                {{ $antrian->asesmendokter->diagnosa }}
                                                             </option>
-                                                        @endforeach
-                                                    @else
-                                                        <option value="{{ $antrian->asesmendokter->diagnosa }}" selected>
-                                                            {{ $antrian->asesmendokter->diagnosa }}
-                                                        </option>
+                                                        @endif
                                                     @endif
                                                 </x-adminlte-select2>
                                                 <x-adminlte-select2 name="diagnosa1" class="diagnosaid1"

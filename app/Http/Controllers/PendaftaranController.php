@@ -251,52 +251,54 @@ class PendaftaranController extends APIController
         $request['status'] = 0;
         $api = new AntrianController();
         $antrian->update($request->all());
-        $res =  $api->tambah_antrean($request);
-        if ($res->metadata->code == 200) {
-            try {
-                $wapi = new WhatsappController();
-                switch ($request->jeniskunjungan) {
-                    case 1:
-                        $jeniskunjungan = "Rujukan FKTP";
-                        break;
+        if ($antrian->status == 0) {
+            $res =  $api->tambah_antrean($request);
+            if ($res->metadata->code == 200) {
+                try {
+                    $wapi = new WhatsappController();
+                    switch ($request->jeniskunjungan) {
+                        case 1:
+                            $jeniskunjungan = "Rujukan FKTP";
+                            break;
 
-                    case 2:
-                        $jeniskunjungan = "Umum";
-                        break;
+                        case 2:
+                            $jeniskunjungan = "Umum";
+                            break;
 
-                    case 3:
-                        $jeniskunjungan = "Surat Kontrol";
-                        break;
+                        case 3:
+                            $jeniskunjungan = "Surat Kontrol";
+                            break;
 
-                    case 4:
-                        $jeniskunjungan = "Rujukan Antar RS";
-                        break;
+                        case 4:
+                            $jeniskunjungan = "Rujukan Antar RS";
+                            break;
 
-                    default:
-                        $jeniskunjungan = "-";
-                        break;
+                        default:
+                            $jeniskunjungan = "-";
+                            break;
+                    }
+                    // notif pasien
+                    $request['keterangan'] = "Silahkan menunggu untuk mendapatkan pelayanan. (TIKET MOHON TIDAK HILANG SAMPAI DENGAN SELESAI PELAYANAN)";
+                    $request['message'] = "*Pendaftaran Berhasil*\nAntrian anda berhasil didaftarkan ke sistem KLINIK LMC dengan data sebagai berikut : \n\n*Kode Antrian :* " . $request->kodebooking .  "\n*Angka Antrian :* " . $request->angkaantrean .  "\n*Nomor Antrian :* " . $request->nomorantrean . "\n*Jenis Pasien :* " . $request->jenispasien .  "\n*Jenis Kunjungan :* " . $jeniskunjungan .  "\n\n*Nama :* " . $request->nama . "\n*Poliklinik :* " . $request->namapoli  . "\n*Dokter :* " . $request->namadokter  .  "\n*Jam Praktek :* " . $request->jampraktek  .  "\n*Tanggal Periksa :* " . $request->tanggalperiksa . "\n\n*Keterangan :* " . $request->keterangan  .  "\n\nLink Kodebooking QR Code :\nhttps://luthfimedicalcenter.com/statusantrian?kodebooking=" . $request->kodebooking . "\n\nTerima kasih. \nSalam Hangat dan Sehat Selalu.\nUntuk pertanyaan & pengaduan silahkan hubungi :\n*Customer Care KLINIK LMC (0231)8850943 / 0823 1169 6919*";
+                    $request['number'] = $request->nohp;
+                    $wapi->send_message($request);
+                    // sholawat
+                    $sholawat = "اَللّٰهُمَّ صَلِّ عَلٰى سَيِّدِنَا مُحَمَّدٍ، طِبِّ الْقُلُوْبِ وَدَوَائِهَا، وَعَافِيَةِ الْاَبْدَانِ وَشِفَائِهَا، وَنُوْرِ الْاَبْصَارِ وَضِيَائِهَا، وَعَلٰى اٰلِهِ وَصَحْبِهِ وَسَلِّمْ";
+                    $request['message'] = $sholawat;
+                    $request['number'] = '6289529909036@c.us';
+                    $wapi->send_message($request);
+                    // notif group
+                    $request['message'] = "Berhasil integrasi antrian \nAngka antrian : " . $request->angkaantrean . "\nKodebooking : " . $request->kodebooking .  "\nJenis Pasien : " . $request->jenispasien . "\nNama " . $request->nama . "\nTanggal Periksa " . $request->tanggalperiksa . "\nDokter : " . $request->namadokter . "\nUser : " . Auth::user()->name;
+                    $request['number'] = "120363170262520539";
+                    $wapi->send_message_group($request);
+                } catch (\Throwable $th) {
+                    //throw $th;
                 }
-                // notif pasien
-                $request['keterangan'] = "Silahkan menunggu untuk mendapatkan pelayanan. (TIKET MOHON TIDAK HILANG SAMPAI DENGAN SELESAI PELAYANAN)";
-                $request['message'] = "*Pendaftaran Berhasil*\nAntrian anda berhasil didaftarkan ke sistem KLINIK LMC dengan data sebagai berikut : \n\n*Kode Antrian :* " . $request->kodebooking .  "\n*Angka Antrian :* " . $request->angkaantrean .  "\n*Nomor Antrian :* " . $request->nomorantrean . "\n*Jenis Pasien :* " . $request->jenispasien .  "\n*Jenis Kunjungan :* " . $jeniskunjungan .  "\n\n*Nama :* " . $request->nama . "\n*Poliklinik :* " . $request->namapoli  . "\n*Dokter :* " . $request->namadokter  .  "\n*Jam Praktek :* " . $request->jampraktek  .  "\n*Tanggal Periksa :* " . $request->tanggalperiksa . "\n\n*Keterangan :* " . $request->keterangan  .  "\n\nLink Kodebooking QR Code :\nhttps://luthfimedicalcenter.com/statusantrian?kodebooking=" . $request->kodebooking . "\n\nTerima kasih. \nSalam Hangat dan Sehat Selalu.\nUntuk pertanyaan & pengaduan silahkan hubungi :\n*Customer Care KLINIK LMC (0231)8850943 / 0823 1169 6919*";
-                $request['number'] = $request->nohp;
-                $wapi->send_message($request);
-                // sholawat
-                $sholawat = "اَللّٰهُمَّ صَلِّ عَلٰى سَيِّدِنَا مُحَمَّدٍ، طِبِّ الْقُلُوْبِ وَدَوَائِهَا، وَعَافِيَةِ الْاَبْدَانِ وَشِفَائِهَا، وَنُوْرِ الْاَبْصَارِ وَضِيَائِهَا، وَعَلٰى اٰلِهِ وَصَحْبِهِ وَسَلِّمْ";
-                $request['message'] = $sholawat;
-                $request['number'] = '6289529909036@c.us';
-                $wapi->send_message($request);
-                // notif group
-                $request['message'] = "Berhasil integrasi antrian \nAngka antrian : " . $request->angkaantrean . "\nKodebooking : " . $request->kodebooking .  "\nJenis Pasien : " . $request->jenispasien . "\nNama " . $request->nama . "\nTanggal Periksa " . $request->tanggalperiksa . "\nDokter : " . $request->namadokter . "\nUser : " . Auth::user()->name;
-                $request['number'] = "120363170262520539";
-                $wapi->send_message_group($request);
-            } catch (\Throwable $th) {
-                //throw $th;
             }
+            $antrian->update([
+                'status' => 1
+            ]);
         }
-        $antrian->update([
-            'status' => 1
-        ]);
         Alert::success('Success', 'Antrian telah diperbaharui.');
         return redirect()->back();
     }
@@ -352,51 +354,11 @@ class PendaftaranController extends APIController
     }
     function editlayananpendaftaran(Request $request)
     {
-        dd($request->all());
         $request->validate([
             'kodebooking' => 'required',
             'antrian_id' => 'required',
-            'tgl_masuk' => 'required',
-            'jaminan' => 'required',
-            'nomorkartu' => 'required',
-            'nik' => 'required|digits:16',
-            'norm' => 'required|digits:9',
-            'nama' => 'required',
-            'tgl_lahir' => 'required|date',
-            'gender' => 'required',
-            'kelas' => 'required',
-            'penjamin' => 'required',
-            'kodepoli' => 'required',
-            'cara_masuk' => 'required',
-            'jeniskunjungan' => 'required',
-            // 'nomorreferensi' => 'required',
-            // 'sep' => 'required',
-        ]);
-        if ($request->jeniskunjungan != "2") {
-            $request->validate([
-                'nomorreferensi' => 'required',
-                'sep' => 'required',
-            ]);
-        }
-        $antrian = Antrian::find($request->antrian_id);
-        $request['counter'] = Kunjungan::where('nomorkartu', $request->nomorkartu)->count() + 1;
-        $request['kode'] = $antrian->kodebooking;
-        $request['unit'] = $request->kodepoli;
-        $request['dokter'] = $request->kodedokter;
-        $request['diagnosa_awal'] = 'C50';
-        $request['alasan_masuk'] = $request->cara_masuk;
-        $request['status'] = 1;
-        $request['user1'] = Auth::user()->id;
-        if ($antrian->kunjungan_id) {
-            $kunjungan = Kunjungan::find($antrian->kunjungan_id);
-            $kunjungan->update($request->all());
-        } else {
-            $kunjungan = Kunjungan::create($request->all());
-        }
-        $antrian->update([
-            'kunjungan_id' => $kunjungan->id,
-            'kodekunjungan' => $kunjungan->kode,
-            'user1' =>  Auth::user()->id,
+            'kunjungan_id' => 'required',
+            'kodekunjungan' => 'required',
         ]);
         Alert::success('Success', 'Kunjungan antrian telah disimpan');
         return redirect()->back();

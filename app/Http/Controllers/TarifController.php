@@ -53,7 +53,9 @@ class TarifController extends Controller
     public function ref_tarif_pendaftaran(Request $request)
     {
         $data = array();
-        $tarifs = Tarif::whereIn('klasifikasi', ['Administrasi', 'Konsultasi'])->whereIn('jenispasien', ['SEMUA', $request->jenispasien])->get();
+        $tarifs = Tarif::whereIn('klasifikasi', ['Administrasi', 'Konsultasi'])->whereIn('jenispasien', ['SEMUA', $request->jenispasien])
+            ->where('nama', 'LIKE', '%' . $request->search . '%')
+            ->get();
         if ($tarifs) {
             foreach ($tarifs as $item) {
                 $data[] = array(
@@ -68,7 +70,9 @@ class TarifController extends Controller
     {
         $data = array();
         $tarifs = Tarif::whereNotIn('klasifikasi', ['Administrasi', 'Konsultasi'])
-            ->whereIn('jenispasien', ['SEMUA', $request->jenispasien])->get();
+            ->whereIn('jenispasien', ['SEMUA', $request->jenispasien])
+            ->where('nama', 'LIKE', '%' . $request->search . '%')
+            ->get();
         if ($tarifs) {
             foreach ($tarifs as $item) {
                 $data[] = array(
@@ -79,9 +83,6 @@ class TarifController extends Controller
             return response()->json($data);
         }
     }
-
-
-
     public function update(Request $request, string $id)
     {
         $obat = Tarif::find($id);

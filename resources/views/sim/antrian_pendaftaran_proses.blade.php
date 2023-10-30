@@ -672,17 +672,13 @@
                             </div>
                         </div>
                         @if ($antrian->kunjungan)
+                            {{-- layanan --}}
                             <div class="card card-info mb-1">
                                 <div class="card-header" role="tab" id="headLay">
                                     <h3 class="card-title">
                                         <a data-toggle="collapse" data-parent="#accordion" href="#collLay"
                                             aria-expanded="true" aria-controls="collLay">
                                             Layanan & Tindakan
-                                            {{-- @if ($antrian->kunjungan_id)
-                                            <i class="fas fa-check-circle"></i> (Sudah Terintegrasi)
-                                        @else
-                                            <i class="fas fa-times-circle"></i> (Belum Terintegrasi)
-                                        @endif --}}
                                         </a>
                                     </h3>
                                 </div>
@@ -703,6 +699,11 @@
                                                 value="{{ $antrian->kodekunjungan }}">
                                             <input type="hidden" name="kunjungan_id"
                                                 value="{{ $antrian->kunjungan_id }}">
+                                            <input type="hidden" name="kodebooking"
+                                                value="{{ $antrian->kodebooking }}">
+                                            <input type="hidden" name="antrian_id" value="{{ $antrian->id }}">
+                                            <input type="hidden" name="norm" value="{{ $antrian->norm }}">
+                                            <input type="hidden" name="nama" value="{{ $antrian->nama }}">
                                             <div class="row">
                                                 <div class="col-md-6">
                                                     <label class="mb-2">Layanan Administrasi & Pendaftaran Pasien :
@@ -779,7 +780,6 @@
                                     </div>
                                 </div>
                             </div>
-
                             <div class="card card-info mb-1">
                                 <div class="card-header" role="tab" id="headKasir">
                                     <h3 class="card-title">
@@ -1488,7 +1488,7 @@
                 delay: 100,
                 data: function(params) {
                     return {
-                        nama: params.term // search term
+                        search: params.term // search term
                     };
                 },
                 processResults: function(response) {
@@ -1518,7 +1518,7 @@
                     delay: 100,
                     data: function(params) {
                         return {
-                            nama: params.term // search term
+                            search: params.term // search term
                         };
                     },
                     processResults: function(response) {
@@ -1545,7 +1545,7 @@
                 delay: 100,
                 data: function(params) {
                     return {
-                        nama: params.term // search term
+                        search: params.term // search term
                     };
                 },
                 processResults: function(response) {
@@ -1575,7 +1575,7 @@
                     delay: 100,
                     data: function(params) {
                         return {
-                            nama: params.term // search term
+                            search: params.term // search term
                         };
                     },
                     processResults: function(response) {
