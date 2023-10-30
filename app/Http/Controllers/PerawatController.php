@@ -41,7 +41,20 @@ class PerawatController extends Controller
     public function prosesperawat(Request $request)
     {
         $antrian = Antrian::with(['kunjungan', 'kunjungan.asesmenperawat'])->where('kodebooking', $request->kodebooking)->first();
+        $urlicare = null;
+        $messageicare = null;
         if ($antrian) {
+            // icare
+            $api = new IcareController();
+            $request['nomorkartu'] = $antrian->nomorkartu;
+            $request['kodedokter'] = $antrian->kodedokter;
+            $res =  $api->icare($request);
+            if ($res->metadata->code == 200) {
+                $urlicare = $res->response->url;
+                $messageicare = 'ok';
+            } else {
+                $messageicare = $res->metadata->message;
+            }
             $kunjungan = $antrian->kunjungan;
             $kunjungans = Kunjungan::where('norm', $antrian->norm)
                 ->with(['units', 'asesmenperawat', 'asesmendokter', 'files', 'resepobat', 'resepobat.resepdetail'])
@@ -53,6 +66,8 @@ class PerawatController extends Controller
             return view('sim.antrian_perawat_proses', compact([
                 'request',
                 'antrian',
+                'urlicare',
+                'messageicare',
                 // 'dokters',
                 'kunjungans',
                 'kunjungan',

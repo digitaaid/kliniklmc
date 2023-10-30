@@ -70,6 +70,8 @@
                     <div id="accordion" role="tablist" aria-multiselectable="true">
                         {{-- riwayatpasien --}}
                         @include('sim.tabel_riwayat_pasien')
+                        {{-- icare --}}
+                        @include('sim.tabel_icare')
                         {{-- filepenunjang --}}
                         <div class="card card-info mb-1">
                             <div class="card-header" role="tab" id="headFile">
