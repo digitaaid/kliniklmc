@@ -1238,7 +1238,7 @@
             $(".diagnosaid1").select2({
                 theme: "bootstrap4",
                 ajax: {
-                    url: "{{ route('ref_diagnosa_api') }}",
+                    url: "{{ route('ref_icd10_api') }}",
                     type: "get",
                     dataType: 'json',
                     delay: 250,
@@ -1258,7 +1258,7 @@
             $(".diagnosaid2").select2({
                 theme: "bootstrap4",
                 ajax: {
-                    url: "{{ route('ref_diagnosa_api') }}",
+                    url: "{{ route('ref_icd10_api') }}",
                     type: "get",
                     dataType: 'json',
                     delay: 250,

@@ -165,6 +165,21 @@ class VclaimController extends APIController
         }
         return response()->json($data);
     }
+    public function ref_icd10_api(Request $request)
+    {
+        $data = array();
+        $response = $this->ref_diagnosa($request);
+        if ($response->metadata->code == 200) {
+            $diagnosa = $response->response->diagnosa;
+            foreach ($diagnosa as $item) {
+                $data[] = array(
+                    "id" => $item->kode,
+                    "text" => $item->nama
+                );
+            }
+        }
+        return response()->json($data);
+    }
     public function ref_poliklinik_api(Request $request)
     {
         $data = array();
