@@ -303,10 +303,10 @@
 
                                 </div>
                             </div>
+                            <button type="submit" form="formPerawat" class="btn btn-success mb-1 w-100 withLoad">
+                                <i class="fas fa-edit"></i> Simpan & Tanda Tangan Pemeriksaan Perawat
+                            </button>
                         </div>
-                        <button type="submit" form="formPerawat" class="btn btn-success mb-1 w-100 withLoad">
-                            <i class="fas fa-edit"></i> Simpan & Tanda Tangan Pemeriksaan Perawat
-                        </button>
                         {{-- dokter --}}
                         <form action="{{ route('editasesmendokter') }}" method="POST">
                             @csrf
@@ -393,7 +393,6 @@
                                                 </x-adminlte-textarea>
                                             </div>
                                         </div>
-
                                     </div>
                                 </div>
                             </div>
@@ -418,7 +417,6 @@
                                     <div class="card-body">
                                         <div class="row">
                                             <div class="col-md-12">
-
                                                 <label class="mb-2">Resep Obat</label>
                                                 <button id="addObatInput" type="button"
                                                     class="btn btn-xs btn-success mb-2">
