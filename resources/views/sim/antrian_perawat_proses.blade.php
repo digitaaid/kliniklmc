@@ -71,7 +71,7 @@
                         {{-- riwayatpasien --}}
                         @include('sim.tabel_riwayat_pasien')
                         {{-- icare --}}
-                        @include('sim.tabel_icare')
+                        {{-- @include('sim.tabel_icare') --}}
                         {{-- filepenunjang --}}
                         <div class="card card-info mb-1">
                             <div class="card-header" role="tab" id="headFile">
