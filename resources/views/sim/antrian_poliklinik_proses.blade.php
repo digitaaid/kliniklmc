@@ -300,12 +300,11 @@
                                         </div>
 
                                     </form>
-
+                                    <button type="submit" form="formPerawat" class="btn btn-success mb-1 w-100 withLoad">
+                                        <i class="fas fa-edit"></i> Simpan & Tanda Tangan Pemeriksaan Perawat
+                                    </button>
                                 </div>
                             </div>
-                            <button type="submit" form="formPerawat" class="btn btn-success mb-1 w-100 withLoad">
-                                <i class="fas fa-edit"></i> Simpan & Tanda Tangan Pemeriksaan Perawat
-                            </button>
                         </div>
                         {{-- dokter --}}
                         <form action="{{ route('editasesmendokter') }}" method="POST">
