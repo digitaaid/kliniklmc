@@ -300,7 +300,8 @@
                                         </div>
 
                                     </form>
-                                    <button type="submit" form="formPerawat" class="btn btn-success mb-1 w-100 withLoad">
+                                    <button type="submit" form="formPerawat"
+                                        class="btn btn-success mb-1 w-100 withLoad">
                                         <i class="fas fa-edit"></i> Simpan & Tanda Tangan Pemeriksaan Perawat
                                     </button>
                                 </div>
@@ -362,11 +363,31 @@
                                                     @endif
                                                 </x-adminlte-select2>
                                                 <x-adminlte-select2 name="diagnosa1" class="diagnosaid1"
-                                                    label="Diagnosa Primer ICD-10 : {{ $kunjungan->asesmendokter->diagnosa1 ?? null }}">
+                                                    label="Diagnosa Primer ICD-10 : ">
+                                                    @if ($antrian->asesmendokter)
+                                                        <option value="{{ $antrian->asesmendokter->diagnosa1 }}" selected>
+                                                            {{ $antrian->asesmendokter->diagnosa1 }}
+                                                        </option>
+                                                    @endif
                                                 </x-adminlte-select2>
                                                 <x-adminlte-select2 name="diagnosa2[]" class="diagnosaid2"
-                                                    label="Diagnosa Sekunder ICD-10 : {{ $kunjungan->asesmendokter->diagnosa2 ?? null }}"
+                                                    label="Diagnosa Sekunder ICD-10 : "
                                                     multiple>
+                                                    @if ($antrian->asesmendokter)
+                                                        @if (is_array(json_decode($antrian->asesmendokter->diagnosa2)) ||
+                                                                is_object(json_decode($antrian->asesmendokter->diagnosa2)))
+                                                            @foreach (json_decode($antrian->asesmendokter->diagnosa2) as $item)
+                                                                <option value="{{ $item }}" selected>
+                                                                    {{ $item }}
+                                                                </option>
+                                                            @endforeach
+                                                        @else
+                                                            <option value="{{ $antrian->asesmendokter->diagnosa2 }}"
+                                                                selected>
+                                                                {{ $antrian->asesmendokter->diagnosa2 }}
+                                                            </option>
+                                                        @endif
+                                                    @endif
                                                 </x-adminlte-select2>
                                                 <x-adminlte-textarea igroup-size="sm" rows=3 label="Riwayat Pengobatan"
                                                     name="riwayat_pengobatan" placeholder="Riwayat Pengobatan">

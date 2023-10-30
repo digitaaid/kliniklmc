@@ -158,7 +158,7 @@ class VclaimController extends APIController
             $diagnosa = $response->response->diagnosa;
             foreach ($diagnosa as $item) {
                 $data[] = array(
-                    "id" => $item->kode,
+                    "id" => $item->nama,
                     "text" => $item->nama
                 );
             }

@@ -151,18 +151,8 @@ class DokterController extends Controller
         $request['gender'] = $kunjungan->gender;
         $request['user'] = Auth::user()->id;
         $request['status'] = 1;
-        $diagnosa2 = null;
-        if ($request->diagnosa2) {
-            foreach ($request->diagnosa2 as $key => $value) {
-                if ($key == 0) {
-                    $diagnosa2 =  $value;
-                } else {
-                    $diagnosa2 =  $diagnosa2 . '#' . $value;
-                }
-            }
-            $request['diagnosa2'] = $diagnosa2;
-        }
         $request['diagnosa'] = json_encode($request->diagnosa);
+        $request['diagnosa2'] = json_encode($request->diagnosa2);
         $asesmenperawat = $kunjungan->asesmenperawat;
         $asesmenperawat->update([
             'keluhan_utama' => $request->keluhan_utama,
