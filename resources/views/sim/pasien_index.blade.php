@@ -66,11 +66,12 @@
                                     data-alamat="{{ $item->alamat }}" data-created="{{ $item->created_at }}"
                                     data-updated="{{ $item->updated_at }}"
                                     data-user="{{ $item->pic ? $item->pic->name : $item->user }}" />
+                                <a href="{{ route('riwayatpasien') }}?norm={{ $item->norm }}"
+                                    class="btn btn-xs btn-primary"><i class="fas fa-file-medical"></i> Riwayat</a>
                             </td>
                             <td>
                                 {{ $item->pic ? $item->pic->name : $item->user }}
                             </td>
-
                         </tr>
                     @endforeach
                 </x-adminlte-datatable>

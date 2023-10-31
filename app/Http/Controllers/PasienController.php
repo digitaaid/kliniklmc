@@ -122,4 +122,12 @@ class PasienController extends APIController
             ->get();
         return $this->sendResponse($pasiens, 200);
     }
+    public function riwayatpasien(Request $request)
+    {
+        $pasien = Pasien::with(['kunjungans','antrians'])->firstWhere('norm', $request->norm);
+        Alert::success('Sucess', 'Data Pasien Berhasil Ditambahkan.');
+        return view('sim.riwayat_pasien', compact([
+            'pasien'
+        ]));
+    }
 }

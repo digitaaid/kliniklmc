@@ -169,6 +169,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('capaianantrian', [AntrianController::class, 'dashboardBulanAntrian'])->name('capaianantrian');
     Route::get('kunjunganwaktu', [KunjunganController::class, 'kunjunganwaktu'])->name('kunjunganwaktu');
+    Route::get('riwayatpasien', [PasienController::class, 'riwayatpasien'])->name('riwayatpasien');
 
     // antrian bpjs
     Route::get('statusAntrianBpjs', [AntrianController::class, 'statusAntrianBpjs'])->name('statusAntrianBpjs');

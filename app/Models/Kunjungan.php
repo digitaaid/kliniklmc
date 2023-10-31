@@ -21,6 +21,10 @@ class Kunjungan extends Model
     {
         return $this->hasOne(AsesmenDokter::class);
     }
+    public function layanan()
+    {
+        return $this->hasOne(Layanan::class);
+    }
     public function jaminans()
     {
         return $this->belongsTo(Jaminan::class, 'jaminan', 'kode');

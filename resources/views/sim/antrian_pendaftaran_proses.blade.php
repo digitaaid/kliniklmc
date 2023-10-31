@@ -688,7 +688,6 @@
                                             .cariLayanan {
                                                 width: 300px !important;
                                             }
-
                                             .cariLayananPasien {
                                                 width: 300px !important;
                                             }
@@ -713,7 +712,28 @@
                                                         <span class="fas fa-plus">
                                                         </span> Tambah Layanan
                                                     </button>
-                                                    <div id="rowTindakan" class="row">
+                                                    @if ($antrian->layanan)
+                                                        @foreach ($antrian->layanan->layanandetails as $tarif)
+                                                            <div class="form-group">
+                                                                <div class="input-group input-group-sm">
+                                                                    <select name="layanan[]"
+                                                                        class="form-control cariLayanan">
+                                                                        <option
+                                                                            value="{{ $tarif->tarif_id }}">
+                                                                            {{ $tarif->nama }}  {{ money($tarif->harga, 'IDR') }}</option>
+                                                                    </select>
+                                                                    <input type="number" name="jumlah[]"
+                                                                        placeholder="Jumlah"
+                                                                        value="{{ $tarif->jumlah }}"
+                                                                        class="form-control" multiple>
+                                                                    <button type="button" class="btn btn-xs btn-warning">
+                                                                        <i class="fas fa-hand-holding-medical "></i>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        @endforeach
+                                                    @endif
+                                                    <div id="rowTindakan">
                                                         <div class="form-group">
                                                             <div class="input-group input-group-sm">
                                                                 <select name="layanan[]" class="form-control cariLayanan">
@@ -730,20 +750,19 @@
                                                     <div class="form-group">
                                                         <div class="custom-control custom-checkbox">
                                                             <input class="custom-control-input" type="checkbox"
-                                                                id="kemoterapi" name="kemoterapi" value="Kemoterapi">
+                                                                id="kemoterapi" name="kemoterapi" value="1">
                                                             <label for="kemoterapi"
                                                                 class="custom-control-label">Kemoterapi</label>
                                                         </div>
                                                         <div class="custom-control custom-checkbox">
                                                             <input class="custom-control-input" type="checkbox"
-                                                                id="radiologi" name="radiologi" value="radiologi">
+                                                                id="radiologi" name="radiologi" value="1">
                                                             <label for="radiologi"
                                                                 class="custom-control-label">Radiologi</label>
                                                         </div>
                                                         <div class="custom-control custom-checkbox">
                                                             <input class="custom-control-input" type="checkbox"
-                                                                id="Laboratorium" name="Laboratorium"
-                                                                value="Laboratorium">
+                                                                id="Laboratorium" name="laboratorium" value="1">
                                                             <label for="Laboratorium"
                                                                 class="custom-control-label">Laboratorium</label>
                                                         </div>

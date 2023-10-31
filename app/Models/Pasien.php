@@ -22,4 +22,8 @@ class Pasien extends Model
     {
         return $this->hasOne(User::class,  'id', 'user');
     }
+    public function antrians()
+    {
+        return $this->hasMany(Kunjungan::class, 'norm', 'norm');
+    }
 }

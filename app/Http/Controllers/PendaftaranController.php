@@ -7,7 +7,11 @@ use App\Models\Dokter;
 use App\Models\JadwalDokter;
 use App\Models\Jaminan;
 use App\Models\Kunjungan;
+use App\Models\Layanan;
+use App\Models\LayananDetail;
 use App\Models\Poliklinik;
+use App\Models\Tarif;
+use App\Models\TarifDetail;
 use App\Models\Unit;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
@@ -360,10 +364,52 @@ class PendaftaranController extends APIController
             'kunjungan_id' => 'required',
             'kodekunjungan' => 'required',
         ]);
+        $request['kode'] = $request->kodekunjungan;
+        $request['user'] = Auth::user()->id;
+        // add layanan header
+        $layanan = Layanan::updateOrCreate(
+            [
+                'kodebooking' => $request->kodebooking,
+                'antrian_id' => $request->antrian_id,
+                'kodekunjungan' => $request->kodekunjungan,
+                'kunjungan_id' => $request->kunjungan_id,
+            ],
+            $request->all()
+        );
+        // hapus obat jika tidak diresepkan
+        if ($layanan->layanandetails) {
+            foreach ($layanan->layanandetails as  $layanandetail) {
+                $ada = 0;
+                foreach ($request->layanan as $key => $layananid) {
+                    if ($layanandetail->tarif_id == $layananid) {
+                        $ada = 1;
+                    }
+                }
+                if ($ada == 0) {
+                    $layanandetail->delete();
+                }
+            }
+        }
+        // add layanan details
+        foreach ($request->layanan as $key => $value) {
+            $tarif = Tarif::find($value);
+            $layanandetail = LayananDetail::updateOrCreate(
+                [
+                    'kodelayanan' => $layanan->kode,
+                    'layanan_id' => $layanan->id,
+                    'tarif_id' =>  $tarif->id,
+                ],
+                [
+                    'nama' => $tarif->nama,
+                    'jumlah' => $request->jumlah[$key] ?? 1,
+                    'harga' => $tarif->harga ?? 0,
+                    'klasifikasi' => $tarif->klasifikasi,
+                ]
+            );
+        }
         Alert::success('Success', 'Kunjungan antrian telah disimpan');
         return redirect()->back();
     }
-
     function lanjutpoliklinik(Request $request)
     {
         $antrian = Antrian::where('kodebooking', $request->kodebooking)->first();
