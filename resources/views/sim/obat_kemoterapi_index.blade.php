@@ -35,7 +35,21 @@
                                     <span class="badge badge-danger">Belum Terintegrasi</span>
                                 @endif
                             </td>
-                            <td>{{ $item->status }}</td>
+                            <td>
+
+                                @switch($item->status)
+                                    @case(1)
+                                        <span class="badge badge-success">Sukses</span>
+                                    @break
+
+                                    @case(99)
+                                        <span class="badge badge-danger">Batal</span>
+                                    @break
+
+                                    @default
+                                        -
+                                @endswitch
+                            </td>
                             <td>
                                 <x-adminlte-button class="btn-xs btnEdit" label="Edit" theme="warning" icon="fas fa-edit"
                                     title="Edit Resep Kemterapi {{ $item->nama }}" data-id="{{ $item->id }}"
@@ -46,6 +60,9 @@
                                 <a href="{{ route('print_resepkemoterapi') }}?kode={{ $item->kode }}"
                                     class="btn btn-xs btn-success" target="_blank"> <i class="fas fa-print"></i>
                                     Print</a>
+                                <a href="{{ route('batalkemotarapi') }}?kode={{ $item->kode }}"
+                                    class="btn btn-xs btn-danger" data-confirm-delete="true"> <i class="fas fa-times"></i>
+                                    Batal</a>
                             </td>
                         </tr>
                     @endforeach

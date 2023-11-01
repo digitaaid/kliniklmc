@@ -126,7 +126,7 @@ class FarmasiController extends APIController
             $antrians = Antrian::whereBetween('tanggalperiksa', [$request->tanggalawal, $request->tanggalakhir])
                 ->where('taskid', '!=', 99)
                 ->get();
-        }else{
+        } else {
             $obats = ResepObatDetail::get()->groupBy('nama');
         }
         return view('sim.laporan_obat', compact([
@@ -139,13 +139,34 @@ class FarmasiController extends APIController
         $reseps = ResepKemoterapi::get();
         $obatkemoterapi = Obat::where('jenisobat', 'Obat Kemoterapi')->get();
         $penunjangkemoterapi = Obat::where('jenisobat', 'Penunjang Kemoterapi')->get();
+        $title = 'Batal Kemoterapi!';
+        $text = "Apakah anda yakin akan membatalkan permintaan obat kemoterapi ?";
+        confirmDelete($title, $text);
         return view('sim.obat_kemoterapi_index', compact([
             'request',
             'reseps',
             'obatkemoterapi',
             'penunjangkemoterapi',
         ]));
-        // dd($request->all(), $reseps);
+    }
+    public function batalkemotarapi(Request $request)
+    {
+        $resep = ResepKemoterapi::where('kode', $request->kode)->first();
+        $resep->update([
+            'status' => 99
+        ]);
+        Alert::success('Success', 'Permintaan Obat Kemoterapi Berhasil dibatalkan');
+        return redirect()->back();
+        dd($request->all(), $resep);
+        $reseps = ResepKemoterapi::get();
+        $obatkemoterapi = Obat::where('jenisobat', 'Obat Kemoterapi')->get();
+        $penunjangkemoterapi = Obat::where('jenisobat', 'Penunjang Kemoterapi')->get();
+        return view('sim.obat_kemoterapi_index', compact([
+            'request',
+            'reseps',
+            'obatkemoterapi',
+            'penunjangkemoterapi',
+        ]));
     }
     public function store_resepkemoterapi(Request $request)
     {
