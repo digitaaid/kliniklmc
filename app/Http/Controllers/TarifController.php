@@ -69,8 +69,7 @@ class TarifController extends Controller
     public function ref_tarif_layanan(Request $request)
     {
         $data = array();
-        $tarifs = Tarif::whereNotIn('klasifikasi', ['Administrasi', 'Konsultasi'])
-            ->whereIn('jenispasien', ['SEMUA', $request->jenispasien])
+        $tarifs = Tarif::whereIn('jenispasien', ['SEMUA', $request->jenispasien])
             ->where('nama', 'LIKE', '%' . $request->search . '%')
             ->get();
         if ($tarifs) {

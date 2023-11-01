@@ -13,4 +13,8 @@ class Layanan extends Model
     {
         return $this->hasMany(LayananDetail::class);
     }
+    public function pic()
+    {
+        return $this->hasOne(User::class,  'id', 'user');
+    }
 }

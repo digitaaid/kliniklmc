@@ -366,6 +366,9 @@ class PendaftaranController extends APIController
         ]);
         $request['kode'] = $request->kodekunjungan;
         $request['user'] = Auth::user()->id;
+        $request['laboratorium'] = $request->laboratorium ? "1" : "0";
+        $request['kemoterapi'] = $request->kemoterapi ? "1" : "0";
+        $request['radiologi'] = $request->radiologi ? "1" : "0";
         // add layanan header
         $layanan = Layanan::updateOrCreate(
             [
