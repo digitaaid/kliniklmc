@@ -2,7 +2,9 @@
     <div class="card-header" role="tab" id="headLay">
         <h3 class="card-title">
             <a data-toggle="collapse" data-parent="#accordion" href="#collLay" aria-expanded="true" aria-controls="collLay">
-                Layanan & Tindakan
+                Layanan & Tindakan (@if ($antrian->layanan)
+                    {{ $antrian->layanan->layanandetails->count() ?? 0 }}
+                @endif Layanan)
             </a>
         </h3>
     </div>
