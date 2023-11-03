@@ -3,6 +3,7 @@
 use App\Http\Controllers\AntrianController;
 use App\Http\Controllers\BarcodeController;
 use App\Http\Controllers\CarouselController;
+use App\Http\Controllers\DepoController;
 use App\Http\Controllers\DiagnosaController;
 use App\Http\Controllers\DokterController;
 use App\Http\Controllers\FarmasiController;
@@ -24,6 +25,7 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\RujukanController;
 use App\Http\Controllers\SepController;
 use App\Http\Controllers\SocialiteController;
+use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\SuratKontrolController;
 use App\Http\Controllers\TanyaJawabController;
 use App\Http\Controllers\TarifController;
@@ -101,6 +103,9 @@ Route::middleware('auth')->group(function () {
     Route::resource('dokter', DokterController::class);
     Route::resource('poliklinik', PoliklinikController::class);
     Route::resource('obat', ObatController::class);
+    Route::resource('supplier', SupplierController::class);
+    Route::resource('stokobat', SupplierController::class);
+    Route::resource('depo', DepoController::class);
     Route::resource('jadwaldokter', JadwalDokterController::class);
     Route::resource('jadwallibur', JadwalLiburController::class);
     Route::resource('antrian', AntrianController::class);

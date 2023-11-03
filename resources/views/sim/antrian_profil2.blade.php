@@ -31,6 +31,8 @@
             </div>
             <div class="col-md-4">
                 <dl class="row">
+                    <dt class="col-sm-4 m-0">Tgl Periksa</dt>
+                    <dd class="col-sm-8 m-0">{{ $antrian->tanggalperiksa }}</dd>
                     <dt class="col-sm-4 m-0">Antrian</dt>
                     <dd class="col-sm-8 m-0">
                         {{ $antrian->nomorantrean }} ({{ $antrian->kodebooking }})
@@ -63,6 +65,18 @@
                                 Belum Pilih Jenis Kunjungan
                         @endswitch
                     </dd>
+                    <dt class="col-sm-4 m-0">Kunjungan</dt>
+                    <dd class="col-sm-8 m-0">
+                        @if ($antrian->kunjungan)
+                            {{ $antrian->kodekunjungan }} <span class="badge badge-success">Terintegrasi </span>
+                        @else
+                            <span class="badge badge-danger">Belum Integrasi </span>
+                        @endif
+                    </dd>
+                </dl>
+            </div>
+            <div class="col-md-4">
+                <dl class="row">
                     <dt class="col-sm-4 m-0">No Referensi</dt>
                     <dd class="col-sm-8 m-0">
                         {{ $antrian->nomorreferensi ?? '-' }}
@@ -87,19 +101,6 @@
                             Belum ada Surat Kontrol
                         @endif
                     </dd>
-                    <dt class="col-sm-4 m-0">Kunjungan</dt>
-                    <dd class="col-sm-8 m-0">
-                        @if ($antrian->kunjungan)
-                            {{ $antrian->kodekunjungan }} <span class="badge badge-success">Terintegrasi </span>
-                        @else
-                            <span class="badge badge-danger">Belum Integrasi </span>
-                        @endif
-                    </dd>
-
-                </dl>
-            </div>
-            <div class="col-md-3">
-                <dl class="row">
                     <dt class="col-sm-4 m-0">Diagnosa</dt>
                     <dd class="col-sm-8 m-0">
                         {{ $antrian->kunjungan->diagnosa_awal ?? '-' }}

@@ -438,7 +438,21 @@ return [
                     'url'  => 'obat',
                     'can' => 'farmasi',
                     'shift'   => 'ml-2',
+                ],
+                [
+                    'text' => 'Supplier',
+                    'icon'    => 'fas fa-pills',
+                    'url'  => 'supplier',
+                    'can' => 'farmasi',
+                    'shift'   => 'ml-2',
 
+                ],
+                [
+                    'text' => 'Stok Obat',
+                    'icon'    => 'fas fa-pills',
+                    'url'  => 'stokobat',
+                    'can' => 'farmasi',
+                    'shift'   => 'ml-2',
                 ],
                 [
                     'text' => 'Jaminan',
