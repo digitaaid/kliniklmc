@@ -1,12 +1,12 @@
 <div class="card card-info mb-1">
-    <div class="card-header" role="tab" id="headFile">
+    <a data-toggle="collapse" class="card-header" data-parent="#accordion" href="#collapseFile">
         <h3 class="card-title">
-            <a data-toggle="collapse" data-parent="#accordion" href="#collapseFile" aria-expanded="true"
-                aria-controls="collapseFile">
-                File Penunjang ({{ $antrian->pasien ? $antrian->pasien->fileuploads->count() : 0 }} Berkas)
-            </a>
+            File Penunjang
         </h3>
-    </div>
+        <div class="card-tools">
+            {{ $antrian->pasien ? $antrian->pasien->fileuploads->count()  : 0 }} Berkas <i class="fas fa-info-circle"></i>
+        </div>
+    </a>
     <div id="collapseFile" class="collapse" role="tabpanel" aria-labelledby="headFile">
         <div class="card-body">
             <form action="{{ route('uploadpenunjang') }}" name="formFile" id="formFile" method="POST"

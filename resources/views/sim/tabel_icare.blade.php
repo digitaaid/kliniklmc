@@ -1,17 +1,20 @@
 <div class="card card-info mb-1">
-    <div class="card-header" role="tab" id="headIcare">
-        <h3 class="card-title">
-            <a data-toggle="collapse" data-parent="#accordion" href="#collIcare"
-                aria-expanded="true" aria-controls="collIcare">
-                i-Care JKN
-            </a>
+    <a data-toggle="collapse" class="card-header" data-parent="#accordion" href="#collIcare">
+        <h3 class="card-title ">
+            i-Care JKN
         </h3>
-    </div>
+        <div class="card-tools">
+            @if ($urlicare)
+                Terhubung <i class="fas fa-check-circle"></i>
+            @else
+                Tidak Terhubung <i class="fas fa-info-circle"></i>
+            @endif
+        </div>
+    </a>
     <div id="collIcare" class="collapse" role="tabpanel" aria-labelledby="headIcare">
         <div class="card-body">
             @if ($urlicare)
-                <iframe src="{{ $urlicare }}" width="100%" height="500px"
-                    frameborder="0"></iframe>
+                <iframe src="{{ $urlicare }}" width="100%" height="500px" frameborder="0"></iframe>
                 {{ $messageicare }}
             @else
                 Mohon Maaf ! {{ $messageicare }}

@@ -1,12 +1,12 @@
 <div class="card card-info mb-1">
-    <div class="card-header" role="tab" id="headingOne">
+    <a data-toggle="collapse" class="card-header" data-parent="#accordion" href="#collapseOne">
         <h3 class="card-title">
-            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true"
-                aria-controls="collapseOne">
-                Riwayat Pasien ({{ $antrian->pasien ? $antrian->pasien->kunjungans->count() : 0 }} Kunjungan)
-            </a>
+            Riwayat Pasien
         </h3>
-    </div>
+        <div class="card-tools">
+            {{ $antrian->pasien ? $antrian->pasien->kunjungans->count() : 0 }} Kunjungan <i class="fas fa-info-circle"></i>
+        </div>
+    </a>
     <div id="collapseOne" class="collapse show" role="tabpanel" aria-labelledby="headingOne">
         <div class="card-body p-0 mb-3">
             @php
