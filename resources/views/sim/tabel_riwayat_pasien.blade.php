@@ -3,7 +3,7 @@
         <h3 class="card-title">
             <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true"
                 aria-controls="collapseOne">
-                Riwayat Pasien ({{ $antrian->pasien->kunjungans->count() }} Kunjungan)
+                Riwayat Pasien ({{ $antrian->pasien ? $antrian->pasien->kunjungans->count() : 0 }} Kunjungan)
             </a>
         </h3>
     </div>
