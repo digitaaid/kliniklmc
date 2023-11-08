@@ -23,13 +23,25 @@
                             <td>{{ $item->subtitle }}</td>
                             <td>{{ $item->sip }}</td>
                             <td>{{ $item->kodejkn }}</td>
-                            <td>{{ $item->status }}</td>
                             <td>
-                                <x-adminlte-button class="btn-xs btnEdit" theme="warning" icon="fas fa-edit"
+                                @if ($item->status)
+                                    <span class="badge badge-success">Aktif</span>
+                                @else
+                                    <span class="badge badge-danger">Non-Aktif</span>
+                                @endif
+                            </td>
+                            <td>
+                                <x-adminlte-button class="btn-xs btnEdit" theme="warning" label="Edit" icon="fas fa-edit"
                                     title="Edit Dokter {{ $item->namadokter }}" data-id="{{ $item->id }}"
                                     data-namadokter="{{ $item->namadokter }}" data-kodedokter="{{ $item->kodedokter }}"
-                                    data-subtitle="{{ $item->subtitle }}" data-gender="{{ $item->gender }}" data-sip="{{ $item->sip }}"
-                                    data-kodejkn="{{ $item->kodejkn }}" />
+                                    data-subtitle="{{ $item->subtitle }}" data-gender="{{ $item->gender }}"
+                                    data-sip="{{ $item->sip }}" data-kodejkn="{{ $item->kodejkn }}" />
+                                <x-adminlte-button class="btn-xs btnDelete" theme="danger" icon="fas fa-trash-alt"
+                                    title="Non-Aktifkan Pasien {{ $item->namadokter }} " data-id="{{ $item->id }}"
+                                    data-name="{{ $item->namadokter }}" />
+                                <x-adminlte-button class="btn-xs" theme="secondary" label="PIC"
+                                    icon="fas fa-user"
+                                    title="PIC {{ $item->pic ? $item->pic->name : $item->user }} {{ $item->updated_at }}" />
                             </td>
                         </tr>
                     @endforeach
@@ -57,6 +69,10 @@
                 <x-adminlte-button theme="danger" icon="fas fa-times" label="Kembali" data-dismiss="modal" />
             </x-slot>
         </form>
+        <form id="formDelete" action="" method="POST">
+            @csrf
+            @method('DELETE')
+        </form>
     </x-adminlte-modal>
     {{-- <x-adminlte-modal id="modalUser" title="User" icon="fas fa-user" theme="success" v-centered static-backdrop>
         <form action="" id="formUser" method="POST">
@@ -79,10 +95,7 @@
             <x-adminlte-input name="password_confirmation" type="password" label="Konfirmasi Password"
                 placeholder="Konfirmasi Password" required />
         </form>
-        <form id="formDelete" action="" method="POST">
-            @csrf
-            @method('DELETE')
-        </form>
+
         <x-slot name="footerSlot">
             <x-adminlte-button id="btnStore" class="mr-auto" type="submit" icon="fas fa-save" theme="success"
                 label="Simpan" />
@@ -95,6 +108,7 @@
 
 @section('plugins.Select2', true)
 @section('plugins.Datatables', true)
+@section('plugins.Sweetalert2', true)
 @section('js')
     <script>
         $(function() {
@@ -106,7 +120,7 @@
                 var id = $(this).data("id");
                 $('#id').val(id);
                 $('#namadokter').val($(this).data("namadokter"));
-                $('#kodedokter').val( $(this).data("kodedokter"));
+                $('#kodedokter').val($(this).data("kodedokter"));
                 $('#subtitle').val($(this).data("subtitle"));
                 $('#gender').val($(this).data("gender"));
                 $('#sip').val($(this).data("sip"));
@@ -122,6 +136,25 @@
                 $('#formDokter').attr('action', url);
                 $('#method').val('PUT');
                 $('#formDokter').submit();
+            });
+            $('.btnDelete').click(function(e) {
+                e.preventDefault();
+                var name = $(this).data("name");
+                swal.fire({
+                    title: 'Apakah anda ingin menonaktifkan dokter ' + name + ' ?',
+                    showConfirmButton: false,
+                    showDenyButton: true,
+                    showCancelButton: true,
+                    denyButtonText: `Ya, Non Aktifkan`,
+                }).then((result) => {
+                    if (result.isDenied) {
+                        $.LoadingOverlay("show");
+                        var id = $(this).data("id");
+                        var url = "{{ route('dokter.index') }}/" + id;
+                        $('#formDelete').attr('action', url);
+                        $('#formDelete').submit();
+                    }
+                })
             });
         });
     </script>

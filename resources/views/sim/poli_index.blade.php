@@ -12,8 +12,9 @@
             <x-adminlte-card title="Data Poliklinik" theme="primary" icon="fas fa-info-circle" collapsible>
                 @php
                     $heads = ['ID', 'Nama Subspesialis', 'Kode Poliklinik', 'Kode Subspesialis', 'Status'];
+                    $config['order'] = [4, 'asc'];
                 @endphp
-                <x-adminlte-datatable id="table1" :heads="$heads" bordered hoverable compressed>
+                <x-adminlte-datatable id="table1" :heads="$heads" bordered :config="$config" hoverable compressed>
                     @foreach ($polikliniks as $item)
                         <tr>
                             <td>{{ $item->id }}</td>

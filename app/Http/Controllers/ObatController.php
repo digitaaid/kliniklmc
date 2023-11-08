@@ -19,12 +19,6 @@ class ObatController extends Controller
             'obats',
         ]));
     }
-    public function create()
-    {
-        $file = public_path('obat.xlsx');
-        Excel::import(new ObatsImport, $file);
-        return redirect()->route('obat.index');
-    }
     public function store(Request $request)
     {
         $request['user'] = Auth::user()->id;
@@ -50,6 +44,19 @@ class ObatController extends Controller
         ]);
         Alert::success('Success', 'Data Nama Obat Diperbaharui.');
         return redirect()->route('obat.index');
+    }
+    public function destroy($id, Request $request)
+    {
+        $obat = Obat::find($id);
+        if ($obat->status) {
+            $status = 0;
+        }
+        $obat->update([
+            'status' => $status ?? 1,
+            'user' => Auth::user()->id,
+        ]);
+        Alert::success('Success', 'Data Obat Dinonaktifkan.');
+        return redirect()->back();
     }
     public function reset_obat()
     {
@@ -84,5 +91,4 @@ class ObatController extends Controller
         Alert::success('Success', 'Import Obat Berhasil.');
         return redirect()->route('obat.index');
     }
-
 }

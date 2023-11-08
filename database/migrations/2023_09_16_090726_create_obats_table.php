@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('jenisobat')->nullable();
             $table->string('tipeobat')->nullable();
             $table->string('user')->default(1);
+            $table->string('status')->default(1);
             $table->timestamps();
         });
     }

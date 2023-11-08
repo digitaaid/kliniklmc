@@ -11,7 +11,7 @@
         <div class="col-md-12">
             <x-adminlte-card title="Data Obat" theme="primary" icon="fas fa-info-circle" collapsible>
                 @php
-                    $heads = ['Kode', 'Nama Obat', 'Satuan', 'Harga', 'Jenis Obat', 'Tipe Barang', 'Action'];
+                    $heads = ['Kode', 'Nama Obat', 'Satuan', 'Harga', 'Jenis Obat', 'Tipe Barang', 'Status', 'Action'];
                     $config['order'] = [1, 'asc'];
                     $config['paging'] = false;
                     $config['scrollY'] = '500px';
@@ -29,11 +29,23 @@
                             <td>{{ $item->jenisobat }}</td>
                             <td>{{ $item->tipebarang }}</td>
                             <td>
-                                <x-adminlte-button class="btn-xs btnEdit" theme="warning" icon="fas fa-edit"
+                                @if ($item->status)
+                                    <span class="badge badge-success">Aktif</span>
+                                @else
+                                    <span class="badge badge-danger">Non-Aktif</span>
+                                @endif
+                            </td>
+                            <td>
+                                <x-adminlte-button class="btn-xs btnEdit" theme="warning" label="Edit" icon="fas fa-edit"
                                     title="Edit Obat {{ $item->nama }}" data-id="{{ $item->id }}"
                                     data-nama="{{ $item->nama }}" data-jenisobat="{{ $item->jenisobat }}"
                                     data-satuan="{{ $item->satuan }}" data-harga="{{ $item->harga }}"
                                     data-tipebarang="{{ $item->tipebarang }}" />
+                                <x-adminlte-button class="btn-xs btnDelete" theme="danger" icon="fas fa-trash-alt"
+                                    title="Non-Aktifkan Obat {{ $item->nama }} " data-id="{{ $item->id }}"
+                                    data-name="{{ $item->nama }}" />
+                                <x-adminlte-button class="btn-xs" theme="secondary" label="PIC" icon="fas fa-user"
+                                    title="PIC {{ $item->pic ? $item->pic->name : $item->user }} {{ $item->updated_at }}" />
                             </td>
                         </tr>
                     @endforeach
@@ -76,7 +88,6 @@
                 <option value="Alkes">Alkes</option>
                 <option value="BHP">BHP</option>
             </x-adminlte-select2>
-
         </form>
         <form id="formDelete" action="" method="POST">
             @csrf
@@ -108,6 +119,7 @@
 @stop
 @section('plugins.Datatables', true)
 @section('plugins.BsCustomFileInput', true)
+@section('plugins.Sweetalert2', true)
 @section('plugins.Select2', true)
 @section('js')
     <script>
@@ -158,25 +170,25 @@
                 $('#modalImport').modal('show');
                 $.LoadingOverlay("hide");
             });
-            // $('.btnDelete').click(function(e) {
-            //     e.preventDefault();
-            //     var name = $(this).data("name");
-            //     swal.fire({
-            //         title: 'Apakah anda ingin menghapus user ' + name + ' ?',
-            //         showConfirmButton: false,
-            //         showDenyButton: true,
-            //         showCancelButton: true,
-            //         denyButtonText: `Ya, Hapus`,
-            //     }).then((result) => {
-            //         if (result.isDenied) {
-            //             $.LoadingOverlay("show");
-            //             var id = $(this).data("id");
-            //             var url = "{{ route('obat.index') }}/" + id;
-            //             $('#formDelete').attr('action', url);
-            //             $('#formDelete').submit();
-            //         }
-            //     })
-            // });
+            $('.btnDelete').click(function(e) {
+                e.preventDefault();
+                var name = $(this).data("name");
+                swal.fire({
+                    title: 'Apakah anda ingin menonaktifkan obat ' + name + ' ?',
+                    showConfirmButton: false,
+                    showDenyButton: true,
+                    showCancelButton: true,
+                    denyButtonText: `Ya, Non Aktifkan`,
+                }).then((result) => {
+                    if (result.isDenied) {
+                        $.LoadingOverlay("show");
+                        var id = $(this).data("id");
+                        var url = "{{ route('obat.index') }}/" + id;
+                        $('#formDelete').attr('action', url);
+                        $('#formDelete').submit();
+                    }
+                })
+            });
         });
     </script>
 @endsection

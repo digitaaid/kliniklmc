@@ -45,9 +45,23 @@ class DokterController extends Controller
             'subtitle' => 'required',
         ]);
         $dokter = Dokter::find($id);
+        $request['user'] = Auth::user()->id;
         $dokter->update($request->all());
         Alert::success("Success", 'Data dokter berhasil diupdate.');
         return redirect()->route('dokter.index');
+    }
+    public function destroy($id, Request $request)
+    {
+        $dokter = Dokter::find($id);
+        if ($dokter->status) {
+            $status = 0;
+        }
+        $dokter->update([
+            'status' => $status ?? 1,
+            'user' => Auth::user()->id,
+        ]);
+        Alert::success('Success', 'Data Dokter Dinonaktifkan.');
+        return redirect()->back();
     }
     public function dokterAntrianBpjs()
     {

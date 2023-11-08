@@ -1,9 +1,9 @@
 @extends('adminlte::page')
 
-@section('title', 'Poliklinik')
+@section('title', 'Unit')
 
 @section('content_header')
-    <h1>Poliklinik</h1>
+    <h1>Unit</h1>
 @stop
 
 @section('content')
@@ -11,7 +11,7 @@
         <div class="col-md-12">
             <x-adminlte-card title="Data Poliklinik" theme="primary" icon="fas fa-info-circle" collapsible>
                 @php
-                    $heads = ['ID', 'Nama Subspesialis', 'Kode Poliklinik', 'Kode Subspesialis', 'Status'];
+                    $heads = ['ID', 'Kode Unit', 'Nama Unit', 'Kode Poliklinik', 'Jenis Unit'];
                 @endphp
                 <x-adminlte-datatable id="table1" :heads="$heads" bordered hoverable compressed>
                     @foreach ($units as $item)

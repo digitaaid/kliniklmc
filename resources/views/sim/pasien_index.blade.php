@@ -77,7 +77,7 @@
                                 <x-adminlte-button class="btn-xs btnDelete" theme="danger" icon="fas fa-trash-alt"
                                     title="Non-Aktifkan Pasien {{ $item->name }} " data-id="{{ $item->id }}"
                                     data-name="{{ $item->name }}" />
-                                <x-adminlte-button class="btn-xs btnEdit" theme="secondary" label="PIC"
+                                <x-adminlte-button class="btn-xs" theme="secondary" label="PIC"
                                     icon="fas fa-user"
                                     title="PIC {{ $item->pic ? $item->pic->name : $item->user }} {{ $item->updated_at }}" />
                             </td>

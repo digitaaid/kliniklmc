@@ -9,5 +9,8 @@ class Obat extends Model
 {
     use HasFactory;
     protected $guarded = ['id'];
-
+    public function pic()
+    {
+        return $this->hasOne(User::class,  'id', 'user');
+    }
 }
