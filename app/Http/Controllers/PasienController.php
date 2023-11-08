@@ -124,10 +124,23 @@ class PasienController extends APIController
     }
     public function riwayatpasien(Request $request)
     {
-        $pasien = Pasien::with(['kunjungans','antrians'])->firstWhere('norm', $request->norm);
+        $pasien = Pasien::with(['kunjungans', 'antrians'])->firstWhere('norm', $request->norm);
         Alert::success('Sucess', 'Data Pasien Berhasil Ditambahkan.');
         return view('sim.riwayat_pasien', compact([
             'pasien'
         ]));
+    }
+    public function destroy($id, Request $request)
+    {
+        $pasien = Pasien::find($id);
+        if ($pasien->status) {
+            $status = 0;
+        }
+        $pasien->update([
+            'status' => $status ?? 1,
+            'user' => Auth::user()->id,
+        ]);
+        Alert::success('Success', 'Data Pasien Dinonaktifkan.');
+        return redirect()->back();
     }
 }

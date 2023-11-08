@@ -11,8 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('depos', function (Blueprint $table) {
+        Schema::create('pemeriksaan_laboratoria', function (Blueprint $table) {
             $table->id();
+            $table->string('token');
+            $table->string('nama');
+            $table->string('code');
+            $table->string('group');
+            $table->string('kelompok');
+            $table->string('status')->default('1');
             $table->timestamps();
         });
     }
@@ -22,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('depos');
+        Schema::dropIfExists('pemeriksaan_laboratoria');
     }
 };

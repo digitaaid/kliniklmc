@@ -673,6 +673,39 @@
                         @if ($antrian->kunjungan)
                             {{-- layanan --}}
                             @include('sim.tabel_layanan')
+                            {{-- laboratorium --}}
+                            @if ($antrian->kunjungan->layanan)
+                                @if ($antrian->kunjungan->layanan->laboratorium)
+                                    @include('sim.tabel_lab')
+                                @endif
+                            @endif
+                            @if ($antrian->kunjungan->layanan)
+                                @if ($antrian->kunjungan->layanan->radiologi)
+                                    {{-- radiologi --}}
+                                    <div class="card card-info mb-1">
+                                        <a class="card-header" data-toggle="collapse" data-parent="#accordion"
+                                            href="#collRad">
+                                            <h3 class="card-title">
+                                                E-Radiologi
+                                            </h3>
+                                        </a>
+                                        <div id="collRad" class="collapse" role="tabpanel" aria-labelledby="headRad">
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <x-adminlte-textarea igroup-size="sm" rows=4
+                                                            label="Catatan Radiologi" name="catatan_rad"
+                                                            placeholder="Catatan Radiologi">
+                                                            {{ $kunjungan->asesmendokter->catatan_rad ?? null }}
+                                                        </x-adminlte-textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endif
+                            @endif
+
                             {{-- kasir --}}
                             <div class="card card-info mb-1">
                                 <div class="card-header" role="tab" id="headKasir">

@@ -39,8 +39,8 @@
                     </div>
                 </div>
                 @php
-                    $heads = ['No', 'No RM', 'No BPJS', 'NIK', 'Nama Pasien', 'Gender', 'Tgl Lahir', 'Action', 'PIC'];
-                    $config['order'] = [1, 'desc'];
+                    $heads = ['No RM', 'No BPJS', 'NIK', 'Nama Pasien', 'Gender', 'Tgl Lahir', 'Status', 'Action'];
+                    $config['order'] = [0, 'desc'];
                     $config['paging'] = false;
                     $config['lengthMenu'] = false;
                     $config['searching'] = false;
@@ -49,13 +49,19 @@
                 <x-adminlte-datatable id="table1" :heads="$heads" :config="$config" bordered hoverable compressed>
                     @foreach ($pasiens as $item)
                         <tr>
-                            <td>{{ $loop->iteration }}</td>
                             <td>{{ $item->norm }}</td>
                             <td>{{ $item->nomorkartu }}</td>
                             <td>{{ $item->nik }}</td>
                             <td>{{ $item->nama }}</td>
                             <td>{{ $item->gender }}</td>
                             <td>{{ $item->tgl_lahir }} ({{ Carbon\Carbon::parse($item->tgl_lahir)->age }} tahun) </td>
+                            <td>
+                                @if ($item->status)
+                                    <span class="badge badge-success">Aktif</span>
+                                @else
+                                    <span class="badge badge-danger">Non-Aktif</span>
+                                @endif
+                            </td>
                             <td>
                                 <x-adminlte-button class="btn-xs btnEdit" theme="warning" label="Edit" icon="fas fa-edit"
                                     title="Edit Pasien {{ $item->nama }}" data-id="{{ $item->id }}"
@@ -68,9 +74,12 @@
                                     data-user="{{ $item->pic ? $item->pic->name : $item->user }}" />
                                 <a href="{{ route('riwayatpasien') }}?norm={{ $item->norm }}"
                                     class="btn btn-xs btn-primary"><i class="fas fa-file-medical"></i> Riwayat</a>
-                            </td>
-                            <td>
-                                {{ $item->pic ? $item->pic->name : $item->user }}
+                                <x-adminlte-button class="btn-xs btnDelete" theme="danger" icon="fas fa-trash-alt"
+                                    title="Non-Aktifkan Pasien {{ $item->name }} " data-id="{{ $item->id }}"
+                                    data-name="{{ $item->name }}" />
+                                <x-adminlte-button class="btn-xs btnEdit" theme="secondary" label="PIC"
+                                    icon="fas fa-user"
+                                    title="PIC {{ $item->pic ? $item->pic->name : $item->user }} {{ $item->updated_at }}" />
                             </td>
                         </tr>
                     @endforeach
@@ -141,8 +150,6 @@
                     </p>
                 </div>
             </div>
-
-
         </form>
         <form id="formDelete" action="" method="POST">
             @csrf
@@ -352,6 +359,25 @@
                     },
                     cache: true
                 }
+            });
+            $('.btnDelete').click(function(e) {
+                e.preventDefault();
+                var name = $(this).data("name");
+                swal.fire({
+                    title: 'Apakah anda ingin menonaktifkan pasien ' + name + ' ?',
+                    showConfirmButton: false,
+                    showDenyButton: true,
+                    showCancelButton: true,
+                    denyButtonText: `Ya, Non Aktifkan`,
+                }).then((result) => {
+                    if (result.isDenied) {
+                        $.LoadingOverlay("show");
+                        var id = $(this).data("id");
+                        var url = "{{ route('pasien.index') }}/" + id;
+                        $('#formDelete').attr('action', url);
+                        $('#formDelete').submit();
+                    }
+                })
             });
         });
     </script>

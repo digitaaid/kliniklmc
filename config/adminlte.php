@@ -393,6 +393,7 @@ return [
                     'icon'    => 'fas fa-user-injured',
                     'shift'   => 'ml-2',
                     'url'  => 'pasien',
+                    'active'  => ['pasien', 'riwayatpasien'],
                     'can' => 'pendaftaran',
                 ],
                 [
