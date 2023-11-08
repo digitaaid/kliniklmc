@@ -27,6 +27,10 @@
                         <dd>
                             <pre>{{ $kunjungan->asesmenperawat->riwayat_pengobatan ?? null }}</pre>
                         </dd>
+                        <dt>Kondisi Psikologis :</dt>
+                        <dd>
+                            <pre>{{ $kunjungan->asesmenperawat->status_psikologi ?? null }}</pre>
+                        </dd>
                     </dl>
                 </div>
             </div>
@@ -106,30 +110,6 @@
                     </dl>
                 </div>
             </div>
-            <div class="col-md-6 border border-dark">
-                <div class="m-2 ">
-                    <u><b>PEMERIKSAAN PSIKOLOGI</b></u>
-                    <dl>
-                        <dt>Kondisi Psikologis :</dt>
-                        <dd>
-                            <pre>{{ $kunjungan->asesmenperawat->status_psikologi ?? null }}</pre>
-                        </dd>
-                        <dt>Kondisi Sosial Ekonomi :</dt>
-                        <dd>
-                            <pre>{{ $kunjungan->asesmenperawat->status_sosial ?? null }}</pre>
-                        </dd>
-                        <dt>Kondisi Spiritual :</dt>
-                        <dd>
-                            <pre>{{ $kunjungan->asesmenperawat->status_spiritual ?? null }}</pre>
-                        </dd>
-                    </dl>
-                </div>
-            </div>
-            <div class="col-md-6 border border-dark">
-                <div class="m-2 ">
-                    <u><b>CATATAN</b></u>
-                </div>
-            </div>
             <div class="text-center col-md-12 border border-dark bg-warning">
                 <div class="m-2 ">
                     <b>ASESMEN DOKTER RAWAT JALAN</b>
@@ -141,7 +121,8 @@
                     <dl>
                         <dt>Diagnosa</dt>
                         <dd>
-                            {{ $kunjungan->asesmendokter->diagnosa ?? null }}
+                            {{ $kunjungan->asesmendokter->diagnosa ?? null }}<br>
+                            {{ $kunjungan->asesmendokter->catatan_diagnosa ?? null }}
                         </dd>
                         <dt>Diagnosa Primer ICD-10 :</dt>
                         <dd>
@@ -155,10 +136,11 @@
                         <dd>
                             <pre>{{ $kunjungan->asesmendokter->riwayat_pengobatan ?? null }}</pre>
                         </dd>
-                        <dt>Rencana Perawatan :</dt>
+                        <dt>Pemeriksaan Fisik :</dt>
                         <dd>
-                            <pre>{{ $kunjungan->asesmendokter->rencana_perawatan ?? null }}</pre>
+                            <pre>{{ $kunjungan->asesmendokter->pemeriksaan_fisik ?? null }}</pre>
                         </dd>
+
                     </dl>
                 </div>
             </div>
@@ -166,10 +148,6 @@
                 <div class="m-2 ">
                     <u><b>TERAPI DAN OBAT SPESIALISTIK</b></u>
                     <dl>
-                        <dt>Pemeriksaan Fisik :</dt>
-                        <dd>
-                            <pre>{{ $kunjungan->asesmendokter->pemeriksaan_fisik ?? null }}</pre>
-                        </dd>
                         <dt>Tindakan :</dt>
                         <dd>
                             <pre>{{ $kunjungan->asesmendokter->tindakan_medis ?? null }}</pre>
@@ -272,7 +250,7 @@
                         <dd>
                             <pre>{{ $kunjungan->asesmendokter->catatan_lab ?? null }}</pre>
                         </dd>
-                        <dt>Catatan Radiologi Ekonomi :</dt>
+                        <dt>Catatan Radiologi :</dt>
                         <dd>
                             <pre>{{ $kunjungan->asesmendokter->catatan_rad ?? null }}</pre>
                         </dd>
@@ -282,6 +260,13 @@
             <div class="col-md-6 border border-dark">
                 <div class="m-2 ">
                     <u><b>CATATAN</b></u>
+                    <dl>
+                        <dt>Catatan Dokter :</dt>
+                        <dd>
+                            <pre>{{ $kunjungan->asesmendokter->rencana_perawatan ?? null }}</pre>
+                        </dd>
+                    </dl>
+
                 </div>
             </div>
             <div class="col-md-8 border-dark">

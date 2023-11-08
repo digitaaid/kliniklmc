@@ -17,6 +17,7 @@ return new class extends Migration
             $table->text('rencana_perawatan')->nullable();
             $table->text('instruksi_medis')->nullable();
             $table->string('diagnosa')->nullable();
+            $table->string('catatan_diagnosa')->nullable();
             $table->string('diagnosa1')->nullable();
             $table->string('textdiagnosa1')->nullable();
             $table->string('diagnosa2')->nullable();

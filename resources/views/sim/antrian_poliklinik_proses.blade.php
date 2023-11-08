@@ -117,10 +117,6 @@
                                                     name="keluhan_utama" placeholder="Keluhan Utama">
                                                     {{ $kunjungan->asesmenperawat->keluhan_utama ?? null }}
                                                 </x-adminlte-textarea>
-                                                {{-- <x-adminlte-textarea igroup-size="sm" rows=3 label="Diagnosa"
-                                                    id="diagnosaauto" name="diagnosa" placeholder="Diagnosa">
-                                                    {{ $kunjungan->asesmendokter->diagnosa ?? null }}
-                                                </x-adminlte-textarea> --}}
                                                 <x-adminlte-select2 name="diagnosa[]" class="diagnosa" label="Diagnosa :"
                                                     multiple>
                                                     @if ($antrian->asesmendokter)
@@ -139,6 +135,10 @@
                                                         @endif
                                                     @endif
                                                 </x-adminlte-select2>
+                                                <x-adminlte-textarea igroup-size="sm" rows=3 label="Catatan Diagnosa"
+                                                    name="catatan_diagnosa" placeholder="Catatan Diagnosa">
+                                                    {{ $kunjungan->asesmendokter->catatan_diagnosa ?? null }}
+                                                </x-adminlte-textarea>
                                                 <x-adminlte-select2 name="diagnosa1" class="diagnosaid1"
                                                     label="Diagnosa Primer ICD-10 : ">
                                                     @if ($antrian->asesmendokter)
