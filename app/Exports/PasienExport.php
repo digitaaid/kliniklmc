@@ -4,10 +4,23 @@ namespace App\Exports;
 
 use App\Models\Pasien;
 use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\WithCustomValueBinder;
 use Maatwebsite\Excel\Concerns\WithHeadings;
+use PhpOffice\PhpSpreadsheet\Cell\Cell;
+use PhpOffice\PhpSpreadsheet\Cell\DataType;
+use PhpOffice\PhpSpreadsheet\Cell\DefaultValueBinder;
 
-class PasienExport implements FromCollection, WithHeadings
+class PasienExport extends DefaultValueBinder  implements FromCollection, WithHeadings, WithCustomValueBinder
 {
+    public function bindValue(Cell $cell, $value)
+    {
+        $digit = preg_match_all("/[0-9]/", $value);
+        if ($digit == 16) {
+            $cell->setValueExplicit($value, DataType::TYPE_STRING2);
+            return true;
+        }
+        return parent::bindValue($cell, $value);
+    }
     public function collection()
     {
         return Pasien::all();
