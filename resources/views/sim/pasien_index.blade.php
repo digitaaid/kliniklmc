@@ -19,8 +19,11 @@
             <x-adminlte-card title="Data Pasien" theme="primary" icon="fas fa-info-circle" collapsible>
                 <div class="row">
                     <div class="col-md-8">
-                        <x-adminlte-button id="btnTambah" class="btn-sm mb-2" theme="success" label="Tambah Pasien"
+                        <x-adminlte-button id="btnTambah" class="btn-sm" theme="success" label="Tambah Pasien"
                             icon="fas fa-plus" />
+                        <a href="{{ route('pasienexport') }}" class="btn btn-sm btn-primary"><i class="fas fa-print"></i>
+                            Export</a>
+                        <div class="btn btn-sm btn-primary btnModalImport"><i class="fas fa-file-medical"></i> Import</div>
                     </div>
                     <div class="col-md-4">
                         <form action="" method="get">
@@ -77,8 +80,7 @@
                                 <x-adminlte-button class="btn-xs btnDelete" theme="danger" icon="fas fa-trash-alt"
                                     title="Non-Aktifkan Pasien {{ $item->name }} " data-id="{{ $item->id }}"
                                     data-name="{{ $item->name }}" />
-                                <x-adminlte-button class="btn-xs" theme="secondary" label="PIC"
-                                    icon="fas fa-user"
+                                <x-adminlte-button class="btn-xs" theme="secondary" label="PIC" icon="fas fa-user"
                                     title="PIC {{ $item->pic ? $item->pic->name : $item->user }} {{ $item->updated_at }}" />
                             </td>
                         </tr>

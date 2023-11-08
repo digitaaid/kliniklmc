@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\PasienExport;
 use App\Imports\PasiensImport;
 use App\Models\Pasien;
 use Illuminate\Http\Request;
@@ -142,5 +143,15 @@ class PasienController extends APIController
         ]);
         Alert::success('Success', 'Data Pasien Dinonaktifkan.');
         return redirect()->back();
+    }
+    public function pasienexport()
+    {
+        return Excel::download(new PasienExport, 'pasien.xlsx');
+    }
+    public function pasienimport(Request $request)
+    {
+        Excel::import(new PasiensImport, $request->file);
+        Alert::success('Success', 'Import Obat Berhasil.');
+        return redirect()->route('obat.index');
     }
 }

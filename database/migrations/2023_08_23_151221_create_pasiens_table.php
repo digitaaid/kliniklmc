@@ -23,7 +23,7 @@ return new class extends Migration
             $table->date('tgl_lahir')->nullable();
             $table->string('desa_id')->nullable();
             $table->string('kecamatan_id')->nullable();
-            $table->string('kabupaaten_id')->nullable();
+            $table->string('kabupaten_id')->nullable();
             $table->string('provinsi_id')->nullable();
             $table->text('alamat')->nullable();
             $table->string('status')->default(1);
