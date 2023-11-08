@@ -148,6 +148,7 @@ Route::middleware('auth')->group(function () {
     Route::get('diagnosaexport', [DiagnosaController::class, 'export'])->name('diagnosa.export');
     Route::post('diagnosaimport', [DiagnosaController::class, 'diagnosaimport'])->name('diagnosaimport');
     Route::get('pasienexport', [PasienController::class, 'pasienexport'])->name('pasienexport');
+    Route::post('pasienimport', [PasienController::class, 'pasienimport'])->name('pasienimport');
     // poliklinik
     Route::get('antrianpoliklinik', [DokterController::class, 'antrianpoliklinik'])->name('antrianpoliklinik');
     Route::get('prosespoliklinik', [DokterController::class, 'prosespoliklinik'])->name('prosespoliklinik');

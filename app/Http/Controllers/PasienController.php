@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Exports\PasienExport;
+use App\Imports\PasienFileImport;
 use App\Imports\PasiensImport;
 use App\Models\Pasien;
 use Illuminate\Http\Request;
@@ -150,8 +151,8 @@ class PasienController extends APIController
     }
     public function pasienimport(Request $request)
     {
-        Excel::import(new PasiensImport, $request->file);
-        Alert::success('Success', 'Import Obat Berhasil.');
-        return redirect()->route('obat.index');
+        Excel::import(new PasienFileImport, $request->file);
+        Alert::success('Success', 'Import Pasien Berhasil.');
+        return redirect()->route('pasien.index');
     }
 }

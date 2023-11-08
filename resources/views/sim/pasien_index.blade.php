@@ -165,9 +165,23 @@
             <x-adminlte-button theme="danger" icon="fas fa-times" label="Kembali" data-dismiss="modal" />
         </x-slot>
     </x-adminlte-modal>
+    <x-adminlte-modal id="modalImport" title="Import Pasien" icon="fas fa-user-injured" theme="success" static-backdrop>
+        <form action="{{ route('pasienimport') }}" id="formImport" name="formImport" method="POST"
+            enctype="multipart/form-data">
+            @csrf
+            <x-adminlte-input-file name="file" placeholder="Pilih file Import" igroup-size="sm"
+                label="File Import Obat" />
+            <x-slot name="footerSlot">
+                <x-adminlte-button form="formImport" class="mr-auto" type="submit" icon="fas fa-save" theme="success"
+                    label="Import" />
+                <x-adminlte-button theme="danger" icon="fas fa-times" label="Kembali" data-dismiss="modal" />
+            </x-slot>
+        </form>
+    </x-adminlte-modal>
 @stop
 @section('plugins.Datatables', true)
 @section('plugins.TempusDominusBs4', true)
+@section('plugins.BsCustomFileInput', true)
 @section('plugins.Sweetalert2', true)
 @section('plugins.Select2', true)
 @section('js')
@@ -225,6 +239,30 @@
                 $('#formPasien').attr('action', url);
                 $('#method').val('PUT');
                 $('#formPasien').submit();
+            });
+            $('.btnModalImport').click(function() {
+                $.LoadingOverlay("show");
+                $('#modalImport').modal('show');
+                $.LoadingOverlay("hide");
+            });
+            $('.btnDelete').click(function(e) {
+                e.preventDefault();
+                var name = $(this).data("name");
+                swal.fire({
+                    title: 'Apakah anda ingin menonaktifkan pasien ' + name + ' ?',
+                    showConfirmButton: false,
+                    showDenyButton: true,
+                    showCancelButton: true,
+                    denyButtonText: `Ya, Non Aktifkan`,
+                }).then((result) => {
+                    if (result.isDenied) {
+                        $.LoadingOverlay("show");
+                        var id = $(this).data("id");
+                        var url = "{{ route('pasien.index') }}/" + id;
+                        $('#formDelete').attr('action', url);
+                        $('#formDelete').submit();
+                    }
+                })
             });
             // $('.btnDelete').click(function(e) {
             //     e.preventDefault();
@@ -361,25 +399,6 @@
                     },
                     cache: true
                 }
-            });
-            $('.btnDelete').click(function(e) {
-                e.preventDefault();
-                var name = $(this).data("name");
-                swal.fire({
-                    title: 'Apakah anda ingin menonaktifkan pasien ' + name + ' ?',
-                    showConfirmButton: false,
-                    showDenyButton: true,
-                    showCancelButton: true,
-                    denyButtonText: `Ya, Non Aktifkan`,
-                }).then((result) => {
-                    if (result.isDenied) {
-                        $.LoadingOverlay("show");
-                        var id = $(this).data("id");
-                        var url = "{{ route('pasien.index') }}/" + id;
-                        $('#formDelete').attr('action', url);
-                        $('#formDelete').submit();
-                    }
-                })
             });
         });
     </script>
