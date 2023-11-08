@@ -15,8 +15,8 @@ class DiagnosaExport implements FromCollection, WithHeadings
     public function headings(): array
     {
         return [
-            'ID',
-            'Diagnosa',
+            'id',
+            'diagnosa',
             'created_at',
             'updated_at',
         ];

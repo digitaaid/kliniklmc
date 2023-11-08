@@ -113,7 +113,6 @@
                 <x-adminlte-button theme="danger" icon="fas fa-times" label="Kembali" data-dismiss="modal" />
             </x-slot>
         </form>
-
     </x-adminlte-modal>
 
 @stop

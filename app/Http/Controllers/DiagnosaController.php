@@ -58,5 +58,10 @@ class DiagnosaController extends Controller
     {
         return Excel::download(new DiagnosaExport, 'diagnosa.xlsx');
     }
-
+    public function diagnosaimport(Request $request)
+    {
+        Excel::import(new DiagnosaImport, $request->file);
+        Alert::success('Success', 'Import Diagnosa Berhasil.');
+        return redirect()->route('diagnosa.index');
+    }
 }

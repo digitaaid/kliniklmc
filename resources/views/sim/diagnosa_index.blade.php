@@ -16,6 +16,7 @@
                 <x-adminlte-button id="btnTambah" class="btn-sm" theme="success" label="Tambah Diagnosa" icon="fas fa-plus" />
                 <a href="{{ route('diagnosa.export') }}" class="btn btn-sm btn-primary"><i class="fas fa-print"></i> Export
                     Excel</a>
+                <div class="btn btn-sm btn-primary btnModalImport"><i class="fas fa-file-medical"></i> Import</div>
                 <x-adminlte-datatable id="table1" :heads="$heads" :config="$config" bordered hoverable compressed>
                     @foreach ($diagnosa as $item)
                         <tr>
@@ -51,6 +52,19 @@
             <x-adminlte-button theme="danger" icon="fas fa-times" label="Kembali" data-dismiss="modal" />
         </x-slot>
     </x-adminlte-modal>
+    <x-adminlte-modal id="modalImport" title="Import Obat" icon="fas fa-pills" theme="success" static-backdrop>
+        <form action="{{ route('diagnosaimport') }}" id="formImport" name="formImport" method="POST"
+            enctype="multipart/form-data">
+            @csrf
+            <x-adminlte-input-file name="file" placeholder="Pilih file Import" igroup-size="sm"
+                label="File Import Obat" />
+            <x-slot name="footerSlot">
+                <x-adminlte-button form="formImport" class="mr-auto" type="submit" icon="fas fa-save" theme="success"
+                    label="Import" />
+                <x-adminlte-button theme="danger" icon="fas fa-times" label="Kembali" data-dismiss="modal" />
+            </x-slot>
+        </form>
+    </x-adminlte-modal>
 @stop
 @section('plugins.Datatables', true)
 @section('js')
@@ -83,6 +97,11 @@
                 $("#method").prop('', true);
                 $('#formDiagnosa').submit();
 
+            });
+            $('.btnModalImport').click(function() {
+                $.LoadingOverlay("show");
+                $('#modalImport').modal('show');
+                $.LoadingOverlay("hide");
             });
             $('#btnUpdate').click(function(e) {
                 $.LoadingOverlay("show");
