@@ -135,8 +135,8 @@
                                                         @endif
                                                     @endif
                                                 </x-adminlte-select2>
-                                                <x-adminlte-textarea igroup-size="sm" rows=3 label="Catatan Diagnosa"
-                                                    name="catatan_diagnosa" placeholder="Catatan Diagnosa">
+                                                <x-adminlte-textarea igroup-size="sm" rows=3 label="Diagnosa Sekunder"
+                                                    name="catatan_diagnosa" placeholder="Diagnosa Sekunder (Free Text)">
                                                     {{ $kunjungan->asesmendokter->catatan_diagnosa ?? null }}
                                                 </x-adminlte-textarea>
                                                 <x-adminlte-select2 name="diagnosa1" class="diagnosaid1"
@@ -454,6 +454,7 @@
             $(".diagnosaid1").select2({
                 theme: "bootstrap4",
                 multiple: true,
+                placeholder: "Diagnosa Primer ICD-10",
                 maximumSelectionLength: 1,
                 ajax: {
                     url: "{{ route('ref_diagnosa_api') }}",
@@ -497,6 +498,7 @@
                 }
             });
             $(".diagnosaid2").select2({
+                placeholder: "Diagnosa Sekunder ICD-10",
                 theme: "bootstrap4",
                 ajax: {
                     url: "{{ route('ref_diagnosa_api') }}",
@@ -518,6 +520,7 @@
             });
             $(".diagnosa").select2({
                 theme: "bootstrap4",
+                placeholder: "Diagnosa Klinik",
                 ajax: {
                     url: "{{ route('diagnosa.search') }}",
                     type: "get",

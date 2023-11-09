@@ -394,21 +394,23 @@ class PendaftaranController extends APIController
             }
         }
         // add layanan details
-        foreach ($request->layanan as $key => $value) {
-            $tarif = Tarif::find($value);
-            $layanandetail = LayananDetail::updateOrCreate(
-                [
-                    'kodelayanan' => $layanan->kode,
-                    'layanan_id' => $layanan->id,
-                    'tarif_id' =>  $tarif->id,
-                ],
-                [
-                    'nama' => $tarif->nama,
-                    'jumlah' => $request->jumlah[$key] ?? 1,
-                    'harga' => $tarif->harga ?? 0,
-                    'klasifikasi' => $tarif->klasifikasi,
-                ]
-            );
+        if ($request->layanan) {
+            foreach ($request->layanan as $key => $value) {
+                $tarif = Tarif::find($value);
+                $layanandetail = LayananDetail::updateOrCreate(
+                    [
+                        'kodelayanan' => $layanan->kode,
+                        'layanan_id' => $layanan->id,
+                        'tarif_id' =>  $tarif->id,
+                    ],
+                    [
+                        'nama' => $tarif->nama,
+                        'jumlah' => $request->jumlah[$key] ?? 1,
+                        'harga' => $tarif->harga ?? 0,
+                        'klasifikasi' => $tarif->klasifikasi,
+                    ]
+                );
+            }
         }
         Alert::success('Success', 'Kunjungan antrian telah disimpan');
         return redirect()->back();

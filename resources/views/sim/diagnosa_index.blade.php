@@ -67,6 +67,7 @@
     </x-adminlte-modal>
 @stop
 @section('plugins.Datatables', true)
+@section('plugins.BsCustomFileInput', true)
 @section('js')
     <script>
         $(function() {

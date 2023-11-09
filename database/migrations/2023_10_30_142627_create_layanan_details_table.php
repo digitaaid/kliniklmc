@@ -13,12 +13,14 @@ return new class extends Migration
     {
         Schema::create('layanan_details', function (Blueprint $table) {
             $table->id();
-            // $table->string('layanan_id');
-            // $table->string('kodelayanan');
-            // $table->string('tarif_id');
-            // $table->integer('harga');
-            // $table->integer('jumlah');
-            // $table->text('keterangan')->nullable();
+            $table->string('layanan_id');
+            $table->string('kodelayanan');
+            $table->string('tarif_id');
+            $table->string('nama');
+            $table->double('harga');
+            $table->double('jumlah');
+            $table->string('klasifikasi');
+            $table->text('keterangan')->nullable();
             $table->timestamps();
         });
     }
