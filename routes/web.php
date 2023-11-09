@@ -14,6 +14,7 @@ use App\Http\Controllers\IntegrasiController;
 use App\Http\Controllers\JadwalDokterController;
 use App\Http\Controllers\JadwalLiburController;
 use App\Http\Controllers\KunjunganController;
+use App\Http\Controllers\LaboratoriumController;
 use App\Http\Controllers\LaravoltIndonesiaController;
 use App\Http\Controllers\ObatController;
 use App\Http\Controllers\PasienController;
@@ -149,6 +150,9 @@ Route::middleware('auth')->group(function () {
     Route::post('diagnosaimport', [DiagnosaController::class, 'diagnosaimport'])->name('diagnosaimport');
     Route::get('pasienexport', [PasienController::class, 'pasienexport'])->name('pasienexport');
     Route::post('pasienimport', [PasienController::class, 'pasienimport'])->name('pasienimport');
+    // lab
+    Route::post('permintaanlab', [LaboratoriumController::class, 'permintaanlab'])->name('permintaanlab');
+
     // poliklinik
     Route::get('antrianpoliklinik', [DokterController::class, 'antrianpoliklinik'])->name('antrianpoliklinik');
     Route::get('prosespoliklinik', [DokterController::class, 'prosespoliklinik'])->name('prosespoliklinik');

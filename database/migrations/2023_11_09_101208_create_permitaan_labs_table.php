@@ -11,20 +11,22 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('resep_kemoterapis', function (Blueprint $table) {
+        Schema::create('permitaan_labs', function (Blueprint $table) {
             $table->id();
+            $table->string('antrian_id')->nullable();
+            $table->string('kodebooking')->nullable();
             $table->string('kunjungan_id')->nullable();
             $table->string('kodekunjungan')->nullable();
-            $table->string('kode');
+            $table->string('kode')->unique();
             $table->datetime('waktu');
             $table->string('norm');
             $table->string('nama');
             $table->string('diagnosa')->nullable();
             $table->string('diagnosa_icd10')->nullable();
             $table->string('dpjp')->nullable();
-            $table->string('regimen')->nullable();
-            $table->string('user');
+            $table->text('catatan')->nullable();
             $table->string('status')->default(1);
+            $table->string('user');
             $table->timestamps();
         });
     }
@@ -34,6 +36,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('resep_kemoterapis');
+        Schema::dropIfExists('permitaan_labs');
     }
 };
