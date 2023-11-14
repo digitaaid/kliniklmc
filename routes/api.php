@@ -63,6 +63,7 @@ Route::prefix('vclaim')->group(function () {
     Route::get('monitoring_klaim_jasaraharja', [VclaimController::class, 'monitoring_klaim_jasaraharja'])->name('monitoring_klaim_jasaraharja');
     // PESERTA
     Route::get('peserta_nomorkartu', [VclaimController::class, 'peserta_nomorkartu'])->name('peserta_nomorkartu');
+    Route::get('pasien_nomorkartu', [VclaimController::class, 'pasien_nomorkartu'])->name('pasien_nomorkartu');
     Route::get('peserta_nik', [VclaimController::class, 'peserta_nik'])->name('peserta_nik');
     // REFERENSI
     Route::get('ref_diagnosa', [VclaimController::class, 'ref_diagnosa'])->name('ref_diagnosa');

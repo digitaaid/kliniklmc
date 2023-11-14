@@ -2,13 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\PemeriksaanLab;
 use Illuminate\Http\Request;
 
 class LaboratoriumController extends Controller
 {
     public function index()
     {
-        //
+        $tarifs = PemeriksaanLab::get();
+        return view('sim.pemeriksaanlab_index', compact([
+            'tarifs'
+        ]));
     }
 
     public function create()

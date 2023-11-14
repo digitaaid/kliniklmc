@@ -386,7 +386,7 @@ return [
         // PENGELOLAAN
         [
             'text'    => 'Pengelolaan',
-            'icon'    => 'fas fa-chart-line',
+            'icon'    => 'fas fa-clinic-medical',
             'submenu' => [
                 [
                     'text' => 'Pasien',
@@ -467,6 +467,13 @@ return [
                     'url'  => 'tarif',
                     'shift'   => 'ml-2',
                     'can' =>  ['manajemen', 'admin'],
+                ],
+                [
+                    'text' => 'Pemeriksaan Laboratorium',
+                    'icon'    => 'fas fa-vials',
+                    'url'  => 'pemeriksaanlab',
+                    'shift'   => 'ml-2',
+                    'can' =>  ['laboratorium'],
                 ],
             ],
         ],

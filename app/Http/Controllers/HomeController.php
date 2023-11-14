@@ -23,22 +23,27 @@ class HomeController extends Controller
         $request['tahun'] = now()->format('Y');
         $request['bulan'] = now()->format('m');
         $request['waktu'] = 'rs';
-        $api = new AntrianController();
         $antrians = null;
         $tanggalantrian = null;
         $jumlahantrian = null;
         $waktuantrian = null;
-        $response =  $api->dashboard_bulan($request);
-        if ($response->metadata->code == 200) {
-            $antrians = collect($response->response->list);
-            foreach ($antrians as  $value) {
-                $tanggalantrian[] = $value->tanggal;
-                $jumlahantrian[] = $value->jumlah_antrean;
-                $waktuantrian[] = $value->avg_waktu_task1 + $value->avg_waktu_task2 + $value->avg_waktu_task3 + $value->avg_waktu_task4 + $value->avg_waktu_task5 + $value->avg_waktu_task6;
+        try {
+            $api = new AntrianController();
+            $response =  $api->dashboard_bulan($request);
+            if ($response->metadata->code == 200) {
+                $antrians = collect($response->response->list);
+                foreach ($antrians as  $value) {
+                    $tanggalantrian[] = $value->tanggal;
+                    $jumlahantrian[] = $value->jumlah_antrean;
+                    $waktuantrian[] = $value->avg_waktu_task1 + $value->avg_waktu_task2 + $value->avg_waktu_task3 + $value->avg_waktu_task4 + $value->avg_waktu_task5 + $value->avg_waktu_task6;
+                }
+                Alert::success($response->metadata->message . ' ' . $response->metadata->code);
+            } else {
+                Alert::error($response->metadata->message . ' ' . $response->metadata->code);
             }
-            Alert::success($response->metadata->message . ' ' . $response->metadata->code);
-        } else {
-            Alert::error($response->metadata->message . ' ' . $response->metadata->code);
+        } catch (\Throwable $th) {
+            //throw $th;
+            Alert::error('Error', "Kendala jaringan untuk integrasi BPJS");
         }
         return view('home', compact([
             'user',

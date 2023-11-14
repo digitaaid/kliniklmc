@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\IntegrasiApi;
+use App\Models\Pasien;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
@@ -409,10 +410,50 @@ class VclaimController extends APIController
     // PESERTA
     public function peserta_nomorkartu(Request $request)
     {
-        $validator = Validator::make(request()->all(), [
-            "nomorkartu" => "required",
-            "tanggal" => "required|date",
-        ]);
+        try {
+            $validator = Validator::make(request()->all(), [
+                "nomorkartu" => "required",
+                "tanggal" => "required|date",
+            ]);
+            if ($validator->fails()) {
+                return $this->sendError($validator->errors()->first(), 400);
+            }
+            $url =  $this->api()->base_url . "Peserta/nokartu/" . $request->nomorkartu . "/tglSEP/" . $request->tanggal;
+            $signature = $this->signature();
+            $response = Http::withHeaders($signature)->get($url);
+            return $this->response_decrypt($response, $signature);
+        } catch (\Throwable $th) {
+            //throw $th;
+            return $this->sendError($th->getMessage(), 400);
+        }
+    }
+    public function pasien_nomorkartu(Request $request)
+    {
+
+        try {
+            $validator = Validator::make(request()->all(), [
+                "nomorkartu" => "required",
+                "tanggal" => "required|date",
+            ]);
+            $vclaim = new VclaimController();
+            $res = $vclaim->peserta_nomorkartu($request);
+            if ($res->metadata->code == 200) {
+                dd($res);
+            } else {
+                $pasien = Pasien::firstWhere('nomorkartu', $request->nomorkartu);
+                if ($pasien) {
+                } else {
+                    $this->sendError('Data pasien tidak ditemukan, silahkan gunakan pencarian lainnya');
+                }
+            }
+            dd($pasien);
+        } catch (\Throwable $th) {
+            //throw $th;
+            dd($request->all(), $th->getMessage());
+        }
+
+
+
         if ($validator->fails()) {
             return $this->sendError($validator->errors()->first(), 400);
         }

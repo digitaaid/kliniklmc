@@ -39,7 +39,7 @@
         </p>
 
     </div>
-    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
     <script>
         $(document).ready(function() {
             window.print();

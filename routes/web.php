@@ -37,6 +37,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\VclaimController;
 use App\Http\Controllers\WhatsappController;
 use App\Models\JadwalLibur;
+use App\Models\PemeriksaanLab;
 use App\Models\Poliklinik;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -152,7 +153,7 @@ Route::middleware('auth')->group(function () {
     Route::post('pasienimport', [PasienController::class, 'pasienimport'])->name('pasienimport');
     // lab
     Route::post('permintaanlab', [LaboratoriumController::class, 'permintaanlab'])->name('permintaanlab');
-
+    Route::resource('pemeriksaanlab', LaboratoriumController::class);
     // poliklinik
     Route::get('antrianpoliklinik', [DokterController::class, 'antrianpoliklinik'])->name('antrianpoliklinik');
     Route::get('prosespoliklinik', [DokterController::class, 'prosespoliklinik'])->name('prosespoliklinik');
