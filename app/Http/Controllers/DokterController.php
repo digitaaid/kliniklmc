@@ -116,16 +116,16 @@ class DokterController extends Controller
                     // }
                 }
                 // icare
-                $api = new IcareController();
-                $request['nomorkartu'] = $antrian->nomorkartu;
-                $request['kodedokter'] = $antrian->kodedokter;
-                $res =  $api->icare($request);
-                if ($res->metadata->code == 200) {
-                    $urlicare = $res->response->url;
-                    $messageicare = 'ok';
-                } else {
-                    $messageicare = $res->metadata->message;
-                }
+                // $api = new IcareController();
+                // $request['nomorkartu'] = $antrian->nomorkartu;
+                // $request['kodedokter'] = $antrian->kodedokter;
+                // $res =  $api->icare($request);
+                // if ($res->metadata->code == 200) {
+                //     $urlicare = $res->response->url;
+                //     $messageicare = 'ok';
+                // } else {
+                //     $messageicare = $res->metadata->message;
+                // }
                 $kunjungan = Kunjungan::find($antrian->kunjungan_id);
                 $kunjungans = Kunjungan::where('norm', $antrian->norm)
                     ->with(['units', 'asesmenperawat', 'asesmendokter', 'files', 'resepobat', 'resepobat.resepdetail'])
