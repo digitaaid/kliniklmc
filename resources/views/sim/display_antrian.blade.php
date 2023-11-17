@@ -260,7 +260,7 @@
                     console.log(data);
                 }
             });
-        }, 4000);
+        }, 3000);
     </script>
 
     <script type="text/javascript">
