@@ -151,15 +151,13 @@ Route::middleware('auth')->group(function () {
     Route::post('diagnosaimport', [DiagnosaController::class, 'diagnosaimport'])->name('diagnosaimport');
     Route::get('pasienexport', [PasienController::class, 'pasienexport'])->name('pasienexport');
     Route::post('pasienimport', [PasienController::class, 'pasienimport'])->name('pasienimport');
-    // lab
-    Route::post('permintaanlab', [LaboratoriumController::class, 'permintaanlab'])->name('permintaanlab');
-    Route::resource('pemeriksaanlab', LaboratoriumController::class);
     // poliklinik
     Route::get('antrianpoliklinik', [DokterController::class, 'antrianpoliklinik'])->name('antrianpoliklinik');
     Route::get('prosespoliklinik', [DokterController::class, 'prosespoliklinik'])->name('prosespoliklinik');
     Route::post('editasesmendokter', [DokterController::class, 'editasesmendokter'])->name('editasesmendokter');
     Route::get('lanjutfarmasi', [DokterController::class, 'lanjutfarmasi'])->name('lanjutfarmasi');
     Route::get('selesaipoliklinik', [DokterController::class, 'selesaipoliklinik'])->name('selesaipoliklinik');
+    Route::get('print_asesmendokter', [FormController::class, 'print_asesmendokter'])->name('print_asesmendokter');
     // farmasi
     Route::get('antrianfarmasi', [FarmasiController::class, 'antrianfarmasi'])->name('antrianfarmasi');
     Route::get('getantrianfarmasi', [FarmasiController::class, 'getantrianfarmasi'])->name('getantrianfarmasi');
@@ -175,10 +173,15 @@ Route::middleware('auth')->group(function () {
     Route::post('obatimport', [ObatController::class, 'obatimport'])->name('obatimport');
     Route::post('store_resepkemoterapi', [FarmasiController::class, 'store_resepkemoterapi'])->name('store_resepkemoterapi');
     Route::get('get_resepkemoterapi', [FarmasiController::class, 'get_resepkemoterapi'])->name('get_resepkemoterapi');
-    // print
-    Route::get('print_asesmendokter', [FormController::class, 'print_asesmendokter'])->name('print_asesmendokter');
-    Route::get('print_asesmenfarmasi', [FormController::class, 'print_asesmenfarmasi'])->name('print_asesmenfarmasi');
     Route::get('print_resepkemoterapi', [FormController::class, 'print_resepkemoterapi'])->name('print_resepkemoterapi');
+    Route::get('print_asesmenfarmasi', [FormController::class, 'print_asesmenfarmasi'])->name('print_asesmenfarmasi');
+    // lab
+    Route::get('antrianlaboratorium', [FormController::class, 'antrianlaboratorium'])->name('antrianlaboratorium');
+    Route::post('permintaanlab', [LaboratoriumController::class, 'permintaanlab'])->name('permintaanlab');
+    Route::get('pemeriksaanlabimport', [FormController::class, 'pemeriksaanlabimport'])->name('pemeriksaanlabimport');
+    Route::resource('pemeriksaanlab', LaboratoriumController::class);
+    // laboratorium
+
 
 
     Route::get('capaianantrian', [AntrianController::class, 'dashboardBulanAntrian'])->name('capaianantrian');

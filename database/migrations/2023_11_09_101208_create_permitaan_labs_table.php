@@ -24,6 +24,7 @@ return new class extends Migration
             $table->string('diagnosa')->nullable();
             $table->string('diagnosa_icd10')->nullable();
             $table->string('dpjp')->nullable();
+            $table->text('permintaan_lab')->nullable();
             $table->text('catatan')->nullable();
             $table->string('status')->default(1);
             $table->string('user');

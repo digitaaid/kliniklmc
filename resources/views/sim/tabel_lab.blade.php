@@ -4,9 +4,9 @@
             E-Laboratorium
         </h3>
     </a>
+
     <div id="collLab" class="collapse" role="tabpanel" aria-labelledby="headLab">
         <div class="card-body">
-
             <form action="{{ route('permintaanlab') }}" method="POST">
                 @csrf
                 <input type="hidden" name="antrian_id" value="{{ $antrian->id }}">

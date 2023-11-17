@@ -234,6 +234,10 @@
             font-size: 15px;
         }
 
+        .bg-warning {
+            background-color: #ffc107 !important;
+        }
+
         #resepobat {
             font-size: 22px !important;
             border: none;

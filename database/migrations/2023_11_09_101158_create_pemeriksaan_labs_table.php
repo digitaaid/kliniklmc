@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('code');
             $table->string('group');
             $table->string('kelompok');
+            $table->bigInteger('harga')->default(0);
             $table->string('status')->default('1');
             $table->timestamps();
         });

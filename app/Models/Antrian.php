@@ -33,6 +33,10 @@ class Antrian extends Model
     {
         return $this->hasOne(AsesmenDokter::class);
     }
+    public function permintaan_lab()
+    {
+        return $this->hasOne(PermitaanLab::class);
+    }
     public function resepobat()
     {
         return $this->hasOne(ResepObat::class);
