@@ -278,7 +278,7 @@ class DokterController extends Controller
             // if ($res->metadata->code == 200) {
             $request['nomorantrean'] = $antrian->angkaantrean;
             $request['jenisresep'] = 'racikan';
-            $res_farmasi = $api->tambah_antrean_farmasi($request);
+            // $res_farmasi = $api->tambah_antrean_farmasi($request);
             // }
             Alert::success('Success', $res->metadata->message);
         } catch (\Throwable $th) {
