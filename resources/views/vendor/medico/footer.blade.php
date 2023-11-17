@@ -38,6 +38,8 @@
                             <li><i class="bx bx-chevron-right"></i> <a href="#">Check Surat Kontrol</a></li>
                             <li><i class="bx bx-chevron-right"></i> <a href="#">Terms of service</a></li>
                             <li><i class="bx bx-chevron-right"></i> <a href="#">Privacy policy</a></li>
+                            <li><i class="bx bx-chevron-right"></i> <a href="{{ route('displayantrian') }}">Display
+                                    Antrian</a></li>
                         </ul>
                     </div>
                     <div class="col-lg-3 col-md-6 footer-links">
