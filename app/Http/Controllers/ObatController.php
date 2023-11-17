@@ -69,7 +69,8 @@ class ObatController extends Controller
     public function ref_obat_cari(Request $request)
     {
         $data = array();
-        $obats = Obat::where('nama', 'LIKE', '%' . $request->nama . '%')
+        $obats = Obat::where('status', 1)
+            ->where('nama', 'LIKE', '%' . $request->nama . '%')
             ->limit(20)->get();
         if ($obats) {
             foreach ($obats as $item) {
