@@ -338,7 +338,7 @@ class PendaftaranController extends APIController
         $request['kode'] = $antrian->kodebooking;
         $request['unit'] = $request->kodepoli;
         $request['dokter'] = $request->kodedokter;
-        $request['diagnosa_awal'] = 'C50';
+        $request['diagnosa_awal'] = $request->diagnosa_awal;
         $request['alasan_masuk'] = $request->cara_masuk;
         $request['status'] = 1;
         $request['user1'] = Auth::user()->id;
