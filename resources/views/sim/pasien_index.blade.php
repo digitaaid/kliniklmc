@@ -73,7 +73,8 @@
                                     data-tgl_lahir="{{ $item->tgl_lahir }}" data-nik="{{ $item->nik }}"
                                     data-nomorkartu="{{ $item->nomorkartu }}" data-norm="{{ $item->norm }}"
                                     data-alamat="{{ $item->alamat }}" data-created="{{ $item->created_at }}"
-                                    data-updated="{{ $item->updated_at }}"
+                                    data-updated="{{ $item->updated_at }}" data-jenispeserta="{{ $item->jenispeserta }}"
+                                    data-hakkelas="{{ $item->hakkelas }}" data-fktp="{{ $item->fktp }}"
                                     data-user="{{ $item->pic ? $item->pic->name : $item->user }}" />
                                 <a href="{{ route('riwayatpasien') }}?norm={{ $item->norm }}"
                                     class="btn btn-xs btn-primary"><i class="fas fa-file-medical"></i> Riwayat</a>
@@ -125,13 +126,11 @@
                     <x-adminlte-input name="nama" label="Nama Lengkap" placeholder="Nama Lengkap" enable-old-support
                         required />
                     <x-adminlte-input name="nohp" label="No HP" placeholder="No HP" enable-old-support />
-                </div>
-                <div class="col-md-6">
-                    <x-adminlte-select2 name="gender" label="Jenis Kelamin">
+                    <x-adminlte-select name="gender" label="Jenis Kelamin">
                         <option selected disabled>Jenis Kelamin</option>
                         <option value="P">Perempuan</option>
                         <option value="L">Laki-Laki</option>
-                    </x-adminlte-select2>
+                    </x-adminlte-select>
                     <x-adminlte-select2 name="tempat_lahir" label="Tempat Lahir">
                     </x-adminlte-select2>
                     @php
@@ -140,6 +139,18 @@
                     <x-adminlte-input-date name="tgl_lahir" label="Tanggal Lahir" placeholder="Pilih Tanggal Lahir"
                         :config="$config">
                     </x-adminlte-input-date>
+                </div>
+                <div class="col-md-6">
+                    <x-adminlte-select name="hakkelas" label="Hak Kelas">
+                        <option selected disabled>Hak Kelas</option>
+                        <option value="1">Kelas 1</option>
+                        <option value="2">Kelas 2</option>
+                        <option value="3">Kelas 3</option>
+                    </x-adminlte-select>
+                    <x-adminlte-input name="jenispeserta" label="Jenis Peserta" placeholder="Jenis Peserta"
+                        enable-old-support />
+                    <x-adminlte-input name="fktp" label="FKTP" placeholder="Faskes Tingkat Pertama"
+                        enable-old-support />
                     <x-adminlte-textarea igroup-size="sm" rows=4 label="Alamat" name="alamat" placeholder="Alamat">
                     </x-adminlte-textarea>
                     <p>
@@ -209,6 +220,9 @@
                 $('#nohp').val($(this).data("nohp"));
                 $('#tgl_lahir').val($(this).data("tgl_lahir"));
                 $('#alamat').val($(this).data("alamat"));
+                $("#jenispeserta").val($(this).data("jenispeserta"));
+                $("#fktp").val($(this).data("fktp"));
+                $("#hakkelas").val($(this).data("hakkelas")).change();
                 $('#gender').val($(this).data("gender")).change();
                 $('#user').html($(this).data("user"));
                 $('#updated').html($(this).data("updated"));
@@ -316,6 +330,9 @@
                             $("#nomorkartu").val(pasien.noKartu);
                             $("#tgllahir").val(pasien.tglLahir);
                             $("#gender").val(pasien.sex);
+                            $("#jenispeserta").val(pasien.jenisPeserta.keterangan);
+                            $("#fktp").val(pasien.provUmum.nmProvider);
+                            $("#hakkelas").val(pasien.hakKelas.kode).change();
                             if (pasien.mr.noMR == null) {
                                 Swal.fire(
                                     'Mohon Maaf !',
@@ -357,6 +374,9 @@
                             $("#nomorkartu").val(pasien.noKartu);
                             $("#tgllahir").val(pasien.tglLahir);
                             $("#gender").val(pasien.sex);
+                            $("#jenispeserta").val(pasien.jenisPeserta.keterangan);
+                            $("#fktp").val(pasien.provUmum.nmProvider);
+                            $("#hakkelas").val(pasien.hakKelas.kode).change();
                             if (pasien.mr.noMR == null) {
                                 Swal.fire(
                                     'Mohon Maaf !',

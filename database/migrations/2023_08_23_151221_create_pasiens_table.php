@@ -21,6 +21,9 @@ return new class extends Migration
             $table->string('gender')->nullable();
             $table->string('tempat_lahir')->nullable();
             $table->date('tgl_lahir')->nullable();
+            $table->string('hakkelas')->nullable();
+            $table->string('jenispeserta')->nullable();
+            $table->string('fktp')->nullable();
             $table->string('desa_id')->nullable();
             $table->string('kecamatan_id')->nullable();
             $table->string('kabupaten_id')->nullable();
