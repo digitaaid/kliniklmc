@@ -95,10 +95,11 @@
                                     <x-adminlte-button class="btn-xs" theme="success" icon="fas fa-user-check"
                                         title="Verify User {{ $item->name }}"
                                         onclick="window.location='{{ route('user_verifikasi', $item) }}'" />
+                                    <x-adminlte-button class="btn-xs btnDelete" theme="danger" icon="fas fa-trash-alt"
+                                        title="Hapus User {{ $item->name }} " data-id="{{ $item->id }}"
+                                        data-name="{{ $item->name }}" />
                                 @endif
-                                {{-- <x-adminlte-button class="btn-xs btnDelete" theme="danger" icon="fas fa-trash-alt"
-                                    title="Hapus User {{ $item->name }} " data-id="{{ $item->id }}"
-                                    data-name="{{ $item->name }}" /> --}}
+
                             </td>
                         </tr>
                     @endforeach
