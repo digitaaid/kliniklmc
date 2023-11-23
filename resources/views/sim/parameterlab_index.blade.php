@@ -27,8 +27,8 @@
                             <td>{{ $item->satuan }}</td>
                             <td>{{ $item->nilai_rujukan }}</td>
                             <td>
-                                @foreach ($item->pemeriksaan as $param)
-                                    {{ $param }},
+                                @foreach ($item->pemeriksaans as $prksa)
+                                    {{ $prksa->nama }} <br>
                                 @endforeach
                             </td>
                             <td>{{ $item->status }}</td>

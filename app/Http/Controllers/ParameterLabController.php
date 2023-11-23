@@ -13,30 +13,26 @@ class ParameterLabController extends Controller
     public function index(Request $request)
     {
         $parameter = ParameterLab::get();
-        dd($parameter->first()->pemeriksaans);
-        $pemeriksaan = PemeriksaanLab::pluck('nama', 'code');
+        $pemeriksaan = PemeriksaanLab::pluck('nama', 'id');
         return view('sim.parameterlab_index', compact([
             'request',
             'parameter',
             'pemeriksaan',
         ]));
     }
-
-    public function create()
-    {
-        //
-    }
-
     public function store(Request $request)
     {
         $request['user'] = Auth::user()->id;
+        $request['pemeriksaans'] = $request->pemeriksaan;
         $request['pemeriksaan'] = json_encode($request->pemeriksaan);
-        ParameterLab::updateOrCreate(
+        $parameter = ParameterLab::updateOrCreate(
             [
                 'nama' => $request->nama,
             ],
             $request->all()
         );
+        $parameter->update($request->all());
+        $parameter->pemeriksaans()->sync($request->pemeriksaans);
         Alert::success('Success', 'Parameter Laboratorium Berhasil Ditambahkan');
         return redirect()->back();
     }
@@ -44,11 +40,13 @@ class ParameterLabController extends Controller
     {
         $parameter = ParameterLab::find($id);
         $request['user'] = Auth::user()->id;
+        $request['pemeriksaans'] = $request->pemeriksaan;
+        $request['pemeriksaan'] = json_encode($request->pemeriksaan);
         $parameter->update($request->all());
+        $parameter->pemeriksaans()->sync($request->pemeriksaans);
         Alert::success('Success', 'Parameter Laboratorium Berhasil Diupdate');
         return redirect()->back();
     }
-
     public function destroy(string $id)
     {
         //

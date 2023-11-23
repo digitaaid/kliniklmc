@@ -56,7 +56,8 @@ class DiagnosaController extends Controller
     }
     public function export()
     {
-        return Excel::download(new DiagnosaExport, 'diagnosa.xlsx');
+        $time = now()->format('Y-m-d');
+        return Excel::download(new DiagnosaExport, 'diagnosa_backup_' . $time . '.xlsx');
     }
     public function diagnosaimport(Request $request)
     {

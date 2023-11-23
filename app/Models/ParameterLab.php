@@ -9,11 +9,8 @@ class ParameterLab extends Model
 {
     use HasFactory;
     protected $guarded = ['id'];
-    protected $casts = [
-        'pemeriksaan' => 'array',
-    ];
     public function pemeriksaans()
     {
-        return $this->hasMany(ParameterLab::class, 'pemeriksaan', 'code');
+        return $this->belongsToMany(PemeriksaanLab::class, 'parameter_pemeriksaan_lab', 'parameter_id', 'pemeriksaan_id');
     }
 }

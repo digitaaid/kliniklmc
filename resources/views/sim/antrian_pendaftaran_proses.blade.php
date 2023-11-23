@@ -705,7 +705,6 @@
                                     </div>
                                 @endif
                             @endif
-
                             {{-- kasir --}}
                             <div class="card card-info mb-1">
                                 <div class="card-header" role="tab" id="headKasir">
@@ -730,7 +729,7 @@
                                 </div>
                             </div>
                             {{-- riwayatpasien --}}
-                            @include('sim.tabel_riwayat_pasien')
+                            {{-- @include('sim.tabel_riwayat_pasien') --}}
                             {{-- filepenunjang --}}
                             @include('sim.tabel_filepenunjang')
                             <div class="card card-info mb-1">
@@ -881,7 +880,7 @@
 @section('plugins.DateRangePicker', true)
 @section('plugins.Sweetalert2', true)
 @section('plugins.Select2', true)
-
+@section('plugins.BsCustomFileInput', true)
 @section('js')
     <script>
         $(function() {

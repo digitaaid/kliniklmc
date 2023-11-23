@@ -183,8 +183,8 @@
             <x-adminlte-input-file name="file" placeholder="Pilih file Import" igroup-size="sm"
                 label="File Import Obat" />
             <x-slot name="footerSlot">
-                <x-adminlte-button form="formImport" class="mr-auto" type="submit" icon="fas fa-save" theme="success"
-                    label="Import" />
+                <x-adminlte-button form="formImport" class="mr-auto withLoad" type="submit" icon="fas fa-save"
+                    theme="success" label="Import" />
                 <x-adminlte-button theme="danger" icon="fas fa-times" label="Kembali" data-dismiss="modal" />
             </x-slot>
         </form>

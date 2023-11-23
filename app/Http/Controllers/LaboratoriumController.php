@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Imports\PemeriksaanLabImport;
+use App\Models\HasilLab;
 use App\Models\PemeriksaanLab;
 use App\Models\PermintaanLab;
+use GuzzleHttp\Psr7\Request as Psr7Request;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
@@ -55,7 +57,7 @@ class LaboratoriumController extends Controller
     public function permintaanlab_index(Request $request)
     {
         $permintaanlab = PermintaanLab::get();
-        $pemeriksaanlab = PemeriksaanLab::pluck('nama', 'code');
+        $pemeriksaanlab = PemeriksaanLab::pluck('nama', 'kode');
         return view('sim.permintaanlab_index', compact([
             'request',
             'permintaanlab',
@@ -66,20 +68,29 @@ class LaboratoriumController extends Controller
     {
         $permintaan = PermintaanLab::firstWhere('kode', $request->kode);
         $kode = json_decode($permintaan->permintaan_lab);
-        $pemeriksaan = PemeriksaanLab::whereIn('code', $kode)
+        $pemeriksaan = PemeriksaanLab::whereIn('kode', $kode)
             ->with(['parameters'])
             ->get();
-
-            dd($pemeriksaan->first());
+        $hasillab = $permintaan->hasillab;
         return view('sim.permintaanlab_proses', compact([
             'request',
             'permintaan',
             'pemeriksaan',
+            'hasillab',
+
         ]));
     }
-    public function show(string $id)
+    public function permintaanlab_hasil(Request $request)
     {
-        //
+        $hasil =  HasilLab::updateOrCreate(
+            [
+                'kodepermintaan' => $request->kodepermintaan,
+                'permintaanlab_id' => $request->permintaanlab_id,
+            ],
+            $request->all()
+        );
+        Alert::success('Success', 'Hasil Laboratorium disimpan');
+        return redirect()->back();
     }
 
     public function edit(string $id)

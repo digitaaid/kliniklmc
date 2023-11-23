@@ -84,7 +84,8 @@ class ObatController extends Controller
     }
     public function obatexport()
     {
-        return Excel::download(new ObatExport, 'obat.xlsx');
+        $time = now()->format('Y-m-d');
+        return Excel::download(new ObatExport, 'obat_backup_' . $time . '.xlsx');
     }
     public function obatimport(Request $request)
     {

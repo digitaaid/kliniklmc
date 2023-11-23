@@ -13,4 +13,8 @@ class PermintaanLab extends Model
     {
         return $this->hasOne(Pasien::class,  'norm', 'norm');
     }
+    public function hasillab()
+    {
+        return $this->hasOne(HasilLab::class, 'permintaanlab_id', 'id');
+    }
 }

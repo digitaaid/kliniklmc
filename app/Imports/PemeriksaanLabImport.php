@@ -16,7 +16,7 @@ class PemeriksaanLabImport implements ToCollection, WithHeadingRow
         foreach ($rows as $row) {
             PemeriksaanLab::updateOrCreate(
                 [
-                    'code' =>  $row['code'],
+                    'kode' =>  $row['kode'],
                 ],
                 [
                     'nama' =>  $row['nama'],

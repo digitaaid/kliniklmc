@@ -147,7 +147,8 @@ class PasienController extends APIController
     }
     public function pasienexport()
     {
-        return Excel::download(new PasienExport, 'pasien.xlsx');
+        $time = now()->format('Y-m-d');
+        return Excel::download(new PasienExport, 'pasien_backup_' . $time . '.xlsx');
     }
     public function pasienimport(Request $request)
     {

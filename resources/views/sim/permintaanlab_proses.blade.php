@@ -18,9 +18,9 @@
                             <dt class="col-sm-4 m-0">No RM</dt>
                             <dd class="col-sm-8 m-0">: {{ $permintaan->norm }} </dd>
                             <dt class="col-sm-4 m-0">Tgl. Lahir</dt>
-                            <dd class="col-sm-8 m-0">: {{ $permintaan->pasien->tgl_lahir }} </dd>
+                            <dd class="col-sm-8 m-0">: {{ $permintaan->pasien->tgl_lahir ?? '-' }} </dd>
                             <dt class="col-sm-4 m-0">Jenis Kelamin</dt>
-                            <dd class="col-sm-8 m-0">: {{ $permintaan->pasien->gender }} </dd>
+                            <dd class="col-sm-8 m-0">: {{ $permintaan->pasien->gender ?? '-' }} </dd>
                             <dt class="col-sm-4 m-0">Diagnosa</dt>
                             <dd class="col-sm-8 m-0">: {{ $permintaan->diagnosa }} </dd>
                         </dl>
@@ -38,28 +38,53 @@
                 </div>
             </x-adminlte-card>
             <x-adminlte-card theme="primary" theme-mode="outline">
-                <table class="table table-sm table-striped">
-                    <thead>
-                        <tr>
-                            <th>Nama Pemeriksaan</th>
-                            <th>Hasil</th>
-                            <th>Nilai Rujukan</th>
-                            <th>Satuan</th>
-                            <th>Keterangan</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($pemeriksaan as $item)
+                <form action="{{ route('permintaanlab_hasil') }}" method="POST">
+                    @csrf
+                    <input type="hidden" name="kodepermintaan" value="{{ $permintaan->kode }}">
+                    <input type="hidden" name="permintaanlab_id" value="{{ $permintaan->id }}">
+                    <table class="table table-sm  table-hover">
+                        <thead class="bg-secondary">
                             <tr>
-                                <td><b>{{ $item->nama }}</b></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                                <th>Nama Pemeriksaan</th>
+                                <th>Hasil</th>
+                                <th>Nilai Rujukan</th>
+                                <th>Satuan</th>
+                                <th>Keterangan</th>
                             </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            @php
+                                $key = 0;
+                            @endphp
+                            @foreach ($pemeriksaan as $prksa)
+                                <tr>
+                                    <td><b>{{ $prksa->nama }}</b></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                @foreach ($prksa->parameters as $param)
+                                    <tr>
+                                        <input type="hidden" name="parameter_id[]" value="{{ $param->id }}">
+                                        <td>&emsp;&emsp;{{ $param->nama }}</td>
+                                        <td> <input class="w-100" type="text" name="hasil[]" id="hasil"
+                                                value="{{ $hasillab->hasil[$key] ?? null }}"></td>
+                                        <td>{{ $param->nilai_rujukan }}</td>
+                                        <td>{{ $param->satuan }}</td>
+                                        <td> <input class="w-100" type="text" name="keterangan[]"
+                                                value="{{ $hasillab->keterangan[$key] ?? null }}" id="hasil"></td>
+                                    </tr>
+                                    @php
+                                    $key++;
+                                @endphp
+                                @endforeach
+                            @endforeach
+                        </tbody>
+                    </table>
+                    <button type="submit" class="btn btn-success">Simpan</button>
+                </form>
+
             </x-adminlte-card>
 
         </div>
