@@ -1,40 +1,26 @@
-@extends('adminlte::master')
+<!DOCTYPE html>
+<html lang="en">
 
-@inject('layoutHelper', 'JeroenNoten\LaravelAdminLte\Helpers\LayoutHelper')
-
-@section('adminlte_css')
-    @stack('css')
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>
+        @yield('title')
+    </title>
+    <link rel="stylesheet" href="{{ asset('vendor/fontawesome-free/css/all.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('vendor/overlayScrollbars/css/OverlayScrollbars.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('vendor/adminlte/dist/css/adminlte.min.css') }}">
     @yield('css')
-    <style>
-        body:not(.sidebar-mini-md):not(.sidebar-mini-xs):not(.layout-top-nav) .content-wrapper,
-        body:not(.sidebar-mini-md):not(.sidebar-mini-xs):not(.layout-top-nav) .main-footer,
-        body:not(.sidebar-mini-md):not(.sidebar-mini-xs):not(.layout-top-nav) .main-header {
-            margin-left: 0px;
-        }
-    </style>
-@stop
+</head>
 
-@section('classes_body', $layoutHelper->makeBodyClasses())
-
-@section('body_data', $layoutHelper->makeBodyData())
-
-@section('body')
-    <div class="wrapper">
-        @include('adminlte::partials.cwrapper.cwrapper-default')
-    </div>
-@stop
-
-@section('adminlte_js')
-    @stack('js')
+<body>
+    @yield('content')
+    <script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
+    <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('vendor/overlayScrollbars/js/jquery.overlayScrollbars.min.js') }}"></script>
+    <script src="{{ asset('vendor/adminlte/dist/js/adminlte.min.js') }}"></script>
     @yield('js')
-    @include('sweetalert::alert')
-    <script src="{{ asset('vendor/loading-overlay/loadingoverlay.min.js') }}"></script>
-    <script>
-        $(function() {
-            $(".withLoad").click(function() {
-                $.LoadingOverlay("show");
-            });
-        })
-    </script>
+</body>
 
-@stop
+</html>

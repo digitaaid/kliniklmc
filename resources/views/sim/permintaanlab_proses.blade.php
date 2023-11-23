@@ -73,18 +73,19 @@
                                         <td>{{ $param->nilai_rujukan }}</td>
                                         <td>{{ $param->satuan }}</td>
                                         <td> <input class="w-100" type="text" name="keterangan[]"
-                                                value="{{ $hasillab->keterangan[$key] ?? null }}" id="hasil"></td>
+                                                value="{{ $hasillab->keterangan[$key] ?? '-' }}" id="hasil"></td>
                                     </tr>
                                     @php
-                                    $key++;
-                                @endphp
+                                        $key++;
+                                    @endphp
                                 @endforeach
                             @endforeach
                         </tbody>
                     </table>
-                    <button type="submit" class="btn btn-success">Simpan</button>
+                    <button type="submit" class="btn btn-success"><i class="fas fa-save"></i> Simpan</button>
+                    <a href="{{ route('permintaanlab_hasil_print') }}?kode={{ $permintaan->kode }}"
+                        class="btn btn-warning"><i class="fas fa-print"></i> Print</a>
                 </form>
-
             </x-adminlte-card>
 
         </div>

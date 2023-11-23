@@ -180,6 +180,7 @@ Route::middleware('auth')->group(function () {
     Route::get('antrianlaboratorium', [FormController::class, 'antrianlaboratorium'])->name('antrianlaboratorium');
     Route::get('permintaanlab_index', [LaboratoriumController::class, 'permintaanlab_index'])->name('permintaanlab_index');
     Route::get('permintaanlab_proses', [LaboratoriumController::class, 'permintaanlab_proses'])->name('permintaanlab_proses');
+    Route::get('permintaanlab_hasil_print', [LaboratoriumController::class, 'permintaanlab_hasil_print'])->name('permintaanlab_hasil_print');
     Route::post('permintaanlab_hasil', [LaboratoriumController::class, 'permintaanlab_hasil'])->name('permintaanlab_hasil');
     Route::post('permintaanlab_simpan', [LaboratoriumController::class, 'permintaanlab_simpan'])->name('permintaanlab_simpan');
     Route::get('pemeriksaanlabimport', [FormController::class, 'pemeriksaanlabimport'])->name('pemeriksaanlabimport');

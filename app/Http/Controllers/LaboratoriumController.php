@@ -92,7 +92,21 @@ class LaboratoriumController extends Controller
         Alert::success('Success', 'Hasil Laboratorium disimpan');
         return redirect()->back();
     }
-
+    public function permintaanlab_hasil_print(Request $request)
+    {
+        $permintaan = PermintaanLab::firstWhere('kode', $request->kode);
+        $kode = json_decode($permintaan->permintaan_lab);
+        $pemeriksaan = PemeriksaanLab::whereIn('kode', $kode)
+            ->with(['parameters'])
+            ->get();
+        $hasillab = $permintaan->hasillab;
+        return view('sim.permintaanlab_hasil_print', compact([
+            'request',
+            'permintaan',
+            'pemeriksaan',
+            'hasillab',
+        ]));
+    }
     public function edit(string $id)
     {
         //
