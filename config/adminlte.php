@@ -381,6 +381,13 @@ return [
                     'shift'   => 'ml-2',
                     'can' => 'farmasi',
                 ],
+                [
+                    'text' => 'Permintaan Laboratorium',
+                    'icon'    => 'fas fa-vials',
+                    'url'  => 'permintaanlab_index',
+                    'shift'   => 'ml-2',
+                    'can' => 'laboratorium',
+                ],
             ]
         ],
         // PENGELOLAAN

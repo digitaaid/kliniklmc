@@ -35,7 +35,7 @@ class Antrian extends Model
     }
     public function permintaan_lab()
     {
-        return $this->hasOne(PermitaanLab::class);
+        return $this->hasOne(PermintaanLab::class);
     }
     public function resepobat()
     {

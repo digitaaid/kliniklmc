@@ -22,20 +22,14 @@ class PerawatController extends Controller
     {
         $antrians = null;
         $antrian_asesmen = null;
-        // $dokters = Dokter::where('status', '1')->pluck('namadokter', 'kodedokter');
-        // $polikliniks = Poliklinik::where('status', '1')->pluck('namasubspesialis', 'kodesubspesialis');
         if ($request->tanggalperiksa) {
             $antrians = Antrian::where('tanggalperiksa', $request->tanggalperiksa)->where('taskid', '!=', 99)->get();
             $antrian_asesmen = Antrian::where('tanggalperiksa', $request->tanggalperiksa)->whereHas('asesmenperawat')->count();
-        } else {
-            $request['tanggalperiksa'] = now()->format('Y-m-d');
         }
         return view('sim.antrian_perawat', compact([
             'request',
             'antrians',
             'antrian_asesmen',
-            // 'dokters',
-            // 'polikliniks',
         ]));
     }
     public function prosesperawat(Request $request)

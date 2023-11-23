@@ -84,8 +84,6 @@ class DokterController extends Controller
         $antrians = null;
         if ($request->tanggalperiksa) {
             $antrians = Antrian::where('tanggalperiksa', $request->tanggalperiksa)->where('taskid', '!=', 99)->get();
-        } else {
-            $request['tanggalperiksa'] = now()->format('Y-m-d');
         }
         return view('sim.antrian_poliklinik', compact([
             'request',

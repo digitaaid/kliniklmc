@@ -14,7 +14,7 @@
                                 $config = ['format' => 'YYYY-MM-DD'];
                             @endphp
                             <x-adminlte-input-date name="tanggalperiksa" label="Tanggal Antrian"
-                                value="{{ $request->tanggalperiksa }}" placeholder="Pilih Tanggal" :config="$config">
+                                value="{{ $request->tanggalperiksa ?? now()->format('Y-m-d')  }}" placeholder="Pilih Tanggal" :config="$config">
                                 <x-slot name="prependSlot">
                                     <div class="input-group-text bg-primary">
                                         <i class="fas fa-calendar-alt"></i>

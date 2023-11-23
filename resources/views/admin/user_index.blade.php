@@ -99,7 +99,6 @@
                                         title="Hapus User {{ $item->name }} " data-id="{{ $item->id }}"
                                         data-name="{{ $item->name }}" />
                                 @endif
-
                             </td>
                         </tr>
                     @endforeach

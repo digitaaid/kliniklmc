@@ -9,6 +9,7 @@ use App\Models\Jaminan;
 use App\Models\Kunjungan;
 use App\Models\Layanan;
 use App\Models\LayananDetail;
+use App\Models\PemeriksaanLab;
 use App\Models\Poliklinik;
 use App\Models\Tarif;
 use App\Models\TarifDetail;
@@ -139,8 +140,6 @@ class PendaftaranController extends APIController
         $polikliniks = Poliklinik::where('status', '1')->pluck('namasubspesialis', 'kodesubspesialis');
         if ($request->tanggalperiksa) {
             $antrians = Antrian::where('tanggalperiksa', $request->tanggalperiksa)->get();
-        } else {
-            $request['tanggalperiksa'] = now()->format('Y-m-d');
         }
         return view('sim.antrian_pendaftaran', compact([
             'request',
@@ -166,6 +165,10 @@ class PendaftaranController extends APIController
             $dokters = Dokter::where('status', '1')->pluck('namadokter', 'kodedokter');
             $polikliniks = Unit::where('status', '1')->pluck('nama', 'kode');
             $jaminans = Jaminan::pluck('nama', 'kode');
+            $pemeriksaanlab = null;
+            if ($antrian->layanan->laboratorium) {
+                $pemeriksaanlab = PemeriksaanLab::get();
+            }
             return view('sim.antrian_pendaftaran_proses', compact([
                 'request',
                 'antrian',
@@ -173,6 +176,7 @@ class PendaftaranController extends APIController
                 'jaminans',
                 'kunjungans',
                 'polikliniks',
+                'pemeriksaanlab',
             ]));
         } else {
             Alert::error('Mohon Maaf', 'Antrian tidak ditemukan');

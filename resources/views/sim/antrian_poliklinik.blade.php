@@ -14,7 +14,8 @@
                                 $config = ['format' => 'YYYY-MM-DD'];
                             @endphp
                             <x-adminlte-input-date name="tanggalperiksa" label="Tanggal Antrian"
-                                value="{{ $request->tanggalperiksa }}" placeholder="Pilih Tanggal" :config="$config">
+                                value="{{ $request->tanggalperiksa ?? now()->format('Y-m-d') }}" placeholder="Pilih Tanggal"
+                                :config="$config">
                                 <x-slot name="prependSlot">
                                     <div class="input-group-text bg-primary">
                                         <i class="fas fa-calendar-alt"></i>
@@ -51,7 +52,7 @@
                 <x-adminlte-card title="Data Antrian Asesmen Dokter" theme="warning" icon="fas fa-info-circle" collapsible>
                     @php
                         $heads = ['No', 'Kodebooking', 'Pasien', 'Kartu BPJS', 'Jenis Pasien', 'Unit', 'Dokter', 'Taskid', 'Asesmen', 'Action'];
-                        $config['order'] = [[7, 'asc'],[8, 'asc']];
+                        $config['order'] = [[7, 'asc'], [8, 'asc']];
                         $config['paging'] = false;
                         $config['scrollY'] = '300px';
                     @endphp
@@ -64,7 +65,7 @@
                                 <td>{{ $item->norm }} {{ $item->nama }}</td>
                                 <td>{{ $item->nomorkartu }}</td>
                                 <td>{{ $item->jenispasien }} </td>
-                                <td>{{ $item->kunjungan ? $item->kunjungan->units->nama : '-'}}</td>
+                                <td>{{ $item->kunjungan ? $item->kunjungan->units->nama : '-' }}</td>
                                 <td>{{ $item->namadokter }}</td>
                                 <td>
                                     @switch($item->taskid)

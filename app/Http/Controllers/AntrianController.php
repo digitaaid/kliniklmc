@@ -333,6 +333,7 @@ class AntrianController extends APIController
         $antrians = null;
         if (isset($request->waktu)) {
             $response =  $this->dashboard_tanggal($request);
+            dd($response);
             if ($response->metadata->code == 200) {
                 $antrians = collect($response->response->list);
                 Alert::success($response->metadata->message . ' ' . $response->metadata->code);

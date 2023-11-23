@@ -29,6 +29,10 @@ class Kunjungan extends Model
     {
         return $this->belongsTo(Jaminan::class, 'jaminan', 'kode');
     }
+    public function permintaan_lab()
+    {
+        return $this->hasOne(PermintaanLab::class);
+    }
     public function antrian()
     {
         return $this->belongsTo(Antrian::class,  'kode', 'kodebooking');

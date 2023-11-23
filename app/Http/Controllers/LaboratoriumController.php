@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Imports\PemeriksaanLabImport;
 use App\Models\PemeriksaanLab;
-use App\Models\PermitaanLab;
+use App\Models\PermintaanLab;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
@@ -36,11 +36,11 @@ class LaboratoriumController extends Controller
         Alert::success('Success', 'Data Pemeriksaan Laboratium Telah Disimpan');
         return redirect()->back();
     }
-    public function permintaanlab(Request $request)
+    public function permintaanlab_simpan(Request $request)
     {
         $request['permintaan_lab'] = json_encode($request->permintaan_lab);
         $request['user'] = Auth::user()->id;
-        PermitaanLab::updateOrCreate(
+        PermintaanLab::updateOrCreate(
             [
                 'antrian_id' => $request->antrian_id,
                 'kodebooking' => $request->kodebooking,
@@ -52,7 +52,26 @@ class LaboratoriumController extends Controller
         Alert::success('Success', 'Berhasil simpan permintaan laboratorium');
         return redirect()->back();
     }
-
+    public function permintaanlab_index(Request $request)
+    {
+        $permintaanlab = PermintaanLab::get();
+        $pemeriksaanlab = PemeriksaanLab::pluck('nama', 'code');
+        return view('sim.permintaanlab_index', compact([
+            'request',
+            'permintaanlab',
+            'pemeriksaanlab',
+        ]));
+    }
+    public function permintaanlab_proses(Request $request)
+    {
+        $permintaan = PermintaanLab::firstWhere('kode', $request->kode);
+        $pemeriksaanlab = PemeriksaanLab::pluck('nama', 'code');
+        return view('sim.permintaanlab_proses', compact([
+            'request',
+            'permintaan',
+            'pemeriksaanlab',
+        ]));
+    }
     public function show(string $id)
     {
         //

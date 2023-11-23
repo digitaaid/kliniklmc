@@ -70,7 +70,7 @@
         </div>
         <div class="col-md-12">
             <div class="card card-primary card-outline">
-                <div class="card-body box-profile p-3" style="overflow-y: auto ;max-height: 600px ;">
+                <div class="card-body box-profile p-3" style="overflow-y: auto ;max-height: 700px ;">
                     <div id="accordion" role="tablist" aria-multiselectable="true">
                         <div class="card card-info mb-1">
                             <div class="card-header" role="tab" id="headAntrian">
