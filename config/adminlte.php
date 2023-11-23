@@ -387,6 +387,7 @@ return [
                     'url'  => 'permintaanlab_index',
                     'shift'   => 'ml-2',
                     'can' => 'laboratorium',
+                    'active'  => ['permintaanlab_index', 'permintaanlab_proses'],
                 ],
             ]
         ],
@@ -479,6 +480,13 @@ return [
                     'text' => 'Pemeriksaan Laboratorium',
                     'icon'    => 'fas fa-vials',
                     'url'  => 'pemeriksaanlab',
+                    'shift'   => 'ml-2',
+                    'can' =>  ['laboratorium'],
+                ],
+                [
+                    'text' => 'Parameter Laboratorium',
+                    'icon'    => 'fas fa-vials',
+                    'url'  => 'parameterlab',
                     'shift'   => 'ml-2',
                     'can' =>  ['laboratorium'],
                 ],

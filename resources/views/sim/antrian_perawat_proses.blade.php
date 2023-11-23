@@ -83,7 +83,7 @@
                                         Anamnesa Keperawatan
                                         @if ($antrian->asesmenperawat)
                                             <i class="fas fa-check-circle"></i> Sudah Diisi Oleh
-                                            {{ $antrian->asesmenperawat->pic->name }}
+                                            {{ $antrian->asesmenperawat->pic ? $antrian->asesmenperawat->pic->name : $antrian->asesmenperawat->user }}
                                             {{ $antrian->asesmenperawat->created_at }}
                                         @else
                                             <i class="fas fa-times-circle"></i> Belum Diisi

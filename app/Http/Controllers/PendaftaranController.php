@@ -166,8 +166,10 @@ class PendaftaranController extends APIController
             $polikliniks = Unit::where('status', '1')->pluck('nama', 'kode');
             $jaminans = Jaminan::pluck('nama', 'kode');
             $pemeriksaanlab = null;
-            if ($antrian->layanan->laboratorium) {
-                $pemeriksaanlab = PemeriksaanLab::get();
+            if ($antrian->layanan) {
+                if ($antrian->layanan->laboratorium) {
+                    $pemeriksaanlab = PemeriksaanLab::get();
+                }
             }
             return view('sim.antrian_pendaftaran_proses', compact([
                 'request',

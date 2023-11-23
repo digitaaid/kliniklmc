@@ -5,11 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class PemeriksaanLab extends Model
+class ParameterLab extends Model
 {
     use HasFactory;
     protected $guarded = ['id'];
-    public function parameters()
+    protected $casts = [
+        'pemeriksaan' => 'array',
+    ];
+    public function pemeriksaans()
     {
         return $this->hasMany(ParameterLab::class, 'pemeriksaan', 'code');
     }

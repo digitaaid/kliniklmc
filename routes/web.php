@@ -17,6 +17,7 @@ use App\Http\Controllers\KunjunganController;
 use App\Http\Controllers\LaboratoriumController;
 use App\Http\Controllers\LaravoltIndonesiaController;
 use App\Http\Controllers\ObatController;
+use App\Http\Controllers\ParameterLabController;
 use App\Http\Controllers\PasienController;
 use App\Http\Controllers\PendaftaranController;
 use App\Http\Controllers\PerawatController;
@@ -182,6 +183,7 @@ Route::middleware('auth')->group(function () {
     Route::post('permintaanlab_simpan', [LaboratoriumController::class, 'permintaanlab_simpan'])->name('permintaanlab_simpan');
     Route::get('pemeriksaanlabimport', [FormController::class, 'pemeriksaanlabimport'])->name('pemeriksaanlabimport');
     Route::resource('pemeriksaanlab', LaboratoriumController::class);
+    Route::resource('parameterlab', ParameterLabController::class);
     // laboratorium
     Route::get('capaianantrian', [AntrianController::class, 'dashboardBulanAntrian'])->name('capaianantrian');
     Route::get('kunjunganwaktu', [KunjunganController::class, 'kunjunganwaktu'])->name('kunjunganwaktu');

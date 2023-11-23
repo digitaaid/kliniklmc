@@ -65,11 +65,16 @@ class LaboratoriumController extends Controller
     public function permintaanlab_proses(Request $request)
     {
         $permintaan = PermintaanLab::firstWhere('kode', $request->kode);
-        $pemeriksaanlab = PemeriksaanLab::pluck('nama', 'code');
+        $kode = json_decode($permintaan->permintaan_lab);
+        $pemeriksaan = PemeriksaanLab::whereIn('code', $kode)
+            ->with(['parameters'])
+            ->get();
+
+            dd($pemeriksaan->first());
         return view('sim.permintaanlab_proses', compact([
             'request',
             'permintaan',
-            'pemeriksaanlab',
+            'pemeriksaan',
         ]));
     }
     public function show(string $id)
@@ -92,7 +97,7 @@ class LaboratoriumController extends Controller
     {
         $lab = PemeriksaanLab::firstWhere('id', $id);
         $lab->update([
-            'status' => 0,
+            'status' => !$lab->status,
         ]);
         Alert::success('Succes', 'Berhasil Update Status Pemeriksaan Laboratorium');
         return redirect()->back();

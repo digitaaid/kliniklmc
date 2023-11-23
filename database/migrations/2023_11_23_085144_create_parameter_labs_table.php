@@ -11,15 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('pemeriksaan_labs', function (Blueprint $table) {
+        Schema::create('parameter_labs', function (Blueprint $table) {
             $table->id();
             $table->string('nama');
-            $table->string('kode');
-            $table->string('jenis')->nullable();
             $table->string('group')->nullable();
             $table->string('kelompok')->nullable();
-            $table->bigInteger('harga')->default(0);
-            $table->string('status')->default('1');
+            $table->text('pemeriksaan')->nullable();
+            $table->string('nilai_rujukan')->nullable();
+            $table->string('satuan')->nullable();
+            $table->string('status')->default(1);
+            $table->string('user')->default(1);
             $table->timestamps();
         });
     }
@@ -29,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('pemeriksaan_labs');
+        Schema::dropIfExists('parameter_labs');
     }
 };

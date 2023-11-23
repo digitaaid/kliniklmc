@@ -9,5 +9,8 @@ class PermintaanLab extends Model
 {
     use HasFactory;
     protected $guarded = ['id'];
-
+    public function pasien()
+    {
+        return $this->hasOne(Pasien::class,  'norm', 'norm');
+    }
 }

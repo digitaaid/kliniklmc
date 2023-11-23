@@ -1,67 +1,69 @@
 @extends('adminlte::page')
-@section('title', 'Permintaan Laboratorium')
+@section('title', 'Permintaan Pemeriksaan Laboratorium')
 @section('content_header')
-    <h1>Permintaan Laboratorium</h1>
+    <h1>Permintaan Pemeriksaan Laboratorium</h1>
 @stop
 @section('content')
     <div class="row">
         <div class="col-md-12">
-            <x-adminlte-card title="Filter Data Permintaan" theme="secondary" collapsible>
-                <form action="" method="get">
-                    <div class="row">
-                        <div class="col-md-12">
-                            @php
-                                $config = ['format' => 'YYYY-MM-DD'];
-                            @endphp
-                            <x-adminlte-input-date name="tanggalperiksa" label="Tanggal Antrian"
-                                value="{{ $request->tanggalperiksa ?? now()->format('Y-m-d') }}" placeholder="Pilih Tanggal"
-                                :config="$config">
-                                <x-slot name="prependSlot">
-                                    <div class="input-group-text bg-primary">
-                                        <i class="fas fa-calendar-alt"></i>
-                                    </div>
-                                </x-slot>
-                            </x-adminlte-input-date>
-                        </div>
+            <x-adminlte-card theme="primary" theme-mode="outline">
+                {{-- <h6 class="text-center">
+                    IDENTITAS PASIEN <br>
+                </h6> --}}
+                <div class="row">
+                    <div class="col-md-6">
+                        <dl class="row">
+                            <dt class="col-sm-4 m-0">Nama</dt>
+                            <dd class="col-sm-8 m-0">: {{ $permintaan->nama }} </dd>
+                            <dt class="col-sm-4 m-0">No RM</dt>
+                            <dd class="col-sm-8 m-0">: {{ $permintaan->norm }} </dd>
+                            <dt class="col-sm-4 m-0">Tgl. Lahir</dt>
+                            <dd class="col-sm-8 m-0">: {{ $permintaan->pasien->tgl_lahir }} </dd>
+                            <dt class="col-sm-4 m-0">Jenis Kelamin</dt>
+                            <dd class="col-sm-8 m-0">: {{ $permintaan->pasien->gender }} </dd>
+                            <dt class="col-sm-4 m-0">Diagnosa</dt>
+                            <dd class="col-sm-8 m-0">: {{ $permintaan->diagnosa }} </dd>
+                        </dl>
                     </div>
-                    <x-adminlte-button type="submit" class="withLoad" theme="primary" label="Submit Antrian" />
-                </form>
+                    <div class="col-md-6">
+                        <dl class="row">
+                            <dt class="col-sm-4 m-0">Dokter</dt>
+                            <dd class="col-sm-8 m-0">: {{ $permintaan->dpjp }} </dd>
+                            <dt class="col-sm-4 m-0">Alamat</dt>
+                            <dd class="col-sm-8 m-0">: Klinik LMC </dd>
+                            <dt class="col-sm-4 m-0">Tgl Pemeriksaan</dt>
+                            <dd class="col-sm-8 m-0">: {{ $permintaan->waktu }} </dd>
+                        </dl>
+                    </div>
+                </div>
             </x-adminlte-card>
-        </div>
-        @if (isset($permintaanlab))
-            <div class="col-md-12">
-                <x-adminlte-card title="Data Permintaan Laboratorium" theme="warning" icon="fas fa-info-circle" collapsible>
-                    @php
-                        $heads = ['Kode', 'Waktu', 'Pasien', 'Permeriksaan', 'PIC', 'Status', 'Action'];
-                        $config['order'] = [1, 'desc'];
-                        $config['paging'] = false;
-                        $config['scrollY'] = '300px';
-                    @endphp
-                    <x-adminlte-datatable id="table1" class="nowrap" :heads="$heads" :config="$config" bordered
-                        hoverable compressed>
-                        @foreach ($permintaanlab as $item)
+            <x-adminlte-card theme="primary" theme-mode="outline">
+                <table class="table table-sm table-striped">
+                    <thead>
+                        <tr>
+                            <th>Nama Pemeriksaan</th>
+                            <th>Hasil</th>
+                            <th>Nilai Rujukan</th>
+                            <th>Satuan</th>
+                            <th>Keterangan</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($pemeriksaan as $item)
                             <tr>
-                                <td>{{ $item->kode }}</td>
-                                <td>{{ $item->waktu }}</td>
-                                <td>{{ $item->norm }} / {{ $item->nama }}</td>
-                                <td>
-                                    @foreach (json_decode($item->permintaan_lab) as $pemeriksaan)
-                                        - {{ $pemeriksaanlab[$pemeriksaan] }}<br>
-                                    @endforeach
-                                </td>
-                                <td>{{ $item->user }}</td>
-                                <td>{{ $item->status }}</td>
-                                <td>
-                                    <a href="{{ route('permintaanlab_proses') }}?kode={{ $item->kode }}"
-                                        class="btn btn-xs btn-primary"><i class="fas fa-vials"></i> Proses</a>
-                                </td>
+                                <td><b>{{ $item->nama }}</b></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
                             </tr>
                         @endforeach
+                    </tbody>
+                </table>
+            </x-adminlte-card>
 
-                    </x-adminlte-datatable>
-                </x-adminlte-card>
-            </div>
-        @endif
+        </div>
+
     </div>
 @stop
 
