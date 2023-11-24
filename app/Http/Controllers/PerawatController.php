@@ -7,6 +7,7 @@ use App\Models\AsesmenPerawat;
 use App\Models\Dokter;
 use App\Models\FileUploadPasien;
 use App\Models\Kunjungan;
+use App\Models\PemeriksaanLab;
 use App\Models\Poliklinik;
 use App\Models\Unit;
 use Carbon\Carbon;
@@ -57,12 +58,17 @@ class PerawatController extends Controller
             if (empty($antrian->asesmenperawat)) {
                 Alert::info('Informasi', 'Silahkan Lakukan Assemen Keperawatan.');
             }
+            if ($antrian->layanan) {
+                if ($antrian->layanan->laboratorium) {
+                    $pemeriksaanlab = PemeriksaanLab::get();
+                }
+            }
             return view('sim.antrian_perawat_proses', compact([
                 'request',
                 'antrian',
                 'urlicare',
                 'messageicare',
-                // 'dokters',
+                'pemeriksaanlab',
                 'kunjungans',
                 'kunjungan',
             ]));

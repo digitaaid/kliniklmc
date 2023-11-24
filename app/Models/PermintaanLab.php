@@ -9,6 +9,9 @@ class PermintaanLab extends Model
 {
     use HasFactory;
     protected $guarded = ['id'];
+
+    // protected $casts = ['permintaan_lab' => 'json'];
+
     public function pasien()
     {
         return $this->hasOne(Pasien::class,  'norm', 'norm');

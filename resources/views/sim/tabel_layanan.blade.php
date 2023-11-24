@@ -1,14 +1,17 @@
 <div class="card card-info mb-1">
-    <div class="card-header" role="tab" id="headLay">
+    <a class="card-header" data-toggle="collapse" data-parent="#accordion" href="#collLay" aria-expanded="true"
+        aria-controls="collLay">
         <h3 class="card-title">
-            <a data-toggle="collapse" data-parent="#accordion" href="#collLay" aria-expanded="true" aria-controls="collLay">
-                Layanan & Tindakan (@if ($antrian->layanan)
-                    {{ $antrian->layanan->layanandetails->count() ?? 0 }}
-                @endif Layanan)
-            </a>
+            Layanan & Tindakan
         </h3>
-    </div>
-    <div id="collLay" class="collapse" role="tabpanel" aria-labelledby="headLay">
+        <div class="card-tools">
+            @if ($antrian->layanan)
+                {{ $antrian->layanan->layanandetails->count() ?? 0 }}
+            @endif Layanan
+            <i class="fas fa-info-circle"></i>
+        </div>
+    </a>
+    <div id="collLay" class="collapse" role="tabpanel">
         <div class="card-body">
             <style>
                 .cariLayanan {

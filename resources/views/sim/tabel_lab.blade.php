@@ -3,6 +3,12 @@
         <h3 class="card-title">
             E-Laboratorium
         </h3>
+        <div class="card-tools">
+            @if ($antrian->permintaan_lab)
+                {{ count(json_decode($antrian->permintaan_lab->permintaan_lab)) }}
+            @endif Pemeriksaan
+            <i class="fas fa-info-circle"></i>
+        </div>
     </a>
     <div id="collLab" class="collapse" role="tabpanel" aria-labelledby="headLab">
         <div class="card-body">
