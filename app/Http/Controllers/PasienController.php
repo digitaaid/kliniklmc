@@ -29,10 +29,6 @@ class PasienController extends APIController
         }
         $total_pasien = Pasien::count();
         $kabupaten = Kabupaten::where('province_code', '32')->pluck('name', 'code');
-        // $pasien_jkn = Pasien::where('no_Bpjs', '!=', '')->count();
-        // $pasien_nik = Pasien::where('nik_bpjs', '!=', '')->count();
-        // $pasien_laki = Pasien::where('jenis_kelamin', 'L')->count();
-        // $pasien_perempuan = Pasien::where('jenis_kelamin', 'P')->count();
         return view('sim.pasien_index', compact([
             'request',
             'pasiens',
@@ -41,53 +37,105 @@ class PasienController extends APIController
     }
     public function create()
     {
-        $file = public_path('pasien.xlsx');
-        Excel::import(new PasiensImport, $file);
+        // $file = public_path('pasien.xlsx');
+        // Excel::import(new PasiensImport, $file);
         return redirect()->route('pasien.index');
     }
     public function reset()
     {
-        $pasiens = Pasien::all();
-        foreach ($pasiens as  $value) {
-            $value->delete();
-        }
+        // $pasiens = Pasien::all();
+        // foreach ($pasiens as  $value) {
+        //     $value->delete();
+        // }
         return redirect()->route('pasien.index');
     }
     public function store(Request $request)
     {
-        $request->validate([
-            'nama' => 'required',
-            'nik' => 'required|digits:16',
-            'nohp' => 'required',
-            'gender' => 'required',
-        ]);
-        if (empty($request->norm)) {
-            $pasien_terakhir = Pasien::orderBy('norm', 'desc')->first();
-            if ($pasien_terakhir) {
-                $norm = sprintf("%09d", $pasien_terakhir->norm + 1);
-            } else {
-                $norm = '000000001';
+        try {
+            $request->validate([
+                'nama' => 'required',
+                'nik' => 'required|digits:16',
+                'nohp' => 'required',
+                'gender' => 'required',
+            ]);
+            if (empty($request->norm)) {
+                $pasien_terakhir = Pasien::orderBy('norm', 'desc')->first();
+                if ($pasien_terakhir) {
+                    $norm = sprintf("%09d", $pasien_terakhir->norm + 1);
+                } else {
+                    $norm = '000000001';
+                }
+                $request['norm'] = $norm;
             }
-            $request['norm'] = $norm;
+            $request['user'] = Auth::user()->id;
+            $pasien = Pasien::updateOrCreate(
+                [
+                    'nik' => $request->nik,
+                    'norm' => $request->norm,
+                ],
+                $request->all()
+            );
+            Alert::success('Sucess', 'Data Pasien Berhasil Ditambahkan.');
+        } catch (\Throwable $th) {
+            Alert::error('Error', $th->getMessage());
         }
-        $request['user'] = Auth::user()->id;
-        $pasien = Pasien::updateOrCreate(
-            [
-                'nik' => $request->nik,
-                'norm' => $request->norm,
-            ],
-            $request->all()
-        );
-        Alert::success('Sucess', 'Data Pasien Berhasil Ditambahkan.');
         return redirect()->route('pasien.index');
     }
     public function update($id, Request $request)
     {
-        $request['user'] = Auth::user()->id;
-        $pasien = Pasien::find($id);
-        $pasien->update($request->all());
-        Alert::success('Success', 'Data Pasien Diperbaharui.');
+        try {
+            $request['user'] = Auth::user()->id;
+            $pasien = Pasien::find($id);
+            $pasien->update($request->all());
+            Alert::success('Success', 'Data Pasien Diperbaharui.');
+        } catch (\Throwable $th) {
+            Alert::error('Error', $th->getMessage());
+        }
         return redirect()->back();
+    }
+    public function search(Request $request)
+    {
+        $pasiens = Pasien::orderBy('norm', 'desc')
+            ->where('norm', 'LIKE', "%{$request->search}%")
+            ->orWhere('nama', 'LIKE', "%{$request->search}%")
+            ->orWhere('nomorkartu', 'LIKE', "%{$request->search}%")
+            ->orWhere('nik', 'LIKE', "%{$request->search}%")
+            ->limit(20)
+            ->get();
+        return $this->sendResponse($pasiens, 200);
+    }
+    public function destroy($id, Request $request)
+    {
+        $pasien = Pasien::find($id);
+        $pasien->update([
+            'status' => !$pasien->status,
+            'user' => Auth::user()->id,
+        ]);
+        Alert::success('Success', 'Data Pasien Dinonaktifkan.');
+        return redirect()->back();
+    }
+    public function pasienexport()
+    {
+        $time = now()->format('Y-m-d');
+        return Excel::download(new PasienExport, 'pasien_backup_' . $time . '.xlsx');
+    }
+    public function pasienimport(Request $request)
+    {
+        try {
+            Excel::import(new PasienFileImport, $request->file);
+            Alert::success('Success', 'Import Pasien Berhasil.');
+        } catch (\Throwable $th) {
+            Alert::error('Error', $th->getMessage());
+        }
+        return redirect()->route('pasien.index');
+    }
+    public function riwayatpasien(Request $request)
+    {
+        $pasien = Pasien::with(['kunjungans', 'antrians'])->firstWhere('norm', $request->norm);
+        Alert::success('Sucess', 'Data Pasien Berhasil Ditambahkan.');
+        return view('sim.riwayat_pasien', compact([
+            'pasien'
+        ]));
     }
     public function fingerprintPeserta(Request $request)
     {
@@ -112,48 +160,5 @@ class PasienController extends APIController
             'request',
             'peserta'
         ]));
-    }
-    public function search(Request $request)
-    {
-        $pasiens = Pasien::orderBy('norm', 'desc')
-            ->where('norm', 'LIKE', "%{$request->search}%")
-            ->orWhere('nama', 'LIKE', "%{$request->search}%")
-            ->orWhere('nomorkartu', 'LIKE', "%{$request->search}%")
-            ->orWhere('nik', 'LIKE', "%{$request->search}%")
-            ->limit(20)
-            ->get();
-        return $this->sendResponse($pasiens, 200);
-    }
-    public function riwayatpasien(Request $request)
-    {
-        $pasien = Pasien::with(['kunjungans', 'antrians'])->firstWhere('norm', $request->norm);
-        Alert::success('Sucess', 'Data Pasien Berhasil Ditambahkan.');
-        return view('sim.riwayat_pasien', compact([
-            'pasien'
-        ]));
-    }
-    public function destroy($id, Request $request)
-    {
-        $pasien = Pasien::find($id);
-        if ($pasien->status) {
-            $status = 0;
-        }
-        $pasien->update([
-            'status' => $status ?? 1,
-            'user' => Auth::user()->id,
-        ]);
-        Alert::success('Success', 'Data Pasien Dinonaktifkan.');
-        return redirect()->back();
-    }
-    public function pasienexport()
-    {
-        $time = now()->format('Y-m-d');
-        return Excel::download(new PasienExport, 'pasien_backup_' . $time . '.xlsx');
-    }
-    public function pasienimport(Request $request)
-    {
-        Excel::import(new PasienFileImport, $request->file);
-        Alert::success('Success', 'Import Pasien Berhasil.');
-        return redirect()->route('pasien.index');
     }
 }
