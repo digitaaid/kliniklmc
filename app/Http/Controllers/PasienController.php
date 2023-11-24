@@ -23,9 +23,9 @@ class PasienController extends APIController
                 ->orWhere('nama', 'LIKE', "%{$request->search}%")
                 ->orWhere('nomorkartu', 'LIKE', "%{$request->search}%")
                 ->orWhere('nik', 'LIKE', "%{$request->search}%")
-                ->simplePaginate(20);
+                ->with(['pic'])->simplePaginate(20);
         } else {
-            $pasiens = Pasien::orderBy('norm', 'desc')->simplePaginate(20);;
+            $pasiens = Pasien::orderBy('norm', 'desc')->with(['pic'])->simplePaginate(20);;
         }
         $total_pasien = Pasien::count();
         $kabupaten = Kabupaten::where('province_code', '32')->pluck('name', 'code');

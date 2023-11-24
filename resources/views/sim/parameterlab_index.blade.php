@@ -18,8 +18,8 @@
                 @endphp
                 <x-adminlte-button id="btnTambah" class="btn-sm" theme="success" label="Tambah Pemeriksaan Laboratorium"
                     icon="fas fa-plus" />
-                <a href="{{ route('obatexport') }}" class="btn btn-sm btn-primary"><i class="fas fa-print"></i> Export</a>
-                {{-- <div class="btn btn-sm btn-primary btnModalImport"><i class="fas fa-file-medical"></i> Import</div> --}}
+                <a href="{{ route('parameterlabexport') }}" class="btn btn-sm btn-primary"><i class="fas fa-print"></i> Export</a>
+                <div class="btn btn-sm btn-primary btnModalImport"><i class="fas fa-file-medical"></i> Import</div>
                 <x-adminlte-datatable id="table1" :heads="$heads" :config="$config" bordered hoverable compressed>
                     @foreach ($parameter as $item)
                         <tr>
@@ -76,12 +76,12 @@
             <x-adminlte-button theme="danger" icon="fas fa-times" label="Kembali" data-dismiss="modal" />
         </x-slot>
     </x-adminlte-modal>
-    <x-adminlte-modal id="modalImport" title="Import Obat" icon="fas fa-pills" theme="success" static-backdrop>
-        <form action="{{ route('pemeriksaanlabimport') }}" id="formImport" name="formImport" method="POST"
+    <x-adminlte-modal id="modalImport" title="Import Parameter Laboratorium" icon="fas fa-pills" theme="success" static-backdrop>
+        <form action="{{ route('parameterlabimport') }}" id="formImport" name="formImport" method="POST"
             enctype="multipart/form-data">
             @csrf
             <x-adminlte-input-file name="file" placeholder="Pilih file Import" igroup-size="sm"
-                label="File Import Obat" />
+                label="File Import Parameter Laboratorium" />
             <x-slot name="footerSlot">
                 <x-adminlte-button form="formImport" class="mr-auto" type="submit" icon="fas fa-save" theme="success"
                     label="Import" />
@@ -136,11 +136,11 @@
                 $('#method').val('PUT');
                 $('#formLab').submit();
             });
-            // $('.btnModalImport').click(function() {
-            //     $.LoadingOverlay("show");
-            //     $('#modalImport').modal('show');
-            //     $.LoadingOverlay("hide");
-            // });
+            $('.btnModalImport').click(function() {
+                $.LoadingOverlay("show");
+                $('#modalImport').modal('show');
+                $.LoadingOverlay("hide");
+            });
             $('.btnDelete').click(function(e) {
                 e.preventDefault();
                 var nama = $(this).data("nama");

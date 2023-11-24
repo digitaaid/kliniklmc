@@ -186,6 +186,9 @@ Route::middleware('auth')->group(function () {
     Route::get('pemeriksaanlabimport', [FormController::class, 'pemeriksaanlabimport'])->name('pemeriksaanlabimport');
     Route::resource('pemeriksaanlab', LaboratoriumController::class);
     Route::resource('parameterlab', ParameterLabController::class);
+    Route::get('parameterlabexport', [ParameterLabController::class, 'parameterlabexport'])->name('parameterlabexport');
+    Route::post('parameterlabimport', [ParameterLabController::class, 'parameterlabimport'])->name('parameterlabimport');
+
     // laboratorium
     Route::get('capaianantrian', [AntrianController::class, 'dashboardBulanAntrian'])->name('capaianantrian');
     Route::get('kunjunganwaktu', [KunjunganController::class, 'kunjunganwaktu'])->name('kunjunganwaktu');

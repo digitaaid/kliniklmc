@@ -14,7 +14,7 @@ class ObatController extends Controller
 {
     public function index()
     {
-        $obats = Obat::get();
+        $obats = Obat::with(['pic'])->get();
         return view('sim.obat_index', compact([
             'obats',
         ]));

@@ -17,7 +17,7 @@ class DokterController extends Controller
 {
     public function index(Request $request)
     {
-        $dokter = Dokter::get();
+        $dokter = Dokter::with(['pic'])->get();
         return view('sim.dokter_index', compact([
             'request',
             'dokter',
