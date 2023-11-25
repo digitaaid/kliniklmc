@@ -111,7 +111,7 @@
 @stop
 @section('plugins.Datatables', true)
 @section('plugins.BsCustomFileInput', true)
-@section('plugins.Select2', true)\
+@section('plugins.Select2', true)
 @section('plugins.Sweetalert2', true)
 @section('js')
     <script>
