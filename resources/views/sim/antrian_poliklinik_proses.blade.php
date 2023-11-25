@@ -83,28 +83,27 @@
                         @include('sim.tabel_filepenunjang')
                         {{-- perawat --}}
                         @include('sim.tabel_anamnesa_perawat')
-                        <form action="{{ route('editasesmendokter') }}" method="POST">
-                            @csrf
-                            {{-- dokter --}}
-                            <div class="card card-info mb-1">
-                                <a class="card-header" data-toggle="collapse" data-parent="#accordion"
-                                    href="#collapseDokter">
-                                    <h3 class="card-title">
-                                        Pemeriksaan Dokter
-                                    </h3>
-                                    <div class="card-tools">
-                                        @if ($antrian->asesmendokter)
-                                            Sudah Diisi Oleh
-                                            {{ $antrian->asesmendokter->pic->name }}
-                                            {{ $antrian->asesmendokter->created_at }}
-                                            <i class="fas fa-check-circle"></i>
-                                        @else
-                                            Belum Diisi <i class="fas fa-times-circle"></i>
-                                        @endif
-                                    </div>
-                                </a>
-                                <div id="collapseDokter" class="collapse" role="tabpanel" aria-labelledby="headDokter">
-                                    <div class="card-body">
+                        {{-- dokter --}}
+                        <div class="card card-info mb-1">
+                            <a class="card-header" data-toggle="collapse" data-parent="#accordion" href="#collapseDokter">
+                                <h3 class="card-title">
+                                    Pemeriksaan Dokter
+                                </h3>
+                                <div class="card-tools">
+                                    @if ($antrian->asesmendokter)
+                                        Sudah Diisi Oleh
+                                        {{ $antrian->asesmendokter->pic->name }}
+                                        {{ $antrian->asesmendokter->created_at }}
+                                        <i class="fas fa-check-circle"></i>
+                                    @else
+                                        Belum Diisi <i class="fas fa-times-circle"></i>
+                                    @endif
+                                </div>
+                            </a>
+                            <div id="collapseDokter" class="collapse" role="tabpanel" aria-labelledby="headDokter">
+                                <div class="card-body">
+                                    <form action="{{ route('editasesmendokter') }}" method="POST">
+                                        @csrf
                                         <input type="hidden" name="kodebooking" value="{{ $antrian->kodebooking }}">
                                         <input type="hidden" name="antrian_id" value="{{ $antrian->id }}">
                                         <input type="hidden" name="kodekunjungan"
@@ -189,33 +188,11 @@
                                                 </x-adminlte-textarea>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-                            </div>
-                            {{-- resep obat --}}
-                            <div class="card card-info mb-1">
-                                <a class="card-header" data-toggle="collapse" data-parent="#accordion" href="#collResep">
-                                    <h3 class="card-title">
-                                        E-Resep
-                                    </h3>
-                                    <div class="card-tools">
-                                        @if ($antrian->resepobat)
-                                            Sudah Diresepkan Dengan Kode
-                                            {{ $antrian->resepobat->kode }}
-                                            {{ $antrian->resepobat->waktu }}
-                                            <i class="fas fa-check-circle"></i>
-                                        @else
-                                            Tidak Diresepkan <i class="fas fa-times-circle"></i>
-                                        @endif
-                                    </div>
-                                </a>
-                                <style>
-                                    .cariObat {
-                                        width: 300px !important;
-                                    }
-                                </style>
-                                <div id="collResep" class="collapse" role="tabpanel" aria-labelledby="headResep">
-                                    <div class="card-body">
+                                        <style>
+                                            .cariObat {
+                                                width: 300px !important;
+                                            }
+                                        </style>
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <label class="mb-2">Resep Obat</label>
@@ -262,14 +239,14 @@
                                                                             {{ $itemobat->interval == '303' ? 'selected' : null }}>
                                                                             3-0-3</option>
                                                                         {{-- <option value="prn"
-                                                                        {{ $itemobat->interval == 'prn' ? 'selected' : null }}>
-                                                                        Sesuai Kebutuhan</option>
-                                                                    <option value="q3h"
-                                                                        {{ $itemobat->interval == 'q3h' ? 'selected' : null }}>
-                                                                        Setiap 3 Jam</option>
-                                                                    <option value="q4h"
-                                                                        {{ $itemobat->interval == 'q4h' ? 'selected' : null }}>
-                                                                        Setiap 4 Jam</option> --}}
+                                                                            {{ $itemobat->interval == 'prn' ? 'selected' : null }}>
+                                                                            Sesuai Kebutuhan</option>
+                                                                        <option value="q3h"
+                                                                            {{ $itemobat->interval == 'q3h' ? 'selected' : null }}>
+                                                                            Setiap 3 Jam</option>
+                                                                        <option value="q4h"
+                                                                            {{ $itemobat->interval == 'q4h' ? 'selected' : null }}>
+                                                                            Setiap 4 Jam</option> --}}
                                                                     </select>
                                                                     <select name="waktuobat[]"
                                                                         class="form-control waktuObat">
@@ -316,8 +293,8 @@
                                                                 <option value="202">2-0-2</option>
                                                                 <option value="303">3-0-3</option>
                                                                 {{-- <option value="prn">Sesuai Kebutuhan</option>
-                                                            <option value="q3h">Setiap 3 Jam</option>
-                                                            <option value="q4h">Setiap 4 Jam</option> --}}
+                                                                <option value="q3h">Setiap 3 Jam</option>
+                                                                <option value="q4h">Setiap 4 Jam</option> --}}
                                                             </select>
                                                             <select name="waktuobat[]" class="form-control waktuObat">
                                                                 <option selected>Waktu Obat</option>
@@ -351,76 +328,207 @@
                                                 </x-adminlte-textarea>
                                             </div>
                                         </div>
-                                    </div>
+                                        <button type="submit" class="btn btn-success mb-1 w-100 withLoad">
+                                            <i class="fas fa-edit"></i> Simpan & Tanda Tangan Pemeriksaan Dokter</button>
+                                    </form>
                                 </div>
                             </div>
-                            {{-- laboratorium --}}
-                            <div class="card card-info mb-1">
-                                <a class="card-header" data-toggle="collapse" data-parent="#accordion" href="#collLab">
-                                    <h3 class="card-title">
-                                        E-Laboratorium
-                                    </h3>
-                                </a>
-                                <div id="collLab" class="collapse" role="tabpanel" aria-labelledby="headLab">
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <x-adminlte-textarea igroup-size="sm" rows=4 label="Catatan Laboratorium"
-                                                    name="catatan_lab" placeholder="Catatan Laboratorium">
-                                                    {{ $kunjungan->asesmendokter->catatan_lab ?? null }}
-                                                </x-adminlte-textarea>
-                                            </div>
-                                        </div>
-                                    </div>
+                        </div>
+                        {{-- resep obat --}}
+                        {{-- <div class="card card-info mb-1">
+                            <a class="card-header" data-toggle="collapse" data-parent="#accordion" href="#collResep">
+                                <h3 class="card-title">
+                                    E-Resep
+                                </h3>
+                                <div class="card-tools">
+                                    @if ($antrian->resepobat)
+                                        Sudah Diresepkan Dengan Kode
+                                        {{ $antrian->resepobat->kode }}
+                                        {{ $antrian->resepobat->waktu }}
+                                        <i class="fas fa-check-circle"></i>
+                                    @else
+                                        Tidak Diresepkan <i class="fas fa-times-circle"></i>
+                                    @endif
                                 </div>
-                            </div>
-                            {{-- radiologi --}}
-                            <div class="card card-info mb-1">
-                                <a class="card-header" data-toggle="collapse" data-parent="#accordion" href="#collRad">
-                                    <h3 class="card-title">
-                                        E-Radiologi
-                                    </h3>
-                                </a>
-                                <div id="collRad" class="collapse" role="tabpanel" aria-labelledby="headRad">
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <x-adminlte-textarea igroup-size="sm" rows=4 label="Catatan Radiologi"
-                                                    name="catatan_rad" placeholder="Catatan Radiologi">
-                                                    {{ $kunjungan->asesmendokter->catatan_rad ?? null }}
-                                                </x-adminlte-textarea>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            {{-- review --}}
-                            <div class="card card-info mb-1">
-                                <a class="card-header" data-toggle="collapse" data-parent="#accordion"
-                                    href="#collResume" aria-expanded="true" aria-controls="collResume">
-                                    <h3 class="card-title">
-                                        Preview Resume
-                                    </h3>
-                                </a>
-                                <div id="collResume" class="collapse" role="tabpanel" aria-labelledby="headRad">
-                                    <div class="card-body">
-                                        @if ($kunjungan)
-                                            @if ($kunjungan->asesmendokter)
-                                                <div id="printMe">
-                                                    @include('form.asesmen_dokter_rajal')
-                                                </div>
-                                            @else
-                                                <x-adminlte-alert title="Belum dilakukan asesmen dokter" theme="danger">
-                                                    Silahkan lakukan asesmen dokter
-                                                </x-adminlte-alert>
+                            </a>
+                            <div id="collResep" class="collapse" role="tabpanel" aria-labelledby="headResep">
+                                <div class="card-body">
+                                    <style>
+                                        .cariObat {
+                                            width: 300px !important;
+                                        }
+                                    </style>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <label class="mb-2">Resep Obat</label>
+                                            <button id="addObatInput" type="button" class="btn btn-xs btn-success mb-2">
+                                                <span class="fas fa-plus">
+                                                </span> Tambah Obat
+                                            </button>
+                                            @if ($antrian->resepobat)
+                                                @foreach ($antrian->resepobat->resepdetail as $itemobat)
+                                                    <div id="row" class="row">
+                                                        <div class="form-group">
+                                                            <div class="input-group input-group-sm">
+                                                                <select name="obat[]" class="form-control cariObat">
+                                                                    <option value="{{ $itemobat->obat_id }}">
+                                                                        {{ $itemobat->nama }}</option>
+                                                                </select>
+                                                                <input type="number" name="jumlah[]"
+                                                                    value="{{ $itemobat->jumlah }}" placeholder="Jumlah"
+                                                                    class="form-control" multiple>
+                                                                <select
+                                                                    name="frekuensi[]"class="form-control frekuensilObat">
+                                                                    <option selected disabled>Interval</option>
+                                                                    <option value="qod"
+                                                                        {{ $itemobat->interval == 'qod' ? 'selected' : null }}>
+                                                                        1 x 1</option>
+                                                                    <option value="dod"
+                                                                        {{ $itemobat->interval == 'dod' ? 'selected' : null }}>
+                                                                        1 x 2</option>
+                                                                    <option value="bid"
+                                                                        {{ $itemobat->interval == 'bid' ? 'selected' : null }}>
+                                                                        2 x 1</option>
+                                                                    <option value="tid"
+                                                                        {{ $itemobat->interval == 'tid' ? 'selected' : null }}>
+                                                                        3 x 1</option>
+                                                                    <option value="qid"
+                                                                        {{ $itemobat->interval == 'qid' ? 'selected' : null }}>
+                                                                        4 x 1</option>
+                                                                    <option value="202"
+                                                                        {{ $itemobat->interval == '202' ? 'selected' : null }}>
+                                                                        2-0-2</option>
+                                                                    <option value="303"
+                                                                        {{ $itemobat->interval == '303' ? 'selected' : null }}>
+                                                                        3-0-3</option>
+                                                                </select>
+                                                                <select name="waktuobat[]" class="form-control waktuObat">
+                                                                    <option selected>Waktu Obat</option>
+                                                                    <option value="pc"
+                                                                        {{ $itemobat->waktu == 'pc' ? 'selected' : null }}>
+                                                                        Setelah Makan</option>
+                                                                    <option value="ac"
+                                                                        {{ $itemobat->waktu == 'ac' ? 'selected' : null }}>
+                                                                        Sebelum Makan</option>
+                                                                    <option value="hs"
+                                                                        {{ $itemobat->waktu == 'hs' ? 'selected' : null }}>
+                                                                        Sebelum Tidur</option>
+                                                                    <option value="int"
+                                                                        {{ $itemobat->waktu == 'int' ? 'selected' : null }}>
+                                                                        Diantara Waktu Makan</option>
+                                                                </select>
+                                                                <input type="text" name="keterangan_obat[]"
+                                                                    value="{{ $itemobat->keterangan }}"
+                                                                    placeholder="Keterangan Obat" class="form-control"
+                                                                    multiple>
+                                                                <button type="button" class="btn btn-xs btn-danger"
+                                                                    id="deleteRowObat"><i class="fas fa-trash "></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                @endforeach
                                             @endif
-                                        @endif
+                                            <div id="rowTindakan" class="row">
+                                                <div class="form-group">
+                                                    <div class="input-group input-group-sm">
+                                                        <select name="obat[]" class="form-control cariObat">
+                                                        </select>
+                                                        <input type="number" name="jumlah[]" placeholder="Jumlah"
+                                                            class="form-control" multiple>
+                                                        <select name="frekuensi[]" class="form-control frekuensilObat">
+                                                            <option selected disabled>Interval</option>
+                                                            <option value="qod">1 x 1</option>
+                                                            <option value="dod">1 x 2</option>
+                                                            <option value="bid">2 x 1</option>
+                                                            <option value="tid">3 x 1</option>
+                                                            <option value="qid">4 x 1</option>
+                                                            <option value="202">2-0-2</option>
+                                                            <option value="303">3-0-3</option>
+                                                        </select>
+                                                        <select name="waktuobat[]" class="form-control waktuObat">
+                                                            <option selected>Waktu Obat</option>
+                                                            <option value="pc">Setelah Makan</option>
+                                                            <option value="ac">Sebelum Makan</option>
+                                                            <option value="hs">Sebelum Tidur</option>
+                                                            <option value="int">Diantara Waktu Makan</option>
+                                                        </select>
+                                                        <input type="text" name="keterangan_obat[]"
+                                                            placeholder="Keterangan Obat" class="form-control" multiple>
+                                                        <button type="button" class="btn btn-xs btn-warning">
+                                                            <i class="fas fa-pills "></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div id="newObat"></div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <x-adminlte-textarea igroup-size="sm" rows=3 label="Resep Obat (Free Text)"
+                                                name="resep_obat" placeholder="Resep Obat (Text)">
+                                                {{ $kunjungan->asesmendokter->resep_obat ?? null }}
+                                            </x-adminlte-textarea>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <x-adminlte-textarea igroup-size="sm" rows=3 label="Catatan Resep"
+                                                name="catatan_resep" placeholder="Catatan Resep">
+                                                {{ $kunjungan->asesmendokter->catatan_resep ?? null }}
+                                            </x-adminlte-textarea>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <button type="submit" class="btn btn-success mb-1 w-100 withLoad">
-                                <i class="fas fa-edit"></i> Simpan & Tanda Tangan Pemeriksaan Dokter</button>
-                        </form>
+                        </div> --}}
+                        {{-- laboratorium --}}
+                        @if ($antrian->kunjungan->layanan)
+                            @if ($antrian->kunjungan->layanan->laboratorium)
+                                @include('sim.tabel_lab')
+                            @endif
+                        @endif
+                        {{-- radiologi --}}
+                        <div class="card card-info mb-1">
+                            <a class="card-header" data-toggle="collapse" data-parent="#accordion" href="#collRad">
+                                <h3 class="card-title">
+                                    E-Radiologi
+                                </h3>
+                            </a>
+                            <div id="collRad" class="collapse" role="tabpanel" aria-labelledby="headRad">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <x-adminlte-textarea igroup-size="sm" rows=4 label="Catatan Radiologi"
+                                                name="catatan_rad" placeholder="Catatan Radiologi">
+                                                {{ $kunjungan->asesmendokter->catatan_rad ?? null }}
+                                            </x-adminlte-textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {{-- review --}}
+                        <div class="card card-info mb-1">
+                            <a class="card-header" data-toggle="collapse" data-parent="#accordion" href="#collResume"
+                                aria-expanded="true" aria-controls="collResume">
+                                <h3 class="card-title">
+                                    Preview Resume
+                                </h3>
+                            </a>
+                            <div id="collResume" class="collapse" role="tabpanel" aria-labelledby="headRad">
+                                <div class="card-body">
+                                    @if ($kunjungan)
+                                        @if ($kunjungan->asesmendokter)
+                                            <div id="printMe">
+                                                @include('form.asesmen_dokter_rajal')
+                                            </div>
+                                        @else
+                                            <x-adminlte-alert title="Belum dilakukan asesmen dokter" theme="danger">
+                                                Silahkan lakukan asesmen dokter
+                                            </x-adminlte-alert>
+                                        @endif
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
                 <div class="card-footer">

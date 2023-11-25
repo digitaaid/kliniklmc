@@ -84,7 +84,7 @@
                     </table>
                     <button type="submit" class="btn btn-success"><i class="fas fa-save"></i> Simpan</button>
                     <a href="{{ route('permintaanlab_hasil_print') }}?kode={{ $permintaan->kode }}"
-                        class="btn btn-warning"><i class="fas fa-print"></i> Print</a>
+                        class="btn btn-warning" target="_blank"><i class="fas fa-print"></i> Print</a>
                 </form>
             </x-adminlte-card>
 

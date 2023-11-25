@@ -7,6 +7,7 @@ use App\Models\AsesmenDokter;
 use App\Models\Dokter;
 use App\Models\Kunjungan;
 use App\Models\Obat;
+use App\Models\PemeriksaanLab;
 use App\Models\ResepObat;
 use App\Models\ResepObatDetail;
 use Illuminate\Http\Request;
@@ -129,6 +130,16 @@ class DokterController extends Controller
                     ->with(['units', 'asesmenperawat', 'asesmendokter', 'files', 'resepobat', 'resepobat.resepdetail'])
                     ->orderBy('tgl_masuk', 'DESC')
                     ->get();
+                $pemeriksaanlab = null;
+                $permintaanlab = null;
+                $hasillab = null;
+                if ($antrian->layanan) {
+                    if ($antrian->layanan->laboratorium) {
+                        $pemeriksaanlab = PemeriksaanLab::get();
+                        $permintaanlab = $antrian->permintaan_lab;
+                        $hasillab = $permintaanlab ?  $permintaanlab->hasillab : null;
+                    }
+                }
                 return view('sim.antrian_poliklinik_proses', compact([
                     'request',
                     'antrian',
@@ -136,6 +147,9 @@ class DokterController extends Controller
                     'messageicare',
                     'kunjungan',
                     'kunjungans',
+                    'pemeriksaanlab',
+                    'permintaanlab',
+                    'hasillab',
                 ]));
             } catch (\Throwable $th) {
                 Alert::error('Mohon Maaf', $th->getMessage());
@@ -243,16 +257,15 @@ class DokterController extends Controller
                 $request['user3'] = Auth::user()->id;
                 $api = new AntrianController();
                 $res = $api->update_antrean($request);
+                $antrian->update([
+                    'taskid' => '7',
+                    'user3' => Auth::user()->id,
+                    'keterangan' => "Pasien pasien sudah selesai pelayanan.",
+                ]);
                 if ($res->metadata->code == 200) {
-                    $antrian->update([
-                        'taskid' => '7',
-                        'user3' => Auth::user()->id,
-                        'keterangan' => "Pasien pasien sudah selesai pelayanan.",
-                    ]);
                     Alert::success('Success', 'Antrian selesai di Poliklinik.');
                 } else {
                     Alert::error('Gagal', $res->metadata->message);
-                    return redirect()->back();
                 }
             }
         } catch (\Throwable $th) {
@@ -279,11 +292,11 @@ class DokterController extends Controller
             // $res_farmasi = $api->tambah_antrean_farmasi($request);
             // }
             Alert::success('Success', $res->metadata->message);
+            $url = route('antrianpoliklinik') . "?tanggalperiksa=" . $antrian->tanggalperiksa;
+            return redirect()->to($url);
         } catch (\Throwable $th) {
             Alert::error('Gagal', $th->getMessage());
             return redirect()->back();
         }
-        $url = route('antrianpoliklinik') . "?tanggalperiksa=" . $antrian->tanggalperiksa;
-        return redirect()->to($url);
     }
 }

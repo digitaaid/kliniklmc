@@ -166,9 +166,13 @@ class PendaftaranController extends APIController
             $polikliniks = Unit::where('status', '1')->pluck('nama', 'kode');
             $jaminans = Jaminan::pluck('nama', 'kode');
             $pemeriksaanlab = null;
+            $permintaanlab = null;
+            $hasillab = null;
             if ($antrian->layanan) {
                 if ($antrian->layanan->laboratorium) {
                     $pemeriksaanlab = PemeriksaanLab::get();
+                    $permintaanlab = $antrian->permintaan_lab;
+                    $hasillab = $permintaanlab ?  $permintaanlab->hasillab : null;
                 }
             }
             return view('sim.antrian_pendaftaran_proses', compact([
@@ -179,6 +183,8 @@ class PendaftaranController extends APIController
                 'kunjungans',
                 'polikliniks',
                 'pemeriksaanlab',
+                'permintaanlab',
+                'hasillab',
             ]));
         } else {
             Alert::error('Mohon Maaf', 'Antrian tidak ditemukan');
@@ -385,13 +391,15 @@ class PendaftaranController extends APIController
             ],
             $request->all()
         );
-        // hapus obat jika tidak diresepkan
+        // hapus layanan jika tidak diresepkan
         if ($layanan->layanandetails) {
             foreach ($layanan->layanandetails as  $layanandetail) {
                 $ada = 0;
-                foreach ($request->layanan as $key => $layananid) {
-                    if ($layanandetail->tarif_id == $layananid) {
-                        $ada = 1;
+                if ($request->layanan) {
+                    foreach ($request->layanan as $key => $layananid) {
+                        if ($layanandetail->tarif_id == $layananid) {
+                            $ada = 1;
+                        }
                     }
                 }
                 if ($ada == 0) {

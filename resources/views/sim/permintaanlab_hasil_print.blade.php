@@ -104,8 +104,6 @@
                             <br><br><br>
                             <hr>
                         </div>
-                        <div class="col-sm-2 mt-1">
-                        </div>
                     </div>
                 </section>
             </div>

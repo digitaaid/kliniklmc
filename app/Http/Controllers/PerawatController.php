@@ -58,9 +58,14 @@ class PerawatController extends Controller
             if (empty($antrian->asesmenperawat)) {
                 Alert::info('Informasi', 'Silahkan Lakukan Assemen Keperawatan.');
             }
+            $pemeriksaanlab = null;
+            $permintaanlab = null;
+            $hasillab = null;
             if ($antrian->layanan) {
                 if ($antrian->layanan->laboratorium) {
                     $pemeriksaanlab = PemeriksaanLab::get();
+                    $permintaanlab = $antrian->permintaan_lab;
+                    $hasillab = $permintaanlab ?  $permintaanlab->hasillab : null;
                 }
             }
             return view('sim.antrian_perawat_proses', compact([
@@ -68,9 +73,11 @@ class PerawatController extends Controller
                 'antrian',
                 'urlicare',
                 'messageicare',
-                'pemeriksaanlab',
                 'kunjungans',
                 'kunjungan',
+                'pemeriksaanlab',
+                'permintaanlab',
+                'hasillab',
             ]));
         } else {
             Alert::error('Mohon Maaf', 'Antrian tidak ditemukan');

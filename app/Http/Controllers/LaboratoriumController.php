@@ -90,7 +90,7 @@ class LaboratoriumController extends Controller
             $request->all()
         );
         Alert::success('Success', 'Hasil Laboratorium disimpan');
-        return redirect()->back();
+        return redirect()->route('permintaanlab_index');
     }
     public function permintaanlab_hasil_print(Request $request)
     {

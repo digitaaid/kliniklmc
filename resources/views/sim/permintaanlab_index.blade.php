@@ -54,6 +54,10 @@
                                 <td>
                                     <a href="{{ route('permintaanlab_proses') }}?kode={{ $item->kode }}"
                                         class="btn btn-xs btn-primary"><i class="fas fa-vials"></i> Proses</a>
+                                    @if ($item->hasillab)
+                                        <a href="{{ route('permintaanlab_hasil_print') }}?kode={{ $item->kode }}"
+                                            class="btn btn-xs btn-warning" target="_blank"><i class="fas fa-print"></i> Print</a>
+                                    @endif
                                 </td>
                             </tr>
                         @endforeach
