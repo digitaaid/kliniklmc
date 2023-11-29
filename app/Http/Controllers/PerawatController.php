@@ -40,16 +40,16 @@ class PerawatController extends Controller
         $messageicare = null;
         if ($antrian) {
             // icare
-            $api = new IcareController();
-            $request['nomorkartu'] = $antrian->nomorkartu;
-            $request['kodedokter'] = $antrian->kodedokter;
-            $res =  $api->icare($request);
-            if ($res->metadata->code == 200) {
-                $urlicare = $res->response->url;
-                $messageicare = 'ok';
-            } else {
-                $messageicare = $res->metadata->message;
-            }
+            // $api = new IcareController();
+            // $request['nomorkartu'] = $antrian->nomorkartu;
+            // $request['kodedokter'] = $antrian->kodedokter;
+            // $res =  $api->icare($request);
+            // if ($res->metadata->code == 200) {
+            //     $urlicare = $res->response->url;
+            //     $messageicare = 'ok';
+            // } else {
+            //     $messageicare = $res->metadata->message;
+            // }
             $kunjungan = $antrian->kunjungan;
             $kunjungans = Kunjungan::where('norm', $antrian->norm)
                 ->with(['units', 'asesmenperawat', 'asesmendokter', 'files', 'resepobat', 'resepobat.resepdetail'])
