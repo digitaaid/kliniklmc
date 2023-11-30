@@ -70,21 +70,43 @@
             </x-adminlte-card>
         </div>
     </div>
-    <x-adminlte-modal id="modalEdit" title="File Upload" theme="warning" icon="fas fa-user-plus">
-        <form name="formFile" id="formFile" method="POST">
+    <x-adminlte-modal id="modalEdit" title="File Upload" size="xl" theme="warning" icon="fas fa-user-plus">
+        <form name="formFile" id="formFile" method="POST" enctype="multipart/form-data">
             @csrf
             <input type="hidden" name="id" id="id">
             <input type="hidden" name="_method" id="method">
-            <x-adminlte-input name="nama" placeholder="Nama File" label="Nama File" />
-            <x-adminlte-input name="norm" placeholder="No RM" label="No RM" />
-            <x-adminlte-input name="namapasien" placeholder="Nama Pasien" label="Nama Pasien" />
-            <x-adminlte-input name="label" placeholder="Label" label="Label" />
-            <x-adminlte-input name="fileurl" placeholder="File URL" label="File URL" />
+            <div class="row">
+                <div class="col-md-5">
+                    <x-adminlte-input name="nama" placeholder="Nama File" label="Nama File" />
+                    <x-adminlte-input name="norm" placeholder="No RM" label="No RM" />
+                    <x-adminlte-input name="namapasien" placeholder="Nama Pasien" label="Nama Pasien" />
+                    <x-adminlte-select name="label" label="Label">
+                        <option selected disabled>Pilih Label File</option>
+                        <option value="Lain-lain">Lain-lain</option>
+                        <option value="Laboratorium">Laboratorium</option>
+                        <option value="Radiologi">Radiologi</option>
+                        <option value="Patologi Anatomi">Patologi Anatomi</option>
+                        <option value="Imunohistokimia">Imunohistokimia</option>
+                        <option value="Rawat Jalan">Rawat Jalan</option>
+                        <option value="Rawat Inap">Rawat Inap</option>
+                        <option value="Kemoterapi">Kemoterapi</option>
+                        <option value="Rekam Medis">Rekam Medis</option>
+                    </x-adminlte-select>
+                    <x-adminlte-input-file name="file" placeholder="Pilih file yang akan diupload" igroup-size="sm"
+                        label="Upload File (.pdf)" />
+                </div>
+                <div class="col-md-7">
+                    <iframe id="dataFilePenunjang" src="" height="600px" width="100%"
+                        title="Iframe Example"></iframe>
+                </div>
+            </div>
             <x-slot name="footerSlot">
-                <x-adminlte-button id="btnStore" class="mr-auto" type="submit" icon="fas fa-save" theme="success"
+                <x-adminlte-button id="btnStore" class="" type="submit" icon="fas fa-save" theme="success"
                     label="Simpan" />
-                <x-adminlte-button id="btnUpdate" class="mr-auto" type="submit" icon="fas fa-edit" theme="warning"
+                <x-adminlte-button id="btnUpdate" class="" type="submit" icon="fas fa-edit" theme="warning"
                     label="Update" />
+                <a href="" id="urlFilePenunjang" target="_blank" class="btn btn-primary mr-auto">
+                    <i class="fas fa-download "></i>Download</a>
                 <x-adminlte-button theme="danger" icon="fas fa-times" label="Kembali" data-dismiss="modal" />
             </x-slot>
         </form>
@@ -92,15 +114,6 @@
             @csrf
             @method('DELETE')
         </form>
-    </x-adminlte-modal>
-    <x-adminlte-modal id="modalFilePenunjang" name="modalFilePenunjang" title="File Penunjang" theme="success"
-        icon="fas fa-file-medical" size="xl">
-        <iframe id="dataFilePenunjang" src="" height="600px" width="100%" title="Iframe Example"></iframe>
-        <x-slot name="footerSlot">
-            <a href="" id="urlFilePenunjang" target="_blank" class="btn btn-primary mr-auto">
-                <i class="fas fa-download "></i>Download</a>
-            <x-adminlte-button theme="danger" label="Dismiss" data-dismiss="modal" />
-        </x-slot>
     </x-adminlte-modal>
     {{-- <x-adminlte-modal id="modalUser" title="User" icon="fas fa-user" theme="success" v-centered static-backdrop>
         <form action="" id="formUser" method="POST">
@@ -137,6 +150,8 @@
 @section('plugins.Select2', true)
 @section('plugins.Datatables', true)
 @section('plugins.Sweetalert2', true)
+@section('plugins.BsCustomFileInput', true)
+
 @section('js')
     <script>
         $(function() {
@@ -152,6 +167,8 @@
                 $('#namapasien').val($(this).data("namapasien"));
                 $('#label').val($(this).data("label"));
                 $('#fileurl').val($(this).data("fileurl"));
+                $('#dataFilePenunjang').attr('src', $(this).data('fileurl'));
+                $('#urlFilePenunjang').attr('href', $(this).data('fileurl'));
                 $('#modalEdit').modal('show');
                 $.LoadingOverlay("hide");
             });
