@@ -11,15 +11,19 @@
         <div class="col-12">
             <x-adminlte-card title="Data File Upload" theme="primary" icon="fas fa-info-circle" collapsible>
                 @php
-                    $heads = ['Id', 'Tgl Upload', 'Pasien', 'Nama File', 'Label', 'Action'];
+                    $heads = ['Id', 'Tgl Upload', 'Pasien', 'Nama File', 'Kode Booking', 'Kode Kunjungan', 'Label', 'Action'];
+                    $config['paging'] = false;
+                    $config['scrollY'] = '500px';
                 @endphp
-                <x-adminlte-datatable id="table2" :heads="$heads" bordered hoverable compressed>
+                <x-adminlte-datatable id="table2" :heads="$heads" :config="$config" bordered hoverable compressed>
                     @foreach ($fileuploads as $item)
                         <tr>
                             <td>{{ $item->id }}</td>
                             <td>{{ $item->created_at }}</td>
                             <td>{{ $item->norm }} {{ $item->namapasien }}</td>
                             <td>{{ $item->nama }}</td>
+                            <td>{{ $item->kodebooking }}</td>
+                            <td>{{ $item->kodekunjungan }}</td>
                             <td>{{ $item->label }}</td>
                             <td>
                                 <x-adminlte-button class="btn-xs btnEdit" theme="warning" label="Edit" icon="fas fa-edit"

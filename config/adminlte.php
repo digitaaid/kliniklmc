@@ -437,7 +437,7 @@ return [
                     'text' => 'Berkas Upload',
                     'icon'    => 'fas fa-file',
                     'url'  => 'fileupload',
-                    'can' => 'farmasi',
+                    'can' => ['pendaftaran', 'perawat', 'dokter', 'rekammedis'],
                     'shift'   => 'ml-2',
                 ],
                 [
