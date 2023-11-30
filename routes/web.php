@@ -7,6 +7,7 @@ use App\Http\Controllers\DepoController;
 use App\Http\Controllers\DiagnosaController;
 use App\Http\Controllers\DokterController;
 use App\Http\Controllers\FarmasiController;
+use App\Http\Controllers\FileUploadController;
 use App\Http\Controllers\FormController;
 use App\Http\Controllers\GaleriController;
 use App\Http\Controllers\HomeController;
@@ -114,6 +115,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('antrian', AntrianController::class);
     Route::resource('kunjungan', KunjunganController::class);
     Route::resource('suratkontrol', SuratKontrolController::class);
+    Route::resource('fileupload', FileUploadController::class);
     Route::resource('tarif', TarifController::class);
     Route::get('kirimpesanlibur', [JadwalLiburController::class, 'kirimpesanlibur'])->name('kirimpesanlibur');
     // anjungan
@@ -129,6 +131,7 @@ Route::middleware('auth')->group(function () {
     // pendaftaran
     Route::get('antrianpendaftaran', [PendaftaranController::class, 'antrianpendaftaran'])->name('antrianpendaftaran');
     Route::get('prosespendaftaran', [PendaftaranController::class, 'prosespendaftaran'])->name('prosespendaftaran');
+    Route::get('lihatpendaftaran', [PendaftaranController::class, 'lihatpendaftaran'])->name('lihatpendaftaran');
     Route::get('panggilpendaftaran', [PendaftaranController::class, 'panggilpendaftaran'])->name('panggilpendaftaran');
     Route::post('editantrian', [PendaftaranController::class, 'editantrian'])->name('editantrian');
     Route::post('editkunjungan', [PendaftaranController::class, 'editkunjungan'])->name('editkunjungan');

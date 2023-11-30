@@ -1,12 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=80mm, initial-scale=1.0">
     <title>Karcis Antrian</title>
 </head>
-
 <body>
     <div class="ticket">
         <img src="{{ asset('medicio/assets/img/lmc-l.png') }}" width="200px" alt="">
@@ -21,9 +19,9 @@
             Kodebooking <br><b>{{ $antrian->kodebooking }} / {{ $antrian->angkaantrean }}</b>
         </p>
         <p>
-            <b>{{ $antrian->nama }}</b> <br>
             {{ $antrian->jenispasien }}
-            @if ($antrian->nama != 'Pasien Offline')
+            @if ($antrian->method != 'OFFLINE')
+                <b>{{ $antrian->nama }}</b> <br>
                 No RM {{ $antrian->norm }} <br>
                 No BPJS {{ $antrian->nomorkartu }} <br>
             @endif
@@ -37,7 +35,6 @@
             Simpan lembar karcis antrian ini sampai pelayanan berakhir. Terimakasih. <br>
             Semoga selalu diberikan kesembuhan dan kesehatan.
         </p>
-
     </div>
     <script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
     <script>

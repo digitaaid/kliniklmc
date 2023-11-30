@@ -31,10 +31,10 @@ return new class extends Migration
             $table->string('nomorantrean');
             $table->string('angkaantrean');
             $table->string('estimasidilayani')->nullable();
-            $table->integer('sisakuotajkn')->nullable();
-            $table->integer('kuotajkn')->nullable();
-            $table->integer('sisakuotanonjkn')->nullable();
-            $table->integer('kuotanonjkn')->nullable();
+            // $table->integer('sisakuotajkn')->nullable();
+            // $table->integer('kuotajkn')->nullable();
+            // $table->integer('sisakuotanonjkn')->nullable();
+            // $table->integer('kuotanonjkn')->nullable();
             $table->text('keterangan')->nullable();
             $table->text('jenisresep')->nullable();
             $table->text('catatan')->nullable();
@@ -51,6 +51,13 @@ return new class extends Migration
             $table->boolean('panggil')->default(0);
             $table->string('kunjungan_id')->nullable();
             $table->string('kodekunjungan')->nullable();
+            $table->dateTime('taskid1')->nullable();
+            $table->dateTime('taskid2')->nullable();
+            $table->dateTime('taskid3')->nullable();
+            $table->dateTime('taskid4')->nullable();
+            $table->dateTime('taskid5')->nullable();
+            $table->dateTime('taskid5')->nullable();
+            $table->dateTime('taskid7')->nullable();
             $table->string('user1')->nullable();
             $table->string('user2')->nullable();
             $table->string('user3')->nullable();

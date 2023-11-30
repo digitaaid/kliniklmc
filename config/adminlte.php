@@ -348,7 +348,7 @@ return [
                     'icon'    => 'fas fa-users',
                     'shift'   => 'ml-2',
                     'url'  => 'antrianpendaftaran',
-                    'active'  => ['antrianpendaftaran', 'prosespendaftaran'],
+                    'active'  => ['antrianpendaftaran', 'prosespendaftaran', 'lihatpendaftaran'],
                     'can' => 'pendaftaran',
                 ],
                 [
@@ -440,6 +440,13 @@ return [
                     'can' =>  ['pendaftaran', 'bpjs', 'manajemen', 'dokter'],
                     'shift'   => 'ml-2',
 
+                ],
+                [
+                    'text' => 'Berkas Upload',
+                    'icon'    => 'fas fa-file',
+                    'url'  => 'fileupload',
+                    'can' => 'farmasi',
+                    'shift'   => 'ml-2',
                 ],
                 [
                     'text' => 'Obat',

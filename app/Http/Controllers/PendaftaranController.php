@@ -66,16 +66,16 @@ class PendaftaranController extends APIController
     {
         $jadwal = JadwalDokter::find($request->jadwal);
         if ($jadwal) {
-            $request['nomorkartu'] = "0000000000000";
-            $request['nik'] = "0000000000000000";
-            $request['nohp'] = "000000000000";
-            $request['norm'] = "000000";
+            $request['nomorkartu'] = "-";
+            $request['nik'] = "-";
+            $request['nohp'] = "-";
+            $request['norm'] = "-";
             $request['jenispasien'] = $request->jenispasien;
             $request['kodepoli'] = $jadwal->kodesubspesialis;
             $request['namapoli'] = $jadwal->namasubspesialis;
             $request['kodedokter'] = $jadwal->kodedokter;
             $request['namadokter'] = $jadwal->namadokter;
-            $request['nama'] = "Pasien Offline";
+            $request['nama'] = "-";
             $request['jampraktek'] = $jadwal->jadwal;
             $request['jadwal_id'] = $jadwal->id;
             $request['jeniskunjungan'] = "0";
@@ -109,7 +109,7 @@ class PendaftaranController extends APIController
             Alert::success('Success', 'Berhasil cetak karcis antrian dengan nomorantrean ' . $request->nomorantrean);
             try {
                 $wapi = new WhatsappController();
-                $request['message'] = "Berhasil daftar antrian method " . $request->method . ".\nAngka antrian : " . $request->angkaantrean . "\nKodebooking : " . $request->kodebooking .  "\nJenis Pasien : " . $request->jenispasien . "\nNama " . $request->nama . "\nTanggal Periksa " . $request->tanggalperiksa . "\nDokter : " . $request->namadokter . "\nUser : " . Auth::user()->name;
+                $request['message'] = "Berhasil daftar antrian method " . $request->method . ".\nAngka antrian : " . $request->angkaantrean . "\nKodebooking : " . $request->kodebooking .  "\nJenis Pasien : " . $request->jenispasien . "\nTanggal Periksa " . $request->tanggalperiksa . "\nDokter : " . $request->namadokter . "\nUser : " . Auth::user()->name;
                 $request['number'] = "120363170262520539";
                 $wapi->send_message_group($request);
             } catch (\Throwable $th) {
@@ -150,18 +150,16 @@ class PendaftaranController extends APIController
     }
     public function prosespendaftaran(Request $request)
     {
-        $antrian = Antrian::with(['suratkontrols', 'kunjungan', 'fileuploads', 'pasien'])->where('kodebooking', $request->kodebooking)->first();
+        $antrian = Antrian::with(['kunjungan','pasien'])->where('kodebooking', $request->kodebooking)->first();
         if ($antrian) {
             if ($antrian->taskid == 1) {
                 $antrian->update([
                     'taskid' => 2,
+                    'taskid1' => now(),
                 ]);
-                Alert::success('Success', 'Antrian dipanggil ke pendaftaran.');
+                Alert::success('Success', 'Antrian diproses ke pendaftaran.');
             }
-            $kunjungans = Kunjungan::where('norm', $antrian->norm)
-                ->with(['units', 'asesmenperawat', 'asesmendokter', 'files', 'resepobat', 'resepobat.resepdetail'])
-                ->orderBy('tgl_masuk', 'DESC')
-                ->get();
+            // dd(gmdate('H:i:s', now()->diffInSeconds($antrian->taskid1)));
             $dokters = Dokter::where('status', '1')->pluck('namadokter', 'kodedokter');
             $polikliniks = Unit::where('status', '1')->pluck('nama', 'kode');
             $jaminans = Jaminan::pluck('nama', 'kode');
@@ -180,7 +178,39 @@ class PendaftaranController extends APIController
                 'antrian',
                 'dokters',
                 'jaminans',
-                'kunjungans',
+                'polikliniks',
+                'pemeriksaanlab',
+                'permintaanlab',
+                'hasillab',
+            ]));
+        } else {
+            Alert::error('Mohon Maaf', 'Antrian tidak ditemukan');
+            $url = route('antrianpendaftaran') . "?tanggalperiksa=" . now()->format("Y-m-d");
+            return redirect()->to($url);
+        }
+    }
+    public function lihatpendaftaran(Request $request)
+    {
+        $antrian = Antrian::with(['kunjungan','pasien'])->where('kodebooking', $request->kodebooking)->first();
+        if ($antrian) {
+            $dokters = Dokter::where('status', '1')->pluck('namadokter', 'kodedokter');
+            $polikliniks = Unit::where('status', '1')->pluck('nama', 'kode');
+            $jaminans = Jaminan::pluck('nama', 'kode');
+            $pemeriksaanlab = null;
+            $permintaanlab = null;
+            $hasillab = null;
+            if ($antrian->layanan) {
+                if ($antrian->layanan->laboratorium) {
+                    $pemeriksaanlab = PemeriksaanLab::get();
+                    $permintaanlab = $antrian->permintaan_lab;
+                    $hasillab = $permintaanlab ?  $permintaanlab->hasillab : null;
+                }
+            }
+            return view('sim.antrian_pendaftaran_proses', compact([
+                'request',
+                'antrian',
+                'dokters',
+                'jaminans',
                 'polikliniks',
                 'pemeriksaanlab',
                 'permintaanlab',
@@ -458,7 +488,8 @@ class PendaftaranController extends APIController
         } else {
             Alert::error('Mohon Maaf', 'Antrian tidak ditemukan.');
         }
-        return redirect()->back();
+        $url = route('antrianpendaftaran') . "?tanggalperiksa=" . $antrian->tanggalperiksa;
+        return redirect()->to($url);
     }
     function tidakjadibatal(Request $request)
     {

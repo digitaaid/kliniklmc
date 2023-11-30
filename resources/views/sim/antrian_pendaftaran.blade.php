@@ -53,8 +53,8 @@
                 </div>
                 <x-adminlte-card title="Data Antrian Pendaftaran" theme="warning" icon="fas fa-info-circle" collapsible>
                     @php
-                        $heads = ['No', 'Kodebooking', 'Pasien', 'Kartu BPJS', 'Unit / Dokter', 'Jenis Pasien', 'Method', 'Status', 'Action'];
-                        $config['order'] = [7, 'asc'];
+                        $heads = ['No', 'Kodebooking', 'Action', 'Pasien', 'Kartu BPJS', 'Unit / Dokter', 'Jenis Pasien', 'Method', 'Status'];
+                        $config['order'] = [8, 'asc'];
                         $config['paging'] = false;
                         $config['scrollY'] = '300px';
                     @endphp
@@ -64,6 +64,26 @@
                             <tr>
                                 <td>{{ $item->angkaantrean }}</td>
                                 <td>{{ $item->kodebooking }}</td>
+                                <td>
+                                    @switch($item->taskid)
+                                        @case(1)
+                                            <a href="{{ route('prosespendaftaran') }}?kodebooking={{ $item->kodebooking }}"
+                                                class="btn btn-xs btn-warning withLoad">Proses</a>
+                                            <a href="{{ route('lihatpendaftaran') }}?kodebooking={{ $item->kodebooking }}"
+                                                class="btn btn-xs btn-secondary withLoad">Lihat</a>
+                                        @break
+
+                                        @case(2)
+                                            <a href="{{ route('lihatpendaftaran') }}?kodebooking={{ $item->kodebooking }}"
+                                                class="btn btn-xs btn-primary withLoad">Proses</a>
+                                        @break
+
+                                        @default
+                                            <a href="{{ route('lihatpendaftaran') }}?kodebooking={{ $item->kodebooking }}"
+                                                class="btn btn-xs btn-secondary withLoad">Lihat</a>
+                                    @endswitch
+
+                                </td>
                                 <td>{{ $item->norm }} {{ $item->nama }}</td>
                                 <td>{{ $item->nomorkartu }}</td>
                                 <td>{{ $item->kodepoli }} / {{ $item->namadokter }}</td>
@@ -111,23 +131,6 @@
 
                                         @default
                                             {{ $item->taskid }}
-                                    @endswitch
-                                </td>
-                                <td>
-                                    @switch($item->taskid)
-                                        @case(1)
-                                            <a href="{{ route('prosespendaftaran') }}?kodebooking={{ $item->kodebooking }}"
-                                                class="btn btn-xs btn-warning withLoad">Proses</a>
-                                        @break
-
-                                        @case(2)
-                                            <a href="{{ route('prosespendaftaran') }}?kodebooking={{ $item->kodebooking }}"
-                                                class="btn btn-xs btn-primary withLoad">Proses</a>
-                                        @break
-
-                                        @default
-                                            <a href="{{ route('prosespendaftaran') }}?kodebooking={{ $item->kodebooking }}"
-                                                class="btn btn-xs btn-secondary withLoad">Lihat</a>
                                     @endswitch
                                 </td>
                             </tr>
