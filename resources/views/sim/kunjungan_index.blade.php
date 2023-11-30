@@ -30,28 +30,31 @@
         </div>
         @if (isset($kunjungans))
             <div class="col-md-12">
-                {{-- <div class="row">
-                    <div class="col-md-3">
-                        <x-adminlte-small-box
-                            title="{{ $antrians->where('taskid', 2)->first()->nomorantrean ?? 'Belum Panggil' }}"
-                            text="Antrian Dilayani" theme="primary" icon="fas fa-user-injured"
-                            url="{{ route('prosespendaftaran') }}?kodebooking={{ $antrians->where('taskid', 1)->first()->kodebooking ?? '00' }}"
-                            url-text="Proses Antrian Selanjutnya" />
-                    </div>
-                    <div class="col-md-3">
-                        <x-adminlte-small-box title="{{ $antrians->where('taskid', 1)->count() }}" text="Sisa Antrian"
-                            theme="warning" icon="fas fa-user-injured" />
-                    </div>
-                    <div class="col-md-3">
-                        <x-adminlte-small-box title="{{ $antrians->where('taskid', '!=', 99)->count() }}"
-                            text="Total Antrian" theme="success" icon="fas fa-user-injured" />
-                    </div>
-                    <div class="col-md-3">
-                        <x-adminlte-small-box title="{{ $antrians->where('taskid', 99)->count() }}" text="Batal Antrian"
-                            theme="danger" icon="fas fa-user-injured" />
-                    </div>
-                </div> --}}
                 <x-adminlte-card title="Data Kunjungan Pasien" theme="warning" icon="fas fa-info-circle" collapsible>
+                    <div class="row">
+                        <div class="col-md-8">
+                            {{-- <x-adminlte-button id="btnTambah" class="btn-sm" theme="success" label="Tambah Pasien"
+                                icon="fas fa-plus" />
+                            <a href="{{ route('pasienexport') }}" class="btn btn-sm btn-primary"><i class="fas fa-print"></i>
+                                Export</a>
+                            <div class="btn btn-sm btn-primary btnModalImport"><i class="fas fa-file-medical"></i> Import</div> --}}
+                        </div>
+                        <div class="col-md-4">
+                            <form action="" method="get">
+                                <x-adminlte-input name="search" placeholder="Pencarian Kunjungan" igroup-size="sm"
+                                    value="{{ $request->search }}">
+                                    <x-slot name="appendSlot">
+                                        <x-adminlte-button type="submit" theme="outline-primary" label="Cari" />
+                                    </x-slot>
+                                    <x-slot name="prependSlot">
+                                        <div class="input-group-text text-primary">
+                                            <i class="fas fa-search"></i>
+                                        </div>
+                                    </x-slot>
+                                </x-adminlte-input>
+                            </form>
+                        </div>
+                    </div>
                     @php
                         $heads = ['No', 'Tgl Masuk', 'Kode', 'Pasien', 'Unit', 'Jaminan', 'Jenis Kunjungan', 'SEP', 'Asesmen', 'Resep', 'Status'];
                         $config['order'] = [1, 'asc'];

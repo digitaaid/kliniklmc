@@ -13,7 +13,16 @@ class KunjunganController extends APIController
         if ($request->tgl_masuk) {
             $kunjungans = Kunjungan::whereDate('tgl_masuk', $request->tgl_masuk)->get();
         } else {
-            $kunjungans = Kunjungan::orderby('created_at', 'desc')->simplePaginate(25);
+
+            if ($request->search) {
+                $kunjungans = Kunjungan::orderby('created_at', 'desc')
+                    ->where('norm', 'LIKE', '%' . $request->search . '%')
+                    ->orWhere('nama', 'LIKE', '%' . $request->search . '%')
+                    ->orWhere('kode', 'LIKE', '%' . $request->search . '%')
+                    ->get();
+            } else {
+                $kunjungans = Kunjungan::orderby('created_at', 'desc')->get();
+            }
         }
         return view('sim.kunjungan_index', compact([
             'request',

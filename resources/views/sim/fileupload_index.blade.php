@@ -11,7 +11,7 @@
         <div class="col-12">
             <x-adminlte-card title="Data File Upload" theme="primary" icon="fas fa-info-circle" collapsible>
                 @php
-                    $heads = ['Id', 'Tgl Upload', 'Pasien', 'Nama File', 'Kode Booking', 'Kode Kunjungan', 'Label', 'Action'];
+                    $heads = ['Id', 'Tgl Upload', 'No RM', 'Pasien', 'Nama File', 'Kode Booking', 'Kode Kunjungan', 'Label', 'Action'];
                     $config['paging'] = false;
                     $config['scrollY'] = '500px';
                 @endphp
@@ -20,7 +20,8 @@
                         <tr>
                             <td>{{ $item->id }}</td>
                             <td>{{ $item->created_at }}</td>
-                            <td>{{ $item->norm }} {{ $item->namapasien }}</td>
+                            <td>{{ $item->norm }}</td>
+                            <td>{{ $item->namapasien }}</td>
                             <td>{{ $item->nama }}</td>
                             <td>{{ $item->kodebooking }}</td>
                             <td>{{ $item->kodekunjungan }}</td>
@@ -31,45 +32,9 @@
                                     data-nama="{{ $item->nama }}" data-namapasien="{{ $item->namapasien }}"
                                     data-norm="{{ $item->norm }}" data-label="{{ $item->label }}"
                                     data-fileurl="{{ $item->fileurl }}" />
-                                <x-adminlte-button class="btn-xs btnFilePenunjang" theme="primary" label="Lihat"
-                                    icon="fas fa-file" title="Lihat File {{ $item->nama }}"
-                                    data-id="{{ $item->id }}" data-nama="{{ $item->nama }}"
-                                    data-namapasien="{{ $item->namapasien }}" data-norm="{{ $item->norm }}"
-                                    data-label="{{ $item->label }}" data-fileurl="{{ $item->fileurl }}" />
                             </td>
                         </tr>
                     @endforeach
-                    {{-- @foreach ($dokter as $item)
-                        <tr>
-                            <td>{{ $item->id }}</td>
-                            <td>{{ $item->kodedokter }}</td>
-                            <td>{{ $item->namadokter }}</td>
-                            <td>{{ $item->gender }}</td>
-                            <td>{{ $item->subtitle }}</td>
-                            <td>{{ $item->sip }}</td>
-                            <td>{{ $item->kodejkn }}</td>
-                            <td>
-                                @if ($item->status)
-                                    <span class="badge badge-success">Aktif</span>
-                                @else
-                                    <span class="badge badge-danger">Non-Aktif</span>
-                                @endif
-                            </td>
-                            <td>
-                                <x-adminlte-button class="btn-xs btnEdit" theme="warning" label="Edit" icon="fas fa-edit"
-                                    title="Edit Dokter {{ $item->namadokter }}" data-id="{{ $item->id }}"
-                                    data-namadokter="{{ $item->namadokter }}" data-kodedokter="{{ $item->kodedokter }}"
-                                    data-subtitle="{{ $item->subtitle }}" data-gender="{{ $item->gender }}"
-                                    data-sip="{{ $item->sip }}" data-kodejkn="{{ $item->kodejkn }}" />
-                                <x-adminlte-button class="btn-xs btnDelete" theme="danger" icon="fas fa-trash-alt"
-                                    title="Non-Aktifkan Pasien {{ $item->namadokter }} " data-id="{{ $item->id }}"
-                                    data-name="{{ $item->namadokter }}" />
-                                <x-adminlte-button class="btn-xs" theme="secondary" label="PIC"
-                                    icon="fas fa-user"
-                                    title="PIC {{ $item->pic ? $item->pic->name : $item->user }} {{ $item->updated_at }}" />
-                            </td>
-                        </tr>
-                    @endforeach --}}
                 </x-adminlte-datatable>
             </x-adminlte-card>
         </div>
@@ -94,6 +59,8 @@
                         <option value="Rawat Jalan">Rawat Jalan</option>
                         <option value="Rawat Inap">Rawat Inap</option>
                         <option value="Kemoterapi">Kemoterapi</option>
+                        <option value="USG">USG</option>
+                        <option value="Echocardiography">Echocardiography</option>
                         <option value="Rekam Medis">Rekam Medis</option>
                     </x-adminlte-select>
                     <x-adminlte-input-file name="file" placeholder="Pilih file yang akan diupload" igroup-size="sm"
@@ -203,15 +170,6 @@
                         $('#formDelete').submit();
                     }
                 })
-            });
-        });
-    </script>
-    <script>
-        $(function() {
-            $('.btnFilePenunjang').click(function() {
-                $('#dataFilePenunjang').attr('src', $(this).data('fileurl'));
-                $('#urlFilePenunjang').attr('href', $(this).data('fileurl'));
-                $('#modalFilePenunjang').modal('show');
             });
         });
     </script>
