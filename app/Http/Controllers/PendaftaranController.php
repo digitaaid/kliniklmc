@@ -66,16 +66,16 @@ class PendaftaranController extends APIController
     {
         $jadwal = JadwalDokter::find($request->jadwal);
         if ($jadwal) {
-            $request['nomorkartu'] = "-";
-            $request['nik'] = "-";
-            $request['nohp'] = "-";
-            $request['norm'] = "-";
+            $request['nomorkartu'] = "";
+            $request['nik'] = "";
+            $request['nohp'] = "";
+            $request['norm'] = "";
             $request['jenispasien'] = $request->jenispasien;
             $request['kodepoli'] = $jadwal->kodesubspesialis;
             $request['namapoli'] = $jadwal->namasubspesialis;
             $request['kodedokter'] = $jadwal->kodedokter;
             $request['namadokter'] = $jadwal->namadokter;
-            $request['nama'] = "-";
+            $request['nama'] = "";
             $request['jampraktek'] = $jadwal->jadwal;
             $request['jadwal_id'] = $jadwal->id;
             $request['jeniskunjungan'] = "0";

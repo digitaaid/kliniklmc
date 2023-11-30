@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Antrian;
+use App\Models\Kunjungan;
 use App\Models\Sep;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -112,5 +115,42 @@ class SepController extends Controller
             Alert::error('Gagal', $res->metadata->message);
             return redirect()->back();
         }
+    }
+    public function laporansep(Request $request)
+    {
+        $antrians = null;
+        if ($request->tanggal) {
+            $tanggal = explode('-', $request->tanggal);
+            $request['tanggalawal'] = Carbon::parse($tanggal[0])->format('Y-m-d');
+            $request['tanggalakhir'] = Carbon::parse($tanggal[1])->format('Y-m-d');
+            $antrians = Antrian::whereBetween('tanggalperiksa', [$request->tanggalawal, $request->tanggalakhir])
+                ->where('jenispasien', 'JKN')
+                ->get();
+        }
+        return view('sim.laporan_sep', compact([
+            'request',
+            'antrians',
+        ]));
+    }
+    public function pdflaporansep(Request $request)
+    {
+        $antrians = null;
+        if ($request->tanggal) {
+            $tanggal = explode('-', $request->tanggal);
+            $request['tanggalawal'] = Carbon::parse($tanggal[0])->format('Y-m-d');
+            $request['tanggalakhir'] = Carbon::parse($tanggal[1])->format('Y-m-d');
+            $antrians = Antrian::whereBetween('tanggalperiksa', [$request->tanggalawal, $request->tanggalakhir])
+                ->where('jenispasien', 'JKN')
+                ->get();
+        }
+        // return view('sim.pdf_laporan_sep',compact([
+        //     'request',
+        //     'antrians',
+        // ]));
+        $pdf = Pdf::loadView('sim.pdf_laporan_sep', compact([
+            'request',
+            'antrians',
+        ]));
+        return $pdf->download();
     }
 }

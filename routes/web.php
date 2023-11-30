@@ -233,6 +233,8 @@ Route::middleware('auth')->group(function () {
     // sep
     Route::get('sep_print', [SepController::class, 'print'])->name('sep_print');
     Route::get('sep_hapus', [SepController::class, 'sep_hapus'])->name('sep_hapus');
+    Route::get('laporansep', [SepController::class, 'laporansep'])->name('laporansep');
+    Route::get('pdflaporansep', [SepController::class, 'pdflaporansep'])->name('pdflaporansep');
     // suratkontrol
     Route::get('suratkontrol_print', [SuratKontrolController::class, 'print'])->name('suratkontrol_print');
     Route::get('suratkontrol_hapus', [SuratKontrolController::class, 'suratkontrol_hapus'])->name('suratkontrol_hapus');

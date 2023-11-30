@@ -29,6 +29,7 @@
         <p>
             {{ $antrian->namapoli }} <br>
             {{ $antrian->namadokter }} <br>
+            {{ $antrian->jampraktek }} <br>
         </p>
         <hr>
         <p style="line-height:12px;font-size: 10px;">

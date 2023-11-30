@@ -72,8 +72,14 @@
                         icon="fas fa-search" />
                     <x-adminlte-button class="btn-xs" theme="warning" label="Riwayat Kunjungan"
                         icon="fas fa-user-injured" />
-                    <x-adminlte-button class="btn-xs" theme="warning" label="SEP" icon="fas fa-file-medical" />
-                    <x-adminlte-button class="btn-xs" theme="warning" label="Surat Kontrol" icon="fas fa-file-medical" />
+                    <x-adminlte-button class="btn-xs btnCariRujukanFKTP" theme="warning" label="Rujukan FKTP"
+                        icon="fas fa-file-medical" />
+                    <x-adminlte-button class="btn-xs btnCariRujukanRS" theme="warning" label="Rujukan RS"
+                        icon="fas fa-file-medical" />
+                    <x-adminlte-button class="btn-xs btnCariSEP" theme="warning" label="SEP"
+                        icon="fas fa-file-medical" />
+                    <x-adminlte-button class="btn-xs btnCariSuratKontrol" theme="warning" label="Surat Kontrol"
+                        icon="fas fa-file-medical" />
                     <x-adminlte-button class="btn-xs" theme="warning" label="Berkas Upload" icon="fas fa-file-medical" />
                 </x-slot>
             </x-adminlte-card>
@@ -749,6 +755,118 @@
                     }
                 });
             });
+            $('.btnCariRujukanRS').click(function() {
+                $.LoadingOverlay("show");
+                var asalRujukan = $("#asalRujukan").find(":selected").val();
+                var nomorkartu = $(".nomorkartu-id").val();
+                $('#modalRujukan').modal('show');
+                var table = $('#tableRujukan').DataTable();
+                table.rows().remove().draw();
+                var url = "{{ route('rujukan_rs_peserta') }}?nomorkartu=" + nomorkartu;
+                $.ajax({
+                    url: url,
+                    type: "GET",
+                    dataType: 'json',
+                    success: function(data) {
+                        if (data.metadata.code == 200) {
+                            $.each(data.response.rujukan, function(key, value) {
+                                table.row.add([
+                                    value.tglKunjungan,
+                                    value.noKunjungan,
+                                    value.provPerujuk.nama,
+                                    value.peserta.nama,
+                                    value.pelayanan.nama,
+                                    value.poliRujukan.nama,
+                                    "<button class='btnPilihRujukan btn btn-success btn-xs' data-id=" +
+                                    value.noKunjungan +
+                                    " data-kelas=" + value.peserta.hakKelas
+                                    .kode +
+                                    " data-tglrujukan=" + value.tglKunjungan +
+                                    " data-ppkrujukan=" + value.provPerujuk
+                                    .kode +
+                                    " >Pilih</button>",
+                                ]).draw(false);
+                            });
+                            $('.btnPilihRujukan').click(function() {
+                                $.LoadingOverlay("show");
+                                $('#ppkrujukan').val($(this).data('ppkrujukan'));
+                                $('.noRujukan-id').val($(this).data('id'));
+                                $('#klsRawatHak').val($(this).data('kelas')).change();
+                                $('#tglrujukan').val($(this).data('tglrujukan'));
+                                $('#modalRujukan').modal('hide');
+                                $.LoadingOverlay("hide");
+                            });
+                        } else {
+                            Swal.fire(
+                                'Error ' + data.metadata.code,
+                                data.metadata.message,
+                                'error'
+                            );
+                        }
+                        $.LoadingOverlay("hide");
+                    },
+                    error: function(data) {
+                        alert('Error');
+                        $.LoadingOverlay("hide");
+                    }
+                });
+            });
+            $('.btnCariRujukanFKTP').click(function() {
+                $.LoadingOverlay("show");
+                var asalRujukan = $("#asalRujukan").find(":selected").val();
+                var nomorkartu = $(".nomorkartu-id").val();
+                $('#modalRujukan').modal('show');
+                var table = $('#tableRujukan').DataTable();
+                table.rows().remove().draw();
+                var url = "{{ route('rujukan_peserta') }}?nomorkartu=" + nomorkartu;
+                $.ajax({
+                    url: url,
+                    type: "GET",
+                    dataType: 'json',
+                    success: function(data) {
+                        if (data.metadata.code == 200) {
+                            $.each(data.response.rujukan, function(key, value) {
+                                table.row.add([
+                                    value.tglKunjungan,
+                                    value.noKunjungan,
+                                    value.provPerujuk.nama,
+                                    value.peserta.nama,
+                                    value.pelayanan.nama,
+                                    value.poliRujukan.nama,
+                                    "<button class='btnPilihRujukan btn btn-success btn-xs' data-id=" +
+                                    value.noKunjungan +
+                                    " data-kelas=" + value.peserta.hakKelas
+                                    .kode +
+                                    " data-tglrujukan=" + value.tglKunjungan +
+                                    " data-ppkrujukan=" + value.provPerujuk
+                                    .kode +
+                                    " >Pilih</button>",
+                                ]).draw(false);
+                            });
+                            $('.btnPilihRujukan').click(function() {
+                                $.LoadingOverlay("show");
+                                $('#ppkrujukan').val($(this).data('ppkrujukan'));
+                                $('.noRujukan-id').val($(this).data('id'));
+                                $('#klsRawatHak').val($(this).data('kelas')).change();
+                                $('#tglrujukan').val($(this).data('tglrujukan'));
+                                $('#modalRujukan').modal('hide');
+                                $.LoadingOverlay("hide");
+                            });
+                        } else {
+                            Swal.fire(
+                                'Error ' + data.metadata.code,
+                                data.metadata.message,
+                                'error'
+                            );
+                        }
+                        $.LoadingOverlay("hide");
+                    },
+                    error: function(data) {
+                        alert('Error');
+                        $.LoadingOverlay("hide");
+                    }
+                });
+            });
             $('.btnModalPasien').click(function() {
                 $('#modalPasien').modal('show');
             });
@@ -793,6 +911,7 @@
                 table.rows().remove().draw();
                 var url = "{{ route('suratkontrol_peserta') }}?nomorkartu=" + nomorkartu +
                     "&bulan={{ now()->format('m') }}&tahun={{ now()->format('Y') }}&formatfilter=2";
+                alert(url);
                 $.ajax({
                     url: url,
                     type: "GET",
@@ -1007,7 +1126,6 @@
                         $.LoadingOverlay("hide");
                     },
                     error: function(data) {
-                        alert(url);
                         $.LoadingOverlay("hide");
                     }
                 });
@@ -1090,7 +1208,6 @@
                     }
                 });
             });
-
         });
     </script>
     {{-- dynamic layanan input --}}
