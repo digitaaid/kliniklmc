@@ -316,11 +316,10 @@ return [
             'url'         => 'home',
             'icon'        => 'fas fa-home',
         ],
-        // ANTRIAN
+        // PELAYANAN
         [
-            'text'    => 'Aplikasi Antrian',
-            'icon'    => 'fas fa-users',
-            'can' => 'pendaftaran',
+            'text'    => 'Pelayanan',
+            'icon'    => 'fas fa-hand-holding-medical',
             'submenu' => [
                 [
                     'text' => 'Anjungan Antrian',
@@ -336,13 +335,6 @@ return [
                     'shift'   => 'ml-2',
                     'can' => 'pendaftaran',
                 ],
-            ],
-        ],
-        // PENDAFTARAN
-        [
-            'text'    => 'Pelayanan',
-            'icon'    => 'fas fa-hand-holding-medical',
-            'submenu' => [
                 [
                     'text' => 'Antrian Pendaftaran',
                     'icon'    => 'fas fa-users',
@@ -547,7 +539,6 @@ return [
                 ],
             ],
         ],
-
         // ANTRIAN BPJS
         [
             'text'    => 'Integrasi Antrian BPJS',

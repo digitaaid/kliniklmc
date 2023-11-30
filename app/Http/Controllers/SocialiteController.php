@@ -50,7 +50,7 @@ class SocialiteController extends Controller
                 return redirect()->route('login')->withErrors("Mohon maaf, akun anda belum diverifikasi.");
             }
         } catch (\Exception $e) {
-            return redirect()->route('login');
+            return redirect()->route('login')->withErrors("Mohon maaf, " . $e->getMessage());
         }
     }
 }
