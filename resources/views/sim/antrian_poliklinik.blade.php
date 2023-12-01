@@ -51,8 +51,8 @@
                 </div>
                 <x-adminlte-card title="Data Antrian Asesmen Dokter" theme="warning" icon="fas fa-info-circle" collapsible>
                     @php
-                        $heads = ['No', 'Kodebooking', 'Pasien', 'Kartu BPJS', 'Jenis Pasien', 'Unit', 'Dokter', 'Taskid', 'Asesmen', 'Action'];
-                        $config['order'] = [[7, 'asc'], [8, 'asc']];
+                        $heads = ['No', 'Pasien', 'Action', 'Jenis Pasien', 'Unit', 'Dokter', 'Taskid', 'Asesmen'];
+                        $config['order'] = [[6, 'asc'], [7, 'asc']];
                         $config['paging'] = false;
                         $config['scrollY'] = '300px';
                     @endphp
@@ -61,9 +61,24 @@
                         @foreach ($antrians as $item)
                             <tr>
                                 <td>{{ $item->angkaantrean }}</td>
-                                <td>{{ $item->kodebooking }}</td>
                                 <td>{{ $item->norm }} {{ $item->nama }}</td>
-                                <td>{{ $item->nomorkartu }}</td>
+                                <td>
+                                    @switch($item->taskid)
+                                        @case(3)
+                                            <a href="{{ route('prosespoliklinik') }}?kodebooking={{ $item->kodebooking }}"
+                                                class="btn btn-xs btn-warning withLoad">Proses</a>
+                                        @break
+
+                                        @case(4)
+                                            <a href="{{ route('prosespoliklinik') }}?kodebooking={{ $item->kodebooking }}"
+                                                class="btn btn-xs btn-primary withLoad">Proses</a>
+                                        @break
+
+                                        @default
+                                            <a href="{{ route('prosespoliklinik') }}?kodebooking={{ $item->kodebooking }}"
+                                                class="btn btn-xs btn-secondary withLoad">Lihat</a>
+                                    @endswitch
+                                </td>
                                 <td>{{ $item->jenispasien }} </td>
                                 <td>{{ $item->kunjungan ? $item->kunjungan->units->nama : '-' }}</td>
                                 <td>{{ $item->namadokter }}</td>
@@ -115,23 +130,6 @@
                                     @else
                                         <span class="badge badge-danger">Belum Asesmen</span>
                                     @endif
-                                </td>
-                                <td>
-                                    @switch($item->taskid)
-                                        @case(3)
-                                            <a href="{{ route('prosespoliklinik') }}?kodebooking={{ $item->kodebooking }}"
-                                                class="btn btn-xs btn-warning withLoad">Proses</a>
-                                        @break
-
-                                        @case(4)
-                                            <a href="{{ route('prosespoliklinik') }}?kodebooking={{ $item->kodebooking }}"
-                                                class="btn btn-xs btn-primary withLoad">Proses</a>
-                                        @break
-
-                                        @default
-                                            <a href="{{ route('prosespoliklinik') }}?kodebooking={{ $item->kodebooking }}"
-                                                class="btn btn-xs btn-secondary withLoad">Lihat</a>
-                                    @endswitch
                                 </td>
                             </tr>
                         @endforeach
