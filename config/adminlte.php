@@ -517,6 +517,13 @@ return [
                     'shift'   => 'ml-2',
                 ],
                 [
+                    'text' => 'Laporan Waktu Antrian',
+                    'icon'    => 'fas fa-stopwatch',
+                    'url'  => 'laporanwaktuantrian',
+                    'can' => 'pendaftaran',
+                    'shift'   => 'ml-2',
+                ],
+                [
                     'text' => 'Laporan Perawat',
                     'icon'    => 'fas fa-chart-line',
                     'url'  => 'laporanperawat',

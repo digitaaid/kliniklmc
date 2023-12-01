@@ -16,10 +16,10 @@
                 </x-adminlte-alert>
             @endif
             <a href="{{ route('antrianperawat') }}?tanggalperiksa={{ $antrian->tanggalperiksa }}"
-                class="btn btn-danger mb-2 mr-1 withLoad">
+                class="btn btn-xs btn-danger mb-2 mr-1 withLoad">
                 <i class="fas fa-arrow-left"></i> Kembali
             </a>
-            <div class="btn btn-{{ $antrian->asesmenperawat ? 'success' : 'secondary' }} mb-2 mr-1">
+            <div class="btn btn-xs btn-{{ $antrian->asesmenperawat ? 'success' : 'secondary' }} mb-2 mr-1">
                 <i class="fas fa-info-circle"></i>
                 Status Antrian :
                 @switch($antrian->taskid)
@@ -62,7 +62,14 @@
                     @default
                 @endswitch
             </div>
-            @include('sim.antrian_profil2')
+            <x-adminlte-card theme="primary" theme-mode="outline">
+                @include('sim.antrian_profil3')
+                <x-slot name="footerSlot">
+                    <x-adminlte-button class="btn-xs btnIcare" theme="warning" label="I-Care JKN"
+                        icon="fas fa-info-circle" />
+                    <x-adminlte-button class="btn-xs" theme="warning" label="Berkas Upload" icon="fas fa-file-medical" />
+                </x-slot>
+            </x-adminlte-card>
         </div>
         <div class="col-md-12">
             <div class="card card-primary card-outline">
@@ -70,8 +77,6 @@
                     <div id="accordion" role="tablist" aria-multiselectable="true">
                         {{-- riwayatpasien --}}
                         @include('sim.tabel_riwayat_pasien')
-                        {{-- icare --}}
-                        @include('sim.tabel_icare')
                         {{-- filepenunjang --}}
                         @include('sim.tabel_filepenunjang')
                         {{-- perawat --}}
@@ -121,6 +126,21 @@
             </div>
         </div>
     </div>
+    <x-adminlte-modal id="modalICare" name="modalICare" title="I-Care JKN" theme="warning" icon="fas fa-file-medical"
+        size="xl">
+        <iframe src="" id="urlIcare" width="100%" height="500px" frameborder="0"></iframe>
+    </x-adminlte-modal>
+    <x-adminlte-modal id="modalFileUpload" name="modalFileUpload" title="File Upload" theme="warning"
+        icon="fas fa-file-medical" size="xl">
+        @php
+            $heads = ['Kunjungan', 'Pasien', 'Nama', 'Label', 'Action'];
+            $config['paging'] = false;
+            $config['info'] = false;
+        @endphp
+        <x-adminlte-datatable id="tabelRiwayat" class="nowrap text-xs" :heads="$heads" :config="$config" bordered
+            hoverable compressed>
+        </x-adminlte-datatable>
+    </x-adminlte-modal>
 @stop
 
 @section('plugins.Datatables', true)
@@ -189,6 +209,35 @@
         $("body").on("click", "#deleteLayanan", function() {
             $(this).parents("#row").remove();
         })
+        $('.btnIcare').click(function() {
+            $.LoadingOverlay("show");
+            var url =
+                "{{ route('icare') }}?nomorkartu={{ $antrian->nomorkartu }}&kodedokter={{ $antrian->kodedokter }}";
+            $.ajax({
+                url: url,
+                type: "GET",
+                dataType: 'json',
+                success: function(data) {
+                    if (data.metadata.code == 200) {
+                        console.log(data);
+                        // $('#dataFilePenunjang').attr('src', $(this).data('fileurl'));
+                        // $('#urlFilePenunjang').attr('href', $(this).data('fileurl'));
+                        $('#modalICare').modal('show');
+                    } else {
+                        Swal.fire(
+                            'Error ' + data.metadata.code,
+                            data.metadata.message,
+                            'error'
+                        );
+                    }
+                    $.LoadingOverlay("hide");
+                },
+                error: function(data) {
+                    alert('Error');
+                    $.LoadingOverlay("hide");
+                }
+            });
+        });
     </script>
     <script>
         $(function() {

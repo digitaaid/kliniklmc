@@ -91,6 +91,8 @@ class PendaftaranController extends APIController
             $timestamp = $request->tanggalperiksa . ' ' . explode('-', $request->jampraktek)[0] . ':00';
             $jadwal_estimasi = Carbon::createFromFormat('Y-m-d H:i:s', $timestamp, 'Asia/Jakarta')->addMinutes(5 * ($antiranhari + 1));
             $request['estimasidilayani'] = $jadwal_estimasi->timestamp * 1000;
+            $request['taskid1'] = now();
+
             // status antrian
             $api = new AntrianController();
             $statusantrian = $api->status_antrian($request);
@@ -150,16 +152,21 @@ class PendaftaranController extends APIController
     }
     public function prosespendaftaran(Request $request)
     {
-        $antrian = Antrian::with(['kunjungan','pasien'])->where('kodebooking', $request->kodebooking)->first();
+        $antrian = Antrian::with(['kunjungan', 'pasien'])->where('kodebooking', $request->kodebooking)->first();
         if ($antrian) {
             if ($antrian->taskid == 1) {
                 $antrian->update([
                     'taskid' => 2,
-                    'taskid1' => now(),
+                    'taskid2' => now(),
                 ]);
                 Alert::success('Success', 'Antrian diproses ke pendaftaran.');
             }
             // dd(gmdate('H:i:s', now()->diffInSeconds($antrian->taskid1)));
+            $kunjungans = Kunjungan::where('norm', $antrian->norm)
+                ->has('pasien')
+                ->with(['units', 'asesmenperawat', 'asesmendokter', 'files', 'resepobat', 'resepobat.resepdetail'])
+                ->orderBy('tgl_masuk', 'DESC')
+                ->get();
             $dokters = Dokter::where('status', '1')->pluck('namadokter', 'kodedokter');
             $polikliniks = Unit::where('status', '1')->pluck('nama', 'kode');
             $jaminans = Jaminan::pluck('nama', 'kode');
@@ -176,6 +183,7 @@ class PendaftaranController extends APIController
             return view('sim.antrian_pendaftaran_proses', compact([
                 'request',
                 'antrian',
+                'kunjungans',
                 'dokters',
                 'jaminans',
                 'polikliniks',
@@ -191,8 +199,13 @@ class PendaftaranController extends APIController
     }
     public function lihatpendaftaran(Request $request)
     {
-        $antrian = Antrian::with(['kunjungan','pasien'])->where('kodebooking', $request->kodebooking)->first();
+        $antrian = Antrian::with(['kunjungan', 'pasien'])->where('kodebooking', $request->kodebooking)->first();
         if ($antrian) {
+            $kunjungans = Kunjungan::where('norm', $antrian->norm)
+                ->has('pasien')
+                ->with(['units', 'asesmenperawat', 'asesmendokter', 'files', 'resepobat', 'resepobat.resepdetail'])
+                ->orderBy('tgl_masuk', 'DESC')
+                ->get();
             $dokters = Dokter::where('status', '1')->pluck('namadokter', 'kodedokter');
             $polikliniks = Unit::where('status', '1')->pluck('nama', 'kode');
             $jaminans = Jaminan::pluck('nama', 'kode');
@@ -209,6 +222,7 @@ class PendaftaranController extends APIController
             return view('sim.antrian_pendaftaran_proses', compact([
                 'request',
                 'antrian',
+                'kunjungans',
                 'dokters',
                 'jaminans',
                 'polikliniks',
@@ -467,6 +481,8 @@ class PendaftaranController extends APIController
                 $antrian->update([
                     'taskid' => 3,
                     'user1' => Auth::user()->id,
+                    'taskid3' => now(),
+
                 ]);
                 Alert('Success', 'Pasien dilanjutkan ke poliklinik');
             }
@@ -552,5 +568,19 @@ class PendaftaranController extends APIController
             'antrians',
         ]));
         return $pdf->download();
+    }
+    public function laporanwaktuantrian(Request $request)
+    {
+        $antrians = null;
+        if ($request->tanggal) {
+            $tanggal = explode('-', $request->tanggal);
+            $request['tanggalawal'] = Carbon::parse($tanggal[0])->format('Y-m-d');
+            $request['tanggalakhir'] = Carbon::parse($tanggal[1])->format('Y-m-d');
+            $antrians = Antrian::whereBetween('tanggalperiksa', [$request->tanggalawal, $request->tanggalakhir])->get();
+        }
+        return view('sim.laporan_waktu_antrian', compact([
+            'request',
+            'antrians',
+        ]));
     }
 }

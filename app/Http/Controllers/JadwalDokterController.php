@@ -30,7 +30,7 @@ class JadwalDokterController extends Controller
                 $jadwals = $response->response;
                 Alert::success($response->metadata->message, 'Jadwal Dokter Antrian BPJS Total : ' . count($jadwals));
             } else {
-                Alert::error($response->metadata->message . ' ' . $response->metadata->code);
+                Alert::error('Error ' . $response->metadata->code, $response->metadata->message . ' ' . $response->metadata->code);
             }
         }
         return view('sim.jadwal_dokter', compact([
@@ -131,7 +131,7 @@ class JadwalDokterController extends Controller
                 $jadwals = $response->response;
                 Alert::success($response->metadata->message, 'Jadwal Dokter Antrian BPJS Total : ' . count($jadwals));
             } else {
-                Alert::error($response->metadata->message . ' ' . $response->metadata->code);
+                Alert::error('Error ' . $response->metadata->code, $response->metadata->message . ' ' . $response->metadata->code);
             }
         }
         return view('bpjs.antrian.jadwal_dokter', compact([

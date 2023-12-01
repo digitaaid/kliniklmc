@@ -533,17 +533,21 @@ class AntrianController extends APIController
     }
     public function ref_jadwal_dokter(Request $request)
     {
-        $validator = Validator::make(request()->all(), [
-            "kodepoli" => "required",
-            "tanggal" =>  "required|date",
-        ]);
-        if ($validator->fails()) {
-            return $this->sendError($validator->errors()->first(), 400);
+        try {
+            $validator = Validator::make(request()->all(), [
+                "kodepoli" => "required",
+                "tanggal" =>  "required|date",
+            ]);
+            if ($validator->fails()) {
+                return $this->sendError($validator->errors()->first(), 400);
+            }
+            $url = $this->api()->base_url . "jadwaldokter/kodepoli/" . $request->kodepoli . "/tanggal/" . $request->tanggal;
+            $signature = $this->signature();
+            $response = Http::withHeaders($signature)->get($url);
+            return $this->response_decrypt($response, $signature);
+        } catch (\Throwable $th) {
+            return $this->sendError($th->getMessage(), 500);
         }
-        $url = $this->api()->base_url . "jadwaldokter/kodepoli/" . $request->kodepoli . "/tanggal/" . $request->tanggal;
-        $signature = $this->signature();
-        $response = Http::withHeaders($signature)->get($url);
-        return $this->response_decrypt($response, $signature);
     }
     public function ref_poli_fingerprint()
     {

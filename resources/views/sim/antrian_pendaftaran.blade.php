@@ -141,7 +141,6 @@
         @endif
     </div>
 @stop
-
 @section('plugins.Datatables', true)
 @section('plugins.TempusDominusBs4', true)
 @section('plugins.Select2', true)

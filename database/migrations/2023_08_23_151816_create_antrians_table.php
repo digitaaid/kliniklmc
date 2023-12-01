@@ -56,7 +56,7 @@ return new class extends Migration
             $table->dateTime('taskid3')->nullable();
             $table->dateTime('taskid4')->nullable();
             $table->dateTime('taskid5')->nullable();
-            $table->dateTime('taskid5')->nullable();
+            $table->dateTime('taskid6')->nullable();
             $table->dateTime('taskid7')->nullable();
             $table->string('user1')->nullable();
             $table->string('user2')->nullable();

@@ -110,6 +110,7 @@ class DokterController extends Controller
                     $antrian->update([
                         'taskid' => $request->taskid,
                         'panggil' => 0,
+                        'taskid4' => now(),
                     ]);
                     Alert::success('Success', $res->metadata->message);
                     // }
@@ -261,6 +262,7 @@ class DokterController extends Controller
                     'taskid' => '7',
                     'user3' => Auth::user()->id,
                     'keterangan' => "Pasien pasien sudah selesai pelayanan.",
+                    'taskid5' => now(),
                 ]);
                 if ($res->metadata->code == 200) {
                     Alert::success('Success', 'Antrian selesai di Poliklinik.');
@@ -282,6 +284,7 @@ class DokterController extends Controller
             $request['keterangan'] = "Pasien dilanjutkan ke farmasi";
             $request['taskid'] = "5";
             $request['waktu'] = now();
+            $request['taskid5'] = now();
             $request['user3'] = Auth::user()->id;
             $api = new AntrianController();
             $res = $api->update_antrean($request);

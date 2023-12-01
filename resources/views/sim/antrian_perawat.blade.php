@@ -14,7 +14,8 @@
                                 $config = ['format' => 'YYYY-MM-DD'];
                             @endphp
                             <x-adminlte-input-date name="tanggalperiksa" label="Tanggal Antrian"
-                                value="{{ $request->tanggalperiksa ?? now()->format('Y-m-d')  }}" placeholder="Pilih Tanggal" :config="$config">
+                                value="{{ $request->tanggalperiksa ?? now()->format('Y-m-d') }}" placeholder="Pilih Tanggal"
+                                :config="$config">
                                 <x-slot name="prependSlot">
                                     <div class="input-group-text bg-primary">
                                         <i class="fas fa-calendar-alt"></i>
@@ -47,8 +48,8 @@
                 </div>
                 <x-adminlte-card title="Data Antrian Asesmen Perawat" theme="warning" icon="fas fa-info-circle" collapsible>
                     @php
-                        $heads = ['No', 'Kodebooking', 'Pasien', 'Kartu BPJS', 'Jenis Pasien', 'Unit ', ' Dokter', 'Taskid', 'Asesment', 'Action'];
-                        $config['order'] = [[8, 'asc'], [7, 'asc']];
+                        $heads = ['No', 'Pasien', 'Action', 'Jenis Pasien', 'Unit ', ' Dokter', 'Taskid', 'Asesment'];
+                        $config['order'] = [[6, 'asc'], [7, 'asc']];
                         $config['paging'] = false;
                         $config['scrollY'] = '300px';
                     @endphp
@@ -57,9 +58,18 @@
                         @foreach ($antrians as $item)
                             <tr>
                                 <td>{{ $item->angkaantrean }}</td>
-                                <td>{{ $item->kodebooking }}</td>
                                 <td>{{ $item->norm }} {{ $item->nama }}</td>
-                                <td>{{ $item->nomorkartu }}</td>
+                                <td>
+                                    @if ($item->taskid != 99)
+                                        @if ($item->asesmenperawat)
+                                            <a href="{{ route('prosesperawat') }}?kodebooking={{ $item->kodebooking }}"
+                                                class="btn btn-xs btn-secondary withLoad">Lihat</a>
+                                        @else
+                                            <a href="{{ route('prosesperawat') }}?kodebooking={{ $item->kodebooking }}"
+                                                class="btn btn-xs btn-warning withLoad">Proses</a>
+                                        @endif
+                                    @endif
+                                </td>
                                 <td>{{ $item->jenispasien }} </td>
                                 <td>{{ $item->kunjungan ? $item->kunjungan->units->nama : '-' }}</td>
                                 <td>{{ $item->namadokter }}</td>
@@ -110,17 +120,6 @@
                                         <span class="badge badge-success">1. Sudah Asesmen</span>
                                     @else
                                         <span class="badge badge-danger">0. Belum Asesmen</span>
-                                    @endif
-                                </td>
-                                <td>
-                                    @if ($item->taskid != 99)
-                                        @if ($item->asesmenperawat)
-                                            <a href="{{ route('prosesperawat') }}?kodebooking={{ $item->kodebooking }}"
-                                                class="btn btn-xs btn-secondary withLoad">Lihat</a>
-                                        @else
-                                            <a href="{{ route('prosesperawat') }}?kodebooking={{ $item->kodebooking }}"
-                                                class="btn btn-xs btn-warning withLoad">Proses</a>
-                                        @endif
                                     @endif
                                 </td>
                             </tr>

@@ -143,6 +143,9 @@ Route::middleware('auth')->group(function () {
     Route::get('tidakjadibatal', [PendaftaranController::class, 'tidakjadibatal'])->name('tidakjadibatal');
     Route::get('laporanpendaftaran', [PendaftaranController::class, 'laporanpendaftaran'])->name('laporanpendaftaran');
     Route::get('pdflaporanpendaftaran', [PendaftaranController::class, 'pdflaporanpendaftaran'])->name('pdflaporanpendaftaran');
+    Route::get('laporanwaktuantrian', [PendaftaranController::class, 'laporanwaktuantrian'])->name('laporanwaktuantrian');
+
+
     // perawat
     Route::get('antrianperawat', [PerawatController::class, 'antrianperawat'])->name('antrianperawat');
     Route::get('prosesperawat', [PerawatController::class, 'prosesperawat'])->name('prosesperawat');
@@ -230,6 +233,8 @@ Route::middleware('auth')->group(function () {
     Route::get('ref_kecamatan_api', [VclaimController::class, 'ref_kecamatan_api'])->name('ref_kecamatan_api');
     Route::get('suratKontrolBpjs', [SuratKontrolController::class, 'suratKontrolBpjs'])->name('suratKontrolBpjs');
     Route::get('rujukanBpjs', [RujukanController::class, 'rujukanBpjs'])->name('rujukanBpjs');
+    // kunjungan
+    Route::get('riwayat_kunjungan_norm', [KunjunganController::class, 'riwayat_kunjungan_norm'])->name('riwayat_kunjungan_norm');
     // sep
     Route::get('sep_print', [SepController::class, 'print'])->name('sep_print');
     Route::get('sep_hapus', [SepController::class, 'sep_hapus'])->name('sep_hapus');

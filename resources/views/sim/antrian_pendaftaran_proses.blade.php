@@ -70,8 +70,6 @@
                 <x-slot name="footerSlot">
                     <x-adminlte-button class="btn-xs btnModalPasien" theme="warning" label="Pencarian Pasien"
                         icon="fas fa-search" />
-                    <x-adminlte-button class="btn-xs" theme="warning" label="Riwayat Kunjungan"
-                        icon="fas fa-user-injured" />
                     <x-adminlte-button class="btn-xs btnCariRujukanFKTP" theme="warning" label="Rujukan FKTP"
                         icon="fas fa-file-medical" />
                     <x-adminlte-button class="btn-xs btnCariRujukanRS" theme="warning" label="Rujukan RS"
@@ -86,7 +84,7 @@
         </div>
         <div class="col-md-12">
             <div class="card card-primary card-outline">
-                <div class="card-body box-profile p-3" style="overflow-y: auto ;max-height: 550px ;">
+                <div class="card-body box-profile p-3" style="overflow-y: auto ;max-height: 600px ;">
                     <div id="accordion" role="tablist" aria-multiselectable="true">
                         @include('sim.tabel_antrian')
                         @if ($antrian->jenispasien == 'JKN')
@@ -95,6 +93,8 @@
                         @endif
                         @include('sim.tabel_kunjungan')
                         @if ($antrian->kunjungan)
+                            {{-- riwayatpasien --}}
+                            @include('sim.tabel_riwayat_pasien')
                             {{-- layanan --}}
                             @include('sim.tabel_layanan')
                             {{-- laboratorium --}}
@@ -152,8 +152,6 @@
                                     </div>
                                 </div>
                             </div>
-                            {{-- riwayatpasien --}}
-                            {{-- @include('sim.tabel_riwayat_pasien') --}}
                             {{-- filepenunjang --}}
                             @include('sim.tabel_filepenunjang')
                             <div class="card card-info mb-1">
@@ -196,6 +194,34 @@
             </div>
         </div>
     </div>
+
+    <x-adminlte-modal id="modalPasien" name="modalPasien" title="Pasien" theme="success" icon="fas fa-user-injured"
+        size="xl">
+        <div class="row">
+            <div class="col-md-7">
+                <x-adminlte-button id="btnTambah" class="btn-sm mb-2" theme="success" label="Tambah Pasien"
+                    icon="fas fa-plus" />
+            </div>
+            <div class="col-md-5">
+                <form action="" method="get">
+                    <x-adminlte-input name="search" placeholder="Pencarian No RM / BPJS / NIK / Nama" igroup-size="sm">
+                        <x-slot name="appendSlot">
+                            <x-adminlte-button id="btnCariPasien" theme="primary" icon="fas fa-search" label="Cari" />
+                        </x-slot>
+                    </x-adminlte-input>
+                </form>
+            </div>
+        </div>
+        @php
+            $heads = ['No RM', 'No BPJS', 'NIK', 'Nama Pasien', 'Tgl Lahir', 'Action'];
+            $config['paging'] = false;
+            $config['info'] = false;
+            $config['searching'] = false;
+        @endphp
+        <x-adminlte-datatable id="tablePasien" class="nowrap text-xs" :heads="$heads" :config="$config" bordered
+            hoverable compressed>
+        </x-adminlte-datatable>
+    </x-adminlte-modal>
     <x-adminlte-modal id="modalRujukan" name="modalRujukan" title="Peserta Rujukan Peserta" theme="success"
         icon="fas fa-file-medical" size="xl">
         @php
@@ -204,17 +230,6 @@
             $config['info'] = false;
         @endphp
         <x-adminlte-datatable id="tableRujukan" class="nowrap text-xs" :heads="$heads" :config="$config" bordered
-            hoverable compressed>
-        </x-adminlte-datatable>
-    </x-adminlte-modal>
-    <x-adminlte-modal id="modalSuratKontrol" name="modalSuratKontrol" title="Surat Kontrol Peserta" theme="success"
-        icon="fas fa-file-medical" size="xl">
-        @php
-            $heads = ['tglRencanaKontrol', 'noSuratKontrol', 'Nama', 'jnsPelayanan', 'namaPoliTujuan', 'namaDokter', 'terbitSEP', 'Action'];
-            $config['paging'] = false;
-            $config['info'] = false;
-        @endphp
-        <x-adminlte-datatable id="tableSuratKontrol" class="nowrap text-xs" :heads="$heads" :config="$config" bordered
             hoverable compressed>
         </x-adminlte-datatable>
     </x-adminlte-modal>
@@ -227,6 +242,17 @@
         @endphp
         <x-adminlte-datatable id="tableSEP" class="nowrap text-xs" :heads="$heads" :config="$config" bordered hoverable
             compressed>
+        </x-adminlte-datatable>
+    </x-adminlte-modal>
+    <x-adminlte-modal id="modalSuratKontrol" name="modalSuratKontrol" title="Surat Kontrol Peserta" theme="success"
+        icon="fas fa-file-medical" size="xl">
+        @php
+            $heads = ['tglRencanaKontrol', 'noSuratKontrol', 'Nama', 'jnsPelayanan', 'namaPoliTujuan', 'namaDokter', 'terbitSEP', 'Action'];
+            $config['paging'] = false;
+            $config['info'] = false;
+        @endphp
+        <x-adminlte-datatable id="tableSuratKontrol" class="nowrap text-xs" :heads="$heads" :config="$config" bordered
+            hoverable compressed>
         </x-adminlte-datatable>
     </x-adminlte-modal>
     <x-adminlte-modal id="modalEditSuratKontrol" name="modalEditSuratKontrol" title="Edit Surat Kontrol" theme="success"
@@ -269,33 +295,6 @@
                 label="Update" />
             <x-adminlte-button theme="danger" icon="fas fa-times" label="Tutup" data-dismiss="modal" />
         </x-slot>
-    </x-adminlte-modal>
-    <x-adminlte-modal id="modalPasien" name="modalPasien" title="Pasien" theme="success" icon="fas fa-user-injured"
-        size="xl">
-        <div class="row">
-            <div class="col-md-7">
-                <x-adminlte-button id="btnTambah" class="btn-sm mb-2" theme="success" label="Tambah Pasien"
-                    icon="fas fa-plus" />
-            </div>
-            <div class="col-md-5">
-                <form action="" method="get">
-                    <x-adminlte-input name="search" placeholder="Pencarian No RM / BPJS / NIK / Nama" igroup-size="sm">
-                        <x-slot name="appendSlot">
-                            <x-adminlte-button id="btnCariPasien" theme="primary" icon="fas fa-search" label="Cari" />
-                        </x-slot>
-                    </x-adminlte-input>
-                </form>
-            </div>
-        </div>
-        @php
-            $heads = ['No RM', 'No BPJS', 'NIK', 'Nama Pasien', 'Tgl Lahir', 'Action'];
-            $config['paging'] = false;
-            $config['info'] = false;
-            $config['searching'] = false;
-        @endphp
-        <x-adminlte-datatable id="tablePasien" class="nowrap text-xs" :heads="$heads" :config="$config" bordered
-            hoverable compressed>
-        </x-adminlte-datatable>
     </x-adminlte-modal>
 @stop
 

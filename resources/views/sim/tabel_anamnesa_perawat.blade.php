@@ -69,6 +69,9 @@
                             <x-adminlte-input name="tinggi_badan" fgroup-class="col-md-6" type="number"
                                 label="Tinggi Badan (cm)" igroup-size="sm" placeholder="Tinggi Badan (cm)"
                                 value="{{ $antrian->asesmenperawat->tinggi_badan ?? null }}" />
+                            <x-adminlte-input name="bsa" fgroup-class="col-md-6" type="number"
+                                label="Index BSA (m2)" igroup-size="sm" placeholder="Index BSA (m2)"
+                                value="{{ $antrian->asesmenperawat->bsa ?? null }}" disabled />
                         </div>
                         <div class="form-group">
                             <div class="custom-control custom-radio">
@@ -123,7 +126,6 @@
                         </x-adminlte-textarea>
                     </div>
                 </div>
-
             </form>
             <button type="submit" form="formPerawat" class="btn btn-success mb-1 w-100 withLoad">
                 <i class="fas fa-edit"></i> Simpan & Tanda Tangan Pemeriksaan Perawat

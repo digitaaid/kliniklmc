@@ -11,8 +11,9 @@
         <div class="card-body p-0 mb-3">
             @php
                 $heads = ['Data Registrasi', 'Anamnesa', 'Penunjang', 'Pemeriksaan Dokter', 'Obat'];
-                $config['pageLength'] = 3;
+                $config['paging'] = false;
                 $config['searching'] = false;
+                $config['info'] = false;
                 $config['bLengthChange'] = false;
                 $config['ordering'] = false;
             @endphp

@@ -6,6 +6,7 @@ use App\Models\IntegrasiApi;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Validator;
 
 class IcareController extends APIController
 {
@@ -69,16 +70,27 @@ class IcareController extends APIController
     // API BPJS
     public function icare(Request $request)
     {
-        $url =  "https://apijkn.bpjs-kesehatan.go.id/wsihs/api/rs/validate";
-        $signature = $this->signature();
-        $signature['Content-Type'] = 'application/json';
-        $response = Http::withHeaders($signature)
-            ->send('POST', $url, [
-                'body' => '{
-                    "param": "' . $request->nomorkartu . '",
-                    "kodedokter": ' . $request->kodedokter . '
-                }'
+        try {
+            $validator = Validator::make(request()->all(), [
+                "nomorkartu" => "required",
+                "kodedokter" =>  "required",
             ]);
-        return $this->response_decrypt($response, $signature);
+            if ($validator->fails()) {
+                return $this->sendError($validator->errors()->first(),  400);
+            }
+            $url =  "https://apijkn.bpjs-kesehatan.go.id/wsihs/api/rs/validate";
+            $signature = $this->signature();
+            $signature['Content-Type'] = 'application/json';
+            $response = Http::withHeaders($signature)
+                ->send('POST', $url, [
+                    'body' => '{
+                        "param": "' . $request->nomorkartu . '",
+                        "kodedokter": ' . $request->kodedokter . '
+                    }'
+                ]);
+            return $this->response_decrypt($response, $signature);
+        } catch (\Throwable $th) {
+            return $this->sendError($th->getMessage(),  500);
+        }
     }
 }

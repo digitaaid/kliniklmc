@@ -54,6 +54,7 @@ class FarmasiController extends APIController
                 $antrian->update([
                     'taskid' => $request->taskid,
                     'user4' => Auth::user()->id,
+                    'taskid6' => now(),
                     'keterangan' => "Resep Pasien sudah diterima di farmasi.",
                 ]);
                 Alert::success('Success', $res->metadata->message);
@@ -91,6 +92,7 @@ class FarmasiController extends APIController
             $antrian->update([
                 'taskid' => $request->taskid,
                 'panggil' => 0,
+                'taskid7' => now(),
                 'user4' => Auth::user()->id,
                 'keterangan' => "Pasien telah selesai semua pelayanan",
             ]);

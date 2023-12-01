@@ -38,4 +38,26 @@ class KunjunganController extends APIController
         }
         return $this->sendResponse($kunjungans, 200);
     }
+    public function riwayat_kunjungan_norm(Request $request)
+    {
+        $data = [];
+        if ($request->norm) {
+            $kunjungans = Kunjungan::whereDate('norm', $request->norm)->get();
+            foreach ($kunjungans as $key => $value) {
+                $datareg = Carbon::parse($value->tgl_masuk)->format('d/m/Y H:m:s') . "($value->kode)<br>" . "<b>Hemato</b>";
+                $anamnesa = null;
+                $asesmen_dokter = null;
+                $resep = null;
+                $penunjang = null;
+                $data[] = [
+                    "datareg" => $datareg,
+                    "anamnesa" => $anamnesa ?? "Belum asesment",
+                    "penunjang" => $penunjang ?? "-",
+                    "asesmen_dokter" => $asesmen_dokter ?? "Belum asesment",
+                    "resep" => $resep ?? "-",
+                ];
+            }
+        }
+        return $this->sendResponse($data, 200);
+    }
 }
