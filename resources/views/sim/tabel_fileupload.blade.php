@@ -76,7 +76,7 @@
                         $.each(data.response, function(key, value) {
                             console.log(value);
                             var btn =
-                                '<button class="tnLihatFile btn btn-success btn-xs mr-1 " data-fileurl="' +
+                                '<button class="btnLihatFile btn btn-success btn-xs mr-1" data-fileurl="' +
                                 value.fileurl +
                                 '">Lihat</button>';
                             table.row.add([
