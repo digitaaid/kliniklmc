@@ -833,6 +833,22 @@ return [
                 ],
             ],
         ],
+           // MODUL TESTING
+           [
+            'text'    => 'Sync Data',
+            'icon'    => 'fas fa-cogs',
+            'can' => 'admin',
+            'submenu' => [
+                [
+                    'text' => 'Antrian BPJS',
+                    'icon'    => 'fas fa-globe',
+                    'url'  => 'sync_antrian_bpjs',
+                    'shift'   => 'ml-2',
+                    'can' => 'admin',
+                ],
+
+            ],
+        ],
         ['header' => 'PENGATURAN AKUN'],
         // USER ACCESS CONTROLL
         [

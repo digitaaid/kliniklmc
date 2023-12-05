@@ -46,11 +46,24 @@
             <input type="hidden" name="_method" id="method">
             <x-adminlte-input name="nama" label="Nama Tarif" placeholder="Nama Tarif" enable-old-support required />
             <x-adminlte-select2 name="klasifikasi" label="Klasifikasi">
-                <option value="Administrasi">Administrasi</option>
+                <option value="Prosedur Non Bedah">Prosedur Non Bedah</option>
+                <option value="Prosedur Bedah">Prosedur Bedah</option>
                 <option value="Konsultasi">Konsultasi</option>
-                <option value="Tindakan">Tindakan</option>
-                <option value="Sarana">Sarana</option>
-                <option value="USG">USG</option>
+                <option value="Tenaga Ahli">Tenaga Ahli</option>
+                <option value="Keperawatan">Keperawatan</option>
+                <option value="Penunjang">Penunjang</option>
+                <option value="Radiologi">Radiologi</option>
+                <option value="Laboratorium">Laboratorium</option>
+                <option value="Pelayanan Darah">Pelayanan Darah</option>
+                <option value="Rehabilitasi">Rehabilitasi</option>
+                <option value="Akomodasi">Akomodasi</option>
+                <option value="Rawat Intensif">Rawat Intensif</option>
+                <option value="Obat">Obat</option>
+                <option value="Obat Kronis">Obat Kronis</option>
+                <option value="Obat Kemoterapi">Obat Kemoterapi</option>
+                <option value="Alkes">Alkes</option>
+                <option value="BMHP">BMHP</option>
+                <option value="Sewa Alat">Sewa Alat</option>
             </x-adminlte-select2>
             <x-adminlte-input name="harga" type="number" label="Harga Tarif" placeholder="Harga Tarif" enable-old-support
                 required />

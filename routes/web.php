@@ -30,6 +30,7 @@ use App\Http\Controllers\SepController;
 use App\Http\Controllers\SocialiteController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\SuratKontrolController;
+use App\Http\Controllers\SyncronizeController;
 use App\Http\Controllers\TanyaJawabController;
 use App\Http\Controllers\TarifController;
 use App\Http\Controllers\TestimoniController;
@@ -115,7 +116,11 @@ Route::middleware('auth')->group(function () {
     Route::resource('antrian', AntrianController::class);
     Route::resource('kunjungan', KunjunganController::class);
     Route::resource('suratkontrol', SuratKontrolController::class);
+
+
     Route::resource('fileupload', FileUploadController::class);
+    Route::get('fileupload_norm', [FileUploadController::class, 'fileupload_norm'])->name('fileupload_norm');
+
     Route::resource('tarif', TarifController::class);
     Route::get('kirimpesanlibur', [JadwalLiburController::class, 'kirimpesanlibur'])->name('kirimpesanlibur');
     // anjungan
@@ -137,15 +142,15 @@ Route::middleware('auth')->group(function () {
     Route::post('editkunjungan', [PendaftaranController::class, 'editkunjungan'])->name('editkunjungan');
     Route::post('editlayananpendaftaran', [PendaftaranController::class, 'editlayananpendaftaran'])->name('editlayananpendaftaran');
     Route::get('ref_tarif_pendaftaran', [TarifController::class, 'ref_tarif_pendaftaran'])->name('ref_tarif_pendaftaran');
+    Route::get('get_layanan_kunjungan', [TarifController::class, 'get_layanan_kunjungan'])->name('get_layanan_kunjungan');
     Route::get('ref_tarif_layanan', [TarifController::class, 'ref_tarif_layanan'])->name('ref_tarif_layanan');
+    Route::post('input_tarif_pasien', [TarifController::class, 'input_tarif_pasien'])->name('input_tarif_pasien');
     Route::get('lanjutpoliklinik', [PendaftaranController::class, 'lanjutpoliklinik'])->name('lanjutpoliklinik');
     Route::get('batalantrian', [PendaftaranController::class, 'batalantrian'])->name('batalantrian');
     Route::get('tidakjadibatal', [PendaftaranController::class, 'tidakjadibatal'])->name('tidakjadibatal');
     Route::get('laporanpendaftaran', [PendaftaranController::class, 'laporanpendaftaran'])->name('laporanpendaftaran');
     Route::get('pdflaporanpendaftaran', [PendaftaranController::class, 'pdflaporanpendaftaran'])->name('pdflaporanpendaftaran');
     Route::get('laporanwaktuantrian', [PendaftaranController::class, 'laporanwaktuantrian'])->name('laporanwaktuantrian');
-
-
     // perawat
     Route::get('antrianperawat', [PerawatController::class, 'antrianperawat'])->name('antrianperawat');
     Route::get('prosesperawat', [PerawatController::class, 'prosesperawat'])->name('prosesperawat');
@@ -243,4 +248,6 @@ Route::middleware('auth')->group(function () {
     // suratkontrol
     Route::get('suratkontrol_print', [SuratKontrolController::class, 'print'])->name('suratkontrol_print');
     Route::get('suratkontrol_hapus', [SuratKontrolController::class, 'suratkontrol_hapus'])->name('suratkontrol_hapus');
+    // snyc
+    Route::get('sync_antrian_bpjs', [SyncronizeController::class, 'sync_antrian_bpjs'])->name('sync_antrian_bpjs');
 });

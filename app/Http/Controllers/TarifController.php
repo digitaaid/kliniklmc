@@ -3,13 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Imports\TarifImport;
+use App\Models\Kunjungan;
+use App\Models\Layanan;
+use App\Models\LayananDetail;
 use App\Models\Tarif;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 use Maatwebsite\Excel\Facades\Excel;
 use RealRashid\SweetAlert\Facades\Alert;
 
-class TarifController extends Controller
+class TarifController extends APIController
 {
     public function index(Request $request)
     {
@@ -18,14 +22,12 @@ class TarifController extends Controller
             'tarifs'
         ]));
     }
-
     public function create()
     {
         $file = public_path('tarif.xlsx');
         Excel::import(new TarifImport, $file);
         return redirect()->route('tarif.index');
     }
-
     public function store(Request $request)
     {
         $request['user'] = Auth::user()->id;
@@ -39,17 +41,14 @@ class TarifController extends Controller
         Alert::success('Success', 'Data Tarif Disimpan.');
         return redirect()->route('tarif.index');
     }
-
     public function show(string $id)
     {
         //
     }
-
     public function edit(string $id)
     {
         //
     }
-
     public function ref_tarif_pendaftaran(Request $request)
     {
         $data = array();
@@ -77,10 +76,74 @@ class TarifController extends Controller
                 $data[] = array(
                     "id" => $item->id,
                     "text" => $item->nama . ' ' . money($item->harga, 'IDR'),
+                    "harga" => $item->harga,
                 );
             }
             return response()->json($data);
         }
+    }
+    function input_tarif_pasien(Request $request)
+    {
+        try {
+            $validator = Validator::make(request()->all(), [
+                'kodebooking' => 'required',
+                'antrian_id' => 'required',
+                'kunjungan_id' => 'required',
+                'kodekunjungan' => 'required',
+                'norm' => 'required',
+                'nama' => 'required',
+                'layanan' => 'required',
+                'jumlah' => 'required',
+                'harga' => 'required',
+                'diskon' => 'required',
+            ]);
+            if ($validator->fails()) {
+                return $this->sendError($validator->errors()->first(), 400);
+            }
+            $request['kode'] = $request->kodekunjungan;
+            $request['user'] = Auth::user()->id;
+            $request['laboratorium'] = $request->laboratorium ? "1" : "0";
+            $request['kemoterapi'] = $request->kemoterapi ? "1" : "0";
+            $request['radiologi'] = $request->radiologi ? "1" : "0";
+            // add layanan header
+            $layanan = Layanan::updateOrCreate(
+                [
+                    'kodebooking' => $request->kodebooking,
+                    'antrian_id' => $request->antrian_id,
+                    'kodekunjungan' => $request->kodekunjungan,
+                    'kunjungan_id' => $request->kunjungan_id,
+                    'norm' => $request->norm,
+                ],
+                $request->all()
+            );
+            // add layanan details
+            if ($request->layanan) {
+                $tarif = Tarif::find($request->layanan);
+                $layanandetail = LayananDetail::updateOrCreate(
+                    [
+                        'kodelayanan' => $layanan->kode,
+                        'layanan_id' => $layanan->id,
+                        'tarif_id' =>  $tarif->id,
+                    ],
+                    [
+                        'nama' => $tarif->nama,
+                        'jumlah' => $request->jumlah ?? 1,
+                        'harga' => $tarif->harga ?? 0,
+                        'klasifikasi' => $tarif->klasifikasi,
+                    ]
+                );
+                return $this->sendResponse($layanandetail, 200);
+            }
+        } catch (\Throwable $th) {
+            //throw $th;
+            return $this->sendError($th->getMessage(), $th->getCode());
+        }
+    }
+    function get_layanan_kunjungan(Request $request)
+    {
+        $kunjungan = Kunjungan::find($request->kunjungan);
+        $layanans = $kunjungan->layanan->layanandetails;
+        return $this->sendResponse($layanans);
     }
     public function update(Request $request, string $id)
     {

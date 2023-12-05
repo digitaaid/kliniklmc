@@ -31,10 +31,10 @@ return new class extends Migration
             $table->string('nomorantrean');
             $table->string('angkaantrean');
             $table->string('estimasidilayani')->nullable();
-            // $table->integer('sisakuotajkn')->nullable();
-            // $table->integer('kuotajkn')->nullable();
-            // $table->integer('sisakuotanonjkn')->nullable();
-            // $table->integer('kuotanonjkn')->nullable();
+            $table->integer('sisakuotajkn')->default(1)->nullable();
+            $table->integer('kuotajkn')->default(1)->nullable();
+            $table->integer('sisakuotanonjkn')->default(1)->nullable();
+            $table->integer('kuotanonjkn')->default(1)->nullable();
             $table->text('keterangan')->nullable();
             $table->text('jenisresep')->nullable();
             $table->text('catatan')->nullable();

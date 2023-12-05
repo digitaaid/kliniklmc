@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('norm')->nullable();
             $table->string('namapasien')->nullable();
             $table->string('nama');
+            $table->string('label')->nullable();
             $table->string('type');
             $table->string('fileurl');
             $table->timestamps();

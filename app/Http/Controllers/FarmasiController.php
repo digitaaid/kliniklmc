@@ -50,14 +50,16 @@ class FarmasiController extends APIController
             $request['waktu'] = now();
             if ($antrian->taskid == 5) {
                 $api = new AntrianController();
-                $res = $api->update_antrean($request);
+                // $res = $api->update_antrean($request);
                 $antrian->update([
                     'taskid' => $request->taskid,
                     'user4' => Auth::user()->id,
-                    'taskid6' => now(),
+                    'status' => 0,
+                    'taskid6' => $request->waktu,
                     'keterangan' => "Resep Pasien sudah diterima di farmasi.",
                 ]);
-                Alert::success('Success', $res->metadata->message);
+                // Alert::success('Success', $res->metadata->message);
+                Alert::success('Success', "Resep Pasien sudah diterima di farmasi.");
             }
         } catch (\Throwable $th) {
             Alert::error('Gagal', $th->getMessage());
@@ -87,17 +89,19 @@ class FarmasiController extends APIController
             $request['taskid'] = "7";
             $request['waktu'] = now();
             $api = new AntrianController();
-            $res = $api->update_antrean($request);
+            // $res = $api->update_antrean($request);
             // if ($res->metadata->code == 200) {
             $antrian->update([
                 'taskid' => $request->taskid,
                 'panggil' => 0,
-                'taskid7' => now(),
+                'status' => 0,
+                'taskid7' => $request->waktu,
                 'user4' => Auth::user()->id,
                 'keterangan' => "Pasien telah selesai semua pelayanan",
             ]);
             // }
-            Alert::success('Success', $res->metadata->message);
+            Alert::success('Success', "Pasien telah selesai semua pelayanan");
+            // Alert::success('Success', $res->metadata->message);
         } catch (\Throwable $th) {
             Alert::error('Gagal', $th->getMessage());
         }

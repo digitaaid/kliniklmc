@@ -99,33 +99,23 @@ class DokterController extends Controller
         if ($antrian) {
             try {
                 if ($antrian->taskid == 3) {
-                    $api = new AntrianController();
-                    $request['taskid'] = "3";
-                    $request['waktu'] = now()->subMinutes(random_int(4, 9));
-                    $res = $api->update_antrean($request);
-                    $request['taskid'] = "4";
-                    $request['waktu'] = now();
-                    $res = $api->update_antrean($request);
+                    // $api = new AntrianController();
+                    // $now = now();
+                    // $request['taskid'] = "3";
+                    // $request['waktu'] = $now->subMinutes(random_int(4, 9));
+                    // $res = $api->update_antrean($request);
+                    // $request['taskid'] = "4";
+                    // $request['waktu'] = $now;
+                    // $res = $api->update_antrean($request);
                     // if ($res->metadata->code == 200) {
                     $antrian->update([
-                        'taskid' => $request->taskid,
+                        'taskid' => 4,
                         'panggil' => 0,
+                        'status' => '0',
                         'taskid4' => now(),
                     ]);
-                    Alert::success('Success', $res->metadata->message);
-                    // }
+                    Alert::success('Success', 'Silahkan lakukan pemeriksaan kepada pasien');
                 }
-                // icare
-                // $api = new IcareController();
-                // $request['nomorkartu'] = $antrian->nomorkartu;
-                // $request['kodedokter'] = $antrian->kodedokter;
-                // $res =  $api->icare($request);
-                // if ($res->metadata->code == 200) {
-                //     $urlicare = $res->response->url;
-                //     $messageicare = 'ok';
-                // } else {
-                //     $messageicare = $res->metadata->message;
-                // }
                 $kunjungan = Kunjungan::find($antrian->kunjungan_id);
                 $kunjungans = Kunjungan::where('norm', $antrian->norm)
                     ->with(['units', 'asesmenperawat', 'asesmendokter', 'files', 'resepobat', 'resepobat.resepdetail'])
@@ -259,6 +249,7 @@ class DokterController extends Controller
                 $api = new AntrianController();
                 $res = $api->update_antrean($request);
                 $antrian->update([
+                    'status' => '0',
                     'taskid' => '7',
                     'user3' => Auth::user()->id,
                     'keterangan' => "Pasien pasien sudah selesai pelayanan.",
@@ -283,18 +274,20 @@ class DokterController extends Controller
         try {
             $request['keterangan'] = "Pasien dilanjutkan ke farmasi";
             $request['taskid'] = "5";
-            $request['waktu'] = now();
-            $request['taskid5'] = now();
+            $now = now();
+            $request['waktu'] = $now;
+            $request['taskid5'] = $now;
+            $request['status'] = 0;
             $request['user3'] = Auth::user()->id;
             $api = new AntrianController();
-            $res = $api->update_antrean($request);
+            // $res = $api->update_antrean($request);
             $antrian->update($request->all());
             // if ($res->metadata->code == 200) {
             $request['nomorantrean'] = $antrian->angkaantrean;
             $request['jenisresep'] = 'racikan';
             // $res_farmasi = $api->tambah_antrean_farmasi($request);
             // }
-            Alert::success('Success', $res->metadata->message);
+            Alert::success('Success', "Pasien dilanjutkan ke farmasi");
             $url = route('antrianpoliklinik') . "?tanggalperiksa=" . $antrian->tanggalperiksa;
             return redirect()->to($url);
         } catch (\Throwable $th) {

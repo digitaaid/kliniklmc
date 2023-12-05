@@ -165,10 +165,8 @@ class PerawatController extends Controller
                 Alert::error('Mohon Maaf', $res->metadata->code);
             }
         } catch (\Throwable $th) {
-            //throw $th;
             Alert::error('Mohon Maaf', $th->getMessage());
         }
-
         return redirect()->back();
     }
     public function hapusfilepenunjang(Request $request)

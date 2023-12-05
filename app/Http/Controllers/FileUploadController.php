@@ -7,7 +7,7 @@ use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
 
-class FileUploadController extends Controller
+class FileUploadController extends APIController
 {
     public function index(Request $request)
     {
@@ -129,5 +129,10 @@ class FileUploadController extends Controller
         $file->delete();
         Alert::success('Success', 'File Penunjang Pasien berhasil dihapus.');
         return redirect()->back();
+    }
+    public function fileupload_norm(Request $request)
+    {
+        $files = FileUploadPasien::where('norm', $request->norm)->get();
+        return $this->sendResponse($files, 200);
     }
 }

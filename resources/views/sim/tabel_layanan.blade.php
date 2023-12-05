@@ -11,100 +11,36 @@
             <i class="fas fa-info-circle"></i>
         </div>
     </a>
-    <div id="collLay" class="collapse" role="tabpanel">
+    <div id="collLay" class="show collapse" role="tabpanel">
         <div class="card-body">
-            <style>
-                .cariLayanan {
-                    width: 300px !important;
-                }
-            </style>
-            <form action="{{ route('editlayananpendaftaran') }}" method="POST">
-                @csrf
-                <input type="hidden" name="kodekunjungan" value="{{ $antrian->kodekunjungan }}">
-                <input type="hidden" name="kunjungan_id" value="{{ $antrian->kunjungan_id }}">
-                <input type="hidden" name="kodebooking" value="{{ $antrian->kodebooking }}">
-                <input type="hidden" name="antrian_id" value="{{ $antrian->id }}">
-                <input type="hidden" name="norm" value="{{ $antrian->norm }}">
-                <input type="hidden" name="nama" value="{{ $antrian->nama }}">
-                <div class="row">
-                    <div class="col-md-6">
-                        <label class="mb-2">Layanan & Tindakan Pasien :
-                        </label>
-                        <button id="addLayanan" type="button" class="btn btn-xs btn-success mb-2">
-                            <span class="fas fa-plus">
-                            </span> Tambah Layanan
-                        </button>
-                        @if ($antrian->layanan)
-                            @foreach ($antrian->layanan->layanandetails as $tarif)
-                                <div id="row">
-                                    <div class="form-group">
-                                        <div class="input-group input-group-sm">
-                                            <select name="layanan[]" class="form-control cariLayanan">
-                                                <option value="{{ $tarif->tarif_id }}">
-                                                    {{ $tarif->nama }}
-                                                    {{ money($tarif->harga, 'IDR') }}</option>
-                                            </select>
-                                            <input type="number" name="jumlah[]" placeholder="Jumlah"
-                                                value="{{ $tarif->jumlah }}" class="form-control" multiple>
-                                            <button type="button" class="btn btn-xs btn-danger" id="deleteLayanan"><i
-                                                    class="fas fa-trash "></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endforeach
-                        @endif
-                        <div id="rowTindakan">
-                            <div class="form-group">
-                                <div class="input-group input-group-sm">
-                                    <select name="layanan[]" class="form-control cariLayanan">
-                                    </select>
-                                    <input type="number" name="jumlah[]" placeholder="Jumlah" class="form-control"
-                                        multiple>
-                                    <button type="button" class="btn btn-xs btn-warning">
-                                        <i class="fas fa-hand-holding-medical "></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                        <div id="newLayanan"></div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label>Layanan Pasien</label>
-                            <div class="custom-control custom-checkbox">
-                                <input class="custom-control-input" type="checkbox" id="kemoterapi" name="kemoterapi"
-                                    value="1"
-                                    @if ($antrian->layanan) {{ $antrian->layanan->kemoterapi ? 'checked' : null }} @endif>
-                                <label for="kemoterapi" class="custom-control-label">Kemoterapi</label>
-                            </div>
-                            <div class="custom-control custom-checkbox">
-                                <input class="custom-control-input" type="checkbox" id="Laboratorium"
-                                    name="laboratorium" value="1"
-                                    @if ($antrian->layanan) {{ $antrian->layanan->laboratorium ? 'checked' : null }} @endif>
-                                <label for="Laboratorium" class="custom-control-label">Laboratorium</label>
-                            </div>
-                            <div class="custom-control custom-checkbox">
-                                <input class="custom-control-input" type="checkbox" id="radiologi" name="radiologi"
-                                    value="1"
-                                    @if ($antrian->layanan) {{ $antrian->layanan->radiologi ? 'checked' : null }} @endif>
-                                <label for="radiologi" class="custom-control-label">Radiologi</label>
-                            </div>
-                        </div>
-                        <label>User : </label>
-                        @if ($antrian->layanan)
-                            {{ $antrian->layanan->pic->name }}
-                        @endif <br>
-                        <label>Updated at : </label>
-                        @if ($antrian->layanan)
-                            {{ $antrian->layanan->updated_at }}
-                        @endif
-                    </div>
-                </div>
-                <button type="submit" class="btn btn-success withLoad">
-                    <i class="fas fa-edit"></i> Simpan Layanan & Tindakan
-                </button>
-            </form>
+            @php
+                $heads = ['Tanggal Input', 'Layanan & Tindakan', 'Harga', 'Jumlah', 'Diskon', 'Subtotal'];
+                $config['paging'] = false;
+                $config['searching'] = false;
+                $config['info'] = false;
+                $config['bLengthChange'] = false;
+                $config['ordering'] = false;
+            @endphp
+            <button type="button" class="btn btn-xs btn-success mb-2 tambahLayanan">
+                <i class="fas fa-plus"></i> Tambah Layanan
+            </button>
+            <button type="button" class="btn btn-xs btn-success mb-2 getLayananKunjungan">
+                <i class="fas fa-sync"></i> Get Layanan
+            </button>
+            <x-adminlte-datatable id="tableLayanan" :heads="$heads" :config="$config" bordered hoverable compressed>
+                @if ($antrian->layanan)
+                    @foreach ($antrian->layanan->layanandetails as $tarif)
+                        <tr>
+                            <td>{{ $tarif->created_at }}</td>
+                            <td>{{ $tarif->nama }}</td>
+                            <td>{{ $tarif->harga }}</td>
+                            <td>{{ $tarif->jumlah }}</td>
+                            <td>{{ $tarif->diskon }}</td>
+                            <td>{{ $tarif->diskon }}</td>
+                        </tr>
+                    @endforeach
+                @endif
+            </x-adminlte-datatable>
         </div>
     </div>
 </div>
