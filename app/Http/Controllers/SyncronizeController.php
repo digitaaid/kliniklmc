@@ -42,7 +42,7 @@ class SyncronizeController extends Controller
                 ]);
             }
         }
-        $antrians = Antrian::get();
+        $antrians = Antrian::where('taskid', 7)->where('status', 0)->get();
         return view('sim.sync_antrian_bpjs', compact([
             'request',
             'antrians',
