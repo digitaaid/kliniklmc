@@ -18,9 +18,12 @@ return new class extends Migration
             $table->string('tarif_id');
             $table->string('nama');
             $table->double('harga');
-            $table->double('jumlah');
+            $table->integer('jumlah');
+            $table->integer('diskon');
             $table->string('klasifikasi');
             $table->text('keterangan')->nullable();
+            $table->dateTime('tgl_input');
+            $table->string('user');
             $table->timestamps();
         });
     }

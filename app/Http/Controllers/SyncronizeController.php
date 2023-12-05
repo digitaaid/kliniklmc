@@ -22,12 +22,12 @@ class SyncronizeController extends Controller
             if ($antrian) {
                 try {
                     $request['kodebooking'] = $antrian->kodebooking;
-                    $request['taskid'] = 1;
-                    $request['waktu'] = Carbon::parse($antrian->taskid1, 'Asia/Jakarta');
-                    $res =  $api->update_antrean($request);
-                    $request['taskid'] = 2;
-                    $request['waktu'] = Carbon::parse($antrian->taskid2, 'Asia/Jakarta');
-                    $res =  $api->update_antrean($request);
+                    // $request['taskid'] = 1;
+                    // $request['waktu'] = Carbon::parse($antrian->taskid1, 'Asia/Jakarta');
+                    // $res =  $api->update_antrean($request);
+                    // $request['taskid'] = 2;
+                    // $request['waktu'] = Carbon::parse($antrian->taskid2, 'Asia/Jakarta');
+                    // $res =  $api->update_antrean($request);
                     $request['taskid'] = 3;
                     $request['waktu'] = Carbon::parse($antrian->taskid4, 'Asia/Jakarta')->subMinutes(random_int(4, 9));
                     $res = $api->update_antrean($request);
@@ -53,8 +53,7 @@ class SyncronizeController extends Controller
                     Alert::error('Error', $th->getMessage());
                 }
             }
-            $antrians = Antrian::whereBetween('tanggalperiksa', [$request->tanggalawal, $request->tanggalakhir])
-                ->where('taskid', 7)->get();
+            $antrians = Antrian::whereBetween('tanggalperiksa', [$request->tanggalawal, $request->tanggalakhir])->get();
         }
         return view('sim.sync_antrian_bpjs', compact([
             'request',

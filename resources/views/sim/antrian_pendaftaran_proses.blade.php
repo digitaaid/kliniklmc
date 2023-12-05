@@ -99,11 +99,11 @@
                             {{-- layanan --}}
                             @include('sim.tabel_layanan')
                             {{-- laboratorium --}}
-                            @if ($antrian->kunjungan->layanan)
-                                @if ($antrian->kunjungan->layanan->laboratorium)
-                                    @include('sim.tabel_lab')
-                                @endif
-                            @endif
+                            {{-- @if ($antrian->kunjungan->layanan)
+                                @if ($antrian->kunjungan->layanan->laboratorium) --}}
+                            @include('sim.tabel_lab')
+                            {{-- @endif
+                            @endif --}}
                             @if ($antrian->kunjungan->layanan)
                                 @if ($antrian->kunjungan->layanan->radiologi)
                                     {{-- radiologi --}}
@@ -1001,6 +1001,7 @@
             });
         });
     </script>
+    {{-- tarif dan layanan --}}
     <x-adminlte-modal id="modalTarif" name="modalTarif" title="Tarif Layanan & Tindakan" theme="success"
         icon="fas fa-user-injured" size="xl">
         <form name="formInputTarif" id="formInputTarif">
@@ -1031,64 +1032,27 @@
         <x-slot name="footerSlot">
             <x-adminlte-button class="mr-auto btnTambahTarif" theme="success" label="Tambah" />
             <x-adminlte-button class="mr-auto btnUpdateTarif" theme="warning" label="Update" />
-            <x-adminlte-button class=" btnHapusTarif" theme="danger" label="Hapus" />
             <x-adminlte-button theme="danger" label="Dismiss" data-dismiss="modal" />
         </x-slot>
     </x-adminlte-modal>
     <script>
         $(function() {
-            function refresTableLayanan() {
-                var url = "{{ route('get_layanan_kunjungan') }}?kunjungan={{ $antrian->kunjungan_id }}";
-                var table = $('#tableLayanan').DataTable();
-                table.rows().remove().draw();
-                $.ajax({
-                    type: "GET",
-                    url: url,
-                }).done(function(data) {
-                    console.log(data);
-                    if (data.metadata.code == 200) {
-                        $.each(data.response, function(key, value) {
-                            console.log(value);
-                            var btn =
-                                '<button class="btn btn-xs btn-warning btnEditTarif" data-nama="nama" data-harga="' +
-                                value.harga +
-                                '" data-jumlah="' +
-                                value.jumlah +
-                                '" data-diskon="' +
-                                value.diskon +
-                                '"><i class="fas fa-edit"></i> Edit</button>';
-                            table.row.add([
-                                value.created_at + ' ' + btn,
-                                value.nama,
-                                value.harga,
-                                value.jumlah,
-                                0 + ' %',
-                                value.harga,
-                            ]).draw(false);
-                        });
-                        $('.btnEditTarif').click(function() {
-                            $('.btnUpdateTarif').show();
-                            $('.btnHapusTarif').show();
-                            $('.btnTambahTarif').hide();
-                            $("#jumlah-tarif").val($(this).data('jumlah'));
-                            $("#harga-tarif").val($(this).data('harga'));
-                            $("#diskon-tarif").val($(this).data('diskon'));
-                            $('#modalTarif').modal('show');
-                        });
-                    } else {
-                        Swal.fire(
-                            'Mohon Maaf !',
-                            data.metadata.message,
-                            'error'
-                        );
-                    }
-                });
-
-            }
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 5000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+            });
             $('.tambahLayanan').click(function() {
                 $('.btnUpdateTarif').hide();
-                $('.btnHapusTarif').hide();
                 $('.btnTambahTarif').show();
+                $("#formInputTarif").trigger('reset');
+                $(".layanan_tarif").val(null).change();
                 $('#modalTarif').modal('show');
             });
             $(".layanan_tarif").select2({
@@ -1097,7 +1061,7 @@
                 maximumSelectionLength: 1,
                 placeholder: "Tarif & Layanan",
                 ajax: {
-                    url: "{{ route('ref_tarif_layanan') }}",
+                    url: "{{ route('ref_tarif_layanan') }}?jenispasien={{ $antrian->jenispasien }}",
                     type: "get",
                     dataType: 'json',
                     delay: 250,
@@ -1122,7 +1086,6 @@
                 console.log(data);
             });
             $('.btnTambahTarif').click(function() {
-                console.log($("#formInputTarif").serialize());
                 $.LoadingOverlay("show");
                 $.ajax({
                     type: "POST",
@@ -1133,22 +1096,46 @@
                 }).done(function(data) {
                     console.log(data);
                     if (data.metadata.code == 200) {
-                        Swal.fire(
-                            'Success',
-                            'Tarif layanan & tindakan telah ditambahkan',
-                            'success'
-                        );
-                        $("#jumlah-tarif").val(null);
-                        $("#harga-tarif").val(null);
-                        $("#diskon-tarif").val(null);
+                        Toast.fire({
+                            icon: 'success',
+                            title: 'Tarif layanan & tindakan telah ditambahkan',
+                        });
+                        $("#formInputTarif").trigger('reset');
                         $(".layanan_tarif").val(null).change();
                         refresTableLayanan();
                     } else {
-                        Swal.fire(
-                            'Mohon Maaf !',
-                            data.metadata.message,
-                            'error'
-                        );
+                        Toast.fire({
+                            icon: 'error',
+                            title: 'Tambah tarif layanan & tindakan error',
+                        });
+                    }
+                    $.LoadingOverlay("hide");
+                });
+            });
+            $('.btnUpdateTarif').click(function() {
+                $.LoadingOverlay("show");
+                $.ajax({
+                    type: "POST",
+                    url: "{{ route('input_tarif_pasien') }}",
+                    data: $("#formInputTarif").serialize(),
+                    dataType: "json",
+                    encode: true,
+                }).done(function(data) {
+                    console.log(data);
+                    if (data.metadata.code == 200) {
+                        Toast.fire({
+                            icon: 'success',
+                            title: 'Tarif layanan & tindakan telah ditambahkan',
+                        });
+                        $("#formInputTarif").trigger('reset');
+                        $(".layanan_tarif").val(null).change();
+                        refresTableLayanan();
+                        $('#modalTarif').modal('hide');
+                    } else {
+                        Toast.fire({
+                            icon: 'error',
+                            title: 'Tambah tarif layanan & tindakan error',
+                        });
                     }
                     $.LoadingOverlay("hide");
                 });
@@ -1156,7 +1143,94 @@
             $('.getLayananKunjungan').click(function() {
                 refresTableLayanan();
             });
-
+            refresTableLayanan();
+            function refresTableLayanan() {
+                var url = "{{ route('get_layanan_kunjungan') }}?kunjungan={{ $antrian->kunjungan_id }}";
+                var table = $('#tableLayanan').DataTable();
+                $.ajax({
+                    type: "GET",
+                    url: url,
+                }).done(function(data) {
+                    table.rows().remove().draw();
+                    if (data.metadata.code == 200) {
+                        $.each(data.response, function(key, value) {
+                            console.log(value);
+                            var btn =
+                                '<button class="btn btn-xs btn-warning btnEditTarif" data-nama="' +
+                                value.nama + '" data-tarifid="' + value.tarif_id +
+                                '" data-harga="' +
+                                value.harga +
+                                '" data-jumlah="' +
+                                value.jumlah +
+                                '" data-diskon="' +
+                                value.diskon +
+                                '"><i class="fas fa-edit"></i> Edit</button> <button class="btn btn-xs btn-danger btnHapusTarif" data-id="' +
+                                value.id +
+                                '"><i class="fas fa-trash"></i> Hapus</button>';
+                            table.row.add([
+                                value.tgl_input,
+                                btn,
+                                value.nama,
+                                'Rp ' + value.harga.toLocaleString() + ' @ ' + value.jumlah,
+                                value.diskon + ' %',
+                                'Rp ' + (value.harga * value.jumlah - (value.harga * value
+                                    .jumlah * value.diskon / 100)).toLocaleString(),
+                            ]).draw(false);
+                        });
+                        $('.btnEditTarif').click(function() {
+                            $("#formInputTarif").trigger('reset');
+                            var option = new Option($(this).data('nama'), $(this).data('tarifid'));
+                            option.selected = true;
+                            $(".layanan_tarif").append(option);
+                            $(".layanan_tarif").trigger("change");
+                            // $(".layanan_tarif").val(null).change();
+                            $('.btnUpdateTarif').show();
+                            $('.btnTambahTarif').hide();
+                            $("#jumlah-tarif").val($(this).data('jumlah'));
+                            $("#harga-tarif").val($(this).data('harga'));
+                            $("#diskon-tarif").val($(this).data('diskon'));
+                            $('#modalTarif').modal('show');
+                        });
+                        $('.btnHapusTarif').click(function() {
+                            $.LoadingOverlay("show");
+                            $.ajax({
+                                type: "POST",
+                                url: "{{ route('delete_tarif_pasien') }}",
+                                data: {
+                                    "_token": "{{ csrf_token() }}",
+                                    "tarif": tarif = $(this).data('id')
+                                },
+                                dataType: "json",
+                                encode: true,
+                            }).done(function(data) {
+                                console.log(data);
+                                if (data.metadata.code == 200) {
+                                    Toast.fire({
+                                        icon: 'success',
+                                        title: 'Tarif layanan & tindakan telah dihapuskan',
+                                    });
+                                    $("#formInputTarif").trigger('reset');
+                                    $(".layanan_tarif").val(null).change();
+                                    refresTableLayanan();
+                                } else {
+                                    Toast.fire({
+                                        icon: 'error',
+                                        title: 'Tarif layanan & tindakan gagal dihapuskan',
+                                    });
+                                }
+                                $.LoadingOverlay("hide");
+                            });
+                            $.LoadingOverlay("hide");
+                        });
+                    } else {
+                        Swal.fire(
+                            'Mohon Maaf !',
+                            data.metadata.message,
+                            'error'
+                        );
+                    }
+                });
+            }
         });
     </script>
     @include('sim.tabel_fileupload')

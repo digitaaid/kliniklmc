@@ -170,12 +170,11 @@ class PendaftaranController extends APIController
             $dokters = Dokter::where('status', '1')->pluck('namadokter', 'kodedokter');
             $polikliniks = Unit::where('status', '1')->pluck('nama', 'kode');
             $jaminans = Jaminan::pluck('nama', 'kode');
-            $pemeriksaanlab = null;
+            $pemeriksaanlab = PemeriksaanLab::get();
             $permintaanlab = null;
             $hasillab = null;
             if ($antrian->layanan) {
                 if ($antrian->layanan->laboratorium) {
-                    $pemeriksaanlab = PemeriksaanLab::get();
                     $permintaanlab = $antrian->permintaan_lab;
                     $hasillab = $permintaanlab ?  $permintaanlab->hasillab : null;
                 }
@@ -209,12 +208,11 @@ class PendaftaranController extends APIController
             $dokters = Dokter::where('status', '1')->pluck('namadokter', 'kodedokter');
             $polikliniks = Unit::where('status', '1')->pluck('nama', 'kode');
             $jaminans = Jaminan::pluck('nama', 'kode');
-            $pemeriksaanlab = null;
+            $pemeriksaanlab = PemeriksaanLab::get();
             $permintaanlab = null;
             $hasillab = null;
             if ($antrian->layanan) {
                 if ($antrian->layanan->laboratorium) {
-                    $pemeriksaanlab = PemeriksaanLab::get();
                     $permintaanlab = $antrian->permintaan_lab;
                     $hasillab = $permintaanlab ?  $permintaanlab->hasillab : null;
                 }

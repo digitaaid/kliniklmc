@@ -25,7 +25,7 @@
                         <tr>
                             <td>{{ $item->id }}</td>
                             <td>{{ $item->nama }}</td>
-                            <td>{{ $item->code }}</td>
+                            <td>{{ $item->kode }}</td>
                             <td>{{ $item->kelompok }}</td>
                             <td>{{ $item->group }}</td>
                             <td>{{ money($item->harga ?? 0, 'IDR') }}</td>
@@ -39,7 +39,7 @@
                             <td>
                                 <x-adminlte-button class="btn-xs btnEdit" theme="warning" icon="fas fa-edit"
                                     title="Edit Pemeriksaan Laboratoirum {{ $item->nama }}" data-id="{{ $item->id }}"
-                                    data-nama="{{ $item->nama }}" data-code="{{ $item->code }}"
+                                    data-nama="{{ $item->nama }}" data-kode="{{ $item->kode }}"
                                     data-kelompok="{{ $item->kelompok }}" data-group="{{ $item->group }}"
                                     data-harga="{{ $item->harga }}" />
                                 <x-adminlte-button class="btn-xs btnDelete" theme="danger" icon="fas fa-trash-alt"
@@ -59,7 +59,7 @@
             <input type="hidden" name="_method" id="method">
             <x-adminlte-input name="nama" label="Nama Pemeriksaan Laboratorium"
                 placeholder="Nama Pemeriksaan Laboratorium" enable-old-support required />
-            <x-adminlte-input name="code" label="Kode" placeholder="Kode" enable-old-support required />
+            <x-adminlte-input name="kode" label="Kode" placeholder="Kode" enable-old-support required />
             <x-adminlte-select2 name="kelompok" label="Kelompok">
                 <option value="HEMATOLOGI">HEMATOLOGI</option>
                 <option value="KLINIK URINE">KLINIK URINE</option>
@@ -132,7 +132,7 @@
                 // get
                 $('#id').val($(this).data("id"));
                 $('#nama').val($(this).data("nama"));
-                $('#code').val($(this).data("code"));
+                $('#kode').val($(this).data("kode"));
                 $('#harga').val($(this).data("harga"));
                 $('#kelompok').val($(this).data("kelompok")).change();
                 $('#group').val($(this).data("group")).change();

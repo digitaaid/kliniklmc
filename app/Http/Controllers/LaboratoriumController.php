@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Imports\PemeriksaanLabImport;
 use App\Models\HasilLab;
+use App\Models\Kunjungan;
 use App\Models\PemeriksaanLab;
 use App\Models\PermintaanLab;
 use GuzzleHttp\Psr7\Request as Psr7Request;
@@ -42,6 +43,10 @@ class LaboratoriumController extends Controller
     {
         $request['permintaan_lab'] = json_encode($request->permintaan_lab);
         $request['user'] = Auth::user()->id;
+        $kunjungan = Kunjungan::find($request->kunjungan_id);
+        $kunjungan->layanan->update([
+            'laboratorium' => 1,
+        ]);
         PermintaanLab::updateOrCreate(
             [
                 'antrian_id' => $request->antrian_id,

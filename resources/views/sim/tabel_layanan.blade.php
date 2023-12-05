@@ -14,7 +14,7 @@
     <div id="collLay" class="show collapse" role="tabpanel">
         <div class="card-body">
             @php
-                $heads = ['Tanggal Input', 'Layanan & Tindakan', 'Harga', 'Jumlah', 'Diskon', 'Subtotal'];
+                $heads = ['Tgl Input', 'Action', 'Layanan & Tindakan', 'Harga @ Jumlah', 'Diskon', 'Subtotal'];
                 $config['paging'] = false;
                 $config['searching'] = false;
                 $config['info'] = false;
@@ -25,21 +25,9 @@
                 <i class="fas fa-plus"></i> Tambah Layanan
             </button>
             <button type="button" class="btn btn-xs btn-success mb-2 getLayananKunjungan">
-                <i class="fas fa-sync"></i> Get Layanan
+                <i class="fas fa-sync"></i> Refresh Layanan
             </button>
             <x-adminlte-datatable id="tableLayanan" :heads="$heads" :config="$config" bordered hoverable compressed>
-                @if ($antrian->layanan)
-                    @foreach ($antrian->layanan->layanandetails as $tarif)
-                        <tr>
-                            <td>{{ $tarif->created_at }}</td>
-                            <td>{{ $tarif->nama }}</td>
-                            <td>{{ $tarif->harga }}</td>
-                            <td>{{ $tarif->jumlah }}</td>
-                            <td>{{ $tarif->diskon }}</td>
-                            <td>{{ $tarif->diskon }}</td>
-                        </tr>
-                    @endforeach
-                @endif
             </x-adminlte-datatable>
         </div>
     </div>
