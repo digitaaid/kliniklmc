@@ -129,7 +129,7 @@
     </div>
     <x-adminlte-modal id="modalICare" name="modalICare" title="I-Care JKN" theme="warning" icon="fas fa-file-medical"
         size="xl">
-        <iframe src="" id="urlIcare" width="100%" height="500px" frameborder="0"></iframe>
+        <iframe src="" id="urlIcare" width="100%" height="700px" frameborder="0"></iframe>
     </x-adminlte-modal>
 @stop
 
