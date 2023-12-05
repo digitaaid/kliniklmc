@@ -38,11 +38,12 @@ class SyncronizeController extends Controller
                 $request['taskid'] = 7;
                 $request['waktu'] = Carbon::parse($antrian->taskid7, 'Asia/Jakarta');
                 $res =  $api->update_antrean($request);
-                // if ($res->metadata->code == 200 || $res->metadata->message == "TaskId=7 sudah ada") {
-                $antrian->update([
-                    'status' => 1
-                ]);
-                // }
+                dd($res);
+                if ($res->metadata->code == 200 || $res->metadata->message == "TaskId=7 sudah ada") {
+                    $antrian->update([
+                        'status' => 1
+                    ]);
+                }
                 Alert::success('Success', 'Berhasil snyc');
             } catch (\Throwable $th) {
                 Alert::error('Error', $th->getMessage());
