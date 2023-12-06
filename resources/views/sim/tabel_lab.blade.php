@@ -179,88 +179,90 @@
                 </form>
             </x-adminlte-card>
             @if ($hasillab)
-            <x-adminlte-card title="Hasil Pemeriksaan Laboratorium" header-class="p-2" theme="secondary" collapsible>
-                <div class="row invoice-info">
-                    <div class="col-md-6">
-                        <dl class="row">
-                            <dt class="col-sm-4 m-0">Nama</dt>
-                            <dd class="col-sm-8 m-0">: {{ $permintaanlab->nama }} </dd>
-                            <dt class="col-sm-4 m-0">No RM</dt>
-                            <dd class="col-sm-8 m-0">: {{ $permintaanlab->norm }} </dd>
-                            <dt class="col-sm-4 m-0">Tgl. Lahir</dt>
-                            <dd class="col-sm-8 m-0">: {{ $permintaanlab->pasien->tgl_lahir ?? '-' }} </dd>
-                            <dt class="col-sm-4 m-0">Jenis Kelamin</dt>
-                            <dd class="col-sm-8 m-0">: {{ $permintaanlab->pasien->gender ?? '-' }} </dd>
-                            <dt class="col-sm-4 m-0">Diagnosa</dt>
-                            <dd class="col-sm-8 m-0">: {{ $permintaanlab->diagnosa }} </dd>
-                        </dl>
-                    </div>
-                    <div class="col-md-6">
-                        <dl class="row">
-                            <dt class="col-sm-4 m-0">Dokter</dt>
-                            <dd class="col-sm-8 m-0">: {{ $permintaanlab->dpjp }} </dd>
-                            <dt class="col-sm-4 m-0">Alamat</dt>
-                            <dd class="col-sm-8 m-0">: Klinik LMC </dd>
-                            <dt class="col-sm-4 m-0">Tgl Pemeriksaan</dt>
-                            <dd class="col-sm-8 m-0">: {{ $permintaanlab->waktu }} </dd>
-                        </dl>
-                    </div>
-                    <div class="col-md-12">
-                        <table class="table table-sm  table-hover">
-                            <thead>
-                                <tr>
-                                    <th>Nama Pemeriksaan</th>
-                                    <th colspan="2">Hasil</th>
-                                    <th>Nilai Rujukan</th>
-                                    <th>Satuan</th>
-                                    <th>Keterangan</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @php
-                                    $key = 0;
-                                @endphp
-                                @foreach ($pemeriksaanlab->whereIn('kode', json_decode($permintaanlab->permintaan_lab)) as $prksa)
+                <x-adminlte-card title="Hasil Pemeriksaan Laboratorium" header-class="p-2" theme="secondary"
+                    collapsible>
+                    <div class="row invoice-info">
+                        <div class="col-md-6">
+                            <dl class="row">
+                                <dt class="col-sm-4 m-0">Nama</dt>
+                                <dd class="col-sm-8 m-0">: {{ $permintaanlab->nama }} </dd>
+                                <dt class="col-sm-4 m-0">No RM</dt>
+                                <dd class="col-sm-8 m-0">: {{ $permintaanlab->norm }} </dd>
+                                <dt class="col-sm-4 m-0">Tgl. Lahir</dt>
+                                <dd class="col-sm-8 m-0">: {{ $permintaanlab->pasien->tgl_lahir ?? '-' }} </dd>
+                                <dt class="col-sm-4 m-0">Jenis Kelamin</dt>
+                                <dd class="col-sm-8 m-0">: {{ $permintaanlab->pasien->gender ?? '-' }} </dd>
+                                <dt class="col-sm-4 m-0">Diagnosa</dt>
+                                <dd class="col-sm-8 m-0">: {{ $permintaanlab->diagnosa }} </dd>
+                            </dl>
+                        </div>
+                        <div class="col-md-6">
+                            <dl class="row">
+                                <dt class="col-sm-4 m-0">Dokter</dt>
+                                <dd class="col-sm-8 m-0">: {{ $permintaanlab->dpjp }} </dd>
+                                <dt class="col-sm-4 m-0">Alamat</dt>
+                                <dd class="col-sm-8 m-0">: Klinik LMC </dd>
+                                <dt class="col-sm-4 m-0">Tgl Pemeriksaan</dt>
+                                <dd class="col-sm-8 m-0">: {{ $permintaanlab->waktu }} </dd>
+                            </dl>
+                        </div>
+                        <div class="col-md-12">
+                            <table class="table table-sm  table-hover">
+                                <thead>
                                     <tr>
-                                        <td><b>{{ $prksa->nama }}</b></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
+                                        <th>Nama Pemeriksaan</th>
+                                        <th colspan="2">Hasil</th>
+                                        <th>Nilai Rujukan</th>
+                                        <th>Satuan</th>
+                                        <th>Keterangan</th>
                                     </tr>
-                                    @foreach ($prksa->parameters as $param)
+                                </thead>
+                                <tbody>
+                                    @php
+                                        $key = 0;
+                                    @endphp
+                                    @foreach ($pemeriksaanlab->whereIn('kode', json_decode($permintaanlab->permintaan_lab)) as $prksa)
                                         <tr>
-                                            <input type="hidden" name="parameter_id[]" value="{{ $param->id }}">
-                                            <td>&emsp;&emsp;{{ $param->nama }}</td>
-                                            <td>{{ $hasillab->hasil[$key] ?? '-' }}</td>
-                                            <th>*&emsp;&emsp;</th>
-                                            <td>{{ $param->nilai_rujukan }}</td>
-                                            <td>{{ $param->satuan }}</td>
-                                            <td>{{ $hasillab->keterangan[$key] ?? '-' }}
-                                            </td>
+                                            <td><b>{{ $prksa->nama }}</b></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
                                         </tr>
-                                        @php
-                                            $key++;
-                                        @endphp
+                                        @foreach ($prksa->parameters as $param)
+                                            <tr>
+                                                <input type="hidden" name="parameter_id[]"
+                                                    value="{{ $param->id }}">
+                                                <td>&emsp;&emsp;{{ $param->nama }}</td>
+                                                <td>{{ $hasillab->hasil[$key] ?? '-' }}</td>
+                                                <th>*&emsp;&emsp;</th>
+                                                <td>{{ $param->nilai_rujukan }}</td>
+                                                <td>{{ $param->satuan }}</td>
+                                                <td>{{ $hasillab->keterangan[$key] ?? '-' }}
+                                                </td>
+                                            </tr>
+                                            @php
+                                                $key++;
+                                            @endphp
+                                        @endforeach
                                     @endforeach
-                                @endforeach
-                            </tbody>
-                        </table>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-sm-8 mt-1">
+                            <dl>
+                                <dt>Catatan :</dt>
+                                <dd>{{ $permintaanlab->catatan }} </dd>
+                            </dl>
+                        </div>
+                        <div class="col-sm-2 mt-1">
+                            <b>Pemeriksa,</b>
+                            <br><br><br>
+                            <hr>
+                        </div>
                     </div>
-                    <div class="col-sm-8 mt-1">
-                        <dl>
-                            <dt>Catatan :</dt>
-                            <dd>{{ $permintaanlab->catatan }} </dd>
-                        </dl>
-                    </div>
-                    <div class="col-sm-2 mt-1">
-                        <b>Pemeriksa,</b>
-                        <br><br><br>
-                        <hr>
-                    </div>
-                </div>
-            </x-adminlte-card>
+                </x-adminlte-card>
             @endif
 
         </div>

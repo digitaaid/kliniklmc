@@ -58,13 +58,15 @@ class PerawatController extends Controller
             if (empty($antrian->asesmenperawat)) {
                 Alert::info('Informasi', 'Silahkan Lakukan Assemen Keperawatan.');
             }
-            $pemeriksaanlab = null;
+            $pemeriksaanlab = PemeriksaanLab::get();
             $permintaanlab = null;
             $hasillab = null;
             if ($antrian->layanan) {
                 if ($antrian->layanan->laboratorium) {
-                    $pemeriksaanlab = PemeriksaanLab::get();
                     $permintaanlab = $antrian->permintaan_lab;
+                    if ($permintaanlab->permintaan_lab == "null") {
+                        $permintaanlab = null;
+                    }
                     $hasillab = $permintaanlab ?  $permintaanlab->hasillab : null;
                 }
             }

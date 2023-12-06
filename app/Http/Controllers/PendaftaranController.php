@@ -176,6 +176,9 @@ class PendaftaranController extends APIController
             if ($antrian->layanan) {
                 if ($antrian->layanan->laboratorium) {
                     $permintaanlab = $antrian->permintaan_lab;
+                    if ($permintaanlab->permintaan_lab == "null") {
+                        $permintaanlab = null;
+                    }
                     $hasillab = $permintaanlab ?  $permintaanlab->hasillab : null;
                 }
             }
@@ -214,6 +217,9 @@ class PendaftaranController extends APIController
             if ($antrian->layanan) {
                 if ($antrian->layanan->laboratorium) {
                     $permintaanlab = $antrian->permintaan_lab;
+                    if ($permintaanlab->permintaan_lab == "null") {
+                        $permintaanlab = null;
+                    }
                     $hasillab = $permintaanlab ?  $permintaanlab->hasillab : null;
                 }
             }

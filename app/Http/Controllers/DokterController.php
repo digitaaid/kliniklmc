@@ -121,13 +121,15 @@ class DokterController extends Controller
                     ->with(['units', 'asesmenperawat', 'asesmendokter', 'files', 'resepobat', 'resepobat.resepdetail'])
                     ->orderBy('tgl_masuk', 'DESC')
                     ->get();
-                $pemeriksaanlab = null;
+                $pemeriksaanlab = PemeriksaanLab::get();
                 $permintaanlab = null;
                 $hasillab = null;
                 if ($antrian->layanan) {
                     if ($antrian->layanan->laboratorium) {
-                        $pemeriksaanlab = PemeriksaanLab::get();
                         $permintaanlab = $antrian->permintaan_lab;
+                        if ($permintaanlab->permintaan_lab == "null") {
+                            $permintaanlab = null;
+                        }
                         $hasillab = $permintaanlab ?  $permintaanlab->hasillab : null;
                     }
                 }

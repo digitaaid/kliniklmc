@@ -78,12 +78,10 @@
                     <div id="accordion" role="tablist" aria-multiselectable="true">
                         {{-- riwayatpasien --}}
                         @include('sim.tabel_riwayat_pasien')
-                        {{-- filepenunjang --}}
-                        {{-- @include('sim.tabel_filepenunjang') --}}
-                        {{-- perawat --}}
-                        @include('sim.tabel_anamnesa_perawat')
                         {{-- layanan --}}
                         @include('sim.tabel_layanan')
+                        {{-- perawat --}}
+                        @include('sim.tabel_anamnesa_perawat')
                         {{-- laboratorium --}}
                         @if ($antrian->kunjungan->layanan)
                             @if ($antrian->kunjungan->layanan->laboratorium)
@@ -127,10 +125,7 @@
             </div>
         </div>
     </div>
-    <x-adminlte-modal id="modalICare" name="modalICare" title="I-Care JKN" theme="warning" icon="fas fa-file-medical"
-        size="xl">
-        <iframe src="" id="urlIcare" width="100%" height="700px" frameborder="0"></iframe>
-    </x-adminlte-modal>
+
 @stop
 
 @section('plugins.Datatables', true)
@@ -199,33 +194,6 @@
         $("body").on("click", "#deleteLayanan", function() {
             $(this).parents("#row").remove();
         })
-        $('.btnIcare').click(function() {
-            $.LoadingOverlay("show");
-            var url =
-                "{{ route('icare') }}?nomorkartu={{ $antrian->nomorkartu }}&kodedokter={{ $antrian->kodedokter }}";
-            $.ajax({
-                url: url,
-                type: "GET",
-                dataType: 'json',
-                success: function(data) {
-                    if (data.metadata.code == 200) {
-                        $('#urlIcare').attr('src', data.response.url);
-                        $('#modalICare').modal('show');
-                    } else {
-                        Swal.fire(
-                            'Error ' + data.metadata.code,
-                            data.metadata.message,
-                            'error'
-                        );
-                    }
-                    $.LoadingOverlay("hide");
-                },
-                error: function(data) {
-                    alert('Error');
-                    $.LoadingOverlay("hide");
-                }
-            });
-        });
     </script>
     <script>
         $(function() {
@@ -233,6 +201,42 @@
                 $('#dataFilePenunjang').attr('src', $(this).data('fileurl'));
                 $('#urlFilePenunjang').attr('href', $(this).data('fileurl'));
                 $('#modalFilePenunjang').modal('show');
+            });
+        });
+    </script>
+    {{-- icare --}}
+    <x-adminlte-modal id="modalICare" name="modalICare" title="I-Care JKN" theme="warning" icon="fas fa-file-medical"
+        size="xl">
+        <iframe src="" id="urlIcare" width="100%" height="700px" frameborder="0"></iframe>
+    </x-adminlte-modal>
+    <script>
+        $(function() {
+            $('.btnIcare').click(function() {
+                $.LoadingOverlay("show");
+                var url =
+                    "{{ route('icare') }}?nomorkartu={{ $antrian->nomorkartu }}&kodedokter={{ $antrian->kodedokter }}";
+                $.ajax({
+                    url: url,
+                    type: "GET",
+                    dataType: 'json',
+                    success: function(data) {
+                        if (data.metadata.code == 200) {
+                            $('#urlIcare').attr('src', data.response.url);
+                            $('#modalICare').modal('show');
+                        } else {
+                            Swal.fire(
+                                'Error ' + data.metadata.code,
+                                data.metadata.message,
+                                'error'
+                            );
+                        }
+                        $.LoadingOverlay("hide");
+                    },
+                    error: function(data) {
+                        alert('Error');
+                        $.LoadingOverlay("hide");
+                    }
+                });
             });
         });
     </script>
@@ -469,5 +473,6 @@
             }
         });
     </script>
+    {{-- file upload --}}
     @include('sim.tabel_fileupload')
 @endsection

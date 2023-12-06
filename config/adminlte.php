@@ -833,8 +833,8 @@ return [
                 ],
             ],
         ],
-           // MODUL TESTING
-           [
+        // MODUL TESTING
+        [
             'text'    => 'Sync Data',
             'icon'    => 'fas fa-cogs',
             'can' => 'admin',
