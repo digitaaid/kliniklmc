@@ -116,13 +116,16 @@ Route::middleware('auth')->group(function () {
     Route::resource('antrian', AntrianController::class);
     Route::resource('kunjungan', KunjunganController::class);
     Route::resource('suratkontrol', SuratKontrolController::class);
+    Route::get('kirimpesanlibur', [JadwalLiburController::class, 'kirimpesanlibur'])->name('kirimpesanlibur');
 
 
     Route::resource('fileupload', FileUploadController::class);
     Route::get('fileupload_norm', [FileUploadController::class, 'fileupload_norm'])->name('fileupload_norm');
 
     Route::resource('tarif', TarifController::class);
-    Route::get('kirimpesanlibur', [JadwalLiburController::class, 'kirimpesanlibur'])->name('kirimpesanlibur');
+    Route::get('laporan_tarif_layanan_tindakan', [TarifController::class, 'laporan_tarif_layanan_tindakan'])->name('laporan_tarif_layanan_tindakan');
+
+
     // anjungan
     Route::get('anjunganantrian', [PendaftaranController::class, 'anjunganantrian'])->name('anjunganantrian');
     Route::get('checkinantrian', [PendaftaranController::class, 'checkinantrian'])->name('checkinantrian');

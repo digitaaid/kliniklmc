@@ -497,6 +497,12 @@ return [
             'icon'    => 'fas fa-chart-line',
             'submenu' => [
                 [
+                    'text' => 'Laporan Pelayanan & Tindakan',
+                    'icon'    => 'fas fa-chart-line',
+                    'url'  => 'laporan_tarif_layanan_tindakan',
+                    'shift'   => 'ml-2',
+                ],
+                [
                     'text' => 'Capaian Antrian',
                     'icon'    => 'fas fa-chart-line',
                     'url'  => 'capaianantrian',

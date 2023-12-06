@@ -173,4 +173,11 @@ class TarifController extends APIController
         $layanans = $kunjungan->layanan->layanandetails;
         return $this->sendResponse($layanans);
     }
+    function laporan_tarif_layanan_tindakan(Request $request)
+    {
+        $laydet = LayananDetail::simplePaginate();
+        return view('sim.layanan_detail_index', compact([
+            'laydet'
+        ]));
+    }
 }
