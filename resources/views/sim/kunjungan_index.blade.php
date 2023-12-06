@@ -57,7 +57,7 @@
                     @if (isset($kunjungans))
                         @foreach ($kunjungans as $item)
                             <tr>
-                                <td>{{ $loop->iteration }}</td>
+                                <td>{{ $item->id }}</td>
                                 <td>{{ $item->tgl_masuk }}</td>
                                 <td>{{ $item->kode }}</td>
                                 <td>{{ $item->norm }} {{ $item->nama }}</td>
