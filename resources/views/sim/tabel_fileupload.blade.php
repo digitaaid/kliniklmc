@@ -123,5 +123,11 @@
             $('#inputFileUpload').modal('show');
             $.LoadingOverlay("hide");
         });
+        $('.btnFilePenunjang').click(function() {
+            $('#dataFilePenunjang').attr('src', $(this).data('fileurl'));
+            $('#urlFilePenunjang').attr('href', $(this).data('fileurl'));
+            $('#modalFilePenunjang').modal('show');
+        });
+
     });
 </script>
