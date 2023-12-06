@@ -11,9 +11,8 @@ class KunjunganController extends APIController
     public function index(Request $request)
     {
         if ($request->tgl_masuk) {
-            $kunjungans = Kunjungan::whereDate('tgl_masuk', $request->tgl_masuk)->get();
+            $kunjungans = Kunjungan::whereDate('tgl_masuk', $request->tgl_masuk)->simplePaginate();
         } else {
-
             if ($request->search) {
                 $kunjungans = Kunjungan::orderby('created_at', 'desc')
                     ->where('norm', 'LIKE', '%' . $request->search . '%')
@@ -21,12 +20,14 @@ class KunjunganController extends APIController
                     ->orWhere('kode', 'LIKE', '%' . $request->search . '%')
                     ->get();
             } else {
-                $kunjungans = Kunjungan::orderby('created_at', 'desc')->get();
+                $kunjungans = Kunjungan::orderby('created_at', 'desc')->simplePaginate();
             }
         }
+        $total_kunjungan = Kunjungan::count();
         return view('sim.kunjungan_index', compact([
             'request',
             'kunjungans',
+            'total_kunjungan',
         ]));
     }
     public function kunjunganwaktu(Request $request)

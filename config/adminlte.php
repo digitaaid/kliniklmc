@@ -397,13 +397,6 @@ return [
                     'can' => 'pendaftaran',
                 ],
                 [
-                    'text' => 'Kunjungan',
-                    'icon'    => 'fas fa-users',
-                    'shift'   => 'ml-2',
-                    'url'  => 'kunjungan',
-                    'can' => 'pendaftaran',
-                ],
-                [
                     'text' => 'Poliklinik',
                     'icon'    => 'fas fa-clinic-medical',
                     'url'  => 'poliklinik',
@@ -432,6 +425,13 @@ return [
                     'can' =>  ['pendaftaran', 'bpjs', 'manajemen', 'dokter'],
                     'shift'   => 'ml-2',
 
+                ],
+                [
+                    'text' => 'Kunjungan',
+                    'icon'    => 'fas fa-users',
+                    'shift'   => 'ml-2',
+                    'url'  => 'kunjungan',
+                    'can' => 'pendaftaran',
                 ],
                 [
                     'text' => 'Berkas Upload',

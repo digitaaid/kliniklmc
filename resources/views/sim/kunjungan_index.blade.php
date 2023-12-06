@@ -6,63 +6,55 @@
 @section('content')
     <div class="row">
         <div class="col-md-12">
-            <x-adminlte-card title="Filter Kunjungan" theme="secondary" collapsible>
-                <form action="" method="get">
-                    <div class="row">
-                        <div class="col-md-12">
-                            @php
-                                $config = ['format' => 'YYYY-MM-DD'];
-                            @endphp
-                            <x-adminlte-input-date name="tgl_masuk" label="Tanggal Masuk Kunjungan"
-                                value="{{ $request->tgl_masuk ?? now()->format('Y-m-d') }}" placeholder="Pilih Tanggal"
-                                :config="$config">
+            <x-adminlte-card title="Data Kunjungan Pasien" theme="secondary" icon="fas fa-info-circle" collapsible>
+                <div class="row">
+                    <div class="col-md-6">
+                    </div>
+                    <div class="col-md-3">
+                        @php
+                            $config = ['format' => 'YYYY-MM-DD'];
+                        @endphp
+                        <form action="" method="get">
+                            <x-adminlte-input-date name="tgl_masuk" igroup-size="sm"
+                                placeholder="Pencarian Berdasakran Tanggal" :config="$config">
                                 <x-slot name="prependSlot">
-                                    <div class="input-group-text bg-primary">
+                                    <div class="input-group-text text-primary">
                                         <i class="fas fa-calendar-alt"></i>
                                     </div>
                                 </x-slot>
+                                <x-slot name="appendSlot">
+                                    <x-adminlte-button type="submit" theme="primary" label="Cari" />
+                                </x-slot>
                             </x-adminlte-input-date>
-                        </div>
+                        </form>
                     </div>
-                    <x-adminlte-button type="submit" class="withLoad" theme="primary" label="Submit Antrian" />
-                </form>
-            </x-adminlte-card>
-        </div>
-        @if (isset($kunjungans))
-            <div class="col-md-12">
-                <x-adminlte-card title="Data Kunjungan Pasien" theme="warning" icon="fas fa-info-circle" collapsible>
-                    <div class="row">
-                        <div class="col-md-8">
-                            {{-- <x-adminlte-button id="btnTambah" class="btn-sm" theme="success" label="Tambah Pasien"
-                                icon="fas fa-plus" />
-                            <a href="{{ route('pasienexport') }}" class="btn btn-sm btn-primary"><i class="fas fa-print"></i>
-                                Export</a>
-                            <div class="btn btn-sm btn-primary btnModalImport"><i class="fas fa-file-medical"></i> Import</div> --}}
-                        </div>
-                        <div class="col-md-4">
-                            <form action="" method="get">
-                                <x-adminlte-input name="search" placeholder="Pencarian Kunjungan" igroup-size="sm"
-                                    value="{{ $request->search }}">
-                                    <x-slot name="appendSlot">
-                                        <x-adminlte-button type="submit" theme="outline-primary" label="Cari" />
-                                    </x-slot>
-                                    <x-slot name="prependSlot">
-                                        <div class="input-group-text text-primary">
-                                            <i class="fas fa-search"></i>
-                                        </div>
-                                    </x-slot>
-                                </x-adminlte-input>
-                            </form>
-                        </div>
+                    <div class="col-md-3">
+                        <form action="" method="get">
+                            <x-adminlte-input name="search" placeholder="Pencarian Berdasarkan Kode, No RM, Nama"
+                                igroup-size="sm" value="{{ $request->search }}">
+                                <x-slot name="appendSlot">
+                                    <x-adminlte-button type="submit" theme="primary" label="Cari" />
+                                </x-slot>
+                                <x-slot name="prependSlot">
+                                    <div class="input-group-text text-primary">
+                                        <i class="fas fa-search"></i>
+                                    </div>
+                                </x-slot>
+                            </x-adminlte-input>
+                        </form>
                     </div>
-                    @php
-                        $heads = ['No', 'Tgl Masuk', 'Kode', 'Pasien', 'Unit', 'Jaminan', 'Jenis Kunjungan', 'SEP', 'Asesmen', 'Resep', 'Status'];
-                        $config['order'] = [1, 'asc'];
-                        $config['paging'] = false;
-                        $config['scrollY'] = '300px';
-                    @endphp
-                    <x-adminlte-datatable id="table1" class="nowrap" :heads="$heads" :config="$config" bordered
-                        hoverable compressed>
+                </div>
+                @php
+                    $heads = ['No', 'Tgl Masuk', 'Kode', 'Pasien', 'Unit', 'Jaminan', 'Jenis Kunjungan', 'SEP', 'Output', 'Status'];
+                    $config['order'] = [1, 'asc'];
+                    $config['paging'] = false;
+                    $config['lengthMenu'] = false;
+                    $config['searching'] = false;
+                    $config['info'] = false;
+                @endphp
+                <x-adminlte-datatable id="table1" class="nowrap" :heads="$heads" :config="$config" bordered hoverable
+                    compressed>
+                    @if (isset($kunjungans))
                         @foreach ($kunjungans as $item)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
@@ -113,31 +105,37 @@
                                     @if ($item->asesmendokter)
                                         <a class="btn btn-xs btn-success" target="_blank"
                                             href="{{ route('print_asesmendokter') }}?id={{ $item->asesmendokter->kodekunjungan }}">
-                                            <i class="fas fa-print"></i> Asesmen Dokter</a>
+                                            <i class="fas fa-print"></i> Asesmenper</a>
                                     @else
                                         -
                                     @endif
-
-                                </td>
-                                <td>
                                     {{-- {{ $item->kode }} {{ $item->antrian->kodebooking }} --}}
                                     @if ($item->antrian->kodebooking)
                                         <a href="{{ route('print_asesmenfarmasi') }}?kodebooking={{ $item->antrian->kodebooking }}"
                                             class="btn btn-xs btn-success" target="_blank"> <i class="fas fa-print"></i>
-                                            Resep
-                                            Obat</a>
+                                            Resep</a>
                                     @else
                                         -
                                     @endif
-
                                 </td>
                                 <td>{{ $item->status }}</td>
                             </tr>
                         @endforeach
-                    </x-adminlte-datatable>
-                </x-adminlte-card>
-            </div>
-        @endif
+                    @endif
+                </x-adminlte-datatable>
+                <div class="row">
+                    <div class="col-md-5">
+                        Tampil data {{ $kunjungans->firstItem() }} sampai {{ $kunjungans->lastItem() }} dari total
+                        {{ $total_kunjungan }}
+                    </div>
+                    <div class="col-md-7">
+                        <div class="float-right pagination-sm">
+                            {{ $kunjungans->links() }}
+                        </div>
+                    </div>
+                </div>
+            </x-adminlte-card>
+        </div>
     </div>
 @stop
 
