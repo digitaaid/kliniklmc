@@ -12,9 +12,9 @@
             <x-adminlte-card title="Data Tarif Layanan" theme="primary" icon="fas fa-info-circle" collapsible>
                 @php
                     $heads = ['ID', 'Tanggal', 'Nama', 'Harga', 'Jumlah', 'Diskon', 'Klasifikasi'];
-                    $config['order'] = [1, 'asc'];
                     $config['paging'] = false;
-                    $config['scrollY'] = '500px';
+                    $config['lengthMenu'] = false;
+                    $config['info'] = false;
                 @endphp
                 <x-adminlte-button id="btnTambah" class="btn-sm" theme="success" label="Tambah Tarif" icon="fas fa-plus" />
                 <a href="{{ route('obatexport') }}" class="btn btn-sm btn-primary"><i class="fas fa-print"></i> Export</a>
@@ -33,6 +33,17 @@
                         </tr>
                     @endforeach
                 </x-adminlte-datatable>
+                <div class="row">
+                    <div class="col-md-5">
+                        Tampil data {{ $laydet->firstItem() }} sampai {{ $laydet->lastItem() }} dari total
+                        {{ $laydet_total }}
+                    </div>
+                    <div class="col-md-7">
+                        <div class="float-right pagination-sm">
+                            {{ $laydet->links() }}
+                        </div>
+                    </div>
+                </div>
             </x-adminlte-card>
         </div>
     </div>
