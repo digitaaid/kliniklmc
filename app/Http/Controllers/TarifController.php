@@ -175,7 +175,7 @@ class TarifController extends APIController
     }
     function laporan_tarif_layanan_tindakan(Request $request)
     {
-        $laydet = LayananDetail::simplePaginate();
+        $laydet = LayananDetail::latest()->simplePaginate();
         $laydet_total = LayananDetail::count();
         return view('sim.layanan_detail_index', compact([
             'laydet',
