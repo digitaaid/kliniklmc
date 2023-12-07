@@ -11,7 +11,7 @@
         <div class="col-md-12">
             <x-adminlte-card title="Data Tarif Layanan" theme="primary" icon="fas fa-info-circle" collapsible>
                 @php
-                    $heads = ['ID', 'Nama Tarif', 'Klasifikasi', 'Harga', 'Jenis Pasien', 'Action'];
+                    $heads = ['ID', 'Tanggal', 'Nama', 'Harga', 'Jumlah', 'Diskon', 'Klasifikasi'];
                     $config['order'] = [1, 'asc'];
                     $config['paging'] = false;
                     $config['scrollY'] = '500px';
@@ -20,12 +20,18 @@
                 <a href="{{ route('obatexport') }}" class="btn btn-sm btn-primary"><i class="fas fa-print"></i> Export</a>
                 {{-- <div class="btn btn-sm btn-primary btnModalImport"><i class="fas fa-file-medical"></i> Import</div> --}}
                 <x-adminlte-datatable id="table1" :heads="$heads" :config="$config" bordered hoverable compressed>
-@foreach ($laydet as $item)
-<tr>
-    <td>{{ $item->created_at }}</td>
-</tr>
+                    @foreach ($laydet as $item)
+                        <tr>
+                            <td>{{ $item->id }}</td>
+                            <td>{{ $item->created_at }}</td>
+                            <td>{{ $item->nama }}</td>
+                            <td>{{ $item->harga }}</td>
+                            <td>{{ $item->jumlah }}</td>
+                            <td>{{ $item->diskon }}</td>
+                            <td>{{ $item->klasifikasi }}</td>
 
-@endforeach
+                        </tr>
+                    @endforeach
                 </x-adminlte-datatable>
             </x-adminlte-card>
         </div>
