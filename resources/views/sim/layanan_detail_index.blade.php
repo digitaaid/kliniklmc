@@ -12,6 +12,7 @@
             <x-adminlte-card title="Data Tarif Layanan" theme="primary" icon="fas fa-info-circle" collapsible>
                 @php
                     $heads = ['ID', 'Tanggal', 'Nama', 'Harga', 'Jumlah', 'Diskon', 'Klasifikasi'];
+                    $config['order'] = [0, 'desc'];
                     $config['paging'] = false;
                     $config['lengthMenu'] = false;
                     $config['info'] = false;
