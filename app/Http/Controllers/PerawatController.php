@@ -65,8 +65,10 @@ class PerawatController extends Controller
             $hasillab = null;
             if ($antrian->layanans->where('klasifikasi', 'Laboratorium')) {
                 $permintaanlab = $antrian->permintaan_lab;
-                if ($permintaanlab->permintaan_lab == "null") {
-                    $permintaanlab = null;
+                if ($antrian->permintaan_lab) {
+                    if ($permintaanlab->permintaan_lab == "null") {
+                        $permintaanlab = null;
+                    }
                 }
                 $hasillab = $permintaanlab ?  $permintaanlab->hasillab : null;
             }
