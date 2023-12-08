@@ -499,7 +499,7 @@ return [
                 [
                     'text' => 'Laporan Pelayanan & Tindakan',
                     'icon'    => 'fas fa-chart-line',
-                    'url'  => 'laporan_tarif_layanan_tindakan',
+                    'url'  => 'laporan_layanan_tindakan',
                     'shift'   => 'ml-2',
                 ],
                 [

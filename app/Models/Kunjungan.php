@@ -21,9 +21,9 @@ class Kunjungan extends Model
     {
         return $this->hasOne(AsesmenDokter::class);
     }
-    public function layanan()
+    public function layanans()
     {
-        return $this->hasOne(Layanan::class);
+        return $this->hasMany(Layanan::class);
     }
     public function jaminans()
     {

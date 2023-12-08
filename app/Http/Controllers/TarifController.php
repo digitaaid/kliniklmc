@@ -5,9 +5,7 @@ namespace App\Http\Controllers;
 use App\Imports\TarifImport;
 use App\Models\Kunjungan;
 use App\Models\Layanan;
-use App\Models\LayananDetail;
 use App\Models\Tarif;
-use App\Models\TarifDetail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -109,8 +107,6 @@ class TarifController extends APIController
                 'antrian_id' => 'required',
                 'kunjungan_id' => 'required',
                 'kodekunjungan' => 'required',
-                'norm' => 'required',
-                'nama' => 'required',
                 'layanan' => 'required',
                 'jumlah' => 'required',
                 'harga' => 'required',
@@ -119,42 +115,30 @@ class TarifController extends APIController
             if ($validator->fails()) {
                 return $this->sendError($validator->errors()->first(), 400);
             }
-            $request['kode'] = $request->kodekunjungan;
-            $request['user'] = Auth::user()->id;
-            $request['laboratorium'] = $request->laboratorium ? "1" : "0";
-            $request['kemoterapi'] = $request->kemoterapi ? "1" : "0";
-            $request['radiologi'] = $request->radiologi ? "1" : "0";
-            // add layanan header
-            $layanan = Layanan::updateOrCreate(
-                [
-                    'kodebooking' => $request->kodebooking,
-                    'antrian_id' => $request->antrian_id,
-                    'kodekunjungan' => $request->kodekunjungan,
-                    'kunjungan_id' => $request->kunjungan_id,
-                    'norm' => $request->norm,
-                ],
-                $request->all()
-            );
-            // add layanan details
+            // add layanan
             if ($request->layanan) {
                 $tarif = Tarif::find($request->layanan);
-                $layanandetail = LayananDetail::updateOrCreate(
+                $layanans = Layanan::updateOrCreate(
                     [
-                        'kodelayanan' => $layanan->kode,
-                        'layanan_id' => $layanan->id,
+                        'kodebooking' => $request->kodebooking,
+                        'antrian_id' => $request->antrian_id,
+                        'kodekunjungan' => $request->kodekunjungan,
+                        'kunjungan_id' => $request->kunjungan_id,
                         'tarif_id' =>  $tarif->id,
                     ],
                     [
                         'nama' => $tarif->nama,
-                        'harga' => $tarif->harga ?? 0,
-                        'jumlah' => $request->jumlah ?? 1,
-                        'diskon' => $request->diskon ?? 0,
+                        'harga' => $tarif->harga,
+                        'jumlah' =>  $request->jumlah,
+                        'diskon' => $request->diskon,
+                        'subtotal' => ($tarif->harga * $request->jumlah) - ($tarif->harga * $request->jumlah * $request->diskon / 100),
                         'klasifikasi' => $tarif->klasifikasi,
-                        'tgl_input' => now(),
+                        'jaminan' => $request->jaminan,
                         'user' => Auth::user()->id,
+                        'tgl_input' => now('Asia/Jakarta'),
                     ]
                 );
-                return $this->sendResponse($layanandetail, 200);
+                return $this->sendResponse($layanans, 200);
             }
         } catch (\Throwable $th) {
             //throw $th;
@@ -163,20 +147,20 @@ class TarifController extends APIController
     }
     function delete_tarif_pasien(Request $request)
     {
-        $tarif = LayananDetail::find($request->tarif);
+        $tarif = Layanan::find($request->tarif);
         $tarif->delete();
         return $this->sendResponse('Ok', 200);
     }
     function get_layanan_kunjungan(Request $request)
     {
-        $kunjungan = Kunjungan::find($request->kunjungan);
-        $layanans = $kunjungan->layanan->layanandetails;
+        $kunjungan = Kunjungan::with(['layanans', 'layanans.jaminans'])->find($request->kunjungan);
+        $layanans = $kunjungan->layanans;
         return $this->sendResponse($layanans);
     }
-    function laporan_tarif_layanan_tindakan(Request $request)
+    function laporan_layanan_tindakan(Request $request)
     {
-        $laydet = LayananDetail::latest()->simplePaginate();
-        $laydet_total = LayananDetail::count();
+        $laydet = Layanan::with(['jaminans'])->latest()->simplePaginate();
+        $laydet_total = Layanan::count();
         return view('sim.layanan_detail_index', compact([
             'laydet',
             'laydet_total',

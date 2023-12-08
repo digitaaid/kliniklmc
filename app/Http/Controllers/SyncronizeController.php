@@ -53,7 +53,7 @@ class SyncronizeController extends Controller
                             'status' => 1
                         ]);
                     }
-                    Alert::success('Success', 'Berhasil snyc');
+                    Alert::success('Success', $res->metadata->message);
                 } catch (\Throwable $th) {
                     Alert::error('Error', $th->getMessage());
                 }

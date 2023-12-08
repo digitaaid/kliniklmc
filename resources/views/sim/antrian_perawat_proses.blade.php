@@ -83,11 +83,7 @@
                         {{-- perawat --}}
                         @include('sim.tabel_anamnesa_perawat')
                         {{-- laboratorium --}}
-                        @if ($antrian->kunjungan->layanan)
-                            @if ($antrian->kunjungan->layanan->laboratorium)
-                                @include('sim.tabel_lab')
-                            @endif
-                        @endif
+                        @include('sim.tabel_lab')
                         {{-- resume --}}
                         <div class="card card-info mb-1">
                             <div class="card-header" role="tab" id="headRad">
@@ -264,6 +260,14 @@
                         placeholder="Diskon" />
                 </div>
                 <div class="col-md-6">
+                    <x-adminlte-select igroup-size="sm" name="jaminan" label="Jaminan Pasien">
+                        <option selected disabled>Pilih Jaminan</option>
+                        @foreach ($jaminans as $key => $item)
+                            <option value="{{ $key }}"
+                                {{ $antrian->kunjungan ? ($antrian->kunjungan->jaminan == $key ? 'selected' : null) : null }}>
+                                {{ $item }}</option>
+                        @endforeach
+                    </x-adminlte-select>
 
                 </div>
             </div>
@@ -411,10 +415,10 @@
                                 value.tgl_input,
                                 btn,
                                 value.nama,
+                                value.jaminans.nama,
                                 'Rp ' + value.harga.toLocaleString() + ' @ ' + value.jumlah,
                                 value.diskon + ' %',
-                                'Rp ' + (value.harga * value.jumlah - (value.harga * value
-                                    .jumlah * value.diskon / 100)).toLocaleString(),
+                                'Rp ' + (value.subtotal).toLocaleString(),
                             ]).draw(false);
                         });
                         $('.btnEditTarif').click(function() {

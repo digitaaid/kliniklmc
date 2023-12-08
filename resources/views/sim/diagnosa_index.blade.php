@@ -52,12 +52,12 @@
             <x-adminlte-button theme="danger" icon="fas fa-times" label="Kembali" data-dismiss="modal" />
         </x-slot>
     </x-adminlte-modal>
-    <x-adminlte-modal id="modalImport" title="Import Obat" icon="fas fa-pills" theme="success" static-backdrop>
+    <x-adminlte-modal id="modalImport" title="Import Diagnosa" icon="fas fa-pills" theme="success" static-backdrop>
         <form action="{{ route('diagnosaimport') }}" id="formImport" name="formImport" method="POST"
             enctype="multipart/form-data">
             @csrf
             <x-adminlte-input-file name="file" placeholder="Pilih file Import" igroup-size="sm"
-                label="File Import Obat" />
+                label="File Import Diagnosa" />
             <x-slot name="footerSlot">
                 <x-adminlte-button form="formImport" class="mr-auto withLoad" type="submit" icon="fas fa-save" theme="success"
                     label="Import" />

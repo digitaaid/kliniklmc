@@ -14,7 +14,7 @@
     <div id="collLay" class="show collapse" role="tabpanel">
         <div class="card-body">
             @php
-                $heads = ['Tgl Input', 'Action', 'Layanan & Tindakan', 'Harga @ Jumlah', 'Diskon', 'Subtotal'];
+                $heads = ['Tgl Input', 'Action', 'Layanan/Tindakan', 'Jaminan', 'Harga @ Jumlah', 'Diskon', 'Subtotal'];
                 $config['paging'] = false;
                 $config['searching'] = false;
                 $config['info'] = false;

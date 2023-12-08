@@ -41,9 +41,9 @@ class Antrian extends Model
     {
         return $this->hasOne(ResepObat::class);
     }
-    public function layanan()
+    public function layanans()
     {
-        return $this->hasOne(Layanan::class);
+        return $this->hasMany(Layanan::class);
     }
     public function fileuploads()
     {

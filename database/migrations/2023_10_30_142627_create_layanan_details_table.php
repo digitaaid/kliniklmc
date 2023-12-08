@@ -11,21 +11,21 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('layanan_details', function (Blueprint $table) {
-            $table->id();
-            $table->string('layanan_id');
-            $table->string('kodelayanan');
-            $table->string('tarif_id');
-            $table->string('nama');
-            $table->double('harga');
-            $table->integer('jumlah');
-            $table->integer('diskon');
-            $table->string('klasifikasi');
-            $table->text('keterangan')->nullable();
-            $table->dateTime('tgl_input');
-            $table->string('user');
-            $table->timestamps();
-        });
+        // Schema::create('layanan_details', function (Blueprint $table) {
+        //     $table->id();
+        //     $table->string('layanan_id');
+        //     $table->string('kodelayanan');
+        //     $table->string('tarif_id');
+        //     $table->string('nama');
+        //     $table->double('harga');
+        //     $table->integer('jumlah');
+        //     $table->integer('diskon');
+        //     $table->string('klasifikasi');
+        //     $table->text('keterangan')->nullable();
+        //     $table->dateTime('tgl_input');
+        //     $table->string('user');
+        //     $table->timestamps();
+        // });
     }
 
     /**

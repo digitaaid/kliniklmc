@@ -763,6 +763,14 @@
                         placeholder="Diskon" />
                 </div>
                 <div class="col-md-6">
+                    <x-adminlte-select igroup-size="sm" name="jaminan" label="Jaminan Pasien">
+                        <option selected disabled>Pilih Jaminan</option>
+                        @foreach ($jaminans as $key => $item)
+                            <option value="{{ $key }}"
+                                {{ $antrian->kunjungan ? ($antrian->kunjungan->jaminan == $key ? 'selected' : null) : null }}>
+                                {{ $item }}</option>
+                        @endforeach
+                    </x-adminlte-select>
 
                 </div>
             </div>
@@ -882,7 +890,6 @@
                 refresTableLayanan();
             });
             refresTableLayanan();
-
             function refresTableLayanan() {
                 var url = "{{ route('get_layanan_kunjungan') }}?kunjungan={{ $antrian->kunjungan_id }}";
                 var table = $('#tableLayanan').DataTable();
@@ -910,10 +917,10 @@
                                 value.tgl_input,
                                 btn,
                                 value.nama,
+                                value.jaminans.nama,
                                 'Rp ' + value.harga.toLocaleString() + ' @ ' + value.jumlah,
                                 value.diskon + ' %',
-                                'Rp ' + (value.harga * value.jumlah - (value.harga * value
-                                    .jumlah * value.diskon / 100)).toLocaleString(),
+                                'Rp ' + (value.subtotal).toLocaleString(),
                             ]).draw(false);
                         });
                         $('.btnEditTarif').click(function() {

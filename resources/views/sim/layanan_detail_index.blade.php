@@ -1,17 +1,17 @@
 @extends('adminlte::page')
 
-@section('title', 'Laporan Layanan Detail')
+@section('title', 'Laporan Layanan & Tindakan')
 
 @section('content_header')
-    <h1>Laporan Layanan Detail</h1>
+    <h1>Laporan Layanan & Tindakan</h1>
 @stop
 
 @section('content')
     <div class="row">
         <div class="col-md-12">
-            <x-adminlte-card title="Data Tarif Layanan" theme="primary" icon="fas fa-info-circle" collapsible>
+            <x-adminlte-card title="Data Layanan & Tindakan" theme="primary" icon="fas fa-info-circle" collapsible>
                 @php
-                    $heads = ['ID', 'Tanggal', 'Nama', 'Harga', 'Jumlah', 'Diskon', 'Klasifikasi'];
+                    $heads = ['ID', 'Tanggal', 'Nama', 'Klasifikasi', 'Jaminan', 'Harga', 'Diskon', 'Subtotal', 'Status'];
                     $config['order'] = [0, 'desc'];
                     $config['paging'] = false;
                     $config['lengthMenu'] = false;
@@ -26,11 +26,12 @@
                             <td>{{ $item->id }}</td>
                             <td>{{ $item->created_at }}</td>
                             <td>{{ $item->nama }}</td>
-                            <td>{{ $item->harga }}</td>
-                            <td>{{ $item->jumlah }}</td>
-                            <td>{{ $item->diskon }}</td>
                             <td>{{ $item->klasifikasi }}</td>
-
+                            <td>{{ $item->jaminans->nama }}</td>
+                            <td>{{ $item->harga }} @ {{ $item->jumlah }}</td>
+                            <td>{{ $item->diskon }}%</td>
+                            <td>{{ $item->subtotal }}</td>
+                            <td>{{ $item->status }}</td>
                         </tr>
                     @endforeach
                 </x-adminlte-datatable>

@@ -13,18 +13,24 @@ return new class extends Migration
     {
         Schema::create('layanans', function (Blueprint $table) {
             $table->id();
-            $table->string('kodekunjungan');
-            $table->string('kunjungan_id');
-            $table->string('kodebooking');
-            $table->string('antrian_id');
-            $table->string('kode');
-            $table->string('norm');
+            $table->string('kodekunjungan')->index()->nullable();
+            $table->string('kunjungan_id')->index()->nullable();
+            $table->string('kodebooking')->index()->nullable();
+            $table->string('antrian_id')->index()->nullable();
             $table->string('nama');
-            $table->string('laboratorium')->default(0);
-            $table->string('radiologi')->default(0);
-            $table->string('kemoterapi')->default(0);
-            $table->string('user');
+            $table->string('tarif_id');
+            $table->double('harga');
+            $table->integer('jumlah');
+            $table->integer('diskon');
+            $table->double('subtotal');
+            $table->string('klasifikasi');
+            $table->string('jaminan');
             $table->string('status')->default('1');
+            $table->string('user');
+            $table->text('keterangan')->nullable();
+            $table->dateTime('tgl_input')->nullable();
+            $table->dateTime('tgl_transaksi')->nullable();
+            $table->dateTime('tgl_verifikasi')->nullable();
             $table->timestamps();
         });
     }

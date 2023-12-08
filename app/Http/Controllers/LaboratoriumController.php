@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Imports\PemeriksaanLabImport;
 use App\Models\HasilLab;
 use App\Models\Kunjungan;
+use App\Models\Layanan;
 use App\Models\PemeriksaanLab;
 use App\Models\PermintaanLab;
 use GuzzleHttp\Psr7\Request as Psr7Request;
@@ -41,12 +42,38 @@ class LaboratoriumController extends Controller
     }
     public function permintaanlab_simpan(Request $request)
     {
-        $request['permintaan_lab'] = json_encode($request->permintaan_lab);
         $request['user'] = Auth::user()->id;
         $kunjungan = Kunjungan::find($request->kunjungan_id);
-        $kunjungan->layanan->update([
-            'laboratorium' => 1,
-        ]);
+        // hapus data yg gak dipilih
+        foreach ($kunjungan->layanans->where('klasifikasi', 'Laboratorium') as  $value) {
+            $value->delete();
+        }
+        // input layanan
+        foreach ($request->permintaan_lab as $key => $value) {
+            $pemeriksaanlab = PemeriksaanLab::firstWhere('kode', $value);
+            $tarif = $pemeriksaanlab->tarif;
+            Layanan::updateOrCreate(
+                [
+                    'antrian_id' => $request->antrian_id,
+                    'kodebooking' => $request->kodebooking,
+                    'kunjungan_id' => $request->kunjungan_id,
+                    'kodekunjungan' => $request->kodekunjungan,
+                    'tarif_id' =>  $tarif->id,
+                ],
+                [
+                    'nama' => $tarif->nama,
+                    'jumlah' =>  1,
+                    'harga' => $tarif->harga,
+                    'diskon' => 0,
+                    'subtotal' => $tarif->harga,
+                    'klasifikasi' => $tarif->klasifikasi,
+                    'jaminan' => $kunjungan->jaminan,
+                    'user' => Auth::user()->id,
+                    'tgl_input' => now('Asia/Jakarta'),
+                ]
+            );
+        }
+        $request['permintaan_lab'] = json_encode($request->permintaan_lab);
         PermintaanLab::updateOrCreate(
             [
                 'antrian_id' => $request->antrian_id,

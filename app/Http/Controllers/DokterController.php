@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Antrian;
 use App\Models\AsesmenDokter;
 use App\Models\Dokter;
+use App\Models\Jaminan;
 use App\Models\Kunjungan;
 use App\Models\Obat;
 use App\Models\PemeriksaanLab;
@@ -96,6 +97,7 @@ class DokterController extends Controller
         $antrian = Antrian::where('kodebooking', $request->kodebooking)->first();
         $urlicare = null;
         $messageicare = null;
+        $jaminans = Jaminan::pluck('nama', 'kode');
         if ($antrian) {
             try {
                 if ($antrian->taskid == 3) {
@@ -124,17 +126,16 @@ class DokterController extends Controller
                 $pemeriksaanlab = PemeriksaanLab::get();
                 $permintaanlab = null;
                 $hasillab = null;
-                if ($antrian->layanan) {
-                    if ($antrian->layanan->laboratorium) {
-                        $permintaanlab = $antrian->permintaan_lab;
-                        if ($permintaanlab->permintaan_lab == "null") {
-                            $permintaanlab = null;
-                        }
-                        $hasillab = $permintaanlab ?  $permintaanlab->hasillab : null;
+                if ($antrian->layanans->where('klasifikasi', 'Laboratorium')) {
+                    $permintaanlab = $antrian->permintaan_lab;
+                    if ($permintaanlab->permintaan_lab == "null") {
+                        $permintaanlab = null;
                     }
+                    $hasillab = $permintaanlab ?  $permintaanlab->hasillab : null;
                 }
                 return view('sim.antrian_poliklinik_proses', compact([
                     'request',
+                    'jaminans',
                     'antrian',
                     'urlicare',
                     'messageicare',

@@ -6,6 +6,7 @@ use App\Models\Antrian;
 use App\Models\AsesmenPerawat;
 use App\Models\Dokter;
 use App\Models\FileUploadPasien;
+use App\Models\Jaminan;
 use App\Models\Kunjungan;
 use App\Models\PemeriksaanLab;
 use App\Models\Poliklinik;
@@ -38,6 +39,7 @@ class PerawatController extends Controller
         $antrian = Antrian::with(['kunjungan', 'kunjungan.asesmenperawat'])->where('kodebooking', $request->kodebooking)->first();
         $urlicare = null;
         $messageicare = null;
+        $jaminans = Jaminan::pluck('nama', 'kode');
         if ($antrian) {
             // icare
             // $api = new IcareController();
@@ -61,17 +63,16 @@ class PerawatController extends Controller
             $pemeriksaanlab = PemeriksaanLab::get();
             $permintaanlab = null;
             $hasillab = null;
-            if ($antrian->layanan) {
-                if ($antrian->layanan->laboratorium) {
-                    $permintaanlab = $antrian->permintaan_lab;
-                    if ($permintaanlab->permintaan_lab == "null") {
-                        $permintaanlab = null;
-                    }
-                    $hasillab = $permintaanlab ?  $permintaanlab->hasillab : null;
+            if ($antrian->layanans->where('klasifikasi', 'Laboratorium')) {
+                $permintaanlab = $antrian->permintaan_lab;
+                if ($permintaanlab->permintaan_lab == "null") {
+                    $permintaanlab = null;
                 }
+                $hasillab = $permintaanlab ?  $permintaanlab->hasillab : null;
             }
             return view('sim.antrian_perawat_proses', compact([
                 'request',
+                'jaminans',
                 'antrian',
                 'urlicare',
                 'messageicare',

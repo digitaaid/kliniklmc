@@ -13,4 +13,8 @@ class PemeriksaanLab extends Model
     {
         return $this->belongsToMany(ParameterLab::class, 'parameter_pemeriksaan_lab',  'pemeriksaan_id', 'parameter_id',);
     }
+    public function tarif()
+    {
+        return $this->hasOne(Tarif::class, 'id', 'tarif_id');
+    }
 }

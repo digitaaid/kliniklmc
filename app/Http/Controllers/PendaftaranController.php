@@ -174,7 +174,7 @@ class PendaftaranController extends APIController
             $permintaanlab = null;
             $hasillab = null;
             if ($antrian->layanan) {
-                if ($antrian->layanan->laboratorium) {
+                if ($antrian->layanan) {
                     $permintaanlab = $antrian->permintaan_lab;
                     if ($permintaanlab->permintaan_lab == "null") {
                         $permintaanlab = null;
@@ -214,14 +214,12 @@ class PendaftaranController extends APIController
             $pemeriksaanlab = PemeriksaanLab::get();
             $permintaanlab = null;
             $hasillab = null;
-            if ($antrian->layanan) {
-                if ($antrian->layanan->laboratorium) {
-                    $permintaanlab = $antrian->permintaan_lab;
-                    if ($permintaanlab->permintaan_lab == "null") {
-                        $permintaanlab = null;
-                    }
-                    $hasillab = $permintaanlab ?  $permintaanlab->hasillab : null;
+            if ($antrian->layanans->where('klasifikasi', 'Laboratorium')) {
+                $permintaanlab = $antrian->permintaan_lab;
+                if ($permintaanlab->permintaan_lab == "null") {
+                    $permintaanlab = null;
                 }
+                $hasillab = $permintaanlab ?  $permintaanlab->hasillab : null;
             }
             return view('sim.antrian_pendaftaran_proses', compact([
                 'request',
@@ -408,11 +406,34 @@ class PendaftaranController extends APIController
         } else {
             $kunjungan = Kunjungan::create($request->all());
         }
+        $request['kunjungan_id'] = $kunjungan->id;
+        $request['kodekunjungan'] = $kunjungan->kode;
         $antrian->update([
-            'kunjungan_id' => $kunjungan->id,
-            'kodekunjungan' => $kunjungan->kode,
+            'kunjungan_id' => $request->kunjungan_id,
+            'kodekunjungan' => $request->kodekunjungan,
             'user1' =>  Auth::user()->id,
         ]);
+        $tarif = Tarif::where('nama', 'Administrasi')->where('jenispasien', $antrian->jenispasien)->first();
+        Layanan::updateOrCreate(
+            [
+                'kodebooking' => $request->kodebooking,
+                'antrian_id' => $request->antrian_id,
+                'kodekunjungan' => $request->kodekunjungan,
+                'kunjungan_id' => $request->kunjungan_id,
+                'tarif_id' =>  $tarif->id,
+            ],
+            [
+                'nama' => $tarif->nama,
+                'jumlah' =>  1,
+                'harga' => $tarif->harga,
+                'diskon' => 0,
+                'subtotal' => $tarif->harga,
+                'klasifikasi' => $tarif->klasifikasi,
+                'jaminan' => $request->jaminan,
+                'user' => Auth::user()->id,
+                'tgl_input' => now('Asia/Jakarta'),
+            ]
+        );
         Alert::success('Success', 'Kunjungan antrian telah disimpan');
         return redirect()->back();
     }

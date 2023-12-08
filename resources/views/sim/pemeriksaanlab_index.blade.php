@@ -28,7 +28,7 @@
                             <td>{{ $item->kode }}</td>
                             <td>{{ $item->kelompok }}</td>
                             <td>{{ $item->group }}</td>
-                            <td>{{ money($item->harga ?? 0, 'IDR') }}</td>
+                            <td>{{ money($item->tarif->harga ?? 0, 'IDR') }}</td>
                             <td>
                                 @if ($item->status)
                                     <span class="badge badge-success">{{ $item->status }}. Aktif</span>
