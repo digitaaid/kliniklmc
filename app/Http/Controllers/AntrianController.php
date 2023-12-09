@@ -484,6 +484,8 @@ class AntrianController extends APIController
         $data['x-timestamp'] = $tStamp;
         $data['x-signature'] = $encodedSignature;
         $data['decrypt_key'] = $cons_id . $secretKey . $tStamp;
+
+        dd($data);
         return $data;
     }
     public function stringDecrypt($key, $string)
