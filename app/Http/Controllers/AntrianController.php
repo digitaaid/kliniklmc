@@ -484,8 +484,6 @@ class AntrianController extends APIController
         $data['x-timestamp'] = $tStamp;
         $data['x-signature'] = $encodedSignature;
         $data['decrypt_key'] = $cons_id . $secretKey . $tStamp;
-
-        dd($data);
         return $data;
     }
     public function stringDecrypt($key, $string)
@@ -524,7 +522,7 @@ class AntrianController extends APIController
         $url = $this->api()->base_url . "ref/poli";
         $signature = $this->signature();
         $response = Http::withHeaders($signature)->get($url);
-        dd($response->json());
+        dd($response->json(), $signature);
         return $this->response_decrypt($response, $signature);
     }
     public function ref_dokter()
