@@ -521,8 +521,8 @@ class AntrianController extends APIController
     {
         $url = $this->api()->base_url . "ref/poli";
         $signature = $this->signature();
-        dd($signature);
         $response = Http::withHeaders($signature)->get($url);
+        dd($response->json());
         return $this->response_decrypt($response, $signature);
     }
     public function ref_dokter()
