@@ -55,6 +55,7 @@ class PoliklinikController extends Controller
     {
         $controller = new AntrianController();
         $response = $controller->ref_poli();
+        dd($response);
         if ($response->metadata->code == 200) {
             $polikliniks = $response->response;
             Alert::success($response->metadata->message, 'Poliklinik Antrian BPJS');
