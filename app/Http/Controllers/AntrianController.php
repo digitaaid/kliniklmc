@@ -333,7 +333,6 @@ class AntrianController extends APIController
         $antrians = null;
         if (isset($request->waktu)) {
             $response =  $this->dashboard_tanggal($request);
-            dd($response);
             if ($response->metadata->code == 200) {
                 $antrians = collect($response->response->list);
                 Alert::success($response->metadata->message . ' ' . $response->metadata->code);
@@ -522,7 +521,6 @@ class AntrianController extends APIController
         $url = $this->api()->base_url . "ref/poli";
         $signature = $this->signature();
         $response = Http::withHeaders($signature)->get($url);
-        dd($response->json(), $signature);
         return $this->response_decrypt($response, $signature);
     }
     public function ref_dokter()
