@@ -404,41 +404,46 @@ class PendaftaranController extends APIController
         $request['alasan_masuk'] = $request->cara_masuk;
         $request['status'] = 1;
         $request['user1'] = Auth::user()->id;
-        if ($antrian->kunjungan_id) {
-            $kunjungan = Kunjungan::find($antrian->kunjungan_id);
-            $kunjungan->update($request->all());
-        } else {
-            $kunjungan = Kunjungan::create($request->all());
-        }
-        $request['kunjungan_id'] = $kunjungan->id;
-        $request['kodekunjungan'] = $kunjungan->kode;
-        $antrian->update([
-            'kunjungan_id' => $request->kunjungan_id,
-            'kodekunjungan' => $request->kodekunjungan,
-            'user1' =>  Auth::user()->id,
-        ]);
-        $tarif = Tarif::where('nama', 'Administrasi')->where('jenispasien', $antrian->jenispasien)->first();
-        Layanan::updateOrCreate(
-            [
-                'kodebooking' => $request->kodebooking,
-                'antrian_id' => $request->antrian_id,
-                'kodekunjungan' => $request->kodekunjungan,
+        try {
+            if ($antrian->kunjungan_id) {
+                $kunjungan = Kunjungan::find($antrian->kunjungan_id);
+                $kunjungan->update($request->all());
+            } else {
+                $kunjungan = Kunjungan::create($request->all());
+            }
+            $request['kunjungan_id'] = $kunjungan->id;
+            $request['kodekunjungan'] = $kunjungan->kode;
+            $antrian->update([
                 'kunjungan_id' => $request->kunjungan_id,
-                'tarif_id' =>  $tarif->id,
-            ],
-            [
-                'nama' => $tarif->nama,
-                'jumlah' =>  1,
-                'harga' => $tarif->harga,
-                'diskon' => 0,
-                'subtotal' => $tarif->harga,
-                'klasifikasi' => $tarif->klasifikasi,
-                'jaminan' => $request->jaminan,
-                'user' => Auth::user()->id,
-                'tgl_input' => now('Asia/Jakarta'),
-            ]
-        );
-        Alert::success('Success', 'Kunjungan antrian telah disimpan');
+                'kodekunjungan' => $request->kodekunjungan,
+                'user1' =>  Auth::user()->id,
+            ]);
+            $tarif = Tarif::where('nama', 'Administrasi')->where('jenispasien', $antrian->jenispasien)->first();
+            Layanan::updateOrCreate(
+                [
+                    'kodebooking' => $request->kodebooking,
+                    'antrian_id' => $request->antrian_id,
+                    'kodekunjungan' => $request->kodekunjungan,
+                    'kunjungan_id' => $request->kunjungan_id,
+                    'tarif_id' =>  $tarif->id,
+                ],
+                [
+                    'nama' => $tarif->nama,
+                    'jumlah' =>  1,
+                    'harga' => $tarif->harga,
+                    'diskon' => 0,
+                    'subtotal' => $tarif->harga,
+                    'klasifikasi' => $tarif->klasifikasi,
+                    'jaminan' => $request->jaminan,
+                    'user' => Auth::user()->id,
+                    'tgl_input' => now('Asia/Jakarta'),
+                ]
+            );
+            Alert::success('Success', 'Kunjungan antrian telah disimpan');
+        } catch (\Throwable $th) {
+            //throw $th;
+            Alert::error('Error', $th->getMessage());
+        }
         return redirect()->back();
     }
     function editlayananpendaftaran(Request $request)

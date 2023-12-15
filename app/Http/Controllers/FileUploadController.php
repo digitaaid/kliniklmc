@@ -123,9 +123,9 @@ class FileUploadController extends APIController
         }
         return redirect()->back();
     }
-    public function destroy(Request $request)
+    public function destroy($id, Request $request)
     {
-        $file = FileUploadPasien::find($request->id);
+        $file = FileUploadPasien::find($id);
         $file->delete();
         Alert::success('Success', 'File Penunjang Pasien berhasil dihapus.');
         return redirect()->back();

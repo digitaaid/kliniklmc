@@ -153,6 +153,10 @@
                                         <dd>
                                             <pre>{{ $kunjungan->asesmendokter->instruksi_medis ?? null }}</pre>
                                         </dd>
+                                        <dt>Catatan Dokter :</dt>
+                                        <dd>
+                                            <pre>{{ $kunjungan->asesmendokter->rencana_perawatan ?? null }}</pre>
+                                        </dd>
                                     </dl>
                                 @else
                                     Belum Asesmen Dokter

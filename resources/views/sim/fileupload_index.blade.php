@@ -32,6 +32,9 @@
                                     data-nama="{{ $item->nama }}" data-namapasien="{{ $item->namapasien }}"
                                     data-norm="{{ $item->norm }}" data-label="{{ $item->label }}"
                                     data-fileurl="{{ $item->fileurl }}" />
+                                <x-adminlte-button class="btn-xs btnDelete" theme="danger" icon="fas fa-trash-alt"
+                                    title="Hapus File {{ $item->nama }} " data-id="{{ $item->id }}"
+                                    data-nama="{{ $item->nama }}" />
                             </td>
                         </tr>
                     @endforeach
@@ -81,7 +84,7 @@
                 <x-adminlte-button theme="danger" icon="fas fa-times" label="Kembali" data-dismiss="modal" />
             </x-slot>
         </form>
-        <form id="formDelete" action="" method="POST">
+        <form id="formDelete" name="formDelete" action="" method="POST">
             @csrf
             @method('DELETE')
         </form>
@@ -154,13 +157,13 @@
             });
             $('.btnDelete').click(function(e) {
                 e.preventDefault();
-                var name = $(this).data("name");
+                var nama = $(this).data("nama");
                 swal.fire({
-                    title: 'Apakah anda ingin menonaktifkan dokter ' + name + ' ?',
+                    title: 'Apakah anda ingin menghapus file ' + nama + ' ?',
                     showConfirmButton: false,
                     showDenyButton: true,
                     showCancelButton: true,
-                    denyButtonText: `Ya, Non Aktifkan`,
+                    denyButtonText: `Ya, Hapus File`,
                 }).then((result) => {
                     if (result.isDenied) {
                         $.LoadingOverlay("show");
