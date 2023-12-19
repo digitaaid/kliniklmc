@@ -127,6 +127,7 @@ class PerawatController extends Controller
     }
     public function uploadpenunjang(Request $request)
     {
+        dd($request->all());
         try {
             $url = 'http://103.39.50.206/lmc/public/api/uploadfile';
             $file               = request('file');

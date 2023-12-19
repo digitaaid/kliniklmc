@@ -163,6 +163,7 @@ Route::middleware('auth')->group(function () {
     Route::post('uploadpenunjang', [PerawatController::class, 'uploadpenunjang'])->name('uploadpenunjang');
     Route::get('hapusfilepenunjang', [PerawatController::class, 'hapusfilepenunjang'])->name('hapusfilepenunjang');
     Route::get('laporanperawat', [PerawatController::class, 'laporanperawat'])->name('laporanperawat');
+
     Route::get('diagnosasearch', [DiagnosaController::class, 'search'])->name('diagnosa.search');
     Route::get('diagnosaexport', [DiagnosaController::class, 'export'])->name('diagnosa.export');
     Route::post('diagnosaimport', [DiagnosaController::class, 'diagnosaimport'])->name('diagnosaimport');
