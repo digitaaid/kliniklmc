@@ -125,7 +125,7 @@ class PerawatController extends Controller
         Alert::success('Success', 'Simpan Assemen Keperawatan.');
         return redirect()->back();
     }
-    public function uploadpenunjang(Request $request)
+    public function uploadberkas(Request $request)
     {
         dd($request->all());
         try {

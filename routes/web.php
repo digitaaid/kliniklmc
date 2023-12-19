@@ -160,7 +160,7 @@ Route::middleware('auth')->group(function () {
     Route::get('antrianperawat', [PerawatController::class, 'antrianperawat'])->name('antrianperawat');
     Route::get('prosesperawat', [PerawatController::class, 'prosesperawat'])->name('prosesperawat');
     Route::post('editasesmenperawat', [PerawatController::class, 'editasesmenperawat'])->name('editasesmenperawat');
-    Route::post('uploadpenunjang', [PerawatController::class, 'uploadpenunjang'])->name('uploadpenunjang');
+    Route::post('uploadberkas', [PerawatController::class, 'uploadberkas'])->name('uploadberkas');
     Route::get('hapusfilepenunjang', [PerawatController::class, 'hapusfilepenunjang'])->name('hapusfilepenunjang');
     Route::get('laporanperawat', [PerawatController::class, 'laporanperawat'])->name('laporanperawat');
 

@@ -15,7 +15,7 @@
 </x-adminlte-modal>
 <x-adminlte-modal id="inputFileUpload" name="inputFileUpload" title="Upload Berkas" theme="success"
     icon="fas fa-file-medical">
-    <form action="{{ route('uploadpenunjang') }}" name="formFile" id="formFile" method="POST"
+    <form action="{{ route('uploadberkas') }}" name="formFile" id="formFile" method="POST"
         enctype="multipart/form-data">
         @csrf
         <input type="hidden" name="kodebooking" value="{{ $antrian->kodebooking }}">
