@@ -139,9 +139,8 @@
                                                 @foreach (json_decode($kunjungan->asesmendokter->diagnosa) as $itemx)
                                                     - {{ $itemx }} <br>
                                                 @endforeach
-                                            @else
-                                                - <br>
                                             @endif
+                                            {{ $kunjungan->asesmendokter->catatan_diagnosa ?? '' }}<br>
                                             <b> Diag. Primer ICD-10 :</b> <br>
                                             {{ $kunjungan->asesmendokter->diagnosa1 ?? '-' }}
                                             <br>
@@ -154,7 +153,6 @@
                                             @else
                                                 -
                                             @endif
-                                            {{-- {{ $kunjungan->asesmendokter->diagnosa2 ?? '' }} --}}
                                         </dd>
                                         <dt>Pemeriksaan Fisik :</dt>
                                         <dd>
