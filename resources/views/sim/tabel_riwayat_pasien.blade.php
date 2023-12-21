@@ -4,7 +4,8 @@
             Riwayat Pasien
         </h3>
         <div class="card-tools">
-            {{ $antrian->pasien ? $antrian->pasien->kunjungans->count() : 0 }} Kunjungan <i class="fas fa-info-circle"></i>
+            {{ $antrian->pasien ? $antrian->pasien->kunjungans->count() : 0 }} Kunjungan <i
+                class="fas fa-info-circle"></i>
         </div>
     </a>
     <div id="collapseOne" class="collapse show" role="tabpanel" aria-labelledby="headingOne">
@@ -133,13 +134,22 @@
                                     <dl>
                                         <dt>Diagnosa</dt>
                                         <dd>
-                                            {{ $kunjungan->asesmendokter->diagnosa ?? null }}
                                             <br>
-                                            Diag. Primer ICD-10 :
-                                            {{ $kunjungan->asesmendokter->diagnosa1 ?? null }}
+                                            {{ $kunjungan->asesmendokter->diagnosa ?? '' }}<br>
+                                            @if ($kunjungan->asesmendokter->diagnosa)
+                                                @foreach ($kunjungan->asesmendokter->diagnosa as $diagx)
+                                                    {{ $diagx }} <br>
+                                                @endforeach
+                                            @endif
+                                            <b>Diag. Primer ICD-10 : </b><br>
+                                            {{ $kunjungan->asesmendokter->diagnosa1 ?? '' }}
                                             <br>
-                                            Diag. Sekunder ICD-10 :
-                                            {{ $kunjungan->asesmendokter->diagnosa2 ?? null }}
+                                            <b>Diag. Sekunder ICD-10 : </b><br>
+                                            @if ($kunjungan->asesmendokter->diagnosa2)
+                                                @foreach ($kunjungan->asesmendokter->diagnosa2 as $diag)
+                                                    {{ $diag }} <br>
+                                                @endforeach
+                                            @endif
                                         </dd>
                                         <dt>Pemeriksaan Fisik :</dt>
                                         <dd>
