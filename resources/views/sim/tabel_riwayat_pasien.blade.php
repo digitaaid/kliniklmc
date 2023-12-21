@@ -134,9 +134,9 @@
                                     <dl>
                                         <dt>Diagnosa</dt>
                                         <dd>
-                                            @if (is_array(json_decode($antrian->asesmendokter->diagnosa)) ||
-                                                    is_object(json_decode($antrian->asesmendokter->diagnosa)))
-                                                @foreach (json_decode($antrian->asesmendokter->diagnosa) as $itemx)
+                                            @if (is_array(json_decode($kunjungan->asesmendokter->diagnosa)) ||
+                                                    is_object(json_decode($kunjungan->asesmendokter->diagnosa)))
+                                                @foreach (json_decode($kunjungan->asesmendokter->diagnosa) as $itemx)
                                                     - {{ $itemx }} <br>
                                                 @endforeach
                                             @else
@@ -146,9 +146,9 @@
                                             {{ $kunjungan->asesmendokter->diagnosa1 ?? '-' }}
                                             <br>
                                             <b>Diag. Sekunder ICD-10 :</b><br>
-                                            @if (is_array(json_decode($antrian->asesmendokter->diagnosa2)) ||
-                                                    is_object(json_decode($antrian->asesmendokter->diagnosa2)))
-                                                @foreach (json_decode($antrian->asesmendokter->diagnosa2) as $item)
+                                            @if (is_array(json_decode($kunjungan->asesmendokter->diagnosa2)) ||
+                                                    is_object(json_decode($kunjungan->asesmendokter->diagnosa2)))
+                                                @foreach (json_decode($kunjungan->asesmendokter->diagnosa2) as $item)
                                                     - {{ $item }} <br>
                                                 @endforeach
                                             @else
