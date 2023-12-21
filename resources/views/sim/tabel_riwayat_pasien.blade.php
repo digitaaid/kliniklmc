@@ -140,7 +140,15 @@
                                             {{ $kunjungan->asesmendokter->diagnosa1 ?? '-' }}
                                             <br>
                                             <b>Diag. Sekunder ICD-10 :</b><br>
-                                            {{ $kunjungan->asesmendokter->diagnosa2 ?? '' }}
+                                            @if (is_array(json_decode($antrian->asesmendokter->diagnosa2)) ||
+                                                    is_object(json_decode($antrian->asesmendokter->diagnosa2)))
+                                                @foreach (json_decode($antrian->asesmendokter->diagnosa2) as $item)
+                                                    {{ $item }} <br>
+                                                @endforeach
+                                            @else
+                                                -
+                                            @endif
+                                            {{-- {{ $kunjungan->asesmendokter->diagnosa2 ?? '' }} --}}
                                         </dd>
                                         <dt>Pemeriksaan Fisik :</dt>
                                         <dd>
