@@ -145,7 +145,7 @@
                                             {{ $kunjungan->asesmendokter->diagnosa1 ?? '-' }}
                                             <br>
                                             <b>Diag. Sekunder ICD-10 :</b><br>
-                                            @foreach ($kunjungan->asesmendokter->diagnosa2 as $key => $diag)
+                                            @foreach (json_decode(json_encode($kunjungan->asesmendokter->diagnosa2)) as $ey => $diag)
                                                 {{ $diag }} <br>
                                             @endforeach
                                             {{-- {{ dd(json_decode($kunjungan->asesmendokter->diagnosa2)) }} --}}
