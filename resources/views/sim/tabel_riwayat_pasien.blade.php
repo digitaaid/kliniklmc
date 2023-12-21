@@ -4,7 +4,8 @@
             Riwayat Pasien
         </h3>
         <div class="card-tools">
-            {{ $antrian->pasien ? $antrian->pasien->kunjungans->count() : 0 }} Kunjungan <i class="fas fa-info-circle"></i>
+            {{ $antrian->pasien ? $antrian->pasien->kunjungans->count() : 0 }} Kunjungan <i
+                class="fas fa-info-circle"></i>
         </div>
     </a>
     <div id="collapseOne" class="collapse show" role="tabpanel" aria-labelledby="headingOne">
@@ -139,6 +140,7 @@
                                             {{ $kunjungan->asesmendokter->diagnosa1 ?? '' }}
                                             <br>
                                             Diag. Sekunder ICD-10 :
+                                            {{ dd(json_decode($kunjungan->asesmendokter->diagnosa2)) }}
                                             {{ $kunjungan->asesmendokter->diagnosa2 ?? '' }}
                                         </dd>
                                         <dt>Pemeriksaan Fisik :</dt>
