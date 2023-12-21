@@ -134,8 +134,14 @@
                                     <dl>
                                         <dt>Diagnosa</dt>
                                         <dd>
-                                            {{ $kunjungan->asesmendokter->diagnosa ?? '-' }}
-                                            <br>
+                                            @if (is_array(json_decode($antrian->asesmendokter->diagnosa)) ||
+                                                    is_object(json_decode($antrian->asesmendokter->diagnosa)))
+                                                @foreach (json_decode($antrian->asesmendokter->diagnosa) as $itemx)
+                                                    - {{ $itemx }} <br>
+                                                @endforeach
+                                            @else
+                                                - <br>
+                                            @endif
                                             <b> Diag. Primer ICD-10 :</b> <br>
                                             {{ $kunjungan->asesmendokter->diagnosa1 ?? '-' }}
                                             <br>
@@ -143,7 +149,7 @@
                                             @if (is_array(json_decode($antrian->asesmendokter->diagnosa2)) ||
                                                     is_object(json_decode($antrian->asesmendokter->diagnosa2)))
                                                 @foreach (json_decode($antrian->asesmendokter->diagnosa2) as $item)
-                                                    {{ $item }} <br>
+                                                    - {{ $item }} <br>
                                                 @endforeach
                                             @else
                                                 -
