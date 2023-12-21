@@ -134,21 +134,12 @@
                                     <dl>
                                         <dt>Diagnosa</dt>
                                         <dd>
-                                            {{-- @if (count(json_decode($kunjungan->asesmendokter->diagnosa)))
-                                                @foreach (json_decode($kunjungan->asesmendokter->diagnosa) as $diagx)
-                                                    {{ $diagx }} <br>
-                                                @endforeach
-                                            {{ $kunjungan->asesmendokter->diagnosa1 ?? '-' }}
-                                            @endif --}}
+                                            {{ $kunjungan->asesmendokter->diagnosa ?? '-' }}
                                             <br>
                                             <b> Diag. Primer ICD-10 :</b> <br>
                                             {{ $kunjungan->asesmendokter->diagnosa1 ?? '-' }}
                                             <br>
                                             <b>Diag. Sekunder ICD-10 :</b><br>
-                                            @foreach (json_decode(json_encode($kunjungan->asesmendokter->diagnosa2)) as $ey => $diag)
-                                                {{ $diag }} <br>
-                                            @endforeach
-                                            {{-- {{ dd(json_decode($kunjungan->asesmendokter->diagnosa2)) }} --}}
                                             {{ $kunjungan->asesmendokter->diagnosa2 ?? '' }}
                                         </dd>
                                         <dt>Pemeriksaan Fisik :</dt>
