@@ -137,7 +137,9 @@
                                             @if (is_array(json_decode($kunjungan->asesmendokter->diagnosa)) ||
                                                     is_object(json_decode($kunjungan->asesmendokter->diagnosa)))
                                                 @foreach (json_decode($kunjungan->asesmendokter->diagnosa) as $itemx)
-                                                    - {{ $itemx }} <br>
+                                                    @if ($itemx != null)
+                                                        - {{ $itemx }} <br>
+                                                    @endif
                                                 @endforeach
                                             @endif
                                             {{ $kunjungan->asesmendokter->catatan_diagnosa ?? '' }}<br>
@@ -148,7 +150,9 @@
                                             @if (is_array(json_decode($kunjungan->asesmendokter->diagnosa2)) ||
                                                     is_object(json_decode($kunjungan->asesmendokter->diagnosa2)))
                                                 @foreach (json_decode($kunjungan->asesmendokter->diagnosa2) as $item)
-                                                    - {{ $item }} <br>
+                                                    @if ($item != null)
+                                                        - {{ $item }} <br>
+                                                    @endif
                                                 @endforeach
                                             @else
                                                 -
