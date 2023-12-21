@@ -137,7 +137,7 @@
                                             <br>
                                             {{ $kunjungan->asesmendokter->diagnosa ?? '' }}<br>
                                             @if ($kunjungan->asesmendokter->diagnosa)
-                                                @foreach ($kunjungan->asesmendokter->diagnosa as $diagx)
+                                                @foreach (json_decode($kunjungan->asesmendokter->diagnosa) as $diagx)
                                                     {{ $diagx }} <br>
                                                 @endforeach
                                             @endif
@@ -146,7 +146,7 @@
                                             <br>
                                             <b>Diag. Sekunder ICD-10 : </b><br>
                                             @if ($kunjungan->asesmendokter->diagnosa2)
-                                                @foreach ($kunjungan->asesmendokter->diagnosa2 as $diag)
+                                                @foreach (json_decode($kunjungan->asesmendokter->diagnosa2)  as $diag)
                                                     {{ $diag }} <br>
                                                 @endforeach
                                             @endif
