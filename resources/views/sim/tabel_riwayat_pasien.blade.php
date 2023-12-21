@@ -134,25 +134,21 @@
                                     <dl>
                                         <dt>Diagnosa</dt>
                                         <dd>
-                                            @if (count(json_decode($kunjungan->asesmendokter->diagnosa)))
+                                            {{-- @if (count(json_decode($kunjungan->asesmendokter->diagnosa)))
                                                 @foreach (json_decode($kunjungan->asesmendokter->diagnosa) as $diagx)
                                                     {{ $diagx }} <br>
                                                 @endforeach
-                                            @else
-                                                -
-                                            @endif
+                                            @endif --}}
                                             <br>
                                             <b> Diag. Primer ICD-10 :</b> <br>
                                             {{ $kunjungan->asesmendokter->diagnosa1 ?? '-' }}
                                             <br>
                                             <b>Diag. Sekunder ICD-10 :</b><br>
-                                            @if (count(json_decode($kunjungan->asesmendokter->diagnosa2)))
-                                                @foreach (json_decode($kunjungan->asesmendokter->diagnosa2) as $diag)
-                                                    {{ $diag }} <br>
-                                                @endforeach
-                                            @else
-                                                -
-                                            @endif
+                                            @foreach (json_decode($kunjungan->asesmendokter->diagnosa2) as $diag)
+                                                {{ $diag }} <br>
+                                            @endforeach
+                                            {{-- {{ dd(json_decode($kunjungan->asesmendokter->diagnosa2)) }} --}}
+                                            {{ $kunjungan->asesmendokter->diagnosa2 ?? '' }}
                                         </dd>
                                         <dt>Pemeriksaan Fisik :</dt>
                                         <dd>
