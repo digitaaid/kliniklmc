@@ -20,7 +20,21 @@
                         </div>
                     </div>
                     <x-adminlte-button type="submit" class="withLoad" theme="primary" label="Submit Antrian" />
+                    <x-adminlte-button type="submit" form="formOnTracer" class="withLoad"
+                        theme="{{ $request->sync == 'ON' ? 'success' : 'secondary' }}" label="ON" />
+                    <x-adminlte-button type="submit" form="formOffTracer" class="withLoad mr-2"
+                        theme="{{ $request->sync == 'OFF' ? 'success' : 'secondary' }}" label="OFF" />
+                    <a href="" class="btn btn-warning"> <i class="fas fa-sync"></i> Refresh</a>
                 </form>
+                <form action="" name="formOnTracer" id="formOnTracer">
+                    <input type="hidden" name="tanggal" value="{{ $request->tanggal }}">
+                    <input type="hidden" name="sync" value="ON">
+                </form>
+                <form action="" name="formOffTracer" id="formOffTracer">
+                    <input type="hidden" name="tanggal" value="{{ $request->tanggal }}">
+                    <input type="hidden" name="sync" value="OFF">
+                </form>
+
             </x-adminlte-card>
         </div>
         @if (isset($antrians))
@@ -125,3 +139,17 @@
 @section('plugins.TempusDominusBs4', true)
 @section('plugins.DateRangePicker', true)
 @section('plugins.Select2', true)
+
+@section('js')
+    <script>
+        function syncantrian() {
+            location.reload();
+        }
+        $(function() {
+            if ("{{ $request->sync }}" == 'ON') {
+                setInterval(syncantrian, 2000);
+            }
+        });
+    </script>
+
+@endsection
