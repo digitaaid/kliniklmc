@@ -341,7 +341,7 @@
             </div>
         </div>
     </section><!-- End Gallery Section -->
-    @include('vendor.medico.content.faq')
+    {{-- @include('vendor.medico.content.faq') --}}
     @include('vendor.medico.content.contact')
 @endsection
 @section('css')

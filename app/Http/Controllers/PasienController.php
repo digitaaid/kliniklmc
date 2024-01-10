@@ -121,12 +121,10 @@ class PasienController extends APIController
     }
     public function pasienimport(Request $request)
     {
-        try {
+        set_time_limit(300);
             Excel::import(new PasienFileImport, $request->file);
             Alert::success('Success', 'Import Pasien Berhasil.');
-        } catch (\Throwable $th) {
-            Alert::error('Error', $th->getMessage());
-        }
+
         return redirect()->route('pasien.index');
     }
     public function riwayatpasien(Request $request)

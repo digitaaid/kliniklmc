@@ -34,7 +34,7 @@ return new class extends Migration
             $table->string('unit');
             $table->string('dokter');
 
-            $table->string('diagnosa_awal');
+            $table->string('diagnosa_awal')->nullable();
             $table->string('diagnosa1')->nullable();
             $table->string('diagnosa2')->nullable();
 

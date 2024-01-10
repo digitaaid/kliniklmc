@@ -15,7 +15,7 @@
                 </div>
             </div>
             @if ($antrians)
-                <div class="row">
+                {{-- <div class="row">
                     <div class="col-md-6">
                         <x-adminlte-card title="Capaian Jumlah Pelayanan Antrian Bulan Ini" theme="success" collapsible>
                             <div class="chart">
@@ -35,8 +35,8 @@
                         <x-adminlte-small-box title="{{ $antrians->sum('jumlah_antrean') }}" text="Total Antrian"
                             theme="success" icon="fas fa-user-injured" />
                     </div>
-                </div>
-                <x-adminlte-card title="Laporan Waktu Pelayanan Antrian Bulan Ini" theme="secondary" collapsible>
+                </div> --}}
+                {{-- <x-adminlte-card title="Laporan Waktu Pelayanan Antrian Bulan Ini" theme="secondary" collapsible>
                     @php
                         $heads = ['Tanggal', 'Poliklinik', 'Total', 'Tunggu Poli', 'Layan Poli', 'Terima Resep', 'Proses Farmasi', 'Total Waktu'];
                         $config = ['paging' => false];
@@ -87,8 +87,7 @@
                             </tr>
                         </tfoot>
                     </x-adminlte-datatable>
-                    {{-- {{ $antrians->groupBy('namapoli') }} --}}
-                </x-adminlte-card>
+                </x-adminlte-card> --}}
             @endif
         </div>
     </div>
@@ -96,7 +95,7 @@
 @section('plugins.Chartjs', true)
 @section('plugins.Datatables', true)
 @section('js')
-    <script>
+    {{-- <script>
         $(function() {
             var tanggalAntrian = {!! json_encode($tanggalantrian) !!};
             var jumlahAntrian = {!! json_encode($jumlahantrian) !!};
@@ -160,7 +159,7 @@
 
 
         })
-    </script>
+    </script> --}}
 @endsection
 
 

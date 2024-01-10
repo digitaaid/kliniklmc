@@ -601,37 +601,41 @@ class AntrianController extends APIController
         if ($validator->fails()) {
             return $this->sendError($validator->errors()->first(),  400);
         }
-        $url =  $this->api()->base_url .  "antrean/add";
-        $signature = $this->signature();
-        $response = Http::withHeaders($signature)->post(
-            $url,
-            [
-                "kodebooking" => $request->kodebooking,
-                "jenispasien" => $request->jenispasien,
-                "nomorkartu" => $request->nomorkartu,
-                "nik" => $request->nik,
-                "nohp" => $request->nohp,
-                "kodepoli" => $request->kodepoli,
-                "namapoli" => $request->namapoli,
-                "pasienbaru" => $request->pasienbaru,
-                "norm" => $request->norm,
-                "tanggalperiksa" => $request->tanggalperiksa,
-                "kodedokter" => $request->kodedokter,
-                "namadokter" => $request->namadokter,
-                "jampraktek" => $request->jampraktek,
-                "jeniskunjungan" => $request->jeniskunjungan,
-                "nomorreferensi" => $request->nomorreferensi,
-                "nomorantrean" => $request->nomorantrean,
-                "angkaantrean" => $request->angkaantrean,
-                "estimasidilayani" => $request->estimasidilayani,
-                "sisakuotajkn" => $request->sisakuotajkn,
-                "kuotajkn" => $request->kuotajkn,
-                "sisakuotanonjkn" => $request->sisakuotanonjkn,
-                "kuotanonjkn" => $request->kuotanonjkn,
-                "keterangan" => $request->keterangan,
-            ]
-        );
-        return $this->response_decrypt($response, $signature);
+        try {
+            $url =  $this->api()->base_url .  "antrean/add";
+            $signature = $this->signature();
+            $response = Http::withHeaders($signature)->post(
+                $url,
+                [
+                    "kodebooking" => $request->kodebooking,
+                    "jenispasien" => $request->jenispasien,
+                    "nomorkartu" => $request->nomorkartu,
+                    "nik" => $request->nik,
+                    "nohp" => $request->nohp,
+                    "kodepoli" => $request->kodepoli,
+                    "namapoli" => $request->namapoli,
+                    "pasienbaru" => $request->pasienbaru,
+                    "norm" => $request->norm,
+                    "tanggalperiksa" => $request->tanggalperiksa,
+                    "kodedokter" => $request->kodedokter,
+                    "namadokter" => $request->namadokter,
+                    "jampraktek" => $request->jampraktek,
+                    "jeniskunjungan" => $request->jeniskunjungan,
+                    "nomorreferensi" => $request->nomorreferensi,
+                    "nomorantrean" => $request->nomorantrean,
+                    "angkaantrean" => $request->angkaantrean,
+                    "estimasidilayani" => $request->estimasidilayani,
+                    "sisakuotajkn" => $request->sisakuotajkn,
+                    "kuotajkn" => $request->kuotajkn,
+                    "sisakuotanonjkn" => $request->sisakuotanonjkn,
+                    "kuotanonjkn" => $request->kuotanonjkn,
+                    "keterangan" => $request->keterangan,
+                ]
+            );
+            return $this->response_decrypt($response, $signature);
+        } catch (\Throwable $th) {
+            return $this->sendError('Tidak terhubung ke jaringan', 500);
+        }
     }
     public function tambah_antrean_farmasi(Request $request)
     {
