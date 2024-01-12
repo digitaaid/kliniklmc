@@ -263,7 +263,7 @@ class PendaftaranController extends APIController
             'nik' => 'required|digits:16',
             'norm' => 'required|digits:9',
             'nama' => 'required',
-            'nohp' => 'require|numeric',
+            'nohp' => 'required|numeric',
             'tanggalperiksa' => 'required',
             'jenispasien' => 'required',
             'kodepoli' => 'required',
