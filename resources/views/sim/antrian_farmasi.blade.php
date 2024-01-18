@@ -124,7 +124,7 @@
 
                                         @case(6)
                                             <a href="{{ route('selesaifarmasi') }}?kodebooking={{ $item->kodebooking }}"
-                                                class="btn btn-xs btn-success withLoad">Selesai</a>
+                                                class="btn btn-xs btn-success withLoad"> Selesai</a>
                                         @break
 
                                         @case(7)
@@ -238,7 +238,7 @@
                                 </div>
                                 <div class="card-footer">
                                     <a href="{{ route('selesaifarmasi') }}?kodebooking={{ $item->kodebooking }}"
-                                        class="btn btn-success withLoad">Selesai</a>
+                                        class="btn btn-success withLoad"><i class="fas fa-check"></i> Selesai</a>
                                     <a href="{{ route('print_asesmenfarmasi') }}?kodebooking={{ $item->kodebooking }}"
                                         class="btn btn-warning" target="_blank"> <i class="fas fa-print"></i> Print</a>
                                 </div>
@@ -272,16 +272,12 @@
 @section('js')
     <script>
         var x = document.getElementById("myAudio");
-
         function playAudio() {
             x.play();
         }
-
         function pauseAudio() {
             x.pause();
         }
-    </script>
-    <script>
         $(document).ready(function() {
             const Toast = Swal.mixin({
                 toast: true,

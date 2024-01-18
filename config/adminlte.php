@@ -344,6 +344,14 @@ return [
                     'can' => 'pendaftaran',
                 ],
                 [
+                    'text' => 'Antrian Kasir',
+                    'icon'    => 'fas fa-users',
+                    'shift'   => 'ml-2',
+                    'url'  => 'antriankasir',
+                    'active'  => ['antriankasir', 'lihatkasir'],
+                    'can' => 'pendaftaran',
+                ],
+                [
                     'text' => 'Antrian Perawat',
                     'icon'    => 'fas fa-users',
                     'url'  => 'antrianperawat',

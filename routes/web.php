@@ -14,6 +14,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\IntegrasiController;
 use App\Http\Controllers\JadwalDokterController;
 use App\Http\Controllers\JadwalLiburController;
+use App\Http\Controllers\KasirController;
 use App\Http\Controllers\KunjunganController;
 use App\Http\Controllers\LaboratoriumController;
 use App\Http\Controllers\LaravoltIndonesiaController;
@@ -156,6 +157,9 @@ Route::middleware('auth')->group(function () {
     Route::get('laporanpendaftaran', [PendaftaranController::class, 'laporanpendaftaran'])->name('laporanpendaftaran');
     Route::get('pdflaporanpendaftaran', [PendaftaranController::class, 'pdflaporanpendaftaran'])->name('pdflaporanpendaftaran');
     Route::get('laporanwaktuantrian', [PendaftaranController::class, 'laporanwaktuantrian'])->name('laporanwaktuantrian');
+    // kasir
+    Route::get('antriankasir', [KasirController::class, 'antriankasir'])->name('antriankasir');
+
     // perawat
     Route::get('antrianperawat', [PerawatController::class, 'antrianperawat'])->name('antrianperawat');
     Route::get('prosesperawat', [PerawatController::class, 'prosesperawat'])->name('prosesperawat');

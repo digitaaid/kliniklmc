@@ -83,13 +83,34 @@ class DokterController extends Controller
     // poliklinik
     public function antrianpoliklinik(Request $request)
     {
-        $antrians = null;
+        $antrians = [];
         if ($request->tanggalperiksa) {
             $antrians = Antrian::where('tanggalperiksa', $request->tanggalperiksa)->where('taskid', '!=', 99)->get();
         }
+        if ($request->pencarian) {
+            $request->validate([
+                'pencarian' => 'required|min:3',
+            ]);
+            $antrians = Antrian::where('norm', $request->pencarian)
+                ->orWhere('nama', 'LIKE', '%' . $request->pencarian . '%')->get();
+        }
+        $now = now()->format('Y-m-d');
+        $sedang_antrian = Antrian::where('tanggalperiksa', $now)
+            ->where('taskid', '!=', 99)
+            ->where('taskid', 4)->first();
+        $sisa_antrian = Antrian::where('tanggalperiksa', $now)
+            ->where('taskid', '!=', 99)
+            ->where('taskid', '>=', 2)
+            ->where('taskid', '<=', 3)->count();
+        $total_antrian = Antrian::where('tanggalperiksa', $now)
+            ->where('taskid', '!=', 99)
+            ->where('taskid', '>=', 2)->count();
         return view('sim.antrian_poliklinik', compact([
             'request',
             'antrians',
+            'sedang_antrian',
+            'sisa_antrian',
+            'total_antrian',
         ]));
     }
     public function prosespoliklinik(Request $request)

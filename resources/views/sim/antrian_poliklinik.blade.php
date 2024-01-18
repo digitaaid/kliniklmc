@@ -6,137 +6,153 @@
 @section('content')
     <div class="row">
         <div class="col-md-12">
-            <x-adminlte-card title="Filter Data Antrian" theme="secondary" collapsible>
-                <form action="" method="get">
-                    <div class="row">
-                        <div class="col-md-12">
-                            @php
-                                $config = ['format' => 'YYYY-MM-DD'];
-                            @endphp
-                            <x-adminlte-input-date name="tanggalperiksa" label="Tanggal Antrian"
-                                value="{{ $request->tanggalperiksa ?? now()->format('Y-m-d') }}" placeholder="Pilih Tanggal"
-                                :config="$config">
+            <div class="row">
+                <div class="col-md-3">
+                    <x-adminlte-small-box title="{{ $sedang_antrian ? $sedang_antrian->nomorantrean : 'Belum Panggil' }}"
+                        text="Antrian Sedang Dilayani" theme="primary" icon="fas fa-user-injured"
+                        url="{{ route('prosespoliklinik') }}?kodebooking={{ $sedang_antrian->kodebooking ?? '00' }}"
+                        url-text="Proses Antrian Selanjutnya" />
+                </div>
+                <div class="col-md-3">
+                    <x-adminlte-small-box title="{{ $sisa_antrian }}" text="Sisa Antrian Hari Ini" theme="warning"
+                        icon="fas fa-user-injured" />
+                </div>
+                <div class="col-md-3">
+                    <x-adminlte-small-box title="{{ $total_antrian }}" text="Total Antrian Hari Ini" theme="success"
+                        icon="fas fa-user-injured" />
+                </div>
+            </div>
+            <x-adminlte-card title="Data Antrian Asesmen Dokter" theme="warning" icon="fas fa-info-circle" collapsible>
+                <div class="row">
+                    <div class="col-md-4">
+                        <form action="" method="get">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    @php
+                                        $config = ['format' => 'YYYY-MM-DD'];
+                                    @endphp
+                                    <x-adminlte-input-date name="tanggalperiksa"
+                                        value="{{ $request->tanggalperiksa ?? now()->format('Y-m-d') }}"
+                                        placeholder="Pilih Tanggal" igroup-size="sm" :config="$config">
+                                        <x-slot name="prependSlot">
+                                            <div class="input-group-text text-primary">
+                                                <i class="fas fa-calendar-alt"></i>
+                                            </div>
+                                        </x-slot>
+                                        <x-slot name="appendSlot">
+                                            <x-adminlte-button type="submit" theme="primary" label="Cari Tanggal" />
+                                        </x-slot>
+                                    </x-adminlte-input-date>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-md-4">
+                    </div>
+                    <div class="col-md-4">
+                        <form action="" method="get">
+                            <x-adminlte-input name="pencarian" placeholder="Pencarian Berdasarkan Nama / No RM"
+                                igroup-size="sm" value="{{ $request->pencarian }}">
+                                <x-slot name="appendSlot">
+                                    <x-adminlte-button type="submit" theme="primary" label="Cari" />
+                                </x-slot>
                                 <x-slot name="prependSlot">
-                                    <div class="input-group-text bg-primary">
-                                        <i class="fas fa-calendar-alt"></i>
+                                    <div class="input-group-text text-primary">
+                                        <i class="fas fa-search"></i>
                                     </div>
                                 </x-slot>
-                            </x-adminlte-input-date>
-                        </div>
-                    </div>
-                    <x-adminlte-button type="submit" class="withLoad" theme="primary" label="Submit Antrian" />
-                </form>
-            </x-adminlte-card>
-        </div>
-        @if (isset($antrians))
-            <div class="col-md-12">
-                <div class="row">
-                    <div class="col-md-3">
-                        <x-adminlte-small-box
-                            title="{{ $antrians->where('taskid', 4)->first()->nomorantrean ?? 'Belum Panggil' }}"
-                            text="Antrian Dilayani" theme="primary" icon="fas fa-user-injured"
-                            url="{{ route('prosespoliklinik') }}?kodebooking={{ $antrians->where('taskid', 3)->first()->kodebooking ?? '00' }}"
-                            url-text="Proses Antrian Selanjutnya" />
-                    </div>
-                    <div class="col-md-3">
-                        <x-adminlte-small-box
-                            title="{{ $antrians->where('taskid', '>=', 2)->where('taskid', '<=', 3)->count() }}"
-                            text="Sisa Antrian" theme="warning" icon="fas fa-user-injured" />
-                    </div>
-                    <div class="col-md-3">
-                        <x-adminlte-small-box
-                            title="{{ $antrians->where('taskid', '>=', 2)->where('taskid', '!=', 99)->count() }}"
-                            text="Total Antrian" theme="success" icon="fas fa-user-injured" />
+                            </x-adminlte-input>
+                        </form>
                     </div>
                 </div>
-                <x-adminlte-card title="Data Antrian Asesmen Dokter" theme="warning" icon="fas fa-info-circle" collapsible>
-                    @php
-                        $heads = ['No', 'Pasien', 'Action', 'Jenis Pasien', 'Unit', 'Dokter', 'Taskid', 'Asesmen'];
-                        $config['order'] = [[6, 'asc'], [7, 'asc']];
-                        $config['paging'] = false;
-                        $config['scrollY'] = '300px';
-                    @endphp
-                    <x-adminlte-datatable id="table1" class="nowrap" :heads="$heads" :config="$config" bordered
-                        hoverable compressed>
-                        @foreach ($antrians as $item)
-                            <tr>
-                                <td>{{ $item->angkaantrean }}</td>
-                                <td>{{ $item->norm }} {{ $item->nama }}</td>
-                                <td>
-                                    @switch($item->taskid)
-                                        @case(3)
-                                            <a href="{{ route('prosespoliklinik') }}?kodebooking={{ $item->kodebooking }}"
-                                                class="btn btn-xs btn-warning withLoad">Proses</a>
-                                        @break
+                @php
+                    $heads = ['Tanggal', 'No', 'No RM', 'Pasien', 'Action', 'Jenis Pasien', 'Unit', 'Dokter', 'Taskid', 'Asesmen'];
+                    $config['order'] = [[6, 'asc'], [7, 'asc']];
+                    $config['paging'] = false;
+                    $config['scrollY'] = '300px';
+                @endphp
+                <x-adminlte-datatable id="table1" class="nowrap" :heads="$heads" :config="$config" bordered hoverable
+                    compressed>
+                    @foreach ($antrians as $item)
+                        <tr>
+                            <td>{{ $item->tanggalperiksa }}</td>
+                            <td>A{{ $item->angkaantrean }}</td>
+                            <td>{{ $item->norm }}</td>
+                            <td>{{ $item->nama }}</td>
+                            <td>
+                                @switch($item->taskid)
+                                    @case(3)
+                                        <a href="{{ route('prosespoliklinik') }}?kodebooking={{ $item->kodebooking }}"
+                                            class="btn btn-xs btn-warning withLoad">Proses</a>
+                                    @break
 
-                                        @case(4)
-                                            <a href="{{ route('prosespoliklinik') }}?kodebooking={{ $item->kodebooking }}"
-                                                class="btn btn-xs btn-primary withLoad">Proses</a>
-                                        @break
+                                    @case(4)
+                                        <a href="{{ route('prosespoliklinik') }}?kodebooking={{ $item->kodebooking }}"
+                                            class="btn btn-xs btn-primary withLoad">Proses</a>
+                                    @break
 
-                                        @default
-                                            <a href="{{ route('prosespoliklinik') }}?kodebooking={{ $item->kodebooking }}"
-                                                class="btn btn-xs btn-secondary withLoad">Lihat</a>
-                                    @endswitch
-                                </td>
-                                <td>{{ $item->jenispasien }} </td>
-                                <td>{{ $item->kunjungan ? $item->kunjungan->units->nama : '-' }}</td>
-                                <td>{{ $item->namadokter }}</td>
-                                <td>
-                                    @switch($item->taskid)
-                                        @case(0)
-                                            <span class="badge badge-secondary">98. Belum Checkin</span>
-                                        @break
+                                    @default
+                                        <a href="{{ route('prosespoliklinik') }}?kodebooking={{ $item->kodebooking }}"
+                                            class="btn btn-xs btn-secondary withLoad">Lihat</a>
+                                @endswitch
+                            </td>
+                            <td>{{ $item->jenispasien }} </td>
+                            <td>{{ $item->kunjungan ? $item->kunjungan->units->nama : '-' }}</td>
+                            <td>{{ $item->namadokter }}</td>
+                            <td>
+                                @switch($item->taskid)
+                                    @case(0)
+                                        <span class="badge badge-secondary">98. Belum Checkin</span>
+                                    @break
 
-                                        @case(1)
-                                            <span class="badge badge-warning">97. Menunggu Pendaftaran</span>
-                                        @break
+                                    @case(1)
+                                        <span class="badge badge-warning">97. Menunggu Pendaftaran</span>
+                                    @break
 
-                                        @case(2)
-                                            <span class="badge badge-primary">96. Proses Pendaftaran</span>
-                                        @break
+                                    @case(2)
+                                        <span class="badge badge-primary">96. Proses Pendaftaran</span>
+                                    @break
 
-                                        @case(3)
-                                            <span class="badge badge-warning">3. Menunggu Poliklinik</span>
-                                        @break
+                                    @case(3)
+                                        <span class="badge badge-warning">3. Menunggu Poliklinik</span>
+                                    @break
 
-                                        @case(4)
-                                            <span class="badge badge-primary">4. Pelayanan Poliklinik</span>
-                                        @break
+                                    @case(4)
+                                        <span class="badge badge-primary">4. Pelayanan Poliklinik</span>
+                                    @break
 
-                                        @case(5)
-                                            <span class="badge badge-warning">5. Tunggu Farmasi</span>
-                                        @break
+                                    @case(5)
+                                        <span class="badge badge-warning">5. Tunggu Farmasi</span>
+                                    @break
 
-                                        @case(6)
-                                            <span class="badge badge-primary">6. Racik Obat</span>
-                                        @break
+                                    @case(6)
+                                        <span class="badge badge-primary">6. Racik Obat</span>
+                                    @break
 
-                                        @case(7)
-                                            <span class="badge badge-success">7. Selesai</span>
-                                        @break
+                                    @case(7)
+                                        <span class="badge badge-success">7. Selesai</span>
+                                    @break
 
-                                        @case(99)
-                                            <span class="badge badge-danger">99. Batal</span>
-                                        @break
+                                    @case(99)
+                                        <span class="badge badge-danger">99. Batal</span>
+                                    @break
 
-                                        @default
-                                            {{ $item->taskid }}
-                                    @endswitch
-                                </td>
-                                <td>
-                                    @if ($item->asesmendokter)
-                                        <span class="badge badge-success">Sudah Asesmen</span>
-                                    @else
-                                        <span class="badge badge-danger">Belum Asesmen</span>
-                                    @endif
-                                </td>
-                            </tr>
-                        @endforeach
-                    </x-adminlte-datatable>
-                </x-adminlte-card>
-            </div>
-        @endif
+                                    @default
+                                        {{ $item->taskid }}
+                                @endswitch
+                            </td>
+                            <td>
+                                @if ($item->asesmendokter)
+                                    <span class="badge badge-success">Sudah Asesmen</span>
+                                @else
+                                    <span class="badge badge-danger">Belum Asesmen</span>
+                                @endif
+                            </td>
+                        </tr>
+                    @endforeach
+                </x-adminlte-datatable>
+            </x-adminlte-card>
+        </div>
     </div>
 @stop
 
