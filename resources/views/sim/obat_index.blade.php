@@ -102,7 +102,7 @@
                         enable-old-support required />
                     <x-adminlte-select2 name="satuan" fgroup-class="row" label-class="text-right col-3" igroup-size="sm"
                         igroup-class="col-9" label="Satuan">
-                        <option value="">Satuan Obat (Kosong)</option>
+                        {{-- <option value="">Satuan Obat (Kosong)</option>
                         <option value="Tablet">Tablet</option>
                         <option value="Kaplet">Kaplet</option>
                         <option value="Kapsul">Kapsul</option>
@@ -116,39 +116,39 @@
                         <option value="Bungkus">Bungkus</option>
                         <option value="Lembar">Lembar</option>
                         <option value="Dus">Dus</option>
-                        <option value="Strip">Strip</option>
+                        <option value="Strip">Strip</option> --}}
                         <x-slot name="appendSlot">
                             <x-adminlte-button theme="success" onclick="tambahSatuan()" icon="fas fa-plus" />
                         </x-slot>
                     </x-adminlte-select2>
                     <x-adminlte-select2 name="jenisobat" fgroup-class="row" label-class="text-right col-3"
                         igroup-size="sm" igroup-class="col-9" label="Jenis Obat">
-                        <option value="">Jenis Obat (Kosong)</option>
+                        {{-- <option value="">Jenis Obat (Kosong)</option>
                         <option value="Obat Kemoterapi">Obat Kemoterapi</option>
-                        <option value="Penunjang Kemoterapi">Penunjang Kemoterapi</option>
+                        <option value="Penunjang Kemoterapi">Penunjang Kemoterapi</option> --}}
                         <x-slot name="appendSlot">
-                            <x-adminlte-button theme="success" icon="fas fa-plus" />
+                            <x-adminlte-button theme="success" onclick="tambahJenis()" icon="fas fa-plus" />
                         </x-slot>
                     </x-adminlte-select2>
                     <x-adminlte-select2 name="tipebarang" fgroup-class="row" label-class="text-right col-3"
                         igroup-size="sm" igroup-class="col-9" label="Tipe Barang">
-                        <option value="">Tipe Barang (Kosong)</option>
+                        {{-- <option value="">Tipe Barang (Kosong)</option>
                         <option value="Alkes">Alkes</option>
-                        <option value="BHP">BHP</option>
+                        <option value="BHP">BHP</option> --}}
                         <x-slot name="appendSlot">
-                            <x-adminlte-button theme="success" icon="fas fa-plus" />
+                            <x-adminlte-button theme="success" onclick="tambahTipe()" icon="fas fa-plus" />
                         </x-slot>
                     </x-adminlte-select2>
-                    <x-adminlte-select2 name="distributor" fgroup-class="row" label-class="text-right col-3"
+                    <x-adminlte-select2 id="distributorbarang" name="distributor" fgroup-class="row" label-class="text-right col-3"
                         igroup-size="sm" igroup-class="col-9" label="Distributor">
                         <x-slot name="appendSlot">
-                            <x-adminlte-button theme="success" icon="fas fa-plus" />
+                            <x-adminlte-button theme="success" onclick="tambahDistributor()" icon="fas fa-plus" />
                         </x-slot>
                     </x-adminlte-select2>
-                    <x-adminlte-select2 name="merk" fgroup-class="row" label-class="text-right col-3"
-                        igroup-size="sm" igroup-class="col-9" label="Tipe Barang">
+                    <x-adminlte-select2 id="merkbarang" name="merk" fgroup-class="row" label-class="text-right col-3"
+                        igroup-size="sm" igroup-class="col-9" label="Merk Barang">
                         <x-slot name="appendSlot">
-                            <x-adminlte-button theme="success" icon="fas fa-plus" />
+                            <x-adminlte-button theme="success" onclick="tambahMerk()" icon="fas fa-plus" />
                         </x-slot>
                     </x-adminlte-select2>
                 </div>
@@ -183,12 +183,59 @@
     <x-adminlte-modal id="modalSatuan" title="Tambah Satuan Obat" icon="fas fa-pills" theme="warning" static-backdrop>
         <form id="formSatuan">
             @csrf
-            <x-adminlte-input id="nama_satuan" name="nama" label="Satuan Obat" placeholder="Nama Satuan"
+            <x-adminlte-input id="nama_satuan" name="nama" label="Satuan Obat" placeholder="Satuan Satuan"
                 fgroup-class="row" label-class="col-3" igroup-size="sm" igroup-class="col-9" enable-old-support
                 required />
         </form>
         <x-slot name="footerSlot">
             <x-adminlte-button icon="fas fa-save" theme="success" label="Simpan" onclick="simpanSatuan()" />
+            <x-adminlte-button theme="danger" icon="fas fa-times" label="Tutup" data-dismiss="modal" />
+        </x-slot>
+    </x-adminlte-modal>
+    <x-adminlte-modal id="modalJenis" title="Tambah Jenis Obat" icon="fas fa-pills" theme="warning" static-backdrop>
+        <form id="formJenis">
+            @csrf
+            <x-adminlte-input id="nama_jenis" name="nama" label="Jenis Obat" placeholder="Jenis Satuan"
+                fgroup-class="row" label-class="col-3" igroup-size="sm" igroup-class="col-9" enable-old-support
+                required />
+        </form>
+        <x-slot name="footerSlot">
+            <x-adminlte-button icon="fas fa-save" theme="success" label="Simpan" onclick="simpanJenis()" />
+            <x-adminlte-button theme="danger" icon="fas fa-times" label="Tutup" data-dismiss="modal" />
+        </x-slot>
+    </x-adminlte-modal>
+    <x-adminlte-modal id="modalTipe" title="Tambah Tipe Barang" icon="fas fa-pills" theme="warning" static-backdrop>
+        <form id="formTipe">
+            @csrf
+            <x-adminlte-input name="nama" label="Tipe Barang" placeholder="Tipe Barang" fgroup-class="row"
+                label-class="col-3" igroup-size="sm" igroup-class="col-9" enable-old-support required />
+        </form>
+        <x-slot name="footerSlot">
+            <x-adminlte-button icon="fas fa-save" theme="success" label="Simpan" onclick="simpanTipe()" />
+            <x-adminlte-button theme="danger" icon="fas fa-times" label="Tutup" data-dismiss="modal" />
+        </x-slot>
+    </x-adminlte-modal>
+    <x-adminlte-modal id="modalMerk" title="Tambah Merk Barang" icon="fas fa-pills" theme="warning" static-backdrop>
+        <form id="formMerk">
+            @csrf
+            <x-adminlte-input name="nama" label="Merk Barang" placeholder="Merk Barang" fgroup-class="row"
+                label-class="col-3" igroup-size="sm" igroup-class="col-9" enable-old-support required />
+        </form>
+        <x-slot name="footerSlot">
+            <x-adminlte-button icon="fas fa-save" theme="success" label="Simpan" onclick="simpanMerk()" />
+            <x-adminlte-button theme="danger" icon="fas fa-times" label="Tutup" data-dismiss="modal" />
+        </x-slot>
+    </x-adminlte-modal>
+    <x-adminlte-modal id="modalDistributor" title="Tambah Distributor Barang" icon="fas fa-pills" theme="warning"
+        static-backdrop>
+        <form id="formDistributor">
+            @csrf
+            <x-adminlte-input name="nama" label="Distributor Barang" placeholder="Distributor Barang"
+                fgroup-class="row" label-class="col-3" igroup-size="sm" igroup-class="col-9" enable-old-support
+                required />
+        </form>
+        <x-slot name="footerSlot">
+            <x-adminlte-button icon="fas fa-save" theme="success" label="Simpan" onclick="simpanDistributor()" />
             <x-adminlte-button theme="danger" icon="fas fa-times" label="Tutup" data-dismiss="modal" />
         </x-slot>
     </x-adminlte-modal>
@@ -303,12 +350,116 @@
                 theme: "bootstrap4",
                 multiple: true,
                 maximumSelectionLength: 1,
+                ajax: {
+                    url: "{{ route('jenisobat.show', 1) }}",
+                    type: "GET",
+                    dataType: 'json',
+                    delay: 100,
+                    data: function(params) {
+                        return {
+                            nama: params.term // search term
+                        };
+                    },
+                    processResults: function(res) {
+                        console.log(res.response);
+                        return {
+                            results: $.map(res.response, function(item) {
+                                return {
+                                    text: item.nama,
+                                    id: item.nama
+                                }
+                            })
+                        };
+                    },
+                    cache: true
+                }
             });
             $("#tipebarang").select2({
                 placeholder: "Silahkan pilih",
                 theme: "bootstrap4",
                 multiple: true,
                 maximumSelectionLength: 1,
+                ajax: {
+                    url: "{{ route('tipebarang.show', 1) }}",
+                    type: "GET",
+                    dataType: 'json',
+                    delay: 100,
+                    data: function(params) {
+                        return {
+                            nama: params.term // search term
+                        };
+                    },
+                    processResults: function(res) {
+                        console.log(res.response);
+                        return {
+                            results: $.map(res.response, function(item) {
+                                return {
+                                    text: item.nama,
+                                    id: item.nama
+                                }
+                            })
+                        };
+                    },
+                    cache: true
+                }
+            });
+            $("#distributorbarang").select2({
+                placeholder: "Silahkan pilih",
+                theme: "bootstrap4",
+                multiple: true,
+                maximumSelectionLength: 1,
+                ajax: {
+                    url: "{{ route('distributorbarang.show', 1) }}",
+                    type: "GET",
+                    dataType: 'json',
+                    delay: 100,
+                    data: function(params) {
+                        return {
+                            nama: params.term // search term
+                        };
+                    },
+                    processResults: function(res) {
+                        console.log(res.response);
+                        return {
+                            results: $.map(res.response, function(item) {
+                                return {
+                                    text: item.nama,
+                                    id: item.nama
+                                }
+                            })
+                        };
+                    },
+                    cache: true
+                }
+            });
+            $("#merkbarang").select2({
+                placeholder: "Silahkan pilih",
+                theme: "bootstrap4",
+                multiple: true,
+                maximumSelectionLength: 1,
+                ajax: {
+                    url: "{{ route('merkbarang.show', 1) }}",
+                    type: "GET",
+                    dataType: 'json',
+                    delay: 100,
+                    data: function(params) {
+                        return {
+                            nama: params.term // search term
+                        };
+                    },
+                    processResults: function(res) {
+                        console.log(res.response);
+                        return {
+                            results: $.map(res.response, function(item) {
+                                return {
+                                    text: item.nama,
+                                    id: item.nama
+                                }
+                            })
+                        };
+                    },
+                    cache: true
+                }
             });
         });
 
@@ -341,6 +492,106 @@
             }).done(function(data) {
                 console.log(data);
                 $('#modalSatuan').modal('hide');
+                $.LoadingOverlay("hide");
+            });
+        }
+
+        function tambahJenis() {
+            $.LoadingOverlay("show");
+            $('#modalJenis').modal('show');
+            $.LoadingOverlay("hide");
+        }
+
+        function simpanJenis() {
+            $.LoadingOverlay("show");
+            var formData = $('#formJenis').serialize();
+            console.log(formData);
+            $.ajax({
+                url: "{{ route('jenisobat.store') }}",
+                method: "POST",
+                data: formData,
+                error: function(data) {
+                    console.log(data);
+                    $.LoadingOverlay("hide");
+                },
+            }).done(function(data) {
+                console.log(data);
+                $('#modalJenis').modal('hide');
+                $.LoadingOverlay("hide");
+            });
+        }
+
+        function tambahTipe() {
+            $.LoadingOverlay("show");
+            $('#modalTipe').modal('show');
+            $.LoadingOverlay("hide");
+        }
+
+        function simpanTipe() {
+            $.LoadingOverlay("show");
+            var formData = $('#formTipe').serialize();
+            console.log(formData);
+            $.ajax({
+                url: "{{ route('tipebarang.store') }}",
+                method: "POST",
+                data: formData,
+                error: function(data) {
+                    console.log(data);
+                    $.LoadingOverlay("hide");
+                },
+            }).done(function(data) {
+                console.log(data);
+                $('#modalTipe').modal('hide');
+                $.LoadingOverlay("hide");
+            });
+        }
+
+        function tambahMerk() {
+            $.LoadingOverlay("show");
+            $('#modalMerk').modal('show');
+            $.LoadingOverlay("hide");
+        }
+
+        function simpanMerk() {
+            $.LoadingOverlay("show");
+            var formData = $('#formMerk').serialize();
+            console.log(formData);
+            $.ajax({
+                url: "{{ route('merkbarang.store') }}",
+                method: "POST",
+                data: formData,
+                error: function(data) {
+                    console.log(data);
+                    $.LoadingOverlay("hide");
+                },
+            }).done(function(data) {
+                console.log(data);
+                $('#modalMerk').modal('hide');
+                $.LoadingOverlay("hide");
+            });
+        }
+
+        function tambahDistributor() {
+            $.LoadingOverlay("show");
+            $('#modalDistributor').modal('show');
+            $.LoadingOverlay("hide");
+        }
+
+        function simpanDistributor() {
+            $.LoadingOverlay("show");
+            var formData = $('#formDistributor').serialize();
+            console.log(formData);
+            $.ajax({
+                url: "{{ route('distributorbarang.store') }}",
+                method: "POST",
+                data: formData,
+                error: function(data) {
+                    console.log(data);
+                    $.LoadingOverlay("hide");
+                },
+            }).done(function(data) {
+                console.log(data);
+                $('#modalDistributor').modal('hide');
                 $.LoadingOverlay("hide");
             });
         }
