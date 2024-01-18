@@ -12,11 +12,20 @@ use RealRashid\SweetAlert\Facades\Alert;
 
 class ObatController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $obats = Obat::with(['pic'])->get();
+        if ($request->pencarian) {
+            $obats = Obat::where('id', $request->pencarian)
+                ->orWhere('nama', 'LIKE', "%{$request->pencarian}%")
+                ->with(['pic'])->simplePaginate(20);
+        } else {
+            $obats = Obat::with(['pic'])->simplePaginate(20);
+        }
+        $total_obat = Obat::count();
         return view('sim.obat_index', compact([
+            'request',
             'obats',
+            'total_obat',
         ]));
     }
     public function store(Request $request)

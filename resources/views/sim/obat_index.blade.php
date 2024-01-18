@@ -10,15 +10,39 @@
     <div class="row">
         <div class="col-md-12">
             <x-adminlte-card title="Data Obat" theme="primary" icon="fas fa-info-circle" collapsible>
+                <div class="row">
+                    <div class="col-md-8">
+                        <x-adminlte-button onclick="tambahObat()" class="btn-sm" theme="success" label="Tambah Obat"
+                            icon="fas fa-plus" />
+                        <a href="{{ route('obatexport') }}" class="btn btn-sm btn-primary"><i class="fas fa-print"></i>
+                            Export</a>
+                        <div class="btn btn-sm btn-primary btnModalImport"><i class="fas fa-file-medical"></i> Import</div>
+                    </div>
+                    <div class="col-md-4">
+                        <form action="" method="get">
+                            <x-adminlte-input name="pencarian" placeholder="Pencarian Nama / Kode Obat" igroup-size="sm"
+                                value="{{ $request->pencarian }}">
+                                <x-slot name="appendSlot">
+                                    <x-adminlte-button type="submit" theme="primary" label="Cari" />
+                                </x-slot>
+                                <x-slot name="prependSlot">
+                                    <div class="input-group-text text-primary">
+                                        <i class="fas fa-search"></i>
+                                    </div>
+                                </x-slot>
+                            </x-adminlte-input>
+                        </form>
+                    </div>
+                </div>
                 @php
                     $heads = ['Kode', 'Nama Obat', 'Satuan', 'Harga', 'Jenis Obat', 'Tipe Barang', 'Status', 'Action'];
                     $config['order'] = [1, 'asc'];
                     $config['paging'] = false;
-                    $config['scrollY'] = '500px';
+                    $config['lengthMenu'] = false;
+                    $config['searching'] = false;
+                    $config['info'] = false;
                 @endphp
-                <x-adminlte-button id="btnTambah" class="btn-sm" theme="success" label="Tambah Obat" icon="fas fa-plus" />
-                <a href="{{ route('obatexport') }}" class="btn btn-sm btn-primary"><i class="fas fa-print"></i> Export</a>
-                <div class="btn btn-sm btn-primary btnModalImport"><i class="fas fa-file-medical"></i> Import</div>
+
                 <x-adminlte-datatable id="table1" :heads="$heads" :config="$config" bordered hoverable compressed>
                     @foreach ($obats as $item)
                         <tr>
@@ -50,44 +74,86 @@
                         </tr>
                     @endforeach
                 </x-adminlte-datatable>
+                <div class="row">
+                    <div class="col-md-5">
+                        Tampil data {{ $obats->firstItem() }} sampai {{ $obats->lastItem() }} dari total
+                        {{ $total_obat }}
+                    </div>
+                    <div class="col-md-7">
+                        <div class="float-right pagination-sm">
+                            {{ $obats->links() }}
+                        </div>
+                    </div>
+                </div>
             </x-adminlte-card>
         </div>
     </div>
-    <x-adminlte-modal id="modalObat" title="Obat" icon="fas fa-pills" theme="success" static-backdrop>
+    <x-adminlte-modal id="modalObat" title="Obat" size="xl" icon="fas fa-pills" theme="success" static-backdrop>
         <form action="" id="formObat" method="POST">
             @csrf
             <input type="hidden" name="id" id="id">
             <input type="hidden" name="_method" id="method">
-            <x-adminlte-input name="nama" label="Nama Obat" placeholder="Nama Lengkap" enable-old-support required />
-            <x-adminlte-input name="harga" type="number" label="Harga Satuan" placeholder="Harga Obat Satuan"
-                enable-old-support required />
-            <x-adminlte-select2 name="satuan" label="Satuan">
-                <option value="">Satuan Obat (Kosong)</option>
-                <option value="Tablet">Tablet</option>
-                <option value="Kaplet">Kaplet</option>
-                <option value="Kapsul">Kapsul</option>
-                <option value="Ampul">Ampul</option>
-                <option value="Tube">Tube</option>
-                <option value="Unit">Unit</option>
-                <option value="Kotak">Kotak</option>
-                <option value="Bungkus">Bungkus</option>
-                <option value="Box">Box</option>
-                <option value="Sachet">Sachet</option>
-                <option value="Bungkus">Bungkus</option>
-                <option value="Lembar">Lembar</option>
-                <option value="Dus">Dus</option>
-                <option value="Strip">Strip</option>
-            </x-adminlte-select2>
-            <x-adminlte-select2 name="jenisobat" label="Jenis Obat">
-                <option value="">Jenis Obat (Kosong)</option>
-                <option value="Obat Kemoterapi">Obat Kemoterapi</option>
-                <option value="Penunjang Kemoterapi">Penunjang Kemoterapi</option>
-            </x-adminlte-select2>
-            <x-adminlte-select2 name="tipebarang" label="Tipe Barang">
-                <option value="">Tipe Barang (Kosong)</option>
-                <option value="Alkes">Alkes</option>
-                <option value="BHP">BHP</option>
-            </x-adminlte-select2>
+            <div class="row">
+                <div class="col-md-6">
+                    <x-adminlte-input name="nama" label="Nama Obat" placeholder="Nama Lengkap" fgroup-class="row"
+                        label-class="text-right col-3" igroup-size="sm" igroup-class="col-9" enable-old-support required />
+                    <x-adminlte-input name="harga" fgroup-class="row" label-class="text-right col-3" igroup-size="sm"
+                        igroup-class="col-9" type="number" label="Harga Satuan" placeholder="Harga Obat Satuan"
+                        enable-old-support required />
+                    <x-adminlte-select2 name="satuan" fgroup-class="row" label-class="text-right col-3" igroup-size="sm"
+                        igroup-class="col-9" label="Satuan">
+                        <option value="">Satuan Obat (Kosong)</option>
+                        <option value="Tablet">Tablet</option>
+                        <option value="Kaplet">Kaplet</option>
+                        <option value="Kapsul">Kapsul</option>
+                        <option value="Ampul">Ampul</option>
+                        <option value="Tube">Tube</option>
+                        <option value="Unit">Unit</option>
+                        <option value="Kotak">Kotak</option>
+                        <option value="Bungkus">Bungkus</option>
+                        <option value="Box">Box</option>
+                        <option value="Sachet">Sachet</option>
+                        <option value="Bungkus">Bungkus</option>
+                        <option value="Lembar">Lembar</option>
+                        <option value="Dus">Dus</option>
+                        <option value="Strip">Strip</option>
+                        <x-slot name="appendSlot">
+                            <x-adminlte-button theme="success" onclick="tambahSatuan()" icon="fas fa-plus" />
+                        </x-slot>
+                    </x-adminlte-select2>
+                    <x-adminlte-select2 name="jenisobat" fgroup-class="row" label-class="text-right col-3"
+                        igroup-size="sm" igroup-class="col-9" label="Jenis Obat">
+                        <option value="">Jenis Obat (Kosong)</option>
+                        <option value="Obat Kemoterapi">Obat Kemoterapi</option>
+                        <option value="Penunjang Kemoterapi">Penunjang Kemoterapi</option>
+                        <x-slot name="appendSlot">
+                            <x-adminlte-button theme="success" icon="fas fa-plus" />
+                        </x-slot>
+                    </x-adminlte-select2>
+                    <x-adminlte-select2 name="tipebarang" fgroup-class="row" label-class="text-right col-3"
+                        igroup-size="sm" igroup-class="col-9" label="Tipe Barang">
+                        <option value="">Tipe Barang (Kosong)</option>
+                        <option value="Alkes">Alkes</option>
+                        <option value="BHP">BHP</option>
+                        <x-slot name="appendSlot">
+                            <x-adminlte-button theme="success" icon="fas fa-plus" />
+                        </x-slot>
+                    </x-adminlte-select2>
+                    <x-adminlte-select2 name="distributor" fgroup-class="row" label-class="text-right col-3"
+                        igroup-size="sm" igroup-class="col-9" label="Distributor">
+                        <x-slot name="appendSlot">
+                            <x-adminlte-button theme="success" icon="fas fa-plus" />
+                        </x-slot>
+                    </x-adminlte-select2>
+                    <x-adminlte-select2 name="merk" fgroup-class="row" label-class="text-right col-3"
+                        igroup-size="sm" igroup-class="col-9" label="Tipe Barang">
+                        <x-slot name="appendSlot">
+                            <x-adminlte-button theme="success" icon="fas fa-plus" />
+                        </x-slot>
+                    </x-adminlte-select2>
+                </div>
+            </div>
+
         </form>
         <form id="formDelete" action="" method="POST">
             @csrf
@@ -108,11 +174,23 @@
             <x-adminlte-input-file name="file" placeholder="Pilih file Import" igroup-size="sm"
                 label="File Import Obat" />
             <x-slot name="footerSlot">
-                <x-adminlte-button form="formImport" class="mr-auto withLoad" type="submit" icon="fas fa-save" theme="success"
-                    label="Import" />
+                <x-adminlte-button form="formImport" class="mr-auto withLoad" type="submit" icon="fas fa-save"
+                    theme="success" label="Import" />
                 <x-adminlte-button theme="danger" icon="fas fa-times" label="Kembali" data-dismiss="modal" />
             </x-slot>
         </form>
+    </x-adminlte-modal>
+    <x-adminlte-modal id="modalSatuan" title="Tambah Satuan Obat" icon="fas fa-pills" theme="warning" static-backdrop>
+        <form id="formSatuan">
+            @csrf
+            <x-adminlte-input id="nama_satuan" name="nama" label="Satuan Obat" placeholder="Nama Satuan"
+                fgroup-class="row" label-class="col-3" igroup-size="sm" igroup-class="col-9" enable-old-support
+                required />
+        </form>
+        <x-slot name="footerSlot">
+            <x-adminlte-button icon="fas fa-save" theme="success" label="Simpan" onclick="simpanSatuan()" />
+            <x-adminlte-button theme="danger" icon="fas fa-times" label="Tutup" data-dismiss="modal" />
+        </x-slot>
     </x-adminlte-modal>
 
 @stop
@@ -120,16 +198,19 @@
 @section('plugins.BsCustomFileInput', true)
 @section('plugins.Sweetalert2', true)
 @section('plugins.Select2', true)
+@section('css')
+    <style>
+        .select2-selection__choice {
+            border: 0px !important;
+        }
+    </style>
+
+@endsection
 @section('js')
     <script>
         $(function() {
             $('#btnTambah').click(function() {
-                $.LoadingOverlay("show");
-                $('#btnStore').show();
-                $('#btnUpdate').hide();
-                $('#formObat').trigger("reset");
-                $('#modalObat').modal('show');
-                $.LoadingOverlay("hide");
+
             });
             $('.btnEdit').click(function() {
                 $.LoadingOverlay("show");
@@ -188,6 +269,80 @@
                     }
                 })
             });
+            $("#satuan").select2({
+                placeholder: "Silahkan pilih",
+                theme: "bootstrap4",
+                multiple: true,
+                maximumSelectionLength: 1,
+                ajax: {
+                    url: "{{ route('satuanobat.show', 1) }}",
+                    type: "GET",
+                    dataType: 'json',
+                    delay: 100,
+                    data: function(params) {
+                        return {
+                            nama: params.term // search term
+                        };
+                    },
+                    processResults: function(res) {
+                        console.log(res.response);
+                        return {
+                            results: $.map(res.response, function(item) {
+                                return {
+                                    text: item.nama,
+                                    id: item.nama
+                                }
+                            })
+                        };
+                    },
+                    cache: true
+                }
+            });
+            $("#jenisobat").select2({
+                placeholder: "Silahkan pilih",
+                theme: "bootstrap4",
+                multiple: true,
+                maximumSelectionLength: 1,
+            });
+            $("#tipebarang").select2({
+                placeholder: "Silahkan pilih",
+                theme: "bootstrap4",
+                multiple: true,
+                maximumSelectionLength: 1,
+            });
         });
+
+        function tambahObat() {
+            $.LoadingOverlay("show");
+            $('#btnStore').show();
+            $('#btnUpdate').hide();
+            $('#formObat').trigger("reset");
+            $('#modalObat').modal('show');
+            $('#satuan').empty().change();
+            $("#satuan").append('<option value="nama" selected>Pilih</option>');
+            $("#satuan").val('nama').change();
+            $.LoadingOverlay("hide");
+        }
+
+        function tambahSatuan() {
+            $.LoadingOverlay("show");
+            $('#modalSatuan').modal('show');
+            $.LoadingOverlay("hide");
+        }
+
+        function simpanSatuan() {
+            $.LoadingOverlay("show");
+            var formData = $('#formSatuan').serialize();
+            console.log(formData);
+            $.ajax({
+                url: "{{ route('satuanobat.store') }}",
+                method: "POST",
+                data: formData,
+            }).done(function(data) {
+                console.log(data);
+                $('#modalSatuan').modal('hide');
+                $.LoadingOverlay("hide");
+            });
+        }
     </script>
 @endsection

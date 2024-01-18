@@ -27,6 +27,7 @@ use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\PoliklinikController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\RujukanController;
+use App\Http\Controllers\SatuanObatController;
 use App\Http\Controllers\SepController;
 use App\Http\Controllers\SocialiteController;
 use App\Http\Controllers\SupplierController;
@@ -117,6 +118,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('antrian', AntrianController::class);
     Route::resource('kunjungan', KunjunganController::class);
     Route::resource('suratkontrol', SuratKontrolController::class);
+    Route::resource('satuanobat', SatuanObatController::class);
     Route::get('kirimpesanlibur', [JadwalLiburController::class, 'kirimpesanlibur'])->name('kirimpesanlibur');
 
 
