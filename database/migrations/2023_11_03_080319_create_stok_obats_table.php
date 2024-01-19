@@ -17,8 +17,13 @@ return new class extends Migration
             $table->string('obat_id');
             $table->string('nama');
             $table->integer('jumlah');
+            $table->integer('harga_beli')->default(0);
+            $table->integer('diskon_beli')->default(0);
+            $table->bigInteger('total_harga')->default(0);
             $table->date('tgl_input');
             $table->date('tgl_expire');
+            $table->text('keterangan')->nullable();
+            $table->string('status')->default(1);
             $table->timestamps();
         });
     }

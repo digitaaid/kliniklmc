@@ -43,8 +43,8 @@ class ObatController extends Controller
     public function update($id, Request $request)
     {
         $request['user'] = Auth::user()->id;
-        $request['harga_beli'] = str_replace(".", "", $request->harga_beli);
         $obat = Obat::find($id);
+        $request['harga_beli'] = str_replace(".", "", $request->harga_beli);
         $hargabelippn = round($request->harga_beli + ($request->harga_beli * 11 / 100));
         $hargabelisatuan = round($hargabelippn / $request->konversi_satuan);
         $marginjual = round($hargabelisatuan + ($hargabelisatuan * 30 / 100));

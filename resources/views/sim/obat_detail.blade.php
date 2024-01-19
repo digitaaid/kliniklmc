@@ -139,7 +139,7 @@
             </x-adminlte-card>
             <x-adminlte-card theme="primary" title="Riwayat Input Stok Obat">
                 @php
-                    $heads = ['Tanggal', 'Kode Resep', 'Nama Obat', 'Jumlah', 'Tgl Expire'];
+                    $heads = ['Tanggal', 'Kode Resep', 'Tgl Expire', 'Nama Obat', 'Hrg/Kmsan', 'Diskon', 'Jumlah','Hrg Total',];
                     $config['order'] = [1, 'asc'];
                 @endphp
                 <x-adminlte-datatable id="table2" :heads="$heads" :config="$config" bordered hoverable compressed>
@@ -147,9 +147,12 @@
                         <tr>
                             <td>{{ $stok->tgl_input }}</td>
                             <td>{{ $stok->kode }}</td>
-                            <td>{{ $stok->nama }}</td>
-                            <td>{{ $stok->jumlah }}</td>
                             <td>{{ $stok->tgl_expire }}</td>
+                            <td>{{ $stok->nama }}</td>
+                            <td>{{ money($stok->harga_beli, 'IDR') }}</td>
+                            <td>{{ $stok->diskon_beli }} %</td>
+                            <td>{{ $stok->jumlah }}</td>
+                            <td>{{ money($stok->harga_total, 'IDR') }}</td>
                         </tr>
                     @endforeach
                 </x-adminlte-datatable>
@@ -165,6 +168,12 @@
             <x-adminlte-input name="nama" label="Nama Obat" value="{{ $obat->nama }}" placeholder="Nama Obat"
                 fgroup-class="row" label-class="text-right col-3" igroup-size="sm" igroup-class="col-9"
                 enable-old-support required />
+            <x-adminlte-input name="harga_beli" class="uang" label="Harga Beli Kemasan" placeholder="Harga Beli"
+                fgroup-class="row" label-class="text-right col-3" igroup-size="sm" igroup-class="col-9"
+                enable-old-support required value="{{ $obat->harga_beli }}" />
+            <x-adminlte-input name="diskon_beli" type="number" max="100" min="0" label="Diskon Pembelian"
+                placeholder="Diskon Pembelian" fgroup-class="row" label-class="text-right col-3" igroup-size="sm"
+                igroup-class="col-9" enable-old-support required value="{{ $obat->diskon_beli }}" />
             <x-adminlte-input name="jumlah_kemasan" label="Jumlah Kemasan" placeholder="Jumlah Kemasan"
                 fgroup-class="row" label-class="text-right col-3" igroup-size="sm" igroup-class="col-9"
                 enable-old-support />
@@ -270,6 +279,9 @@
                 reverse: true
             });
             $('#harga_jual').mask('000.000.000.000', {
+                reverse: true
+            });
+            $('.uang').mask('000.000.000.000', {
                 reverse: true
             });
         });
