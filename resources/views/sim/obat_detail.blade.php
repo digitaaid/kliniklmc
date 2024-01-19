@@ -23,10 +23,10 @@
         </div>
         <div class="col-md-12">
             <x-adminlte-card theme="primary" title="Informasi Obat">
-                <form action="" id="formObat" method="POST">
+                <form action="{{ route('obat.update', $obat->id) }}" id="formObat" method="POST">
                     @csrf
-                    <input type="hidden" name="id" id="id">
-                    <input type="hidden" name="_method" id="method">
+                    <input type="hidden" name="id" id="id" value="{{ $obat->id }}">
+                    @method('PUT')
                     <div class="row">
                         <div class="col-md-6">
                             <x-adminlte-input name="nama" label="Nama Obat" placeholder="Nama Obat" fgroup-class="row"
@@ -34,10 +34,10 @@
                                 required value="{{ $obat->nama }}" />
                             <x-adminlte-input name="bpom" label="Kode BPOM" placeholder="Kode BPOM" fgroup-class="row"
                                 label-class="text-right col-3" igroup-size="sm" igroup-class="col-9" enable-old-support
-                                required value="{{ $obat->bpom }}" />
+                                value="{{ $obat->bpom }}" />
                             <x-adminlte-input name="barcode" label="Kode Barcode" placeholder="Kode Barcode"
                                 fgroup-class="row" label-class="text-right col-3" igroup-size="sm" igroup-class="col-9"
-                                enable-old-support required value="{{ $obat->barcode }}" />
+                                enable-old-support value="{{ $obat->barcode }}" />
                             <x-adminlte-select2 name="jenisobat" fgroup-class="row" label-class="text-right col-3"
                                 igroup-size="sm" igroup-class="col-9" label="Jenis Obat">
                                 @if ($obat->jenisobat)
@@ -85,6 +85,13 @@
                                     <x-adminlte-button theme="success" onclick="tambahSatuan()" icon="fas fa-plus" />
                                 </x-slot>
                             </x-adminlte-select2>
+                            <x-adminlte-input name="harga_beli" label="Harga Beli Kemasan" placeholder="Harga Beli"
+                                fgroup-class="row" label-class="text-right col-3" igroup-size="sm" igroup-class="col-9"
+                                enable-old-support required value="{{ $obat->harga_beli }}" />
+                            <x-adminlte-input name="diskon_beli" type="number" max="100" min="0"
+                                label="Diskon Pembelian" placeholder="Diskon Pembelian" fgroup-class="row"
+                                label-class="text-right col-3" igroup-size="sm" igroup-class="col-9" enable-old-support
+                                required value="{{ $obat->diskon_beli }}" />
                             <x-adminlte-input name="konversi_satuan" type="number" label="Konversi Satuan"
                                 placeholder="Konversi Satuan" fgroup-class="row" label-class="text-right col-3"
                                 igroup-size="sm" igroup-class="col-9" enable-old-support required
@@ -98,9 +105,7 @@
                                     <x-adminlte-button theme="success" onclick="tambahSatuan()" icon="fas fa-plus" />
                                 </x-slot>
                             </x-adminlte-select2>
-                            <x-adminlte-input name="harga_beli" label="Harga Beli Kemasan" placeholder="Harga Beli"
-                                fgroup-class="row" label-class="text-right col-3" igroup-size="sm" igroup-class="col-9"
-                                enable-old-support required value="{{ $obat->harga_beli }}" />
+
                             <x-adminlte-input name="harga_jual" label="Harga Jual Satuan" placeholder="Harga Jual Satuan"
                                 fgroup-class="row" label-class="text-right col-3" igroup-size="sm" igroup-class="col-9"
                                 enable-old-support required readonly value="{{ $obat->harga_jual }}" />
@@ -108,9 +113,11 @@
                     </div>
                 </form>
                 <x-slot name="footerSlot">
-                    <x-adminlte-button class="btn-xs btnIcare" theme="warning" label="I-Care JKN"
-                        icon="fas fa-info-circle" />
-                    <x-adminlte-button class="btn-xs" onclick="inputStokObat()" theme="primary" label="Input Stok Obat"
+                    {{-- <x-adminlte-button class="btn-xs btnIcare" theme="warning" label="I-Care JKN"
+                        icon="fas fa-info-circle" /> --}}
+                    <x-adminlte-button form="formObat" class="btn-sm" type="submit" icon="fas fa-edit" theme="warning"
+                        label="Update" />
+                    <x-adminlte-button class="btn-sm" onclick="inputStokObat()" theme="primary" label="Input Stok Obat"
                         icon="fas fa-box" />
                 </x-slot>
             </x-adminlte-card>

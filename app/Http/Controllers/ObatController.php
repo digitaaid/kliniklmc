@@ -38,7 +38,7 @@ class ObatController extends Controller
             $request->all()
         );
         Alert::success('Success', 'Data Nama Obat Disimpan.');
-        return redirect()->route('obat.index');
+        return redirect()->back();
     }
     public function update($id, Request $request)
     {
@@ -52,7 +52,7 @@ class ObatController extends Controller
         $request['harga_jual'] =  $hargajual;
         $obat->update($request->all());
         Alert::success('Success', 'Data Nama Obat Diperbaharui.');
-        return redirect()->route('obat.index');
+        return redirect()->back();
     }
     public function destroy($id, Request $request)
     {

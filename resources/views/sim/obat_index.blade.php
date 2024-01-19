@@ -35,7 +35,7 @@
                     </div>
                 </div>
                 @php
-                    $heads = ['Kode', 'Nama Obat', 'Kemasan', 'x', 'Hrg Beli', 'Satuan', 'Hrg Jual', 'Jenis', 'Tipe', 'Merk', 'Distributor', 'Status', 'Action'];
+                    $heads = ['Kode', 'Nama Obat', 'Kemasan', 'Hrg Beli', 'Kps', 'Satuan', 'Hrg Jual', 'Jenis', 'Tipe', 'Merk', 'Distributor', 'Status', 'Action'];
                     $config['order'] = [1, 'asc'];
                     $config['paging'] = false;
                     $config['lengthMenu'] = false;
@@ -49,8 +49,8 @@
                             <td>{{ $item->id }}</td>
                             <td>{{ $item->nama }}</td>
                             <td>{{ $item->kemasan }}</td>
-                            <td>{{ $item->konversi_satuan }}</td>
                             <td>{{ money($item->harga_beli ?? 0, 'IDR') }}</td>
+                            <td>{{ $item->konversi_satuan }}</td>
                             <td>{{ $item->satuan }}</td>
                             <td>{{ money($item->harga_jual ?? 0, 'IDR') }}</td>
                             <td>{{ $item->jenisobat }}</td>
@@ -72,7 +72,8 @@
                                     data-nama="{{ $item->nama }}" data-distributor="{{ $item->distributor }}"
                                     data-jenisobat="{{ $item->jenisobat }}" data-satuan="{{ $item->satuan }}"
                                     data-barcode="{{ $item->barcode }}" data-bpom="{{ $item->bpom }}"
-                                    data-harga="{{ $item->harga }}" data-tipeobat="{{ $item->tipeobat }}"
+                                    data-hargabeli="{{ $item->harga_beli }}" data-diskon="{{ $item->diskon_beli }}"
+                                    data-hargajual="{{ $item->harga_jual }}" data-tipeobat="{{ $item->tipeobat }}"
                                     data-merk="{{ $item->merk }}" data-kemasan="{{ $item->kemasan }}"
                                     data-konversisatuan="{{ $item->konversi_satuan }}" />
                                 <x-adminlte-button class="btn-xs btnDelete" theme="danger" icon="fas fa-trash-alt"
@@ -144,6 +145,13 @@
                             <x-adminlte-button theme="success" onclick="tambahSatuan()" icon="fas fa-plus" />
                         </x-slot>
                     </x-adminlte-select2>
+                    <x-adminlte-input name="harga_beli" label="Hrg Beli Kemasan" placeholder="Harga Beli"
+                        fgroup-class="row" label-class="text-right col-3" igroup-size="sm" igroup-class="col-9"
+                        enable-old-support required />
+                    <x-adminlte-input name="diskon_beli" type="number" max="100" min="0"
+                        label="Diskon Pembelian" placeholder="Diskon Pembelian" fgroup-class="row"
+                        label-class="text-right col-3" igroup-size="sm" igroup-class="col-9" enable-old-support
+                        required />
                     <x-adminlte-input name="konversi_satuan" type="number" label="Konversi Satuan"
                         placeholder="Konversi Satuan" fgroup-class="row" label-class="text-right col-3" igroup-size="sm"
                         igroup-class="col-9" enable-old-support required />
@@ -153,9 +161,6 @@
                             <x-adminlte-button theme="success" onclick="tambahSatuan()" icon="fas fa-plus" />
                         </x-slot>
                     </x-adminlte-select2>
-                    <x-adminlte-input name="harga_beli" label="Hrg Beli Kemasan" placeholder="Harga Beli"
-                        fgroup-class="row" label-class="text-right col-3" igroup-size="sm" igroup-class="col-9"
-                        enable-old-support required />
                     <x-adminlte-input name="harga_jual" type="number" label="Hrg Jual Satuan"
                         placeholder="Harga Jual Satuan" fgroup-class="row" label-class="text-right col-3"
                         igroup-size="sm" igroup-class="col-9" enable-old-support readonly />
@@ -263,21 +268,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
     <script>
         $(function() {
-            // $('#harga_beli').on('input', function() {
-            //     // Menghapus karakter selain digit
-            //     let inputValue = $(this).val().replace(/\D/g, '');
-            //     // Memformat dengan menambahkan titik setiap seribu
-            //     let formattedValue = addThousandSeparator(inputValue);
-            //     // Memasukkan nilai yang sudah diformat kembali ke input
-            //     $(this).val(formattedValue);
-            // });
             $('#harga_beli').mask('000.000.000.000', {
                 reverse: true
             });
-
-            // function addThousandSeparator(value) {
-            //     return value.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-            // }
             $('#btnStore').click(function(e) {
                 $.LoadingOverlay("show");
                 e.preventDefault();
@@ -522,6 +515,9 @@
             $('#harga').val($(button).data("harga"));
             $('#barcode').val($(button).data("barcode"));
             $('#bpom').val($(button).data("bpom"));
+            $('#diskon_beli').val($(button).data("diskon"));
+            $('#harga_beli').val($(button).data("hargabeli").toLocaleString('id-ID'));
+            $('#harga_jual').val($(button).data("hargajual").toLocaleString('id-ID'));
             $('#konversi_satuan').val($(button).data("konversisatuan"));
             // select2
             $('#satuan').empty().change();
