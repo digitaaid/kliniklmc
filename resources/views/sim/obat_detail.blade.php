@@ -91,13 +91,16 @@
                             <div class="row">
                                 <div class="col-md-3"></div>
                                 <div class="col-md-9">
-                                    <b>Hrg Beli + PPN(11%) : </b>
+                                    <b>Hrg Beli PPN(11%) : </b>
                                     {{ money($obat->harga_beli + ($obat->harga_beli * 11) / 100, 'IDR') }} <br>
                                     <b>Hrg Beli Satuan : </b>
                                     {{ money(($obat->harga_beli + ($obat->harga_beli * 11) / 100) / $obat->konversi_satuan, 'IDR') }}
                                     <br>
                                     <b>Hrg Jual Margin 30% : </b>
                                     {{ money(($obat->harga_beli + ($obat->harga_beli * 11) / 100) / $obat->konversi_satuan + (($obat->harga_beli + ($obat->harga_beli * 11) / 100) / $obat->konversi_satuan) * 0.3, 'IDR') }}
+                                    <br>
+                                    <b>Hrg Jual PPN(11%) : </b>
+                                    {{ money(($obat->harga_beli + ($obat->harga_beli * 11) / 100) / $obat->konversi_satuan + (($obat->harga_beli + ($obat->harga_beli * 11) / 100) / $obat->konversi_satuan) * 0.3 + (($obat->harga_beli + ($obat->harga_beli * 11) / 100) / $obat->konversi_satuan + (($obat->harga_beli + ($obat->harga_beli * 11) / 100) / $obat->konversi_satuan) * 0.3) * 0.11, 'IDR') }}
                                 </div>
                             </div>
                             <br>
