@@ -19,7 +19,9 @@ return new class extends Migration
             $table->string('kemasan');
             $table->integer('konversi_satuan')->default(1);
             $table->string('satuan');
-            $table->string('harga')->default(0);
+            $table->string('harga_beli')->default(0);
+            $table->string('diskon_beli')->default(0);
+            $table->string('harga_jual')->default(0);
             $table->string('jenisobat')->nullable();
             $table->string('tipeobat')->nullable();
             $table->string('distributor')->nullable();

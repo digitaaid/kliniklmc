@@ -35,7 +35,7 @@
                     </div>
                 </div>
                 @php
-                    $heads = ['Kode', 'Nama Obat', 'Kemasan', 'x', 'Satuan', 'Harga', 'Jenis', 'Tipe', 'Merk', 'Distributor', 'Status', 'Action'];
+                    $heads = ['Kode', 'Nama Obat', 'Kemasan', 'x', 'Hrg Beli', 'Satuan', 'Hrg Jual', 'Jenis', 'Tipe', 'Merk', 'Distributor', 'Status', 'Action'];
                     $config['order'] = [1, 'asc'];
                     $config['paging'] = false;
                     $config['lengthMenu'] = false;
@@ -50,8 +50,9 @@
                             <td>{{ $item->nama }}</td>
                             <td>{{ $item->kemasan }}</td>
                             <td>{{ $item->konversi_satuan }}</td>
+                            <td>{{ money($item->harga_beli ?? 0, 'IDR') }}</td>
                             <td>{{ $item->satuan }}</td>
-                            <td>{{ money($item->harga ?? 0, 'IDR') }}</td>
+                            <td>{{ money($item->harga_jual ?? 0, 'IDR') }}</td>
                             <td>{{ $item->jenisobat }}</td>
                             <td>{{ $item->tipeobat }}</td>
                             <td>{{ $item->merk }}</td>
@@ -152,12 +153,12 @@
                             <x-adminlte-button theme="success" onclick="tambahSatuan()" icon="fas fa-plus" />
                         </x-slot>
                     </x-adminlte-select2>
-                    <x-adminlte-input name="harga_beli_kemasan" type="number" label="Hrg Beli Kemasan"
-                        placeholder="Harga Beli" fgroup-class="row" label-class="text-right col-3" igroup-size="sm"
-                        igroup-class="col-9" enable-old-support required />
-                    <x-adminlte-input name="harga_beli_satuan" type="number" label="Hrg Beli Satuan"
-                        placeholder="Harga Beli" fgroup-class="row" label-class="text-right col-3" igroup-size="sm"
-                        igroup-class="col-9" enable-old-support required />
+                    <x-adminlte-input name="harga_beli" label="Hrg Beli Kemasan" placeholder="Harga Beli"
+                        fgroup-class="row" label-class="text-right col-3" igroup-size="sm" igroup-class="col-9"
+                        enable-old-support required />
+                    <x-adminlte-input name="harga_jual" type="number" label="Hrg Jual Satuan"
+                        placeholder="Harga Jual Satuan" fgroup-class="row" label-class="text-right col-3"
+                        igroup-size="sm" igroup-class="col-9" enable-old-support readonly />
                 </div>
             </div>
         </form>
@@ -257,34 +258,26 @@
             border: 0px !important;
         }
     </style>
-
 @endsection
 @section('js')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
     <script>
         $(function() {
-            $('#btnTambah').click(function() {
-
+            // $('#harga_beli').on('input', function() {
+            //     // Menghapus karakter selain digit
+            //     let inputValue = $(this).val().replace(/\D/g, '');
+            //     // Memformat dengan menambahkan titik setiap seribu
+            //     let formattedValue = addThousandSeparator(inputValue);
+            //     // Memasukkan nilai yang sudah diformat kembali ke input
+            //     $(this).val(formattedValue);
+            // });
+            $('#harga_beli').mask('000.000.000.000', {
+                reverse: true
             });
-            $('.btnEdit').click(function() {
-                $.LoadingOverlay("show");
-                $('#btnStore').hide();
-                $('#btnUpdate').show();
-                $('#formObat').trigger("reset");
-                // get
-                $('#id').val($(this).data("id"));
-                $('#nama').val($(this).data("nama"));
-                $('#harga').val($(this).data("harga"));
-                $('#satuan').val($(this).data("satuan")).change();
 
-                $('#jenisobat').empty().change();
-                $("#jenisobat").append('<option value="' + $(this).data("jenisobat") +
-                    '" selected>' + $(this).data("jenisobat") + '</option>');
-                $("#jenisobat").val($(this).data("jenisobat")).change();
-
-                $('#tipebarang').val($(this).data("tipebarang")).change();
-                $('#modalObat').modal('show');
-                $.LoadingOverlay("hide");
-            });
+            // function addThousandSeparator(value) {
+            //     return value.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+            // }
             $('#btnStore').click(function(e) {
                 $.LoadingOverlay("show");
                 e.preventDefault();

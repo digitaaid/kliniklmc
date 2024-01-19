@@ -43,7 +43,13 @@ class ObatController extends Controller
     public function update($id, Request $request)
     {
         $request['user'] = Auth::user()->id;
+        $request['harga_beli'] = str_replace(".", "", $request->harga_beli);
         $obat = Obat::find($id);
+        $hargabelippn = round($request->harga_beli + ($request->harga_beli * 11 / 100));
+        $hargabelisatuan = round($hargabelippn / $request->konversi_satuan);
+        $marginjual = round($hargabelisatuan + ($hargabelisatuan * 30 / 100));
+        $hargajual = round($marginjual + ($marginjual * 11 / 100));
+        $request['harga_jual'] =  $hargajual;
         $obat->update($request->all());
         Alert::success('Success', 'Data Nama Obat Diperbaharui.');
         return redirect()->route('obat.index');
