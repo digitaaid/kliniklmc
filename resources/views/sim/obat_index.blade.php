@@ -35,7 +35,7 @@
                     </div>
                 </div>
                 @php
-                    $heads = ['Kode', 'Nama Obat', 'Satuan', 'Harga', 'Jenis Obat', 'Tipe Barang', 'Status', 'Action'];
+                    $heads = ['Kode', 'Nama Obat', 'Kemasan', 'x', 'Satuan', 'Harga', 'Jenis', 'Tipe', 'Merk', 'Distributor', 'Status', 'Action'];
                     $config['order'] = [1, 'asc'];
                     $config['paging'] = false;
                     $config['lengthMenu'] = false;
@@ -48,10 +48,14 @@
                         <tr>
                             <td>{{ $item->id }}</td>
                             <td>{{ $item->nama }}</td>
+                            <td>{{ $item->kemasan }}</td>
+                            <td>{{ $item->konversi_satuan }}</td>
                             <td>{{ $item->satuan }}</td>
                             <td>{{ money($item->harga ?? 0, 'IDR') }}</td>
                             <td>{{ $item->jenisobat }}</td>
-                            <td>{{ $item->tipebarang }}</td>
+                            <td>{{ $item->tipeobat }}</td>
+                            <td>{{ $item->merk }}</td>
+                            <td>{{ $item->distributor }}</td>
                             <td>
                                 @if ($item->status)
                                     <span class="badge badge-success">Aktif</span>
@@ -60,11 +64,13 @@
                                 @endif
                             </td>
                             <td>
-                                <x-adminlte-button class="btn-xs btnEdit" theme="warning" label="Edit" icon="fas fa-edit"
-                                    title="Edit Obat {{ $item->nama }}" data-id="{{ $item->id }}"
-                                    data-nama="{{ $item->nama }}" data-jenisobat="{{ $item->jenisobat }}"
-                                    data-satuan="{{ $item->satuan }}" data-harga="{{ $item->harga }}"
-                                    data-tipebarang="{{ $item->tipebarang }}" />
+                                <x-adminlte-button class="btn-xs" onclick="editObat(this)" theme="warning" label="Edit"
+                                    icon="fas fa-edit" title="Edit Obat {{ $item->nama }}" data-id="{{ $item->id }}"
+                                    data-nama="{{ $item->nama }}" data-distributor="{{ $item->distributor }}"
+                                    data-jenisobat="{{ $item->jenisobat }}" data-satuan="{{ $item->satuan }}"
+                                    data-barcode="{{ $item->barcode }}" data-bpom="{{ $item->bpom }}"
+                                    data-harga="{{ $item->harga }}" data-tipeobat="{{ $item->tipeobat }}"
+                                    data-merk="{{ $item->merk }}" data-kemasan="{{ $item->kemasan }}" data-konversisatuan="{{ $item->konversi_satuan }}" />
                                 <x-adminlte-button class="btn-xs btnDelete" theme="danger" icon="fas fa-trash-alt"
                                     title="Non-Aktifkan Obat {{ $item->nama }} " data-id="{{ $item->id }}"
                                     data-name="{{ $item->nama }}" />
@@ -95,62 +101,60 @@
             <input type="hidden" name="_method" id="method">
             <div class="row">
                 <div class="col-md-6">
-                    <x-adminlte-input name="nama" label="Nama Obat" placeholder="Nama Lengkap" fgroup-class="row"
+                    <x-adminlte-input name="nama" label="Nama Obat" placeholder="Nama Obat" fgroup-class="row"
                         label-class="text-right col-3" igroup-size="sm" igroup-class="col-9" enable-old-support required />
-                    <x-adminlte-input name="harga" fgroup-class="row" label-class="text-right col-3" igroup-size="sm"
-                        igroup-class="col-9" type="number" label="Harga Satuan" placeholder="Harga Obat Satuan"
-                        enable-old-support required />
-                    <x-adminlte-select2 name="satuan" fgroup-class="row" label-class="text-right col-3" igroup-size="sm"
-                        igroup-class="col-9" label="Satuan">
-                        {{-- <option value="">Satuan Obat (Kosong)</option>
-                        <option value="Tablet">Tablet</option>
-                        <option value="Kaplet">Kaplet</option>
-                        <option value="Kapsul">Kapsul</option>
-                        <option value="Ampul">Ampul</option>
-                        <option value="Tube">Tube</option>
-                        <option value="Unit">Unit</option>
-                        <option value="Kotak">Kotak</option>
-                        <option value="Bungkus">Bungkus</option>
-                        <option value="Box">Box</option>
-                        <option value="Sachet">Sachet</option>
-                        <option value="Bungkus">Bungkus</option>
-                        <option value="Lembar">Lembar</option>
-                        <option value="Dus">Dus</option>
-                        <option value="Strip">Strip</option> --}}
-                        <x-slot name="appendSlot">
-                            <x-adminlte-button theme="success" onclick="tambahSatuan()" icon="fas fa-plus" />
-                        </x-slot>
-                    </x-adminlte-select2>
+                    <x-adminlte-input name="bpom" label="Kode BPOM" placeholder="Kode BPOM" fgroup-class="row"
+                        label-class="text-right col-3" igroup-size="sm" igroup-class="col-9" enable-old-support required />
+                    <x-adminlte-input name="barcode" label="Kode Barcode" placeholder="Kode Barcode" fgroup-class="row"
+                        label-class="text-right col-3" igroup-size="sm" igroup-class="col-9" enable-old-support
+                        required />
                     <x-adminlte-select2 name="jenisobat" fgroup-class="row" label-class="text-right col-3"
                         igroup-size="sm" igroup-class="col-9" label="Jenis Obat">
-                        {{-- <option value="">Jenis Obat (Kosong)</option>
-                        <option value="Obat Kemoterapi">Obat Kemoterapi</option>
-                        <option value="Penunjang Kemoterapi">Penunjang Kemoterapi</option> --}}
                         <x-slot name="appendSlot">
                             <x-adminlte-button theme="success" onclick="tambahJenis()" icon="fas fa-plus" />
                         </x-slot>
                     </x-adminlte-select2>
-                    <x-adminlte-select2 name="tipebarang" fgroup-class="row" label-class="text-right col-3"
+                    <x-adminlte-select2 name="tipeobat" fgroup-class="row" label-class="text-right col-3"
                         igroup-size="sm" igroup-class="col-9" label="Tipe Barang">
-                        {{-- <option value="">Tipe Barang (Kosong)</option>
-                        <option value="Alkes">Alkes</option>
-                        <option value="BHP">BHP</option> --}}
                         <x-slot name="appendSlot">
                             <x-adminlte-button theme="success" onclick="tambahTipe()" icon="fas fa-plus" />
                         </x-slot>
                     </x-adminlte-select2>
-                    <x-adminlte-select2 id="distributorbarang" name="distributor" fgroup-class="row" label-class="text-right col-3"
+                    <x-adminlte-select2 name="distributor" fgroup-class="row" label-class="text-right col-3"
                         igroup-size="sm" igroup-class="col-9" label="Distributor">
                         <x-slot name="appendSlot">
                             <x-adminlte-button theme="success" onclick="tambahDistributor()" icon="fas fa-plus" />
                         </x-slot>
                     </x-adminlte-select2>
-                    <x-adminlte-select2 id="merkbarang" name="merk" fgroup-class="row" label-class="text-right col-3"
+                    <x-adminlte-select2 name="merk" fgroup-class="row" label-class="text-right col-3"
                         igroup-size="sm" igroup-class="col-9" label="Merk Barang">
                         <x-slot name="appendSlot">
                             <x-adminlte-button theme="success" onclick="tambahMerk()" icon="fas fa-plus" />
                         </x-slot>
                     </x-adminlte-select2>
+                </div>
+                <div class="col-md-6">
+                    <x-adminlte-select2 name="kemasan" fgroup-class="row" label-class="text-right col-3"
+                        igroup-size="sm" igroup-class="col-9" label="Kemasan">
+                        <x-slot name="appendSlot">
+                            <x-adminlte-button theme="success" onclick="tambahSatuan()" icon="fas fa-plus" />
+                        </x-slot>
+                    </x-adminlte-select2>
+                    <x-adminlte-input name="konversi_satuan" type="number" label="Konversi Satuan"
+                        placeholder="Konversi Satuan" fgroup-class="row" label-class="text-right col-3" igroup-size="sm"
+                        igroup-class="col-9" enable-old-support required />
+                    <x-adminlte-select2 name="satuan" fgroup-class="row" label-class="text-right col-3"
+                        igroup-size="sm" igroup-class="col-9" label="Satuan Terkecil">
+                        <x-slot name="appendSlot">
+                            <x-adminlte-button theme="success" onclick="tambahSatuan()" icon="fas fa-plus" />
+                        </x-slot>
+                    </x-adminlte-select2>
+                    <x-adminlte-input name="harga_beli_kemasan" type="number" label="Hrg Beli Kemasan"
+                        placeholder="Harga Beli" fgroup-class="row" label-class="text-right col-3" igroup-size="sm"
+                        igroup-class="col-9" enable-old-support required />
+                    <x-adminlte-input name="harga_beli_satuan" type="number" label="Hrg Beli Satuan"
+                        placeholder="Harga Beli" fgroup-class="row" label-class="text-right col-3" igroup-size="sm"
+                        igroup-class="col-9" enable-old-support required />
                 </div>
             </div>
 
@@ -269,7 +273,12 @@
                 $('#nama').val($(this).data("nama"));
                 $('#harga').val($(this).data("harga"));
                 $('#satuan').val($(this).data("satuan")).change();
-                $('#jenisobat').val($(this).data("jenisobat")).change();
+
+                $('#jenisobat').empty().change();
+                $("#jenisobat").append('<option value="' + $(this).data("jenisobat") +
+                    '" selected>' + $(this).data("jenisobat") + '</option>');
+                $("#jenisobat").val($(this).data("jenisobat")).change();
+
                 $('#tipebarang').val($(this).data("tipebarang")).change();
                 $('#modalObat').modal('show');
                 $.LoadingOverlay("hide");
@@ -345,6 +354,35 @@
                     cache: true
                 }
             });
+            $("#kemasan").select2({
+                placeholder: "Silahkan pilih",
+                theme: "bootstrap4",
+                multiple: true,
+                maximumSelectionLength: 1,
+                ajax: {
+                    url: "{{ route('satuanobat.show', 1) }}",
+                    type: "GET",
+                    dataType: 'json',
+                    delay: 100,
+                    data: function(params) {
+                        return {
+                            nama: params.term // search term
+                        };
+                    },
+                    processResults: function(res) {
+                        console.log(res.response);
+                        return {
+                            results: $.map(res.response, function(item) {
+                                return {
+                                    text: item.nama,
+                                    id: item.nama
+                                }
+                            })
+                        };
+                    },
+                    cache: true
+                }
+            });
             $("#jenisobat").select2({
                 placeholder: "Silahkan pilih",
                 theme: "bootstrap4",
@@ -374,7 +412,7 @@
                     cache: true
                 }
             });
-            $("#tipebarang").select2({
+            $("#tipeobat").select2({
                 placeholder: "Silahkan pilih",
                 theme: "bootstrap4",
                 multiple: true,
@@ -403,7 +441,7 @@
                     cache: true
                 }
             });
-            $("#distributorbarang").select2({
+            $("#distributor").select2({
                 placeholder: "Silahkan pilih",
                 theme: "bootstrap4",
                 multiple: true,
@@ -432,7 +470,7 @@
                     cache: true
                 }
             });
-            $("#merkbarang").select2({
+            $("#merk").select2({
                 placeholder: "Silahkan pilih",
                 theme: "bootstrap4",
                 multiple: true,
@@ -469,9 +507,67 @@
             $('#btnUpdate').hide();
             $('#formObat').trigger("reset");
             $('#modalObat').modal('show');
+            $.LoadingOverlay("hide");
+        }
+
+        function editObat(button) {
+            $.LoadingOverlay("show");
+            $('#btnStore').hide();
+            $('#btnUpdate').show();
+            $('#formObat').trigger("reset");
+            // get
+            $('#id').val($(button).data("id"));
+            $('#nama').val($(button).data("nama"));
+            $('#harga').val($(button).data("harga"));
+            $('#barcode').val($(button).data("barcode"));
+            $('#bpom').val($(button).data("bpom"));
+            $('#konversi_satuan').val($(button).data("konversisatuan"));
+            // select2
             $('#satuan').empty().change();
-            $("#satuan").append('<option value="nama" selected>Pilih</option>');
-            $("#satuan").val('nama').change();
+            if ($(button).data("satuan")) {
+                $("#satuan").append('<option value="' + $(button).data("satuan") +
+                    '" selected>' + $(button).data("satuan") + '</option>');
+                $("#satuan").val($(button).data("satuan")).change();
+            }
+            $('#kemasan').empty().change();
+            if ($(button).data("kemasan")) {
+                $("#kemasan").append('<option value="' + $(button).data("kemasan") +
+                    '" selected>' + $(button).data("kemasan") + '</option>');
+                $("#kemasan").val($(button).data("kemasan")).change();
+            }
+            $('#jenisobat').empty().change();
+            if ($(button).data("jenisobat")) {
+                $("#jenisobat").append('<option value="' + $(button).data("jenisobat") +
+                    '" selected>' + $(button).data("jenisobat") + '</option>');
+                $("#jenisobat").val($(button).data("jenisobat")).change();
+            }
+            $('#tipeobat').empty().change();
+            if ($(button).data("tipeobat")) {
+                $("#tipeobat").append('<option value="' + $(button).data("tipeobat") +
+                    '" selected>' + $(button).data("tipeobat") + '</option>');
+                $("#tipeobat").val($(button).data("tipeobat")).change();
+            }
+            $('#merk').empty().change();
+            if ($(button).data("merk")) {
+                $("#merk").append('<option value="' + $(button).data("merk") +
+                    '" selected>' + $(button).data("merk") + '</option>');
+                $("#merk").val($(button).data("merk")).change();
+            }
+            $('#distributor').empty().change();
+            if ($(button).data("distributor")) {
+                $("#distributor").append('<option value="' + $(button).data("distributor") +
+                    '" selected>' + $(button).data("distributor") + '</option>');
+                $("#distributor").val($(button).data("distributor")).change();
+            }
+
+
+
+
+
+
+
+            $('#tipebarang').val($(button).data("tipebarang")).change();
+            $('#modalObat').modal('show');
             $.LoadingOverlay("hide");
         }
 

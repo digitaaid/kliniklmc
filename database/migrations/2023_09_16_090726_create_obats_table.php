@@ -14,10 +14,16 @@ return new class extends Migration
         Schema::create('obats', function (Blueprint $table) {
             $table->id();
             $table->string('nama');
-            $table->string('satuan')->nullable();
+            $table->string('bpom')->nullable();
+            $table->string('barcode')->nullable();
+            $table->string('kemasan');
+            $table->integer('konversi_satuan')->default(1);
+            $table->string('satuan');
             $table->string('harga')->default(0);
             $table->string('jenisobat')->nullable();
             $table->string('tipeobat')->nullable();
+            $table->string('distributor')->nullable();
+            $table->string('merk')->nullable();
             $table->string('user')->default(1);
             $table->string('status')->default(1);
             $table->timestamps();
