@@ -13,4 +13,12 @@ class Obat extends Model
     {
         return $this->hasOne(User::class,  'id', 'user');
     }
+    public function reseps()
+    {
+        return $this->hasMany(ResepObatDetail::class, 'obat_id', 'id');
+    }
+    public function stoks()
+    {
+        return $this->hasMany(StokObat::class, 'obat_id', 'id');
+    }
 }

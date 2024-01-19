@@ -453,6 +453,7 @@ return [
                     'icon'    => 'fas fa-pills',
                     'url'  => 'obat',
                     'can' => 'farmasi',
+                    'active'  => ['obat',  'regex:@^stokobat(\/[0-9]+)?+$@'],
                     'shift'   => 'ml-2',
                 ],
                 [

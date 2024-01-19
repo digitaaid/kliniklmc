@@ -13,6 +13,12 @@ return new class extends Migration
     {
         Schema::create('stok_obats', function (Blueprint $table) {
             $table->id();
+            $table->string('kode');
+            $table->string('obat_id');
+            $table->string('nama');
+            $table->integer('jumlah');
+            $table->date('tgl_input');
+            $table->date('tgl_expire');
             $table->timestamps();
         });
     }

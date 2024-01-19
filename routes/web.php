@@ -33,6 +33,7 @@ use App\Http\Controllers\RujukanController;
 use App\Http\Controllers\SatuanObatController;
 use App\Http\Controllers\SepController;
 use App\Http\Controllers\SocialiteController;
+use App\Http\Controllers\StokObatController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\SuratKontrolController;
 use App\Http\Controllers\SyncronizeController;
@@ -115,7 +116,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('poliklinik', PoliklinikController::class);
     Route::resource('obat', ObatController::class);
     Route::resource('supplier', SupplierController::class);
-    Route::resource('stokobat', SupplierController::class);
+    Route::resource('stokobat', StokObatController::class);
     Route::resource('depo', DepoController::class);
     Route::resource('jadwaldokter', JadwalDokterController::class);
     Route::resource('jadwallibur', JadwalLiburController::class);

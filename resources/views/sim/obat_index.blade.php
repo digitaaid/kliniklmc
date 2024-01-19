@@ -64,13 +64,16 @@
                                 @endif
                             </td>
                             <td>
-                                <x-adminlte-button class="btn-xs" onclick="editObat(this)" theme="warning" label="Edit"
+                                <a href="{{ route('stokobat.show', $item->id) }}" class="btn btn-xs btn-primary"><i
+                                        class="fas fa-box"></i> Stok</a>
+                                <x-adminlte-button class="btn-xs" onclick="editObat(this)" theme="warning"
                                     icon="fas fa-edit" title="Edit Obat {{ $item->nama }}" data-id="{{ $item->id }}"
                                     data-nama="{{ $item->nama }}" data-distributor="{{ $item->distributor }}"
                                     data-jenisobat="{{ $item->jenisobat }}" data-satuan="{{ $item->satuan }}"
                                     data-barcode="{{ $item->barcode }}" data-bpom="{{ $item->bpom }}"
                                     data-harga="{{ $item->harga }}" data-tipeobat="{{ $item->tipeobat }}"
-                                    data-merk="{{ $item->merk }}" data-kemasan="{{ $item->kemasan }}" data-konversisatuan="{{ $item->konversi_satuan }}" />
+                                    data-merk="{{ $item->merk }}" data-kemasan="{{ $item->kemasan }}"
+                                    data-konversisatuan="{{ $item->konversi_satuan }}" />
                                 <x-adminlte-button class="btn-xs btnDelete" theme="danger" icon="fas fa-trash-alt"
                                     title="Non-Aktifkan Obat {{ $item->nama }} " data-id="{{ $item->id }}"
                                     data-name="{{ $item->nama }}" />
@@ -157,7 +160,6 @@
                         igroup-class="col-9" enable-old-support required />
                 </div>
             </div>
-
         </form>
         <form id="formDelete" action="" method="POST">
             @csrf
@@ -506,6 +508,12 @@
             $('#btnStore').show();
             $('#btnUpdate').hide();
             $('#formObat').trigger("reset");
+            $('#satuan').empty().change();
+            $('#kemasan').empty().change();
+            $('#jenisobat').empty().change();
+            $('#tipeobat').empty().change();
+            $('#merk').empty().change();
+            $('#distributor').empty().change();
             $('#modalObat').modal('show');
             $.LoadingOverlay("hide");
         }
