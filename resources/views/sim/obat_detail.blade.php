@@ -88,6 +88,19 @@
                             <x-adminlte-input name="harga_beli" label="Harga Beli Kemasan" placeholder="Harga Beli"
                                 fgroup-class="row" label-class="text-right col-3" igroup-size="sm" igroup-class="col-9"
                                 enable-old-support required value="{{ $obat->harga_beli }}" />
+                            <div class="row">
+                                <div class="col-md-3"></div>
+                                <div class="col-md-9">
+                                    <b>Hrg Beli + PPN(11%) : </b>
+                                    {{ money($obat->harga_beli + ($obat->harga_beli * 11) / 100, 'IDR') }} <br>
+                                    <b>Hrg Beli Satuan : </b>
+                                    {{ money(($obat->harga_beli + ($obat->harga_beli * 11) / 100) / $obat->konversi_satuan, 'IDR') }}
+                                    <br>
+                                    <b>Hrg Jual Margin 30% : </b>
+                                    {{ money(($obat->harga_beli + ($obat->harga_beli * 11) / 100) / $obat->konversi_satuan + (($obat->harga_beli + ($obat->harga_beli * 11) / 100) / $obat->konversi_satuan) * 0.3, 'IDR') }}
+                                </div>
+                            </div>
+                            <br>
                             <x-adminlte-input name="diskon_beli" type="number" max="100" min="0"
                                 label="Diskon Pembelian" placeholder="Diskon Pembelian" fgroup-class="row"
                                 label-class="text-right col-3" igroup-size="sm" igroup-class="col-9" enable-old-support
@@ -105,10 +118,13 @@
                                     <x-adminlte-button theme="success" onclick="tambahSatuan()" icon="fas fa-plus" />
                                 </x-slot>
                             </x-adminlte-select2>
-
                             <x-adminlte-input name="harga_jual" label="Harga Jual Satuan" placeholder="Harga Jual Satuan"
                                 fgroup-class="row" label-class="text-right col-3" igroup-size="sm" igroup-class="col-9"
                                 enable-old-support required readonly value="{{ $obat->harga_jual }}" />
+
+
+
+
                         </div>
                     </div>
                 </form>
@@ -139,7 +155,7 @@
             </x-adminlte-card>
             <x-adminlte-card theme="primary" title="Riwayat Input Stok Obat">
                 @php
-                    $heads = ['Tanggal', 'Kode Resep', 'Tgl Expire', 'Nama Obat', 'Hrg/Kmsan', 'Diskon', 'Jumlah','Hrg Total',];
+                    $heads = ['Tanggal', 'Kode Resep', 'Tgl Expire', 'Nama Obat', 'Hrg/Kmsan', 'Diskon', 'Jumlah', 'Hrg Total'];
                     $config['order'] = [1, 'asc'];
                 @endphp
                 <x-adminlte-datatable id="table2" :heads="$heads" :config="$config" bordered hoverable compressed>
