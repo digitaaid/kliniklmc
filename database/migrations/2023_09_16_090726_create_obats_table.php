@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('nama');
             $table->string('bpom')->nullable();
             $table->string('barcode')->nullable();
+            $table->string('stok_minimum')->nullable();
             $table->string('kemasan');
             $table->integer('konversi_satuan')->default(1);
             $table->string('satuan');

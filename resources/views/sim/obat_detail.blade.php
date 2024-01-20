@@ -9,9 +9,8 @@
 @section('content')
     <div class="row">
         <div class="col-md-3">
-            <x-adminlte-small-box
-                title="{{ $obat->stoks->sum('jumlah') - $obat->reseps->sum('jumlah') }} / {{ explode('.', ($obat->stoks->sum('jumlah') - $obat->reseps->sum('jumlah')) / $obat->konversi_satuan)[0] }}"
-                text="Real Stok Satuan / Kemasan" theme="success" icon="fas fa-pills" />
+            <x-adminlte-small-box title="{{ $obat->real_stok }}" text="Real Stok Satuan / Kemasan" theme="success"
+                icon="fas fa-pills" />
         </div>
         <div class="col-md-3">
             <x-adminlte-small-box title="{{ $obat->stoks->sum('jumlah') }}" text="Input Stok Obat" theme="primary"
@@ -38,6 +37,9 @@
                             <x-adminlte-input name="barcode" label="Kode Barcode" placeholder="Kode Barcode"
                                 fgroup-class="row" label-class="text-right col-3" igroup-size="sm" igroup-class="col-9"
                                 enable-old-support value="{{ $obat->barcode }}" />
+                            <x-adminlte-input name="stok_minimum" label="Stok Minimum" placeholder="Stok Minimum"
+                                fgroup-class="row" label-class="text-right col-3" igroup-size="sm" igroup-class="col-9"
+                                enable-old-support value="{{ $obat->stok_minimum }}" />
                             <x-adminlte-select2 name="jenisobat" fgroup-class="row" label-class="text-right col-3"
                                 igroup-size="sm" igroup-class="col-9" label="Jenis Obat">
                                 @if ($obat->jenisobat)
@@ -91,16 +93,18 @@
                             <div class="row">
                                 <div class="col-md-3"></div>
                                 <div class="col-md-9">
-                                    <b>Hrg Beli PPN(11%) : </b>
-                                    {{ money($obat->harga_beli + ($obat->harga_beli * 11) / 100, 'IDR') }} <br>
-                                    <b>Hrg Beli Satuan : </b>
-                                    {{ money(($obat->harga_beli + ($obat->harga_beli * 11) / 100) / $obat->konversi_satuan, 'IDR') }}
-                                    <br>
-                                    <b>Hrg Jual Margin 30% : </b>
-                                    {{ money(($obat->harga_beli + ($obat->harga_beli * 11) / 100) / $obat->konversi_satuan + (($obat->harga_beli + ($obat->harga_beli * 11) / 100) / $obat->konversi_satuan) * 0.3, 'IDR') }}
-                                    <br>
-                                    <b>Hrg Jual PPN(11%) : </b>
-                                    {{ money(($obat->harga_beli + ($obat->harga_beli * 11) / 100) / $obat->konversi_satuan + (($obat->harga_beli + ($obat->harga_beli * 11) / 100) / $obat->konversi_satuan) * 0.3 + (($obat->harga_beli + ($obat->harga_beli * 11) / 100) / $obat->konversi_satuan + (($obat->harga_beli + ($obat->harga_beli * 11) / 100) / $obat->konversi_satuan) * 0.3) * 0.11, 'IDR') }}
+                                    @if ($obat->harga_beli && $obat->konversi_satuan)
+                                        <b>Hrg Beli PPN(11%) : </b>
+                                        {{ money($obat->harga_beli + ($obat->harga_beli * 11) / 100, 'IDR') }} <br>
+                                        <b>Hrg Beli Satuan : </b>
+                                        {{ money(($obat->harga_beli + ($obat->harga_beli * 11) / 100) / $obat->konversi_satuan, 'IDR') }}
+                                        <br>
+                                        <b>Hrg Jual Margin 30% : </b>
+                                        {{ money(($obat->harga_beli + ($obat->harga_beli * 11) / 100) / $obat->konversi_satuan + (($obat->harga_beli + ($obat->harga_beli * 11) / 100) / $obat->konversi_satuan) * 0.3, 'IDR') }}
+                                        <br>
+                                        <b>Hrg Jual PPN(11%) : </b>
+                                        {{ money(($obat->harga_beli + ($obat->harga_beli * 11) / 100) / $obat->konversi_satuan + (($obat->harga_beli + ($obat->harga_beli * 11) / 100) / $obat->konversi_satuan) * 0.3 + (($obat->harga_beli + ($obat->harga_beli * 11) / 100) / $obat->konversi_satuan + (($obat->harga_beli + ($obat->harga_beli * 11) / 100) / $obat->konversi_satuan) * 0.3) * 0.11, 'IDR') }}
+                                    @endif
                                 </div>
                             </div>
                             <br>
@@ -124,10 +128,6 @@
                             <x-adminlte-input name="harga_jual" label="Harga Jual Satuan" placeholder="Harga Jual Satuan"
                                 fgroup-class="row" label-class="text-right col-3" igroup-size="sm" igroup-class="col-9"
                                 enable-old-support required readonly value="{{ $obat->harga_jual }}" />
-
-
-
-
                         </div>
                     </div>
                 </form>
