@@ -11,7 +11,10 @@ class ResepObatDetail extends Model
     protected $guarded = ['id'];
     public function obat()
     {
-        return $this->belongsTo(Obat::class, 'obat_id','id');
+        return $this->belongsTo(Obat::class, 'obat_id', 'id');
     }
-
+    public function reseobat()
+    {
+        return $this->hasOne(ResepObat::class,  'kode', 'koderesep');
+    }
 }

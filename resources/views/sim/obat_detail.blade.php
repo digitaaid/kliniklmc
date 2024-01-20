@@ -142,7 +142,7 @@
             </x-adminlte-card>
             <x-adminlte-card theme="primary" title="Riwayat Resep Obat">
                 @php
-                    $heads = ['Tanggal', 'Kode Resep', 'Nama Obat', 'Jumlah'];
+                    $heads = ['Tanggal', 'Kode Resep', 'Pasien', 'Nama Obat', 'Jumlah'];
                     $config['order'] = [1, 'asc'];
                 @endphp
                 <x-adminlte-datatable id="table1" :heads="$heads" :config="$config" bordered hoverable compressed>
@@ -150,6 +150,7 @@
                         <tr>
                             <td>{{ $resep->created_at }}</td>
                             <td>{{ $resep->koderesep }}</td>
+                            <td>{{ $resep->reseobat->nama }}</td>
                             <td>{{ $obat->nama }}</td>
                             <td>{{ $resep->jumlah }}</td>
                         </tr>
