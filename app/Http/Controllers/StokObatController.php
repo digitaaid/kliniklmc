@@ -32,9 +32,7 @@ class StokObatController extends Controller
             $request['jumlah'] = $request->jumlah + ($obat->konversi_satuan * $request->jumlah_kemasan);
         }
         $request['harga_beli'] = str_replace(".", "", $request->harga_beli);
-        if ($request->diskon_beli) {
-            $hargadiskon = $request->harga_beli - ($request->harga_beli * $request->diskon_beli / 100);
-        }
+        $hargadiskon = $request->harga_beli - ($request->harga_beli * $request->diskon_beli / 100);
         $hargapppn = $hargadiskon + ($hargadiskon * 11 / 100);
         $hargabelisatuan = $hargapppn / $obat->konversi_satuan;
         $hargatotal = $hargabelisatuan * $request->jumlah;
