@@ -44,7 +44,7 @@ class StokObatController extends Controller
 
     public function show(string $id)
     {
-        $obat = Obat::find($id);
+        $obat = Obat::with('reseps', 'reseps.reseobat')->find($id);
         // dd($obat, $obat->reseps->sum('jumlah'));
         return view('sim.obat_detail', compact([
             'obat'
