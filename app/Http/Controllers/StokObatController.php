@@ -32,13 +32,13 @@ class StokObatController extends Controller
             $request['jumlah'] = $request->jumlah + ($obat->konversi_satuan * $request->jumlah_kemasan);
         }
         $request['harga_beli'] = str_replace(".", "", $request->harga_beli);
-        $hargabelippn = round($request->harga_beli + ($request->harga_beli * 11 / 100));
-        $hargabelisatuan = round($hargabelippn / $obat->konversi_satuan);
-        $hargatotal = $hargabelisatuan * $request->jumlah;
         if ($request->diskon_beli) {
-            $hargatotal = round($hargatotal - ($hargatotal * $request->diskon_beli / 100));
+            $hargadiskon = $request->harga_beli - ($request->harga_beli * $request->diskon_beli / 100);
         }
-        $request['harga_total'] = $hargatotal;
+        $hargapppn = $hargadiskon + ($hargadiskon * 11 / 100);
+        $hargabelisatuan = $hargapppn / $obat->konversi_satuan;
+        $hargatotal = $hargabelisatuan * $request->jumlah;
+        $request['harga_total'] = round($hargatotal);
         $stok = StokObat::create($request->all());
         Alert::success('Success', 'Berhasil Input Stok');
         return redirect()->back();
