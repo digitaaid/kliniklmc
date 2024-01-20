@@ -11,7 +11,10 @@ class StokObatController extends Controller
 {
     public function index()
     {
-        //
+        $obats = Obat::get();
+        return view('sim.stokobat_index', compact([
+            'obats'
+        ]));
     }
 
     public function create()
