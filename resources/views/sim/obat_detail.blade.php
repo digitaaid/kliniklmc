@@ -150,7 +150,7 @@
                         <tr>
                             <td>{{ $resep->created_at }}</td>
                             <td>{{ $resep->koderesep }}</td>
-                            <td>{{ $resep->reseobat->nama }}</td>
+                            <td>{{ $resep->reseobat ? $resep->reseobat->nama : '-' }}</td>
                             <td>{{ $obat->nama }}</td>
                             <td>{{ $resep->jumlah }}</td>
                         </tr>
