@@ -13,7 +13,7 @@ class ResepObatDetail extends Model
     {
         return $this->belongsTo(Obat::class, 'obat_id', 'id');
     }
-    public function reseobat()
+    public function resepobat()
     {
         return $this->hasOne(ResepObat::class,  'kode', 'koderesep');
     }

@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('kodekunjungan');
             $table->string('antrian_id');
             $table->string('kodebooking');
+            $table->string('dokter');
 
             $table->string('kode');
             $table->string('berat_badan')->nullable();
@@ -28,7 +29,10 @@ return new class extends Migration
             $table->string('nama');
             $table->string('tgl_lahir');
             $table->string('gender');
-            $table->string('user');
+
+            $table->string('pic')->nullable();
+            $table->string('user')->nullable();
+
             $table->string('status');
             $table->timestamps();
         });

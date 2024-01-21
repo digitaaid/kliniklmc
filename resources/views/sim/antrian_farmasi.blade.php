@@ -5,7 +5,7 @@
 @stop
 @section('content')
     <div class="row">
-        <div class="col-md-12">
+        {{-- <div class="col-md-12">
             <x-adminlte-card title="Filter Data Antrian" theme="secondary" collapsible>
                 <form action="" method="get">
                     <div class="row">
@@ -27,34 +27,77 @@
                     <x-adminlte-button type="submit" class="withLoad" theme="primary" label="Submit Antrian" />
                 </form>
             </x-adminlte-card>
-        </div>
-        @if (isset($antrians))
+        </div> --}}
+ 
             <div class="col-md-12">
-                <div class="row">
-                    <div class="col-md-3">
-                        <x-adminlte-small-box
-                            title="{{ $antrians->where('taskid', '>=', 5)->where('taskid', '<', 7)->count() }}"
-                            text="Sisa Resep" theme="warning" icon="fas fa-user-injured" />
-                    </div>
-                    <div class="col-md-3">
-                        <x-adminlte-small-box title="{{ $antrians->where('taskid', 7)->count() }}"
-                            text="Total Resep Selesai" theme="success" icon="fas fa-user-injured" />
-                    </div>
-                    <div class="col-md-3">
-                        <x-adminlte-small-box
-                            title="{{ $antrians->where('taskid', 7)->where('jenispasien', 'JKN')->count() }}"
-                            text="Total Resep JKN" theme="primary" icon="fas fa-user-injured" />
-                    </div>
-                    <div class="col-md-3">
-                        <x-adminlte-small-box
-                            title="{{ $antrians->where('taskid', 7)->where('jenispasien', 'NON-JKN')->count() }}"
-                            text="Total Resep NON-JKN" theme="primary" icon="fas fa-user-injured" />
-                    </div>
-                </div>
             </div>
             <div class="col-md-12">
-                <x-adminlte-card title="Data Antrian Farmasi" theme="warning" icon="fas fa-info-circle"
+                <x-adminlte-card title="Data Antrian Farmasi" theme="secondary" icon="fas fa-info-circle"
                     collapsible="{{ $antrians->where('taskid', 6)->count() ? 'collapsed' : null }}">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <x-adminlte-small-box
+                                title="{{ $antrians->where('taskid', '>=', 5)->where('taskid', '<', 7)->count() }}"
+                                text="Sisa Resep" theme="warning" icon="fas fa-user-injured" />
+                        </div>
+                        <div class="col-md-3">
+                            <x-adminlte-small-box title="{{ $antrians->where('taskid', 7)->count() }}"
+                                text="Total Resep Selesai" theme="success" icon="fas fa-user-injured" />
+                        </div>
+                        <div class="col-md-3">
+                            <x-adminlte-small-box
+                                title="{{ $antrians->where('taskid', 7)->where('jenispasien', 'JKN')->count() }}"
+                                text="Total Resep JKN" theme="primary" icon="fas fa-user-injured" />
+                        </div>
+                        <div class="col-md-3">
+                            <x-adminlte-small-box
+                                title="{{ $antrians->where('taskid', 7)->where('jenispasien', 'NON-JKN')->count() }}"
+                                text="Total Resep NON-JKN" theme="primary" icon="fas fa-user-injured" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <form action="" method="get">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        @php
+                                            $config = ['format' => 'YYYY-MM-DD'];
+                                        @endphp
+                                        <x-adminlte-input-date name="tanggalperiksa"
+                                            value="{{ $request->tanggalperiksa ?? now()->format('Y-m-d') }}"
+                                            placeholder="Pilih Tanggal" igroup-size="sm" :config="$config">
+                                            <x-slot name="prependSlot">
+                                                <div class="input-group-text text-primary">
+                                                    <i class="fas fa-calendar-alt"></i>
+                                                </div>
+                                            </x-slot>
+                                            <x-slot name="appendSlot">
+                                                <x-adminlte-button type="submit" theme="primary" label="Cari Tanggal" />
+                                            </x-slot>
+                                        </x-adminlte-input-date>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="col-md-4">
+                        </div>
+                        <div class="col-md-4">
+                            <form action="" method="get">
+                                <x-adminlte-input name="pencarian" placeholder="Pencarian Berdasarkan Nama / No RM"
+                                    igroup-size="sm" value="{{ $request->pencarian }}">
+                                    <x-slot name="appendSlot">
+                                        <x-adminlte-button type="submit" theme="primary" label="Cari" />
+                                    </x-slot>
+                                    <x-slot name="prependSlot">
+                                        <div class="input-group-text text-primary">
+                                            <i class="fas fa-search"></i>
+                                        </div>
+                                    </x-slot>
+                                </x-adminlte-input>
+                            </form>
+                        </div>
+                    </div>
+
                     @php
                         $heads = ['No', 'Kodebooking', 'Pasien', 'Kartu BPJS', 'Unit', 'Dokter', 'Jenis Pasien', 'Method', 'Status', 'Action'];
                         $config['order'] = [[7, 'asc']];
@@ -116,6 +159,8 @@
                                     @endswitch
                                 </td>
                                 <td>
+                                    <a href="{{ route('selesaifarmasi') }}?kodebooking={{ $item->kodebooking }}"
+                                        class="btn btn-xs btn-warning withLoad"><i class="fas fa-edit"></i> Edit</a>
                                     @switch($item->taskid)
                                         @case(5)
                                             <a href="{{ route('terimafarmasi') }}?kodebooking={{ $item->kodebooking }}"
@@ -272,9 +317,11 @@
 @section('js')
     <script>
         var x = document.getElementById("myAudio");
+
         function playAudio() {
             x.play();
         }
+
         function pauseAudio() {
             x.pause();
         }
