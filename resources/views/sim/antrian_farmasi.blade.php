@@ -263,6 +263,8 @@
                                 <div class="card-footer">
                                     <a href="{{ route('selesaifarmasi') }}?kodebooking={{ $item->kodebooking }}"
                                         class="btn btn-success withLoad"><i class="fas fa-check"></i> Selesai</a>
+                                    <x-adminlte-button icon="fas fa-edit" theme="success" label="Edit"
+                                        onclick="editResep(this)" data-kode="{{ $item->kodebooking }}" />
                                     <a href="{{ route('print_asesmenfarmasi') }}?kodebooking={{ $item->kodebooking }}"
                                         class="btn btn-warning" target="_blank"> <i class="fas fa-print"></i> Print</a>
                                 </div>
