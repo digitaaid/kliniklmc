@@ -142,7 +142,7 @@
             </x-adminlte-card>
             <x-adminlte-card theme="primary" title="Kartu Stok">
                 @php
-                    $heads = ['Tanggal', 'Kode Resep', 'Pasien', 'Nama Obat', 'PIC', 'Jumlah'];
+                    $heads = ['Tanggal', 'Kode Resep', 'Pasien', 'Nama Obat','Exp. Date', 'In', 'Out', 'PIC'];
                     $config['order'] = [0, 'desc'];
                 @endphp
                 <x-adminlte-datatable id="table1" :heads="$heads" :config="$config" bordered hoverable compressed>
@@ -154,8 +154,10 @@
                                 {{ $resep->resepobat ? $resep->resepobat->nama : '-' }}
                             </td>
                             <td>{{ $obat->nama }}</td>
-                            <td>-</td>
+                            <td></td>
+                            <td></td>
                             <td>{{ $resep->jumlah }}</td>
+                            <td>-</td>
                         </tr>
                     @endforeach
                     @foreach ($obat->stoks as $stok)
@@ -164,8 +166,10 @@
                             <td>{{ $stok->kode }}</td>
                             <td>FARMASI</td>
                             <td>{{ $stok->nama }}</td>
-                            <td>-</td>
+                            <td>{{ $stok->tgl_expire }}</td>
                             <td>{{ $stok->jumlah }}</td>
+                            <td></td>
+                            <td>-</td>
                         </tr>
                     @endforeach
                 </x-adminlte-datatable>
