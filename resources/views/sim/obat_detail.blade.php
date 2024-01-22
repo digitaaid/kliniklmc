@@ -144,6 +144,9 @@
                 @php
                     $heads = ['Tanggal', 'Kode Resep', 'Pasien', 'Nama Obat','Exp. Date', 'In', 'Out', 'PIC'];
                     $config['order'] = [0, 'desc'];
+                    $config['paging'] = false;
+                    $config['info'] = false;
+                    $config['scrollY'] = '500px';
                 @endphp
                 <x-adminlte-datatable id="table1" :heads="$heads" :config="$config" bordered hoverable compressed>
                     @foreach ($obat->reseps as $resep)
