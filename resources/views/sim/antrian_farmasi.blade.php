@@ -372,7 +372,6 @@
         function editResep(button) {
             $.LoadingOverlay("show");
             var url = "{{ route('get_resep_obat') }}?kode=" + $(button).data("kode");
-            alert(url);
             $.ajax({
                 url: url,
                 method: "GET",
