@@ -148,7 +148,7 @@
                 <x-adminlte-datatable id="table1" :heads="$heads" :config="$config" bordered hoverable compressed>
                     @foreach ($obat->reseps as $resep)
                         <tr>
-                            <td>{{ Carbon\Carbon::parse($resep->created_at)->format('d-m-Y') }}</td>
+                            <td>{{ Carbon\Carbon::parse($resep->created_at)->format('Y-m-d') }}</td>
                             <td>{{ $resep->koderesep }}</td>
                             <td>
                                 {{ $resep->resepobat ? $resep->resepobat->nama : '-' }}
@@ -160,7 +160,7 @@
                     @endforeach
                     @foreach ($obat->stoks as $stok)
                         <tr>
-                            <td>{{ Carbon\Carbon::parse($stok->tgl_input)->format('d-m-Y') }}</td>
+                            <td>{{ Carbon\Carbon::parse($stok->tgl_input)->format('Y-m-d') }}</td>
                             <td>{{ $stok->kode }}</td>
                             <td>FARMASI</td>
                             <td>{{ $stok->nama }}</td>
