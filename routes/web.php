@@ -198,7 +198,7 @@ Route::middleware('auth')->group(function () {
     Route::get('selesaifarmasi', [FarmasiController::class, 'selesaifarmasi'])->name('selesaifarmasi');
     Route::get('laporanfarmasi', [FarmasiController::class, 'laporanfarmasi'])->name('laporanfarmasi');
     Route::get('laporanobat', [FarmasiController::class, 'laporanobat'])->name('laporanobat');
-    Route::get('reset_obat', [ObatController::class, 'reset_obat'])->name('reset_obat');
+    Route::get('get_resep_obat', [ObatController::class, 'get_resep_obat'])->name('get_resep_obat');
     Route::get('ref_obat_cari', [ObatController::class, 'ref_obat_cari'])->name('ref_obat_cari');
     Route::get('obatkemoterapi', [FarmasiController::class, 'obatkemoterapi'])->name('obatkemoterapi');
     Route::delete('batalkemotarapi', [FarmasiController::class, 'batalkemotarapi'])->name('batalkemotarapi');

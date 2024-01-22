@@ -5,35 +5,12 @@
 @stop
 @section('content')
     <div class="row">
-        {{-- <div class="col-md-12">
-            <x-adminlte-card title="Filter Data Antrian" theme="secondary" collapsible>
-                <form action="" method="get">
-                    <div class="row">
-                        <div class="col-md-12">
-                            @php
-                                $config = ['format' => 'YYYY-MM-DD'];
-                            @endphp
-                            <x-adminlte-input-date name="tanggalperiksa" label="Tanggal Antrian"
-                                value="{{ $request->tanggalperiksa ?? now()->format('Y-m-d') }}" placeholder="Pilih Tanggal"
-                                :config="$config">
-                                <x-slot name="prependSlot">
-                                    <div class="input-group-text bg-primary">
-                                        <i class="fas fa-calendar-alt"></i>
-                                    </div>
-                                </x-slot>
-                            </x-adminlte-input-date>
-                        </div>
-                    </div>
-                    <x-adminlte-button type="submit" class="withLoad" theme="primary" label="Submit Antrian" />
-                </form>
-            </x-adminlte-card>
-        </div> --}}
- 
-            <div class="col-md-12">
-            </div>
-            <div class="col-md-12">
-                <x-adminlte-card title="Data Antrian Farmasi" theme="secondary" icon="fas fa-info-circle"
-                    collapsible="{{ $antrians->where('taskid', 6)->count() ? 'collapsed' : null }}">
+        <div class="col-md-12">
+        </div>
+        <div class="col-md-12">
+            <x-adminlte-card title="Data Antrian Farmasi" theme="secondary" icon="fas fa-info-circle"
+                collapsible="{{ $antrians ? ($antrians->where('taskid', 6)->count() ? 'collapsed' : null) : null }}">
+                @if ($antrians)
                     <div class="row">
                         <div class="col-md-3">
                             <x-adminlte-small-box
@@ -55,67 +32,66 @@
                                 text="Total Resep NON-JKN" theme="primary" icon="fas fa-user-injured" />
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <form action="" method="get">
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        @php
-                                            $config = ['format' => 'YYYY-MM-DD'];
-                                        @endphp
-                                        <x-adminlte-input-date name="tanggalperiksa"
-                                            value="{{ $request->tanggalperiksa ?? now()->format('Y-m-d') }}"
-                                            placeholder="Pilih Tanggal" igroup-size="sm" :config="$config">
-                                            <x-slot name="prependSlot">
-                                                <div class="input-group-text text-primary">
-                                                    <i class="fas fa-calendar-alt"></i>
-                                                </div>
-                                            </x-slot>
-                                            <x-slot name="appendSlot">
-                                                <x-adminlte-button type="submit" theme="primary" label="Cari Tanggal" />
-                                            </x-slot>
-                                        </x-adminlte-input-date>
-                                    </div>
+                @endif
+                <div class="row">
+                    <div class="col-md-4">
+                        <form action="" method="get">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    @php
+                                        $config = ['format' => 'YYYY-MM-DD'];
+                                    @endphp
+                                    <x-adminlte-input-date name="tanggalperiksa"
+                                        value="{{ $request->tanggalperiksa ?? now()->format('Y-m-d') }}"
+                                        placeholder="Pilih Tanggal" igroup-size="sm" :config="$config">
+                                        <x-slot name="prependSlot">
+                                            <div class="input-group-text text-primary">
+                                                <i class="fas fa-calendar-alt"></i>
+                                            </div>
+                                        </x-slot>
+                                        <x-slot name="appendSlot">
+                                            <x-adminlte-button type="submit" theme="primary" label="Cari Tanggal" />
+                                        </x-slot>
+                                    </x-adminlte-input-date>
                                 </div>
-                            </form>
-                        </div>
-                        <div class="col-md-4">
-                        </div>
-                        <div class="col-md-4">
-                            <form action="" method="get">
-                                <x-adminlte-input name="pencarian" placeholder="Pencarian Berdasarkan Nama / No RM"
-                                    igroup-size="sm" value="{{ $request->pencarian }}">
-                                    <x-slot name="appendSlot">
-                                        <x-adminlte-button type="submit" theme="primary" label="Cari" />
-                                    </x-slot>
-                                    <x-slot name="prependSlot">
-                                        <div class="input-group-text text-primary">
-                                            <i class="fas fa-search"></i>
-                                        </div>
-                                    </x-slot>
-                                </x-adminlte-input>
-                            </form>
-                        </div>
+                            </div>
+                        </form>
                     </div>
-
-                    @php
-                        $heads = ['No', 'Kodebooking', 'Pasien', 'Kartu BPJS', 'Unit', 'Dokter', 'Jenis Pasien', 'Method', 'Status', 'Action'];
-                        $config['order'] = [[7, 'asc']];
-                        $config['paging'] = false;
-                        $config['scrollY'] = '300px';
-                    @endphp
-                    <x-adminlte-datatable id="table1" class="nowrap" :heads="$heads" :config="$config" bordered
-                        hoverable compressed>
+                    <div class="col-md-4">
+                    </div>
+                    <div class="col-md-4">
+                        <form action="" method="get">
+                            <x-adminlte-input name="pencarian" placeholder="Pencarian Berdasarkan Nama / No RM"
+                                igroup-size="sm" value="{{ $request->pencarian }}">
+                                <x-slot name="appendSlot">
+                                    <x-adminlte-button type="submit" theme="primary" label="Cari" />
+                                </x-slot>
+                                <x-slot name="prependSlot">
+                                    <div class="input-group-text text-primary">
+                                        <i class="fas fa-search"></i>
+                                    </div>
+                                </x-slot>
+                            </x-adminlte-input>
+                        </form>
+                    </div>
+                </div>
+                @php
+                    $heads = ['No', 'Kodebooking', 'Pasien', 'Unit', 'Dokter', 'Jenis Pasien', 'Status', 'Action'];
+                    $config['order'] = [[7, 'asc']];
+                    $config['paging'] = false;
+                    $config['scrollY'] = '300px';
+                @endphp
+                <x-adminlte-datatable id="table1" class="nowrap" :heads="$heads" :config="$config" bordered hoverable
+                    compressed>
+                    @if ($antrians)
                         @foreach ($antrians as $item)
                             <tr>
                                 <td>{{ $item->angkaantrean }}</td>
                                 <td>{{ $item->kodebooking }}</td>
                                 <td>{{ $item->norm }} {{ $item->nama }}</td>
-                                <td>{{ $item->nomorkartu }}</td>
                                 <td>{{ $item->kunjungan ? $item->kunjungan->units->nama : '-' }}</td>
                                 <td>{{ $item->namadokter }}</td>
                                 <td>{{ $item->jenispasien }} </td>
-                                <td>{{ $item->method }} </td>
                                 <td>
                                     @switch($item->taskid)
                                         @case(0)
@@ -159,8 +135,9 @@
                                     @endswitch
                                 </td>
                                 <td>
-                                    <a href="{{ route('selesaifarmasi') }}?kodebooking={{ $item->kodebooking }}"
-                                        class="btn btn-xs btn-warning withLoad"><i class="fas fa-edit"></i> Edit</a>
+                                    <x-adminlte-button icon="fas fa-edit" class="btn-xs" theme="success" label="Edit"
+                                        onclick="editResep(this)" data-kode="{{ $item->kodebooking }}" />
+
                                     @switch($item->taskid)
                                         @case(5)
                                             <a href="{{ route('terimafarmasi') }}?kodebooking={{ $item->kodebooking }}"
@@ -191,11 +168,13 @@
                                 </td>
                             </tr>
                         @endforeach
-                    </x-adminlte-datatable>
-                </x-adminlte-card>
-            </div>
-            <div class="col-md-12">
-                <div class="row">
+                    @endif
+                </x-adminlte-datatable>
+            </x-adminlte-card>
+        </div>
+        <div class="col-md-12">
+            <div class="row">
+                @if ($antrians)
                     @foreach ($antrians->where('taskid', 6) as $item)
                         <div class="col-md-3">
                             <div class="card card-primary">
@@ -290,14 +269,22 @@
                             </div>
                         </div>
                     @endforeach
-                </div>
+                @endif
             </div>
-        @endif
+        </div>
     </div>
     <audio id="myAudio">
         <source src="{{ asset('tingtung.mp3') }}" type="audio/mpeg">
         Your browser does not support the audio element.
     </audio>
+    <x-adminlte-modal id="modalResep" size="xl" title="Resep Obat" icon="fas fa-pills" theme="warning">
+        <div id="formResep">
+        </div>
+        <x-slot name="footerSlot">
+            <x-adminlte-button icon="fas fa-save" theme="success" label="Simpan" onclick="simpanSatuan()" />
+            <x-adminlte-button theme="danger" icon="fas fa-times" label="Tutup" data-dismiss="modal" />
+        </x-slot>
+    </x-adminlte-modal>
 @stop
 
 @section('plugins.Datatables', true)
@@ -380,5 +367,39 @@
                 }, 5 * 1000);
             }
         });
+    </script>
+    <script>
+        function editResep(button) {
+            $.LoadingOverlay("show");
+            var url = "{{ route('get_resep_obat') }}?kode=" + $(button).data("kode");
+            alert(url);
+            $.ajax({
+                url: url,
+                method: "GET",
+
+            }).done(function(data) {
+                console.log(data);
+                $('#formResep').html(data);
+                $('#modalResep').modal('show');
+                $.LoadingOverlay("hide");
+            }).fail(function(data, textStatus, errorThrown) {
+                console.log(data);
+                $.LoadingOverlay("hide");
+            });
+        }
+        // function simpanSatuan() {
+        //     $.LoadingOverlay("show");
+        //     var formData = $('#formSatuan').serialize();
+        //     console.log(formData);
+        //     $.ajax({
+        //         url: "{{ route('satuanobat.store') }}",
+        //         method: "POST",
+        //         data: formData,
+        //     }).done(function(data) {
+        //         console.log(data);
+        //         $('#modalSatuan').modal('hide');
+        //         $.LoadingOverlay("hide");
+        //     });
+        // }
     </script>
 @endsection

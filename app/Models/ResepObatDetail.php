@@ -15,6 +15,6 @@ class ResepObatDetail extends Model
     }
     public function resepobat()
     {
-        return $this->hasOne(ResepObat::class,  'kode', 'koderesep');
+        return $this->hasOne(ResepObat::class,  'id', 'resep_id');
     }
 }

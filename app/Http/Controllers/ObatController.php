@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Exports\ObatExport;
 use App\Imports\ObatsImport;
+use App\Models\Antrian;
+use App\Models\Kunjungan;
 use App\Models\Obat;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -67,14 +69,6 @@ class ObatController extends Controller
         Alert::success('Success', 'Data Obat Dinonaktifkan.');
         return redirect()->back();
     }
-    public function reset_obat()
-    {
-        $obats = Obat::all();
-        foreach ($obats as  $value) {
-            $value->delete();
-        }
-        return redirect()->route('obat.index');
-    }
     public function ref_obat_cari(Request $request)
     {
         $data = array();
@@ -101,5 +95,11 @@ class ObatController extends Controller
         Excel::import(new ObatsImport, $request->file);
         Alert::success('Success', 'Import Obat Berhasil.');
         return redirect()->route('obat.index');
+    }
+    public function get_resep_obat(Request $request)
+    {
+        $antrian = Antrian::where('kodebooking', $request->kode)->first();
+        $kunjungan = $antrian->kunjungan;
+        return view('sim.get_resep_obat', compact('request', 'antrian', 'kunjungan'));
     }
 }

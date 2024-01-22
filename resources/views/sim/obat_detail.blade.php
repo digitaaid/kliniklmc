@@ -140,19 +140,32 @@
                         icon="fas fa-box" />
                 </x-slot>
             </x-adminlte-card>
-            <x-adminlte-card theme="primary" title="Riwayat Resep Obat">
+            <x-adminlte-card theme="primary" title="Kartu Stok">
                 @php
-                    $heads = ['Tanggal', 'Kode Resep', 'Pasien', 'Nama Obat', 'Jumlah'];
-                    $config['order'] = [1, 'asc'];
+                    $heads = ['Tanggal', 'Kode Resep', 'Pasien', 'Nama Obat', 'PIC', 'Jumlah'];
+                    $config['order'] = [0, 'desc'];
                 @endphp
                 <x-adminlte-datatable id="table1" :heads="$heads" :config="$config" bordered hoverable compressed>
                     @foreach ($obat->reseps as $resep)
                         <tr>
-                            <td>{{ $resep->created_at }}</td>
+                            <td>{{ Carbon\Carbon::parse($resep->created_at)->format('d-m-Y') }}</td>
                             <td>{{ $resep->koderesep }}</td>
-                            <td>{{ $resep->reseobat ? $resep->reseobat->nama : '-' }}</td>
+                            <td>
+                                {{ $resep->resepobat ? $resep->resepobat->nama : '-' }}
+                            </td>
                             <td>{{ $obat->nama }}</td>
+                            <td>-</td>
                             <td>{{ $resep->jumlah }}</td>
+                        </tr>
+                    @endforeach
+                    @foreach ($obat->stoks as $stok)
+                        <tr>
+                            <td>{{ Carbon\Carbon::parse($stok->tgl_input)->format('d-m-Y') }}</td>
+                            <td>{{ $stok->kode }}</td>
+                            <td>FARMASI</td>
+                            <td>{{ $stok->nama }}</td>
+                            <td>-</td>
+                            <td>{{ $stok->jumlah }}</td>
                         </tr>
                     @endforeach
                 </x-adminlte-datatable>
