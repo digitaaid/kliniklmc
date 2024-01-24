@@ -588,6 +588,20 @@ class PendaftaranController extends APIController
             'antrians',
         ]));
     }
+    public function laporankunjungan(Request $request)
+    {
+        $kunjungans = null;
+        if ($request->tanggal) {
+            $tanggal = explode('-', $request->tanggal);
+            $request['tanggalawal'] = Carbon::parse($tanggal[0])->format('Y-m-d');
+            $request['tanggalakhir'] = Carbon::parse($tanggal[1])->format('Y-m-d');
+            $kunjungans = Kunjungan::with(['antrian'])->whereBetween('tgl_masuk', [$request->tanggalawal, $request->tanggalakhir])->get();
+        }
+        return view('sim.laporan_kunjungan', compact(
+            'request',
+            'kunjungans',
+        ));
+    }
     public function pdflaporanpendaftaran(Request $request)
     {
         $antrians = null;

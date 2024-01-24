@@ -96,10 +96,10 @@ class ObatController extends Controller
         Alert::success('Success', 'Import Obat Berhasil.');
         return redirect()->route('obat.index');
     }
-    public function get_resep_obat(Request $request)
+    public function form_resep_obat(Request $request)
     {
         $antrian = Antrian::where('kodebooking', $request->kode)->first();
         $kunjungan = $antrian->kunjungan;
-        return view('sim.get_resep_obat', compact('request', 'antrian', 'kunjungan'));
+        return view('sim.form_resep_obat', compact('request', 'antrian', 'kunjungan'));
     }
 }

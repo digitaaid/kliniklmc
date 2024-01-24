@@ -39,15 +39,6 @@
                                         2-0-2</option>
                                     <option value="303" {{ $itemobat->interval == '303' ? 'selected' : null }}>
                                         3-0-3</option>
-                                    {{-- <option value="prn"
-                                        {{ $itemobat->interval == 'prn' ? 'selected' : null }}>
-                                        Sesuai Kebutuhan</option>
-                                    <option value="q3h"
-                                        {{ $itemobat->interval == 'q3h' ? 'selected' : null }}>
-                                        Setiap 3 Jam</option>
-                                    <option value="q4h"
-                                        {{ $itemobat->interval == 'q4h' ? 'selected' : null }}>
-                                        Setiap 4 Jam</option> --}}
                                 </select>
                                 <select name="waktuobat[]" class="form-control waktuObat">
                                     <option selected>Waktu Obat</option>
@@ -84,9 +75,6 @@
                             <option value="qid">4 x 1</option>
                             <option value="202">2-0-2</option>
                             <option value="303">3-0-3</option>
-                            {{-- <option value="prn">Sesuai Kebutuhan</option>
-                            <option value="q3h">Setiap 3 Jam</option>
-                            <option value="q4h">Setiap 4 Jam</option> --}}
                         </select>
                         <select name="waktuobat[]" class="form-control waktuObat">
                             <option selected>Waktu Obat</option>
@@ -119,3 +107,56 @@
         </div>
     </div>
 </form>
+{{-- dynamic input --}}
+<script>
+    $("#addObatInput").click(function() {
+        newRowAdd =
+            '<div id="row" class="row"><div class="form-group"><div class="input-group input-group-sm">' +
+            '<select name="obat[]" class="form-control cariObat"></select>' +
+            '<input type="number" name="jumlah[]" placeholder="Jumlah" class="form-control" multiple>' +
+            '<select name="frekuensi[]"class="form-control frekuensilObat"> <option selected disabled>Interval</option>' +
+            '<option value="qod">1 x 1</option>' +
+            '<option value="dod">1 x 2</option>' +
+            '<option value="bid">2 x 1</option>' +
+            '<option value="tid">3 x 1</option>' +
+            '<option value="qid">4 x 1</option>' +
+            '<option value="202">2-0-2</option>' +
+            '<option value="303">3-0-3</option>' +
+            '</select> ' +
+            '<select name="waktuobat[]" class="form-control waktuObat"><option selected>Waktu Obat</option>' +
+            '<option value="pc">Setelah Makan</option>' +
+            '<option value="ac">Sebelum Makan</option>' +
+            '<option value="hs">Sebelum Tidur</option>' +
+            '<option value="int">Diantara Waktu Makan</option>' +
+            '</select> ' +
+            '<input type="text" name="keterangan_obat[]" placeholder="Keterangan Obat" class="form-control" multiple>' +
+            '<button type="button" class="btn btn-xs btn-danger" id="deleteRowObat"><i class="fas fa-trash "></i> </div></div></div>';
+        $('#newObat').append(newRowAdd);
+        $(".cariObat").select2({
+            placeholder: 'Pencarian Nama Obat',
+            theme: "bootstrap4",
+            multiple: true,
+            maximumSelectionLength: 1,
+            ajax: {
+                url: "{{ route('ref_obat_cari') }}",
+                type: "get",
+                dataType: 'json',
+                delay: 100,
+                data: function(params) {
+                    return {
+                        nama: params.term // search term
+                    };
+                },
+                processResults: function(response) {
+                    return {
+                        results: response
+                    };
+                },
+                cache: true
+            }
+        });
+    });
+    $("body").on("click", "#deleteRowObat", function() {
+        $(this).parents("#row").remove();
+    })
+</script>

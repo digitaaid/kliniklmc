@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Obat;
 use App\Models\StokObat;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
 
@@ -47,6 +48,37 @@ class StokObatController extends Controller
         $obat = Obat::with('reseps', 'reseps.resepobat')->find($id);
         return view('sim.obat_detail', compact(
             'obat'
+        ));
+    }
+    public function print_kartustokobat(Request $request)
+    {
+        $obat = Obat::find($request->obat);
+        $kartu = [];
+
+        foreach ($obat->stoks as $key => $stok) {
+            $kartu[] = [
+                'tgl' => Carbon::parse($stok->tgl_input)->format('Y-m-d'),
+                'nama' => 'FARMASI',
+                'kode' => $stok->kode,
+                'obat' => $stok->nama,
+                'jumlah' => $stok->jumlah,
+            ];
+        }
+        foreach ($obat->reseps as $key => $resep) {
+            $kartu[] = [
+                'tgl' => Carbon::parse($resep->created_at)->format('Y-m-d'),
+                'nama' => $resep->resepobat ? $resep->resepobat->nama : '-',
+                'kode' => $resep->koderesep,
+                'obat' =>  $obat->nama,
+                'jumlah' =>  $resep->jumlah,
+            ];
+        }
+        dd($kartu = sort($kartu));
+        uasort($entity_list, 'mySort');
+        return view('print.print_kartu_stok_obat', compact(
+            'request',
+            'obat',
+            'stok',
         ));
     }
 

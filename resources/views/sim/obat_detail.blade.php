@@ -142,7 +142,7 @@
             </x-adminlte-card>
             <x-adminlte-card theme="primary" title="Kartu Stok">
                 @php
-                    $heads = ['Tanggal', 'Kode Resep', 'Pasien', 'Nama Obat','Exp. Date', 'In', 'Out', 'PIC'];
+                    $heads = ['Tanggal', 'Kode Resep', 'Pasien', 'Nama Obat', 'Exp. Date', 'In', 'Out', 'PIC'];
                     $config['order'] = [0, 'desc'];
                     $config['paging'] = false;
                     $config['info'] = false;
@@ -176,6 +176,7 @@
                         </tr>
                     @endforeach
                 </x-adminlte-datatable>
+                <a href="{{ route('print_kartustokobat') }}?obat={{ $obat->id }}" target="_blank" class="btn btn-sm btn-success">Print Kartu Stok</a>
             </x-adminlte-card>
             <x-adminlte-card theme="primary" title="Riwayat Input Stok Obat">
                 @php

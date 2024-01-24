@@ -166,6 +166,7 @@ Route::middleware('auth')->group(function () {
     Route::get('batalantrian', [PendaftaranController::class, 'batalantrian'])->name('batalantrian');
     Route::get('tidakjadibatal', [PendaftaranController::class, 'tidakjadibatal'])->name('tidakjadibatal');
     Route::get('laporanpendaftaran', [PendaftaranController::class, 'laporanpendaftaran'])->name('laporanpendaftaran');
+    Route::get('laporankunjungan', [PendaftaranController::class, 'laporankunjungan'])->name('laporankunjungan');
     Route::get('pdflaporanpendaftaran', [PendaftaranController::class, 'pdflaporanpendaftaran'])->name('pdflaporanpendaftaran');
     Route::get('laporanwaktuantrian', [PendaftaranController::class, 'laporanwaktuantrian'])->name('laporanwaktuantrian');
     // kasir
@@ -198,7 +199,7 @@ Route::middleware('auth')->group(function () {
     Route::get('selesaifarmasi', [FarmasiController::class, 'selesaifarmasi'])->name('selesaifarmasi');
     Route::get('laporanfarmasi', [FarmasiController::class, 'laporanfarmasi'])->name('laporanfarmasi');
     Route::get('laporanobat', [FarmasiController::class, 'laporanobat'])->name('laporanobat');
-    Route::get('get_resep_obat', [ObatController::class, 'get_resep_obat'])->name('get_resep_obat');
+    Route::get('form_resep_obat', [ObatController::class, 'form_resep_obat'])->name('form_resep_obat');
     Route::get('ref_obat_cari', [ObatController::class, 'ref_obat_cari'])->name('ref_obat_cari');
     Route::get('obatkemoterapi', [FarmasiController::class, 'obatkemoterapi'])->name('obatkemoterapi');
     Route::delete('batalkemotarapi', [FarmasiController::class, 'batalkemotarapi'])->name('batalkemotarapi');
@@ -208,6 +209,7 @@ Route::middleware('auth')->group(function () {
     Route::get('get_resepkemoterapi', [FarmasiController::class, 'get_resepkemoterapi'])->name('get_resepkemoterapi');
     Route::get('print_resepkemoterapi', [FormController::class, 'print_resepkemoterapi'])->name('print_resepkemoterapi');
     Route::get('print_asesmenfarmasi', [FormController::class, 'print_asesmenfarmasi'])->name('print_asesmenfarmasi');
+    Route::get('print_kartustokobat', [StokObatController::class, 'print_kartustokobat'])->name('print_kartustokobat');
     // lab
     Route::get('antrianlaboratorium', [FormController::class, 'antrianlaboratorium'])->name('antrianlaboratorium');
     Route::get('permintaanlab_index', [LaboratoriumController::class, 'permintaanlab_index'])->name('permintaanlab_index');

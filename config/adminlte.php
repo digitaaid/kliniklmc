@@ -525,6 +525,13 @@ return [
                     'shift'   => 'ml-2',
                 ],
                 [
+                    'text' => 'Laporan Kunjungan',
+                    'icon'    => 'fas fa-chart-line',
+                    'url'  => 'laporankunjungan',
+                    'can' => 'pendaftaran',
+                    'shift'   => 'ml-2',
+                ],
+                [
                     'text' => 'Laporan SEP',
                     'icon'    => 'fas fa-file-medical',
                     'url'  => 'laporansep',

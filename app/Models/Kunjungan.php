@@ -37,6 +37,10 @@ class Kunjungan extends Model
     {
         return $this->belongsTo(Antrian::class,  'kode', 'kodebooking');
     }
+    public function dokters()
+    {
+        return $this->hasOne(Dokter::class, 'kodedokter', 'dokter');
+    }
     public function units()
     {
         return $this->hasOne(Unit::class,  'kode', 'unit');
@@ -48,5 +52,9 @@ class Kunjungan extends Model
     public function files()
     {
         return $this->hasMany(FileUploadPasien::class);
+    }
+    public function pic()
+    {
+        return $this->hasOne(User::class, 'id', 'user1');
     }
 }
