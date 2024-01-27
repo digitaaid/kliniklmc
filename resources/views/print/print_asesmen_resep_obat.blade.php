@@ -149,12 +149,6 @@
                                 <div class="col-md-2 border border-dark"></div>
                             </div>
                             <div class="row">
-                                <div class="col-md-1 border border-dark">5</div>
-                                <div class="col-md-7 border border-dark">Bener Waktu & Frekuensi Obat</div>
-                                <div class="col-md-2 border border-dark"></div>
-                                <div class="col-md-2 border border-dark"></div>
-                            </div>
-                            <div class="row">
                                 <div class="col-md-1 border border-dark">6</div>
                                 <div class="col-md-7 border border-dark">Bener Cara Pemberian</div>
                                 <div class="col-md-2 border border-dark"></div>
