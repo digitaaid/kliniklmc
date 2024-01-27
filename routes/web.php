@@ -200,6 +200,7 @@ Route::middleware('auth')->group(function () {
     Route::get('laporanfarmasi', [FarmasiController::class, 'laporanfarmasi'])->name('laporanfarmasi');
     Route::get('laporanobat', [FarmasiController::class, 'laporanobat'])->name('laporanobat');
     Route::get('form_resep_obat', [ObatController::class, 'form_resep_obat'])->name('form_resep_obat');
+    Route::post('update_resep_obat', [ObatController::class, 'update_resep_obat'])->name('update_resep_obat');
     Route::get('ref_obat_cari', [ObatController::class, 'ref_obat_cari'])->name('ref_obat_cari');
     Route::get('obatkemoterapi', [FarmasiController::class, 'obatkemoterapi'])->name('obatkemoterapi');
     Route::delete('batalkemotarapi', [FarmasiController::class, 'batalkemotarapi'])->name('batalkemotarapi');

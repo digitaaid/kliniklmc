@@ -7,6 +7,8 @@ use App\Imports\ObatsImport;
 use App\Models\Antrian;
 use App\Models\Kunjungan;
 use App\Models\Obat;
+use App\Models\ResepObat;
+use App\Models\ResepObatDetail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
@@ -101,5 +103,61 @@ class ObatController extends Controller
         $antrian = Antrian::where('kodebooking', $request->kode)->first();
         $kunjungan = $antrian->kunjungan;
         return view('sim.form_resep_obat', compact('request', 'antrian', 'kunjungan'));
+    }
+    public function update_resep_obat(Request $request)
+    {
+        $kunjungan = Kunjungan::find($request->kunjungan_id);
+        if ($kunjungan) {
+            if ($request->obat) {
+                $request['status'] = 0;
+                $request['tinggi_badan'] = $kunjungan->asesmenperawat->tinggi_badan ?? null;
+                $request['berat_badan'] = $kunjungan->asesmenperawat->berat_badan ?? null;
+                $request['bsa'] = $kunjungan->asesmenperawat->bsa ?? null;
+                $request['kode'] = $kunjungan->kode;
+                $resep = ResepObat::updateOrCreate(
+                    [
+                        'kodebooking' => $request->kodebooking,
+                        'antrian_id' => $request->antrian_id,
+                        'kodekunjungan' => $request->kodekunjungan,
+                        'kunjungan_id' => $request->kunjungan_id,
+                    ],
+                    $request->all()
+                );
+                // hapus obat jika tidak diresepkan
+                if ($resep->resepdetail) {
+                    foreach ($resep->resepdetail as  $obadetail) {
+                        $ada = 0;
+                        foreach ($request->obat as $key => $obatid) {
+                            if ($obadetail->obat_id == $obatid) {
+                                $ada = 1;
+                            }
+                        }
+                        if ($ada == 0) {
+                            $obadetail->delete();
+                        }
+                    }
+                }
+                // peresepan
+                foreach ($request->obat as $key => $value) {
+                    $obat = Obat::find($value);
+                    $resepdetail = ResepObatDetail::updateOrCreate(
+                        [
+                            'koderesep' => $resep->kodebooking,
+                            'resep_id' => $resep->id,
+                            'obat_id' =>  $obat->id,
+                        ],
+                        [
+                            'nama' => $obat->nama,
+                            'jumlah' => $request->jumlah[$key] ?? 0,
+                            'interval' => $request->frekuensi[$key] ?? null,
+                            'waktu' => $request->waktuobat[$key] ?? null,
+                            'keterangan' => $request->keterangan_obat[$key] ?? null,
+                        ]
+                    );
+                }
+            }
+        }
+        Alert::success('Succes', 'Berhasil update resep obat');
+        return redirect()->back();
     }
 }

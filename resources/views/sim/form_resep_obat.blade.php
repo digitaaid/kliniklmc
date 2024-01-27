@@ -1,10 +1,14 @@
-<form id="formSatuan">
+<form id="formEditResep" action={{ route('update_resep_obat') }} method="POST">
     @csrf
     <style>
         .cariObat {
             width: 300px !important;
         }
     </style>
+    <input type="hidden" name="kodebooking" value="{{ $kunjungan->antrian->kodebooking }}">
+    <input type="hidden" name="antrian_id" value="{{ $kunjungan->antrian->id }}">
+    <input type="hidden" name="kodekunjungan" value="{{ $kunjungan->kode ?? null }}">
+    <input type="hidden" name="kunjungan_id" value="{{ $kunjungan->id ?? null }}">
     <div class="row">
         <div class="col-md-12">
             <label class="mb-2">Resep Obat</label>
