@@ -135,8 +135,7 @@
                                     @endswitch
                                 </td>
                                 <td>
-                                    <x-adminlte-button icon="fas fa-edit" class="btn-xs" theme="success" label="Edit"
-                                        onclick="editResep(this)" data-kode="{{ $item->kodebooking }}" />
+
 
                                     @switch($item->taskid)
                                         @case(5)
@@ -145,6 +144,8 @@
                                         @break
 
                                         @case(6)
+                                            <x-adminlte-button icon="fas fa-edit" class="btn-xs" theme="success" label="Edit"
+                                                onclick="editResep(this)" data-kode="{{ $item->kodebooking }}" />
                                             <a href="{{ route('selesaifarmasi') }}?kodebooking={{ $item->kodebooking }}"
                                                 class="btn btn-xs btn-success withLoad"> Selesai</a>
                                         @break
