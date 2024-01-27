@@ -6,30 +6,7 @@
 @section('content')
     <div class="row">
         <div class="col-md-12">
-            <x-adminlte-card title="Filter Data Antrian" theme="secondary" collapsible>
-                <form action="" method="get">
-                    <div class="row">
-                        <div class="col-md-12">
-                            @php
-                                $config = ['format' => 'YYYY-MM-DD'];
-                            @endphp
-                            <x-adminlte-input-date name="tanggalperiksa" label="Tanggal Antrian"
-                                value="{{ $request->tanggalperiksa ?? now()->format('Y-m-d') }}" placeholder="Pilih Tanggal"
-                                :config="$config">
-                                <x-slot name="prependSlot">
-                                    <div class="input-group-text bg-primary">
-                                        <i class="fas fa-calendar-alt"></i>
-                                    </div>
-                                </x-slot>
-                            </x-adminlte-input-date>
-                        </div>
-                    </div>
-                    <x-adminlte-button type="submit" class="withLoad" theme="primary" label="Submit Antrian" />
-                </form>
-            </x-adminlte-card>
-        </div>
-        @if (isset($antrians))
-            <div class="col-md-12">
+            @if (isset($antrians))
                 <div class="row">
                     <div class="col-md-3">
                         <x-adminlte-small-box
@@ -51,15 +28,63 @@
                             theme="danger" icon="fas fa-user-injured" />
                     </div>
                 </div>
-                <x-adminlte-card title="Data Antrian Pendaftaran" theme="warning" icon="fas fa-info-circle" collapsible>
-                    @php
-                        $heads = ['No', 'Kodebooking', 'Action', 'Pasien', 'Kartu BPJS', 'Unit / Dokter', 'Jenis Pasien', 'Method', 'Status'];
-                        $config['order'] = [8, 'asc'];
-                        $config['paging'] = false;
-                        $config['scrollY'] = '300px';
-                    @endphp
-                    <x-adminlte-datatable id="table1" class="nowrap" :heads="$heads" :config="$config" bordered
-                        hoverable compressed>
+            @endif
+        </div>
+
+        <div class="col-md-12">
+            <x-adminlte-card title="Data Antrian Pendaftaran" theme="secondary" icon="fas fa-info-circle" collapsible>
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <form action="" method="get">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    @php
+                                        $config = ['format' => 'YYYY-MM-DD'];
+                                    @endphp
+                                    <x-adminlte-input-date name="tanggalperiksa"
+                                        value="{{ $request->tanggalperiksa ?? now()->format('Y-m-d') }}"
+                                        placeholder="Pilih Tanggal" igroup-size="sm" :config="$config">
+                                        <x-slot name="prependSlot">
+                                            <div class="input-group-text text-primary">
+                                                <i class="fas fa-calendar-alt"></i>
+                                            </div>
+                                        </x-slot>
+                                        <x-slot name="appendSlot">
+                                            <x-adminlte-button type="submit" theme="primary" label="Cari Tanggal" />
+                                        </x-slot>
+                                    </x-adminlte-input-date>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-md-4">
+                    </div>
+                    <div class="col-md-4">
+                        <form action="" method="get">
+                            <x-adminlte-input name="pencarian" placeholder="Pencarian Berdasarkan Nama / No RM"
+                                igroup-size="sm" value="{{ $request->pencarian }}">
+                                <x-slot name="appendSlot">
+                                    <x-adminlte-button type="submit" theme="primary" label="Cari" />
+                                </x-slot>
+                                <x-slot name="prependSlot">
+                                    <div class="input-group-text text-primary">
+                                        <i class="fas fa-search"></i>
+                                    </div>
+                                </x-slot>
+                            </x-adminlte-input>
+                        </form>
+                    </div>
+                </div>
+                @php
+                    $heads = ['No', 'Kodebooking', 'Action', 'Pasien', 'Kartu BPJS', 'Unit / Dokter', 'Jenis Pasien', 'Method', 'Status'];
+                    $config['order'] = [8, 'asc'];
+                    $config['paging'] = false;
+                    $config['scrollY'] = '300px';
+                @endphp
+                <x-adminlte-datatable id="table1" class="nowrap" :heads="$heads" :config="$config" bordered hoverable
+                    compressed>
+                    @if (isset($antrians))
                         @foreach ($antrians as $item)
                             <tr>
                                 <td>{{ $item->angkaantrean }}</td>
@@ -135,10 +160,10 @@
                                 </td>
                             </tr>
                         @endforeach
-                    </x-adminlte-datatable>
-                </x-adminlte-card>
-            </div>
-        @endif
+                    @endif
+                </x-adminlte-datatable>
+            </x-adminlte-card>
+        </div>
     </div>
 @stop
 @section('plugins.Datatables', true)

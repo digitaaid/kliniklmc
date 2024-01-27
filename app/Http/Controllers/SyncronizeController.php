@@ -53,7 +53,7 @@ class SyncronizeController extends Controller
                             'status' => 1
                         ]);
                     }
-                    Alert::success('Success', $res->metadata->message);
+                    Alert::success('Success', $res->metadata->message . ' ' . $antrian->kodebooking);
                 } catch (\Throwable $th) {
                     Alert::error('Error', $th->getMessage());
                 }

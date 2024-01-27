@@ -143,6 +143,13 @@ class PendaftaranController extends APIController
         if ($request->tanggalperiksa) {
             $antrians = Antrian::where('tanggalperiksa', $request->tanggalperiksa)->get();
         }
+        if ($request->pencarian) {
+            $request->validate([
+                'pencarian' => 'required|min:3',
+            ]);
+            $antrians = Antrian::where('norm', $request->pencarian)
+                ->orWhere('nama', 'LIKE', '%' . $request->pencarian . '%')->get();
+        }
         return view('sim.antrian_pendaftaran', compact([
             'request',
             'antrians',

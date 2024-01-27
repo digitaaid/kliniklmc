@@ -135,8 +135,6 @@
                                     @endswitch
                                 </td>
                                 <td>
-
-
                                     @switch($item->taskid)
                                         @case(5)
                                             <a href="{{ route('terimafarmasi') }}?kodebooking={{ $item->kodebooking }}"
