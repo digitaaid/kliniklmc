@@ -209,7 +209,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-1 border border-dark">6</div>
-                                <div class="col-md-7 border border-dark">Poli Dokumentasi</div>
+                                <div class="col-md-7 border border-dark">Bener Dokumentasi</div>
                                 <div class="col-md-2 border border-dark"></div>
                                 <div class="col-md-2 border border-dark"></div>
                             </div>

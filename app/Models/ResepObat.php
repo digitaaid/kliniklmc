@@ -13,4 +13,8 @@ class ResepObat extends Model
     {
         return $this->hasMany(ResepObatDetail::class, 'koderesep', 'kode');
     }
+    public function antrian()
+    {
+        return $this->hasOne(Antrian::class, 'id', 'antrian_id');
+    }
 }
