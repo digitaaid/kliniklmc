@@ -566,6 +566,13 @@ return [
                     'shift'   => 'ml-2',
                     'can' => 'farmasi',
                 ],
+                [
+                    'text' => 'Histori Pelayanan Obat',
+                    'icon'    => 'fas fa-chart-line',
+                    'url'  => 'laporanobatpasien',
+                    'shift'   => 'ml-2',
+                    'can' => 'farmasi',
+                ],
             ],
         ],
         // ANTRIAN BPJS

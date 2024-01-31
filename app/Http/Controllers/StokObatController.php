@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Antrian;
 use App\Models\Obat;
 use App\Models\StokObat;
 use Carbon\Carbon;
@@ -144,18 +145,24 @@ class StokObatController extends Controller
         ));
     }
 
-    public function edit(string $id)
+    public function laporanobatpasien(Request $request)
     {
-        //
-    }
-
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    public function destroy(string $id)
-    {
-        //
+        $antrians = null;
+        $reseps = null;
+        if ($request->tanggalperiksa) {
+            $antrians = Antrian::where('tanggalperiksa', $request->tanggalperiksa)->with('resepobat')->whereHas('resepobat')->get();
+        }
+        if ($request->pencarian) {
+            $request->validate([
+                'pencarian' => 'required|min:3',
+            ]);
+            $antrians = Antrian::where('norm', $request->pencarian)->with('resepobat')
+                ->orWhere('nama', 'LIKE', '%' . $request->pencarian . '%')->whereHas('resepobat')->get();
+        }
+        return view('sim.laporan_pelayanan_obat', compact([
+            'request',
+            'reseps',
+            'antrians',
+        ]));
     }
 }
