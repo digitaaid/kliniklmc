@@ -97,6 +97,16 @@ class StokObatController extends Controller
         Alert::success('Success', 'Berhasil Kunci Stok');
         return redirect()->back();
     }
+    public function hapus_kartustokobat(Request $request)
+    {
+        $stok = StokObat::with('obat')->find($request->kodestok);
+        $request['user_id'] = Auth::user()->id;
+        $request['pic'] = Auth::user()->name;
+        $request['status'] = $stok->status == 99 ? 1 : 99;
+        $stok->update($request->all());
+        Alert::success('Success', 'Berhasil Hapus Stok');
+        return redirect()->back();
+    }
 
     public function print_kartustokobat(Request $request)
     {

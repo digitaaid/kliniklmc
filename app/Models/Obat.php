@@ -27,10 +27,10 @@ class Obat extends Model
         $obat_keluar = 0;
         $obat_masuk = 0;
         if ($this->reseps) {
-            $obat_keluar = $this->reseps->sum('jumlah');
+            $obat_keluar = $this->reseps->where('status','!=','99')->sum('jumlah');
         }
         if ($this->stoks) {
-            $obat_masuk = $this->stoks->sum('jumlah');
+            $obat_masuk = $this->stoks->where('status','!=','99')->sum('jumlah');
         }
         $realstok = $obat_masuk - $obat_keluar;
         return $realstok; //or however you want to manipulate it

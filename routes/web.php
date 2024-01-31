@@ -214,6 +214,7 @@ Route::middleware('auth')->group(function () {
     Route::get('edit_kartustokobat', [StokObatController::class, 'edit_kartustokobat'])->name('edit_kartustokobat');
     Route::post('update_kartustokobat', [StokObatController::class, 'update_kartustokobat'])->name('update_kartustokobat');
     Route::get('kunci_kartustokobat', [StokObatController::class, 'kunci_kartustokobat'])->name('kunci_kartustokobat');
+    Route::get('hapus_kartustokobat', [StokObatController::class, 'hapus_kartustokobat'])->name('hapus_kartustokobat');
     // lab
     Route::get('antrianlaboratorium', [FormController::class, 'antrianlaboratorium'])->name('antrianlaboratorium');
     Route::get('permintaanlab_index', [LaboratoriumController::class, 'permintaanlab_index'])->name('permintaanlab_index');

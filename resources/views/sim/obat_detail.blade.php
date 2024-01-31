@@ -160,7 +160,8 @@
                             <td>{{ $obat->nama }}</td>
                             <td></td>
                             <td></td>
-                            <td>{{ $resep->jumlah }}</td>
+                            <td>
+                                {{ $resep->jumlah }}</td>
                             <td>-</td>
                         </tr>
                     @endforeach
@@ -170,21 +171,36 @@
                             <td>
                                 <x-adminlte-button class="btn-xs" onclick="editStokObat(this)" title="Edit Kartu Stok"
                                     theme="warning" icon="fas fa-edit" data-id="{{ $stok->id }}" />
-                                @if ($stok->status == 2)
-                                    <x-adminlte-button class="btn-xs" title="Buka Kunci Kartu Stok"
-                                        onclick="window.location.replace('{{ route('kunci_kartustokobat') }}?kodestok={{ $stok->id }}')"
-                                        theme="secondary" icon="fas fa-lock" />
+                                @if ($stok->status == 99)
+                                    <x-adminlte-button class="btn-xs" title="Batal Hapus Kartu Stok"
+                                        onclick="window.location.replace('{{ route('hapus_kartustokobat') }}?kodestok={{ $stok->id }}')"
+                                        theme="secondary" icon="fas fa-trash" />
                                 @else
-                                    <x-adminlte-button class="btn-xs" title="Kunci Kartu Stok" theme="primary"
-                                        onclick="window.location.replace('{{ route('kunci_kartustokobat') }}?kodestok={{ $stok->id }}')"
-                                        icon="fas fa-lock" />
+                                    @if ($stok->status == 2)
+                                        <x-adminlte-button class="btn-xs" title="Buka Kunci Kartu Stok"
+                                            onclick="window.location.replace('{{ route('kunci_kartustokobat') }}?kodestok={{ $stok->id }}')"
+                                            theme="secondary" icon="fas fa-lock" />
+                                    @else
+                                        <x-adminlte-button class="btn-xs" title="Kunci Kartu Stok" theme="primary"
+                                            onclick="window.location.replace('{{ route('kunci_kartustokobat') }}?kodestok={{ $stok->id }}')"
+                                            icon="fas fa-lock" />
+                                        <x-adminlte-button class="btn-xs" title="Hapus Kartu Stok" theme="danger"
+                                            onclick="window.location.replace('{{ route('hapus_kartustokobat') }}?kodestok={{ $stok->id }}')"
+                                            icon="fas fa-trash" />
+                                    @endif
                                 @endif
                             </td>
                             <td>{{ $stok->kode }}</td>
                             <td>FARMASI</td>
                             <td>{{ $stok->nama }}</td>
                             <td>{{ $stok->tgl_expire }}</td>
-                            <td>{{ $stok->jumlah }}</td>
+                            <td>
+                                @if ($stok->status == 99)
+                                    <del>{{ $stok->jumlah }}</del>
+                                @else
+                                    {{ $stok->jumlah }}
+                                @endif
+                            </td>
                             <td></td>
                             <td>{{ $stok->pic }}</td>
                         </tr>
