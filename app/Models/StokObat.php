@@ -9,4 +9,9 @@ class StokObat extends Model
 {
     use HasFactory;
     protected $guarded = ['id'];
+
+    public function obat()
+    {
+        return $this->hasOne(Obat::class, 'id', 'obat_id');
+    }
 }

@@ -6,6 +6,7 @@ use App\Models\Obat;
 use App\Models\StokObat;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class StokObatController extends Controller
@@ -50,6 +51,53 @@ class StokObatController extends Controller
             'obat'
         ));
     }
+    public function edit_kartustokobat(Request $request)
+    {
+        $stok = StokObat::with('obat')->find($request->id);
+        $obat = $stok->obat;
+        return view('sim.stokobat_edit', compact(
+            'stok',
+            'obat',
+        ));
+    }
+
+    public function update_kartustokobat(Request $request)
+    {
+        $stok = StokObat::with('obat')->find($request->stok_id);
+        $obat = $stok->obat;
+        if ($stok->status == 1) {
+            if ($request->jumlah_kemasan) {
+                $request['jumlah'] = $request->jumlah + ($obat->konversi_satuan * $request->jumlah_kemasan);
+            }
+            $request['user_id'] = Auth::user()->id;
+            $request['pic'] = Auth::user()->name;
+            $request['harga_beli'] = str_replace(".", "", $request->harga_beli);
+            $hargadiskon = $request->harga_beli - ($request->harga_beli * $request->diskon_beli / 100);
+            $hargapppn = $hargadiskon + ($hargadiskon * 11 / 100);
+            $hargabelisatuan = $hargapppn / $obat->konversi_satuan;
+            $hargatotal = $hargabelisatuan * $request->jumlah;
+            $request['harga_total'] = round($hargatotal);
+            $stok->updateOrCreate([
+                'kode' => $stok->kode
+            ], $request->all());
+            Alert::success('Success', 'Berhasil Update Stok');
+        } else {
+            Alert::error('Error', 'Tidak bisa diupdate karena sudah dikunci');
+        }
+        return redirect()->back();
+    }
+
+    public function kunci_kartustokobat(Request $request)
+    {
+        $stok = StokObat::with('obat')->find($request->kodestok);
+        $request['user_id'] = Auth::user()->id;
+        $request['pic'] = Auth::user()->name;
+        $request['status'] = $stok->status == 1 ? 2 : 1;
+        $stok->update($request->all());
+        Alert::success('Success', 'Berhasil Kunci Stok');
+        return redirect()->back();
+    }
+
     public function print_kartustokobat(Request $request)
     {
         $obat = Obat::find($request->obat);

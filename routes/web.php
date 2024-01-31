@@ -211,6 +211,9 @@ Route::middleware('auth')->group(function () {
     Route::get('print_resepkemoterapi', [FormController::class, 'print_resepkemoterapi'])->name('print_resepkemoterapi');
     Route::get('print_asesmenfarmasi', [FormController::class, 'print_asesmenfarmasi'])->name('print_asesmenfarmasi');
     Route::get('print_kartustokobat', [StokObatController::class, 'print_kartustokobat'])->name('print_kartustokobat');
+    Route::get('edit_kartustokobat', [StokObatController::class, 'edit_kartustokobat'])->name('edit_kartustokobat');
+    Route::post('update_kartustokobat', [StokObatController::class, 'update_kartustokobat'])->name('update_kartustokobat');
+    Route::get('kunci_kartustokobat', [StokObatController::class, 'kunci_kartustokobat'])->name('kunci_kartustokobat');
     // lab
     Route::get('antrianlaboratorium', [FormController::class, 'antrianlaboratorium'])->name('antrianlaboratorium');
     Route::get('permintaanlab_index', [LaboratoriumController::class, 'permintaanlab_index'])->name('permintaanlab_index');

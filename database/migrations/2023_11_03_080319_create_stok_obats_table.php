@@ -24,6 +24,8 @@ return new class extends Migration
             $table->date('tgl_expire');
             $table->text('keterangan')->nullable();
             $table->string('status')->default(1);
+            $table->string('user_id');
+            $table->string('pic');
             $table->timestamps();
         });
     }

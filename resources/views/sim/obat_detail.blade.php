@@ -142,7 +142,7 @@
             </x-adminlte-card>
             <x-adminlte-card theme="primary" title="Kartu Stok">
                 @php
-                    $heads = ['Tanggal', 'Kode Resep', 'Pasien', 'Nama Obat', 'Exp. Date', 'In', 'Out', 'PIC'];
+                    $heads = ['Tanggal', 'Action', 'Kode Resep', 'Pasien', 'Nama Obat', 'Exp. Date', 'In', 'Out', 'PIC'];
                     $config['order'] = [0, 'desc'];
                     $config['paging'] = false;
                     $config['info'] = false;
@@ -152,6 +152,7 @@
                     @foreach ($obat->reseps as $resep)
                         <tr>
                             <td>{{ Carbon\Carbon::parse($resep->created_at)->format('Y-m-d') }}</td>
+                            <td></td>
                             <td>{{ $resep->koderesep }}</td>
                             <td>
                                 {{ $resep->resepobat ? $resep->resepobat->nama : '-' }}
@@ -166,17 +167,31 @@
                     @foreach ($obat->stoks as $stok)
                         <tr>
                             <td>{{ Carbon\Carbon::parse($stok->tgl_input)->format('Y-m-d') }}</td>
+                            <td>
+                                <x-adminlte-button class="btn-xs" onclick="editStokObat(this)" title="Edit Kartu Stok"
+                                    theme="warning" icon="fas fa-edit" data-id="{{ $stok->id }}" />
+                                @if ($stok->status == 2)
+                                    <x-adminlte-button class="btn-xs" title="Buka Kunci Kartu Stok"
+                                        onclick="window.location.replace('{{ route('kunci_kartustokobat') }}?kodestok={{ $stok->id }}')"
+                                        theme="secondary" icon="fas fa-lock" />
+                                @else
+                                    <x-adminlte-button class="btn-xs" title="Kunci Kartu Stok" theme="primary"
+                                        onclick="window.location.replace('{{ route('kunci_kartustokobat') }}?kodestok={{ $stok->id }}')"
+                                        icon="fas fa-lock" />
+                                @endif
+                            </td>
                             <td>{{ $stok->kode }}</td>
                             <td>FARMASI</td>
                             <td>{{ $stok->nama }}</td>
                             <td>{{ $stok->tgl_expire }}</td>
                             <td>{{ $stok->jumlah }}</td>
                             <td></td>
-                            <td>-</td>
+                            <td>{{ $stok->pic }}</td>
                         </tr>
                     @endforeach
                 </x-adminlte-datatable>
-                <a href="{{ route('print_kartustokobat') }}?obat={{ $obat->id }}" target="_blank" class="btn btn-sm btn-success">Print Kartu Stok</a>
+                <a href="{{ route('print_kartustokobat') }}?obat={{ $obat->id }}" target="_blank"
+                    class="btn btn-sm btn-success">Print Kartu Stok</a>
             </x-adminlte-card>
             <x-adminlte-card theme="primary" title="Riwayat Input Stok Obat">
                 @php
@@ -233,10 +248,19 @@
             </x-adminlte-input-date>
             <x-slot name="footerSlot">
                 <x-adminlte-button form="formStok" class="mr-auto" type="submit" icon="fas fa-save" theme="success"
-                    label="Import" />
+                    label="Simpan" />
                 <x-adminlte-button theme="danger" icon="fas fa-times" label="Kembali" data-dismiss="modal" />
             </x-slot>
         </form>
+    </x-adminlte-modal>
+    <x-adminlte-modal id="modalEditStok" title="Update Stok Obat" size="xl" icon="fas fa-pills" theme="success"
+        static-backdrop>
+        <div id="formEditStok"></div>
+        <x-slot name="footerSlot">
+            <x-adminlte-button form="formEditStokObat" class="mr-auto" type="submit" icon="fas fa-save"
+                theme="success" label="Update" />
+            <x-adminlte-button theme="danger" icon="fas fa-times" label="Kembali" data-dismiss="modal" />
+        </x-slot>
     </x-adminlte-modal>
     <x-adminlte-modal id="modalSatuan" title="Tambah Satuan Obat" icon="fas fa-pills" theme="warning" static-backdrop>
         <form id="formSatuan">
@@ -332,6 +356,23 @@
             $.LoadingOverlay("show");
             $('#modalInputStok').modal('show');
             $.LoadingOverlay("hide");
+        }
+
+        function editStokObat(button) {
+            $.LoadingOverlay("show");
+            var url = "{{ route('edit_kartustokobat') }}?id=" + $(button).data('id');
+            $.ajax({
+                url: url,
+                method: "GET",
+            }).done(function(data) {
+                console.log(data);
+                $('#formEditStok').html(data);
+                $('#modalEditStok').modal('show');
+                $.LoadingOverlay("hide");
+            }).fail(function(data, textStatus, errorThrown) {
+                console.log(data);
+                $.LoadingOverlay("hide");
+            });
         }
     </script>
 
