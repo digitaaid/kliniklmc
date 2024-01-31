@@ -100,11 +100,15 @@ class StokObatController extends Controller
     public function hapus_kartustokobat(Request $request)
     {
         $stok = StokObat::with('obat')->find($request->kodestok);
-        $request['user_id'] = Auth::user()->id;
-        $request['pic'] = Auth::user()->name;
-        $request['status'] = $stok->status == 99 ? 1 : 99;
-        $stok->update($request->all());
-        Alert::success('Success', 'Berhasil Hapus Stok');
+        if ($stok->status == 1) {
+            $request['user_id'] = Auth::user()->id;
+            $request['pic'] = Auth::user()->name;
+            $request['status'] = $stok->status == 99 ? 1 : 99;
+            $stok->update($request->all());
+            Alert::success('Success', 'Berhasil Hapus Stok');
+        } else {
+            Alert::error('Error', 'Tidak bisa diupdate karena sudah dikunci');
+        }
         return redirect()->back();
     }
 
