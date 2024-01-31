@@ -21,11 +21,11 @@
           $config = ['format' => 'YYYY-MM-DD'];
       @endphp
       <x-adminlte-input-date name="tgl_input" label="Tgl Input" fgroup-class="row" label-class="text-right col-3"
-          igroup-size="sm" igroup-class="col-9" value="{{ now()->format('Y-m-d') }}" placeholder="Pilih Tanggal"
+          igroup-size="sm" igroup-class="col-9" value="{{ $stok->tgl_input }}" placeholder="Pilih Tanggal"
           :config="$config">
       </x-adminlte-input-date>
       <x-adminlte-input-date name="tgl_expire" label="Tgl Expire" fgroup-class="row" label-class="text-right col-3"
-          igroup-size="sm" igroup-class="col-9" value="{{ now()->format('Y-m-d') }}" placeholder="Pilih Tanggal"
+          igroup-size="sm" igroup-class="col-9" value="{{ $stok->tgl_expire }}" placeholder="Pilih Tanggal"
           :config="$config">
       </x-adminlte-input-date>
       <x-slot name="footerSlot">
