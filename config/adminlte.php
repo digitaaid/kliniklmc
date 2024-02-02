@@ -560,7 +560,7 @@ return [
                     'shift'   => 'ml-2',
                 ],
                 [
-                    'text' => 'Laporan Obat',
+                    'text' => 'Laporan Resep Obat',
                     'icon'    => 'fas fa-chart-line',
                     'url'  => 'laporanobat',
                     'shift'   => 'ml-2',

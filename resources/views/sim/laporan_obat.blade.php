@@ -1,28 +1,14 @@
 @extends('adminlte::page')
-@section('title', 'Laporan Obat')
+@section('title', 'Laporan Resep Obat')
 @section('content_header')
-    <h1>Laporan Obat</h1>
+    <h1>Laporan Resep Obat</h1>
 @stop
 @section('content')
     <div class="row">
         <div class="col-md-12">
-            <x-adminlte-card title="Filter Data Obat" theme="secondary" collapsible>
-                <form action="" method="get">
-                    <div class="row">
-                        <div class="col-md-12">
-
-
-                        </div>
-                    </div>
-                    <x-adminlte-button type="submit" class="withLoad" theme="primary" label="Submit Antrian" />
-                </form>
-            </x-adminlte-card>
-        </div>
-        <div class="col-md-12">
-
             <x-adminlte-card title="Data Resep Obat" theme="secondary" icon="fas fa-info-circle" collapsible>
                 <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-md-5">
                         <form action="" method="get">
                             @php
                                 $config = [
@@ -31,21 +17,20 @@
                                 ];
                             @endphp
                             <x-adminlte-date-range name="tanggal" value="{{ $request->tanggal }}" :config="$config"
-                                label="Periode Tanggal">
+                                label="Periode Tanggal" fgroup-class="row" label-class="text-right col-3" igroup-size="sm"
+                                igroup-class="col-9">
                                 <x-slot name="prependSlot">
                                     <div class="input-group-text text-primary">
                                         <i class="fas fa-calendar-alt"></i>
                                     </div>
                                 </x-slot>
                                 <x-slot name="appendSlot">
-                                    <x-adminlte-button type="submit" theme="primary" label="Cari Tanggal" />
+                                    <x-adminlte-button type="submit" theme="primary" label="Cari" />
                                 </x-slot>
                             </x-adminlte-date-range>
                         </form>
                     </div>
-                    <div class="col-md-4">
-                    </div>
-                    <div class="col-md-4">
+                    <div class="col-md-7">
                     </div>
                 </div>
                 @php

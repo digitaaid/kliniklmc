@@ -29,7 +29,8 @@ class StokObatController extends Controller
     {
         $now = now()->timestamp;
         $request['kode'] = 'SO' . $now;
-
+        $request['user_id'] = Auth::user()->id;
+        $request['pic'] = Auth::user()->name;
         $obat = Obat::find($request->obat_id);
         if ($request->jumlah_kemasan) {
             $request['jumlah'] = $request->jumlah + ($obat->konversi_satuan * $request->jumlah_kemasan);
