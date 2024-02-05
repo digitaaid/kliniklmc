@@ -382,6 +382,13 @@ return [
                     'can' => 'farmasi',
                 ],
                 [
+                    'text' => 'Pembelian Obat',
+                    'icon'    => 'fas fa-pills',
+                    'url'  => 'pembelianobat',
+                    'shift'   => 'ml-2',
+                    'can' => 'farmasi',
+                ],
+                [
                     'text' => 'Permintaan Laboratorium',
                     'icon'    => 'fas fa-vials',
                     'url'  => 'permintaanlab_index',
@@ -781,6 +788,55 @@ return [
                     ]
                 ],
 
+            ],
+        ],
+        [
+            'text'    => 'Integrasi Satu Sehat',
+            'icon'    => 'fas fa-project-diagram',
+            'can' => ['bpjs', 'pendaftaran'],
+            'submenu' => [
+                [
+                    'text' => 'Patient',
+                    'icon'    => 'fas fa-user-injured',
+                    'url'  => 'satusehat/patient',
+                    'shift'   => 'ml-2',
+                    'can' => ['bpjs', 'pendaftaran', 'casemix'],
+                ],
+                [
+                    'text' => 'Practitioner',
+                    'icon'    => 'fas fa-user-md',
+                    'url'  => 'satusehat/practitioner',
+                    'shift'   => 'ml-2',
+                    'can' => ['bpjs', 'pendaftaran', 'casemix'],
+                ],
+                [
+                    'text' => 'Organization',
+                    'icon'    => 'fas fa-hospital',
+                    'url'  => 'satusehat/organization',
+                    'shift'   => 'ml-2',
+                    'can' => ['bpjs', 'pendaftaran', 'casemix'],
+                ],
+                [
+                    'text' => 'Location',
+                    'icon'    => 'fas fa-hospital',
+                    'url'  => 'satusehat/location',
+                    'shift'   => 'ml-2',
+                    'can' => ['bpjs', 'pendaftaran', 'casemix'],
+                ],
+                [
+                    'text' => 'Encouter',
+                    'icon'    => 'fas fa-user',
+                    'url'  => 'satusehat/patnt',
+                    'shift'   => 'ml-2',
+                    'can' => ['bpjs', 'pendaftaran', 'casemix'],
+                ],
+                [
+                    'text' => 'Condition',
+                    'icon'    => 'fas fa-user',
+                    'url'  => 'satusehat/pient',
+                    'shift'   => 'ml-2',
+                    'can' => ['bpjs', 'pendaftaran', 'casemix'],
+                ],
             ],
         ],
         // MODUL TESTING

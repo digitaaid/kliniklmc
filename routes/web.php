@@ -22,15 +22,19 @@ use App\Http\Controllers\LaboratoriumController;
 use App\Http\Controllers\LaravoltIndonesiaController;
 use App\Http\Controllers\MerkBarangController;
 use App\Http\Controllers\ObatController;
+use App\Http\Controllers\OrganizationController;
 use App\Http\Controllers\ParameterLabController;
 use App\Http\Controllers\PasienController;
+use App\Http\Controllers\PatientController;
 use App\Http\Controllers\PendaftaranController;
 use App\Http\Controllers\PerawatController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\PoliklinikController;
+use App\Http\Controllers\PractitionerController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\RujukanController;
 use App\Http\Controllers\SatuanObatController;
+use App\Http\Controllers\SatuSehatController;
 use App\Http\Controllers\SepController;
 use App\Http\Controllers\SocialiteController;
 use App\Http\Controllers\StokObatController;
@@ -279,4 +283,16 @@ Route::middleware('auth')->group(function () {
     Route::get('suratkontrol_hapus', [SuratKontrolController::class, 'suratkontrol_hapus'])->name('suratkontrol_hapus');
     // snyc
     Route::get('sync_antrian_bpjs', [SyncronizeController::class, 'sync_antrian_bpjs'])->name('sync_antrian_bpjs');
+
+    Route::prefix('satusehat')->group(function () {
+        Route::get('token_generate', [SatuSehatController::class, 'token_generate'])->name('token_generate');
+        Route::get('patient', [PatientController::class, 'index'])->name('patient');
+        Route::get('patient_by_nik', [PatientController::class, 'patient_by_nik'])->name('patient_by_nik');
+        Route::get('patient_sync', [PatientController::class, 'patient_sync'])->name('patient_sync');
+        Route::get('practitioner', [PractitionerController::class, 'index'])->name('practitioner');
+        Route::get('practitioner_by_nik', [PractitionerController::class, 'practitioner_by_nik'])->name('practitioner_by_nik');
+        Route::get('practitioner_sync', [PractitionerController::class, 'practitioner_sync'])->name('practitioner_sync');
+        Route::get('organization', [OrganizationController::class, 'index'])->name('organization');
+        Route::get('organization_sync', [OrganizationController::class, 'organization_sync'])->name('organization_sync');
+    });
 });
