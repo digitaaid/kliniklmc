@@ -198,6 +198,14 @@ Route::middleware('auth')->group(function () {
     Route::get('print_asesmendokter', [FormController::class, 'print_asesmendokter'])->name('print_asesmendokter');
     // farmasi
     Route::get('antrianfarmasi', [FarmasiController::class, 'antrianfarmasi'])->name('antrianfarmasi');
+
+    Route::prefix('pelayanan')->name('pelayanan.')->group(function () {
+        Route::get('farmasi', [FarmasiController::class, 'farmasi'])->name('farmasi');
+        Route::prefix('farmasi')->name('farmasi.')->group(function () {
+            Route::get('table_antrian_resep_obat', [FarmasiController::class, 'table_antrian_resep_obat'])->name('table_antrian_resep_obat');
+        });
+    });
+
     Route::get('getantrianfarmasi', [FarmasiController::class, 'getantrianfarmasi'])->name('getantrianfarmasi');
     Route::get('terimafarmasi', [FarmasiController::class, 'terimafarmasi'])->name('terimafarmasi');
     Route::get('selesaifarmasi', [FarmasiController::class, 'selesaifarmasi'])->name('selesaifarmasi');
@@ -249,7 +257,6 @@ Route::middleware('auth')->group(function () {
     Route::get('listTaskID', [AntrianController::class, 'listTaskID'])->name('listTaskID');
     Route::get('dashboardTanggalAntrian', [AntrianController::class, 'dashboardTanggalAntrian'])->name('dashboardTanggalAntrian');
     Route::get('dashboardBulanAntrian', [AntrianController::class, 'dashboardBulanAntrian'])->name('dashboardBulanAntrian');
-    Route::get('jadwalOperasi', [JadwalOperasiController::class, 'jadwalOperasi'])->name('jadwalOperasi');
     Route::get('antrianPerTanggal', [AntrianController::class, 'antrianPerTanggal'])->name('antrianPerTanggal');
     Route::get('antrianPerKodebooking', [AntrianController::class, 'antrianPerKodebooking'])->name('antrianPerKodebooking');
     Route::get('antrianKodebookingLanjut', [AntrianController::class, 'antrianKodebookingLanjut'])->name('antrianKodebookingLanjut');

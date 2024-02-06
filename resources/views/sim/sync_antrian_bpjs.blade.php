@@ -147,7 +147,7 @@
         }
         $(function() {
             if ("{{ $request->sync }}" == 'ON') {
-                setInterval(syncantrian, 2000);
+                setTimeout(syncantrian, 2000);
             }
         });
     </script>

@@ -382,9 +382,9 @@ return [
                     'can' => 'farmasi',
                 ],
                 [
-                    'text' => 'Pembelian Obat',
+                    'text' => 'Pelayanan Farmasi',
                     'icon'    => 'fas fa-pills',
-                    'url'  => 'pembelianobat',
+                    'url'  => 'pelayanan/farmasi',
                     'shift'   => 'ml-2',
                     'can' => 'farmasi',
                 ],

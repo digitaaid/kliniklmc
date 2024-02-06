@@ -28,6 +28,31 @@ class FarmasiController extends APIController
             'antrians',
         ]));
     }
+    public function farmasi(Request $request)
+    {
+        $antrians = null;
+        // if ($request->tanggalperiksa) {
+        //     $antrians = Antrian::where('tanggalperiksa', $request->tanggalperiksa)->where('taskid', '!=', 99)->get();
+        // } else {
+        //     // $request['tanggalperiksa'] = now()->format('Y-m-d');
+        // }
+        return view('sim.pelayanan_farmasi', compact([
+            'request',
+            'antrians',
+        ]));
+    }
+    public function table_antrian_resep_obat(Request $request)
+    {
+        $antrians = Antrian::where('tanggalperiksa', $request->tanggalperiksa)
+            ->whereHas('resepobat')
+            ->where('taskid', '!=', 99)
+            ->get();
+        return view('sim.table_antrian_resep_obat', compact([
+            'request',
+            'antrians',
+        ]));
+    }
+
     public function getantrianfarmasi(Request $request)
     {
         if ($request->tanggalperiksa) {
