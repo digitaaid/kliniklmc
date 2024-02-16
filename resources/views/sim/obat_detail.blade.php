@@ -13,8 +13,8 @@
                 icon="fas fa-pills" />
         </div>
         <div class="col-md-3">
-            <x-adminlte-small-box title="{{ $obat->stoks->sum('jumlah') }}" text="Input Stok Obat" theme="primary"
-                icon="fas fa-pills" />
+            <x-adminlte-small-box title="{{ $obat->stoks->where('status', '!=', 99)->sum('jumlah') }}" text="Input Stok Obat"
+                theme="primary" icon="fas fa-pills" />
         </div>
         <div class="col-md-3">
             <x-adminlte-small-box title="{{ $obat->reseps->sum('jumlah') }}" text="Penggunaan Resep Obat" theme="warning"

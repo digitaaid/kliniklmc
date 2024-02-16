@@ -5,11 +5,110 @@
 @stop
 @section('content')
     <div class="row">
+        @if ($antrians)
+            <div class="col-md-12">
+                <div class="row">
+                    @foreach ($antrians->where('taskid', 6) as $item)
+                        <div class="col-md-3">
+                            <div class="card card-primary">
+                                <div class="card-header">
+                                    <h3 class="card-title">{{ $item->nomorantrean }} ({{ $item->jenispasien }})</h3> <br>
+                                    <h3 class="card-title">{{ $item->kunjungan->nama }}</h3> <br>
+                                </div>
+                                <div class="card-body">
+                                    <p>
+                                        <b>No RM : </b> {{ $item->kunjungan->norm }} <br>
+                                        <b>Nama : </b> {{ $item->kunjungan->nama }} <br>
+                                        <b>Tgl Lahir : </b> {{ $item->kunjungan->tgl_lahir }} <br>
+                                        <b>Kelamin : </b> {{ $item->kunjungan->gender }}
+                                    </p>
+                                    <hr>
+                                    <strong><i class="fas fa-pills mr-1"></i> Resep Obat</strong>
+                                    <br>
+                                    @if ($item->resepobat)
+                                        @foreach ($item->resepobat->resepdetail as $itemobat)
+                                            <b> R/ {{ $itemobat->nama }} </b> ({{ $itemobat->jumlah }}) <br>
+                                            &emsp;&emsp;
+                                            @switch($itemobat->interval)
+                                                @case('qod')
+                                                    1x1
+                                                @break
+
+                                                @case('bid')
+                                                    2x1
+                                                @break
+
+                                                @case('tid')
+                                                    3x1
+                                                @break
+
+                                                @case('qid')
+                                                    4x1
+                                                @break
+
+                                                @case('prn')
+                                                    SESUAI KEBUTUHAN
+                                                @break
+
+                                                @case('q3h')
+                                                    SETIAP 3 JAM
+                                                @break
+
+                                                @case('q4h')
+                                                    SETIAP 4 JAM
+                                                @break
+
+                                                @default
+                                            @endswitch
+
+
+                                            @switch($itemobat->waktu)
+                                                @case('pc')
+                                                    SETELAH MAKAN
+                                                @break
+
+                                                @case('ac')
+                                                    SEBELUM MAKAN
+                                                @break
+
+                                                @case('hs')
+                                                    SEBELUM TIDUR
+                                                @break
+
+                                                @case('int')
+                                                    DIANTARA WAKTU MAKAN
+                                                @break
+
+                                                @default
+                                            @endswitch
+                                            {{ $itemobat->keterangan }} <br>
+                                        @endforeach
+                                    @endif
+                                    <br>
+                                    @if ($item->kunjungan->asesmendokter)
+                                        <p>{{ $item->kunjungan->asesmendokter->resep_obat }}</p>
+                                        <hr>
+                                        <strong><i class="fas fa-pills mr-1"></i> Catatan Resep</strong>
+                                        <pre>{{ $item->kunjungan->asesmendokter->catatan_resep }}</pre>
+                                    @endif
+
+                                </div>
+                                <div class="card-footer">
+                                    <a href="{{ route('selesaifarmasi') }}?kodebooking={{ $item->kodebooking }}"
+                                        class="btn btn-success withLoad"><i class="fas fa-check"></i> Selesai</a>
+                                    <x-adminlte-button icon="fas fa-edit" theme="success" label="Edit"
+                                        onclick="editResep(this)" data-kode="{{ $item->kodebooking }}" />
+                                    <a href="{{ route('print_asesmenfarmasi') }}?kodebooking={{ $item->kodebooking }}"
+                                        class="btn btn-warning" target="_blank"> <i class="fas fa-print"></i> Print</a>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        @endif
         <div class="col-md-12">
-        </div>
-        <div class="col-md-12">
-            <x-adminlte-card title="Data Antrian Farmasi" theme="secondary" icon="fas fa-info-circle"
-                collapsible="{{ $antrians ? ($antrians->where('taskid', 6)->count() ? 'collapsed' : null) : null }}">
+            <x-adminlte-card title="Data Antrian Farmasi" theme="secondary" icon="fas fa-info-circle" collapsible="">
                 @if ($antrians)
                     <div class="row">
                         <div class="col-md-3">
@@ -34,10 +133,10 @@
                     </div>
                 @endif
                 <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <form action="" method="get">
                             <div class="row">
-                                <div class="col-md-12">
+                                <div class="col-md-6">
                                     @php
                                         $config = ['format' => 'YYYY-MM-DD'];
                                     @endphp
@@ -54,10 +153,14 @@
                                         </x-slot>
                                     </x-adminlte-input-date>
                                 </div>
+                                <div class="col-md-6">
+                                    <x-adminlte-button label="Tambah Order Obat" onclick="orderObat()" class="btn-sm"
+                                        theme="success" icon="fas fa-plus" />
+                                </div>
                             </div>
                         </form>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-2">
                     </div>
                     <div class="col-md-4">
                         <form action="" method="get">
@@ -172,108 +275,6 @@
                 </x-adminlte-datatable>
             </x-adminlte-card>
         </div>
-        <div class="col-md-12">
-            <div class="row">
-                @if ($antrians)
-                    @foreach ($antrians->where('taskid', 6) as $item)
-                        <div class="col-md-3">
-                            <div class="card card-primary">
-                                <div class="card-header">
-                                    <h3 class="card-title">{{ $item->nomorantrean }} ({{ $item->jenispasien }})</h3> <br>
-                                    <h3 class="card-title">{{ $item->kunjungan->nama }}</h3> <br>
-                                </div>
-                                <div class="card-body">
-                                    <p>
-                                        <b>No RM : </b> {{ $item->kunjungan->norm }} <br>
-                                        <b>Nama : </b> {{ $item->kunjungan->nama }} <br>
-                                        <b>Tgl Lahir : </b> {{ $item->kunjungan->tgl_lahir }} <br>
-                                        <b>Kelamin : </b> {{ $item->kunjungan->gender }}
-                                    </p>
-                                    <hr>
-                                    <strong><i class="fas fa-pills mr-1"></i> Resep Obat</strong>
-                                    <br>
-                                    @if ($item->resepobat)
-                                        @foreach ($item->resepobat->resepdetail as $itemobat)
-                                            <b> R/ {{ $itemobat->nama }} </b> ({{ $itemobat->jumlah }}) <br>
-                                            &emsp;&emsp;
-                                            @switch($itemobat->interval)
-                                                @case('qod')
-                                                    1x1
-                                                @break
-
-                                                @case('bid')
-                                                    2x1
-                                                @break
-
-                                                @case('tid')
-                                                    3x1
-                                                @break
-
-                                                @case('qid')
-                                                    4x1
-                                                @break
-
-                                                @case('prn')
-                                                    SESUAI KEBUTUHAN
-                                                @break
-
-                                                @case('q3h')
-                                                    SETIAP 3 JAM
-                                                @break
-
-                                                @case('q4h')
-                                                    SETIAP 4 JAM
-                                                @break
-
-                                                @default
-                                            @endswitch
-
-
-                                            @switch($itemobat->waktu)
-                                                @case('pc')
-                                                    SETELAH MAKAN
-                                                @break
-
-                                                @case('ac')
-                                                    SEBELUM MAKAN
-                                                @break
-
-                                                @case('hs')
-                                                    SEBELUM TIDUR
-                                                @break
-
-                                                @case('int')
-                                                    DIANTARA WAKTU MAKAN
-                                                @break
-
-                                                @default
-                                            @endswitch
-                                            {{ $itemobat->keterangan }} <br>
-                                        @endforeach
-                                    @endif
-                                    <br>
-                                    @if ($item->kunjungan->asesmendokter)
-                                        <p>{{ $item->kunjungan->asesmendokter->resep_obat }}</p>
-                                        <hr>
-                                        <strong><i class="fas fa-pills mr-1"></i> Catatan Resep</strong>
-                                        <pre>{{ $item->kunjungan->asesmendokter->catatan_resep }}</pre>
-                                    @endif
-
-                                </div>
-                                <div class="card-footer">
-                                    <a href="{{ route('selesaifarmasi') }}?kodebooking={{ $item->kodebooking }}"
-                                        class="btn btn-success withLoad"><i class="fas fa-check"></i> Selesai</a>
-                                    <x-adminlte-button icon="fas fa-edit" theme="success" label="Edit"
-                                        onclick="editResep(this)" data-kode="{{ $item->kodebooking }}" />
-                                    <a href="{{ route('print_asesmenfarmasi') }}?kodebooking={{ $item->kodebooking }}"
-                                        class="btn btn-warning" target="_blank"> <i class="fas fa-print"></i> Print</a>
-                                </div>
-                            </div>
-                        </div>
-                    @endforeach
-                @endif
-            </div>
-        </div>
     </div>
     <audio id="myAudio">
         <source src="{{ asset('tingtung.mp3') }}" type="audio/mpeg">
@@ -284,6 +285,75 @@
         </div>
         <x-slot name="footerSlot">
             <x-adminlte-button icon="fas fa-save" theme="success" label="Simpan" type="submit" form="formEditResep" />
+            <x-adminlte-button theme="danger" icon="fas fa-times" label="Tutup" data-dismiss="modal" />
+        </x-slot>
+    </x-adminlte-modal>
+    <x-adminlte-modal id="modalOrder" size="xl" title="Order Obat" icon="fas fa-pills" theme="warning">
+        <form id="formOrder" action={{ route('create_order_obat') }} method="POST">
+            @csrf
+            <style>
+                .cariObat {
+                    width: 300px !important;
+                }
+            </style>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <label class="mb-2">Resep Obat</label>
+                    <button id="addObatInput" type="button" class="btn btn-xs btn-success mb-2">
+                        <span class="fas fa-plus">
+                        </span> Tambah Obat
+                    </button>
+                    <div id="rowTindakan" class="row">
+                        <div class="form-group">
+                            <div class="input-group input-group-sm">
+                                <select name="obat[]" class="form-control cariObat">
+                                </select>
+                                <input type="number" name="jumlah[]" placeholder="Jumlah" class="form-control"
+                                    multiple>
+                                <select name="frekuensi[]" class="form-control frekuensilObat">
+                                    <option selected disabled>Interval</option>
+                                    <option value="qod">1 x 1</option>
+                                    <option value="dod">1 x 2</option>
+                                    <option value="bid">2 x 1</option>
+                                    <option value="tid">3 x 1</option>
+                                    <option value="qid">4 x 1</option>
+                                    <option value="202">2-0-2</option>
+                                    <option value="303">3-0-3</option>
+                                </select>
+                                <select name="waktuobat[]" class="form-control waktuObat">
+                                    <option selected>Waktu Obat</option>
+                                    <option value="pc">Setelah Makan</option>
+                                    <option value="ac">Sebelum Makan</option>
+                                    <option value="hs">Sebelum Tidur</option>
+                                    <option value="int">Diantara Waktu Makan</option>
+                                </select>
+                                <input type="text" name="keterangan_obat[]" placeholder="Keterangan Obat"
+                                    class="form-control" multiple>
+                                <button type="button" class="btn btn-xs btn-warning">
+                                    <i class="fas fa-pills "></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="newObat"></div>
+                </div>
+                <div class="col-md-6">
+                    <x-adminlte-textarea igroup-size="sm" rows=3 label="Resep Obat (Free Text)" name="resep_obat"
+                        placeholder="Resep Obat (Text)">
+                        {{ $kunjungan->asesmendokter->resep_obat ?? null }}
+                    </x-adminlte-textarea>
+                </div>
+                <div class="col-md-6">
+                    <x-adminlte-textarea igroup-size="sm" rows=3 label="Catatan Resep" name="catatan_resep"
+                        placeholder="Catatan Resep">
+                        {{ $kunjungan->asesmendokter->catatan_resep ?? null }}
+                    </x-adminlte-textarea>
+                </div>
+            </div>
+        </form>
+        <x-slot name="footerSlot">
+            <x-adminlte-button icon="fas fa-save" theme="success" label="Simpan" type="submit" form="formOrder" />
             <x-adminlte-button theme="danger" icon="fas fa-times" label="Tutup" data-dismiss="modal" />
         </x-slot>
     </x-adminlte-modal>
@@ -303,7 +373,8 @@
     </style>
 @endsection
 
-@section('js')
+@push('js')
+    {{-- otomatis suara pemanggilan --}}
     <script>
         var x = document.getElementById("myAudio");
 
@@ -370,6 +441,7 @@
             }
         });
     </script>
+    {{-- resep obat --}}
     <script>
         function editResep(button) {
             $.LoadingOverlay("show");
@@ -410,20 +482,49 @@
                 $.LoadingOverlay("hide");
             });
         }
-        // function simpanSatuan() {
-        //     $.LoadingOverlay("show");
-        //     var formData = $('#formSatuan').serialize();
-        //     console.log(formData);
-        //     $.ajax({
-        //         url: "{{ route('satuanobat.store') }}",
-        //         method: "POST",
-        //         data: formData,
-        //     }).done(function(data) {
-        //         console.log(data);
-        //         $('#modalSatuan').modal('hide');
-        //         $.LoadingOverlay("hide");
-        //     });
-        // }
+    </script>
+    {{-- order obat --}}
+    <script>
+        function orderObat() {
+            // $.LoadingOverlay("show");
+            $('#modalOrder').modal('show');
+            // var url = "{{ route('form_resep_obat') }}?kode=" + $(button).data("kode");
+            // $.ajax({
+            //     url: url,
+            //     method: "GET",
+            // }).done(function(data) {
+            //     console.log(data);
+            //     $('#formResep').html(data);
+            //     $(".cariObat").select2({
+            //         placeholder: 'Pencarian Nama Obat',
+            //         theme: "bootstrap4",
+            //         multiple: true,
+            //         maximumSelectionLength: 1,
+            //         ajax: {
+            //             url: "{{ route('ref_obat_cari') }}",
+            //             type: "get",
+            //             dataType: 'json',
+            //             delay: 100,
+            //             data: function(params) {
+            //                 return {
+            //                     nama: params.term // search term
+            //                 };
+            //             },
+            //             processResults: function(response) {
+            //                 return {
+            //                     results: response
+            //                 };
+            //             },
+            //             cache: true
+            //         }
+            //     });
+            //     $('#modalResep').modal('show');
+            //     $.LoadingOverlay("hide");
+            // }).fail(function(data, textStatus, errorThrown) {
+            //     console.log(data);
+            //     $.LoadingOverlay("hide");
+            // });
+        }
     </script>
     {{-- dynamic input --}}
     <script>
@@ -505,4 +606,4 @@
             $(this).parents("#row").remove();
         })
     </script>
-@endsection
+@endpush
