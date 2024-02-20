@@ -355,8 +355,8 @@
                                             <a href="{{ route('print_asesmenfarmasi') }}?kodebooking={{ $item->kodebooking }}"
                                                 class="btn btn-xs btn-warning" target="_blank"> <i class="fas fa-print"></i>
                                                 Print</a>
-                                            <x-adminlte-button icon="fas fa-edit" theme="success" label="Edit"
-                                                onclick="editResep(this)" data-kode="{{ $item->kodebooking }}" />
+                                            <x-adminlte-button icon="fas fa-edit" theme="warning" label="Edit"
+                                                onclick="editResep(this)" class="btn-xs" data-kode="{{ $item->kodebooking }}" />
                                             <a href="{{ route('panggilpendaftaran') }}?kodebooking={{ $item->kodebooking }}"
                                                 class="btn btn-primary btn-xs withLoad">
                                                 <i class="fas fa-volume-down"></i>
