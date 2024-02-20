@@ -191,13 +191,13 @@
                                     @endif
                                 </div>
                                 <div class="card-footer">
-                                    <a href="{{ route('selesaifarmasi') }}?kodebooking={{ $item->kode }}"
+                                    <a href="{{ route('selesai_order_obat') }}?kode={{ $item->kode }}"
                                         class="btn btn-success withLoad"><i class="fas fa-check"></i> Selesai</a>
-                                    <a href="{{ route('selesaifarmasi') }}?kodebooking={{ $item->kode }}"
+                                    <a href="{{ route('batal_order_obat') }}?kode={{ $item->kode }}"
                                         class="btn btn-danger withLoad"><i class="fas fa-times"></i> Batal</a>
                                     {{-- <x-adminlte-button icon="fas fa-edit" theme="success" label="Edit"
-                                        onclick="editResep(this)" data-kode="{{ $item->kodebooking }}" /> --}}
-                                    <a href="{{ route('print_asesmenfarmasi') }}?kodebooking={{ $item->kodebooking }}"
+                                        onclick="editResep(this)" data-kode="{{ $item->kode }}" /> --}}
+                                    <a href="{{ route('print_asesmenfarmasi') }}?kode={{ $item->kode }}"
                                         class="btn btn-warning" target="_blank"> <i class="fas fa-print"></i> Print</a>
                                 </div>
                             </div>
