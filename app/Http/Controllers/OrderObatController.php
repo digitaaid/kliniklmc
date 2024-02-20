@@ -59,6 +59,11 @@ class OrderObatController extends Controller
             'pic' => Auth::user()->name,
             'user' => Auth::user()->id,
         ]);
+        foreach ($order->orderdetail as $key => $orderobat) {
+            $orderobat->update([
+                'status' => 99
+            ]);
+        }
         Alert::success('Berhasil', 'Berhasil Batalkan Order Obat');
         return redirect()->back();
     }
@@ -70,6 +75,11 @@ class OrderObatController extends Controller
             'pic' => Auth::user()->name,
             'user' => Auth::user()->id,
         ]);
+        foreach ($order->orderdetail as $key => $orderobat) {
+            $orderobat->update([
+                'status' => 1
+            ]);
+        }
         Alert::success('Berhasil', 'Berhasil Rest Order Obat');
         return redirect()->back();
     }
@@ -81,6 +91,11 @@ class OrderObatController extends Controller
             'pic' => Auth::user()->name,
             'user' => Auth::user()->id,
         ]);
+        foreach ($order->orderdetail as $key => $orderobat) {
+            $orderobat->update([
+                'status' => 2
+            ]);
+        }
         Alert::success('Berhasil', 'Berhasil Selesai Order Obat');
         return redirect()->back();
     }
