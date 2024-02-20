@@ -21,8 +21,9 @@ class OrderObatController extends Controller
                 'nama' => $request->nama,
                 'nomorkartu' => $request->nomorkartu,
                 'nik' => $request->nik,
-                'catatan_resep' => $request->nik,
-                'resep_obat' => $request->nik,
+                'catatan_resep' => $request->catatan_resep,
+                'resep_obat' => $request->resep_obat,
+                'keterangan' => $request->keterangan,
                 'pic' => Auth::user()->name,
                 'user' => Auth::user()->id,
 
