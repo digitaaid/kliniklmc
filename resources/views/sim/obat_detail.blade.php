@@ -165,6 +165,27 @@
                             <td>-</td>
                         </tr>
                     @endforeach
+                    @foreach ($obat->orders as $resep)
+                        <tr>
+                            <td>{{ Carbon\Carbon::parse($resep->created_at)->format('Y-m-d') }}</td>
+                            <td></td>
+                            <td>
+                                {{ $resep->orderobat ? $resep->orderobat->kode : '-' }}
+                            </td>
+                            <td>
+                                {{ $resep->orderobat ? $resep->orderobat->nama : '-' }}
+                            </td>
+                            <td>{{ $obat->nama }}</td>
+                            <td></td>
+                            <td></td>
+                            <td>
+                                {{ $resep->jumlah }}</td>
+                            <td>
+                                {{ $resep->orderobat ? $resep->orderobat->pic : '-' }}
+
+                            </td>
+                        </tr>
+                    @endforeach
                     @foreach ($obat->stoks as $stok)
                         <tr>
                             <td>{{ Carbon\Carbon::parse($stok->tgl_input)->format('Y-m-d') }}</td>
@@ -205,6 +226,8 @@
                             <td>{{ $stok->pic }}</td>
                         </tr>
                     @endforeach
+
+
                 </x-adminlte-datatable>
                 <a href="{{ route('print_kartustokobat') }}?obat={{ $obat->id }}" target="_blank"
                     class="btn btn-sm btn-success">Print Kartu Stok</a>

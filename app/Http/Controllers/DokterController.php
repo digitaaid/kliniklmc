@@ -85,7 +85,7 @@ class DokterController extends Controller
     {
         $antrians = [];
         if ($request->tanggalperiksa) {
-            $antrians = Antrian::where('tanggalperiksa', $request->tanggalperiksa)->where('taskid', '!=', 99)->get();
+            $antrians = Antrian::where('tanggalperiksa', $request->tanggalperiksa)->where('taskid', '!=', 99)->where('taskid', '>', 2)->get();
         }
         if ($request->pencarian) {
             $request->validate([

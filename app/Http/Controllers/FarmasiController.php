@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Antrian;
 use App\Models\Obat;
+use App\Models\OrderObat;
 use App\Models\ResepKemoterapi;
 use App\Models\ResepObat;
 use App\Models\ResepObatDetail;
@@ -18,15 +19,18 @@ class FarmasiController extends APIController
     public function antrianfarmasi(Request $request)
     {
         $antrians = null;
+        $orders = null;
         if ($request->tanggalperiksa) {
             $antrians = Antrian::where('tanggalperiksa', $request->tanggalperiksa)->where('taskid', '!=', 99)->get();
+            $orders = OrderObat::whereDate('waktu', $request->tanggalperiksa)->get();
         } else {
             // $request['tanggalperiksa'] = now()->format('Y-m-d');
         }
-        return view('sim.antrian_farmasi', compact([
+        return view('sim.antrian_farmasi', compact(
             'request',
             'antrians',
-        ]));
+            'orders',
+        ));
     }
     public function farmasi(Request $request)
     {

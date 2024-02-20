@@ -215,6 +215,9 @@ Route::middleware('auth')->group(function () {
     Route::get('form_resep_obat', [ObatController::class, 'form_resep_obat'])->name('form_resep_obat');
     Route::post('update_resep_obat', [ObatController::class, 'update_resep_obat'])->name('update_resep_obat');
     Route::post('create_order_obat', [OrderObatController::class, 'create_order_obat'])->name('create_order_obat');
+    Route::get('selesai_order_obat', [OrderObatController::class, 'selesai_order_obat'])->name('selesai_order_obat');
+    Route::get('batal_order_obat', [OrderObatController::class, 'batal_order_obat'])->name('batal_order_obat');
+    Route::get('reset_order_obat', [OrderObatController::class, 'reset_order_obat'])->name('reset_order_obat');
     Route::get('ref_obat_cari', [ObatController::class, 'ref_obat_cari'])->name('ref_obat_cari');
     Route::get('obatkemoterapi', [FarmasiController::class, 'obatkemoterapi'])->name('obatkemoterapi');
     Route::delete('batalkemotarapi', [FarmasiController::class, 'batalkemotarapi'])->name('batalkemotarapi');

@@ -5,7 +5,7 @@
 @stop
 @section('content')
     <div class="row">
-        @if ($antrians)
+        @if ($antrians || $orders)
             <div class="col-md-12">
                 <div class="row">
                     @foreach ($antrians->where('taskid', 6) as $item)
@@ -104,6 +104,105 @@
                             </div>
                         </div>
                     @endforeach
+                    @foreach ($orders->where('status', 1) as $item)
+                        <div class="col-md-3">
+                            <div class="card card-primary">
+                                <div class="card-header">
+                                    <h3 class="card-title">{{ $item->id }} ORDER OBAT</h3> <br>
+                                    <h3 class="card-title">{{ $item->nama }}</h3> <br>
+                                </div>
+                                <div class="card-body">
+                                    <p>
+                                        <b>Kode : </b> {{ $item->kode }} <br>
+                                        <b>Nama : </b> {{ $item->nama }} <br>
+                                        <b>No Identitas : </b> {{ $item->nik }} {{ $item->nomorkartu }} <br>
+                                        {{-- <b>Tgl Lahir : </b> {{ $item->kunjungan->tgl_lahir }} <br> --}}
+                                        {{-- <b>Kelamin : </b> {{ $item->kunjungan->gender }} --}}
+                                    </p>
+                                    <hr>
+                                    <strong><i class="fas fa-pills mr-1"></i> Order Obat</strong>
+                                    <br>
+                                    @if ($item->orderdetail)
+                                        @foreach ($item->orderdetail as $itemobat)
+                                            <b> R/ {{ $itemobat->nama }} </b> ({{ $itemobat->jumlah }}) <br>
+                                            &emsp;&emsp;
+                                            @switch($itemobat->interval)
+                                                @case('qod')
+                                                    1x1
+                                                @break
+
+                                                @case('bid')
+                                                    2x1
+                                                @break
+
+                                                @case('tid')
+                                                    3x1
+                                                @break
+
+                                                @case('qid')
+                                                    4x1
+                                                @break
+
+                                                @case('prn')
+                                                    SESUAI KEBUTUHAN
+                                                @break
+
+                                                @case('q3h')
+                                                    SETIAP 3 JAM
+                                                @break
+
+                                                @case('q4h')
+                                                    SETIAP 4 JAM
+                                                @break
+
+                                                @default
+                                            @endswitch
+
+
+                                            @switch($itemobat->waktu)
+                                                @case('pc')
+                                                    SETELAH MAKAN
+                                                @break
+
+                                                @case('ac')
+                                                    SEBELUM MAKAN
+                                                @break
+
+                                                @case('hs')
+                                                    SEBELUM TIDUR
+                                                @break
+
+                                                @case('int')
+                                                    DIANTARA WAKTU MAKAN
+                                                @break
+
+                                                @default
+                                            @endswitch
+                                            {{ $itemobat->keterangan }} <br>
+                                        @endforeach
+                                    @endif
+                                    <br>
+                                    @if ($item->resep_obat || $item->catatan_resep || $item->keterangan)
+                                        <p>{{ $item->resep_obat }}</p>
+                                        <hr>
+                                        <strong><i class="fas fa-pills mr-1"></i> Catatan Resep</strong>
+                                        <pre>{{ $item->catatan_resep }}</pre>
+                                        <pre>{{ $item->keterangan }}</pre>
+                                    @endif
+                                </div>
+                                <div class="card-footer">
+                                    <a href="{{ route('selesaifarmasi') }}?kodebooking={{ $item->kode }}"
+                                        class="btn btn-success withLoad"><i class="fas fa-check"></i> Selesai</a>
+                                    <a href="{{ route('selesaifarmasi') }}?kodebooking={{ $item->kode }}"
+                                        class="btn btn-danger withLoad"><i class="fas fa-times"></i> Batal</a>
+                                    {{-- <x-adminlte-button icon="fas fa-edit" theme="success" label="Edit"
+                                        onclick="editResep(this)" data-kode="{{ $item->kodebooking }}" /> --}}
+                                    <a href="{{ route('print_asesmenfarmasi') }}?kodebooking={{ $item->kodebooking }}"
+                                        class="btn btn-warning" target="_blank"> <i class="fas fa-print"></i> Print</a>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
                 </div>
             </div>
         @endif
@@ -179,19 +278,20 @@
                     </div>
                 </div>
                 @php
-                    $heads = ['No', 'Kodebooking', 'Pasien', 'Unit', 'Dokter', 'Jenis Pasien', 'Status', 'Action'];
+                    $heads = ['Waktu', 'Kodebooking', 'No RM', 'Pasien', 'Unit', 'Dokter', 'Jenis Pasien', 'Status', 'Action'];
                     $config['order'] = [[7, 'asc']];
                     $config['paging'] = false;
                     $config['scrollY'] = '300px';
                 @endphp
                 <x-adminlte-datatable id="table1" class="nowrap" :heads="$heads" :config="$config" bordered hoverable
                     compressed>
-                    @if ($antrians)
+                    @if ($antrians || $orders)
                         @foreach ($antrians as $item)
                             <tr>
-                                <td>{{ $item->angkaantrean }}</td>
+                                <td>{{ $item->created_at }}</td>
                                 <td>{{ $item->kodebooking }}</td>
-                                <td>{{ $item->norm }} {{ $item->nama }}</td>
+                                <td>{{ $item->norm }}</td>
+                                <td>{{ $item->nama }}</td>
                                 <td>{{ $item->kunjungan ? $item->kunjungan->units->nama : '-' }}</td>
                                 <td>{{ $item->namadokter }}</td>
                                 <td>{{ $item->jenispasien }} </td>
@@ -245,7 +345,7 @@
                                         @break
 
                                         @case(6)
-                                            <x-adminlte-button icon="fas fa-edit" class="btn-xs" theme="success" label="Edit"
+                                            <x-adminlte-button icon="fas fa-edit" class="btn-xs" theme="warning" label="Edit"
                                                 onclick="editResep(this)" data-kode="{{ $item->kodebooking }}" />
                                             <a href="{{ route('selesaifarmasi') }}?kodebooking={{ $item->kodebooking }}"
                                                 class="btn btn-xs btn-success withLoad"> Selesai</a>
@@ -261,6 +361,62 @@
                                                 class="btn btn-primary btn-xs withLoad">
                                                 <i class="fas fa-volume-down"></i>
                                             </a>
+                                        @break
+
+                                        @default
+                                            <div class="btn btn-xs btn-secondary">
+                                                Belum
+                                            </div>
+                                    @endswitch
+                                </td>
+                            </tr>
+                        @endforeach
+                        @foreach ($orders as $item)
+                            <tr>
+                                <td>{{ $item->waktu }}</td>
+                                <td>{{ $item->kode }}</td>
+                                <td>{{ $item->nik }}</td>
+                                <td>{{ $item->nama }}</td>
+                                <td>FARMASI</td>
+                                <td>{{ $item->pic }}</td>
+                                <td>ORDER-OBAT</td>
+                                <td>
+                                    @switch($item->status)
+                                        @case(1)
+                                            <span class="badge badge-primary">6. Racik Obat</span>
+                                        @break
+
+                                        @case(2)
+                                            <span class="badge badge-success">7. Selesai</span>
+                                        @break
+
+                                        @case(99)
+                                            <span class="badge badge-danger">99. Batal</span>
+                                        @break
+
+                                        @default
+                                            {{ $item->status }}
+                                    @endswitch
+                                </td>
+                                <td>
+                                    @switch($item->status)
+                                        @case(1)
+                                            <x-adminlte-button icon="fas fa-edit" class="btn-xs" theme="warning" label="Edit"
+                                                onclick="editResep(this)" data-kode="{{ $item->kode }}" />
+                                            <a href="{{ route('selesai_order_obat') }}?kode={{ $item->kode }}"
+                                                class="btn btn-xs btn-success withLoad"> Selesai</a>
+                                            <a href="{{ route('batal_order_obat') }}?kode={{ $item->kode }}"
+                                                class="btn btn-xs btn-danger withLoad"><i class="fas fa-times"></i> Batal</a>
+                                        @break
+
+                                        @case(2)
+                                            <a href="{{ route('reset_order_obat') }}?kode={{ $item->kode }}"
+                                                class="btn btn-xs btn-danger withLoad"><i class="fas fa-sync"></i> Reset</a>
+                                        @break
+
+                                        @case(99)
+                                            <a href="{{ route('reset_order_obat') }}?kode={{ $item->kode }}"
+                                                class="btn btn-xs btn-danger withLoad"><i class="fas fa-sync"></i> Reset</a>
                                         @break
 
                                         @default
@@ -296,7 +452,14 @@
                     width: 300px !important;
                 }
             </style>
-
+            @php
+                $config = ['format' => 'YYYY-MM-DD HH:mm:ss'];
+            @endphp
+            <x-adminlte-input-date name="waktu" label="Tanggal Order" value="{{ now() }}"
+                placeholder="Pilih Tanggal Order" igroup-size="sm" :config="$config" />
+            <x-adminlte-input name="nama" label="Nama Pasien" igroup-size="sm" placeholder="Nama Pasien" />
+            <x-adminlte-input name="nik" label="NIK" igroup-size="sm" placeholder="NIK" />
+            <x-adminlte-input name="nomorkartu" label="Kartu BPJS" igroup-size="sm" placeholder="Kartu BPJS" />
             <div class="row">
                 <div class="col-md-12">
                     <label class="mb-2">Resep Obat</label>
@@ -353,7 +516,8 @@
             </div>
         </form>
         <x-slot name="footerSlot">
-            <x-adminlte-button icon="fas fa-save" theme="success" label="Simpan" type="submit" form="formOrder" />
+            <x-adminlte-button icon="fas fa-save" class="withLoad" theme="success" label="Simpan" type="submit"
+                form="formOrder" />
             <x-adminlte-button theme="danger" icon="fas fa-times" label="Tutup" data-dismiss="modal" />
         </x-slot>
     </x-adminlte-modal>
