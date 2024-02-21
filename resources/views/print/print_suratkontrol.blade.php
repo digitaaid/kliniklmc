@@ -74,7 +74,7 @@
                         <div class="col-sm-8 mt-1">
                         </div>
                         <div class="col-sm-4 mt-1">
-                            <b> Waled, {{ Carbon\Carbon::now()->translatedFormat('d F Y') }} <br>
+                            <b> Cirebon, {{ Carbon\Carbon::now()->translatedFormat('d F Y') }} <br>
                                 DPJP,</b>
 
                             <br><br><br><br>
