@@ -45,7 +45,7 @@
                     </div>
                 </div>
                 @php
-                    $heads = ['No', 'Tgl Masuk', 'Kode', 'Pasien', 'Unit', 'Jaminan', 'Jenis Kunjungan', 'SEP', 'Output', 'Status'];
+                    $heads = ['No', 'Tgl Masuk', 'Kode', 'No RM','Pasien', 'Unit', 'Jaminan', 'Jenis Kunjungan', 'SEP', 'Output', 'Status'];
                     $config['order'] = [1, 'asc'];
                     $config['paging'] = false;
                     $config['lengthMenu'] = false;
@@ -59,8 +59,9 @@
                             <tr>
                                 <td>{{ $item->id }}</td>
                                 <td>{{ $item->tgl_masuk }}</td>
-                                <td>{{ $item->kode }}</td>
-                                <td>{{ $item->norm }} {{ $item->nama }}</td>
+                                <td>{{ $item->kode }} / {{ $item->counter }}</td>
+                                <td>{{ $item->norm }}</td>
+                                <td>{{ $item->nama }}</td>
                                 <td>{{ $item->units->nama }}</td>
                                 <td>{{ $item->jaminans->nama ?? '-' }}
                                     {{-- @if ($item->jaminan)
