@@ -32,6 +32,7 @@ use App\Http\Controllers\PerawatController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\PoliklinikController;
 use App\Http\Controllers\PractitionerController;
+use App\Http\Controllers\RekamMedisController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\RujukanController;
 use App\Http\Controllers\SatuanObatController;
@@ -295,6 +296,8 @@ Route::middleware('auth')->group(function () {
     Route::get('suratkontrol_hapus', [SuratKontrolController::class, 'suratkontrol_hapus'])->name('suratkontrol_hapus');
     // snyc
     Route::get('sync_antrian_bpjs', [SyncronizeController::class, 'sync_antrian_bpjs'])->name('sync_antrian_bpjs');
+    // rekam medis
+    Route::get('resumerawatjalan', [RekamMedisController::class, 'resumerawatjalan'])->name('resumerawatjalan');
 
     Route::prefix('satusehat')->group(function () {
         Route::get('token_generate', [SatuSehatController::class, 'token_generate'])->name('token_generate');

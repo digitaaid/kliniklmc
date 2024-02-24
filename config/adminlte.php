@@ -525,6 +525,13 @@ return [
                     'shift'   => 'ml-2',
                 ],
                 [
+                    'text' => 'Resume Rawat Jalan',
+                    'icon'    => 'fas fa-file-medical',
+                    'url'  => 'resumerawatjalan',
+                    'can' => ['pendaftaran', 'rekammedis'],
+                    'shift'   => 'ml-2',
+                ],
+                [
                     'text' => 'Laporan Pendaftaran',
                     'icon'    => 'fas fa-chart-line',
                     'url'  => 'laporanpendaftaran',

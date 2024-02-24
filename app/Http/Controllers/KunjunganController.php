@@ -18,7 +18,7 @@ class KunjunganController extends APIController
                     ->where('norm', 'LIKE', '%' . $request->search . '%')
                     ->orWhere('nama', 'LIKE', '%' . $request->search . '%')
                     ->orWhere('kode', 'LIKE', '%' . $request->search . '%')
-                    ->get();
+                    ->simplePaginate();
             } else {
                 $kunjungans = Kunjungan::orderby('created_at', 'desc')->simplePaginate();
             }
