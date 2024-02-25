@@ -6,8 +6,8 @@
         <div class="card-tools">
             @if ($antrian->asesmenperawat)
                 Sudah Diisi Oleh
-                {{ $antrian->asesmenperawat->pic->name }}
-                {{ $antrian->asesmenperawat->created_at }}
+                {{  $antrian->asesmenperawat->pic->name : null }}
+                {{ $antrian->asesmenperawat->created_at : null }}
                 <i class="fas fa-check-circle"></i>
             @else
                 Belum Diisi <i class="fas fa-times-circle"></i>
