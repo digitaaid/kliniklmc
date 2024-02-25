@@ -28,6 +28,16 @@ class PerawatController extends Controller
             $antrians = Antrian::where('tanggalperiksa', $request->tanggalperiksa)->where('taskid', '!=', 99)->get();
             $antrian_asesmen = Antrian::where('tanggalperiksa', $request->tanggalperiksa)->whereHas('asesmenperawat')->count();
         }
+        if ($request->pencarian) {
+            $request->validate([
+                'pencarian' => 'required|min:3',
+            ]);
+            $antrians = Antrian::where('norm', $request->pencarian)
+                ->orWhere('nama', 'LIKE', '%' . $request->pencarian . '%')->get();
+            $antrian_asesmen = Antrian::where('norm', $request->pencarian)
+                ->orWhere('nama', 'LIKE', '%' . $request->pencarian . '%')
+                ->whereHas('asesmenperawat')->count();
+        }
         return view('sim.antrian_perawat', compact([
             'request',
             'antrians',
@@ -118,7 +128,7 @@ class PerawatController extends Controller
             ],
             $request->all()
         );
-        $antrian = Antrian::firstWhere('kodebooking', $request->kodebooking)->first();
+        $antrian = Antrian::firstWhere('kodebooking', $request->kodebooking);
         $antrian->update([
             'user2' => Auth::user()->id,
         ]);

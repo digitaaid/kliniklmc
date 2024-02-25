@@ -33,7 +33,6 @@
 
         <div class="col-md-12">
             <x-adminlte-card title="Data Antrian Pendaftaran" theme="secondary" icon="fas fa-info-circle" collapsible>
-
                 <div class="row">
                     <div class="col-md-4">
                         <form action="" method="get">

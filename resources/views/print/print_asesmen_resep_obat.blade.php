@@ -114,108 +114,161 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-8 border border-dark"><b>Telaah Resep</b></div>
+                                <div class="col-md-8 border border-dark"><b>Telaah Administratif</b></div>
                                 <div class="col-md-2 border border-dark">Ya</div>
                                 <div class="col-md-2 border border-dark">Tidak</div>
                             </div>
                             <div class="row">
                                 <div class="col-md-1 border border-dark">1</div>
-                                <div class="col-md-7 border border-dark">Kejelasan Obat</div>
+                                <div class="col-md-7 border border-dark">Nama Pasien</div>
                                 <div class="col-md-2 border border-dark"></div>
                                 <div class="col-md-2 border border-dark"></div>
                             </div>
                             <div class="row">
                                 <div class="col-md-1 border border-dark">2</div>
-                                <div class="col-md-7 border border-dark">Benar Nama Pasien</div>
+                                <div class="col-md-7 border border-dark">Umur Pasien</div>
                                 <div class="col-md-2 border border-dark"></div>
                                 <div class="col-md-2 border border-dark"></div>
                             </div>
                             <div class="row">
                                 <div class="col-md-1 border border-dark">3</div>
-                                <div class="col-md-7 border border-dark">Benar Nama Obat</div>
+                                <div class="col-md-7 border border-dark">Jenis Kelamin & BB/TB</div>
                                 <div class="col-md-2 border border-dark"></div>
                                 <div class="col-md-2 border border-dark"></div>
                             </div>
                             <div class="row">
                                 <div class="col-md-1 border border-dark">4</div>
-                                <div class="col-md-7 border border-dark">Benar Dosis</div>
+                                <div class="col-md-7 border border-dark">Paraf & Cap Dokter</div>
                                 <div class="col-md-2 border border-dark"></div>
                                 <div class="col-md-2 border border-dark"></div>
                             </div>
                             <div class="row">
                                 <div class="col-md-1 border border-dark">5</div>
-                                <div class="col-md-7 border border-dark">Bener Waktu & Frekuensi Obat</div>
+                                <div class="col-md-7 border border-dark">Tgl Resep</div>
                                 <div class="col-md-2 border border-dark"></div>
                                 <div class="col-md-2 border border-dark"></div>
                             </div>
                             <div class="row">
                                 <div class="col-md-1 border border-dark">6</div>
-                                <div class="col-md-7 border border-dark">Bener Cara Pemberian</div>
+                                <div class="col-md-7 border border-dark">Asal Poli</div>
                                 <div class="col-md-2 border border-dark"></div>
                                 <div class="col-md-2 border border-dark"></div>
                             </div>
                             <div class="row">
-                                <div class="col-md-1 border border-dark">7</div>
-                                <div class="col-md-7 border border-dark">Poli Farmasi</div>
+                                <div class="col-md-8 border border-dark"><b>Telaah Farmasetik</b></div>
+                                <div class="col-md-2 border border-dark">Ya</div>
+                                <div class="col-md-2 border border-dark">Tidak</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-1 border border-dark">1</div>
+                                <div class="col-md-7 border border-dark">Nama Obat</div>
                                 <div class="col-md-2 border border-dark"></div>
                                 <div class="col-md-2 border border-dark"></div>
                             </div>
                             <div class="row">
-                                <div class="col-md-1 border border-dark">8</div>
+                                <div class="col-md-1 border border-dark">2</div>
+                                <div class="col-md-7 border border-dark">Bentuk Sediaan</div>
+                                <div class="col-md-2 border border-dark"></div>
+                                <div class="col-md-2 border border-dark"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-1 border border-dark">3</div>
+                                <div class="col-md-7 border border-dark">Kekuatan Sediaan</div>
+                                <div class="col-md-2 border border-dark"></div>
+                                <div class="col-md-2 border border-dark"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-1 border border-dark">4</div>
+                                <div class="col-md-7 border border-dark">Dosis & Jumlah Obat</div>
+                                <div class="col-md-2 border border-dark"></div>
+                                <div class="col-md-2 border border-dark"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-1 border border-dark">5</div>
+                                <div class="col-md-7 border border-dark">Aturan & Cara</div>
+                                <div class="col-md-2 border border-dark"></div>
+                                <div class="col-md-2 border border-dark"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-8 border border-dark"><b>Telaah Klinis</b></div>
+                                <div class="col-md-2 border border-dark">Ya</div>
+                                <div class="col-md-2 border border-dark">Tidak</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-1 border border-dark">1</div>
+                                <div class="col-md-7 border border-dark">Indikasi</div>
+                                <div class="col-md-2 border border-dark"></div>
+                                <div class="col-md-2 border border-dark"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-1 border border-dark">2</div>
+                                <div class="col-md-7 border border-dark">Dosis</div>
+                                <div class="col-md-2 border border-dark"></div>
+                                <div class="col-md-2 border border-dark"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-1 border border-dark">3</div>
+                                <div class="col-md-7 border border-dark">Waktu Penggunaan</div>
+                                <div class="col-md-2 border border-dark"></div>
+                                <div class="col-md-2 border border-dark"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-1 border border-dark">4</div>
                                 <div class="col-md-7 border border-dark">Duplikasi</div>
                                 <div class="col-md-2 border border-dark"></div>
                                 <div class="col-md-2 border border-dark"></div>
                             </div>
                             <div class="row">
-                                <div class="col-md-1 border border-dark">9</div>
-                                <div class="col-md-7 border border-dark">Interaksi Obat yg Mungkin Terjadi</div>
-                                <div class="col-md-2 border border-dark"></div>
-                                <div class="col-md-2 border border-dark"></div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-8 border border-dark"><b>Telaah Obat</b></div>
-                                <div class="col-md-2 border border-dark">Ya</div>
-                                <div class="col-md-2 border border-dark">Tidak</div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-1 border border-dark">1</div>
-                                <div class="col-md-7 border border-dark">Benar Nama Pasien</div>
-                                <div class="col-md-2 border border-dark"></div>
-                                <div class="col-md-2 border border-dark"></div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-1 border border-dark">2</div>
-                                <div class="col-md-7 border border-dark">Benar Nama Obat</div>
-                                <div class="col-md-2 border border-dark"></div>
-                                <div class="col-md-2 border border-dark"></div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-1 border border-dark">3</div>
-                                <div class="col-md-7 border border-dark">Benar Dosis</div>
-                                <div class="col-md-2 border border-dark"></div>
-                                <div class="col-md-2 border border-dark"></div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-1 border border-dark">4</div>
-                                <div class="col-md-7 border border-dark">Bener Waktu & Frekuensi Obat</div>
-                                <div class="col-md-2 border border-dark"></div>
-                                <div class="col-md-2 border border-dark"></div>
-                            </div>
-                            <div class="row">
                                 <div class="col-md-1 border border-dark">5</div>
-                                <div class="col-md-7 border border-dark">Bener Cara Pemberian</div>
+                                <div class="col-md-7 border border-dark">Alergi & ROTD</div>
                                 <div class="col-md-2 border border-dark"></div>
                                 <div class="col-md-2 border border-dark"></div>
                             </div>
                             <div class="row">
                                 <div class="col-md-1 border border-dark">6</div>
-                                <div class="col-md-7 border border-dark">Bener Dokumentasi</div>
+                                <div class="col-md-7 border border-dark">Kontraindikasi</div>
                                 <div class="col-md-2 border border-dark"></div>
                                 <div class="col-md-2 border border-dark"></div>
                             </div>
                             <div class="row">
                                 <div class="col-md-1 border border-dark">7</div>
+                                <div class="col-md-7 border border-dark">Interaksi Obat</div>
+                                <div class="col-md-2 border border-dark"></div>
+                                <div class="col-md-2 border border-dark"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-1 border border-dark">8</div>
+                                <div class="col-md-7 border border-dark">Benar Obat</div>
+                                <div class="col-md-2 border border-dark"></div>
+                                <div class="col-md-2 border border-dark"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-1 border border-dark">9</div>
+                                <div class="col-md-7 border border-dark">Benar Dosis</div>
+                                <div class="col-md-2 border border-dark"></div>
+                                <div class="col-md-2 border border-dark"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-1 border border-dark">10</div>
+                                <div class="col-md-7 border border-dark">Benar Waktu</div>
+                                <div class="col-md-2 border border-dark"></div>
+                                <div class="col-md-2 border border-dark"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-1 border border-dark">11</div>
+                                <div class="col-md-7 border border-dark">Benar Cara Pemberian</div>
+                                <div class="col-md-2 border border-dark"></div>
+                                <div class="col-md-2 border border-dark"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-1 border border-dark">12</div>
                                 <div class="col-md-7 border border-dark">Benar Informasi</div>
+                                <div class="col-md-2 border border-dark"></div>
+                                <div class="col-md-2 border border-dark"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-1 border border-dark">13</div>
+                                <div class="col-md-7 border border-dark">Benar Dokumentasi</div>
                                 <div class="col-md-2 border border-dark"></div>
                                 <div class="col-md-2 border border-dark"></div>
                             </div>
@@ -324,11 +377,11 @@
         }
     </script>
     <script type="text/javascript">
-        $(document).ready(function() {
-            window.print();
-        });
-        setTimeout(function() {
-            window.top.close();
-        }, 2000);
+        // $(document).ready(function() {
+        //     window.print();
+        // });
+        // setTimeout(function() {
+        //     window.top.close();
+        // }, 2000);
     </script>
 @endsection

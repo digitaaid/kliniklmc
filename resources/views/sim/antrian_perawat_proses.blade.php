@@ -69,6 +69,10 @@
                         icon="fas fa-info-circle" />
                     <x-adminlte-button class="btn-xs btnFileUplpad" theme="warning" label="Berkas Upload"
                         icon="fas fa-file-medical" />
+                    <x-adminlte-button class="btn-xs" theme="warning" label="Asesmen Keperawatan"
+                        icon="fas fa-hand-holding-medical" />
+                    <x-adminlte-button class="btn-xs" theme="warning" label="SBAR : Belum Terkomunikasi"
+                        icon="fas fa-hand-holding-medical" onclick="btnSBAR()" />
                 </x-slot>
             </x-adminlte-card>
         </div>
@@ -121,7 +125,7 @@
             </div>
         </div>
     </div>
-
+    @include('sim.modal_sbar_tbak_create')
 @stop
 
 @section('plugins.Datatables', true)
@@ -479,4 +483,11 @@
     </script>
     {{-- file upload --}}
     @include('sim.tabel_fileupload')
+    <script>
+        function btnSBAR() {
+            $.LoadingOverlay("show");
+            $('#modalSBAR').modal('show');
+            $.LoadingOverlay("hide");
+        }
+    </script>
 @endsection
