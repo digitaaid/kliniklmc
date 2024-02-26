@@ -1,5 +1,5 @@
 <x-adminlte-modal id="modalAsesmenPerawat" title="Pengkajian Awal / Asesmen Perawat" size="xl"
-    icon="fas fa-hand-holding-medical" theme="success">
+    icon="fas fa-hand-holding-medical" theme="success" scrollable>
     <form action="{{ route('editasesmenperawat') }}" name="formPerawat" id="formPerawat" method="POST">
         @csrf
         <input type="hidden" name="kodebooking" value="{{ $antrian->kodebooking }}">
@@ -393,7 +393,7 @@
                 </x-adminlte-select>
             </div>
         </div>
-        <h6>Objective (O)</h6>
+        <h6>Objective (O) - Tanda Vital</h6>
         <div class="row">
             <div class="col-md-6">
                 <x-adminlte-input required name="denyut_jantung" label="Denyut Jantung" igroup-size="sm"
@@ -480,16 +480,19 @@
             <option value="1" {{ $antrian->asesmenperawat->tingkat_kesadaran == '1' ? 'selected' : null }}>Sadar
                 Baik/Alert
             </option>
-            <option value="2" {{ $antrian->asesmenperawat->tingkat_kesadaran == '2' ? 'selected' : null }}>Berespon
+            <option value="2" {{ $antrian->asesmenperawat->tingkat_kesadaran == '2' ? 'selected' : null }}>
+                Berespon
                 dengan kata-kata/Voice
             </option>
             <option value="3" {{ $antrian->asesmenperawat->tingkat_kesadaran == '3' ? 'selected' : null }}>Hanya
                 berespons jika dirangsang nyeri/pain
             </option>
-            <option value="4" {{ $antrian->asesmenperawat->tingkat_kesadaran == '4' ? 'selected' : null }}>Pasien tidak
+            <option value="4" {{ $antrian->asesmenperawat->tingkat_kesadaran == '4' ? 'selected' : null }}>
+                Pasien tidak
                 sadar/unresponsive
             </option>
-            <option value="5" {{ $antrian->asesmenperawat->tingkat_kesadaran == '5' ? 'selected' : null }}>Gelisah atau
+            <option value="5" {{ $antrian->asesmenperawat->tingkat_kesadaran == '5' ? 'selected' : null }}>
+                Gelisah atau
                 bingung
             </option>
             <option value="6" {{ $antrian->asesmenperawat->tingkat_kesadaran == '6' ? 'selected' : null }}>Acute
@@ -500,6 +503,27 @@
             placeholder="Tanda Vital Tubuh">
             {{ $antrian->asesmenperawat->keadaan_tubuh ?? null }}
         </x-adminlte-textarea>
+        <h6>Objective (O) - Laboratorium, Radiologi, & Penunjang Lainnya</h6>
+        <div class="row">
+            <div class="col-md-4">
+                <x-adminlte-textarea required igroup-size="sm" rows=4 label="Hasil Pemeriksaan Laboratorium"
+                    name="pemeriksaan_lab" placeholder="Hasil Pemeriksaan Laboratorium">
+                    {{ $antrian->asesmenperawat->pemeriksaan_lab ?? null }}
+                </x-adminlte-textarea>
+            </div>
+            <div class="col-md-4">
+                <x-adminlte-textarea required igroup-size="sm" rows=4 label="Hasil Pemeriksaan Radiologi"
+                    name="pemeriksaan_rad" placeholder="Hasil Pemeriksaan Radiologi">
+                    {{ $antrian->asesmenperawat->pemeriksaan_rad ?? null }}
+                </x-adminlte-textarea>
+            </div>
+            <div class="col-md-4">
+                <x-adminlte-textarea required igroup-size="sm" rows=4 label="Hasil Pemeriksaan Penunjang Lainnya"
+                    name="pemeriksaan_penunjang" placeholder="Hasil Pemeriksaan Penunjang Lainnya">
+                    {{ $antrian->asesmenperawat->pemeriksaan_penunjang ?? null }}
+                </x-adminlte-textarea>
+            </div>
+        </div>
         <h6>Analysis (A)</h6>
         <x-adminlte-textarea required igroup-size="sm" rows=3 label="Diagnosa Keperawatan"
             name="diagnosa_keperawatan" placeholder="Diagnosa Masuk">
