@@ -65,14 +65,18 @@
             <x-adminlte-card theme="primary" theme-mode="outline">
                 @include('sim.antrian_profil3')
                 <x-slot name="footerSlot">
-                    <x-adminlte-button class="btn-xs btnIcare" theme="warning" label="I-Care JKN"
-                        icon="fas fa-info-circle" />
-                    <x-adminlte-button class="btn-xs btnFileUplpad" theme="warning" label="Berkas Upload"
+                    <x-adminlte-button class="btn-xs mb-1" theme="warning" label="I-Care JKN" icon="fas fa-info-circle"
+                        onclick="btnIcare()" />
+                    <x-adminlte-button class="btn-xs mb-1 btnFileUplpad" theme="warning" label="Berkas Upload"
                         icon="fas fa-file-medical" />
-                    <x-adminlte-button class="btn-xs" theme="warning" label="Asesmen Keperawatan"
-                        icon="fas fa-hand-holding-medical" />
-                    <x-adminlte-button class="btn-xs" theme="warning" label="SBAR : Belum Terkomunikasi"
-                        icon="fas fa-hand-holding-medical" onclick="btnSBAR()" />
+                    <x-adminlte-button class="btn-xs mb-1" theme="warning" label="CPPT" icon="fas fa-file-medical"
+                        onclick="btnCPPT()" />
+                    <x-adminlte-button class="btn-xs mb-1" theme="warning" label="Asesmen Awal"
+                        icon="fas fa-hand-holding-medical" onclick="btnPengkajianPerawat()" />
+                    <x-adminlte-button class="btn-xs mb-1" theme="warning" label="SBAR TBAK" icon="fas fa-envelope"
+                        onclick="btnSBAR()" />
+                    <x-adminlte-button class="btn-xs mb-1" theme="warning" label="Pemeriksaan Dokter" icon="fas fa-user-md"
+                        onclick="btnPemeriksaanDokter()" />
                 </x-slot>
             </x-adminlte-card>
         </div>
@@ -85,7 +89,7 @@
                         {{-- layanan --}}
                         @include('sim.tabel_layanan')
                         {{-- perawat --}}
-                        @include('sim.tabel_anamnesa_perawat')
+                        {{-- @include('sim.tabel_anamnesa_perawat') --}}
                         {{-- laboratorium --}}
                         @include('sim.tabel_lab')
                         {{-- resume --}}
@@ -125,7 +129,9 @@
             </div>
         </div>
     </div>
+    @include('sim.modal_cppt')
     @include('sim.modal_sbar_tbak_create')
+    @include('sim.modal_asesmen_perawat')
 @stop
 
 @section('plugins.Datatables', true)
@@ -209,37 +215,6 @@
         size="xl">
         <iframe src="" id="urlIcare" width="100%" height="700px" frameborder="0"></iframe>
     </x-adminlte-modal>
-    <script>
-        $(function() {
-            $('.btnIcare').click(function() {
-                $.LoadingOverlay("show");
-                var url =
-                    "{{ route('icare') }}?nomorkartu={{ $antrian->nomorkartu }}&kodedokter={{ $antrian->kodedokter }}";
-                $.ajax({
-                    url: url,
-                    type: "GET",
-                    dataType: 'json',
-                    success: function(data) {
-                        if (data.metadata.code == 200) {
-                            $('#urlIcare').attr('src', data.response.url);
-                            $('#modalICare').modal('show');
-                        } else {
-                            Swal.fire(
-                                'Error ' + data.metadata.code,
-                                data.metadata.message,
-                                'error'
-                            );
-                        }
-                        $.LoadingOverlay("hide");
-                    },
-                    error: function(data) {
-                        alert('Error');
-                        $.LoadingOverlay("hide");
-                    }
-                });
-            });
-        });
-    </script>
     {{-- tarif dan layanan --}}
     <x-adminlte-modal id="modalTarif" name="modalTarif" title="Tarif Layanan & Tindakan" theme="success"
         icon="fas fa-user-injured" size="xl">
@@ -253,8 +228,8 @@
                 <input type="hidden" name="norm" value="{{ $antrian->norm }}">
                 <input type="hidden" name="nama" value="{{ $antrian->nama }}">
                 <div class="col-md-6">
-                    <x-adminlte-select2 igroup-size="sm" name="layanan" class="layanan_tarif" label="Layanan & Tindalan :"
-                        multiple>
+                    <x-adminlte-select2 igroup-size="sm" name="layanan" class="layanan_tarif"
+                        label="Layanan & Tindalan :" multiple>
                     </x-adminlte-select2>
                     <x-adminlte-input id="harga-tarif" name="harga" type="number" label="Harga" igroup-size="sm"
                         placeholder="Harga" readonly />
@@ -484,9 +459,55 @@
     {{-- file upload --}}
     @include('sim.tabel_fileupload')
     <script>
+        function btnIcare() {
+            $.LoadingOverlay("show");
+            var url =
+                "{{ route('icare') }}?nomorkartu={{ $antrian->nomorkartu }}&kodedokter={{ $antrian->kodedokter }}";
+            $.ajax({
+                url: url,
+                type: "GET",
+                dataType: 'json',
+                success: function(data) {
+                    if (data.metadata.code == 200) {
+                        $('#urlIcare').attr('src', data.response.url);
+                        $('#modalICare').modal('show');
+                    } else {
+                        Swal.fire(
+                            'Error ' + data.metadata.code,
+                            data.metadata.message,
+                            'error'
+                        );
+                    }
+                    $.LoadingOverlay("hide");
+                },
+                error: function(data) {
+                    alert('Error');
+                    $.LoadingOverlay("hide");
+                }
+            });
+        }
+
+        function btnCPPT() {
+            $.LoadingOverlay("show");
+            $('#modalCPPT').modal('show');
+            $.LoadingOverlay("hide");
+        }
+
         function btnSBAR() {
             $.LoadingOverlay("show");
             $('#modalSBAR').modal('show');
+            $.LoadingOverlay("hide");
+        }
+
+        function btnPengkajianPerawat() {
+            $.LoadingOverlay("show");
+            $('#modalAsesmenPerawat').modal('show');
+            $.LoadingOverlay("hide");
+        }
+
+        function btnPemeriksaanDokter() {
+            $.LoadingOverlay("show");
+            $('#modalAsesmenPerawat').modal('show');
             $.LoadingOverlay("hide");
         }
     </script>

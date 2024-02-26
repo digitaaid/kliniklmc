@@ -13,23 +13,49 @@ return new class extends Migration
     {
         Schema::create('asesmen_perawats', function (Blueprint $table) {
             $table->id();
+            $table->string('sumber_data')->nullable();
             $table->text('keluhan_utama')->nullable();
             $table->text('riwayat_penyakit')->nullable();
+            $table->text('riwayat_penyakit_keluarga')->nullable();
             $table->text('riwayat_alergi')->nullable();
             $table->text('riwayat_pengobatan')->nullable();
-            $table->string('tingkat_kesadaran')->nullable();
-            $table->string('berat_badan')->nullable();
-            $table->string('tinggi_badan')->nullable();
-            $table->string('bsa')->nullable();
+
+            $table->string('skala_nyeri')->nullable();
+            $table->string('keluhan_nyeri')->nullable();
+            $table->string('resiko_jatuh')->nullable();
+            $table->string('alat_bantu')->nullable();
+            $table->string('alat_bantu_text')->nullable();
+            $table->string('cacat_fisik')->nullable();
+            $table->string('cacat_fisik_text')->nullable();
+
+            $table->string('status_psikologi')->nullable();
+            $table->string('tinggal_dengan')->nullable();
+            $table->string('hubungan_keluarga')->nullable();
+            $table->string('ekonomi')->nullable();
+            $table->string('edukasi')->nullable();
+
+            $table->string('pekerjaan')->nullable();
+            $table->string('agama')->nullable();
+            $table->string('pendidikan')->nullable();
+            $table->string('status_nikah')->nullable();
+            $table->string('bahasa')->nullable();
+
             $table->string('denyut_jantung')->nullable();
             $table->string('pernapasan')->nullable();
             $table->string('sistole')->nullable();
             $table->string('distole')->nullable();
             $table->string('suhu')->nullable();
+            $table->string('berat_badan')->nullable();
+            $table->string('tinggi_badan')->nullable();
+            $table->string('bsa')->nullable();
+            $table->string('tingkat_kesadaran')->nullable();
             $table->text('keadaan_tubuh')->nullable();
-            $table->string('status_psikologi')->nullable();
-            $table->text('status_sosial')->nullable();
-            $table->text('status_spiritual')->nullable();
+
+            $table->text('diagnosa_keperawatan')->nullable();
+            $table->text('rencana_keperawatan')->nullable();
+            $table->text('tindakan_keperawatan')->nullable();
+            $table->text('evaluasi_keperawatan')->nullable();
+
             $table->datetime('waktu');
             $table->string('kunjungan_id');
             $table->string('kodekunjungan');
@@ -40,6 +66,8 @@ return new class extends Migration
             $table->string('nama');
             $table->string('tgl_lahir');
             $table->string('gender');
+
+            $table->string('pic');
             $table->string('user');
             $table->string('status');
             $table->timestamps();

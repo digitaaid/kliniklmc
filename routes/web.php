@@ -37,6 +37,7 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\RujukanController;
 use App\Http\Controllers\SatuanObatController;
 use App\Http\Controllers\SatuSehatController;
+use App\Http\Controllers\SbarController;
 use App\Http\Controllers\SepController;
 use App\Http\Controllers\SocialiteController;
 use App\Http\Controllers\StokObatController;
@@ -179,6 +180,8 @@ Route::middleware('auth')->group(function () {
     Route::get('antriankasir', [KasirController::class, 'antriankasir'])->name('antriankasir');
 
     // perawat
+    Route::resource('sbartbak', SbarController::class);
+
     Route::get('antrianperawat', [PerawatController::class, 'antrianperawat'])->name('antrianperawat');
     Route::get('prosesperawat', [PerawatController::class, 'prosesperawat'])->name('prosesperawat');
     Route::post('editasesmenperawat', [PerawatController::class, 'editasesmenperawat'])->name('editasesmenperawat');

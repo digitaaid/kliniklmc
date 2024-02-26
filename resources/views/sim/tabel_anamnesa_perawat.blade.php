@@ -6,7 +6,7 @@
         <div class="card-tools">
             @if ($antrian->asesmenperawat)
                 Sudah Diisi Oleh
-                {{  $antrian->asesmenperawat->pic->name ?? null }}
+                {{ $antrian->asesmenperawat->pic->name ?? null }}
                 {{ $antrian->asesmenperawat->created_at ?? null }}
                 <i class="fas fa-check-circle"></i>
             @else
@@ -28,7 +28,6 @@
                             placeholder="Keluhan Utama">
                             {{ $antrian->asesmenperawat->keluhan_utama ?? null }}
                         </x-adminlte-textarea>
-                        {{-- {{ dd($antrian->asesmenperawat) }} --}}
                         <x-adminlte-textarea igroup-size="sm" rows=3 label="Riwayat Penyakit" name="riwayat_penyakit"
                             placeholder="Riwayat Penyakit">
                             {{ $antrian->asesmenperawat->riwayat_penyakit ?? null }}
