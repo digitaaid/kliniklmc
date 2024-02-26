@@ -40,6 +40,10 @@ return new class extends Migration
             $table->string('status_nikah')->nullable();
             $table->string('bahasa')->nullable();
 
+            $table->string('penurunan_berat_badan')->nullable();
+            $table->string('asupan_berkurang')->nullable();
+            $table->string('apakah_diagnosa_khusus')->nullable();
+
             $table->string('denyut_jantung')->nullable();
             $table->string('pernapasan')->nullable();
             $table->string('sistole')->nullable();

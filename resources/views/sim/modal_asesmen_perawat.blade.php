@@ -13,21 +13,32 @@
             <div class="col-md-6">
                 <x-adminlte-select name="sumber_data" label="Sumber Data" fgroup-class="row"
                     label-class="text-left col-3" igroup-size="sm" igroup-class="col-9">
-                    <option>Pasien Sendiri / Autoanamase</option>
-                    <option>Keluarga / Alloanamnesa</option>
+                    <option
+                        {{ $antrian->asesmenperawat->sumber_data == 'Pasien Sendiri / Autoanamase' ? 'selected' : null }}>
+                        Pasien
+                        Sendiri / Autoanamase</option>
+                    <option
+                        {{ $antrian->asesmenperawat->sumber_data == 'Keluarga / Alloanamnesa' ? 'selected' : null }}>
+                        Keluarga / Alloanamnesa</option>
                 </x-adminlte-select>
                 <x-adminlte-textarea required igroup-size="sm" rows=3 label="Keluhan Utama" name="keluhan_utama"
                     placeholder="Keluhan Utama">
                     {{ $antrian->asesmenperawat->keluhan_utama ?? null }}
                 </x-adminlte-textarea>
-                <x-adminlte-textarea required igroup-size="sm" rows=3 label="Riwayat Penyakit" name="riwayat_penyakit"
-                    placeholder="Riwayat Penyakit">
-                    {{ $antrian->asesmenperawat->riwayat_penyakit ?? null }}
-                </x-adminlte-textarea>
-                <x-adminlte-textarea required igroup-size="sm" rows=3 label="Riwayat Penyakit Keluarga"
-                    name="riwayat_penyakit_keluarga" placeholder="Riwayat Penyakit">
-                    {{ $antrian->asesmenperawat->riwayat_penyakit_keluarga ?? null }}
-                </x-adminlte-textarea>
+                <div class="row">
+                    <div class="col-md-6">
+                        <x-adminlte-textarea required igroup-size="sm" rows=3 label="Riwayat Penyakit"
+                            name="riwayat_penyakit" placeholder="Riwayat Penyakit">
+                            {{ $antrian->asesmenperawat->riwayat_penyakit ?? null }}
+                        </x-adminlte-textarea>
+                    </div>
+                    <div class="col-md-6">
+                        <x-adminlte-textarea required igroup-size="sm" rows=3 label="Riwayat Penyakit Keluarga"
+                            name="riwayat_penyakit_keluarga" placeholder="Riwayat Penyakit">
+                            {{ $antrian->asesmenperawat->riwayat_penyakit_keluarga ?? null }}
+                        </x-adminlte-textarea>
+                    </div>
+                </div>
                 <x-adminlte-textarea required igroup-size="sm" rows=3 label="Riwayat Alergi" name="riwayat_alergi"
                     placeholder="Riwayat Alergi">
                     {{ $antrian->asesmenperawat->riwayat_alergi ?? null }}
@@ -78,9 +89,15 @@
                     </div>
                     <div class="col-md-9">
                         <x-adminlte-select required name="resiko_jatuh">
-                            <option value="Tidak Bersiko">Tidak Bersiko (tidak ditemukan a dan b)</option>
-                            <option value="Resiko Rendah">Resiko Rendah (ditemukan a atau b)</option>
-                            <option value="Resiko Tinggi">Resiko Tinggi (ditemukan a dan b)</option>
+                            <option value="Tidak Bersiko"
+                                {{ $antrian->asesmenperawat->resiko_jatuh == 'Tidak Bersiko' ? 'selected' : null }}>
+                                Tidak Bersiko (tidak ditemukan a dan b)</option>
+                            <option value="Resiko Rendah"
+                                {{ $antrian->asesmenperawat->resiko_jatuh == 'Resiko Rendah' ? 'selected' : null }}>
+                                Resiko Rendah (ditemukan a atau b)</option>
+                            <option value="Resiko Tinggi"
+                                {{ $antrian->asesmenperawat->resiko_jatuh == 'Resiko Tinggi' ? 'selected' : null }}>
+                                Resiko Tinggi (ditemukan a dan b)</option>
                         </x-adminlte-select>
                     </div>
                 </div>
@@ -90,10 +107,17 @@
                     </div>
                     <div class="col-md-4">
                         <x-adminlte-select required name="alat_bantu">
-                            <option>Tidak Ada</option>
-                            <option>Kursi Roda</option>
-                            <option>Tongkat</option>
-                            <option>Lain-lain</option>
+                            <option {{ $antrian->asesmenperawat->alat_bantu == 'Tidak Ada' ? 'selected' : null }}>Tidak
+                                Ada</option>
+                            <option {{ $antrian->asesmenperawat->alat_bantu == 'Kursi Roda' ? 'selected' : null }}>
+                                Kursi Roda</option>
+                            <option {{ $antrian->asesmenperawat->alat_bantu == 'Tongkat' ? 'selected' : null }}>Tongkat
+                            </option>
+                            <option
+                                {{ $antrian->asesmenperawat->alat_bantu == 'Alat Bantu Pendengaran' ? 'selected' : null }}>
+                                Alat Bantu Pendengaran</option>
+                            <option {{ $antrian->asesmenperawat->alat_bantu == 'Lain-lain' ? 'selected' : null }}>
+                                Lain-lain</option>
                         </x-adminlte-select>
                     </div>
                     <div class="col-md-5">
@@ -107,8 +131,10 @@
                     </div>
                     <div class="col-md-4">
                         <x-adminlte-select required name="cacat_fisik">
-                            <option>Tidak Ada</option>
-                            <option>Ada</option>
+                            <option {{ $antrian->asesmenperawat->cacat_fisik == 'Tidak Ada' ? 'selected' : null }}>
+                                Tidak Ada</option>
+                            <option {{ $antrian->asesmenperawat->cacat_fisik == 'Ada' ? 'selected' : null }}>Ada
+                            </option>
                         </x-adminlte-select>
                     </div>
                     <div class="col-md-5">
@@ -127,12 +153,20 @@
                     </div>
                     <div class="col-md-8">
                         <x-adminlte-select name="status_psikologi">
-                            <option>Tidak ada kelainan</option>
-                            <option>Cemas</option>
-                            <option>Takut</option>
-                            <option>Marah</option>
-                            <option>Sedih</option>
-                            <option>Lain-lain</option>
+                            <option
+                                {{ $antrian->asesmenperawat->status_psikologi == 'Tidak Ada Kelainan' ? 'selected' : null }}>
+                                Tidak Ada Kelainan</option>
+                            <option {{ $antrian->asesmenperawat->status_psikologi == 'Cemas' ? 'selected' : null }}>
+                                Cemas</option>
+                            <option {{ $antrian->asesmenperawat->status_psikologi == 'Takut' ? 'selected' : null }}>
+                                Takut</option>
+                            <option {{ $antrian->asesmenperawat->status_psikologi == 'Marah' ? 'selected' : null }}>
+                                Marah</option>
+                            <option {{ $antrian->asesmenperawat->status_psikologi == 'Sedih' ? 'selected' : null }}>
+                                Sedih</option>
+                            <option
+                                {{ $antrian->asesmenperawat->status_psikologi == 'Lain-lain' ? 'selected' : null }}>
+                                Lain-lain</option>
                         </x-adminlte-select>
                     </div>
                 </div>
@@ -142,13 +176,22 @@
                     </div>
                     <div class="col-md-8">
                         <x-adminlte-select name="tinggal_dengan">
-                            <option>Orang Tua</option>
-                            <option>Istri / Suami</option>
-                            <option>Anak</option>
-                            <option>Mandiri</option>
-                            <option>Saudara</option>
-                            <option>Wali</option>
-                            <option>Paman / Bibi</option>
+                            <option {{ $antrian->asesmenperawat->tinggal_dengan == 'Orang Tua' ? 'selected' : null }}>
+                                Orang Tua</option>
+                            <option
+                                {{ $antrian->asesmenperawat->tinggal_dengan == 'Istri / Suami' ? 'selected' : null }}>
+                                Istri / Suami</option>
+                            <option {{ $antrian->asesmenperawat->tinggal_dengan == 'Anak' ? 'selected' : null }}>Anak
+                            </option>
+                            <option {{ $antrian->asesmenperawat->tinggal_dengan == 'Mandiri' ? 'selected' : null }}>
+                                Mandiri</option>
+                            <option {{ $antrian->asesmenperawat->tinggal_dengan == 'Saudara' ? 'selected' : null }}>
+                                Saudara</option>
+                            <option {{ $antrian->asesmenperawat->tinggal_dengan == 'Wali' ? 'selected' : null }}>Wali
+                            </option>
+                            <option
+                                {{ $antrian->asesmenperawat->tinggal_dengan == 'Paman / Bibi' ? 'selected' : null }}>
+                                Paman / Bibi</option>
                         </x-adminlte-select>
                     </div>
                 </div>
@@ -158,8 +201,11 @@
                     </div>
                     <div class="col-md-8">
                         <x-adminlte-select name="hubungan_keluarga">
-                            <option>Baik</option>
-                            <option>Tidak Baik</option>
+                            <option {{ $antrian->asesmenperawat->hubungan_keluarga == 'Baik' ? 'selected' : null }}>
+                                Baik</option>
+                            <option
+                                {{ $antrian->asesmenperawat->hubungan_keluarga == 'Tidak Baik' ? 'selected' : null }}>
+                                Tidak Baik</option>
                         </x-adminlte-select>
                     </div>
                 </div>
@@ -169,8 +215,9 @@
                     </div>
                     <div class="col-md-8">
                         <x-adminlte-select name="ekonomi">
-                            <option>Baik</option>
-                            <option>Tidak Baik</option>
+                            <option {{ $antrian->asesmenperawat->ekonomi == 'Baik' ? 'selected' : null }}>Baik</option>
+                            <option {{ $antrian->asesmenperawat->ekonomi == 'Tidak Baik' ? 'selected' : null }}>Tidak
+                                Baik</option>
                         </x-adminlte-select>
                     </div>
                 </div>
@@ -180,9 +227,12 @@
                     </div>
                     <div class="col-md-8">
                         <x-adminlte-select name="edukasi">
-                            <option>Keluarga</option>
-                            <option>Pasien</option>
-                            <option>Pengantar</option>
+                            <option {{ $antrian->asesmenperawat->edukasi == 'Pasien' ? 'selected' : null }}>Pasien
+                            </option>
+                            <option {{ $antrian->asesmenperawat->edukasi == 'Keluarga' ? 'selected' : null }}>Keluarga
+                            </option>
+                            <option {{ $antrian->asesmenperawat->edukasi == 'Pengantar' ? 'selected' : null }}>
+                                Pengantar</option>
                         </x-adminlte-select>
                     </div>
                 </div>
@@ -194,15 +244,23 @@
                     </div>
                     <div class="col-md-9">
                         <x-adminlte-select name="pekerjaan">
-                            <option>Tidak bekerja</option>
-                            <option>PNS</option>
-                            <option>TNI/POLRI</option>
-                            <option>BUMN</option>
-                            <option>Dokter</option>
-                            <option>Guru</option>
-                            <option>Pegawai Swasta</option>
-                            <option>Wirausaha</option>
-                            <option>Lain-lain</option>
+                            <option {{ $antrian->asesmenperawat->pekerjaan == 'Tidak bekerja' ? 'selected' : null }}>
+                                Tidak bekerja</option>
+                            <option {{ $antrian->asesmenperawat->pekerjaan == 'PNS' ? 'selected' : null }}>PNS</option>
+                            <option {{ $antrian->asesmenperawat->pekerjaan == 'TNI/POLRI' ? 'selected' : null }}>
+                                TNI/POLRI</option>
+                            <option {{ $antrian->asesmenperawat->pekerjaan == 'BUMN' ? 'selected' : null }}>BUMN
+                            </option>
+                            <option {{ $antrian->asesmenperawat->pekerjaan == 'Dokter' ? 'selected' : null }}>Dokter
+                            </option>
+                            <option {{ $antrian->asesmenperawat->pekerjaan == 'Guru' ? 'selected' : null }}>Guru
+                            </option>
+                            <option {{ $antrian->asesmenperawat->pekerjaan == 'Pegawai Swasta' ? 'selected' : null }}>
+                                Pegawai Swasta</option>
+                            <option {{ $antrian->asesmenperawat->pekerjaan == 'Wirausaha' ? 'selected' : null }}>
+                                Wirausaha</option>
+                            <option {{ $antrian->asesmenperawat->pekerjaan == 'Lain-lain' ? 'selected' : null }}>
+                                Lain-lain</option>
                         </x-adminlte-select>
                     </div>
                 </div>
@@ -212,14 +270,19 @@
                     </div>
                     <div class="col-md-9">
                         <x-adminlte-select name="agama">
-                            <option>Islam</option>
-                            <option>Kristen (Protestan)</option>
-                            <option>Katolik</option>
-                            <option>Hindu</option>
-                            <option>Budha</option>
-                            <option>Konghucu</option>
-                            <option>Penghayat</option>
-                            <option>Lain-lain</option>
+                            <option {{ $antrian->asesmenperawat->agama == 'Islam' ? 'selected' : null }}>Islam</option>
+                            <option {{ $antrian->asesmenperawat->agama == 'Kristen (Protestan)' ? 'selected' : null }}>
+                                Kristen (Protestan)</option>
+                            <option {{ $antrian->asesmenperawat->agama == 'Katolik' ? 'selected' : null }}>Katolik
+                            </option>
+                            <option {{ $antrian->asesmenperawat->agama == 'Hindu' ? 'selected' : null }}>Hindu</option>
+                            <option {{ $antrian->asesmenperawat->agama == 'Budha' ? 'selected' : null }}>Budha</option>
+                            <option {{ $antrian->asesmenperawat->agama == 'Konghucu' ? 'selected' : null }}>Konghucu
+                            </option>
+                            <option {{ $antrian->asesmenperawat->agama == 'Penghayat' ? 'selected' : null }}>Penghayat
+                            </option>
+                            <option {{ $antrian->asesmenperawat->agama == 'Lain-lain' ? 'selected' : null }}>Lain-lain
+                            </option>
                         </x-adminlte-select>
                     </div>
                 </div>
@@ -229,15 +292,20 @@
                     </div>
                     <div class="col-md-9">
                         <x-adminlte-select name="pendidikan">
-                            <option>Tidak sekolah</option>
-                            <option>SD</option>
-                            <option>SLTP sederajat</option>
-                            <option>SLTA sederajat</option>
-                            <option>D1-D3 sederajat</option>
-                            <option>D4</option>
-                            <option>S1</option>
-                            <option>S2</option>
-                            <option>S3</option>
+                            <option {{ $antrian->asesmenperawat->pendidikan == 'Tidak sekolah' ? 'selected' : null }}>
+                                Tidak sekolah</option>
+                            <option {{ $antrian->asesmenperawat->pendidikan == 'SD' ? 'selected' : null }}>SD</option>
+                            <option {{ $antrian->asesmenperawat->pendidikan == 'SLTP sederajat' ? 'selected' : null }}>
+                                SLTP sederajat</option>
+                            <option {{ $antrian->asesmenperawat->pendidikan == 'SLTA sederajat' ? 'selected' : null }}>
+                                SLTA sederajat</option>
+                            <option
+                                {{ $antrian->asesmenperawat->pendidikan == 'D1-D3 sederajat' ? 'selected' : null }}>
+                                D1-D3 sederajat</option>
+                            <option {{ $antrian->asesmenperawat->pendidikan == 'D4' ? 'selected' : null }}>D4</option>
+                            <option {{ $antrian->asesmenperawat->pendidikan == 'S1' ? 'selected' : null }}>S1</option>
+                            <option {{ $antrian->asesmenperawat->pendidikan == 'S2' ? 'selected' : null }}>S2</option>
+                            <option {{ $antrian->asesmenperawat->pendidikan == 'S3' ? 'selected' : null }}>S3</option>
                         </x-adminlte-select>
                     </div>
                 </div>
@@ -247,10 +315,14 @@
                     </div>
                     <div class="col-md-9">
                         <x-adminlte-select name="status_nikah">
-                            <option>Belum Kawin</option>
-                            <option>Kawin</option>
-                            <option>Cerai Hidup</option>
-                            <option>Cerai Mati</option>
+                            <option {{ $antrian->asesmenperawat->status_nikah == 'Belum Kawin' ? 'selected' : null }}>
+                                Belum Kawin</option>
+                            <option {{ $antrian->asesmenperawat->status_nikah == 'Kawin' ? 'selected' : null }}>Kawin
+                            </option>
+                            <option {{ $antrian->asesmenperawat->status_nikah == 'Cerai Hidup' ? 'selected' : null }}>
+                                Cerai Hidup</option>
+                            <option {{ $antrian->asesmenperawat->status_nikah == 'Cerai Mati' ? 'selected' : null }}>
+                                Cerai Mati</option>
                         </x-adminlte-select>
                     </div>
                 </div>
@@ -260,12 +332,18 @@
                     </div>
                     <div class="col-md-9">
                         <x-adminlte-select name="bahasa">
-                            <option>Indonesia</option>
-                            <option>Jawa</option>
-                            <option>Sunda</option>
-                            <option>Inggris</option>
-                            <option>Isyarat</option>
-                            <option>Lain-lain</option>
+                            <option {{ $antrian->asesmenperawat->bahasa == 'Indonesia' ? 'selected' : null }}>
+                                Indonesia</option>
+                            <option {{ $antrian->asesmenperawat->bahasa == 'Jawa' ? 'selected' : null }}>Jawa
+                            </option>
+                            <option {{ $antrian->asesmenperawat->bahasa == 'Sunda' ? 'selected' : null }}>Sunda
+                            </option>
+                            <option {{ $antrian->asesmenperawat->bahasa == 'Inggris' ? 'selected' : null }}>
+                                Inggris</option>
+                            <option {{ $antrian->asesmenperawat->bahasa == 'Isyarat' ? 'selected' : null }}>
+                                Isyarat</option>
+                            <option {{ $antrian->asesmenperawat->bahasa == 'Lain-lain' ? 'selected' : null }}>
+                                Lain-lain</option>
                         </x-adminlte-select>
                     </div>
                 </div>
@@ -276,37 +354,42 @@
         <h6>Subjective (S) - Skrining Gizi</h6>
         <div class="row">
             <div class="col-md-9">
-                <label for="status_psikologi">1. Apakah pasien mengalami penurunan berat badan yang tidak
+                <label for="penurunan_berat_badan">1. Apakah pasien mengalami penurunan berat badan yang tidak
                     diinginkan dalam 6 bulan terakhir ?</label>
             </div>
             <div class="col-md-3">
-                <x-adminlte-select name="status_psikologi">
-                    <option>Tidak</option>
-                    <option>Ya</option>
+                <x-adminlte-select name="penurunan_berat_badan">
+                    <option {{ $antrian->asesmenperawat->penurunan_berat_badan == 'Tidak' ? 'selected' : null }}>Tidak
+                    </option>
+                    <option {{ $antrian->asesmenperawat->penurunan_berat_badan == 'Ya' ? 'selected' : null }}>Ya
+                    </option>
                 </x-adminlte-select>
             </div>
         </div>
         <div class="row">
             <div class="col-md-9">
-                <label for="status_psikologi">2. Apakah asupan makanan berkurang karena berkurangnya nafsu makan
+                <label for="asupan_berkurang">2. Apakah asupan makanan berkurang karena berkurangnya nafsu makan
                     ?</label>
             </div>
             <div class="col-md-3">
-                <x-adminlte-select name="status_psikologi">
-                    <option>Tidak</option>
-                    <option>Ya</option>
+                <x-adminlte-select name="asupan_berkurang">
+                    <option {{ $antrian->asesmenperawat->asupan_berkurang == 'Tidak' ? 'selected' : null }}>Tidak
+                    </option>
+                    <option {{ $antrian->asesmenperawat->asupan_berkurang == 'Ya' ? 'selected' : null }}>Ya</option>
                 </x-adminlte-select>
             </div>
         </div>
         <div class="row">
             <div class="col-md-9">
-                <label for="status_psikologi">3. Apakah pasien dengan diagnosa khusus : Penyakit
+                <label for="apakah_diagnosa_khusus">3. Apakah pasien dengan diagnosa khusus : Penyakit
                     DM/Ginjal/Hati/Paru/Stroke/Kanker/Penurunan imun/lainnya ?</label>
             </div>
             <div class="col-md-3">
-                <x-adminlte-select name="status_psikologi">
-                    <option>Tidak</option>
-                    <option>Ya</option>
+                <x-adminlte-select name="apakah_diagnosa_khusus">
+                    <option {{ $antrian->asesmenperawat->apakah_diagnosa_khusus == 'Tidak' ? 'selected' : null }}>Tidak
+                    </option>
+                    <option {{ $antrian->asesmenperawat->apakah_diagnosa_khusus == 'Ya' ? 'selected' : null }}>Ya
+                    </option>
                 </x-adminlte-select>
             </div>
         </div>
@@ -390,8 +473,29 @@
                         </div>
                     </x-slot>
                 </x-adminlte-input>
+
             </div>
         </div>
+        <x-adminlte-select name="tingkat_kesadaran" label="Tingkat Kesadaran">
+            <option value="1" {{ $antrian->asesmenperawat->tingkat_kesadaran == '1' ? 'selected' : null }}>Sadar
+                Baik/Alert
+            </option>
+            <option value="2" {{ $antrian->asesmenperawat->tingkat_kesadaran == '2' ? 'selected' : null }}>Berespon
+                dengan kata-kata/Voice
+            </option>
+            <option value="3" {{ $antrian->asesmenperawat->tingkat_kesadaran == '3' ? 'selected' : null }}>Hanya
+                berespons jika dirangsang nyeri/pain
+            </option>
+            <option value="4" {{ $antrian->asesmenperawat->tingkat_kesadaran == '4' ? 'selected' : null }}>Pasien tidak
+                sadar/unresponsive
+            </option>
+            <option value="5" {{ $antrian->asesmenperawat->tingkat_kesadaran == '5' ? 'selected' : null }}>Gelisah atau
+                bingung
+            </option>
+            <option value="6" {{ $antrian->asesmenperawat->tingkat_kesadaran == '6' ? 'selected' : null }}>Acute
+                Confusional States
+            </option>
+        </x-adminlte-select>
         <x-adminlte-textarea required igroup-size="sm" rows=4 label="Tanda Vital Tubuh" name="keadaan_tubuh"
             placeholder="Tanda Vital Tubuh">
             {{ $antrian->asesmenperawat->keadaan_tubuh ?? null }}

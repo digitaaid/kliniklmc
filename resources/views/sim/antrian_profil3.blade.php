@@ -30,7 +30,7 @@
     </div>
     <div class="col-md-3">
         <dl class="row">
-            <dt class="col-sm-3 m-0">Kunjungan</dt>
+            <dt class="col-sm-3 m-0">Kunjgn</dt>
             <dd class="col-sm-9 m-0">
                 <span class="badge badge-{{ $antrian->kodekunjungan ? 'success' : 'danger' }}"
                     title="{{ $antrian->kodekunjungan ? 'Sudah' : 'Belum' }} Integrasi">
