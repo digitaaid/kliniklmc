@@ -9,10 +9,10 @@
             <div class="col-md-6">
                 <x-adminlte-input name="pengirim" label="Pengirim" placeholder="Pengirim" fgroup-class="row"
                     label-class="text-right col-3" igroup-size="sm" igroup-class="col-9" enable-old-support
-                    value="{{ Auth::user()->name }}" />
+                    value="{{  $antrian->sbar?  $antrian->sbar->pengirim ? $antrian->sbar->pengirim :  Auth::user()->name :null}}" />
                 <x-adminlte-input name="no_pengirim" label="No Pengirim" placeholder="No Whatsapp Pengirim"
                     fgroup-class="row" label-class="text-right col-3" igroup-size="sm" igroup-class="col-9"
-                    enable-old-support value="{{ Auth::user()->phone }}" />
+                    enable-old-support value="{{  $antrian->sbar?  $antrian->sbar->no_pengirim ? $antrian->sbar->no_pengirim :  Auth::user()->phone :null  }}" />
                 <x-adminlte-textarea name="situation" label="Situation (S)" placeholder="Situation" fgroup-class="row"
                     label-class="text-right col-3" igroup-size="sm" igroup-class="col-9" rows="13"
                     enable-old-support required>
@@ -77,7 +77,7 @@ Evaluasi Keperawatan : {{ $antrian->asesmenperawat->evaluasi_keperawatan ?? null
                     value="{{ $antrian->kunjungan->dokters->namadokter }}" required />
                 <x-adminlte-input name="no_penerima" label="No Penerima" placeholder="No Whatsapp Penerima"
                     fgroup-class="row" label-class="text-right col-3" igroup-size="sm" igroup-class="col-9"
-                    enable-old-support required value="089529909036" />
+                    enable-old-support required value="{{  $antrian->sbar?  $antrian->sbar->no_penerima ? $antrian->sbar->no_penerima :  '089529909036':null  }} " />
                 <x-adminlte-textarea name="tulis" label="Tulis (T)" placeholder="Tulis" rows="5"
                     fgroup-class="row" label-class="text-right col-3" igroup-size="sm" igroup-class="col-9"
                     enable-old-support>
