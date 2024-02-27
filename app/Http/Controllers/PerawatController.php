@@ -47,6 +47,7 @@ class PerawatController extends Controller
     public function prosesperawat(Request $request)
     {
         $antrian = Antrian::with(['kunjungan', 'kunjungan.asesmenperawat'])->where('kodebooking', $request->kodebooking)->first();
+        $pasien = $antrian->pasien;
         $urlicare = null;
         $messageicare = null;
         $jaminans = Jaminan::pluck('nama', 'kode');
@@ -93,6 +94,7 @@ class PerawatController extends Controller
                 'pemeriksaanlab',
                 'permintaanlab',
                 'hasillab',
+                'pasien',
             ]));
         } else {
             Alert::error('Mohon Maaf', 'Antrian tidak ditemukan');

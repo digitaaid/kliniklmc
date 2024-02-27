@@ -79,7 +79,7 @@
                         label="Asesmen Dokter" icon="fas fa-user-md" onclick="btnPemeriksaanDokter()" />
                     <x-adminlte-button class="btn-xs mb-1"
                         theme="{{ $antrian->asesmendokter && $antrian->asesmendokter ? 'warning' : 'danger' }}"
-                        label="Resume" icon="fas fa-user-md" onclick="btnResumeRajal()" />
+                        label="Resume" icon="fas fa-file-medical" onclick="btnResumeRajal()" />
                 </x-slot>
             </x-adminlte-card>
         </div>

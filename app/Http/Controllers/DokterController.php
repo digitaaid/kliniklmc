@@ -116,6 +116,7 @@ class DokterController extends Controller
     public function prosespoliklinik(Request $request)
     {
         $antrian = Antrian::where('kodebooking', $request->kodebooking)->first();
+        $pasien = $antrian->pasien;
         $urlicare = null;
         $messageicare = null;
         $jaminans = Jaminan::pluck('nama', 'kode');
@@ -167,6 +168,7 @@ class DokterController extends Controller
                     'pemeriksaanlab',
                     'permintaanlab',
                     'hasillab',
+                    'pasien',
                 ]));
             } catch (\Throwable $th) {
                 Alert::error('Mohon Maaf', $th->getMessage());

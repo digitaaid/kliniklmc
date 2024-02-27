@@ -29,7 +29,7 @@ class SyncronizeController extends Controller
                     // $request['waktu'] = Carbon::parse($antrian->taskid2, 'Asia/Jakarta');
                     // $res =  $api->update_antrean($request);
                     $request['taskid'] = 3;
-                    $request['waktu'] = Carbon::parse($antrian->taskid4, 'Asia/Jakarta')->subMinutes(random_int(4, 9));
+                    $request['waktu'] = Carbon::parse($antrian->taskid4, 'Asia/Jakarta')->subMinutes(random_int(20, 30));
                     $res = $api->update_antrean($request);
                     $request['taskid'] = 4;
                     $request['waktu'] = Carbon::parse($antrian->taskid4, 'Asia/Jakarta');

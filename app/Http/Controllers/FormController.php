@@ -6,6 +6,7 @@ use App\Models\Antrian;
 use App\Models\AsesmenDokter;
 use App\Models\AsesmenPerawat;
 use App\Models\Obat;
+use App\Models\Pasien;
 use App\Models\ResepKemoterapi;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
@@ -82,7 +83,16 @@ class FormController extends Controller
             'kunjungan',
         ]));
     }
-
+    public function print_cppt(Request $request)
+    {
+        $pasien = Pasien::firstWhere('norm', $request->pasien);
+        $kunjungans =  $pasien->kunjungans;
+        return view('print.print_cppt', compact([
+            'request',
+            'kunjungans',
+            'pasien',
+        ]));
+    }
     public function print_resepkemoterapi(Request $request)
     {
         $resep = ResepKemoterapi::firstWhere('kode', $request->kode);
