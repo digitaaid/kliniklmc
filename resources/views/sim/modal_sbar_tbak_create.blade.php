@@ -16,52 +16,52 @@
                 <x-adminlte-textarea name="situation" label="Situation (S)" placeholder="Situation" fgroup-class="row"
                     label-class="text-right col-3" igroup-size="sm" igroup-class="col-9" rows="13"
                     enable-old-support required>
-{{-- @if ($antrian->sbar) --}}
-    {{-- {{ $antrian->sbar->situation }} --}}
-{{-- @else --}}
+@if ($antrian->sbar)
+    {{ $antrian->sbar->situation }}
+@else
 Salam dok, saya {{ Auth::user()->name }} dari keperawatan Klinik LMC izin melaporkan pasien dengan data sbb:
 Nama : {{ $antrian->nama }}
 Umur : {{ \Carbon\Carbon::parse($antrian->kunjungan->tgl_masuk)->diffInYears($antrian->kunjungan->tgl_lahir) }} tahun, No RM : {{ $antrian->norm }}
 Keluhan Utama : {{ $antrian->asesmenperawat->keluhan_utama ?? null }}
 Diagnosa Masuk : {{ $antrian->asesmenperawat->diagnosa_keperawatan ?? null }}
-{{-- @endif --}}
+@endif
                 </x-adminlte-textarea>
                 <x-adminlte-textarea name="background" label="Background (B)" placeholder="Background"
                     fgroup-class="row" label-class="text-right col-3" igroup-size="sm" igroup-class="col-9"
                     rows="5" enable-old-support required>
-{{-- @if ($antrian->sbar) --}}
-{{-- {{ $antrian->sbar->background }} --}}
-{{-- @else --}}
+@if ($antrian->sbar)
+{{ $antrian->sbar->background }}
+@else
 Riwayat Penyakit : {{ $antrian->asesmenperawat->riwayat_penyakit ?? null }}
 Riwayat Penyakit Keluarga : {{ $antrian->asesmenperawat->riwayat_penyakit_keluarga ?? null }}
 Riwayat Alergi : {{ $antrian->asesmenperawat->riwayat_alergi ?? null }}
 Riwayat Pengobatan : {{ $antrian->asesmenperawat->riwayat_pengobatan ?? null }}
-{{-- @endif --}}
+@endif
 
                 </x-adminlte-textarea>
                 <x-adminlte-textarea name="assessment" label="Assessment (A)" placeholder="Assessment" rows="10"
                     fgroup-class="row" label-class="text-right col-3" igroup-size="sm" igroup-class="col-9"
                     enable-old-support required>
-{{-- @if ($antrian->sbar) --}}
-{{-- {{ $antrian->sbar->assessment }} --}}
-{{-- @else --}}
+@if ($antrian->sbar)
+{{ $antrian->sbar->assessment }}
+@else
 Detak Jantung : {{ $antrian->asesmenperawat->denyut_jantung ?? null }} spm , RR : {{ $antrian->asesmenperawat->pernapasan ?? null }} spm
 Tekanan Darah : {{ $antrian->asesmenperawat->sistole ?? null }}/{{ $antrian->asesmenperawat->distole ?? null }} mmHg , Suhu : {{ $antrian->asesmenperawat->suhu ?? null }} celcius
 TT : {{ $antrian->asesmenperawat->tinggi_badan ?? null }} cm , BT : {{ $antrian->asesmenperawat->berat_badan ?? null }} kg
 Kesadaran : {{ $antrian->asesmenperawat->tingkat_kesadaran ?? null }}
 Tanda Vital Tubuh : {{ $antrian->asesmenperawat->keadaan_tubuh ?? null }}
-{{-- @endif --}}
+@endif
                 </x-adminlte-textarea>
                 <x-adminlte-textarea name="recomendation" label="Recomendation (R)" placeholder="Recomendation"
                     rows="5" fgroup-class="row" label-class="text-right col-3" igroup-size="sm"
                     igroup-class="col-9" enable-old-support required>
-{{-- @if ($antrian->sbar) --}}
-{{-- {{ $antrian->sbar->recomendation }} --}}
-{{-- @else --}}
+@if ($antrian->sbar)
+{{ $antrian->sbar->recomendation }}
+@else
 Rencana Keperawatan : {{ $antrian->asesmenperawat->rencana_keperawatan ?? null }}
 Tindakan Keperawatan : {{ $antrian->asesmenperawat->tindakan_keperawatan ?? null }}
 Evaluasi Keperawatan : {{ $antrian->asesmenperawat->evaluasi_keperawatan ?? null }}
-{{-- @endif --}}
+@endif
                 </x-adminlte-textarea>
                 @php
                     $config = ['format' => 'YYYY-MM-DD HH:mm:ss'];
@@ -81,30 +81,30 @@ Evaluasi Keperawatan : {{ $antrian->asesmenperawat->evaluasi_keperawatan ?? null
                 <x-adminlte-textarea name="tulis" label="Tulis (T)" placeholder="Tulis" rows="5"
                     fgroup-class="row" label-class="text-right col-3" igroup-size="sm" igroup-class="col-9"
                     enable-old-support>
-{{-- @if ($antrian->sbar) --}}
-{{-- {{ $antrian->sbar->tulis }} --}}
-{{-- @else --}}
+@if ($antrian->sbar)
+{{ $antrian->sbar->tulis }}
+@else
 Terimakasih atas informasi pasiennya
-{{-- @endif --}}
+@endif
                 </x-adminlte-textarea>
                 <x-adminlte-textarea name="baca" label="Baca (BA)" placeholder="Baca" rows="5"
                     fgroup-class="row" label-class="text-right col-3" igroup-size="sm" igroup-class="col-9"
                     enable-old-support>
-{{-- @if ($antrian->sbar) --}}
-{{-- {{ $antrian->sbar->baca }} --}}
-{{-- @else --}}
+@if ($antrian->sbar)
+{{ $antrian->sbar->baca }}
+@else
 Lakukan pemeriksaan
-{{-- @endif --}}
+@endif
 
                 </x-adminlte-textarea>
                 <x-adminlte-textarea name="konfirmasi" label="Konfirmasi (K)" placeholder="Konfirmasi"
                     rows="5" fgroup-class="row" label-class="text-right col-3" igroup-size="sm"
                     igroup-class="col-9" enable-old-support>
-{{-- @if ($antrian->sbar) --}}
-{{-- {{ $antrian->sbar->konfirmasi }} --}}
-{{-- @else --}}
+@if ($antrian->sbar)
+{{ $antrian->sbar->konfirmasi }}
+@else
 Baik, Akan melakukan pemeriksaan sesuai jadwal
-{{-- @endif --}}
+@endif
                 </x-adminlte-textarea>
                 <x-adminlte-input-date name="waktu_tbak" label="Waktu TBAK" fgroup-class="row"
                     label-class="text-right col-3" igroup-size="sm" igroup-class="col-9" placeholder="Waktu TBAK"
