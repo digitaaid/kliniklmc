@@ -1,13 +1,11 @@
-<x-adminlte-modal id="modalAsesmenPerawat" title="Pengkajian Awal / Asesmen Perawat" size="xl"
-    icon="fas fa-hand-holding-medical" theme="success">
+<x-adminlte-modal id="modalAsesmenPerawat" title="Asesmen Perawat" size="xl" icon="fas fa-hand-holding-medical"
+    theme="success">
     <form action="{{ route('editasesmenperawat') }}" name="formPerawat" id="formPerawat" method="POST">
         @csrf
         <input type="hidden" name="kodebooking" value="{{ $antrian->kodebooking }}">
         <input type="hidden" name="antrian_id" value="{{ $antrian->id }}">
         <input type="hidden" name="kodekunjungan" value="{{ $antrian->kunjungan->kode ?? null }}">
         <input type="hidden" name="kunjungan_id" value="{{ $antrian->kunjungan->id ?? null }}">
-        <h6>Information</h6>
-        @include('sim.antrian_profil3')
         <h6>Subjective (S) - Keluhan Utama, Nyeri & Resiko Jatuh</h6>
         <div class="row">
             <div class="col-md-6">
@@ -649,9 +647,11 @@
         </x-adminlte-textarea>
     </form>
     <x-slot name="footerSlot">
-        <button type="submit" form="formPerawat" class="btn btn-success">
-            <i class="fas fa-edit"></i> Simpan Asesmen
-        </button>
+        @can('dokter')
+            <button type="submit" form="formPerawat" class="btn btn-success">
+                <i class="fas fa-edit"></i> Simpan Asesmen
+            </button>
+        @endcan
         <a href="{{ route('print_asesmen_perawat') }}?kodekunjungan={{ $antrian->kunjungan->kode }}"
             class="btn btn-warning ml-auto" target="_blank"> <i class="fas fa-print"></i> Print</a>
         <x-adminlte-button theme="danger" icon="fas fa-times" label="Kembali" data-dismiss="modal" />

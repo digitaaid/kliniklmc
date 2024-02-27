@@ -99,7 +99,7 @@
                         {{-- perawat --}}
                         {{-- @include('sim.tabel_anamnesa_perawat') --}}
                         {{-- dokter --}}
-                        <div class="card card-info mb-1">
+                        {{-- <div class="card card-info mb-1">
                             <a class="card-header" data-toggle="collapse" data-parent="#accordion" href="#collapseDokter">
                                 <h3 class="card-title">
                                     Pemeriksaan Dokter
@@ -253,15 +253,6 @@
                                                                         <option value="303"
                                                                             {{ $itemobat->interval == '303' ? 'selected' : null }}>
                                                                             3-0-3</option>
-                                                                        {{-- <option value="prn"
-                                                                            {{ $itemobat->interval == 'prn' ? 'selected' : null }}>
-                                                                            Sesuai Kebutuhan</option>
-                                                                        <option value="q3h"
-                                                                            {{ $itemobat->interval == 'q3h' ? 'selected' : null }}>
-                                                                            Setiap 3 Jam</option>
-                                                                        <option value="q4h"
-                                                                            {{ $itemobat->interval == 'q4h' ? 'selected' : null }}>
-                                                                            Setiap 4 Jam</option> --}}
                                                                     </select>
                                                                     <select name="waktuobat[]"
                                                                         class="form-control waktuObat">
@@ -307,9 +298,6 @@
                                                                 <option value="qid">4 x 1</option>
                                                                 <option value="202">2-0-2</option>
                                                                 <option value="303">3-0-3</option>
-                                                                {{-- <option value="prn">Sesuai Kebutuhan</option>
-                                                                <option value="q3h">Setiap 3 Jam</option>
-                                                                <option value="q4h">Setiap 4 Jam</option> --}}
                                                             </select>
                                                             <select name="waktuobat[]" class="form-control waktuObat">
                                                                 <option selected>Waktu Obat</option>
@@ -348,7 +336,7 @@
                                     </form>
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
                         {{-- laboratorium --}}
                         @include('sim.tabel_lab')
                         {{-- resep obat --}}
