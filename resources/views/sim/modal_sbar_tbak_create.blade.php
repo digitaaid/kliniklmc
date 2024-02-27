@@ -91,7 +91,7 @@ Terimakasih atas informasi pasiennya
                     fgroup-class="row" label-class="text-right col-3" igroup-size="sm" igroup-class="col-9"
                     enable-old-support>
 @if ($antrian->sbar)
-{{ $antrian->sbar->tulis }}
+{{ $antrian->sbar->baca }}
 @else
 Lakukan pemeriksaan
 @endif
@@ -101,7 +101,7 @@ Lakukan pemeriksaan
                     rows="5" fgroup-class="row" label-class="text-right col-3" igroup-size="sm"
                     igroup-class="col-9" enable-old-support>
 @if ($antrian->sbar)
-{{ $antrian->sbar->tulis }}
+{{ $antrian->sbar->konfirmasi }}
 @else
 Baik, Akan melakukan pemeriksaan sesuai jadwal
 @endif

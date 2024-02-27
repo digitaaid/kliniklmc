@@ -1,5 +1,5 @@
 <section>
-    <div class="col-md-12" style="font-size: 12px">
+    <div class="col-md-12" style="font-size: 13px">
         <div class="row">
             @include('form.assesmen_kop')
             {{-- <div class="col-md-2 border border-dark text-center">
