@@ -189,6 +189,7 @@ Route::middleware('auth')->group(function () {
     Route::get('print_asesmen_perawat', [FormController::class, 'print_asesmen_perawat'])->name('print_asesmen_perawat');
     Route::get('print_resume_rajal', [FormController::class, 'print_resume_rajal'])->name('print_resume_rajal');
     Route::get('print_cppt', [FormController::class, 'print_cppt'])->name('print_cppt');
+    Route::get('print_asesmen_rajal', [FormController::class, 'print_asesmen_rajal'])->name('print_asesmen_rajal');
     Route::post('uploadberkas', [PerawatController::class, 'uploadberkas'])->name('uploadberkas');
     Route::get('hapusfilepenunjang', [PerawatController::class, 'hapusfilepenunjang'])->name('hapusfilepenunjang');
     Route::get('laporanperawat', [PerawatController::class, 'laporanperawat'])->name('laporanperawat');

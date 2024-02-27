@@ -2,7 +2,7 @@
     <div class="col-md-12" style="font-size: 12px">
         <div class="row">
             @include('form.assesmen_kop')
-            <div class="col-md-12 border border-dark text-center">
+            <div class="col-md-12 border border-dark text-center btn-warning">
                 <b class="">RESUME MEDIS RAWAT JALAN</b>
             </div>
             <div class="col-md-12 border border-dark">
@@ -87,8 +87,13 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-6 border border-dark">
+            <div class="col-md-6 border border-dark bg-warning">
                 <b>ANAMNESA</b>
+            </div>
+            <div class="col-md-6 border border-dark bg-warning">
+                <b>ANJURAN</b>
+            </div>
+            <div class="col-md-6 border border-dark">
                 <dl class="row">
                     <dt class="col-sm-3">Keluhan Utama</dt>
                     <dd class="col-sm-9">{{ $antrian->asesmenperawat->keluhan_utama ?? '-' }}</dd>
@@ -112,29 +117,51 @@
                 </dl>
             </div>
             <div class="col-md-6  border border-dark">
-                <b>ANJURAN</b>
                 <dl class="row">
                     <dt class="col-sm-3">Instruksi Medis</dt>
                     <dd class="col-sm-9">{{ $antrian->asesmendokter->instruksi_medis ?? '-' }}</dd>
                 </dl>
             </div>
-            <div class="col-md-6 border border-dark">
+            <div class="col-md-6 border border-dark bg-warning">
                 <b>DIAGNOSA</b>
+            </div>
+            <div class="col-md-6 border border-dark bg-warning">
+                <b>TERAPI</b>
+            </div>
+            <div class="col-md-6 border border-dark">
                 <dl class="row">
                     <dt class="col-sm-3">Diagnosa Keperawatan</dt>
                     <dd class="col-sm-9">{{ $antrian->asesmenperawat->diagnosa_keperawatan ?? '-' }}</dd>
-                    <dt class="col-sm-3">Diagnosa Klinis</dt>
-                    <dd class="col-sm-9">{{ $antrian->asesmendokter->diagnosa ?? '-' }}</dd>
-                    <dt class="col-sm-3">Diagnosa Sekunder</dt>
-                    <dd class="col-sm-9">{{ $antrian->asesmendokter->catatan_diagnosa ?? '-' }}</dd>
+                    <dt class="col-sm-3">Diagnosa</dt>
+                    <dd class="col-sm-9">
+                        @if (is_array(json_decode($kunjungan->asesmendokter->diagnosa)) ||
+                                is_object(json_decode($kunjungan->asesmendokter->diagnosa)))
+                            @foreach (json_decode($kunjungan->asesmendokter->diagnosa) as $itemx)
+                                @if ($itemx != 'null')
+                                    - {{ $itemx }} <br>
+                                @endif
+                            @endforeach
+                        @endif
+                        {{ $kunjungan->asesmendokter->catatan_diagnosa ?? null }}
+                    </dd>
                     <dt class="col-sm-3">ICD-10 Primer</dt>
                     <dd class="col-sm-9">{{ $antrian->asesmendokter->diagnosa1 ?? '-' }}</dd>
                     <dt class="col-sm-3">ICD-10 Sekunder</dt>
-                    <dd class="col-sm-9">{{ $antrian->asesmendokter->diagnosa2 ?? '-' }}</dd>
+                    <dd class="col-sm-9">
+                        @if (is_array(json_decode($kunjungan->asesmendokter->diagnosa2)) ||
+                                is_object(json_decode($kunjungan->asesmendokter->diagnosa2)))
+                            @foreach (json_decode($kunjungan->asesmendokter->diagnosa2) as $item)
+                                @if ($item != 'null')
+                                    - {{ $item }} <br>
+                                @endif
+                            @endforeach
+                        @else
+                            -
+                        @endif
+                    </dd>
                 </dl>
             </div>
             <div class="col-md-6  border border-dark">
-                <b>TERAPI</b>
                 <dl class="row">
                     <dt class="col-sm-3">Tindakan Perawat</dt>
                     <dd class="col-sm-9">{{ $antrian->asesmenperawat->tindakan_keperawatan ?? '-' }}</dd>

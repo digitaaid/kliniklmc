@@ -1,5 +1,12 @@
 <x-adminlte-modal id="modalResumeRajal" title="Resume Rawat" size="xl" icon="fas fa-hand-holding-medical"
     theme="success">
+    <style>
+        dd,
+        dl,
+        dt {
+            margin-bottom: 0 !important;
+        }
+    </style>
     @include('form.resume_rajal')
     <x-slot name="footerSlot">
         <a href="{{ route('print_resume_rajal') }}?kodekunjungan={{ $antrian->kunjungan->kode }}"

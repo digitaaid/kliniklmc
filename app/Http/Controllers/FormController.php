@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Antrian;
 use App\Models\AsesmenDokter;
 use App\Models\AsesmenPerawat;
+use App\Models\Kunjungan;
 use App\Models\Obat;
 use App\Models\Pasien;
 use App\Models\ResepKemoterapi;
@@ -83,6 +84,21 @@ class FormController extends Controller
             'kunjungan',
         ]));
     }
+    public function print_asesmen_rajal(Request $request)
+    {
+        $kunjungan = Kunjungan::firstWhere('kode', $request->kodekunjungan);
+        $antrian = $kunjungan->antrian;
+        $asesmenperawat = $kunjungan->asesmenperawat;
+        $asesmendokter = $kunjungan->asesmendokter;
+        return view('print.print_asesmen_rajal', compact([
+            'request',
+            'antrian',
+            'kunjungan',
+            'asesmenperawat',
+            'asesmendokter',
+        ]));
+    }
+
     public function print_cppt(Request $request)
     {
         $pasien = Pasien::firstWhere('norm', $request->pasien);

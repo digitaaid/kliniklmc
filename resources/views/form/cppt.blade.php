@@ -74,7 +74,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-12 border border-dark text-center">
+            <div class="col-md-12 border border-dark text-center bg-warning">
                 <b class="">CACATATAN PENGASUHAN PASIEN TERINTEGRASI</b>
             </div>
             <div class="col-md-2  border border-dark">
