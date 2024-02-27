@@ -172,7 +172,7 @@
             placeholder="Pemeriksaan Fisik">
             {{ $antrian->asesmendokter->pemeriksaan_fisik ?? null }}
         </x-adminlte-textarea>
-        <h6>Objective (O) - Laboratorium, Radiologi, & Penunjang Lainnya</h6>
+        {{-- <h6>Objective (O) - Laboratorium, Radiologi, & Penunjang Lainnya</h6>
         <div class="row">
             <div class="col-md-4">
                 <x-adminlte-textarea required igroup-size="sm" rows=4 label="Hasil Pemeriksaan Laboratorium"
@@ -192,7 +192,7 @@
                     {{ $antrian->asesmenperawat->pemeriksaan_penunjang ?? null }}
                 </x-adminlte-textarea>
             </div>
-        </div>
+        </div> --}}
         <h6>Analysis (A)</h6>
         <x-adminlte-textarea required igroup-size="sm" rows=3 label="Diagnosa Keperawatan"
             name="diagnosa_keperawatan" placeholder="Diagnosa Masuk">
