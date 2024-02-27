@@ -99,6 +99,8 @@
                     </dd>
                     <dt class="col-sm-3">R Alergi</dt>
                     <dd class="col-sm-9">{{ $antrian->asesmenperawat->riwayat_alergi ?? '-' }}</dd>
+                    <dt class="col-sm-3">R Pengobatan</dt>
+                    <dd class="col-sm-9">{{ $antrian->asesmenperawat->riwayat_pengobatan ?? '-' }}</dd>
                     <dt class="col-sm-3">Social</dt>
                     <dd class="col-sm-9">{{ $antrian->asesmenperawat->hubungan ?? '-' }}</dd>
                     <dt class="col-sm-3">Pekerjaan</dt>
