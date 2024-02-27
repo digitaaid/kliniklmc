@@ -647,7 +647,7 @@
         </x-adminlte-textarea>
     </form>
     <x-slot name="footerSlot">
-        @can('dokter')
+        @can('perawat')
             <button type="submit" form="formPerawat" class="btn btn-success">
                 <i class="fas fa-edit"></i> Simpan Asesmen
             </button>
