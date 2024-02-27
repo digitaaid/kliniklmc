@@ -10,15 +10,6 @@
     </a>
     <div id="collapseOne" class="collapse show" role="tabpanel" aria-labelledby="headingOne">
         <div class="card-body p-1 mb-3">
-            <style>
-                pre {
-                    padding: 0 !important;
-                    margin-bottom: 0 !important;
-                    font-size: 14px !important;
-                    border: none;
-                    outline: none;
-                }
-            </style>
             @include('form.cppt')
             <x-adminlte-modal id="modalFilePenunjang" name="modalFilePenunjang" title="File Penunjang" theme="success"
                 icon="fas fa-file-medical" size="xl">

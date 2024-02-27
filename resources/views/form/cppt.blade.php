@@ -223,19 +223,19 @@
                                 </dd>
                                 <dt>Pemeriksaan Fisik :</dt>
                                 <dd>
-                                    <pre>{{ $kunjungan->asesmendokter->pemeriksaan_fisik ?? null }}</pre>
+                                    <pre>{{ $kunjungan->asesmendokter->pemeriksaan_fisik ?? '-' }}</pre>
                                 </dd>
                                 <dt>Tindakan :</dt>
                                 <dd>
-                                    <pre>{{ $kunjungan->asesmendokter->tindakan_medis ?? null }}</pre>
+                                    <pre>{{ $kunjungan->asesmendokter->tindakan_medis ?? '-' }}</pre>
                                 </dd>
                                 <dt>Instruksi Medis :</dt>
                                 <dd>
-                                    <pre>{{ $kunjungan->asesmendokter->instruksi_medis ?? null }}</pre>
+                                    <pre>{{ $kunjungan->asesmendokter->instruksi_medis ?? '-' }}</pre>
                                 </dd>
                                 <dt>Catatan Dokter :</dt>
                                 <dd>
-                                    <pre>{{ $kunjungan->asesmendokter->rencana_perawatan ?? null }}</pre>
+                                    <pre>{{ $kunjungan->asesmendokter->rencana_perawatan ?? '-' }}</pre>
                                 </dd>
                             </dl>
                         @else
@@ -315,8 +315,8 @@
                             </dd>
                             <dt>Catatan Resep :</dt>
                             <dd>
-                                <pre>{{ $kunjungan->asesmendokter->resep_obat ?? null }}</pre>
-                                <pre>{{ $kunjungan->asesmendokter->catatan_resep ?? null }}</pre>
+                                <pre>{{ $kunjungan->asesmendokter->resep_obat ?? '-' }}</pre>
+                                <pre>{{ $kunjungan->asesmendokter->catatan_resep ?? '-' }}</pre>
                             </dd>
                         @else
                             Belum Ada Resep
