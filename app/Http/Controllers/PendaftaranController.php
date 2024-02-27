@@ -161,6 +161,7 @@ class PendaftaranController extends APIController
     {
         $antrian = Antrian::with(['kunjungan', 'pasien'])->where('kodebooking', $request->kodebooking)->first();
         if ($antrian) {
+            $pasien = $antrian->pasien;
             if ($antrian->taskid == 1) {
                 $antrian->update([
                     'taskid' => 2,
@@ -194,6 +195,7 @@ class PendaftaranController extends APIController
             return view('sim.antrian_pendaftaran_proses', compact([
                 'request',
                 'antrian',
+                'pasien',
                 'kunjungans',
                 'dokters',
                 'jaminans',
