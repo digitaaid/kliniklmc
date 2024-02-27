@@ -4,8 +4,8 @@
         <div class="row">
             <input type="hidden" name="kodebooking" value="{{ $antrian->kodebooking }}">
             <input type="hidden" name="antrian_id" value="{{ $antrian->id }}">
-            <input type="hidden" name="kodekunjungan" value="{{ $antrian->kunjungan->kode ?? null }}">
-            <input type="hidden" name="kunjungan_id" value="{{ $antrian->kunjungan->id ?? null }}">
+            <input type="hidden" name="kodekunjungan" value="{{ $antrian->kunjungan->kode ?? '-' }}">
+            <input type="hidden" name="kunjungan_id" value="{{ $antrian->kunjungan->id ?? '-' }}">
             <div class="col-md-6">
                 <x-adminlte-input name="pengirim" label="Pengirim" placeholder="Pengirim" fgroup-class="row"
                     label-class="text-right col-3" igroup-size="sm" igroup-class="col-9" enable-old-support
@@ -22,8 +22,8 @@
 Salam dok, saya {{ Auth::user()->name }} dari keperawatan Klinik LMC izin melaporkan pasien dengan data sbb:
 Nama : {{ $antrian->nama }}
 Umur : {{ \Carbon\Carbon::parse($antrian->kunjungan->tgl_masuk)->diffInYears($antrian->kunjungan->tgl_lahir) }} tahun, No RM : {{ $antrian->norm }}
-Keluhan Utama : {{ $antrian->asesmenperawat->keluhan_utama ?? null }}
-Diagnosa Masuk : {{ $antrian->asesmenperawat->diagnosa_keperawatan ?? null }}
+Keluhan Utama : {{ $antrian->asesmenperawat->keluhan_utama ?? '-' }}
+Diagnosa Masuk : {{ $antrian->asesmenperawat->diagnosa_keperawatan ?? '-' }}
 @endif
                 </x-adminlte-textarea>
                 <x-adminlte-textarea name="background" label="Background (B)" placeholder="Background"
@@ -32,10 +32,10 @@ Diagnosa Masuk : {{ $antrian->asesmenperawat->diagnosa_keperawatan ?? null }}
 @if ($antrian->sbar)
 {{ $antrian->sbar->background }}
 @else
-Riwayat Penyakit : {{ $antrian->asesmenperawat->riwayat_penyakit ?? null }}
-Riwayat Penyakit Keluarga : {{ $antrian->asesmenperawat->riwayat_penyakit_keluarga ?? null }}
-Riwayat Alergi : {{ $antrian->asesmenperawat->riwayat_alergi ?? null }}
-Riwayat Pengobatan : {{ $antrian->asesmenperawat->riwayat_pengobatan ?? null }}
+Riwayat Penyakit : {{ $antrian->asesmenperawat->riwayat_penyakit ?? '-' }}
+Riwayat Penyakit Keluarga : {{ $antrian->asesmenperawat->riwayat_penyakit_keluarga ?? '-' }}
+Riwayat Alergi : {{ $antrian->asesmenperawat->riwayat_alergi ?? '-' }}
+Riwayat Pengobatan : {{ $antrian->asesmenperawat->riwayat_pengobatan ?? '-' }}
 @endif
 
                 </x-adminlte-textarea>
@@ -45,11 +45,11 @@ Riwayat Pengobatan : {{ $antrian->asesmenperawat->riwayat_pengobatan ?? null }}
 @if ($antrian->sbar)
 {{ $antrian->sbar->assessment }}
 @else
-Detak Jantung : {{ $antrian->asesmenperawat->denyut_jantung ?? null }} spm , RR : {{ $antrian->asesmenperawat->pernapasan ?? null }} spm
-Tekanan Darah : {{ $antrian->asesmenperawat->sistole ?? null }}/{{ $antrian->asesmenperawat->distole ?? null }} mmHg , Suhu : {{ $antrian->asesmenperawat->suhu ?? null }} celcius
-TT : {{ $antrian->asesmenperawat->tinggi_badan ?? null }} cm , BT : {{ $antrian->asesmenperawat->berat_badan ?? null }} kg
-Kesadaran : {{ $antrian->asesmenperawat->tingkat_kesadaran ?? null }}
-Tanda Vital Tubuh : {{ $antrian->asesmenperawat->keadaan_tubuh ?? null }}
+Detak Jantung : {{ $antrian->asesmenperawat->denyut_jantung ?? '-' }} spm , RR : {{ $antrian->asesmenperawat->pernapasan ?? '-' }} spm
+Tekanan Darah : {{ $antrian->asesmenperawat->sistole ?? '-' }}/{{ $antrian->asesmenperawat->distole ?? '-' }} mmHg , Suhu : {{ $antrian->asesmenperawat->suhu ?? '-' }} celcius
+TT : {{ $antrian->asesmenperawat->tinggi_badan ?? '-' }} cm , BT : {{ $antrian->asesmenperawat->berat_badan ?? '-' }} kg
+Kesadaran : {{ $antrian->asesmenperawat->tingkat_kesadaran ?? '-' }}
+Tanda Vital Tubuh : {{ $antrian->asesmenperawat->keadaan_tubuh ?? '-' }}
 @endif
                 </x-adminlte-textarea>
                 <x-adminlte-textarea name="recomendation" label="Recomendation (R)" placeholder="Recomendation"
@@ -58,9 +58,9 @@ Tanda Vital Tubuh : {{ $antrian->asesmenperawat->keadaan_tubuh ?? null }}
 @if ($antrian->sbar)
 {{ $antrian->sbar->recomendation }}
 @else
-Rencana Keperawatan : {{ $antrian->asesmenperawat->rencana_keperawatan ?? null }}
-Tindakan Keperawatan : {{ $antrian->asesmenperawat->tindakan_keperawatan ?? null }}
-Evaluasi Keperawatan : {{ $antrian->asesmenperawat->evaluasi_keperawatan ?? null }}
+Rencana Keperawatan : {{ $antrian->asesmenperawat->rencana_keperawatan ?? '-' }}
+Tindakan Keperawatan : {{ $antrian->asesmenperawat->tindakan_keperawatan ?? '-' }}
+Evaluasi Keperawatan : {{ $antrian->asesmenperawat->evaluasi_keperawatan ?? '-' }}
 @endif
                 </x-adminlte-textarea>
                 @php
