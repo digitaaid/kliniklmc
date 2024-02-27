@@ -108,7 +108,7 @@ Baik, Akan melakukan pemeriksaan sesuai jadwal
                 </x-adminlte-textarea>
                 <x-adminlte-input-date name="waktu_tbak" label="Waktu TBAK" fgroup-class="row"
                     label-class="text-right col-3" igroup-size="sm" igroup-class="col-9" placeholder="Waktu TBAK"
-                    :config="$config" value="{{ $antrian->sbar->waktu_tbak ?? now() }}">
+                    :config="$config" value="">
                 </x-adminlte-input-date>
             </div>
         </div>
