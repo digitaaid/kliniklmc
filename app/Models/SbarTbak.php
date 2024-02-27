@@ -9,4 +9,8 @@ class SbarTbak extends Model
 {
     use HasFactory;
     protected $guarded = ['id'];
+    public function antrian()
+    {
+        return $this->belongsTo(Antrian::class);
+    }
 }

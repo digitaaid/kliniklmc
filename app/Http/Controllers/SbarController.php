@@ -57,6 +57,18 @@ class SbarController extends Controller
         Alert::success('Success', 'Simpan SBAR Keperawatan.');
         return redirect()->back();
     }
+    public function print_sbar_tbak(Request $request)
+    {
+        $sbar = SbarTbak::firstWhere('kodekunjungan', $request->kodekunjungan);
+        $antrian = $sbar->antrian;
+        $kunjungan = $antrian->kunjungan;
+        return view('print.print_sbar_tbak', compact([
+            'request',
+            'antrian',
+            'kunjungan',
+            'sbar',
+        ]));
+    }
 
     /**
      * Display the specified resource.

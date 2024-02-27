@@ -25,7 +25,7 @@ return new class extends Migration
 
             $table->text('situation')->nullable();
             $table->text('background')->nullable();
-            $table->text('assesment')->nullable();
+            $table->text('assessment')->nullable();
             $table->text('recomendation')->nullable();
             $table->text('tulis')->nullable();
             $table->text('baca')->nullable();

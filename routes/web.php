@@ -181,6 +181,7 @@ Route::middleware('auth')->group(function () {
 
     // perawat
     Route::resource('sbartbak', SbarController::class);
+    Route::get('print_sbar_tbak', [SbarController::class, 'print_sbar_tbak'])->name('print_sbar_tbak');
 
     Route::get('antrianperawat', [PerawatController::class, 'antrianperawat'])->name('antrianperawat');
     Route::get('prosesperawat', [PerawatController::class, 'prosesperawat'])->name('prosesperawat');
