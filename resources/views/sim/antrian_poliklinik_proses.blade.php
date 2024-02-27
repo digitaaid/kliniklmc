@@ -85,6 +85,9 @@
                         label="SBAR TBAK" icon="fas fa-envelope" onclick="btnSBAR()" />
                     <x-adminlte-button class="btn-xs mb-1" theme="{{ $antrian->asesmendokter ? 'warning' : 'danger' }}"
                         label="Asesmen Dokter" icon="fas fa-user-md" onclick="btnPemeriksaanDokter()" />
+                    <x-adminlte-button class="btn-xs mb-1"
+                        theme="{{ $antrian->asesmendokter && $antrian->asesmendokter ? 'warning' : 'danger' }}"
+                        label="Resume" icon="fas fa-user-md" onclick="btnResumeRajal()" />
                 </x-slot>
             </x-adminlte-card>
         </div>
@@ -134,8 +137,7 @@
                                                 <x-adminlte-select2 name="diagnosa[]" class="diagnosa" label="Diagnosa :"
                                                     multiple>
                                                     @if ($antrian->asesmendokter)
-                                                        @if (is_array(json_decode($antrian->asesmendokter->diagnosa)) ||
-                                                                is_object(json_decode($antrian->asesmendokter->diagnosa)))
+                                                        @if (is_array(json_decode($antrian->asesmendokter->diagnosa)) || is_object(json_decode($antrian->asesmendokter->diagnosa)))
                                                             @foreach (json_decode($antrian->asesmendokter->diagnosa) as $item)
                                                                 <option value="{{ $item }}" selected>
                                                                     {{ $item }}
@@ -164,8 +166,7 @@
                                                 <x-adminlte-select2 name="diagnosa2[]" class="diagnosaid2"
                                                     label="Diagnosa Sekunder ICD-10 : " multiple>
                                                     @if ($antrian->asesmendokter)
-                                                        @if (is_array(json_decode($antrian->asesmendokter->diagnosa2)) ||
-                                                                is_object(json_decode($antrian->asesmendokter->diagnosa2)))
+                                                        @if (is_array(json_decode($antrian->asesmendokter->diagnosa2)) || is_object(json_decode($antrian->asesmendokter->diagnosa2)))
                                                             @foreach (json_decode($antrian->asesmendokter->diagnosa2) as $item)
                                                                 <option value="{{ $item }}" selected>
                                                                     {{ $item }}
@@ -550,6 +551,7 @@
     @include('sim.modal_sbar_tbak_create')
     @include('sim.modal_asesmen_perawat')
     @include('sim.modal_asesmen_dokter')
+    @include('sim.modal_resume_rajal')
 @stop
 
 @section('plugins.Datatables', true)
@@ -1002,6 +1004,12 @@
         function btnPemeriksaanDokter() {
             $.LoadingOverlay("show");
             $('#modalAsesmenDokter').modal('show');
+            $.LoadingOverlay("hide");
+        }
+
+        function btnResumeRajal() {
+            $.LoadingOverlay("show");
+            $('#modalResumeRajal').modal('show');
             $.LoadingOverlay("hide");
         }
     </script>

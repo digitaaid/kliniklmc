@@ -45,7 +45,7 @@
                             <dd class="col-sm-9 m-0">
                                 {{ $antrian->kunjungan ? $antrian->kunjungan->dokters->namadokter : 'Belum Kunjungan' }}
                             </dd>
-                            <dt class="col-sm-3 m-0">Jaminan</dt>
+                            <dt class="col-sm-3 m-0">Jenis Kjg</dt>
                             <dd class="col-sm-9 m-0">
                                 @switch($antrian->jeniskunjungan)
                                     @case(1)
