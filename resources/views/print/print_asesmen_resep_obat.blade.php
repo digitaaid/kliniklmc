@@ -89,8 +89,6 @@
                                             {{ $itemobat->keterangan }} <br>
                                         @endforeach
                                     @endif
-
-
                                 @endif
 
                                 <dd>

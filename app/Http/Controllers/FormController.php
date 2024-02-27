@@ -71,11 +71,23 @@ class FormController extends Controller
             'kunjungan',
         ]));
     }
+    public function print_resume_rajal(Request $request)
+    {
+        $asesmen = AsesmenPerawat::firstWhere('kodekunjungan', $request->kodekunjungan);
+        $antrian = $asesmen->antrian;
+        $kunjungan = $antrian->kunjungan;
+        return view('print.print_resume_rajal', compact([
+            'request',
+            'antrian',
+            'kunjungan',
+        ]));
+    }
+
     public function print_resepkemoterapi(Request $request)
     {
         $resep = ResepKemoterapi::firstWhere('kode', $request->kode);
-        $obatkemo = Obat::where('jenisobat','Obat Kemoterapi')->get();
-        $penunjangkemo = Obat::where('jenisobat','Penunjang Kemoterapi')->get();
+        $obatkemo = Obat::where('jenisobat', 'Obat Kemoterapi')->get();
+        $penunjangkemo = Obat::where('jenisobat', 'Penunjang Kemoterapi')->get();
         return view('print.print_resep_kemoterapi', compact([
             'request',
             'resep',

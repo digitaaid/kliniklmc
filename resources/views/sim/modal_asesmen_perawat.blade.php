@@ -629,7 +629,7 @@
         </div>
         <h6>Analysis (A)</h6>
         <x-adminlte-textarea required igroup-size="sm" rows=3 label="Diagnosa Keperawatan"
-            name="diagnosa_keperawatan" placeholder="Diagnosa Masuk">
+            name="diagnosa_keperawatan" placeholder="Diagnosa Keperawatan">
             {{ $antrian->asesmenperawat->diagnosa_keperawatan ?? null }}
         </x-adminlte-textarea>
         <h6>Planning (P)</h6>
