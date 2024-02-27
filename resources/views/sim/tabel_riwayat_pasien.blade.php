@@ -1,7 +1,7 @@
 <div class="card card-info mb-1">
     <a data-toggle="collapse" class="card-header" data-parent="#accordion" href="#collapseOne">
         <h3 class="card-title">
-            Riwayat Pasien
+            Riwayat CPPT Pasien
         </h3>
         <div class="card-tools">
             {{ $antrian->pasien ? $antrian->pasien->kunjungans->count() : 0 }} Kunjungan <i
