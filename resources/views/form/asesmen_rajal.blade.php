@@ -347,7 +347,7 @@
                 <b>Perawat,</b> <br>
                 {!! QrCode::size(50)->generate('Telah diisi dan dikonfirmasi ' . $antrian->asesmenperawat->waktu) !!} <br>
                 <b><u>
-                        {{ $antrian->pic2 ? $antrian->pic2->name : 'Belum Asesmen Perawat' }}
+                        {{ $antrian->pic2 ? $antrian->pic2->name : 'Perawat' }}
                     </u></b>
                 <br>
                 Waktu : {{ $antrian->asesmenperawat->waktu }}
