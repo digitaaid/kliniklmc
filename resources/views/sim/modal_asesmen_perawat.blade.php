@@ -540,7 +540,7 @@
                 </x-adminlte-input>
                 <x-adminlte-input required name="berat_badan" label="Berat Badan" igroup-size="sm"
                     fgroup-class="row" label-class="text-left col-5" igroup-size="sm" igroup-class="col-7"
-                    placeholder="Berat Badan" type="number"
+                    placeholder="Berat Badan" type="number" oninput="indexBsa()"
                     value="{{ $antrian->asesmenperawat->berat_badan ?? null }}">
                     <x-slot name="appendSlot">
                         <div class="input-group-text bg-secondary">
@@ -550,7 +550,7 @@
                 </x-adminlte-input>
                 <x-adminlte-input required name="tinggi_badan" type="number" label="Tinggi Badan"
                     fgroup-class="row" label-class="text-left col-5" igroup-size="sm" igroup-class="col-7"
-                    igroup-size="sm" placeholder="Tinggi Badan"
+                    igroup-size="sm" placeholder="Tinggi Badan" oninput="indexBsa()"
                     value="{{ $antrian->asesmenperawat->tinggi_badan ?? null }}">
                     <x-slot name="appendSlot">
                         <div class="input-group-text bg-secondary">
@@ -657,3 +657,13 @@
         <x-adminlte-button theme="danger" icon="fas fa-times" label="Kembali" data-dismiss="modal" />
     </x-slot>
 </x-adminlte-modal>
+@push('js')
+    <script>
+        function indexBsa() {
+            var bb = $('#berat_badan').val() ? $('#berat_badan').val() : 0;
+            var tb = $('#tinggi_badan').val() ? $('#tinggi_badan').val() : 0;
+            var bsa = (parseInt(bb) * parseInt(tb) / 3600).toFixed(2);
+            $('#bsa').val(bsa);
+        }
+    </script>
+@endpush
