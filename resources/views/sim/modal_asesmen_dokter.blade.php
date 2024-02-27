@@ -407,8 +407,8 @@
             <button type="submit" class="btn btn-success" form="formAsesmenDokter">
                 <i class="fas fa-save"></i> Simpan Asesmen</button>
         @endcan
-        <a href="{{ route('print_asesmen_perawat') }}?kodekunjungan={{ $antrian->kunjungan->kode }}"
-            class="btn btn-warning ml-auto" target="_blank"> <i class="fas fa-print"></i> Print</a>
+            <a href="{{ route('print_asesmen_rajal') }}?kodekunjungan={{ $antrian->kunjungan->kode }}"
+                class="btn btn-warning ml-auto" target="_blank"> <i class="fas fa-print"></i> Print</a>
         <x-adminlte-button theme="danger" icon="fas fa-times" label="Kembali" data-dismiss="modal" />
     </x-slot>
 </x-adminlte-modal>
