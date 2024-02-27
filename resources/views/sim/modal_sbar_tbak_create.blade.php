@@ -43,7 +43,7 @@ Riwayat Pengobatan : {{ $antrian->asesmenperawat->riwayat_pengobatan ?? null }}
                     fgroup-class="row" label-class="text-right col-3" igroup-size="sm" igroup-class="col-9"
                     enable-old-support required>
 @if ($antrian->sbar)
-{{ $antrian->sbar->background }}
+{{ $antrian->sbar->assessment }}
 @else
 Detak Jantung : {{ $antrian->asesmenperawat->denyut_jantung ?? null }} spm , RR : {{ $antrian->asesmenperawat->pernapasan ?? null }} spm
 Tekanan Darah : {{ $antrian->asesmenperawat->sistole ?? null }}/{{ $antrian->asesmenperawat->distole ?? null }} mmHg , Suhu : {{ $antrian->asesmenperawat->suhu ?? null }} celcius

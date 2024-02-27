@@ -22,7 +22,7 @@
             border: none;
             outline: none;
             padding: 0 !important;
-            font-size: 11px !important;
+            font-size: 13px !important;
         }
 
         dd,
@@ -48,7 +48,7 @@
             border: none;
             outline: none;
             padding: 0 !important;
-            font-size: 11px !important;
+            font-size: 13px !important;
         }
 
         .main-footer {

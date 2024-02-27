@@ -1,5 +1,5 @@
 <section>
-    <div class="col-md-12" style="font-size: 11px">
+    <div class="col-md-12" style="font-size: 13px">
         <div class="row">
             <div class="col-md-2 border border-dark">
                 <div class="m-2  text-center">
