@@ -8,7 +8,7 @@
         <div class="col-md-12">
             <div id="printMe">
                 <section>
-                    <div class="col-md-12" style="font-size: 12px">
+                    <div class="col-md-12" style="font-size: 13px">
                         <div class="row">
                             @include('form.assesmen_kop')
                             <div class="col-md-12 border border-dark text-center">
@@ -79,7 +79,7 @@
             border: none;
             outline: none;
             padding: 0 !important;
-            font-size: 11px !important;
+            font-size: 13px !important;
         }
     </style>
     <style type="text/css" media="print">
@@ -93,7 +93,7 @@
             border: none;
             outline: none;
             padding: 0 !important;
-            font-size: 11px !important;
+            font-size: 13px !important;
         }
 
         .main-footer {

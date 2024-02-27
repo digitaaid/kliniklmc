@@ -105,7 +105,6 @@ Lakukan pemeriksaan
 @else
 Baik, Akan melakukan pemeriksaan sesuai jadwal
 @endif
-
                 </x-adminlte-textarea>
                 <x-adminlte-input-date name="waktu_tbak" label="Waktu TBAK" fgroup-class="row"
                     label-class="text-right col-3" igroup-size="sm" igroup-class="col-9" placeholder="Waktu TBAK"
