@@ -214,6 +214,7 @@ class PendaftaranController extends APIController
     {
         $antrian = Antrian::with(['kunjungan', 'pasien'])->where('kodebooking', $request->kodebooking)->first();
         if ($antrian) {
+            $pasien = $antrian->pasien;
             $kunjungans = Kunjungan::where('norm', $antrian->norm)
                 ->has('pasien')
                 ->with(['units', 'asesmenperawat', 'asesmendokter', 'files', 'resepobat', 'resepobat.resepdetail'])
@@ -238,6 +239,7 @@ class PendaftaranController extends APIController
                 'request',
                 'antrian',
                 'kunjungans',
+                'pasien',
                 'dokters',
                 'jaminans',
                 'polikliniks',
