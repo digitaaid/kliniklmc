@@ -1,6 +1,6 @@
-<x-adminlte-modal id="modalAsesmenPerawat" title="Pengkajian Awal / Asesmen Perawat" size="xl"
+<x-adminlte-modal id="modalAsesmenDokter" title="Pemeriksaan / Asesmen Dokter" size="xl"
     icon="fas fa-hand-holding-medical" theme="success">
-    <form action="{{ route('editasesmenperawat') }}" name="formPerawat" id="formPerawat" method="POST">
+    {{-- <form action="{{ route('editasesmenperawat') }}" name="formPerawat" id="formPerawat" method="POST">
         @csrf
         <input type="hidden" name="kodebooking" value="{{ $antrian->kodebooking }}">
         <input type="hidden" name="antrian_id" value="{{ $antrian->id }}">
@@ -647,11 +647,11 @@
             name="evaluasi_keperawatan" placeholder="Evaluasi Keperawatan">
             {{ $antrian->asesmenperawat->evaluasi_keperawatan ?? null }}
         </x-adminlte-textarea>
-    </form>
+    </form> --}}
     <x-slot name="footerSlot">
-        <button type="submit" form="formPerawat" class="btn btn-success">
+        {{-- <button type="submit" form="formPerawat" class="btn btn-success">
             <i class="fas fa-edit"></i> Simpan Asesmen
-        </button>
+        </button> --}}
         <a href="{{ route('print_asesmen_perawat') }}?kodekunjungan={{ $antrian->kunjungan->kode }}"
             class="btn btn-warning ml-auto" target="_blank"> <i class="fas fa-print"></i> Print</a>
         <x-adminlte-button theme="danger" icon="fas fa-times" label="Kembali" data-dismiss="modal" />

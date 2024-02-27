@@ -71,11 +71,11 @@
                         icon="fas fa-file-medical" />
                     <x-adminlte-button class="btn-xs mb-1" theme="warning" label="CPPT" icon="fas fa-file-medical"
                         onclick="btnCPPT()" />
-                    <x-adminlte-button class="btn-xs mb-1" theme="warning" label="Asesmen Awal"
-                        icon="fas fa-hand-holding-medical" onclick="btnPengkajianPerawat()" />
-                    <x-adminlte-button class="btn-xs mb-1" theme="warning" label="SBAR TBAK" icon="fas fa-envelope"
-                        onclick="btnSBAR()" />
-                    <x-adminlte-button class="btn-xs mb-1" theme="warning" label="Pemeriksaan Dokter" icon="fas fa-user-md"
+                    <x-adminlte-button class="btn-xs mb-1" theme="{{ $antrian->asesmenperawat ? 'warning' : 'danger' }}"
+                        label="Asesmen Keperawatan" icon="fas fa-hand-holding-medical" onclick="btnPengkajianPerawat()" />
+                    <x-adminlte-button class="btn-xs mb-1" theme="{{ $antrian->sbar ? 'warning' : 'danger' }}"
+                        label="SBAR TBAK" icon="fas fa-envelope" onclick="btnSBAR()" />
+                    <x-adminlte-button class="btn-xs mb-1" theme="{{ $antrian->asesmendokter ? 'warning' : 'danger' }}" label="Asesmen Dokter" icon="fas fa-user-md"
                         onclick="btnPemeriksaanDokter()" />
                 </x-slot>
             </x-adminlte-card>
@@ -132,6 +132,7 @@
     @include('sim.modal_cppt')
     @include('sim.modal_sbar_tbak_create')
     @include('sim.modal_asesmen_perawat')
+    @include('sim.modal_asesmen_dokter')
 @stop
 
 @section('plugins.Datatables', true)
@@ -507,7 +508,7 @@
 
         function btnPemeriksaanDokter() {
             $.LoadingOverlay("show");
-            $('#modalAsesmenPerawat').modal('show');
+            $('#modalAsesmenDokter').modal('show');
             $.LoadingOverlay("hide");
         }
     </script>

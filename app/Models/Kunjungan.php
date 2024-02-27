@@ -57,4 +57,8 @@ class Kunjungan extends Model
     {
         return $this->hasOne(User::class, 'id', 'user1');
     }
+    public function sbar()
+    {
+        return $this->hasOne(SbarTbak::class);
+    }
 }

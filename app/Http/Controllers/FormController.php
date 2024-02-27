@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Antrian;
 use App\Models\AsesmenDokter;
+use App\Models\AsesmenPerawat;
 use App\Models\Obat;
 use App\Models\ResepKemoterapi;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -54,6 +55,17 @@ class FormController extends Controller
         $antrian = $asesmen->antrian;
         $kunjungan = $antrian->kunjungan;
         return view('print.print_asesmen_dokter_rajal', compact([
+            'request',
+            'antrian',
+            'kunjungan',
+        ]));
+    }
+    public function print_asesmen_perawat(Request $request)
+    {
+        $asesmen = AsesmenPerawat::firstWhere('kodekunjungan', $request->kodekunjungan);
+        $antrian = $asesmen->antrian;
+        $kunjungan = $antrian->kunjungan;
+        return view('print.print_asesmen_perawat_rajal', compact([
             'request',
             'antrian',
             'kunjungan',

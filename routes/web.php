@@ -185,10 +185,10 @@ Route::middleware('auth')->group(function () {
     Route::get('antrianperawat', [PerawatController::class, 'antrianperawat'])->name('antrianperawat');
     Route::get('prosesperawat', [PerawatController::class, 'prosesperawat'])->name('prosesperawat');
     Route::post('editasesmenperawat', [PerawatController::class, 'editasesmenperawat'])->name('editasesmenperawat');
+    Route::get('print_asesmen_perawat', [FormController::class, 'print_asesmen_perawat'])->name('print_asesmen_perawat');
     Route::post('uploadberkas', [PerawatController::class, 'uploadberkas'])->name('uploadberkas');
     Route::get('hapusfilepenunjang', [PerawatController::class, 'hapusfilepenunjang'])->name('hapusfilepenunjang');
     Route::get('laporanperawat', [PerawatController::class, 'laporanperawat'])->name('laporanperawat');
-
     Route::get('diagnosasearch', [DiagnosaController::class, 'search'])->name('diagnosa.search');
     Route::get('diagnosaexport', [DiagnosaController::class, 'export'])->name('diagnosa.export');
     Route::post('diagnosaimport', [DiagnosaController::class, 'diagnosaimport'])->name('diagnosaimport');

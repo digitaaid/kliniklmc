@@ -55,6 +55,10 @@ return new class extends Migration
             $table->string('tingkat_kesadaran')->nullable();
             $table->text('keadaan_tubuh')->nullable();
 
+            $table->text('pemeriksaan_lab')->nullable();
+            $table->text('pemeriksaan_rad')->nullable();
+            $table->text('pemeriksaan_penunjang')->nullable();
+
             $table->text('diagnosa_keperawatan')->nullable();
             $table->text('rencana_keperawatan')->nullable();
             $table->text('tindakan_keperawatan')->nullable();

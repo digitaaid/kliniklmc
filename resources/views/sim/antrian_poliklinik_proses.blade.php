@@ -73,10 +73,18 @@
             <x-adminlte-card theme="primary" theme-mode="outline">
                 @include('sim.antrian_profil3')
                 <x-slot name="footerSlot">
-                    <x-adminlte-button class="btn-xs btnIcare" theme="warning" label="I-Care JKN"
-                        icon="fas fa-info-circle" />
+                    <x-adminlte-button class="btn-xs mb-1" theme="warning" label="I-Care JKN" icon="fas fa-info-circle"
+                        onclick="btnIcare()" />
                     <x-adminlte-button class="btn-xs btnFileUplpad" theme="warning" label="Berkas Upload"
                         icon="fas fa-file-medical" />
+                    <x-adminlte-button class="btn-xs mb-1" theme="warning" label="CPPT" icon="fas fa-file-medical"
+                        onclick="btnCPPT()" />
+                    <x-adminlte-button class="btn-xs mb-1" theme="{{ $antrian->asesmenperawat ? 'warning' : 'danger' }}"
+                        label="Asesmen Keperawatan" icon="fas fa-hand-holding-medical" onclick="btnPengkajianPerawat()" />
+                    <x-adminlte-button class="btn-xs mb-1" theme="{{ $antrian->sbar ? 'warning' : 'danger' }}"
+                        label="SBAR TBAK" icon="fas fa-envelope" onclick="btnSBAR()" />
+                    <x-adminlte-button class="btn-xs mb-1" theme="{{ $antrian->asesmendokter ? 'warning' : 'danger' }}"
+                        label="Asesmen Dokter" icon="fas fa-user-md" onclick="btnPemeriksaanDokter()" />
                 </x-slot>
             </x-adminlte-card>
         </div>
@@ -89,7 +97,7 @@
                         {{-- layanan --}}
                         @include('sim.tabel_layanan')
                         {{-- perawat --}}
-                        @include('sim.tabel_anamnesa_perawat')
+                        {{-- @include('sim.tabel_anamnesa_perawat') --}}
                         {{-- dokter --}}
                         <div class="card card-info mb-1">
                             <a class="card-header" data-toggle="collapse" data-parent="#accordion" href="#collapseDokter">
@@ -550,6 +558,10 @@
             </div>
         </div>
     </div>
+    @include('sim.modal_cppt')
+    @include('sim.modal_sbar_tbak_create')
+    @include('sim.modal_asesmen_perawat')
+    @include('sim.modal_asesmen_dokter')
 @stop
 
 @section('plugins.Datatables', true)
@@ -709,37 +721,6 @@
         size="xl">
         <iframe src="" id="urlIcare" width="100%" height="700px" frameborder="0"></iframe>
     </x-adminlte-modal>
-    <script>
-        $(function() {
-            $('.btnIcare').click(function() {
-                $.LoadingOverlay("show");
-                var url =
-                    "{{ route('icare') }}?nomorkartu={{ $antrian->nomorkartu }}&kodedokter={{ $antrian->kodedokter }}";
-                $.ajax({
-                    url: url,
-                    type: "GET",
-                    dataType: 'json',
-                    success: function(data) {
-                        if (data.metadata.code == 200) {
-                            $('#urlIcare').attr('src', data.response.url);
-                            $('#modalICare').modal('show');
-                        } else {
-                            Swal.fire(
-                                'Error ' + data.metadata.code,
-                                data.metadata.message,
-                                'error'
-                            );
-                        }
-                        $.LoadingOverlay("hide");
-                    },
-                    error: function(data) {
-                        alert('Error');
-                        $.LoadingOverlay("hide");
-                    }
-                });
-            });
-        });
-    </script>
     {{-- tarif dan layanan --}}
     <x-adminlte-modal id="modalTarif" name="modalTarif" title="Tarif Layanan & Tindakan" theme="success"
         icon="fas fa-user-injured" size="xl">
@@ -891,6 +872,7 @@
                 refresTableLayanan();
             });
             refresTableLayanan();
+
             function refresTableLayanan() {
                 var url = "{{ route('get_layanan_kunjungan') }}?kunjungan={{ $antrian->kunjungan_id }}";
                 var table = $('#tableLayanan').DataTable();
@@ -982,4 +964,57 @@
     </script>
     {{-- file upload --}}
     @include('sim.tabel_fileupload')
+    <script>
+        function btnIcare() {
+            $.LoadingOverlay("show");
+            var url =
+                "{{ route('icare') }}?nomorkartu={{ $antrian->nomorkartu }}&kodedokter={{ $antrian->kodedokter }}";
+            $.ajax({
+                url: url,
+                type: "GET",
+                dataType: 'json',
+                success: function(data) {
+                    if (data.metadata.code == 200) {
+                        $('#urlIcare').attr('src', data.response.url);
+                        $('#modalICare').modal('show');
+                    } else {
+                        Swal.fire(
+                            'Error ' + data.metadata.code,
+                            data.metadata.message,
+                            'error'
+                        );
+                    }
+                    $.LoadingOverlay("hide");
+                },
+                error: function(data) {
+                    alert('Error');
+                    $.LoadingOverlay("hide");
+                }
+            });
+        }
+
+        function btnCPPT() {
+            $.LoadingOverlay("show");
+            $('#modalCPPT').modal('show');
+            $.LoadingOverlay("hide");
+        }
+
+        function btnSBAR() {
+            $.LoadingOverlay("show");
+            $('#modalSBAR').modal('show');
+            $.LoadingOverlay("hide");
+        }
+
+        function btnPengkajianPerawat() {
+            $.LoadingOverlay("show");
+            $('#modalAsesmenPerawat').modal('show');
+            $.LoadingOverlay("hide");
+        }
+
+        function btnPemeriksaanDokter() {
+            $.LoadingOverlay("show");
+            $('#modalAsesmenDokter').modal('show');
+            $.LoadingOverlay("hide");
+        }
+    </script>
 @endsection

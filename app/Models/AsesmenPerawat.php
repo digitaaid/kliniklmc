@@ -14,7 +14,11 @@ class AsesmenPerawat extends Model
     {
         return $this->belongsTo(Antrian::class);
     }
-    public function pic()
+    public function kunjungan()
+    {
+        return $this->belongsTo(Antrian::class);
+    }
+    public function pic1()
     {
         return $this->hasOne(User::class,  'id', 'user');
     }

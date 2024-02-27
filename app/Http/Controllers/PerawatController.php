@@ -115,6 +115,7 @@ class PerawatController extends Controller
         $request['tgl_lahir'] = $kunjungan->tgl_lahir;
         $request['gender'] = $kunjungan->gender;
         $request['user'] = Auth::user()->id;
+        $request['pic'] = Auth::user()->name;
         $request['status'] = 1;
         if ($request->tinggi_badan && $request->berat_badan) {
             $request['bsa'] = number_format(sqrt(($request->tinggi_badan * $request->berat_badan) / 3600), 2) ?? null;
