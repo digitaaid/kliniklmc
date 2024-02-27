@@ -14,9 +14,6 @@
             </div>
             <div class="col-md-4  border border-dark">
                 <div class="row">
-                    {{-- <div >
-                        {!! QrCode::size(70)->generate($kunjungan->norm) !!}
-                    </div> --}}
                     <div class="p-2">
                         No RM : <b>{{ $pasien->norm }}</b> <br>
                         Nama : <b>{{ $pasien->nama }}</b> <br>
