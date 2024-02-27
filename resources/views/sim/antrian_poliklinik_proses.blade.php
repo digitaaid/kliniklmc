@@ -87,6 +87,9 @@
                         label="Asesmen Dokter" icon="fas fa-user-md" onclick="btnPemeriksaanDokter()" />
                     <x-adminlte-button class="btn-xs mb-1"
                         theme="{{ $antrian->asesmendokter && $antrian->asesmendokter ? 'warning' : 'danger' }}"
+                        label="Asesmen Rajal" icon="fas fa-file-medical" onclick="btnAsesmenRajal()" />
+                    <x-adminlte-button class="btn-xs mb-1"
+                        theme="{{ $antrian->asesmendokter && $antrian->asesmendokter ? 'warning' : 'danger' }}"
                         label="Resume" icon="fas fa-user-md" onclick="btnResumeRajal()" />
                 </x-slot>
             </x-adminlte-card>
@@ -547,11 +550,6 @@
             </div>
         </div>
     </div>
-    @include('sim.modal_cppt')
-    @include('sim.modal_sbar_tbak_create')
-    @include('sim.modal_asesmen_perawat')
-    @include('sim.modal_asesmen_dokter')
-    @include('sim.modal_resume_rajal')
 @stop
 
 @section('plugins.Datatables', true)
@@ -954,6 +952,13 @@
     </script>
     {{-- file upload --}}
     @include('sim.tabel_fileupload')
+
+    @include('sim.modal_cppt')
+    @include('sim.modal_sbar_tbak_create')
+    @include('sim.modal_asesmen_perawat')
+    @include('sim.modal_asesmen_dokter')
+    @include('sim.modal_asesmen_rajal')
+    @include('sim.modal_resume_rajal')
     <script>
         function btnIcare() {
             $.LoadingOverlay("show");
@@ -1010,6 +1015,12 @@
         function btnResumeRajal() {
             $.LoadingOverlay("show");
             $('#modalResumeRajal').modal('show');
+            $.LoadingOverlay("hide");
+        }
+
+        function btnAsesmenRajal() {
+            $.LoadingOverlay("show");
+            $('#modalAsesmenRajal').modal('show');
             $.LoadingOverlay("hide");
         }
     </script>
