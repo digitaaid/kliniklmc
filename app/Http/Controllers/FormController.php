@@ -102,7 +102,7 @@ class FormController extends Controller
     public function print_cppt(Request $request)
     {
         $pasien = Pasien::firstWhere('norm', $request->pasien);
-        $kunjungans =  $pasien->kunjungans;
+        $kunjungans =  $pasien->kunjungans->sortByDesc('tgl_masuk');
         return view('print.print_cppt', compact([
             'request',
             'kunjungans',
