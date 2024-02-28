@@ -95,21 +95,21 @@
             </div>
             <div class="col-md-6 border border-dark">
                 <dl class="row">
-                    <dt class="col-sm-3">Keluhan Utama</dt>
-                    <dd class="col-sm-9">{{ $antrian->asesmenperawat->keluhan_utama ?? '-' }}</dd>
-                    <dt class="col-sm-3">RPD</dt>
-                    <dd class="col-sm-9">{{ $antrian->asesmenperawat->riwayat_penyakit ?? '-' }}</dd>
-                    <dt class="col-sm-3">RPK</dt>
-                    <dd class="col-sm-9">{{ $antrian->asesmenperawat->riwayat_penyakit_keluarga ?? '-' }}
+                    <dt class="col-sm-5">Keluhan Utama</dt>
+                    <dd class="col-sm-7">{{ $antrian->asesmenperawat->keluhan_utama ?? '-' }}</dd>
+                    <dt class="col-sm-5">Riwayat Penyakit Dahulu</dt>
+                    <dd class="col-sm-7">{{ $antrian->asesmenperawat->riwayat_penyakit ?? '-' }}</dd>
+                    <dt class="col-sm-5">Riwayat Penyakit Keluarga</dt>
+                    <dd class="col-sm-7">{{ $antrian->asesmenperawat->riwayat_penyakit_keluarga ?? '-' }}
                     </dd>
-                    <dt class="col-sm-3">R Alergi</dt>
-                    <dd class="col-sm-9">{{ $antrian->asesmenperawat->riwayat_alergi ?? '-' }}</dd>
-                    <dt class="col-sm-3">R Pengobatan</dt>
-                    <dd class="col-sm-9">{{ $antrian->asesmenperawat->riwayat_pengobatan ?? '-' }}</dd>
-                    <dt class="col-sm-3">Social</dt>
-                    <dd class="col-sm-9">{{ $antrian->asesmenperawat->hubungan ?? '-' }}</dd>
+                    <dt class="col-sm-5">Reaksi Alergi</dt>
+                    <dd class="col-sm-7">{{ $antrian->asesmenperawat->riwayat_alergi ?? '-' }}</dd>
+                    <dt class="col-sm-5">Riwayat Pengobatan</dt>
+                    <dd class="col-sm-7">{{ $antrian->asesmenperawat->riwayat_pengobatan ?? '-' }}</dd>
                     <dt class="col-sm-3">Pekerjaan</dt>
                     <dd class="col-sm-9">{{ $antrian->asesmenperawat->pekerjaan ?? '-' }}</dd>
+                    <dt class="col-sm-3">Social</dt>
+                    <dd class="col-sm-9">{{ $antrian->asesmenperawat->hubungan ?? '-' }}</dd>
                     <dt class="col-sm-3">Ekonomi</dt>
                     <dd class="col-sm-9">{{ $antrian->asesmenperawat->ekonomi ?? '-' }}</dd>
                     <dt class="col-sm-3">Psikologi</dt>

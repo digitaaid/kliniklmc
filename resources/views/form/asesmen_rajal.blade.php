@@ -304,7 +304,7 @@
             <div class="col-md-4 border border-dark">
                 <dl class="row ml-2">
                     <dt class="col-sm-4">Denyut Nadi</dt>
-                    <dd class="col-sm-8">{{ $kunjungan->asesmenperawat->detak_jantung ?? '-' }} spm</dd>
+                    <dd class="col-sm-8">{{ $kunjungan->asesmenperawat->denyut_jantung ?? '-' }} spm</dd>
                     <dt class="col-sm-4">Pernapasan</dt>
                     <dd class="col-sm-8">{{ $kunjungan->asesmenperawat->pernapasan ?? '-' }} spm</dd>
                     <dt class="col-sm-4">Suhu Tubuh</dt>
@@ -324,7 +324,35 @@
                     <dt class="col-sm-4">Index BSA</dt>
                     <dd class="col-sm-8">{{ $kunjungan->asesmenperawat->bsa ?? '-' }} kg/m2</dd>
                     <dt class="col-sm-4">Kesadaran</dt>
-                    <dd class="col-sm-8">{{ $kunjungan->asesmenperawat->kesadaran ?? '-' }}</dd>
+                    <dd class="col-sm-8">
+                        @switch($kunjungan->asesmenperawat->tingkat_kesadaran)
+                            @case(1)
+                                Sadar Baik
+                            @break
+
+                            @case(2)
+                                Berespon dengan kata-kata
+                            @break
+
+                            @case(3)
+                                Hanya berespons jika dirangsang nyeri/pain
+                            @break
+
+                            @case(4)
+                                Pasien tidak sadar/unresponsive
+                            @break
+
+                            @case(5)
+                                Gelisah / bingung
+                            @break
+
+                            @case(6)
+                                Acute Confusional State
+                            @break
+
+                            @default
+                        @endswitch
+                    </dd>
                 </dl>
             </div>
             <div class="col-md-4 border border-dark">
