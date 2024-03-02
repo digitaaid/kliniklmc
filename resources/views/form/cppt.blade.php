@@ -204,6 +204,8 @@
                                                 - {{ $itemx }} <br>
                                             @endif
                                         @endforeach
+                                    @else
+                                        {{ $kunjungan->asesmendokter->diagnosa ?? '-' }}
                                     @endif
                                     {{ $kunjungan->asesmendokter->catatan_diagnosa ?? '' }}<br>
                                     <b> Diag. Primer ICD-10 :</b> <br>

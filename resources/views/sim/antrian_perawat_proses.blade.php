@@ -73,6 +73,9 @@
                         onclick="btnCPPT()" />
                     <x-adminlte-button class="btn-xs mb-1" theme="{{ $antrian->asesmenperawat ? 'warning' : 'danger' }}"
                         label="Asesmen Keperawatan" icon="fas fa-hand-holding-medical" onclick="btnPengkajianPerawat()" />
+                    {{-- <x-adminlte-button class="btn-xs mb-1" theme="{{ $antrian->asesmenperawat ? 'warning' : 'danger' }}"
+                        label="Pengkajian Kemoterapi" icon="fas fa-hand-holding-medical"
+                        onclick="btnPengkajianKemoterapi()" /> --}}
                     <x-adminlte-button class="btn-xs mb-1" theme="{{ $antrian->sbar ? 'warning' : 'danger' }}"
                         label="SBAR TBAK" icon="fas fa-envelope" onclick="btnSBAR()" />
                     <x-adminlte-button class="btn-xs mb-1" theme="{{ $antrian->asesmendokter ? 'warning' : 'danger' }}"
@@ -619,6 +622,7 @@
     @include('sim.modal_cppt')
     @include('sim.modal_sbar_tbak_create')
     @include('sim.modal_asesmen_perawat')
+    @include('sim.modal_pengkajian_kemoterapi')
     @include('sim.modal_asesmen_dokter')
     @include('sim.modal_asesmen_rajal')
     @include('sim.modal_resume_rajal')
@@ -684,6 +688,12 @@
         function btnAsesmenRajal() {
             $.LoadingOverlay("show");
             $('#modalAsesmenRajal').modal('show');
+            $.LoadingOverlay("hide");
+        }
+
+        function btnPengkajianKemoterapi() {
+            $.LoadingOverlay("show");
+            $('#modalKajianKemoterapi').modal('show');
             $.LoadingOverlay("hide");
         }
     </script>
