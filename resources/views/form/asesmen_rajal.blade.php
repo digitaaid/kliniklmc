@@ -438,11 +438,13 @@
             </div>
             <div class="col-md-4 border text-center border-dark">
                 <b>Dokter,</b> <br>
-                {!! QrCode::size(50)->generate('Telah diisi dan dikonfirmasi ' . $antrian->asesmendokter->waktu) !!} <br>
-                <b><u>
-                        {{ $antrian->kunjungan ? $antrian->kunjungan->dokters->namadokter : 'Dokter' }}
-                    </u></b> <br>
-                Waktu : {{ $antrian->asesmendokter->waktu }}
+                @if ($kunjungan->asesmendokter)
+                    {!! QrCode::size(50)->generate('Telah diisi dan dikonfirmasi ' . $antrian->asesmendokter->waktu) !!} <br>
+                    <b><u>
+                            {{ $antrian->kunjungan ? $antrian->kunjungan->dokters->namadokter : 'Dokter' }}
+                        </u></b> <br>
+                    Waktu : {{ $antrian->asesmendokter->waktu }}
+                @endif
             </div>
             <div class="col-md-8 border border-dark">
                 <dl>
@@ -535,11 +537,13 @@
             </div>
             <div class="col-md-4 border text-center border-dark">
                 <b>Farmasi,</b> <br>
-                {!! QrCode::size(50)->generate('Telah diisi dan dikonfirmasi ' . $antrian->asesmenperawat->waktu) !!} <br>
-                <b><u>
-                        {{ $antrian->pic4 ? $antrian->pic4->name : 'Farmasi' }}
-                    </u></b> <br>
-                Waktu : {{ $antrian->asesmenperawat->waktu }}
+                @if ($kunjungan->asesmendokter)
+                    {!! QrCode::size(50)->generate('Telah diisi dan dikonfirmasi ' . $antrian->asesmenperawat->waktu) !!} <br>
+                    <b><u>
+                            {{ $antrian->pic4 ? $antrian->pic4->name : 'Farmasi' }}
+                        </u></b> <br>
+                    Waktu : {{ $antrian->asesmenperawat->waktu }}
+                @endif
             </div>
         </div>
     </div>
