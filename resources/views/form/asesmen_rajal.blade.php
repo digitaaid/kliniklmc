@@ -411,15 +411,17 @@
                     <dd class="col-sm-8">{{ $kunjungan->asesmendokter->diagnosa1 ?? '-' }}</dd>
                     <dt class="col-sm-4">ICD-10 Sekunder</dt>
                     <dd class="col-sm-8">
-                        @if (is_array(json_decode($kunjungan->asesmendokter->diagnosa2)) ||
-                                is_object(json_decode($kunjungan->asesmendokter->diagnosa2)))
-                            @foreach (json_decode($kunjungan->asesmendokter->diagnosa2) as $item)
-                                @if ($item != 'null')
-                                    - {{ $item }} <br>
-                                @endif
-                            @endforeach
-                        @else
-                            -
+                        @if ($kunjungan->asesmendokter)
+                            @if (is_array(json_decode($kunjungan->asesmendokter->diagnosa2)) ||
+                                    is_object(json_decode($kunjungan->asesmendokter->diagnosa2)))
+                                @foreach (json_decode($kunjungan->asesmendokter->diagnosa2) as $item)
+                                    @if ($item != 'null')
+                                        - {{ $item }} <br>
+                                    @endif
+                                @endforeach
+                            @else
+                                -
+                            @endif
                         @endif
                     </dd>
                 </dl>
