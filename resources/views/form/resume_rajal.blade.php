@@ -255,9 +255,11 @@
                     <div class="col-md-6"></div>
                     <div class="col-md-6 text-center">
                         <b>DPJP,</b> <br>
-                        {!! QrCode::size(70)->generate('Telah diisi dan dikonfirmasi ' . $antrian->asesmendokter->waktu) !!} <br>
-                        <b><u>{{ $antrian->kunjungan->dokters->namadokter }}</u></b> <br>
-                        Waktu : {{ $antrian->asesmendokter->waktu }}
+                        @if ($antrian->asesmendokter)
+                            {!! QrCode::size(70)->generate('Telah diisi dan dikonfirmasi ' . $antrian->asesmendokter->waktu) !!} <br>
+                            <b><u>{{ $antrian->kunjungan->dokters->namadokter }}</u></b> <br>
+                            Waktu : {{ $antrian->asesmendokter->waktu }}
+                        @endif
                     </div>
                 </div>
             </div>
