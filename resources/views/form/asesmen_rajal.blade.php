@@ -375,12 +375,14 @@
             </div>
             <div class="col-md-4 border text-center border-dark">
                 <b>Perawat,</b> <br>
-                {!! QrCode::size(50)->generate('Telah diisi dan dikonfirmasi ' . $antrian->asesmenperawat->waktu) !!} <br>
-                <b><u>
-                        {{ $antrian->pic2 ? $antrian->pic2->name : 'Perawat' }}
-                    </u></b>
-                <br>
-                Waktu : {{ $antrian->asesmenperawat->waktu }}
+                @if ($antrian->asesmenperawat)
+                    {!! QrCode::size(50)->generate('Telah diisi dan dikonfirmasi ' . $antrian->asesmenperawat->waktu) !!} <br>
+                    <b><u>
+                            {{ $antrian->pic2 ? $antrian->pic2->name : 'Perawat' }}
+                        </u></b>
+                    <br>
+                    Waktu : {{ $antrian->asesmenperawat->waktu }}
+                @endif
             </div>
             <div class="col-md-12 border border-dark text-center bg-warning">
                 <b class="">Diisi Oleh Dokter</b>
