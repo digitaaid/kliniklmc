@@ -325,33 +325,35 @@
                     <dd class="col-sm-8">{{ $kunjungan->asesmenperawat->bsa ?? '-' }} kg/m2</dd>
                     <dt class="col-sm-4">Kesadaran</dt>
                     <dd class="col-sm-8">
-                        @switch($kunjungan->asesmenperawat->tingkat_kesadaran)
-                            @case(1)
-                                Sadar Baik
-                            @break
+                        @if ($kunjungan->asesmenperawat)
+                            @switch($kunjungan->asesmenperawat->tingkat_kesadaran)
+                                @case(1)
+                                    Sadar Baik
+                                @break
 
-                            @case(2)
-                                Berespon dengan kata-kata
-                            @break
+                                @case(2)
+                                    Berespon dengan kata-kata
+                                @break
 
-                            @case(3)
-                                Hanya berespons jika dirangsang nyeri/pain
-                            @break
+                                @case(3)
+                                    Hanya berespons jika dirangsang nyeri/pain
+                                @break
 
-                            @case(4)
-                                Pasien tidak sadar/unresponsive
-                            @break
+                                @case(4)
+                                    Pasien tidak sadar/unresponsive
+                                @break
 
-                            @case(5)
-                                Gelisah / bingung
-                            @break
+                                @case(5)
+                                    Gelisah / bingung
+                                @break
 
-                            @case(6)
-                                Acute Confusional State
-                            @break
+                                @case(6)
+                                    Acute Confusional State
+                                @break
 
-                            @default
-                        @endswitch
+                                @default
+                            @endswitch
+                        @endif
                     </dd>
                 </dl>
             </div>
