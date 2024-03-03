@@ -136,33 +136,35 @@
                                         {{ number_format(sqrt(($kunjungan->asesmenperawat->tinggi_badan * $kunjungan->asesmenperawat->berat_badan) / 3600), 2) ?? '-' }}
                                     @endif m2 <br>
                                     Kesadaran :
-                                    @switch($kunjungan->asesmenperawat->tingkat_kesadaran)
-                                        @case(1)
-                                            Sadar Baik
-                                        @break
+                                    @if ($kunjungan->asesmenperawat)
+                                        @switch($kunjungan->asesmenperawat->tingkat_kesadaran)
+                                            @case(1)
+                                                Sadar Baik
+                                            @break
 
-                                        @case(2)
-                                            Berespon dengan kata-kata
-                                        @break
+                                            @case(2)
+                                                Berespon dengan kata-kata
+                                            @break
 
-                                        @case(3)
-                                            Hanya berespons jika dirangsang nyeri/pain
-                                        @break
+                                            @case(3)
+                                                Hanya berespons jika dirangsang nyeri/pain
+                                            @break
 
-                                        @case(4)
-                                            Pasien tidak sadar/unresponsive
-                                        @break
+                                            @case(4)
+                                                Pasien tidak sadar/unresponsive
+                                            @break
 
-                                        @case(5)
-                                            Gelisah / bingung
-                                        @break
+                                            @case(5)
+                                                Gelisah / bingung
+                                            @break
 
-                                        @case(6)
-                                            Acute Confusional State
-                                        @break
+                                            @case(6)
+                                                Acute Confusional State
+                                            @break
 
-                                        @default
-                                    @endswitch
+                                            @default
+                                        @endswitch
+                                    @endif
                                     <br>
                                     Tanda Vital Tubuh :
                                     {{ $kunjungan->asesmenperawat->keadaan_tubuh ?? '-' }}
