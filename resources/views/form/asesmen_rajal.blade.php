@@ -395,13 +395,15 @@
                 <dl class="row ml-2">
                     <dt class="col-sm-4">Diagnosa</dt>
                     <dd class="col-sm-8">
-                        @if (is_array(json_decode($kunjungan->asesmendokter->diagnosa)) ||
-                                is_object(json_decode($kunjungan->asesmendokter->diagnosa)))
-                            @foreach (json_decode($kunjungan->asesmendokter->diagnosa) as $itemx)
-                                @if ($itemx != 'null')
-                                    - {{ $itemx }} <br>
-                                @endif
-                            @endforeach
+                        @if ($kunjungan->asesmendokter)
+                            @if (is_array(json_decode($kunjungan->asesmendokter->diagnosa)) ||
+                                    is_object(json_decode($kunjungan->asesmendokter->diagnosa)))
+                                @foreach (json_decode($kunjungan->asesmendokter->diagnosa) as $itemx)
+                                    @if ($itemx != 'null')
+                                        - {{ $itemx }} <br>
+                                    @endif
+                                @endforeach
+                            @endif
                         @endif
                         {{ $kunjungan->asesmendokter->catatan_diagnosa ?? null }}
                     </dd>
