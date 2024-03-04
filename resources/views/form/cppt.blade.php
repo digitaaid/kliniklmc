@@ -174,8 +174,10 @@
                                         @endswitch
                                     @endif
                                     <br>
-                                    Pemeriksaan Fisik :
-                                    {{ $kunjungan->asesmenperawat->keadaan_tubuh ?? '-' }}
+                                    @if ($kunjungan->asesmenperawat->keadaan_tubuh)
+                                        Pemeriksaan Fisik :
+                                        {{ $kunjungan->asesmenperawat->keadaan_tubuh ?? '-' }}
+                                    @endif
                                 </dd>
                                 @if ($kunjungan->asesmenperawat->diagnosa_keperawatan)
                                     <dt>Diagnosa Keperawatan :</dt>
@@ -249,10 +251,13 @@
                                 <dd>
                                     <pre>{{ $kunjungan->asesmendokter->instruksi_medis ?? '-' }}</pre>
                                 </dd>
-                                <dt>Catatan Dokter :</dt>
-                                <dd>
-                                    <pre>{{ $kunjungan->asesmendokter->rencana_perawatan ?? '-' }}</pre>
-                                </dd>
+                                @if ($kunjungan->asesmendokter->rencana_perawatan)
+                                    <dt>Catatan Dokter :</dt>
+                                    <dd>
+                                        <pre>{{ $kunjungan->asesmendokter->rencana_perawatan ?? '-' }}</pre>
+                                    </dd>
+                                @endif
+
                             </dl>
                         @else
                             Belum Asesmen Dokter
@@ -329,11 +334,13 @@
                                     {{ $itemobat->keterangan }} <br>
                                 @endforeach
                             </dd>
-                            <dt>Catatan Resep :</dt>
-                            <dd>
-                                <pre>{{ $kunjungan->asesmendokter->resep_obat ?? '-' }}</pre>
-                                <pre>{{ $kunjungan->asesmendokter->catatan_resep ?? '-' }}</pre>
-                            </dd>
+                            @if ($kunjungan->asesmendokter->resep_obat || $kunjungan->asesmendokter->catatan_resep)
+                                <dt>Catatan Resep :</dt>
+                                <dd>
+                                    <pre>{{ $kunjungan->asesmendokter->resep_obat ?? '-' }}</pre>
+                                    <pre>{{ $kunjungan->asesmendokter->catatan_resep ?? '-' }}</pre>
+                                </dd>
+                            @endif
                         @else
                             Belum Ada Resep
                         @endif
