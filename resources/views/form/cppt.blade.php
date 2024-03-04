@@ -45,7 +45,7 @@
             </div>
             <div class="col-md-12 border border-dark">
                 <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-md-5">
                         <dl class="row">
                             <dt class="col-sm-3 m-0">Nama</dt>
                             <dd class="col-sm-9 m-0">{{ $pasien->nama }}</dd>
@@ -58,7 +58,7 @@
 
                         </dl>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-5">
                         <dl class="row">
                             <dt class="col-sm-3 m-0">No RM</dt>
                             <dd class="col-sm-9 m-0">{{ $pasien->norm }}</dd>

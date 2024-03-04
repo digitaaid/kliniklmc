@@ -21,6 +21,7 @@
         pre {
             border: none;
             outline: none;
+            margin-bottom: 0 !important;
             padding: 0 !important;
             font-size: 13px !important;
         }
@@ -47,6 +48,7 @@
         pre {
             border: none;
             outline: none;
+            margin-bottom: 0 !important;
             padding: 0 !important;
             font-size: 13px !important;
         }
