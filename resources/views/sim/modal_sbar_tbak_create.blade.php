@@ -32,9 +32,9 @@ Diagnosa Masuk : {{ $antrian->asesmenperawat->diagnosa_keperawatan ?? '-' }}
 @if ($antrian->sbar)
 {{ $antrian->sbar->background }}
 @else
-Riwayat Penyakit : {{ $antrian->asesmenperawat->riwayat_penyakit ?? '-' }}
-Riwayat Penyakit Keluarga : {{ $antrian->asesmenperawat->riwayat_penyakit_keluarga ?? '-' }}
-Riwayat Alergi : {{ $antrian->asesmenperawat->riwayat_alergi ?? '-' }}
+Riwayat Penyakit : {{ $antrian->asesmenperawat->riwayat_penyakit ?? 'Tidak Ada' }}
+Riwayat Penyakit Keluarga : {{ $antrian->asesmenperawat->riwayat_penyakit_keluarga ?? 'Tidak Ada' }}
+Riwayat Alergi : {{ $antrian->asesmenperawat->riwayat_alergi ?? 'Tidak Ada' }}
 Riwayat Pengobatan : {{ $antrian->asesmenperawat->riwayat_pengobatan ?? '-' }}
 @endif
 
@@ -48,8 +48,37 @@ Riwayat Pengobatan : {{ $antrian->asesmenperawat->riwayat_pengobatan ?? '-' }}
 Detak Jantung : {{ $antrian->asesmenperawat->denyut_jantung ?? '-' }} spm , RR : {{ $antrian->asesmenperawat->pernapasan ?? '-' }} spm
 Tekanan Darah : {{ $antrian->asesmenperawat->sistole ?? '-' }}/{{ $antrian->asesmenperawat->distole ?? '-' }} mmHg , Suhu : {{ $antrian->asesmenperawat->suhu ?? '-' }} celcius
 TT : {{ $antrian->asesmenperawat->tinggi_badan ?? '-' }} cm , BT : {{ $antrian->asesmenperawat->berat_badan ?? '-' }} kg
-Kesadaran : {{ $antrian->asesmenperawat->tingkat_kesadaran ?? '-' }}
-Tanda Vital Tubuh : {{ $antrian->asesmenperawat->keadaan_tubuh ?? '-' }}
+Kesadaran :
+@if ($kunjungan->asesmenperawat)
+@switch($kunjungan->asesmenperawat->tingkat_kesadaran)
+    @case(1)
+Sadar Baik
+    @break
+
+    @case(2)
+Berespon dengan kata-kata
+    @break
+
+    @case(3)
+Hanya berespons jika dirangsang nyeri/pain
+    @break
+
+    @case(4)
+Pasien tidak sadar/unresponsive
+    @break
+
+    @case(5)
+Gelisah / bingung
+    @break
+
+    @case(6)
+Acute Confusional State
+    @break
+
+    @default
+@endswitch
+@endif
+Pemeriksaan Fisik : {{ $antrian->asesmenperawat->keadaan_tubuh ?? '-' }}
 @endif
                 </x-adminlte-textarea>
                 <x-adminlte-textarea name="recomendation" label="Recomendation (R)" placeholder="Recomendation"
