@@ -94,21 +94,20 @@
             </div>
             <div class="col-md-6 border border-dark">
                 <dl class="row">
-                    <dt class="col-sm-5">Keluhan Utama</dt>
-                    <dd class="col-sm-7">{{ $antrian->asesmenperawat->keluhan_utama ?? '-' }}</dd>
-                    <dt class="col-sm-5">Riwayat Penyakit Dahulu</dt>
-                    <dd class="col-sm-7">{{ $antrian->asesmenperawat->riwayat_penyakit ?? '-' }}</dd>
-                    <dt class="col-sm-5">Riwayat Penyakit Keluarga</dt>
-                    <dd class="col-sm-7">{{ $antrian->asesmenperawat->riwayat_penyakit_keluarga ?? '-' }}
-                    </dd>
-                    <dt class="col-sm-5">Reaksi Alergi</dt>
-                    <dd class="col-sm-7">{{ $antrian->asesmenperawat->riwayat_alergi ?? '-' }}</dd>
-                    <dt class="col-sm-5">Riwayat Pengobatan</dt>
-                    <dd class="col-sm-7">{{ $antrian->asesmenperawat->riwayat_pengobatan ?? '-' }}</dd>
+                    <dt class="col-sm-4">Keluhan Utama</dt>
+                    <dd class="col-sm-8">{{ $antrian->asesmenperawat->keluhan_utama ?? '-' }}</dd>
+                    <dt class="col-sm-4">Riwayat Penyakit</dt>
+                    <dd class="col-sm-8">Dahulu : {{ $antrian->asesmenperawat->riwayat_penyakit ?? 'Tidak Ada' }},
+                        Keluarga :
+                        {{ $antrian->asesmenperawat->riwayat_penyakit_keluarga ?? 'Tidak Ada' }}, <br>Reaksi Alergi :
+                        {{ $antrian->asesmenperawat->riwayat_alergi ?? 'Tidak Ada' }}</dd>
+                    <dt class="col-sm-4">Riwayat Pengobatan</dt>
+                    <dd class="col-sm-8">{{ $antrian->asesmenperawat->riwayat_pengobatan ?? '-' }}</dd>
                     <dt class="col-sm-3">Pekerjaan</dt>
                     <dd class="col-sm-9">{{ $antrian->asesmenperawat->pekerjaan ?? '-' }}</dd>
-                    <dt class="col-sm-3">Social</dt>
-                    <dd class="col-sm-9">{{ $antrian->asesmenperawat->hubungan ?? '-' }}</dd>
+                    <dt class="col-sm-3">Hubungan Keluarga</dt>
+                    <dd class="col-sm-9">{{ $antrian->asesmenperawat->tinggal_dengan ?? '-' }},
+                        {{ $antrian->asesmenperawat->hubungan_keluarga ?? '-' }}</dd>
                     <dt class="col-sm-3">Ekonomi</dt>
                     <dd class="col-sm-9">{{ $antrian->asesmenperawat->ekonomi ?? '-' }}</dd>
                     <dt class="col-sm-3">Psikologi</dt>
@@ -129,10 +128,10 @@
             </div>
             <div class="col-md-6 border border-dark">
                 <dl class="row">
-                    <dt class="col-sm-3">Diagnosa Keperawatan</dt>
-                    <dd class="col-sm-9">{{ $antrian->asesmenperawat->diagnosa_keperawatan ?? '-' }}</dd>
-                    <dt class="col-sm-3">Diagnosa</dt>
-                    <dd class="col-sm-9">
+                    <dt class="col-sm-4">Diagnosa Keperawatan</dt>
+                    <dd class="col-sm-8">{{ $antrian->asesmenperawat->diagnosa_keperawatan ?? '-' }}</dd>
+                    <dt class="col-sm-4">Diagnosa</dt>
+                    <dd class="col-sm-8">
                         @if ($kunjungan->asesmendokter)
                             @if (is_array(json_decode($kunjungan->asesmendokter->diagnosa)) ||
                                     is_object(json_decode($kunjungan->asesmendokter->diagnosa)))
@@ -145,10 +144,10 @@
                         @endif
                         {{ $kunjungan->asesmendokter->catatan_diagnosa ?? null }}
                     </dd>
-                    <dt class="col-sm-3">ICD-10 Primer</dt>
-                    <dd class="col-sm-9">{{ $antrian->asesmendokter->diagnosa1 ?? '-' }}</dd>
-                    <dt class="col-sm-3">ICD-10 Sekunder</dt>
-                    <dd class="col-sm-9">
+                    <dt class="col-sm-4">ICD-10 Primer</dt>
+                    <dd class="col-sm-8">{{ $antrian->asesmendokter->diagnosa1 ?? '-' }}</dd>
+                    <dt class="col-sm-4">ICD-10 Sekunder</dt>
+                    <dd class="col-sm-8">
                         @if ($kunjungan->asesmendokter)
                             @if (is_array(json_decode($kunjungan->asesmendokter->diagnosa2)) ||
                                     is_object(json_decode($kunjungan->asesmendokter->diagnosa2)))
@@ -166,10 +165,10 @@
             </div>
             <div class="col-md-6  border border-dark">
                 <dl class="row">
-                    <dt class="col-sm-3">Tindakan Perawat</dt>
-                    <dd class="col-sm-9">{{ $antrian->asesmenperawat->tindakan_keperawatan ?? '-' }}</dd>
-                    <dt class="col-sm-3">Tindakan Dokter</dt>
-                    <dd class="col-sm-9">{{ $antrian->asesmendokter->tindakan_medis ?? '-' }}</dd>
+                    <dt class="col-sm-4">Tindakan Perawat</dt>
+                    <dd class="col-sm-8">{{ $antrian->asesmenperawat->tindakan_keperawatan ?? '-' }}</dd>
+                    <dt class="col-sm-4">Tindakan Dokter</dt>
+                    <dd class="col-sm-8">{{ $antrian->asesmendokter->tindakan_medis ?? '-' }}</dd>
                 </dl>
                 <dl>
                     <dt>Resep Obat :</dt>
