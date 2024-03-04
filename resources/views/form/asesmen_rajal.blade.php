@@ -801,12 +801,12 @@
             </div>
             <div class="col-md-4 border text-center border-dark">
                 <b>Farmasi,</b> <br>
-                @if ($kunjungan->asesmendokter)
-                    {!! QrCode::size(50)->generate('Telah diisi dan dikonfirmasi ' . $antrian->asesmenperawat->created_at) !!} <br>
+                @if ($antrian->pic4)
+                    {!! QrCode::size(50)->generate('Telah diisi dan dikonfirmasi ' . $antrian->taskid6) !!} <br>
                     <b><u>
                             {{ $antrian->pic4 ? $antrian->pic4->name : 'Farmasi' }}
                         </u></b> <br>
-                    Waktu : {{ $antrian->asesmenperawat->created_at }}
+                    Waktu : {{ $antrian->taskid6 }}
                 @endif
             </div>
         </div>
