@@ -640,12 +640,12 @@
             <div class="col-md-4 border text-center border-dark">
                 <b>Perawat,</b> <br>
                 @if ($antrian->asesmenperawat)
-                    {!! QrCode::size(50)->generate('Telah diisi dan dikonfirmasi ' . $antrian->asesmenperawat->waktu) !!} <br>
+                    {!! QrCode::size(50)->generate('Telah diisi dan dikonfirmasi ' . $antrian->asesmenperawat->created_at) !!} <br>
                     <b><u>
                             {{ $antrian->pic2 ? $antrian->pic2->name : 'Perawat' }}
                         </u></b>
                     <br>
-                    Waktu : {{ $antrian->asesmenperawat->waktu }}
+                    Waktu : {{ $antrian->asesmenperawat->created_at }}
                 @endif
             </div>
             <div class="col-md-12 border border-dark text-center bg-warning">
@@ -703,11 +703,11 @@
             <div class="col-md-4 border text-center border-dark">
                 <b>Dokter,</b> <br>
                 @if ($kunjungan->asesmendokter)
-                    {!! QrCode::size(50)->generate('Telah diisi dan dikonfirmasi ' . $antrian->asesmendokter->waktu) !!} <br>
+                    {!! QrCode::size(50)->generate('Telah diisi dan dikonfirmasi ' . $antrian->asesmendokter->created_at) !!} <br>
                     <b><u>
                             {{ $antrian->kunjungan ? $antrian->kunjungan->dokters->namadokter : 'Dokter' }}
                         </u></b> <br>
-                    Waktu : {{ $antrian->asesmendokter->waktu }}
+                    Waktu : {{ $antrian->asesmendokter->created_at }}
                 @endif
             </div>
             <div class="col-md-8 border border-dark">
@@ -715,7 +715,7 @@
                     <dt>Resep Obat :</dt>
                     @if ($antrian->resepobat)
                         Kode Resep : {{ $antrian->resepobat->kode }} <br>
-                        Waktu : {{ $antrian->resepobat->waktu }} <br>
+                        Waktu : {{ $antrian->resepobat->created_at }} <br>
                         @if ($antrian->resepobat)
                             @foreach ($antrian->resepobat->resepdetail as $itemobat)
                                 <b> R/ {{ $itemobat->nama }} </b> ({{ $itemobat->jumlah }}) <br>
@@ -802,11 +802,11 @@
             <div class="col-md-4 border text-center border-dark">
                 <b>Farmasi,</b> <br>
                 @if ($kunjungan->asesmendokter)
-                    {!! QrCode::size(50)->generate('Telah diisi dan dikonfirmasi ' . $antrian->asesmenperawat->waktu) !!} <br>
+                    {!! QrCode::size(50)->generate('Telah diisi dan dikonfirmasi ' . $antrian->asesmenperawat->created_at) !!} <br>
                     <b><u>
                             {{ $antrian->pic4 ? $antrian->pic4->name : 'Farmasi' }}
                         </u></b> <br>
-                    Waktu : {{ $antrian->asesmenperawat->waktu }}
+                    Waktu : {{ $antrian->asesmenperawat->created_at }}
                 @endif
             </div>
         </div>

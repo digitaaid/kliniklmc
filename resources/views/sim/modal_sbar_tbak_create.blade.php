@@ -9,10 +9,10 @@
             <div class="col-md-6">
                 <x-adminlte-input name="pengirim" label="Pengirim" placeholder="Pengirim" fgroup-class="row"
                     label-class="text-right col-3" igroup-size="sm" igroup-class="col-9" enable-old-support
-                    value="{{  $antrian->sbar?  $antrian->sbar->pengirim ? $antrian->sbar->pengirim :  Auth::user()->name :null}}" />
+                    value="{{  $antrian->sbar ? $antrian->sbar->pengirim  : Auth::user()->name}}" />
                 <x-adminlte-input name="no_pengirim" label="No Pengirim" placeholder="No Whatsapp Pengirim"
                     fgroup-class="row" label-class="text-right col-3" igroup-size="sm" igroup-class="col-9"
-                    enable-old-support value="{{  $antrian->sbar?  $antrian->sbar->no_pengirim ? $antrian->sbar->no_pengirim :  Auth::user()->phone :null  }}" />
+                    enable-old-support value="{{  $antrian->sbar ? $antrian->sbar->no_pengirim : Auth::user()->phone  }}" />
                 <x-adminlte-textarea name="situation" label="Situation (S)" placeholder="Situation" fgroup-class="row"
                     label-class="text-right col-3" igroup-size="sm" igroup-class="col-9" rows="13"
                     enable-old-support required>
