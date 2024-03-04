@@ -18,10 +18,14 @@ return new class extends Migration
             $table->text('riwayat_penyakit')->nullable();
             $table->text('riwayat_penyakit_keluarga')->nullable();
             $table->text('riwayat_alergi')->nullable();
+            $table->string('pernah_berobat')->nullable();
             $table->text('riwayat_pengobatan')->nullable();
 
             $table->string('skala_nyeri')->nullable();
             $table->string('keluhan_nyeri')->nullable();
+            $table->string('respon_buka_mata')->nullable();
+            $table->string('respon_verbal')->nullable();
+            $table->string('respon_motorik')->nullable();
             $table->string('resiko_jatuh')->nullable();
             $table->string('alat_bantu')->nullable();
             $table->string('alat_bantu_text')->nullable();

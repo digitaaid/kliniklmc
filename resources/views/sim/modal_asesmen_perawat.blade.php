@@ -6,7 +6,7 @@
         <input type="hidden" name="antrian_id" value="{{ $antrian->id }}">
         <input type="hidden" name="kodekunjungan" value="{{ $antrian->kunjungan->kode ?? null }}">
         <input type="hidden" name="kunjungan_id" value="{{ $antrian->kunjungan->id ?? null }}">
-        <h6>Subjective (S) - Keluhan Utama, Nyeri & Resiko Jatuh</h6>
+        <h6>Subjective (S) - Keluhan Utama & Riwayat Penyakit</h6>
         <div class="row">
             <div class="col-md-6">
                 <x-adminlte-select name="sumber_data" label="Sumber Data" fgroup-class="row"
@@ -19,51 +19,148 @@
                         {{ $antrian->asesmenperawat ? ($antrian->asesmenperawat->sumber_data == 'Keluarga / Alloanamnesa' ? 'selected' : null) : null }}>
                         Keluarga / Alloanamnesa</option>
                 </x-adminlte-select>
-                <x-adminlte-textarea  igroup-size="sm" rows=3 label="Keluhan Utama" name="keluhan_utama"
+                <x-adminlte-textarea igroup-size="sm" rows=5 label="Keluhan Utama" name="keluhan_utama"
                     placeholder="Keluhan Utama">
                     {{ $antrian->asesmenperawat->keluhan_utama ?? null }}
                 </x-adminlte-textarea>
                 <div class="row">
-                    <div class="col-md-6">
-                        <x-adminlte-textarea  igroup-size="sm" rows=3 label="Riwayat Penyakit"
-                            name="riwayat_penyakit" placeholder="Riwayat Penyakit">
-                            {{ $antrian->asesmenperawat->riwayat_penyakit ?? null }}
-                        </x-adminlte-textarea>
+                    <div class="col-md-4"><b>Riwayat Pernah Berobat :</b></div>
+                    <div class="col-md-3">
+                        <div class="custom-control custom-radio">
+                            <input class="custom-control-input" type="radio" id="pernahberobat1" name="pernah_berobat"
+                                value="Iya"
+                                {{ $antrian->asesmenperawat ? ($antrian->asesmenperawat->pernah_berobat == 'Iya' ? 'checked' : null) : null }}>
+                            <label for="pernahberobat1" class="custom-control-label">Iya</label>
+                        </div>
                     </div>
-                    <div class="col-md-6">
-                        <x-adminlte-textarea  igroup-size="sm" rows=3 label="Riwayat Penyakit Keluarga"
-                            name="riwayat_penyakit_keluarga" placeholder="Riwayat Penyakit">
-                            {{ $antrian->asesmenperawat->riwayat_penyakit_keluarga ?? null }}
-                        </x-adminlte-textarea>
+                    <div class="col-md-3">
+                        <div class="custom-control custom-radio">
+                            <input class="custom-control-input" type="radio" id="pernahberobat2" name="pernah_berobat"
+                                value="Tidak"
+                                {{ $antrian->asesmenperawat ? ($antrian->asesmenperawat->pernah_berobat == 'Tidak' ? 'checked' : null) : null }}>
+                            <label for="pernahberobat2" class="custom-control-label">Tidak</label>
+                        </div>
                     </div>
+
+
                 </div>
-                <x-adminlte-textarea  igroup-size="sm" rows=3 label="Riwayat Alergi" name="riwayat_alergi"
-                    placeholder="Riwayat Alergi">
-                    {{ $antrian->asesmenperawat->riwayat_alergi ?? null }}
-                </x-adminlte-textarea>
-                <x-adminlte-textarea  igroup-size="sm" rows=3 label="Riwayat Pengobatan"
-                    name="riwayat_pengobatan" placeholder="Riwayat Pengobatan">
+                <x-adminlte-textarea igroup-size="sm" rows=3 label="Riwayat Pengobatan" name="riwayat_pengobatan"
+                    placeholder="Riwayat Pengobatan">
                     {{ $antrian->asesmenperawat->riwayat_pengobatan ?? null }}
                 </x-adminlte-textarea>
             </div>
             <div class="col-md-6">
-                <img src="{{ asset('skalanyeri.png') }}" width="100%">
+                <x-adminlte-textarea igroup-size="sm" rows=3 label="Riwayat Penyakit Dahulu" name="riwayat_penyakit"
+                    placeholder="Riwayat Penyakit">
+                    {{ $antrian->asesmenperawat->riwayat_penyakit ?? null }}
+                </x-adminlte-textarea>
+                <x-adminlte-textarea igroup-size="sm" rows=3 label="Riwayat Penyakit Keluarga"
+                    name="riwayat_penyakit_keluarga" placeholder="Riwayat Penyakit">
+                    {{ $antrian->asesmenperawat->riwayat_penyakit_keluarga ?? null }}
+                </x-adminlte-textarea>
+                <x-adminlte-textarea igroup-size="sm" rows=3 label="Riwayat Alergi" name="riwayat_alergi"
+                    placeholder="Riwayat Alergi">
+                    {{ $antrian->asesmenperawat->riwayat_alergi ?? null }}
+                </x-adminlte-textarea>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <h6>Asesmen Nyeri</h6>
+                <img src="{{ asset('bekerwong.png') }}" width="100%">
                 <div class="row">
                     <div class="col-md-3">
                         <label for="skala_nyeri">Skala Nyeri</label>
                     </div>
                     <div class="col-md-2">
-                        <x-adminlte-input  name="skala_nyeri" type="number" placeholder="Skala"
+                        <x-adminlte-input name="skala_nyeri" type="number" placeholder="Skala"
                             value="{{ $antrian->asesmenperawat->skala_nyeri ?? null }}" />
                     </div>
                     <div class="col-md-7">
-                        <x-adminlte-input  name="keluhan_nyeri" placeholder="Keluhan Nyeri"
+                        <x-adminlte-input name="keluhan_nyeri" placeholder="Keluhan Nyeri"
                             value="{{ $antrian->asesmenperawat->keluhan_nyeri ?? null }}" />
                     </div>
                 </div>
+                <h6>Asesmen Glasgow Coma Scale (GCS)</h6>
+                <div class="row">
+                    <div class="col-md-5">
+                        <label for="respon_buka_mata">Respon Membuka Mata</label>
+                    </div>
+                    <div class="col-md-7">
+                        <x-adminlte-select name="respon_buka_mata">
+                            <option value="4"
+                                {{ $antrian->asesmenperawat ? ($antrian->asesmenperawat->respon_buka_mata == '4' ? 'selected' : null) : null }}>
+                                Spontan</option>
+                            <option value="3"
+                                {{ $antrian->asesmenperawat ? ($antrian->asesmenperawat->respon_buka_mata == '3' ? 'selected' : null) : null }}>
+                                Terhadap Rangsangan Suara</option>
+                            <option value="2"
+                                {{ $antrian->asesmenperawat ? ($antrian->asesmenperawat->respon_buka_mata == '3' ? 'selected' : null) : null }}>
+                                Terhadap Nyeri
+                            </option>
+                            <option value="1"
+                                {{ $antrian->asesmenperawat ? ($antrian->asesmenperawat->respon_buka_mata == '1' ? 'selected' : null) : null }}>
+                                Tidak Ada</option>
+                        </x-adminlte-select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-5">
+                        <label for="respon_verbal">Respon Verbal</label>
+                    </div>
+                    <div class="col-md-7">
+                        <x-adminlte-select name="respon_verbal">
+                            <option value="5"
+                                {{ $antrian->asesmenperawat ? ($antrian->asesmenperawat->respon_verbal == '5' ? 'selected' : null) : null }}>
+                                Orientasi Baik</option>
+                            <option value="4"
+                                {{ $antrian->asesmenperawat ? ($antrian->asesmenperawat->respon_verbal == '4' ? 'selected' : null) : null }}>
+                                Orientasi Terganggu</option>
+                            <option value="3"
+                                {{ $antrian->asesmenperawat ? ($antrian->asesmenperawat->respon_verbal == '3' ? 'selected' : null) : null }}>
+                                Kata-kata Tidak Jelas</option>
+                            <option value="2"
+                                {{ $antrian->asesmenperawat ? ($antrian->asesmenperawat->respon_verbal == '2' ? 'selected' : null) : null }}>
+                                Suara Tidak Jelas</option>
+                            <option value="1"
+                                {{ $antrian->asesmenperawat ? ($antrian->asesmenperawat->respon_verbal == '1' ? 'selected' : null) : null }}>
+                                Tidak Ada Respon</option>
+                        </x-adminlte-select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-5">
+                        <label for="respon_motorik">Respon Motorik</label>
+                    </div>
+                    <div class="col-md-7">
+                        <x-adminlte-select name="respon_motorik">
+                            <option value="6"
+                                {{ $antrian->asesmenperawat ? ($antrian->asesmenperawat->respon_motorik == '6' ? 'selected' : null) : null }}>
+                                Mampu Bergerak</option>
+                            <option value="5"
+                                {{ $antrian->asesmenperawat ? ($antrian->asesmenperawat->respon_motorik == '5' ? 'selected' : null) : null }}>
+                                Melokalisasi Nyeri</option>
+                            <option value="4"
+                                {{ $antrian->asesmenperawat ? ($antrian->asesmenperawat->respon_motorik == '4' ? 'selected' : null) : null }}>
+                                Fleksi Mekanik</option>
+                            <option value="3"
+                                {{ $antrian->asesmenperawat ? ($antrian->asesmenperawat->respon_motorik == '3' ? 'selected' : null) : null }}>
+                                Fleksi Abnormal</option>
+                            <option value="2"
+                                {{ $antrian->asesmenperawat ? ($antrian->asesmenperawat->respon_motorik == '2' ? 'selected' : null) : null }}>
+                                Ekstensi</option>
+                            <option value="1"
+                                {{ $antrian->asesmenperawat ? ($antrian->asesmenperawat->respon_motorik == '1' ? 'selected' : null) : null }}>
+                                Tidak Ada Respon</option>
+                        </x-adminlte-select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <h6>Asesmen Resiko Jatuh</h6>
                 <table class="table table-bordered table-sm">
                     <tr>
-                        <th colspan="2" class="text-center">Assesmen Resiko Jatuh</th>
+                        <th colspan="2" class="text-center">Assesmen Resiko Jatuh (Up And Go Test)</th>
                     </tr>
                     <tr>
                         <th>Faktor</th>
@@ -86,25 +183,26 @@
                         <label for="resiko_jatuh">Resiko Jatuh</label>
                     </div>
                     <div class="col-md-9">
-                        <x-adminlte-select  name="resiko_jatuh">
-                            <option value="Tidak Bersiko"
-                                {{ $antrian->asesmenperawat ? ($antrian->asesmenperawat->resiko_jatuh == 'Tidak Bersiko' ? 'selected' : null) : null }}>
+                        <x-adminlte-select name="resiko_jatuh">
+                            <option value="Tidak Bersiko (tidak ditemukan a dan b)"
+                                {{ $antrian->asesmenperawat ? ($antrian->asesmenperawat->resiko_jatuh == 'Tidak Bersiko (tidak ditemukan a dan b)' ? 'selected' : null) : null }}>
                                 Tidak Bersiko (tidak ditemukan a dan b)</option>
-                            <option value="Resiko Rendah"
-                                {{ $antrian->asesmenperawat ? ($antrian->asesmenperawat->resiko_jatuh == 'Resiko Rendah' ? 'selected' : null) : null }}>
+                            <option value="Resiko Rendah (ditemukan a atau b)"
+                                {{ $antrian->asesmenperawat ? ($antrian->asesmenperawat->resiko_jatuh == 'Resiko Rendah (ditemukan a atau b)' ? 'selected' : null) : null }}>
                                 Resiko Rendah (ditemukan a atau b)</option>
-                            <option value="Resiko Tinggi"
-                                {{ $antrian->asesmenperawat ? ($antrian->asesmenperawat->resiko_jatuh == 'Resiko Tinggi' ? 'selected' : null) : null }}>
+                            <option value="Resiko Tinggi (ditemukan a dan b)"
+                                {{ $antrian->asesmenperawat ? ($antrian->asesmenperawat->resiko_jatuh == 'Resiko Tinggi (ditemukan a dan b)' ? 'selected' : null) : null }}>
                                 Resiko Tinggi (ditemukan a dan b)</option>
                         </x-adminlte-select>
                     </div>
                 </div>
+                <h6>Asesmen Status Fungsional</h6>
                 <div class="row">
                     <div class="col-md-3">
                         <label for="alat_bantu">Alat Bantu</label>
                     </div>
                     <div class="col-md-4">
-                        <x-adminlte-select  name="alat_bantu">
+                        <x-adminlte-select name="alat_bantu">
                             <option
                                 {{ $antrian->asesmenperawat ? ($antrian->asesmenperawat->alat_bantu == 'Tidak Ada' ? 'selected' : null) : null }}>
                                 Tidak
@@ -125,7 +223,7 @@
                         </x-adminlte-select>
                     </div>
                     <div class="col-md-5">
-                        <x-adminlte-input  name="alat_bantu_text" placeholder="Alat Bantu Lainnya"
+                        <x-adminlte-input name="alat_bantu_text" placeholder="Alat Bantu Lainnya"
                             value="{{ $antrian->asesmenperawat->alat_bantu_text ?? null }}" />
                     </div>
                 </div>
@@ -134,7 +232,7 @@
                         <label for="cacat_fisik">Cacat Fisik</label>
                     </div>
                     <div class="col-md-4">
-                        <x-adminlte-select  name="cacat_fisik">
+                        <x-adminlte-select name="cacat_fisik">
                             <option
                                 {{ $antrian->asesmenperawat ? ($antrian->asesmenperawat->cacat_fisik == 'Tidak Ada' ? 'selected' : null) : null }}>
                                 Tidak Ada</option>
@@ -145,13 +243,13 @@
                         </x-adminlte-select>
                     </div>
                     <div class="col-md-5">
-                        <x-adminlte-input  name="cacat_fisik_text" placeholder="Cacat Fisik Lainnya"
+                        <x-adminlte-input name="cacat_fisik_text" placeholder="Cacat Fisik Lainnya"
                             value="{{ $antrian->asesmenperawat->cacat_fisik_text ?? null }}" />
                     </div>
                 </div>
             </div>
         </div>
-        <h6>Subjective (S) - Psikologi, Sosial, dan Ekonomi</h6>
+        <h6>Asesmen Status Fungsional</h6>
         <div class="row">
             <div class="col-md-6">
                 <div class="row">
@@ -431,23 +529,38 @@
                 </div>
 
             </div>
-
         </div>
-        <h6>Subjective (S) - Skrining Gizi</h6>
+        <h6>Asesmen Skrining Gizi</h6>
         <div class="row">
             <div class="col-md-9">
-                <label for="penurunan_berat_badan">1. Apakah pasien mengalami penurunan berat badan yang tidak
-                    diinginkan dalam 6 bulan terakhir ?</label>
+                <label for="penurunan_berat_badan">1. Adakah penurunan Berat Badan dalam 6 bulan terakhir tanpa usaha
+                    khusus ?</label>
             </div>
             <div class="col-md-3">
                 <x-adminlte-select name="penurunan_berat_badan">
-                    <option
-                        {{ $antrian->asesmenperawat ? ($antrian->asesmenperawat->penurunan_berat_badan == 'Tidak' ? 'selected' : null) : null }}>
+                    <option value="0"
+                        {{ $antrian->asesmenperawat ? ($antrian->asesmenperawat->penurunan_berat_badan == '0' ? 'selected' : null) : null }}>
                         Tidak
                     </option>
-                    <option
-                        {{ $antrian->asesmenperawat ? ($antrian->asesmenperawat->penurunan_berat_badan == 'Ya' ? 'selected' : null) : null }}>
-                        Ya
+                    <option value="2"
+                        {{ $antrian->asesmenperawat ? ($antrian->asesmenperawat->penurunan_berat_badan == '2' ? 'selected' : null) : null }}>
+                        Ragu-ragu
+                    </option>
+                    <option value="1"
+                        {{ $antrian->asesmenperawat ? ($antrian->asesmenperawat->penurunan_berat_badan == '1' ? 'selected' : null) : null }}>
+                        Ya, Turun 1-5 kg
+                    </option>
+                    <option value="2"
+                        {{ $antrian->asesmenperawat ? ($antrian->asesmenperawat->penurunan_berat_badan == '2' ? 'selected' : null) : null }}>
+                        Ya, 6-10 kg
+                    </option>
+                    <option value="3"
+                        {{ $antrian->asesmenperawat ? ($antrian->asesmenperawat->penurunan_berat_badan == '3' ? 'selected' : null) : null }}>
+                        Ya, 11-15 kg
+                    </option>
+                    <option value="4"
+                        {{ $antrian->asesmenperawat ? ($antrian->asesmenperawat->penurunan_berat_badan == '4' ? 'selected' : null) : null }}>
+                        Ya, lebih dari 15 kg
                     </option>
                 </x-adminlte-select>
             </div>
@@ -459,57 +572,38 @@
             </div>
             <div class="col-md-3">
                 <x-adminlte-select name="asupan_berkurang">
-                    <option
-                        {{ $antrian->asesmenperawat ? ($antrian->asesmenperawat->asupan_berkurang == 'Tidak' ? 'selected' : null) : null }}>
+                    <option value="0"
+                        {{ $antrian->asesmenperawat ? ($antrian->asesmenperawat->asupan_berkurang == '0' ? 'selected' : null) : null }}>
                         Tidak
                     </option>
-                    <option
-                        {{ $antrian->asesmenperawat ? ($antrian->asesmenperawat->asupan_berkurang == 'Ya' ? 'selected' : null) : null }}>
+                    <option value="1"
+                        {{ $antrian->asesmenperawat ? ($antrian->asesmenperawat->asupan_berkurang == '1' ? 'selected' : null) : null }}>
                         Ya</option>
-                </x-adminlte-select>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-9">
-                <label for="apakah_diagnosa_khusus">3. Apakah pasien dengan diagnosa khusus : Penyakit
-                    DM/Ginjal/Hati/Paru/Stroke/Kanker/Penurunan imun/lainnya ?</label>
-            </div>
-            <div class="col-md-3">
-                <x-adminlte-select name="apakah_diagnosa_khusus">
-                    <option
-                        {{ $antrian->asesmenperawat ? ($antrian->asesmenperawat->apakah_diagnosa_khusus == 'Tidak' ? 'selected' : null) : null }}>
-                        Tidak
-                    </option>
-                    <option
-                        {{ $antrian->asesmenperawat ? ($antrian->asesmenperawat->apakah_diagnosa_khusus == 'Ya' ? 'selected' : null) : null }}>
-                        Ya
-                    </option>
                 </x-adminlte-select>
             </div>
         </div>
         <h6>Objective (O) - Tanda Vital</h6>
         <div class="row">
             <div class="col-md-6">
-                <x-adminlte-input  name="denyut_jantung" label="Denyut Jantung" igroup-size="sm"
-                    type="number" placeholder="Denyut Jantung" fgroup-class="row" label-class="text-left col-5"
-                    igroup-size="sm" igroup-class="col-7"
-                    value="{{ $antrian->asesmenperawat->denyut_jantung ?? null }}">
+                <x-adminlte-input name="denyut_jantung" label="Denyut Jantung" igroup-size="sm" type="number"
+                    placeholder="Denyut Jantung" fgroup-class="row" label-class="text-left col-5" igroup-size="sm"
+                    igroup-class="col-7" value="{{ $antrian->asesmenperawat->denyut_jantung ?? null }}">
                     <x-slot name="appendSlot">
                         <div class="input-group-text bg-secondary">
                             bpm
                         </div>
                     </x-slot>
                 </x-adminlte-input>
-                <x-adminlte-input  name="pernapasan" label="Pernapasan" igroup-size="sm"
-                    placeholder="Pernapasan" fgroup-class="row" label-class="text-left col-5" igroup-size="sm"
-                    igroup-class="col-7" type="number" value="{{ $antrian->asesmenperawat->pernapasan ?? null }}">
+                <x-adminlte-input name="pernapasan" label="Pernapasan" igroup-size="sm" placeholder="Pernapasan"
+                    fgroup-class="row" label-class="text-left col-5" igroup-size="sm" igroup-class="col-7"
+                    type="number" value="{{ $antrian->asesmenperawat->pernapasan ?? null }}">
                     <x-slot name="appendSlot">
                         <div class="input-group-text bg-secondary">
                             spm
                         </div>
                     </x-slot>
                 </x-adminlte-input>
-                <x-adminlte-input  name="sistole" label="Sistole" igroup-size="sm" placeholder="Sistole"
+                <x-adminlte-input name="sistole" label="Sistole" igroup-size="sm" placeholder="Sistole"
                     fgroup-class="row" label-class="text-left col-5" igroup-size="sm" igroup-class="col-7"
                     type="number" value="{{ $antrian->asesmenperawat->sistole ?? null }}">
                     <x-slot name="appendSlot">
@@ -518,7 +612,7 @@
                         </div>
                     </x-slot>
                 </x-adminlte-input>
-                <x-adminlte-input  name="distole" label="Diastole" igroup-size="sm" placeholder="Diastole"
+                <x-adminlte-input name="distole" label="Diastole" igroup-size="sm" placeholder="Diastole"
                     fgroup-class="row" label-class="text-left col-5" igroup-size="sm" igroup-class="col-7"
                     type="number" value="{{ $antrian->asesmenperawat->distole ?? null }}">
                     <x-slot name="appendSlot">
@@ -529,7 +623,7 @@
                 </x-adminlte-input>
             </div>
             <div class="col-md-6">
-                <x-adminlte-input  name="suhu" label="Suhu Tubuh" igroup-size="sm" fgroup-class="row"
+                <x-adminlte-input name="suhu" label="Suhu Tubuh" igroup-size="sm" fgroup-class="row"
                     label-class="text-left col-5" igroup-size="sm" igroup-class="col-7" placeholder="Suhu Tubuh"
                     value="{{ $antrian->asesmenperawat->suhu ?? null }}">
                     <x-slot name="appendSlot">
@@ -538,9 +632,9 @@
                         </div>
                     </x-slot>
                 </x-adminlte-input>
-                <x-adminlte-input  name="berat_badan" label="Berat Badan" igroup-size="sm"
-                    fgroup-class="row" label-class="text-left col-5" igroup-size="sm" igroup-class="col-7"
-                    placeholder="Berat Badan" type="number" oninput="indexBsa()"
+                <x-adminlte-input name="berat_badan" label="Berat Badan" igroup-size="sm" fgroup-class="row"
+                    label-class="text-left col-5" igroup-size="sm" igroup-class="col-7" placeholder="Berat Badan"
+                    type="number" oninput="indexBsa()"
                     value="{{ $antrian->asesmenperawat->berat_badan ?? null }}">
                     <x-slot name="appendSlot">
                         <div class="input-group-text bg-secondary">
@@ -548,9 +642,9 @@
                         </div>
                     </x-slot>
                 </x-adminlte-input>
-                <x-adminlte-input  name="tinggi_badan" type="number" label="Tinggi Badan"
-                    fgroup-class="row" label-class="text-left col-5" igroup-size="sm" igroup-class="col-7"
-                    igroup-size="sm" placeholder="Tinggi Badan" oninput="indexBsa()"
+                <x-adminlte-input name="tinggi_badan" type="number" label="Tinggi Badan" fgroup-class="row"
+                    label-class="text-left col-5" igroup-size="sm" igroup-class="col-7" igroup-size="sm"
+                    placeholder="Tinggi Badan" oninput="indexBsa()"
                     value="{{ $antrian->asesmenperawat->tinggi_badan ?? null }}">
                     <x-slot name="appendSlot">
                         <div class="input-group-text bg-secondary">
@@ -602,10 +696,19 @@
                 Confusional States
             </option>
         </x-adminlte-select>
-        <x-adminlte-textarea  igroup-size="sm" rows=4 label="Tanda Vital Tubuh" name="keadaan_tubuh"
-            placeholder="Tanda Vital Tubuh">
+        <x-adminlte-textarea igroup-size="sm" rows=4 label="Pemeriksaan Fisik" name="keadaan_tubuh"
+            placeholder="Pemeriksaan Fisik">
             {{ $antrian->asesmenperawat->keadaan_tubuh ?? null }}
         </x-adminlte-textarea>
+        <b>Status Lokalis : </b><br>
+        <div class="row">
+            <div class="col-md-6">
+                <img src="{{ asset('statuslokalis.png') }}" width="100%" alt="" srcset=""
+                    onclick="btnStatusLolkalis()">
+            </div>
+            <div class="col-md-6">
+            </div>
+        </div>
         {{-- <h6>Objective (O) - Laboratorium, Radiologi, & Penunjang Lainnya</h6>
         <div class="row">
             <div class="col-md-4">
@@ -628,21 +731,21 @@
             </div>
         </div> --}}
         <h6>Analysis (A)</h6>
-        <x-adminlte-textarea  igroup-size="sm" rows=3 label="Diagnosa Keperawatan"
-            name="diagnosa_keperawatan" placeholder="Diagnosa Keperawatan">
+        <x-adminlte-textarea igroup-size="sm" rows=3 label="Diagnosa Keperawatan" name="diagnosa_keperawatan"
+            placeholder="Diagnosa Keperawatan">
             {{ $antrian->asesmenperawat->diagnosa_keperawatan ?? null }}
         </x-adminlte-textarea>
         <h6>Planning (P)</h6>
-        <x-adminlte-textarea  igroup-size="sm" rows=3 label="Rencana Keperawatan" name="rencana_keperawatan"
+        <x-adminlte-textarea igroup-size="sm" rows=3 label="Rencana Keperawatan" name="rencana_keperawatan"
             placeholder="Rencana Keperawatan">
             {{ $antrian->asesmenperawat->rencana_keperawatan ?? null }}
         </x-adminlte-textarea>
-        <x-adminlte-textarea  igroup-size="sm" rows=3 label="Tindakan Keperawatan"
-            name="tindakan_keperawatan" placeholder="Tindakan Keperawatan">
+        <x-adminlte-textarea igroup-size="sm" rows=3 label="Tindakan Keperawatan" name="tindakan_keperawatan"
+            placeholder="Tindakan Keperawatan">
             {{ $antrian->asesmenperawat->tindakan_keperawatan ?? null }}
         </x-adminlte-textarea>
-        <x-adminlte-textarea  igroup-size="sm" rows=3 label="Evaluasi Keperawatan"
-            name="evaluasi_keperawatan" placeholder="Evaluasi Keperawatan">
+        <x-adminlte-textarea igroup-size="sm" rows=3 label="Evaluasi Keperawatan" name="evaluasi_keperawatan"
+            placeholder="Evaluasi Keperawatan">
             {{ $antrian->asesmenperawat->evaluasi_keperawatan ?? null }}
         </x-adminlte-textarea>
     </form>
@@ -657,6 +760,62 @@
         <x-adminlte-button theme="danger" icon="fas fa-times" label="Kembali" data-dismiss="modal" />
     </x-slot>
 </x-adminlte-modal>
+<x-adminlte-modal id="modalttd" title="Tanda Tangan Resume Ranap" theme="warning" icon="fas fa-file-medical"
+    size='lg'>
+    {{-- <form id="formttd" action="" name="formttd" method="POST">
+        @csrf
+        <input type="hidden" name="norm" value="{{ $antrian->norm }}">
+        <input type="hidden" name="kode_kunjungan" value="{{ $antrian->kunjungan->kode }}">
+        <input type="hidden" id="ttd_image64" name="image">
+        <div class="signature-component">
+            <canvas id="signature-pad" width="400" height="200"></canvas>
+            <div>
+                <span class="btn btn-danger mt-1" id="clear">Clear</span>
+            </div>
+        </div>
+    </form> --}}
+    <div id="signature-pad" class="signature-pad">
+        <div class="signature-pad--body">
+            <canvas></canvas>
+        </div>
+        <div class="signature-pad--footer">
+            <div class="description">Sign above</div>
+
+            <div class="signature-pad--actions">
+                <div class="column">
+                    <form action="#" enctype="multipart/form-data">
+                        <label for="fileupload" id="buttonlabel">
+                            <span role="button" aria-controls="filename" tabindex="0">
+                                Choose a background image
+                            </span>
+                        </label>
+                        <input type="file" id="fileupload" accept="image/*">
+                    </form>
+                    <button type="button" class="button clear" data-action="clear">Clear</button>
+                    <button type="button" class="button" data-action="change-background-color">Change background
+                        color</button>
+                    <button type="button" class="button" data-action="change-color">Change color</button>
+                    <button type="button" class="button" data-action="change-width">Change width</button>
+                    <button type="button" class="button" data-action="undo">Undo</button>
+
+                </div>
+                <div class="column">
+                    <button type="button" class="button save" data-action="save-png">Save as PNG</button>
+                    <button type="button" class="button save" data-action="save-jpg">Save as JPG</button>
+                    <button type="button" class="button save" data-action="save-svg">Save as SVG</button>
+                    <button type="button" class="button save" data-action="save-svg-with-background">Save as SVG
+                        with
+                        background</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <x-slot name="footerSlot">
+        <button class="btn btn-success mr-auto" onclick="simpanttd()"><i class="fas fa-save"></i>
+            Simpan</button>
+        <x-adminlte-button theme="danger" label="Close" icon="fas fa-times" data-dismiss="modal" />
+    </x-slot>
+</x-adminlte-modal>
 @push('js')
     <script>
         function indexBsa() {
@@ -664,6 +823,12 @@
             var tb = $('#tinggi_badan').val() ? $('#tinggi_badan').val() : 0;
             var bsa = (parseInt(bb) * parseInt(tb) / 3600).toFixed(2);
             $('#bsa').val(bsa);
+        }
+
+        function btnStatusLolkalis() {
+            $.LoadingOverlay("show");
+            $('#modalttd').modal('show');
+            $.LoadingOverlay("hide");
         }
     </script>
 @endpush

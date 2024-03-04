@@ -219,6 +219,8 @@
                     <dd class="col-sm-9">{{ $antrian->asesmenperawat->riwayat_penyakit_keluarga ?? '-' }}</dd>
                     <dt class="col-sm-3">Riwayat Alergi</dt>
                     <dd class="col-sm-9">{{ $antrian->asesmenperawat->riwayat_alergi ?? '-' }}</dd>
+                    <dt class="col-sm-3">Riwayat Pernah Berobat</dt>
+                    <dd class="col-sm-9">{{ $antrian->asesmenperawat->pernah_berobat ?? '-' }}</dd>
                     <dt class="col-sm-3">Riwayat Pengobatan</dt>
                     <dd class="col-sm-9">{{ $antrian->asesmenperawat->riwayat_pengobatan ?? '-' }}</dd>
                 </dl>
@@ -258,45 +260,127 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-6 border border-dark">
-                <b>Asesmen Nyeri</b>
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-12 border border-dark">
+                        <b>Asesmen Nyeri</b>
+                    </div>
+                    <div class="col-md-12 border border-dark">
+                        <img src="{{ asset('bekerwong.png') }}" width="100%" alt="">
+                    </div>
+                    <div class="col-md-12 border border-dark">
+                        <dl class="row ml-2">
+                            <dt class="col-sm-4">Skala Nyeri</dt>
+                            <dd class="col-sm-8">{{ $kunjungan->asesmenperawat->skala_nyeri ?? '-' }}</dd>
+                            <dt class="col-sm-4">Keluhan Nyeri</dt>
+                            <dd class="col-sm-8">{{ $kunjungan->asesmenperawat->keluhan_nyeri ?? '-' }}</dd>
+                        </dl>
+                    </div>
+                </div>
             </div>
             <div class="col-md-6 border border-dark">
-                <b>Asesmen Resiko Jatuh, dan Fungsional</b>
-            </div>
-            <div class="col-md-6 border border-dark">
-                <img src="{{ asset('skalanyeri.png') }}" width="100%" alt="">
-                <dl class="row ml-2">
-                    <dt class="col-sm-4">Skala Nyeri</dt>
-                    <dd class="col-sm-8">{{ $kunjungan->asesmenperawat->skala_nyeri ?? '-' }}</dd>
-                    <dt class="col-sm-4">Keluhan Nyeri</dt>
-                    <dd class="col-sm-8">{{ $kunjungan->asesmenperawat->keluhan_nyeri ?? '-' }}</dd>
-                </dl>
-            </div>
-            <div class="col-md-6 border border-dark">
-                <dl class="row ml-2">
-                    <dt class="col-sm-4">Resiko Jatuh</dt>
-                    <dd class="col-sm-8">{{ $kunjungan->asesmenperawat->resiko_jatuh ?? '-' }}</dd>
-                    <dt class="col-sm-4">Alat Bantu</dt>
-                    <dd class="col-sm-8">{{ $kunjungan->asesmenperawat->alat_bantu ?? '-' }}</dd>
-                    <dt class="col-sm-4">Cacat Fisik</dt>
-                    <dd class="col-sm-8">{{ $kunjungan->asesmenperawat->cacat_fisik ?? '-' }}</dd>
-                </dl>
+                <div class="row">
+                    <div class="col-md-12 border border-dark">
+                        <b>Asesmen Resiko Jatuh</b>
+                    </div>
+                    <div class="col-md-12 border border-dark">
+                        <b>Up And Go Test</b>
+                        <br>
+                        A : Perhatikan cara berjalan pasien saat akan duduk dikursi. Apakah pasien tampak tidak
+                        seimbang ( sempoyongan / limbung ) ?
+                        <br>
+                        B : Apakah pasien memegang pinggiran kursi atau meja atau benda lain sebagai penopang saat akan
+                        duduk ?
+                    </div>
+                    <div class="col-md-12 border border-dark">
+                        <dl class="row ml-2">
+                            <dt class="col-sm-4">Resiko Jatuh</dt>
+                            <dd class="col-sm-8">{{ $kunjungan->asesmenperawat->resiko_jatuh ?? '-' }}</dd>
+                            <dt class="col-sm-4">Alat Bantu</dt>
+                            <dd class="col-sm-8">{{ $kunjungan->asesmenperawat->alat_bantu ?? '-' }}</dd>
+                            <dt class="col-sm-4">Cacat Fisik</dt>
+                            <dd class="col-sm-8">{{ $kunjungan->asesmenperawat->cacat_fisik ?? '-' }}</dd>
+                        </dl>
+                    </div>
+                    <div class="col-md-12 border border-dark">
+                        <b>Asesmen Glasgow Coma Scale (GCS)</b>
+                    </div>
+                    <div class="col-md-4 text-center border border-dark">
+                        <b>Alat Ukur</b>
+                    </div>
+                    <div class="col-md-8 text-center border border-dark">
+                        <b>Score</b>
+
+                    </div>
+                    <div class="col-md-4 border border-dark">
+                        Respon Membuka Mata
+                    </div>
+                    <div class="col-md-4 border border-dark">
+                        Baik
+                    </div>
+                    <div class="col-md-4 border border-dark">
+                        3
+                    </div>
+                    <div class="col-md-4 border border-dark">
+                        Respon Verbal
+                    </div>
+                    <div class="col-md-4 border border-dark">
+                        Baik
+                    </div>
+                    <div class="col-md-4 border border-dark">
+                        3
+                    </div>
+                    <div class="col-md-4 border border-dark">
+                        Respon Motorik
+                    </div>
+                    <div class="col-md-4 border border-dark">
+                        Baik
+                    </div>
+                    <div class="col-md-4 border border-dark">
+                        3
+                    </div>
+                    <div class="col-md-4 border border-dark">
+                        Total
+                    </div>
+                    <div class="col-md-4 border border-dark">
+                        Total
+                    </div>
+                    <div class="col-md-4 border border-dark">
+                        Score
+                    </div>
+                </div>
             </div>
             <div class="col-md-12 border border-dark">
-                <b>Skrinning Gizi</b>
+                <b>Skrinning Gizi MST</b>
             </div>
-            <div class="col-md-12 border border-dark">
-                <dl class="row ml-2">
-                    <dt class="col-sm-9">1. Apakah pasien mengalami penurunan berat badan yang tidak diinginkan dalam 6
-                        bulan terakhir ?</dt>
-                    <dd class="col-sm-3">{{ $kunjungan->asesmenperawat->penurunan_berat ?? '-' }}</dd>
-                    <dt class="col-sm-9">2. Apakah asupan makanan berkurang karena berkurangnya nafsu makan ?</dt>
-                    <dd class="col-sm-3">{{ $kunjungan->asesmenperawat->asupan_makan ?? '-' }}</dd>
-                    <dt class="col-sm-9">3. Apakah pasien dengan diagnosa khusus : Penyakit
-                        DM/Ginjal/Hati/Paru/Stroke/Kanker/Penurunan imun/lainnya ?</dt>
-                    <dd class="col-sm-3">{{ $kunjungan->asesmenperawat->apakah_diagnosa_khusus ?? '-' }}</dd>
-                </dl>
+            <div class="col-md-8 border border-dark">
+                1. Apakah pasien mengalami penurunan berat badan yang tidak diinginkan
+                dalam 6
+                bulan terakhir ?
+            </div>
+            <div class="col-md-2 border border-dark">
+                {{ $kunjungan->asesmenperawat->penurunan_berat ?? '-' }}
+            </div>
+            <div class="col-md-2 border border-dark">
+                {{ $kunjungan->asesmenperawat->penurunan_berat ?? '-' }}
+            </div>
+            <div class="col-md-8 border border-dark">
+                2. Apakah asupan makanan berkurang karena berkurangnya nafsu makan ?
+            </div>
+            <div class="col-md-2 border border-dark">
+                {{ $kunjungan->asesmenperawat->asupan_makan ?? '-' }}
+            </div>
+            <div class="col-md-2 border border-dark">
+                {{ $kunjungan->asesmenperawat->asupan_makan ?? '-' }}
+            </div>
+            <div class="col-md-8 text-right border border-dark">
+                Total Score
+            </div>
+            <div class="col-md-2 border border-dark">
+                {{ $kunjungan->asesmenperawat->asupan_makan ?? '-' }}
+            </div>
+            <div class="col-md-2 border border-dark">
+                {{ $kunjungan->asesmenperawat->asupan_makan ?? '-' }}
             </div>
             <div class="col-md-12 border border-dark">
                 <b>Tanda Vital Tubuh</b>
@@ -358,10 +442,12 @@
                 </dl>
             </div>
             <div class="col-md-4 border border-dark">
-                <b>Keadaan Tubuh</b><br>
-                {{ $kunjungan->asesmenperawat->keadaan_tubuh ?? '-' }}
+                <b>Pemeriksaan Fisik</b><br>
+                {{ $kunjungan->asesmenperawat->keadaan_tubuh ?? '-' }}<br>
             </div>
             <div class="col-md-8 border border-dark">
+                <b>Status Lokalis :</b>
+                <img src="{{ asset('statuslokalis.png') }}" alt="" width="50%">
                 <dl class="row">
                     <dt class="col-sm-3">Diagnosis Keperwatan</dt>
                     <dd class="col-sm-9">{{ $kunjungan->asesmenperawat->diagnosa_keperawatan ?? '-' }}</dd>

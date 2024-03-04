@@ -75,7 +75,7 @@
                 </div>
             </div>
             <div class="col-md-12 border border-dark text-center bg-warning">
-                <b class="">CACATATAN PENGASUHAN PASIEN TERINTEGRASI</b>
+                <b class="">CATATAN PERKEMBANGAN PASIEN TERINTEGRASI</b>
             </div>
             <div class="col-md-2  border border-dark">
                 <b>Registrasi</b>
@@ -109,7 +109,15 @@
                                 </dd>
                                 <dt>Riwayat Pengobatan :</dt>
                                 <dd>
-                                    <pre>{{ $kunjungan->asesmenperawat->riwayat_pengobatan ?? '-' }}</pre>
+                                    <pre>{{ $kunjungan->asesmenperawat->pernah_berobat ?? null }} {{ $kunjungan->asesmenperawat->riwayat_pengobatan ?? '-' }}</pre>
+                                </dd>
+                                <dt>Riwayat Penyakit :</dt>
+                                <dd>
+                                    <pre>Dahulu : {{ $kunjungan->asesmenperawat->riwayat_penyakit ?? 'Tidak Ada' }}, Keluarga : {{ $kunjungan->asesmenperawat->riwayat_penyakit_keluarga ?? 'Tidak Ada' }}</pre>
+                                    <pre>Reaksi Alergi : {{ $kunjungan->asesmenperawat->riwayat_alergi ?? 'Tidak Ada' }}</pre>
+                                </dd>
+                                {{-- <dt>Riwayat Alergi :</dt>
+                                <dd> --}}
                                 </dd>
                                 <dt>Tanda Vital :</dt>
                                 <dd>
@@ -166,17 +174,21 @@
                                         @endswitch
                                     @endif
                                     <br>
-                                    Tanda Vital Tubuh :
+                                    Pemeriksaan Fisik :
                                     {{ $kunjungan->asesmenperawat->keadaan_tubuh ?? '-' }}
                                 </dd>
-                                <dt>Riwayat Penyakit :</dt>
-                                <dd>
-                                    <pre>{{ $kunjungan->asesmenperawat->riwayat_penyakit ?? '-' }}</pre>
-                                </dd>
-                                <dt>Riwayat Alergi :</dt>
-                                <dd>
-                                    <pre>{{ $kunjungan->asesmenperawat->riwayat_alergi ?? '-' }}</pre>
-                                </dd>
+                                @if ($kunjungan->asesmenperawat->diagnosa_keperawatan)
+                                    <dt>Diagnosa Keperawatan :</dt>
+                                    <dd>{{ $kunjungan->asesmenperawat->diagnosa_keperawatan }} </dd>
+                                @endif
+                                @if ($kunjungan->asesmenperawat->rencana_keperawatan)
+                                    <dt>Rencana Keperawatan :</dt>
+                                    <dd>{{ $kunjungan->asesmenperawat->rencana_keperawatan }}</dd>
+                                @endif
+                                @if ($kunjungan->asesmenperawat->tindakan_keperawatan)
+                                    <dt>Tindakan Keperawatan :</dt>
+                                    <dd>{{ $kunjungan->asesmenperawat->tindakan_keperawatan }}</dd>
+                                @endif
                             </dl>
                         @else
                             Belum Asesmen Perawat
