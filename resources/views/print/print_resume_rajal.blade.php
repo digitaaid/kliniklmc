@@ -7,7 +7,9 @@
     <div class="row">
         <div class="col-md-12">
             <div id="printMe">
-                @include('form.resume_rajal')
+                <section class="invoice p-3">
+                    @include('form.resume_rajal')
+                </section>
             </div>
         </div>
     </div>

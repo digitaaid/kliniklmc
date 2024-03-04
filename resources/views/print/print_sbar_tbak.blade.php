@@ -7,7 +7,7 @@
     <div class="row">
         <div class="col-md-12">
             <div id="printMe">
-                <section>
+                <section class="invoice p-3">
                     <div class="col-md-12" style="font-size: 13px">
                         <div class="row">
                             @include('form.assesmen_kop')
