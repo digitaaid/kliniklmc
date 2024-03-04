@@ -627,7 +627,7 @@
                 <b>Status Lokalis :</b>
                 <img src="{{ asset('statuslokalis.png') }}" alt="" width="50%">
                 <dl class="row">
-                    <dt class="col-sm-3">Diagnosis Keperwatan</dt>
+                    <dt class="col-sm-3">Diagnosis Keperawatan</dt>
                     <dd class="col-sm-9">{{ $kunjungan->asesmenperawat->diagnosa_keperawatan ?? '-' }}</dd>
                     <dt class="col-sm-3">Rencana Keperawatan</dt>
                     <dd class="col-sm-9">{{ $kunjungan->asesmenperawat->rencana_keperawatan ?? '-' }}</dd>
