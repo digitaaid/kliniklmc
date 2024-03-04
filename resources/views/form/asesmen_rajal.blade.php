@@ -557,7 +557,7 @@
             </div>
             <div class="col-md-2 border border-dark">
                 @if ($kunjungan->asesmenperawat)
-                    {{ $kunjungan->asesmenperawat->asupan_berkurang && $kunjungan->asesmenperawat->penurunan_berat_badan ? $kunjungan->asesmenperawat->asupan_berkurang + $kunjungan->asesmenperawat->penurunan_berat_badan : '-' }}
+                    {{ is_int($kunjungan->asesmenperawat->asupan_berkurang) && is_int($kunjungan->asesmenperawat->penurunan_berat_badan) ? $kunjungan->asesmenperawat->asupan_berkurang + $kunjungan->asesmenperawat->penurunan_berat_badan : '-' }}
                 @endif
             </div>
             <div class="col-md-12 border border-dark">
