@@ -530,7 +530,7 @@
 
             </div>
         </div>
-        <h6>Asesmen Skrining Gizi</h6>
+        <h6>Skrining Gizi MST</h6>
         <div class="row">
             <div class="col-md-9">
                 <label for="penurunan_berat_badan">1. Adakah penurunan Berat Badan dalam 6 bulan terakhir tanpa usaha

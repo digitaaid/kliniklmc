@@ -806,7 +806,7 @@
                     <b><u>
                             {{ $antrian->pic4 ? $antrian->pic4->name : 'Farmasi' }}
                         </u></b> <br>
-                    Waktu : {{ $antrian->taskid6 }}
+                    Waktu : {{ $antrian->taskid6 ?? $antrian->asesmendokter->created_at }}
                 @endif
             </div>
         </div>
