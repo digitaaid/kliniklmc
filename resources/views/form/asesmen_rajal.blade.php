@@ -316,36 +316,167 @@
                     </div>
                     <div class="col-md-4 border border-dark">
                         Baik
+                        @if ($antrian->asesmenperawat)
+                            @switch($antrian->asesmenperawat->respon_buka_mata)
+                                @case(4)
+                                    Spontan
+                                @break
+
+                                @case(3)
+                                    Terhadap Rangsangan Suara
+                                @break
+
+                                @case(2)
+                                    Terhadap Nyeri
+                                @break
+
+                                @case(1)
+                                    Tidak Ada
+                                @break
+
+                                @default
+                            @endswitch
+                        @endif
                     </div>
                     <div class="col-md-4 border border-dark">
-                        3
+                        {{ $antrian->asesmenperawat->respon_buka_mata ?? '-' }}
                     </div>
                     <div class="col-md-4 border border-dark">
                         Respon Verbal
                     </div>
                     <div class="col-md-4 border border-dark">
-                        Baik
+                        @if ($antrian->asesmenperawat)
+                            @switch($antrian->asesmenperawat->respon_verbal)
+                                @case(5)
+                                    Orientasi Baik
+                                @break
+
+                                @case(4)
+                                    Orientasi Terganggu
+                                @break
+
+                                @case(3)
+                                    Kata-kata Tidak Jelas
+                                @break
+
+                                @case(2)
+                                    Suara Tidak Jelas
+                                @break
+
+                                @case(1)
+                                    Tidak Ada Respon
+                                @break
+
+                                @default
+                            @endswitch
+                        @endif
                     </div>
                     <div class="col-md-4 border border-dark">
-                        3
+                        {{ $antrian->asesmenperawat->respon_verbal ?? '-' }}
                     </div>
                     <div class="col-md-4 border border-dark">
                         Respon Motorik
                     </div>
                     <div class="col-md-4 border border-dark">
-                        Baik
+                        @if ($antrian->asesmenperawat)
+                            @switch($antrian->asesmenperawat->respon_verbal)
+                                @case(6)
+                                    Mampu Bergerak
+                                @break
+
+                                @case(5)
+                                    Melokalisasi Nyeri
+                                @break
+
+                                @case(4)
+                                    Fleksi Mekanik
+                                @break
+
+                                @case(3)
+                                    Fleksi Abnormal
+                                @break
+
+                                @case(2)
+                                    Ekstensi
+                                @break
+
+                                @case(1)
+                                    Tidak Ada Respon
+                                @break
+
+                                @default
+                            @endswitch
+                        @endif
                     </div>
                     <div class="col-md-4 border border-dark">
-                        3
+                        {{ $antrian->asesmenperawat->respon_motorik ?? '-' }}
                     </div>
                     <div class="col-md-4 border border-dark">
                         Total
                     </div>
                     <div class="col-md-4 border border-dark">
-                        Total
+                        @if ($antrian->asesmenperawat)
+                            @if (
+                                $antrian->asesmenperawat->respon_motorik &&
+                                    $antrian->asesmenperawat->respon_verbal &&
+                                    $antrian->asesmenperawat->respon_buka_mata)
+                                @if (
+                                    $antrian->asesmenperawat->respon_motorik +
+                                        $antrian->asesmenperawat->respon_verbal +
+                                        $antrian->asesmenperawat->respon_buka_mata <=
+                                        3)
+                                    Comma
+                                @else
+                                    @if (
+                                        $antrian->asesmenperawat->respon_motorik +
+                                            $antrian->asesmenperawat->respon_verbal +
+                                            $antrian->asesmenperawat->respon_buka_mata <=
+                                            6)
+                                        Sporo Comma
+                                    @else
+                                        @if (
+                                            $antrian->asesmenperawat->respon_motorik +
+                                                $antrian->asesmenperawat->respon_verbal +
+                                                $antrian->asesmenperawat->respon_buka_mata <=
+                                                9)
+                                            Delirium
+                                        @else
+                                            @if (
+                                                $antrian->asesmenperawat->respon_motorik +
+                                                    $antrian->asesmenperawat->respon_verbal +
+                                                    $antrian->asesmenperawat->respon_buka_mata <=
+                                                    11)
+                                                Somnolen
+                                            @else
+                                                @if (
+                                                    $antrian->asesmenperawat->respon_motorik +
+                                                        $antrian->asesmenperawat->respon_verbal +
+                                                        $antrian->asesmenperawat->respon_buka_mata <=
+                                                        13)
+                                                    Apatis
+                                                @else
+                                                    @if (
+                                                        $antrian->asesmenperawat->respon_motorik +
+                                                            $antrian->asesmenperawat->respon_verbal +
+                                                            $antrian->asesmenperawat->respon_buka_mata >=
+                                                            14)
+                                                        Composmentis
+                                                    @endif
+                                                @endif
+                                            @endif
+                                        @endif
+                                    @endif
+                                @endif
+
+
+
+                            @endif
+                        @endif
                     </div>
                     <div class="col-md-4 border border-dark">
-                        Score
+                        @if ($antrian->asesmenperawat)
+                            {{ $antrian->asesmenperawat->respon_motorik && $antrian->asesmenperawat->respon_verbal && $antrian->asesmenperawat->respon_buka_mata ? $antrian->asesmenperawat->respon_motorik + $antrian->asesmenperawat->respon_verbal + $antrian->asesmenperawat->respon_buka_mata : '-' }}
+                        @endif
                     </div>
                 </div>
             </div>
