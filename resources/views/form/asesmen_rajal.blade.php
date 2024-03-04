@@ -633,7 +633,7 @@
                     <dd class="col-sm-9">{{ $kunjungan->asesmenperawat->rencana_keperawatan ?? '-' }}</dd>
                     <dt class="col-sm-3">Tindakan Keperawatan</dt>
                     <dd class="col-sm-9">{{ $kunjungan->asesmenperawat->tindakan_keperawatan ?? '-' }}</dd>
-                    <dt class="col-sm-3">Evaluasi Keperwatan</dt>
+                    <dt class="col-sm-3">Evaluasi Keperawatan</dt>
                     <dd class="col-sm-9">{{ $kunjungan->asesmenperawat->evaluasi_keperawatan ?? '-' }}</dd>
                 </dl>
             </div>
