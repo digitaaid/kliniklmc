@@ -209,15 +209,15 @@
             <div class="col-md-12 border border-dark">
                 <dl class="row ml-2">
                     <dt class="col-sm-3">Suber Data</dt>
-                    <dd class="col-sm-9">{{ $antrian->asesmenperawat->sumber_data ?? '-' }}</dd>
+                    <dd class="col-sm-9">{{ $antrian->asesmenperawat->sumber_data ?? 'Tidak Ada' }}</dd>
                     <dt class="col-sm-3">Keluhan Utama</dt>
-                    <dd class="col-sm-9">{{ $antrian->asesmenperawat->keluhan_utama ?? '-' }}</dd>
+                    <dd class="col-sm-9">{{ $antrian->asesmenperawat->keluhan_utama ?? 'Tidak Ada' }}</dd>
                     <dt class="col-sm-3">Riwayat Penyakit Dahulu</dt>
-                    <dd class="col-sm-9">{{ $antrian->asesmenperawat->riwayat_penyakit ?? '-' }}</dd>
+                    <dd class="col-sm-9">{{ $antrian->asesmenperawat->riwayat_penyakit ?? 'Tidak Ada' }}</dd>
                     <dt class="col-sm-3">Riwayat Penyakit Keluarga</dt>
-                    <dd class="col-sm-9">{{ $antrian->asesmenperawat->riwayat_penyakit_keluarga ?? '-' }}</dd>
+                    <dd class="col-sm-9">{{ $antrian->asesmenperawat->riwayat_penyakit_keluarga ?? 'Tidak Ada' }}</dd>
                     <dt class="col-sm-3">Riwayat Alergi</dt>
-                    <dd class="col-sm-9">{{ $antrian->asesmenperawat->riwayat_alergi ?? '-' }}</dd>
+                    <dd class="col-sm-9">{{ $antrian->asesmenperawat->riwayat_alergi ?? 'Tidak Ada' }}</dd>
                     <dt class="col-sm-3">Riwayat Pernah Berobat</dt>
                     <dd class="col-sm-9">{{ $antrian->asesmenperawat->pernah_berobat ?? '-' }}</dd>
                     <dt class="col-sm-3">Riwayat Pengobatan</dt>
@@ -315,7 +315,6 @@
                         Respon Membuka Mata
                     </div>
                     <div class="col-md-4 border border-dark">
-                        Baik
                         @if ($antrian->asesmenperawat)
                             @switch($antrian->asesmenperawat->respon_buka_mata)
                                 @case(4)
@@ -467,9 +466,6 @@
                                         @endif
                                     @endif
                                 @endif
-
-
-
                             @endif
                         @endif
                     </div>
@@ -489,28 +485,80 @@
                 bulan terakhir ?
             </div>
             <div class="col-md-2 border border-dark">
-                {{ $kunjungan->asesmenperawat->penurunan_berat ?? '-' }}
+                @if ($kunjungan->asesmenperawat)
+                    @switch($kunjungan->asesmenperawat->penurunan_berat_badan)
+                        @case(0)
+                            Tidak
+                        @break
+
+                        @case(1)
+                            Ya, Turun 1-5 kg
+                        @break
+
+                        @case(2)
+                            Ragu-ragu
+                        @break
+
+                        @case(3)
+                            Ya, 11-15 kg
+                        @break
+
+                        @case(4)
+                            Ya, lebih dari 15 kg
+                        @break
+
+                        @default
+                    @endswitch
+                @endif
             </div>
             <div class="col-md-2 border border-dark">
-                {{ $kunjungan->asesmenperawat->penurunan_berat ?? '-' }}
+                {{ $kunjungan->asesmenperawat->penurunan_berat_badan ?? '-' }}
             </div>
             <div class="col-md-8 border border-dark">
                 2. Apakah asupan makanan berkurang karena berkurangnya nafsu makan ?
             </div>
             <div class="col-md-2 border border-dark">
-                {{ $kunjungan->asesmenperawat->asupan_makan ?? '-' }}
+                @if ($kunjungan->asesmenperawat)
+                    @switch($kunjungan->asesmenperawat->asupan_berkurang)
+                        @case(0)
+                            Tidak
+                        @break
+
+                        @case(1)
+                            Ya
+                        @break
+
+                        @default
+                    @endswitch
+                @endif
             </div>
             <div class="col-md-2 border border-dark">
-                {{ $kunjungan->asesmenperawat->asupan_makan ?? '-' }}
+                {{ $kunjungan->asesmenperawat->asupan_berkurang ?? '-' }}
             </div>
             <div class="col-md-8 text-right border border-dark">
                 Total Score
             </div>
             <div class="col-md-2 border border-dark">
-                {{ $kunjungan->asesmenperawat->asupan_makan ?? '-' }}
+                @if ($kunjungan->asesmenperawat)
+                    @if ($kunjungan->asesmenperawat->asupan_berkurang && $kunjungan->asesmenperawat->penurunan_berat_badan)
+                        @if ($kunjungan->asesmenperawat->asupan_berkurang + $kunjungan->asesmenperawat->penurunan_berat_badan == 0)
+                            Risiko Rendah
+                        @else
+                            @if ($kunjungan->asesmenperawat->asupan_berkurang + $kunjungan->asesmenperawat->penurunan_berat_badan == 1)
+                                Risiko Sedang
+                            @else
+                                @if ($kunjungan->asesmenperawat->asupan_berkurang + $kunjungan->asesmenperawat->penurunan_berat_badan >= 2)
+                                    Risiko Tinggi Malnutrisi
+                                @endif
+                            @endif
+                        @endif
+                    @endif
+                @endif
             </div>
             <div class="col-md-2 border border-dark">
-                {{ $kunjungan->asesmenperawat->asupan_makan ?? '-' }}
+                @if ($kunjungan->asesmenperawat)
+                    {{ $kunjungan->asesmenperawat->asupan_berkurang && $kunjungan->asesmenperawat->penurunan_berat_badan ? $kunjungan->asesmenperawat->asupan_berkurang + $kunjungan->asesmenperawat->penurunan_berat_badan : '-' }}
+                @endif
             </div>
             <div class="col-md-12 border border-dark">
                 <b>Tanda Vital Tubuh</b>
