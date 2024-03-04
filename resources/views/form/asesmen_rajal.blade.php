@@ -540,7 +540,7 @@
             </div>
             <div class="col-md-2 border border-dark">
                 @if ($kunjungan->asesmenperawat)
-                    @if ($kunjungan->asesmenperawat->asupan_berkurang && $kunjungan->asesmenperawat->penurunan_berat_badan)
+                    @if (is_int($kunjungan->asesmenperawat->asupan_berkurang) && is_int($kunjungan->asesmenperawat->penurunan_berat_badan))
                         @if ($kunjungan->asesmenperawat->asupan_berkurang + $kunjungan->asesmenperawat->penurunan_berat_badan == 0)
                             Risiko Rendah
                         @else
