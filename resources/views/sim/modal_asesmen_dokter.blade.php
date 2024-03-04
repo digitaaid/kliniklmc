@@ -19,11 +19,11 @@
                         {{ $antrian->asesmenperawat ? ($antrian->asesmenperawat->sumber_data == 'Keluarga / Alloanamnesa' ? 'selected' : null) : null }}>
                         Keluarga / Alloanamnesa</option>
                 </x-adminlte-select>
-                <x-adminlte-textarea required igroup-size="sm" rows=3 label="Keluhan Utama" name="keluhan_utama"
+                <x-adminlte-textarea igroup-size="sm" rows=3 label="Keluhan Utama" name="keluhan_utama"
                     placeholder="Keluhan Utama">
                     {{ $antrian->asesmenperawat->keluhan_utama ?? null }}
                 </x-adminlte-textarea>
-                <x-adminlte-textarea required igroup-size="sm" rows=3 label="Riwayat Pengobatan"
+                <x-adminlte-textarea igroup-size="sm" rows=3 label="Riwayat Pengobatan"
                     name="riwayat_pengobatan" placeholder="Riwayat Pengobatan">
                     {{ $antrian->asesmenperawat->riwayat_pengobatan ?? null }}
                 </x-adminlte-textarea>
@@ -31,19 +31,19 @@
             <div class="col-md-6">
                 <div class="row">
                     <div class="col-md-6">
-                        <x-adminlte-textarea required igroup-size="sm" rows=3 label="Riwayat Penyakit"
+                        <x-adminlte-textarea igroup-size="sm" rows=3 label="Riwayat Penyakit"
                             name="riwayat_penyakit" placeholder="Riwayat Penyakit">
                             {{ $antrian->asesmenperawat->riwayat_penyakit ?? null }}
                         </x-adminlte-textarea>
                     </div>
                     <div class="col-md-6">
-                        <x-adminlte-textarea required igroup-size="sm" rows=3 label="Riwayat Penyakit Keluarga"
+                        <x-adminlte-textarea igroup-size="sm" rows=3 label="Riwayat Penyakit Keluarga"
                             name="riwayat_penyakit_keluarga" placeholder="Riwayat Penyakit">
                             {{ $antrian->asesmenperawat->riwayat_penyakit_keluarga ?? null }}
                         </x-adminlte-textarea>
                     </div>
                 </div>
-                <x-adminlte-textarea required igroup-size="sm" rows=3 label="Riwayat Alergi" name="riwayat_alergi"
+                <x-adminlte-textarea igroup-size="sm" rows=3 label="Riwayat Alergi" name="riwayat_alergi"
                     placeholder="Riwayat Alergi">
                     {{ $antrian->asesmenperawat->riwayat_alergi ?? null }}
                 </x-adminlte-textarea>
@@ -53,7 +53,7 @@
         <h6>Objective (O) - Tanda Vital & Pemeriksaan Fisik</h6>
         <div class="row">
             <div class="col-md-6">
-                <x-adminlte-input required name="denyut_jantung" label="Denyut Jantung" igroup-size="sm" type="number"
+                <x-adminlte-input name="denyut_jantung" label="Denyut Jantung" igroup-size="sm" type="number"
                     placeholder="Denyut Jantung" fgroup-class="row" label-class="text-left col-5" igroup-size="sm"
                     igroup-class="col-7" value="{{ $antrian->asesmenperawat->denyut_jantung ?? null }}">
                     <x-slot name="appendSlot">
@@ -62,7 +62,7 @@
                         </div>
                     </x-slot>
                 </x-adminlte-input>
-                <x-adminlte-input required name="pernapasan" label="Pernapasan" igroup-size="sm"
+                <x-adminlte-input name="pernapasan" label="Pernapasan" igroup-size="sm"
                     placeholder="Pernapasan" fgroup-class="row" label-class="text-left col-5" igroup-size="sm"
                     igroup-class="col-7" type="number" value="{{ $antrian->asesmenperawat->pernapasan ?? null }}">
                     <x-slot name="appendSlot">
@@ -71,7 +71,7 @@
                         </div>
                     </x-slot>
                 </x-adminlte-input>
-                <x-adminlte-input required name="sistole" label="Sistole" igroup-size="sm" placeholder="Sistole"
+                <x-adminlte-input name="sistole" label="Sistole" igroup-size="sm" placeholder="Sistole"
                     fgroup-class="row" label-class="text-left col-5" igroup-size="sm" igroup-class="col-7"
                     type="number" value="{{ $antrian->asesmenperawat->sistole ?? null }}">
                     <x-slot name="appendSlot">
@@ -80,7 +80,7 @@
                         </div>
                     </x-slot>
                 </x-adminlte-input>
-                <x-adminlte-input required name="distole" label="Diastole" igroup-size="sm" placeholder="Diastole"
+                <x-adminlte-input name="distole" label="Diastole" igroup-size="sm" placeholder="Diastole"
                     fgroup-class="row" label-class="text-left col-5" igroup-size="sm" igroup-class="col-7"
                     type="number" value="{{ $antrian->asesmenperawat->distole ?? null }}">
                     <x-slot name="appendSlot">
@@ -91,7 +91,7 @@
                 </x-adminlte-input>
             </div>
             <div class="col-md-6">
-                <x-adminlte-input required name="suhu" label="Suhu Tubuh" igroup-size="sm" fgroup-class="row"
+                <x-adminlte-input name="suhu" label="Suhu Tubuh" igroup-size="sm" fgroup-class="row"
                     label-class="text-left col-5" igroup-size="sm" igroup-class="col-7" placeholder="Suhu Tubuh"
                     value="{{ $antrian->asesmenperawat->suhu ?? null }}">
                     <x-slot name="appendSlot">
@@ -100,7 +100,7 @@
                         </div>
                     </x-slot>
                 </x-adminlte-input>
-                <x-adminlte-input required name="berat_badan" label="Berat Badan" igroup-size="sm"
+                <x-adminlte-input name="berat_badan" label="Berat Badan" igroup-size="sm"
                     fgroup-class="row" label-class="text-left col-5" igroup-size="sm" igroup-class="col-7"
                     placeholder="Berat Badan" type="number"
                     value="{{ $antrian->asesmenperawat->berat_badan ?? null }}">
@@ -110,7 +110,7 @@
                         </div>
                     </x-slot>
                 </x-adminlte-input>
-                <x-adminlte-input required name="tinggi_badan" type="number" label="Tinggi Badan"
+                <x-adminlte-input name="tinggi_badan" type="number" label="Tinggi Badan"
                     fgroup-class="row" label-class="text-left col-5" igroup-size="sm" igroup-class="col-7"
                     igroup-size="sm" placeholder="Tinggi Badan"
                     value="{{ $antrian->asesmenperawat->tinggi_badan ?? null }}">
@@ -164,37 +164,37 @@
                 Confusional States
             </option>
         </x-adminlte-select>
-        <x-adminlte-textarea required igroup-size="sm" rows=4 label="Tanda Vital Tubuh" name="keadaan_tubuh"
+        <x-adminlte-textarea igroup-size="sm" rows=4 label="Tanda Vital Tubuh" name="keadaan_tubuh"
             placeholder="Tanda Vital Tubuh">
             {{ $antrian->asesmenperawat->keadaan_tubuh ?? null }}
         </x-adminlte-textarea>
-        <x-adminlte-textarea required igroup-size="sm" rows=4 label="Pemeriksaan Fisik" name="pemeriksaan_fisik"
+        <x-adminlte-textarea igroup-size="sm" rows=4 label="Pemeriksaan Fisik" name="pemeriksaan_fisik"
             placeholder="Pemeriksaan Fisik">
             {{ $antrian->asesmendokter->pemeriksaan_fisik ?? null }}
         </x-adminlte-textarea>
         {{-- <h6>Objective (O) - Laboratorium, Radiologi, & Penunjang Lainnya</h6>
         <div class="row">
             <div class="col-md-4">
-                <x-adminlte-textarea required igroup-size="sm" rows=4 label="Hasil Pemeriksaan Laboratorium"
+                <x-adminlte-textarea igroup-size="sm" rows=4 label="Hasil Pemeriksaan Laboratorium"
                     name="pemeriksaan_lab" placeholder="Hasil Pemeriksaan Laboratorium">
                     {{ $antrian->asesmenperawat->pemeriksaan_lab ?? null }}
                 </x-adminlte-textarea>
             </div>
             <div class="col-md-4">
-                <x-adminlte-textarea required igroup-size="sm" rows=4 label="Hasil Pemeriksaan Radiologi"
+                <x-adminlte-textarea igroup-size="sm" rows=4 label="Hasil Pemeriksaan Radiologi"
                     name="pemeriksaan_rad" placeholder="Hasil Pemeriksaan Radiologi">
                     {{ $antrian->asesmenperawat->pemeriksaan_rad ?? null }}
                 </x-adminlte-textarea>
             </div>
             <div class="col-md-4">
-                <x-adminlte-textarea required igroup-size="sm" rows=4 label="Hasil Pemeriksaan Penunjang Lainnya"
+                <x-adminlte-textarea igroup-size="sm" rows=4 label="Hasil Pemeriksaan Penunjang Lainnya"
                     name="pemeriksaan_penunjang" placeholder="Hasil Pemeriksaan Penunjang Lainnya">
                     {{ $antrian->asesmenperawat->pemeriksaan_penunjang ?? null }}
                 </x-adminlte-textarea>
             </div>
         </div> --}}
         <h6>Analysis (A)</h6>
-        <x-adminlte-textarea required igroup-size="sm" rows=3 label="Diagnosa Keperawatan"
+        <x-adminlte-textarea igroup-size="sm" rows=3 label="Diagnosa Keperawatan"
             name="diagnosa_keperawatan" placeholder="Diagnosa Masuk">
             {{ $antrian->asesmenperawat->diagnosa_keperawatan ?? null }}
         </x-adminlte-textarea>
@@ -216,7 +216,7 @@
                         @endif
                     @endif
                 </x-adminlte-select2>
-                <x-adminlte-textarea required igroup-size="sm" rows=3 label="Diagnosa Sekunder"
+                <x-adminlte-textarea igroup-size="sm" rows=3 label="Diagnosa Sekunder"
                     name="catatan_diagnosa" placeholder="Diagnosa Sekunder (Free Text)">
                     {{ $kunjungan->asesmendokter->catatan_diagnosa ?? null }}
                 </x-adminlte-textarea>
@@ -251,29 +251,29 @@
         <h6>Planning (P)</h6>
         <div class="row">
             <div class="col-md-6">
-                <x-adminlte-textarea required igroup-size="sm" rows=3 label="Rencana Keperawatan"
+                <x-adminlte-textarea igroup-size="sm" rows=3 label="Rencana Keperawatan"
                     name="rencana_keperawatan" placeholder="Rencana Keperawatan">
                     {{ $antrian->asesmenperawat->rencana_keperawatan ?? null }}
                 </x-adminlte-textarea>
-                <x-adminlte-textarea required igroup-size="sm" rows=3 label="Tindakan Keperawatan"
+                <x-adminlte-textarea igroup-size="sm" rows=3 label="Tindakan Keperawatan"
                     name="tindakan_keperawatan" placeholder="Tindakan Keperawatan">
                     {{ $antrian->asesmenperawat->tindakan_keperawatan ?? null }}
                 </x-adminlte-textarea>
-                <x-adminlte-textarea required igroup-size="sm" rows=3 label="Evaluasi Keperawatan"
+                <x-adminlte-textarea igroup-size="sm" rows=3 label="Evaluasi Keperawatan"
                     name="evaluasi_keperawatan" placeholder="Evaluasi Keperawatan">
                     {{ $antrian->asesmenperawat->evaluasi_keperawatan ?? null }}
                 </x-adminlte-textarea>
             </div>
             <div class="col-md-6">
-                <x-adminlte-textarea required igroup-size="sm" rows=3 label="Instruksi Dokter" name="instruksi_medis"
+                <x-adminlte-textarea igroup-size="sm" rows=3 label="Instruksi Dokter" name="instruksi_medis"
                     placeholder="Instruksi Medis">
                     {{ $kunjungan->asesmendokter->instruksi_medis ?? null }}
                 </x-adminlte-textarea>
-                <x-adminlte-textarea required igroup-size="sm" rows=3 label="Tindakan Dokter" name="tindakan_medis"
+                <x-adminlte-textarea igroup-size="sm" rows=3 label="Tindakan Dokter" name="tindakan_medis"
                     placeholder="Tindakan Medis">
                     {{ $kunjungan->asesmendokter->tindakan_medis ?? null }}
                 </x-adminlte-textarea>
-                <x-adminlte-textarea required igroup-size="sm" rows=3 label="Catatan Dokter" name="rencana_perawatan"
+                <x-adminlte-textarea igroup-size="sm" rows=3 label="Catatan Dokter" name="rencana_perawatan"
                     placeholder="Rencana Perawatan">
                     {{ $kunjungan->asesmendokter->rencana_perawatan ?? null }}
                 </x-adminlte-textarea>
