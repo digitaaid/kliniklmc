@@ -94,15 +94,6 @@
                 <div class="card-body box-profile p-3" style="overflow-y: auto ;max-height: 600px ;">
                     <div id="accordion" role="tablist" aria-multiselectable="true">
                         {{-- riwayatpasien --}}
-                        <style>
-                            pre {
-                                padding: 0 !important;
-                                margin-bottom: 0 !important;
-                                font-size: 11px !important;
-                                border: none;
-                                outline: none;
-                            }
-                        </style>
                         @include('sim.tabel_riwayat_pasien')
                         {{-- layanan --}}
                         @include('sim.tabel_layanan')

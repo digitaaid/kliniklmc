@@ -105,7 +105,7 @@
                         {{-- perawat --}}
                         {{-- @include('sim.tabel_anamnesa_perawat') --}}
                         {{-- dokter --}}
-                        {{-- <div class="card card-info mb-1">
+                        <div class="card card-info mb-1">
                             <a class="card-header" data-toggle="collapse" data-parent="#accordion" href="#collapseDokter">
                                 <h3 class="card-title">
                                     Pemeriksaan Dokter
@@ -140,7 +140,8 @@
                                                 <x-adminlte-select2 name="diagnosa[]" class="diagnosa" label="Diagnosa :"
                                                     multiple>
                                                     @if ($antrian->asesmendokter)
-                                                        @if (is_array(json_decode($antrian->asesmendokter->diagnosa)) || is_object(json_decode($antrian->asesmendokter->diagnosa)))
+                                                        @if (is_array(json_decode($antrian->asesmendokter->diagnosa)) ||
+                                                                is_object(json_decode($antrian->asesmendokter->diagnosa)))
                                                             @foreach (json_decode($antrian->asesmendokter->diagnosa) as $item)
                                                                 <option value="{{ $item }}" selected>
                                                                     {{ $item }}
@@ -169,7 +170,8 @@
                                                 <x-adminlte-select2 name="diagnosa2[]" class="diagnosaid2"
                                                     label="Diagnosa Sekunder ICD-10 : " multiple>
                                                     @if ($antrian->asesmendokter)
-                                                        @if (is_array(json_decode($antrian->asesmendokter->diagnosa2)) || is_object(json_decode($antrian->asesmendokter->diagnosa2)))
+                                                        @if (is_array(json_decode($antrian->asesmendokter->diagnosa2)) ||
+                                                                is_object(json_decode($antrian->asesmendokter->diagnosa2)))
                                                             @foreach (json_decode($antrian->asesmendokter->diagnosa2) as $item)
                                                                 <option value="{{ $item }}" selected>
                                                                     {{ $item }}
@@ -340,7 +342,7 @@
                                     </form>
                                 </div>
                             </div>
-                        </div> --}}
+                        </div>
                         {{-- laboratorium --}}
                         @include('sim.tabel_lab')
                         {{-- resep obat --}}
@@ -553,7 +555,7 @@
     @include('sim.modal_cppt')
     @include('sim.modal_sbar_tbak_create')
     @include('sim.modal_asesmen_perawat')
-    @include('sim.modal_asesmen_dokter')
+    {{-- @include('sim.modal_asesmen_dokter') --}}
     @include('sim.modal_asesmen_rajal')
     @include('sim.modal_resume_rajal')
 @stop
@@ -1023,9 +1025,9 @@
             $.LoadingOverlay("hide");
         }
     </script>
-    <script src="js/signature_pad.umd.js"></script>
+    {{-- <script src="js/signature_pad.umd.js"></script> --}}
     <!-- <script src="js/app.js"></script> -->
-    <script>
+    {{-- <script>
         const wrapper = document.getElementById("signature-pad")
         const clearButton = wrapper.querySelector("[data-action=clear]")
         const changeColorButton = wrapper.querySelector("[data-action=change-color]")
@@ -1196,5 +1198,5 @@
                 download(dataURL, "signature.svg")
             }
         })
-    </script>
+    </script> --}}
 @endsection
