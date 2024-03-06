@@ -249,7 +249,7 @@
                 </div>
             </div>
         </div>
-        <h6>Asesmen Status Fungsional</h6>
+        <h6>Asesmen Status Psikologi</h6>
         <div class="row">
             <div class="col-md-6">
                 <div class="row">
