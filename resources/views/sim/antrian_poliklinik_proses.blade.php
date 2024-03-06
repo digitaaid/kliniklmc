@@ -79,12 +79,12 @@
                         icon="fas fa-file-medical" />
                     <x-adminlte-button class="btn-xs mb-1" theme="warning" label="CPPT" icon="fas fa-file-medical"
                         onclick="btnCPPT()" />
-                    <x-adminlte-button class="btn-xs mb-1" theme="{{ $antrian->asesmenperawat ? 'warning' : 'danger' }}"
-                        label="Asesmen Keperawatan" icon="fas fa-hand-holding-medical" onclick="btnPengkajianPerawat()" />
-                    <x-adminlte-button class="btn-xs mb-1" theme="{{ $antrian->sbar ? 'warning' : 'danger' }}"
-                        label="SBAR TBAK" icon="fas fa-envelope" onclick="btnSBAR()" />
-                    <x-adminlte-button class="btn-xs mb-1" theme="{{ $antrian->asesmendokter ? 'warning' : 'danger' }}"
-                        label="Asesmen Dokter" icon="fas fa-user-md" onclick="btnPemeriksaanDokter()" />
+                    {{-- <x-adminlte-button class="btn-xs mb-1" theme="{{ $antrian->asesmenperawat ? 'warning' : 'danger' }}"
+                        label="Asesmen Keperawatan" icon="fas fa-hand-holding-medical" onclick="btnPengkajianPerawat()" /> --}}
+                    {{-- <x-adminlte-button class="btn-xs mb-1" theme="{{ $antrian->sbar ? 'warning' : 'danger' }}"
+                        label="SBAR TBAK" icon="fas fa-envelope" onclick="btnSBAR()" /> --}}
+                    {{-- <x-adminlte-button class="btn-xs mb-1" theme="{{ $antrian->asesmendokter ? 'warning' : 'danger' }}"
+                        label="Asesmen Dokter" icon="fas fa-user-md" onclick="btnPemeriksaanDokter()" /> --}}
                     <x-adminlte-button class="btn-xs mb-1"
                         theme="{{ $antrian->asesmendokter && $antrian->asesmendokter ? 'warning' : 'danger' }}"
                         label="Asesmen Rajal" icon="fas fa-file-medical" onclick="btnAsesmenRajal()" />
@@ -103,7 +103,7 @@
                         {{-- layanan --}}
                         @include('sim.tabel_layanan')
                         {{-- perawat --}}
-                        {{-- @include('sim.tabel_anamnesa_perawat') --}}
+                        @include('sim.tabel_anamnesa_perawat')
                         {{-- dokter --}}
                         <div class="card card-info mb-1">
                             <a class="card-header" data-toggle="collapse" data-parent="#accordion" href="#collapseDokter">
@@ -553,8 +553,8 @@
         </div>
     </div>
     @include('sim.modal_cppt')
-    @include('sim.modal_sbar_tbak_create')
-    @include('sim.modal_asesmen_perawat')
+    {{-- @include('sim.modal_sbar_tbak_create') --}}
+    {{-- @include('sim.modal_asesmen_perawat') --}}
     {{-- @include('sim.modal_asesmen_dokter') --}}
     @include('sim.modal_asesmen_rajal')
     @include('sim.modal_resume_rajal')

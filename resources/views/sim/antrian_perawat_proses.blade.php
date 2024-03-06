@@ -71,15 +71,15 @@
                         icon="fas fa-file-medical" />
                     <x-adminlte-button class="btn-xs mb-1" theme="warning" label="CPPT" icon="fas fa-file-medical"
                         onclick="btnCPPT()" />
-                    <x-adminlte-button class="btn-xs mb-1" theme="{{ $antrian->asesmenperawat ? 'warning' : 'danger' }}"
-                        label="Asesmen Keperawatan" icon="fas fa-hand-holding-medical" onclick="btnPengkajianPerawat()" />
+                    {{-- <x-adminlte-button class="btn-xs mb-1" theme="{{ $antrian->asesmenperawat ? 'warning' : 'danger' }}"
+                        label="Asesmen Keperawatan" icon="fas fa-hand-holding-medical" onclick="btnPengkajianPerawat()" /> --}}
                     {{-- <x-adminlte-button class="btn-xs mb-1" theme="{{ $antrian->asesmenperawat ? 'warning' : 'danger' }}"
                         label="Pengkajian Kemoterapi" icon="fas fa-hand-holding-medical"
                         onclick="btnPengkajianKemoterapi()" /> --}}
-                    <x-adminlte-button class="btn-xs mb-1" theme="{{ $antrian->sbar ? 'warning' : 'danger' }}"
-                        label="SBAR TBAK" icon="fas fa-envelope" onclick="btnSBAR()" />
-                    <x-adminlte-button class="btn-xs mb-1" theme="{{ $antrian->asesmendokter ? 'warning' : 'danger' }}"
-                        label="Asesmen Dokter" icon="fas fa-user-md" onclick="btnPemeriksaanDokter()" />
+                    {{-- <x-adminlte-button class="btn-xs mb-1" theme="{{ $antrian->sbar ? 'warning' : 'danger' }}"
+                        label="SBAR TBAK" icon="fas fa-envelope" onclick="btnSBAR()" /> --}}
+                    {{-- <x-adminlte-button class="btn-xs mb-1" theme="{{ $antrian->asesmendokter ? 'warning' : 'danger' }}"
+                        label="Asesmen Dokter" icon="fas fa-user-md" onclick="btnPemeriksaanDokter()" /> --}}
                     <x-adminlte-button class="btn-xs mb-1"
                         theme="{{ $antrian->asesmendokter && $antrian->asesmendokter ? 'warning' : 'danger' }}"
                         label="Asesmen Rajal" icon="fas fa-file-medical" onclick="btnAsesmenRajal()" />
@@ -98,7 +98,7 @@
                         {{-- layanan --}}
                         @include('sim.tabel_layanan')
                         {{-- perawat --}}
-                        {{-- @include('sim.tabel_anamnesa_perawat') --}}
+                        @include('sim.tabel_anamnesa_perawat')
                         {{-- laboratorium --}}
                         @include('sim.tabel_lab')
                         {{-- resume --}}
@@ -138,6 +138,14 @@
             </div>
         </div>
     </div>
+    @include('sim.tabel_fileupload')
+    @include('sim.modal_cppt')
+    {{-- @include('sim.modal_sbar_tbak_create') --}}
+    {{-- @include('sim.modal_asesmen_perawat') --}}
+    {{-- @include('sim.modal_pengkajian_kemoterapi') --}}
+    {{-- @include('sim.modal_asesmen_dokter') --}}
+    @include('sim.modal_asesmen_rajal')
+    @include('sim.modal_resume_rajal')
 
 @stop
 
@@ -609,14 +617,6 @@
         });
     </script>
     {{-- file upload --}}
-    @include('sim.tabel_fileupload')
-    @include('sim.modal_cppt')
-    @include('sim.modal_sbar_tbak_create')
-    @include('sim.modal_asesmen_perawat')
-    @include('sim.modal_pengkajian_kemoterapi')
-    @include('sim.modal_asesmen_dokter')
-    @include('sim.modal_asesmen_rajal')
-    @include('sim.modal_resume_rajal')
     <script>
         function btnIcare() {
             $.LoadingOverlay("show");
