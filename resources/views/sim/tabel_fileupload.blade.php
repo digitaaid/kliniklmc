@@ -29,6 +29,8 @@
         <x-adminlte-select name="label" label="Label">
             <option selected disabled>Pilih Label File</option>
             <option value="Lain-lain">Lain-lain</option>
+            <option value="General Consent">General Consent</option>
+            <option value="Inform Consent">Inform Consent</option>
             <option value="Laboratorium">Laboratorium</option>
             <option value="Radiologi">Radiologi</option>
             <option value="Patologi Anatomi">Patologi Anatomi</option>
