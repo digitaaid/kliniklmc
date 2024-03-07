@@ -112,11 +112,10 @@
                                             @if ($kunjungan->asesmenperawat->pernah_berobat == 'Iya')
                                                 {{ $kunjungan->asesmenperawat->pernah_berobat ?? null }} pernah berobat
                                                 <i class="fas fa-check"></i> <br>
-                                            @else
+                                            @endif
                                             @if ($kunjungan->asesmenperawat->pernah_berobat == 'Tidak')
-                                            {{ $kunjungan->asesmenperawat->pernah_berobat ?? null }} pernah berobat
-                                            <i class="fas fa-times"></i> <br>
-                                        @else
+                                                {{ $kunjungan->asesmenperawat->pernah_berobat ?? null }} pernah berobat
+                                                <i class="fas fa-times"></i> <br>
                                             @endif
                                         @endif
                                         <pre>{{ $kunjungan->asesmenperawat->riwayat_pengobatan ?? '-' }}</pre>
