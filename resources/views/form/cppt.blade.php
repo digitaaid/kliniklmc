@@ -108,7 +108,18 @@
                                     </dd>
                                     <dt>Riwayat Pengobatan :</dt>
                                     <dd>
-                                        <pre>{{ $kunjungan->asesmenperawat->pernah_berobat ?? null }} {{ $kunjungan->asesmenperawat->riwayat_pengobatan ?? '-' }}</pre>
+                                        @if ($kunjungan->asesmenperawat)
+                                            @if ($kunjungan->asesmenperawat->pernah_berobat == 'Iya')
+                                                {{ $kunjungan->asesmenperawat->pernah_berobat ?? null }} pernah berobat
+                                                <i class="fas fa-check"></i> <br>
+                                            @else
+                                            @if ($kunjungan->asesmenperawat->pernah_berobat == 'Tidak')
+                                            {{ $kunjungan->asesmenperawat->pernah_berobat ?? null }} pernah berobat
+                                            <i class="fas fa-times"></i> <br>
+                                        @else
+                                            @endif
+                                        @endif
+                                        <pre>{{ $kunjungan->asesmenperawat->riwayat_pengobatan ?? '-' }}</pre>
                                     </dd>
                                     <dt>Riwayat Penyakit :</dt>
                                     <dd>
