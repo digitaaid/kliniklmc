@@ -98,7 +98,13 @@
                                 <td>{{ $item->kodebooking }}</td>
                                 <td>{{ $item->norm }}</td>
                                 <td>{{ $item->nama }}</td>
-                                <td>{{ $item->status }}</td>
+                                <td>
+                                    @if ($item->status)
+                                        <span class="badge badge-success">Syncron</span>
+                                    @else
+                                        <span class="badge badge-danger">Belum Syncron</span>
+                                    @endif
+                                </td>
                                 <td>
                                     <x-adminlte-button class="btn-xs" onclick="editAntrian(this)" theme="warning"
                                         label="Edit" icon="fas fa-edit" title="Edit" data-id="{{ $item->id }}"
