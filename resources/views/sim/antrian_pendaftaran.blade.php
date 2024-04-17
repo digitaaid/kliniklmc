@@ -76,7 +76,18 @@
                     </div>
                 </div>
                 @php
-                    $heads = ['No', 'Kodebooking', 'Action', 'Pasien', 'Kartu BPJS', 'Unit / Dokter', 'Jenis Pasien', 'Method', 'Status'];
+                    $heads = [
+                        'No',
+                        'Kodebooking',
+                        'Action',
+                        'Pasien',
+                        'Kartu BPJS',
+                        'Unit / Dokter',
+                        'Jenis Pasien',
+                        'Method',
+                        'Taskid',
+                        'Status',
+                    ];
                     $config['order'] = [8, 'asc'];
                     $config['paging'] = false;
                     $config['scrollY'] = '300px';
@@ -157,6 +168,7 @@
                                             {{ $item->taskid }}
                                     @endswitch
                                 </td>
+                                <td>{{ $item->status }} </td>
                             </tr>
                         @endforeach
                     @endif
