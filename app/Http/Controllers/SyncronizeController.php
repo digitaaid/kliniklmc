@@ -65,4 +65,10 @@ class SyncronizeController extends Controller
             'antrians',
         ]));
     }
+    public function update_taksid_antrian(Request $request)
+    {
+        $antrian = Antrian::find($request->id);
+        $antrian->update($request->all());
+        return redirect()->back();
+    }
 }

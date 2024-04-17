@@ -63,10 +63,30 @@
                     <a href="{{ route('pdflaporanpendaftaran') }}?tanggal={{ $request->tanggal }}" target="_blank"
                         rel="noopener noreferrer" class="btn btn-primary">Print PDF</a>
                     @php
-                        $heads = ['No', 'Tanggal', 'Kodeboking', 'Pasien', 'Taskid 1', 'Taskid 2', 'Taskid 3', 'Taskid 4', 'Taskid 5', 'Taskid 6', 'Taskid 7', 'Taskid', 'Status'];
+                        $heads = [
+                            'No',
+                            'Tanggal',
+                            'Kodeboking',
+                            'No RM',
+                            'Nama Pasien',
+                            'Status',
+                            'Action',
+                            'Taskid 1',
+                            'Taskid 2',
+                            'Taskid 3',
+                            'Taskid 4',
+                            'Taskid 5',
+                            'Taskid 6',
+                            'Taskid 7',
+                            'Taskid',
+                        ];
                         $config['order'] = [1, 'asc'];
                         $config['paging'] = false;
                         $config['scrollY'] = '300px';
+                        $config['scrollX'] = true;
+                        $config['fixedColumns'] = [
+                            'leftColumns' => 7,
+                        ];
                     @endphp
                     <x-adminlte-datatable id="table1" class="nowrap" :heads="$heads" :config="$config" bordered
                         hoverable compressed>
@@ -75,7 +95,20 @@
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $item->tanggalperiksa }}</td>
                                 <td>{{ $item->kodebooking }}</td>
-                                <td>{{ $item->norm }} {{ $item->nama }}</td>
+                                <td>{{ $item->norm }}</td>
+                                <td>{{ $item->nama }}</td>
+                                <td>{{ $item->status }}</td>
+                                <td>
+                                    <x-adminlte-button class="btn-xs" onclick="editAntrian(this)" theme="warning"
+                                        label="Edit" icon="fas fa-edit" title="Edit" data-id="{{ $item->id }}"
+                                        data-nama="{{ $item->nama }}" data-norm="{{ $item->norm }}"
+                                        data-status="{{ $item->status }}"
+                                        data-tanggalperiksa="{{ $item->tanggalperiksa }}"
+                                        data-kodebooking="{{ $item->kodebooking }}" data-taskid1="{{ $item->taskid1 }}"
+                                        data-taskid2="{{ $item->taskid2 }}" data-taskid3="{{ $item->taskid3 }}"
+                                        data-taskid4="{{ $item->taskid4 }}" data-taskid5="{{ $item->taskid5 }}"
+                                        data-taskid6="{{ $item->taskid6 }}" data-taskid7="{{ $item->taskid7 }}" />
+                                </td>
                                 <td>{{ $item->taskid1 }}</td>
                                 <td>{{ $item->taskid2 }}</td>
                                 <td>{{ $item->taskid3 }}</td>
@@ -125,7 +158,6 @@
                                             {{ $item->taskid }}
                                     @endswitch
                                 </td>
-                                <td>{{ $item->status }}</td>
                             </tr>
                         @endforeach
                     </x-adminlte-datatable>
@@ -133,9 +165,59 @@
             </div>
         @endif
     </div>
+    <x-adminlte-modal id="modalAntrian" title="Pasien" icon="fas fa-user-injured" theme="success">
+        <form action="{{ route('update_taksid_antrian') }}" id="formAntrian" name="formAntrian" method="POST">
+            @csrf
+            <input type="hidden" name="id" id="id">
+            @php
+                $config = ['format' => 'YYYY-MM-DD'];
+            @endphp
+            <x-adminlte-input-date name="tanggalperiksa" label="Tgl Periksa" fgroup-class="row"
+                label-class="text-left col-4" igroup-size="sm" igroup-class="col-8" :config="$config" required readonly>
+            </x-adminlte-input-date>
+            <x-adminlte-input name="kodebooking" label="Kodebooking" fgroup-class="row" label-class="text-left col-4"
+                igroup-size="sm" igroup-class="col-8" enable-old-support required readonly />
+            <x-adminlte-input name="norm" label="No RM" fgroup-class="row" label-class="text-left col-4"
+                igroup-size="sm" igroup-class="col-8" enable-old-support required readonly />
+            <x-adminlte-input name="nama" label="Nama" fgroup-class="row" label-class="text-left col-4"
+                igroup-size="sm" igroup-class="col-8" enable-old-support required readonly />
+            <x-adminlte-input name="status" label="Status" fgroup-class="row" label-class="text-left col-4"
+                igroup-size="sm" igroup-class="col-8" enable-old-support required readonly />
+            @php
+                $config = ['format' => 'YYYY-MM-DD HH:mm:ss'];
+            @endphp
+            <x-adminlte-input-date name="taskid1" label="Waktu Taskid1" fgroup-class="row" label-class="text-left col-4"
+                igroup-size="sm" igroup-class="col-8" :config="$config">
+            </x-adminlte-input-date>
+            <x-adminlte-input-date name="taskid2" label="Waktu Taskid2" fgroup-class="row" label-class="text-left col-4"
+                igroup-size="sm" igroup-class="col-8" :config="$config">
+            </x-adminlte-input-date>
+            <x-adminlte-input-date name="taskid3" label="Waktu Taskid3" fgroup-class="row" label-class="text-left col-4"
+                igroup-size="sm" igroup-class="col-8" :config="$config">
+            </x-adminlte-input-date>
+            <x-adminlte-input-date name="taskid4" label="Waktu Taskid4" fgroup-class="row" label-class="text-left col-4"
+                igroup-size="sm" igroup-class="col-8" :config="$config">
+            </x-adminlte-input-date>
+            <x-adminlte-input-date name="taskid5" label="Waktu Taskid5" fgroup-class="row" label-class="text-left col-4"
+                igroup-size="sm" igroup-class="col-8" :config="$config">
+            </x-adminlte-input-date>
+            <x-adminlte-input-date name="taskid6" label="Waktu Taskid6" fgroup-class="row" label-class="text-left col-4"
+                igroup-size="sm" igroup-class="col-8" :config="$config">
+            </x-adminlte-input-date>
+            <x-adminlte-input-date name="taskid7" label="Waktu Taskid7" fgroup-class="row" label-class="text-left col-4"
+                igroup-size="sm" igroup-class="col-8" :config="$config">
+            </x-adminlte-input-date>
+        </form>
+        <x-slot name="footerSlot">
+            <x-adminlte-button form="formAntrian" class="mr-auto" type="submit" icon="fas fa-save" theme="success"
+                label="Simpan" />
+            <x-adminlte-button theme="danger" icon="fas fa-times" label="Kembali" data-dismiss="modal" />
+        </x-slot>
+    </x-adminlte-modal>
 @stop
 
 @section('plugins.Datatables', true)
+@section('plugins.DatatablesFixedColumns', true)
 @section('plugins.TempusDominusBs4', true)
 @section('plugins.DateRangePicker', true)
 @section('plugins.Select2', true)
@@ -150,6 +232,25 @@
                 setTimeout(syncantrian, 2000);
             }
         });
-    </script>
 
+        function editAntrian(button) {
+            $.LoadingOverlay("show");
+            $('#formAntrian').trigger("reset");
+            $('#id').val($(button).data("id"));
+            $('#tanggalperiksa').val($(button).data("tanggalperiksa"));
+            $('#nama').val($(button).data("nama"));
+            $('#norm').val($(button).data("norm"));
+            $('#kodebooking').val($(button).data("kodebooking"));
+            $('#status').val($(button).data("status"));
+            $('#taskid1').val($(button).data("taskid1"));
+            $('#taskid2').val($(button).data("taskid2"));
+            $('#taskid3').val($(button).data("taskid3"));
+            $('#taskid4').val($(button).data("taskid4"));
+            $('#taskid5').val($(button).data("taskid5"));
+            $('#taskid6').val($(button).data("taskid6"));
+            $('#taskid7').val($(button).data("taskid7"));
+            $('#modalAntrian').modal('show');
+            $.LoadingOverlay("hide");
+        }
+    </script>
 @endsection

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AntrianController;
+use App\Http\Controllers\BackupController;
 use App\Http\Controllers\BarcodeController;
 use App\Http\Controllers\CarouselController;
 use App\Http\Controllers\DepoController;
@@ -32,6 +33,7 @@ use App\Http\Controllers\PerawatController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\PoliklinikController;
 use App\Http\Controllers\PractitionerController;
+use App\Http\Controllers\PrintController;
 use App\Http\Controllers\RekamMedisController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\RujukanController;
@@ -303,6 +305,7 @@ Route::middleware('auth')->group(function () {
     Route::get('suratkontrol_hapus', [SuratKontrolController::class, 'suratkontrol_hapus'])->name('suratkontrol_hapus');
     // snyc
     Route::get('sync_antrian_bpjs', [SyncronizeController::class, 'sync_antrian_bpjs'])->name('sync_antrian_bpjs');
+    Route::post('update_taksid_antrian', [SyncronizeController::class, 'update_taksid_antrian'])->name('update_taksid_antrian');
     // rekam medis
     Route::get('resumerawatjalan', [RekamMedisController::class, 'resumerawatjalan'])->name('resumerawatjalan');
 
@@ -317,4 +320,6 @@ Route::middleware('auth')->group(function () {
         Route::get('organization', [OrganizationController::class, 'index'])->name('organization');
         Route::get('organization_sync', [OrganizationController::class, 'organization_sync'])->name('organization_sync');
     });
+    Route::get('download_backup_file', [BackupController::class, 'download_backup_file'])->name('download_backup_file');
+    Route::get('printtest', [PrintController::class, 'printtest'])->name('printtest');
 });

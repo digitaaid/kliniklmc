@@ -498,6 +498,13 @@ return [
                     'shift'   => 'ml-2',
                     'can' =>  ['laboratorium'],
                 ],
+                [
+                    'text' => 'Download Backup File',
+                    'icon'    => 'fas fa-sync',
+                    'url'  => 'download_backup_file',
+                    'shift'   => 'ml-2',
+                    'can' => 'manajemen',
+                ],
             ],
         ],
         // LAPORAN
@@ -1083,6 +1090,26 @@ return [
                     'type' => 'css',
                     'asset' => true,
                     'location' => 'vendor/datatables-plugins/buttons/css/buttons.bootstrap4.min.css',
+                ],
+            ],
+        ],
+        'DatatablesFixedColumns' => [
+            'active' => false,
+            'files' => [
+                // [
+                //     'type' => 'js',
+                //     'asset' => true,
+                //     'location' => 'vendor/datatables-plugins/fixedcolumns/js/fixedColumns.bootstrap4.min.js',
+                // ],
+                [
+                    'type' => 'js',
+                    'asset' => true,
+                    'location' => 'vendor/datatables-plugins/fixedcolumns/js/dataTables.fixedColumns.min.js',
+                ],
+                [
+                    'type' => 'css',
+                    'asset' => true,
+                    'location' => 'vendor/datatables-plugins/fixedcolumns/css/fixedColumns.bootstrap4.min.css',
                 ],
             ],
         ],

@@ -42,22 +42,37 @@
                     </div>
                 </div>
                 @php
-                    $heads = ['No RM', 'No BPJS', 'NIK', 'Nama Pasien', 'Gender', 'Tgl Lahir', 'Status', 'Action'];
+                    $heads = [
+                        'No RM',
+                        'Nama Pasien',
+                        'Status',
+                        'Action',
+                        'No BPJS',
+                        'NIK',
+                        'Gender',
+                        'Tgl Lahir',
+                        'Umur',
+                        'Alamat',
+                        'PIC',
+                        'Upadated',
+                        'Created',
+                    ];
                     $config['order'] = [0, 'desc'];
                     $config['paging'] = false;
                     $config['lengthMenu'] = false;
                     $config['searching'] = false;
                     $config['info'] = false;
+                    $config['scrollX'] = true;
+                    $config['fixedColumns'] = [
+                        'leftColumns' => 4,
+                    ];
                 @endphp
-                <x-adminlte-datatable id="table1" :heads="$heads" :config="$config" bordered hoverable compressed>
+                <x-adminlte-datatable id="table1" class="nowrap" :heads="$heads" :config="$config" bordered hoverable
+                    compressed>
                     @foreach ($pasiens as $item)
-                        <tr>
+                        <tr class="table-secondary">
                             <td>{{ $item->norm }}</td>
-                            <td>{{ $item->nomorkartu }}</td>
-                            <td>{{ $item->nik }}</td>
                             <td>{{ $item->nama }}</td>
-                            <td>{{ $item->gender }}</td>
-                            <td>{{ $item->tgl_lahir }} ({{ Carbon\Carbon::parse($item->tgl_lahir)->age }} tahun) </td>
                             <td>
                                 @if ($item->status)
                                     <span class="badge badge-success">Aktif</span>
@@ -81,9 +96,17 @@
                                 <x-adminlte-button class="btn-xs btnDelete" theme="danger" icon="fas fa-trash-alt"
                                     title="Non-Aktifkan Pasien {{ $item->name }} " data-id="{{ $item->id }}"
                                     data-name="{{ $item->name }}" />
-                                <x-adminlte-button class="btn-xs" theme="secondary" label="PIC" icon="fas fa-user"
-                                    title="PIC {{ $item->pic ? $item->pic->name : $item->user }} {{ $item->updated_at }}" />
                             </td>
+                            <td>{{ $item->nomorkartu }}</td>
+                            <td>{{ $item->nik }}</td>
+                            <td>{{ $item->gender }}</td>
+                            <td>{{ $item->tgl_lahir }} </td>
+                            <td>{{ Carbon\Carbon::parse($item->tgl_lahir)->age }}</td>
+                            <td>{{ $item->alamat }} </td>
+                            <td>{{ $item->pic ? $item->pic->name : $item->user }}</td>
+                            <td>{{ $item->updated_at }} </td>
+                            <td>{{ $item->created_at }} </td>
+
                         </tr>
                     @endforeach
                 </x-adminlte-datatable>
@@ -191,6 +214,7 @@
     </x-adminlte-modal>
 @stop
 @section('plugins.Datatables', true)
+@section('plugins.DatatablesFixedColumns', true)
 @section('plugins.TempusDominusBs4', true)
 @section('plugins.BsCustomFileInput', true)
 @section('plugins.Sweetalert2', true)
