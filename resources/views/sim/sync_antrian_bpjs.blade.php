@@ -16,7 +16,8 @@
                                     'locale' => ['format' => 'YYYY/MM/DD'],
                                 ];
                             @endphp
-                            <x-adminlte-date-range name="tanggal" :config="$config" label="Periode Tanggal" />
+                            <x-adminlte-date-range name="tanggal" value="{{ $request->tanggal ?? null }}" :config="$config"
+                                label="Periode Tanggal" />
                         </div>
                     </div>
                     <x-adminlte-button type="submit" class="withLoad" theme="primary" label="Submit Antrian" />
