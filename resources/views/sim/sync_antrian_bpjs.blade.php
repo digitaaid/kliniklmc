@@ -92,7 +92,7 @@
                     <x-adminlte-datatable id="table1" class="nowrap" :heads="$heads" :config="$config" bordered
                         hoverable compressed>
                         @foreach ($antrians as $item)
-                            <tr>
+                            <tr class="table-secondary">
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $item->tanggalperiksa }}</td>
                                 <td>{{ $item->kodebooking }}</td>
