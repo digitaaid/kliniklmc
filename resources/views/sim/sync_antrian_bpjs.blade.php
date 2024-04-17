@@ -185,7 +185,7 @@
             <x-adminlte-input name="nama" label="Nama" fgroup-class="row" label-class="text-left col-4"
                 igroup-size="sm" igroup-class="col-8" enable-old-support required readonly />
             <x-adminlte-input name="status" label="Status" fgroup-class="row" label-class="text-left col-4"
-                igroup-size="sm" igroup-class="col-8" enable-old-support required readonly />
+                igroup-size="sm" igroup-class="col-8" enable-old-support required />
             @php
                 $config = ['format' => 'YYYY-MM-DD HH:mm:ss'];
             @endphp
