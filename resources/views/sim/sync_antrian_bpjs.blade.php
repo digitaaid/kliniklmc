@@ -46,7 +46,7 @@
                             text="Total Antrian" theme="success" icon="fas fa-user-injured" />
                     </div>
                     <div class="col-md-3">
-                        <x-adminlte-small-box title="{{ $antrians->where('taskid', 99)->count() }}" text="Batal Antrian"
+                        <x-adminlte-small-box title="{{ $antrians->where('status', 0)->count() }}" text="Belum Syncron"
                             theme="danger" icon="fas fa-user-injured" />
                     </div>
                     <div class="col-md-3">
