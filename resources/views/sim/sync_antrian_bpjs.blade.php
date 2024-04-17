@@ -107,8 +107,10 @@
                                         data-tanggalperiksa="{{ $item->tanggalperiksa }}"
                                         data-kodebooking="{{ $item->kodebooking }}" data-taskid1="{{ $item->taskid1 }}"
                                         data-taskid2="{{ $item->taskid2 }}" data-taskid3="{{ $item->taskid3 }}"
-                                        data-taskid4="{{ $item->taskid4 }}" data-taskid5="{{ $item->taskid5 }}"
-                                        data-taskid6="{{ $item->taskid6 }}" data-taskid7="{{ $item->taskid7 }}" />
+                                        data-taskid4="{{ \Carbon\Carbon::parse($item->taskid3)->addMinutes(20) }}"
+                                        data-taskid5="{{ \Carbon\Carbon::parse($item->taskid3)->addMinutes(40) }}"
+                                        data-taskid6="{{ \Carbon\Carbon::parse($item->taskid3)->addMinutes(60) }}"
+                                        data-taskid7="{{ \Carbon\Carbon::parse($item->taskid3)->addMinutes(80) }}" />
                                 </td>
                                 <td>{{ $item->taskid1 }}</td>
                                 <td>{{ $item->taskid2 }}</td>
