@@ -14,12 +14,12 @@
                 <div class="col-md-4  border border-dark">
                     <div class="row">
                         <div class="p-2">
-                            No RM : <b>{{ $pasien->norm }}</b> <br>
-                            Nama : <b>{{ $pasien->nama }}</b> <br>
-                            Tgl Lahir : <b>{{ $pasien->tgl_lahir }}
-                                ({{ \Carbon\Carbon::parse($pasien->tgl_lahir)->diffInYears(now()) }}
+                            No RM : <b>{{ $pasien->norm ?? '-' }}</b> <br>
+                            Nama : <b>{{ $pasien->nama ?? '-' }}</b> <br>
+                            Tgl Lahir : <b>{{ $pasien->tgl_lahir ?? '-' }}
+                                ({{ \Carbon\Carbon::parse($pasien->tgl_lahir ?? '1998-08-08')->diffInYears(now()) }}
                                 tahun)</b> <br>
-                            Kelamin : <b>{{ $pasien->gender }}</b>
+                            Kelamin : <b>{{ $pasien->gender ?? '-' }}</b>
 
                         </div>
                     </div>
