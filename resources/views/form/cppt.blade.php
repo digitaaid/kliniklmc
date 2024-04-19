@@ -34,7 +34,7 @@
                     <b>REGISTRASI</b>
                 </div>
                 <div class="col-md-2 border border-dark text-center">
-                    <h5>{{ $pasien->norm }}</h5>
+                    <h5>{{ $pasien->norm ?? '-' }}</h5>
                 </div>
                 <div class="col-md-7 border border-dark text-center">
                     <h5>{{ $pasien->nama }}</h5>
@@ -47,13 +47,13 @@
                         <div class="col-md-5">
                             <dl class="row">
                                 <dt class="col-sm-3 m-0">Nama</dt>
-                                <dd class="col-sm-9 m-0">{{ $pasien->nama }}</dd>
+                                <dd class="col-sm-9 m-0">{{ $pasien->nama ?? '-' }}</dd>
                                 <dt class="col-sm-3 m-0">Tgl Lahir</dt>
-                                <dd class="col-sm-9 m-0">{{ $pasien->tgl_lahir }}</dd>
+                                <dd class="col-sm-9 m-0">{{ $pasien->tgl_lahir ?? '-'}}</dd>
                                 <dt class="col-sm-3 m-0">Jns Kelamin</dt>
-                                <dd class="col-sm-9 m-0">{{ $pasien->gender }}</dd>
+                                <dd class="col-sm-9 m-0">{{ $pasien->gender?? '-' }}</dd>
                                 <dt class="col-sm-3 m-0">Alamat</dt>
-                                <dd class="col-sm-9 m-0">{{ $pasien->alamat }}</dd>
+                                <dd class="col-sm-9 m-0">{{ $pasien->alamat?? '-' }}</dd>
 
                             </dl>
                         </div>
