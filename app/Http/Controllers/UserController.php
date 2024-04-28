@@ -149,13 +149,6 @@ class UserController extends Controller
     public function user_data(Request $request)
     {
         $users = User::all();
-        $response = [
-            'response' => $users,
-            'metadata' => [
-                'message' => 'Ok',
-                'code' =>  200,
-            ],
-        ];
-        return json_decode(json_encode($response));
+        return json_decode(json_encode($users));
     }
 }
