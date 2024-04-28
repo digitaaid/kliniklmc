@@ -23,8 +23,8 @@
                     <div class="col-md-8">
                         <x-adminlte-button id="btnTambah" name="btnTambah" label="Tambah" class="btn-sm" theme="success"
                             title="Tambah User" icon="fas fa-plus" />
-                        <x-adminlte-button label="Refresh" class="btn-sm" theme="warning" title="Refresh User"
-                            icon="fas fa-sync" onclick="window.location='{{ route('user.index') }}'" />
+                        <x-adminlte-button label="Synchronize" class="btn-sm" theme="warning" title="Refresh User"
+                            icon="fas fa-sync" onclick="window.location='{{ route('user_synchronize') }}'" />
                     </div>
                     <div class="col-md-4">
                         <form action="{{ route('user.index') }}" method="get">

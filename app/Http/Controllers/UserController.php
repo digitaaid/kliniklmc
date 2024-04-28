@@ -140,4 +140,8 @@ class UserController extends Controller
         }
         return redirect()->back();
     }
+    public function user_synchronize(Request $request)
+    {
+        dd($request->all());
+    }
 }
