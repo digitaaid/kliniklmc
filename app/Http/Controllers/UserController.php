@@ -194,7 +194,8 @@ class UserController extends Controller
     }
     public function user_add(Request $request)
     {
+        $request['password'] = $request['username'];
         $user = User::create($request->all());
-        return json_decode(json_encode($$user));
+        return json_decode(json_encode($user));
     }
 }
