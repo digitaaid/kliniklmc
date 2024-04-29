@@ -9,6 +9,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Http;
 use RealRashid\SweetAlert\Facades\Alert;
 use Spatie\Permission\Models\Role;
 
@@ -143,12 +144,57 @@ class UserController extends Controller
     public function user_synchronize(Request $request)
     {
         $users = User::all();
-        $url = env('APP_DOMAIN').'api/user_data';
-        dd($url);
+        $url = env('APP_DOMAIN') . 'api/user_data';
+        $res = Http::get($url);
+        $data = collect(json_decode($res->body()));
+        return view('admin.user_sync', compact([
+            'request',
+            'users',
+            'data',
+        ]));
     }
+    public function user_sync(Request $request)
+    {
+        try {
+            $users = User::all()->keyBy('username');
+            $url = env('APP_DOMAIN') . 'api/user_data';
+            $res = Http::get($url);
+            $data = collect(json_decode($res->body()))->keyBy('username');
+
+            $localUser = $users->keys();
+            $externalUser = $data->keys();
+            $missingInExternal = $localUser->diff($externalUser);
+            $missingInLocal = $externalUser->diff($localUser);
+            foreach ($missingInExternal as $username) {
+                $user = $users[$username];
+                $res = Http::post(env('APP_DOMAIN') . 'api/user_add', $user->toArray());
+                dd($res);
+            }
+            foreach ($missingInLocal as $username) {
+                $userData = $data[$username];
+                if (is_object($userData)) {
+                    $userData = (array) $userData;
+                }
+                $userData['password'] = $userData['username'];
+                $user = new User($userData);
+                $user->save();
+            }
+            Alert::success('Success', 'Berhasil Synchronize');
+        } catch (\Throwable $th) {
+            //throw $th;
+            Alert::error('Mohon Maaf', $th->getMessage());
+        }
+        return redirect()->back();
+    }
+
     public function user_data(Request $request)
     {
         $users = User::all();
         return json_decode(json_encode($users));
+    }
+    public function user_add(Request $request)
+    {
+        $user = User::create($request->all());
+        return json_decode(json_encode($$user));
     }
 }

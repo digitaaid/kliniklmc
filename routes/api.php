@@ -122,6 +122,7 @@ Route::prefix('vclaim')->group(function () {
 });
 
 Route::get('user_data', [UserController::class, 'user_data'])->name('user_data');
+Route::post('user_add', [UserController::class, 'user_add'])->name('user_add');
 Route::get('icare', [IcareController::class, 'icare'])->name('icare');
 
 // APOTEK
