@@ -156,19 +156,20 @@ class UserController extends Controller
     public function user_sync(Request $request)
     {
         try {
+            // get
             $users = User::all()->keyBy('username');
             $url = env('APP_DOMAIN') . 'api/user_data';
             $res = Http::get($url);
             $data = collect(json_decode($res->body()))->keyBy('username');
-
+            // check
             $localUser = $users->keys();
             $externalUser = $data->keys();
             $missingInExternal = $localUser->diff($externalUser);
             $missingInLocal = $externalUser->diff($localUser);
+            // add user
             foreach ($missingInExternal as $username) {
                 $user = $users[$username];
                 $res = Http::post(env('APP_DOMAIN') . 'api/user_add', $user->toArray());
-                dd($res);
             }
             foreach ($missingInLocal as $username) {
                 $userData = $data[$username];
