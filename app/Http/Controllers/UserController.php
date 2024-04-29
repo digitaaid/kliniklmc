@@ -143,8 +143,8 @@ class UserController extends Controller
     public function user_synchronize(Request $request)
     {
         $users = User::all();
-        dd($users);
-        dd($request->all());
+        $url = env('APP_DOMAIN').'api/user_data';
+        dd($url);
     }
     public function user_data(Request $request)
     {

@@ -4,6 +4,7 @@ use App\Http\Controllers\AntrianController;
 use App\Http\Controllers\ApotekController;
 use App\Http\Controllers\IcareController;
 use App\Http\Controllers\SuratKontrolController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\VclaimController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -120,6 +121,7 @@ Route::prefix('vclaim')->group(function () {
     Route::get('fingerprint_sep', [VclaimController::class, 'fingerprint_sep'])->name('fingerprint_sep');
 });
 
+Route::get('user_data', [UserController::class, 'user_data'])->name('user_data');
 Route::get('icare', [IcareController::class, 'icare'])->name('icare');
 
 // APOTEK

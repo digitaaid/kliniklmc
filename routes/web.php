@@ -104,7 +104,6 @@ Route::middleware('auth')->group(function () {
         Route::resource('user', UserController::class);
         Route::get('user_verifikasi/{user}', [UserController::class, 'user_verifikasi'])->name('user_verifikasi');
         Route::get('user_synchronize', [UserController::class, 'user_synchronize'])->name('user_synchronize');
-        Route::get('user_data', [UserController::class, 'user_data'])->name('user_data');
         Route::get('user_sync', [UserController::class, 'user_sync'])->name('user_sync');
         Route::resource('role', RoleController::class);
         Route::resource('permission', PermissionController::class);
