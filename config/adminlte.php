@@ -710,6 +710,27 @@ return [
             'can' => ['bpjs', 'pendaftaran', 'manajemen'],
             'submenu' => [
                 [
+                    'text' => 'Peserta BPJS',
+                    'icon'    => 'fas fa-user-injured',
+                    'url'  => 'peserta_bpjs',
+                    'shift'   => 'ml-2',
+                    'can' => ['bpjs', 'vclaim', 'pendaftaran', 'manajemen'],
+                ],
+                [
+                    'text' => 'SEP Rawat Jalan',
+                    'icon'    => 'fas fa-file-medical',
+                    'url'  => 'sep_rajal',
+                    'shift'   => 'ml-2',
+                    'can' => ['bpjs', 'vclaim', 'pendaftaran', 'manajemen'],
+                ],
+                [
+                    'text' => 'SEP Rawat Inap',
+                    'icon'    => 'fas fa-file-medical',
+                    'url'  => 'sep_ranap',
+                    'shift'   => 'ml-2',
+                    'can' => ['bpjs', 'vclaim', 'pendaftaran', 'manajemen'],
+                ],
+                [
                     'text' => 'Lembar Pengajuan Klaim',
                     'icon'    => 'fas fa-id-card',
                     'url'  => 'vclaim/lpk',
@@ -717,40 +738,32 @@ return [
                     'can' => ['bpjs', 'pendaftaran', 'manajemen'],
                 ],
                 [
-                    'text' => 'Monitoring',
-                    'icon'    => 'fas fa-chart-line',
+                    'text' => 'Data Kunjungan',
+                    'icon'    => 'fas fa-chart-bar',
+                    'url'  => 'monitoringDataKunjungan',
                     'shift'   => 'ml-2',
-                    'submenu' => [
-                        [
-                            'text' => 'Data Kunjungan',
-                            'icon'    => 'fas fa-chart-bar',
-                            'url'  => 'monitoringDataKunjungan',
-                            'shift'   => 'ml-3',
-                            'can' => ['bpjs', 'pendaftaran', 'manajemen'],
-                        ],
-                        [
-                            'text' => 'Data Klaim',
-                            'icon'    => 'fas fa-chart-pie',
-                            'url'  => 'monitoringDataKlaim',
-                            'shift'   => 'ml-3',
-                            'can' => ['bpjs', 'pendaftaran', 'manajemen'],
-                        ],
-                        [
-                            'text' => 'Monitoring Pelayanan Peserta',
-                            'icon'    => 'fas fa-id-card',
-                            'url'  => 'monitoringPelayananPeserta',
-                            'shift'   => 'ml-3',
-                            'can' => ['bpjs', 'pendaftaran', 'manajemen'],
-                        ],
-                        [
-                            'text' => 'Data Klaim Jasa Raharja',
-                            'icon'    => 'fas fa-chart-area',
-                            'url'  => 'monitoringKlaimJasaraharja',
-                            'shift'   => 'ml-3',
-                            'can' => ['bpjs', 'pendaftaran', 'manajemen'],
-                        ],
-                    ]
-
+                    'can' => ['bpjs', 'pendaftaran', 'manajemen'],
+                ],
+                [
+                    'text' => 'Data Klaim',
+                    'icon'    => 'fas fa-chart-pie',
+                    'url'  => 'monitoringDataKlaim',
+                    'shift'   => 'ml-2',
+                    'can' => ['bpjs', 'pendaftaran', 'manajemen'],
+                ],
+                [
+                    'text' => 'Pelayanan Peserta',
+                    'icon'    => 'fas fa-id-card',
+                    'url'  => 'monitoringPelayananPeserta',
+                    'shift'   => 'ml-2',
+                    'can' => ['bpjs', 'pendaftaran', 'manajemen'],
+                ],
+                [
+                    'text' => 'Data Klaim Jasa Raharja',
+                    'icon'    => 'fas fa-chart-area',
+                    'url'  => 'monitoringKlaimJasaraharja',
+                    'shift'   => 'ml-2',
+                    'can' => ['bpjs', 'pendaftaran', 'manajemen'],
                 ],
                 [
                     'text' => 'PRB',
@@ -954,7 +967,7 @@ return [
                     'url'  => 'user',
                     'shift'   => 'ml-2',
                     'can' => 'admin',
-                    'active'  => ['user', 'user/create', 'regex:@^user(\/[0-9]+)?+$@', 'regex:@^user(\/[0-9]+)?\/edit+$@',],
+                    'active'  => ['user', 'user/create', 'user_synchronize', 'regex:@^user(\/[0-9]+)?+$@', 'regex:@^user(\/[0-9]+)?\/edit+$@',],
                 ],
                 [
                     'text' => 'Role & Permission',

@@ -6,32 +6,33 @@
 @section('content')
     <div class="row">
         <div class="col-12">
-            <x-adminlte-card title="Pencarian Peserta BPJS" theme="secondary" collapsible>
+            <x-adminlte-card theme="primary" theme-mode="outline">
                 <form action="" method="get">
                     <div class="row">
-                        <div class="col-6">
+                        <div class="col-md-4">
                             @php
                                 $config = ['format' => 'YYYY-MM-DD'];
                             @endphp
-                            <x-adminlte-input-date name="tanggal" label="Tanggal Antrian" :config="$config"
+                            <x-adminlte-input-date fgroup-class="row" label-class="text-left col-4" igroup-class="col-8"
+                                igroup-size="sm" name="tanggal" label="Tanggal" :config="$config"
                                 value="{{ \Carbon\Carbon::parse($request->tanggal)->format('Y-m-d') }}">
-                                <x-slot name="prependSlot">
-                                    <div class="input-group-text bg-primary">
-                                        <i class="fas fa-calendar-alt"></i>
-                                    </div>
-                                </x-slot>
                             </x-adminlte-input-date>
                         </div>
-                        <div class="col-6">
-                            <x-adminlte-input name="nomorkartu" label="Nomor Kartu" value="{{ $request->nomorkartu }}"
-                                placeholder="Pencarian Berdasarkan Nomor Kartu BPJS">
+                        <div class="col-md-4">
+                            <x-adminlte-input fgroup-class="row" label-class="text-left col-4" igroup-class="col-8"
+                                igroup-size="sm" name="nomorkartu" label="Nomor BPJS" value="{{ $request->nomorkartu }}"
+                                placeholder="Nomor Kartu BPJS">
                                 <x-slot name="appendSlot">
                                     <x-adminlte-button theme="success" class="withLoad" type="submit" label="Cari!" />
                                 </x-slot>
-                                <x-slot name="prependSlot">
-                                    <div class="input-group-text text-success">
-                                        <i class="fas fa-search"></i>
-                                    </div>
+                            </x-adminlte-input>
+                        </div>
+                        <div class="col-md-4">
+                            <x-adminlte-input fgroup-class="row" label-class="text-left col-4" igroup-class="col-8"
+                                igroup-size="sm" name="nik" label="NIK" value="{{ $request->nik }}"
+                                placeholder="Pencarian NIK">
+                                <x-slot name="appendSlot">
+                                    <x-adminlte-button theme="success" class="withLoad" type="submit" label="Cari!" />
                                 </x-slot>
                             </x-adminlte-input>
                         </div>
@@ -39,31 +40,7 @@
                 </form>
                 <form action="" method="get">
                     <div class="row">
-                        <div class="col-6">
-                            @php
-                                $config = ['format' => 'YYYY-MM-DD'];
-                            @endphp
-                            <x-adminlte-input-date name="tanggal" label="Tanggal Antrian" :config="$config"
-                                value="{{ \Carbon\Carbon::parse($request->tanggal)->format('Y-m-d') }}">
-                                <x-slot name="prependSlot">
-                                    <div class="input-group-text bg-primary">
-                                        <i class="fas fa-calendar-alt"></i>
-                                    </div>
-                                </x-slot>
-                            </x-adminlte-input-date>
-                        </div>
-                        <div class="col-6">
-                            <x-adminlte-input name="nik" label="NIK" value="{{ $request->nik }}"
-                                placeholder="Pencarian Berdasarkan NIK">
-                                <x-slot name="appendSlot">
-                                    <x-adminlte-button theme="success" class="withLoad" type="submit" label="Cari!" />
-                                </x-slot>
-                                <x-slot name="prependSlot">
-                                    <div class="input-group-text text-success">
-                                        <i class="fas fa-search"></i>
-                                    </div>
-                                </x-slot>
-                            </x-adminlte-input>
+                        <div class="col-md-6">
                         </div>
                     </div>
                 </form>
@@ -122,7 +99,20 @@
             </div>
             <div class="col-md-8">
                 @php
-                    $heads = ['Tgl Masuk \ Pulang', 'No SEP \ Rujukam', 'Pasien', 'Pelayanan', 'Poliklinik', 'Diagnosa', 'Action'];
+                    $heads = [
+                        'No SEP',
+                        'Action',
+                        'Tgl Masuk',
+                        'Tgl Pulang',
+                        'Rujukan',
+                        'No BPJS',
+                        'Nama',
+                        'Pelayanan',
+                        'Poliklinik',
+                        'Kelas',
+                        'PPK Pelayanan',
+                        'Diagnosa',
+                    ];
                     $config['order'] = ['0', 'desc'];
                 @endphp
                 <x-adminlte-card title="SEP Peserta" theme="primary" icon="fas fa-info-circle" collapsible>
@@ -131,24 +121,7 @@
                         @isset($sep)
                             @foreach ($sep as $item)
                                 <tr>
-                                    <td>
-                                        Msk : {{ $item->tglSep }}<br>Plg : {{ $item->tglPlgSep }}
-                                    </td>
-                                    <td>
-                                        SEP : {{ $item->noSep }}<br>REF : {{ $item->noRujukan }}
-                                    </td>
-                                    <td>
-                                        {{ $item->noKartu }}<br>{{ $item->namaPeserta }}
-                                    </td>
-                                    <td>
-                                        {{ $item->jnsPelayanan == 1 ? 'Rawat Inap' : 'Rawat Jalan' }}<br>{{ $item->ppkPelayanan }}
-                                    </td>
-                                    <td>
-                                        {{ $item->poli }}<br>{{ $item->kelasRawat }}
-                                    </td>
-                                    <td>
-                                        {{ $item->diagnosa }}
-                                    </td>
+                                    <td>{{ $item->noSep }}</td>
                                     <td>
                                         <form action="{{ route('sep_delete') }}" method="POST">
                                             {{-- <x-adminlte-button class="btn-xs" theme="success" icon="fas fa-check"
@@ -166,13 +139,24 @@
                                                 onclick="return confirm('Apakah anda akan menghapus SEP {{ $item->noSep }} ?')" />
                                         </form>
                                     </td>
+                                    <td>{{ $item->tglSep }}</td>
+                                    <td>{{ $item->tglPlgSep }}</td>
+                                    <td>{{ $item->noRujukan }}</td>
+                                    <td>{{ $item->noKartu }}</td>
+                                    <td>{{ $item->namaPeserta }}</td>
+                                    <td>
+                                        {{ $item->jnsPelayanan == 1 ? 'Rawat Inap' : 'Rawat Jalan' }}
+                                    </td>
+                                    <td>{{ $item->poli }}</td>
+                                    <td>{{ $item->kelasRawat }}</td>
+                                    <td>{{ $item->ppkPelayanan }} </td>
+                                    <td>{{ $item->diagnosa }}</td>
+
                                 </tr>
                             @endforeach
                         @endisset
                     </x-adminlte-datatable>
                 </x-adminlte-card>
-            </div>
-            <div class="col-md-6">
                 <x-adminlte-card title="Rujukan FKTP Peserta" theme="primary" icon="fas fa-info-circle" collapsible>
                     @php
                         $heads = ['Tgl Rujukan', 'Rujukan / FKTP', 'Poli Tujuan', 'Diagnosa'];
@@ -206,8 +190,6 @@
                         @endisset
                     </x-adminlte-datatable>
                 </x-adminlte-card>
-            </div>
-            <div class="col-md-6">
                 <x-adminlte-card title="Rujukan Antar RS Peserta" theme="primary" icon="fas fa-info-circle" collapsible>
                     @php
                         $heads = ['Tgl Rujukan', 'Rujukan / FKTP', 'Poli Tujuan', 'Diagnosa'];
@@ -241,11 +223,19 @@
                         @endisset
                     </x-adminlte-datatable>
                 </x-adminlte-card>
-            </div>
-            <div class="col-md-12">
                 <x-adminlte-card title="Surat Kontrol Peserta" theme="primary" icon="fas fa-info-circle" collapsible>
                     @php
-                        $heads = ['Tgl Kontrol', 'Tgl Terbit', 'No S. Kontrol', 'Pelayanan', 'Polklinik', 'Dokter', 'Tgl SEP', 'Status', 'Action'];
+                        $heads = [
+                            'Tgl Kontrol',
+                            'Tgl Terbit',
+                            'No S. Kontrol',
+                            'Pelayanan',
+                            'Polklinik',
+                            'Dokter',
+                            'Tgl SEP',
+                            'Status',
+                            'Action',
+                        ];
                         $config['order'] = ['1', 'DESC'];
                     @endphp
                     <x-adminlte-datatable id="table4" class="nowrap" :heads="$heads" :config="$config" striped bordered

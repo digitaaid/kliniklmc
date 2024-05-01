@@ -21,7 +21,6 @@ class SuratKontrolController extends APIController
         if ($request->tanggal && $request->formatfilter) {
             $request['tglawal']  = Carbon::parse(explode('-', $request->tanggal)[0])->format('Y-m-d');
             $request['tglakhir'] = Carbon::parse(explode('-', $request->tanggal)[1])->format('Y-m-d');
-
             $vclaim = new VclaimController();
             $res = $vclaim->suratkontrol_tanggal($request);
             if ($res->metadata->code == 200) {

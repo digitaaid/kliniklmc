@@ -96,7 +96,6 @@
                                 </option>
                             @endforeach
                         </x-adminlte-select2>
-
                     </div>
                     <div class="col-md-6">
                         <x-adminlte-select igroup-size="sm" name="tujuanKunj" label="Tujuan Kunjungan">

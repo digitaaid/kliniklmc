@@ -35,7 +35,6 @@
                         <option value="1">Rawat Inap</option>
                         <option value="2">Rawat Jalan</option>
                     </x-adminlte-select>
-
                     <x-adminlte-select2 name="dokter" label="Dokter DPJP">
                         <option selected disabled>Cari Dokter DPJP</option>
                     </x-adminlte-select2>

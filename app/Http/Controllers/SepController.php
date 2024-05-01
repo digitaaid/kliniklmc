@@ -24,12 +24,22 @@ class SepController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'kodebooking' => 'required',
             'noRujukan' => 'required_if:noSurat,null',
             'noSurat' => 'required_if:noRujukan,null',
         ]);
         $api = new VclaimController();
-        $request['tglSep'] = now()->format('Y-m-d');
+        if (!$request->tglSep) {
+            $request['tglSep'] = now()->format('Y-m-d');
+        }
+        if (!$request->noKartu) {
+            $request['noKartu'] = $request->nomorkartu;
+        }
+        if (!$request->noMR) {
+            $request['noMR'] = $request->norm;
+        }
+        if (!$request->noTelp) {
+            $request['noTelp'] = $request->nohp;
+        }
         $request['ppkPelayanan'] = "0125S003";
         $request['eksekutif'] = "0";
         $request['user'] = Auth::user()->name;
@@ -64,14 +74,16 @@ class SepController extends Controller
         $res = $api->sep_insert($request);
         if ($res->metadata->code == 200) {
             $sep = $res->response->sep;
-            $antrian = Antrian::where('kodebooking', $request->kodebooking)->first();
-            $antrian->update([
-                'sep' => $sep->noSep,
-                'nomorrujukan' => $request->noRujukan,
-                'nomorsuratkontrol' => $request->noSurat,
-                'jeniskunjungan' => $request->jeniskunjungan,
-                'nomorreferensi' => $request->nomorreferensi,
-            ]);
+            if ($request->kodebooking) {
+                $antrian = Antrian::where('kodebooking', $request->kodebooking)->first();
+                $antrian->update([
+                    'sep' => $sep->noSep,
+                    'nomorrujukan' => $request->noRujukan,
+                    'nomorsuratkontrol' => $request->noSurat,
+                    'jeniskunjungan' => $request->jeniskunjungan,
+                    'nomorreferensi' => $request->nomorreferensi,
+                ]);
+            }
             Alert::success('Success', 'SEP berhasil dibuatkan');
         } else {
             Alert::error('Error', $res->metadata->message);

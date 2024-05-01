@@ -25,10 +25,29 @@ class VclaimController extends APIController
                 Alert::error('Error ' . $response->metadata->code, $response->metadata->message);
             }
         }
-        return view('bpjs.vclaim.monitoring_data_kunjungan_index', compact([
-            'request', 'sep'
-        ]));
+        return view('bpjs.vclaim.monitoring_data_kunjungan_index', compact(
+            'request',
+            'sep'
+        ));
     }
+    public function sep_rajal(Request $request)
+    {
+        $sep = null;
+        $vclaim = new VclaimController();
+        if ($request->tanggal && $request->jenispelayanan) {
+            $response =  $vclaim->monitoring_data_kunjungan($request);
+            if ($response->metadata->code == 200) {
+                $sep = $response->response->sep;
+            } else {
+                Alert::error('Error ' . $response->metadata->code, $response->metadata->message);
+            }
+        }
+        return view('bpjs.vclaim.sep_rajal', compact(
+            'request',
+            'sep'
+        ));
+    }
+
     public function monitoringDataKlaim(Request $request)
     {
         $klaim = null;
@@ -56,7 +75,7 @@ class VclaimController extends APIController
         $vclaim = new VclaimController();
         // get  peserta
         if ($request->tanggal) {
-            if ($request->nik && $request->tanggal) {
+            if ($request->nik) {
                 $response =  $vclaim->peserta_nik($request);
                 if ($response->metadata->code == 200) {
                     $peserta = $response->response->peserta;
@@ -64,7 +83,7 @@ class VclaimController extends APIController
                     Alert::success('OK', 'Peserta Ditemukan');
                 } else {
                 }
-            } else if ($request->nomorkartu && $request->tanggal) {
+            } else if ($request->nomorkartu) {
                 $response =  $vclaim->peserta_nomorkartu($request);
                 if ($response->metadata->code == 200) {
                     $peserta = $response->response->peserta;
@@ -74,33 +93,26 @@ class VclaimController extends APIController
                     Alert::error('Error', $response->metadata->message);
                 }
             }
-        } else {
-            $request['tanggal'] = now()->format('Y-m-d');
         }
-
         // get data
         if (isset($peserta)) {
             $request['tanggalAkhir'] = Carbon::parse($request->tanggal)->format('Y-m-d');
             $request['tanggalMulai'] = Carbon::parse($request->tanggalAkhir)->subDays(90)->format('Y-m-d');
             // history sep
-
             $response = $vclaim->monitoring_pelayanan_peserta($request);
             if ($response->metadata->code == 200) {
                 $sep = $response->response->histori;
             }
             // rujukan fktp
-
             $response = $vclaim->rujukan_peserta($request);
             if ($response->metadata->code == 200) {
                 $rujukan = $response->response->rujukan;
             }
-
             // rujukan antar rs
             $response = $vclaim->rujukan_rs_peserta($request);
             if ($response->metadata->code == 200) {
                 $rujukan_rs = $response->response->rujukan;
             }
-
             // rujukan antar rs
             $request['tahun'] = Carbon::parse($request->tanggal)->format('Y');
             $request['bulan'] = Carbon::parse($request->tanggal)->format('m');
@@ -110,7 +122,6 @@ class VclaimController extends APIController
                 $surat_kontrol = $response->response->list;
             }
         }
-
         return view('bpjs.vclaim.monitoring_pelayanan_peserta_index', compact([
             'request',
             'peserta',
@@ -652,7 +663,7 @@ class VclaimController extends APIController
     public function suratkontrol_insert(Request $request)
     {
         $validator = Validator::make(request()->all(), [
-            "noSep" => "required",
+            "noSEP" => "required",
             "tglRencanaKontrol" => "required|date",
             "kodeDokter" => "required",
             "poliKontrol" => "required",
@@ -666,7 +677,7 @@ class VclaimController extends APIController
         $signature['Content-Type'] = 'application/x-www-form-urlencoded';
         $data = [
             "request" => [
-                "noSEP" => $request->noSep,
+                "noSEP" => $request->noSEP,
                 "tglRencanaKontrol" => $request->tglRencanaKontrol,
                 "poliKontrol" => $request->poliKontrol,
                 "kodeDokter" => $request->kodeDokter,
