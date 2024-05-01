@@ -1,7 +1,7 @@
 @extends('adminlte::page')
-@section('title', 'SEP Rawat Jalan')
+@section('title', 'SEP Rawat Inap')
 @section('content_header')
-    <h1>SEP Rawat Jalan</h1>
+    <h1>SEP Rawat Inap</h1>
 @stop
 @section('content')
     <div class="row">
@@ -19,7 +19,7 @@
                 <form action="" method="get">
                     <div class="row">
                         <div class="col-md-6">
-                            <input type="hidden" name="jenispelayanan" value="2">
+                            <input type="hidden" name="jenispelayanan" value="1">
                             @php
                                 $config = ['format' => 'YYYY-MM-DD'];
                             @endphp

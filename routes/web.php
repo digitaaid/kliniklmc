@@ -281,8 +281,8 @@ Route::middleware('auth')->group(function () {
     Route::get('antrianPerDokter', [AntrianController::class, 'antrianPerDokter'])->name('antrianPerDokter');
     // vclaim bpjs
     Route::get('peserta_bpjs', [VclaimController::class, 'peserta_bpjs'])->name('peserta_bpjs');
-    Route::get('sep_rajal', [VclaimController::class, 'sep_rajal'])->name('sep_rajal');
-    Route::get('sep_ranap', [VclaimController::class, 'sep_ranap'])->name('sep_ranap');
+    Route::get('sep_rajal', [SepController::class, 'sep_rajal'])->name('sep_rajal');
+    Route::get('sep_ranap', [SepController::class, 'sep_ranap'])->name('sep_ranap');
     Route::get('referensiVclaim', [VclaimController::class, 'referensiVclaim'])->name('referensiVclaim');
     Route::get('monitoringDataKunjungan', [VclaimController::class, 'monitoringDataKunjungan'])->name('monitoringDataKunjungan');
     Route::get('monitoringDataKlaim', [VclaimController::class, 'monitoringDataKlaim'])->name('monitoringDataKlaim');

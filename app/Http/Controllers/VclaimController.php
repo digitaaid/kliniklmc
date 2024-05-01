@@ -30,24 +30,6 @@ class VclaimController extends APIController
             'sep'
         ));
     }
-    public function sep_rajal(Request $request)
-    {
-        $sep = null;
-        $vclaim = new VclaimController();
-        if ($request->tanggal && $request->jenispelayanan) {
-            $response =  $vclaim->monitoring_data_kunjungan($request);
-            if ($response->metadata->code == 200) {
-                $sep = $response->response->sep;
-            } else {
-                Alert::error('Error ' . $response->metadata->code, $response->metadata->message);
-            }
-        }
-        return view('bpjs.vclaim.sep_rajal', compact(
-            'request',
-            'sep'
-        ));
-    }
-
     public function monitoringDataKlaim(Request $request)
     {
         $klaim = null;

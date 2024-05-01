@@ -21,6 +21,40 @@ class SepController extends Controller
             'kunjungans',
         ]));
     }
+    public function sep_rajal(Request $request)
+    {
+        $sep = null;
+        $vclaim = new VclaimController();
+        if ($request->tanggal && $request->jenispelayanan) {
+            $response =  $vclaim->monitoring_data_kunjungan($request);
+            if ($response->metadata->code == 200) {
+                $sep = $response->response->sep;
+            } else {
+                Alert::error('Error ' . $response->metadata->code, $response->metadata->message);
+            }
+        }
+        return view('bpjs.vclaim.sep_rajal', compact(
+            'request',
+            'sep'
+        ));
+    }
+    public function sep_ranap(Request $request)
+    {
+        $sep = null;
+        $vclaim = new VclaimController();
+        if ($request->tanggal && $request->jenispelayanan) {
+            $response =  $vclaim->monitoring_data_kunjungan($request);
+            if ($response->metadata->code == 200) {
+                $sep = $response->response->sep;
+            } else {
+                Alert::error('Error ' . $response->metadata->code, $response->metadata->message);
+            }
+        }
+        return view('bpjs.vclaim.sep_ranap', compact(
+            'request',
+            'sep'
+        ));
+    }
     public function store(Request $request)
     {
         $request->validate([
@@ -96,11 +130,8 @@ class SepController extends Controller
         $res = $vclaim->sep_nomor($request);
         if ($res->metadata->code == 200) {
             $sep = $res->response;
-            $antrian = Antrian::where('sep', $request->noSep)->first();
-            return view('print.print_sep', compact([
-                'sep',
-                'antrian',
-            ]));
+            $pdf = Pdf::loadView('print.pdf_sep', compact('sep'));
+            return $pdf->stream('sep.pdf');
         } else {
             Alert::error('Gagal', 'SEP Tidak Ditemukan');
             return redirect()->back();
