@@ -27,7 +27,8 @@
                                 igroup-size="sm" name="tanggal" label="Tanggal" :config="$config"
                                 value="{{ \Carbon\Carbon::parse($request->tanggal)->format('Y-m-d') ?? now()->format('Y-m-d') }}">
                                 <x-slot name="appendSlot">
-                                    <x-adminlte-button type="submit" class="withLoad" theme="primary" icon="fas fa-search" label="Cari" />
+                                    <x-adminlte-button type="submit" class="withLoad" theme="primary" icon="fas fa-search"
+                                        label="Cari" />
                                 </x-slot>
                             </x-adminlte-input-date>
                         </div>

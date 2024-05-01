@@ -7,6 +7,7 @@ use App\Models\Dokter;
 use App\Models\Pasien;
 use App\Models\Poliklinik;
 use App\Models\SuratKontrol;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -29,7 +30,7 @@ class SuratKontrolController extends APIController
                 Alert::error('Mohon Maaf', $res->metadata->message);
             }
         }
-        return view('sim.suratkontrol_index', compact([
+        return view('bpjs.vclaim.suratkontrol', compact([
             'request',
             'suratkontrols',
         ]));
@@ -146,12 +147,13 @@ class SuratKontrolController extends APIController
             $sep = $response->response->sep;
             $peserta = $response->response->sep->peserta;
             $dokter = Dokter::firstWhere('kodedokter', $suratkontrol->kodeDokter);
-            return view('print.print_suratkontrol', compact([
+            $pdf = Pdf::loadView('print.pdf_suratkontrol', compact(
                 'suratkontrol',
                 'sep',
                 'peserta',
                 'dokter',
-            ]));
+            ));
+            return $pdf->stream('pdf_surat_kontrol.pdf');
         } else {
             return $response->metadata->message;
         }

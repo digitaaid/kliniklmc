@@ -10,6 +10,9 @@
     <div class="row">
         <div class="col-md-12">
             <x-adminlte-card title="Data Poliklinik" theme="primary" icon="fas fa-info-circle" collapsible>
+                <a href="{{ route('poliklinik.create') }}" class="btn btn-sm btn-warning"><i class="fas fa-sync"></i> Sync
+                    Poliklinik</a>
+
                 @php
                     $heads = ['ID', 'Nama Subspesialis', 'Kode Poliklinik', 'Kode Subspesialis', 'Status'];
                     $config['order'] = [4, 'asc'];
@@ -32,7 +35,6 @@
                         </tr>
                     @endforeach
                 </x-adminlte-datatable>
-                <a href="{{ route('poliklinik.create') }}" class="btn btn-warning">Refresh Data Poliklinik</a>
             </x-adminlte-card>
         </div>
     </div>

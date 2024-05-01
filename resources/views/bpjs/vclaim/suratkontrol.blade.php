@@ -9,7 +9,7 @@
             <x-adminlte-card theme="primary" theme-mode="outline">
                 <form action="" method="get">
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             @php
                                 $config = [
                                     'timePicker' => false,
@@ -20,7 +20,7 @@
                                 igroup-size="sm" name="tanggal" :config="$config" label="Tanggal"
                                 value="{{ $request->tanggal ?? null }}" />
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <x-adminlte-select fgroup-class="row" label-class="text-left col-3" igroup-class="col-9"
                                 igroup-size="sm" name="formatfilter" label="Format Filter">
                                 <option value="1" {{ $request->formatfilter == '1' ? 'selected' : null }}>Tanggal Entri
@@ -29,14 +29,19 @@
                                     Rencana Kontrol
                                 </option>
                                 <x-slot name="appendSlot">
-                                    <x-adminlte-button type="submit" class="withLoad" theme="primary" label="Cari!" />
+                                    <x-adminlte-button type="submit" class="withLoad" theme="primary" icon="fas fa-search"
+                                        label="Cari" />
                                 </x-slot>
                             </x-adminlte-select>
                         </div>
+                        <div class="col-md-4">
+                            <x-adminlte-button theme="success" class="btn-sm" label="Buat S. Kontrol"
+                                icon="fas fa-file-medical" onclick="buatSuratKontrol()" />
+                            <x-adminlte-button theme="success" class="btn-sm" label="Buat SPRI"
+                                icon="fas fa-file-medical" />
+                        </div>
                     </div>
-                    <x-adminlte-button theme="success" label="Buat S. Kontrol" icon="fas fa-file-medical"
-                        onclick="buatSuratKontrol()" />
-                    <x-adminlte-button theme="success" label="Buat SPRI" icon="fas fa-file-medical" />
+
                 </form>
                 @php
                     $heads = [
@@ -91,16 +96,23 @@
             </x-adminlte-card>
         </div>
     </div>
-    <x-adminlte-modal id="modalPrintSuratKontrol" title="Surat Kontrol" size="xl" theme="success"
+    <x-adminlte-modal id="modalPrintSuratKontrol" title="Print Surat Kontrol" size="xl" theme="success"
         icon="fas fa-file-medical">
+        <div id="iframeLoader" class="loader">
+            <h4>Loading...</h4>
+        </div>
+        <iframe src="" id="iframeSuratKontrol" onload="iframeLoaded()" width="100%" height="500px"
+            frameborder="0"></iframe>
         <x-slot name="footerSlot">
-            {{-- <x-adminlte-button class="mr-auto" theme="success" label="Accept" /> --}}
             <x-adminlte-button theme="danger" label="Tutup" icon="fas fa-times" data-dismiss="modal" />
         </x-slot>
     </x-adminlte-modal>
     <x-adminlte-modal id="modalBuatSuratKontrol" title="Buat Surat Kontrol" size="xl" theme="success"
         icon="fas fa-file-medical">
-        <form action="">
+        <form action="{{ route('suratkontrol.store') }}" id="formSuratKontrol" method="POST">
+            @csrf
+            {{-- <input type="hidden" name="kodebooking" value="{{ $antrian->kodebooking }}"> --}}
+            {{-- <input type="hidden" name="antrian_id" value="{{ $antrian->id }}"> --}}
             <x-adminlte-input fgroup-class="row" label-class="text-left col-3" igroup-class="col-9" igroup-size="sm"
                 name="nomorkartu" label="Nomor Kartu" placeholder="Nomor Kartu" />
             <x-adminlte-input fgroup-class="row" label-class="text-left col-3" igroup-class="col-9" igroup-size="sm"
@@ -113,7 +125,8 @@
                 $config = ['format' => 'YYYY-MM-DD'];
             @endphp
             <x-adminlte-input-date fgroup-class="row" label-class="text-left col-3" igroup-class="col-9" igroup-size="sm"
-                name="tglRencanaKontrol" label="Tgl Kontrol" placeholder="Pilih Tanggal Rencana Kontrol" :config="$config">
+                name="tglRencanaKontrol" label="Tgl Kontrol" placeholder="Pilih Tanggal Rencana Kontrol"
+                :config="$config">
             </x-adminlte-input-date>
             <x-adminlte-select fgroup-class="row" label-class="text-left col-3" igroup-class="col-9" igroup-size="sm"
                 name="poliKontrol" label="Poliklinik">
@@ -132,7 +145,8 @@
             </x-adminlte-select>
         </form>
         <x-slot name="footerSlot">
-            {{-- <x-adminlte-button class="mr-auto" theme="success" label="Accept" /> --}}
+            <x-adminlte-button class="mr-auto withLoad" theme="success" form="formSuratKontrol" type="submit"
+                label="Buat Surat Kontrol" />
             <x-adminlte-button theme="danger" label="Tutup" icon="fas fa-times" data-dismiss="modal" />
         </x-slot>
     </x-adminlte-modal>
@@ -173,6 +187,16 @@
     <script>
         function printSuratKontrol(button) {
             $('#modalPrintSuratKontrol').modal('show');
+            var nosuratkontrol = $(button).data('nosuratkontrol');
+            var url = "{{ route('suratkontrol_print') }}?noSuratKontrol=" + nosuratkontrol;
+            $('#iframeSuratKontrol').attr('src', url);
+            $('#iframeLoader').show();
+            $('#iframeSuratKontrol').hide();
+        }
+
+        function iframeLoaded() {
+            $('#iframeLoader').hide();
+            $('#iframeSuratKontrol').show();
         }
 
         function buatSuratKontrol() {
@@ -199,14 +223,10 @@
                             if (value.jnsPelayanan == 2) {
                                 var jenispelayanan = "Rawat Jalan";
                             }
-                            if (value.tglPlgSep) {
-                                var btnpilih = "Sudah Dipulangkan";
-                            } else {
-                                var btnpilih =
-                                    "<button class='btn btn-success btn-xs' onclick='pilihSEP(this)'  data-nosep=" +
-                                    value.noSep +
-                                    ">Pilih</button>";
-                            }
+                            var btnpilih =
+                                "<button class='btn btn-success btn-xs' onclick='pilihSEP(this)'  data-nosep=" +
+                                value.noSep +
+                                ">Pilih</button>";
                             table.row.add([
                                 value.tglSep,
                                 value.tglPlgSep,

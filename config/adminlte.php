@@ -728,6 +728,12 @@ return [
                     'icon'    => 'fas fa-file-medical',
                     'url'  => 'sep_ranap',
                     'shift'   => 'ml-2',
+                ],
+                [
+                    'text' => 'Surat Kontrol',
+                    'icon'    => 'fas fa-file-medical',
+                    'url'  => 'suratkontrol',
+                    'shift'   => 'ml-2',
                     'can' => ['bpjs', 'vclaim', 'pendaftaran', 'manajemen'],
                 ],
                 [
@@ -786,13 +792,7 @@ return [
                     'shift'   => 'ml-2',
                     'can' => ['bpjs', 'pendaftaran', 'manajemen'],
                 ],
-                [
-                    'text' => 'Surat Kontrol',
-                    'icon'    => 'fas fa-users',
-                    'url'  => 'suratkontrol',
-                    'shift'   => 'ml-2',
-                    'can' => 'admin',
-                ],
+
                 [
                     'text' => 'SEP',
                     'icon'    => 'fas fa-chart-line',
