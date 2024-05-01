@@ -146,6 +146,7 @@ Route::middleware('auth')->group(function () {
     Route::get('fileupload_norm', [FileUploadController::class, 'fileupload_norm'])->name('fileupload_norm');
 
     Route::resource('tarif', TarifController::class);
+    Route::get('tarifexport', [TarifController::class, 'tarifexport'])->name('tarifexport');
     Route::get('laporan_layanan_tindakan', [TarifController::class, 'laporan_layanan_tindakan'])->name('laporan_layanan_tindakan');
 
 

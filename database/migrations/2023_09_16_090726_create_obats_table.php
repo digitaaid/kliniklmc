@@ -17,9 +17,9 @@ return new class extends Migration
             $table->string('bpom')->nullable();
             $table->string('barcode')->nullable();
             $table->string('stok_minimum')->nullable();
-            $table->string('kemasan');
+            $table->string('kemasan')->nullable();
             $table->integer('konversi_satuan')->default(1);
-            $table->string('satuan');
+            $table->string('satuan')->nullable();
             $table->string('harga_beli')->default(0);
             $table->string('diskon_beli')->default(0);
             $table->string('harga_jual')->default(0);

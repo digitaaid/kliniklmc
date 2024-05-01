@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\TarifExport;
 use App\Imports\TarifImport;
 use App\Models\Kunjungan;
 use App\Models\Layanan;
@@ -165,5 +166,10 @@ class TarifController extends APIController
             'laydet',
             'laydet_total',
         ]));
+    }
+    public function tarifexport()
+    {
+        $time = now()->format('Y-m-d');
+        return Excel::download(new TarifExport, 'tarif_backup_' . $time . '.xlsx');
     }
 }
