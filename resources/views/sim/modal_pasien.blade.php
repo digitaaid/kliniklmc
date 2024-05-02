@@ -27,7 +27,7 @@
 </x-adminlte-modal>
 @push('js')
     <script>
-        function modalPasien(params) {
+        function modalPasien() {
             $('#modalPasien').modal('show');
         }
     </script>

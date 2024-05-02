@@ -77,7 +77,7 @@
                             <i class="fas fa-user-injured"></i> Data Pasien
                         </a>
                     </li>
-                    <li class="nav-item" onclick="lihatHasilLaboratorium()">
+                    <li class="nav-item" onclick="modalAntrian()">
                         <a href="#nav" class="nav-link">
                             <i class="fas fa-user-plus"></i> Antrian
                             @if ($antrian->norm)
@@ -87,11 +87,38 @@
                             @endif
                         </a>
                     </li>
-                    <li class="nav-item" onclick="lihatHasilLaboratorium()">
+                    <li class="nav-item" onclick="modalKunjungan()">
                         <a href="#nav" class="nav-link">
                             <i class="fas fa-user-plus"></i> Kunjungan
+                            @if ($antrian->kunjungan)
+                                <span class="badge bg-success float-right">Sudah Didaftarkan</span>
+                            @else
+                                <span class="badge bg-danger float-right">Belum Kunjungan</span>
+                            @endif
                         </a>
                     </li>
+                    @if ($antrian->kunjungan)
+                        <li class="nav-item" onclick="modalPasien()">
+                            <a href="#nav" class="nav-link">
+                                <i class="fas fa-file-medical"></i> CPPT
+                            </a>
+                        </li>
+                        <li class="nav-item" onclick="modalPasien()">
+                            <a href="#nav" class="nav-link">
+                                <i class="fas fa-hand-holding-medical"></i> Layanan & Tindakan
+                            </a>
+                        </li>
+                        <li class="nav-item" onclick="modalPasien()">
+                            <a href="#nav" class="nav-link">
+                                <i class="fas fa-vials"></i> Laboratorium
+                            </a>
+                        </li>
+                        <li class="nav-item" onclick="modalPasien()">
+                            <a href="#nav" class="nav-link">
+                                <i class="fas fa-file-invoice-dollar"></i> Kasir & Keuangan
+                            </a>
+                        </li>
+                    @endif
                     <li class="nav-item" onclick="modalPasien()">
                         <a href="#nav" class="nav-link">
                             <i class="fas fa-user-injured"></i> Berkas Upload
@@ -124,12 +151,14 @@
             <div class="card card-primary card-outline">
                 <div class="card-body box-profile p-3" style="overflow-y: auto ;max-height: 600px ;">
                     <div id="accordion" role="tablist" aria-multiselectable="true">
-                        @include('sim.tabel_antrian')
+                        @include('sim.modal_antrian')
                         @if ($antrian->jenispasien == 'JKN')
                             @include('sim.tabel_sep')
                             @include('sim.tabel_suratkontrol')
                         @endif
-                        @include('sim.tabel_kunjungan')
+                        @if ($antrian->norm)
+                            @include('sim.modal_kunjungan')
+                        @endif
                         @if ($antrian->kunjungan)
                             {{-- riwayatpasien --}}
                             @include('sim.tabel_riwayat_pasien')
