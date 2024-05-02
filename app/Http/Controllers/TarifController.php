@@ -135,6 +135,7 @@ class TarifController extends APIController
                         'subtotal' => ($tarif->harga * $request->jumlah) - ($tarif->harga * $request->jumlah * $request->diskon / 100),
                         'klasifikasi' => $tarif->klasifikasi,
                         'jaminan' => $request->jaminan,
+                        'pic' => Auth::user()->name,
                         'user' => Auth::user()->id,
                         'tgl_input' => now('Asia/Jakarta'),
                     ]

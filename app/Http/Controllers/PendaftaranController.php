@@ -9,6 +9,7 @@ use App\Models\Jaminan;
 use App\Models\Kunjungan;
 use App\Models\Layanan;
 use App\Models\LayananDetail;
+use App\Models\Pasien;
 use App\Models\PemeriksaanLab;
 use App\Models\Poliklinik;
 use App\Models\Tarif;
@@ -212,6 +213,7 @@ class PendaftaranController extends APIController
     }
     public function lihatpendaftaran(Request $request)
     {
+        $pasiencount = Pasien::where('status', 1)->count();
         $antrian = Antrian::with(['kunjungan', 'pasien'])->where('kodebooking', $request->kodebooking)->first();
         if ($antrian) {
             $pasien = $antrian->pasien;
@@ -237,6 +239,7 @@ class PendaftaranController extends APIController
             }
             return view('sim.antrian_pendaftaran_proses', compact([
                 'request',
+                'pasiencount',
                 'antrian',
                 'kunjungans',
                 'pasien',

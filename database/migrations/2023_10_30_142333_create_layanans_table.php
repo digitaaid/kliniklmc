@@ -26,6 +26,7 @@ return new class extends Migration
             $table->string('klasifikasi');
             $table->string('jaminan');
             $table->string('status')->default('1');
+            $table->string('pic');
             $table->string('user');
             $table->text('keterangan')->nullable();
             $table->dateTime('tgl_input')->nullable();

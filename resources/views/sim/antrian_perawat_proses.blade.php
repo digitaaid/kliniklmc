@@ -646,11 +646,7 @@
             });
         }
 
-        function btnCPPT() {
-            $.LoadingOverlay("show");
-            $('#modalCPPT').modal('show');
-            $.LoadingOverlay("hide");
-        }
+
 
         function btnSBAR() {
             $.LoadingOverlay("show");
