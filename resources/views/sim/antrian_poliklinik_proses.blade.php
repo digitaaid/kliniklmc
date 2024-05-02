@@ -139,14 +139,7 @@
                         </li>
                     </ul>
                     <x-slot name="footerSlot">
-                        <a href="{{ route('lanjutfarmasi') }}?kodebooking={{ $antrian->kodebooking }}"
-                            class="btn btn-sm btn-warning withLoad">
-                            <i class="fas fa-user-plus"></i> Lanjut Farmasi
-                        </a>
-                        <a href="{{ route('selesaipoliklinik') }}?kodebooking={{ $antrian->kodebooking }}"
-                            class="btn btn-sm btn-success withLoad">
-                            <i class="fas fa-user-plus"></i> Selesai Poliklinik
-                        </a>
+                        <x-adminlte-button label="Selesai Pelayanan" class="btn-sm" icon="fas fa-user-md" theme="success" onclick="modalSelesaiRajal()" />
                         <a href="{{ route('batalantrian') }}?kodebooking={{ $antrian->kodebooking }}&keterangan=Dibatalkan dipendaftaran {{ Auth::user()->name }}"
                             class="btn btn-sm btn-danger withLoad">
                             <i class="fas fa-times"></i> Batal
@@ -166,9 +159,6 @@
                             @include('sim.modal_resume_rajal')
                             @include('sim.tabel_lab')
                         </div>
-                    </div>
-                    <div class="card-footer">
-
                     </div>
                 </div>
             </div>
