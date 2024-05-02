@@ -147,6 +147,7 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('tarif', TarifController::class);
     Route::get('tarifexport', [TarifController::class, 'tarifexport'])->name('tarifexport');
+    Route::post('tarifimport', [TarifController::class, 'tarifimport'])->name('tarifimport');
     Route::get('laporan_layanan_tindakan', [TarifController::class, 'laporan_layanan_tindakan'])->name('laporan_layanan_tindakan');
 
 

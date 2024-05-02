@@ -11,18 +11,18 @@
         <div class="col-md-12">
             <x-adminlte-card title="Data Tarif Layanan" theme="primary" icon="fas fa-info-circle" collapsible>
                 @php
-                    $heads = ['ID', 'Nama Tarif', 'Klasifikasi', 'Harga', 'Jenis Pasien', 'Action'];
-                    $config['order'] = [1, 'asc'];
+                    $heads = ['No', 'Nama Tarif', 'Klasifikasi', 'Harga', 'Jenis Pasien', 'Action'];
+                    $config['order'] = [0, 'asc'];
                     $config['paging'] = false;
                     $config['scrollY'] = '500px';
                 @endphp
                 <x-adminlte-button id="btnTambah" class="btn-sm" theme="success" label="Tambah Tarif" icon="fas fa-plus" />
                 <a href="{{ route('tarifexport') }}" class="btn btn-sm btn-primary"><i class="fas fa-print"></i> Export</a>
-                {{-- <div class="btn btn-sm btn-primary btnModalImport"><i class="fas fa-file-medical"></i> Import</div> --}}
+                <div class="btn btn-sm btn-primary btnModalImport"><i class="fas fa-file-medical"></i> Import</div>
                 <x-adminlte-datatable id="table1" :heads="$heads" :config="$config" bordered hoverable compressed>
                     @foreach ($tarifs as $item)
                         <tr>
-                            <td>{{ $item->id }}</td>
+                            <td>{{ $loop->iteration }}</td>
                             <td>{{ $item->nama }}</td>
                             <td>{{ $item->klasifikasi }}</td>
                             <td>{{ money($item->harga, 'IDR') }}</td>
@@ -85,8 +85,9 @@
             <x-adminlte-button theme="danger" icon="fas fa-times" label="Kembali" data-dismiss="modal" />
         </x-slot>
     </x-adminlte-modal>
-    <x-adminlte-modal id="modalImport" title="Import Obat" icon="fas fa-pills" theme="success" static-backdrop>
-        <form action="{{ route('obatimport') }}" id="formImport" name="formImport" method="POST"
+    <x-adminlte-modal id="modalImport" title="Import Tarif" icon="fas fa-file-invoice-dollar" theme="success"
+        static-backdrop>
+        <form action="{{ route('tarifimport') }}" id="formImport" name="formImport" method="POST"
             enctype="multipart/form-data">
             @csrf
             <x-adminlte-input-file name="file" placeholder="Pilih file Import" igroup-size="sm"
@@ -146,11 +147,11 @@
                 $('#method').val('PUT');
                 $('#formTarif').submit();
             });
-            // $('.btnModalImport').click(function() {
-            //     $.LoadingOverlay("show");
-            //     $('#modalImport').modal('show');
-            //     $.LoadingOverlay("hide");
-            // });
+            $('.btnModalImport').click(function() {
+                $.LoadingOverlay("show");
+                $('#modalImport').modal('show');
+                $.LoadingOverlay("hide");
+            });
             // $('.btnDelete').click(function(e) {
             //     e.preventDefault();
             //     var name = $(this).data("name");

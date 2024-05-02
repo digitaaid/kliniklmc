@@ -6,19 +6,22 @@ use App\Models\Tarif;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Concerns\ToCollection;
+use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
-class TarifImport implements ToCollection
+class TarifImport implements ToCollection, WithHeadingRow
 {
     public function collection(Collection $rows)
     {
         foreach ($rows as $row) {
             Tarif::updateOrCreate([
-                'nama' => $row[0],
-                'jenispasien' => strtoupper($row[3]),
+                'nama' => $row['nama'],
+                'jenispasien' => strtoupper($row['jenispasien']),
             ], [
-                'klasifikasi' => $row[1],
-                'harga' => $row[2],
-                'user' => Auth::user()->id,
+                'klasifikasi' => $row['klasifikasi'],
+                'harga' => $row['harga'] ?? 0,
+                'user' => $row['user'],
+                'created_at' => $row['created_at'],
+                'updated_at' => $row['updated_at'],
             ]);
         }
     }

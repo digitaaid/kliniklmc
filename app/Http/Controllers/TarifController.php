@@ -172,4 +172,10 @@ class TarifController extends APIController
         $time = now()->format('Y-m-d');
         return Excel::download(new TarifExport, 'tarif_backup_' . $time . '.xlsx');
     }
+    public function tarifimport(Request $request)
+    {
+        Excel::import(new TarifImport, $request->file);
+        Alert::success('Success', 'Import Tarif Berhasil.');
+        return redirect()->route('tarif.index');
+    }
 }
