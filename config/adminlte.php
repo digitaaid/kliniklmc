@@ -336,7 +336,7 @@ return [
                     'can' => ['rekammedis', 'pendaftaran'],
                 ],
                 [
-                    'text' => 'Pelayanan Pendaftaran',
+                    'text' => 'Pendaftaran Rawat Jalan',
                     'icon'    => 'fas fa-users',
                     'shift'   => 'ml-2',
                     'url'  => 'antrianpendaftaran',

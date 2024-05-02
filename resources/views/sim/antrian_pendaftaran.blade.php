@@ -1,12 +1,12 @@
 @extends('adminlte::page')
-@section('title', 'Antrian Pendaftaran')
+@section('title', 'Pendaftaran Rawat Jalan')
 @section('content_header')
-    <h1>Antrian Pendaftaran</h1>
+    <h1>Pendaftaran Rawat Jalan</h1>
 @stop
 @section('content')
     <div class="row">
-        <div class="col-md-12">
-            @if (isset($antrians))
+        @if (isset($antrians))
+            <div class="col-md-12">
                 <div class="row">
                     <div class="col-md-3">
                         <x-adminlte-small-box
@@ -28,11 +28,11 @@
                             theme="danger" icon="fas fa-user-injured" />
                     </div>
                 </div>
-            @endif
-        </div>
-
+            </div>
+        @endif
         <div class="col-md-12">
-            <x-adminlte-card title="Data Antrian Pendaftaran" theme="secondary" icon="fas fa-info-circle" collapsible>
+            <x-adminlte-card title="Antrian Pendaftaran Rawat Jalan" theme="secondary" icon="fas fa-info-circle"
+                collapsible>
                 <div class="row">
                     <div class="col-md-4">
                         <form action="" method="get">
@@ -79,17 +79,23 @@
                     $heads = [
                         'No',
                         'Kodebooking',
+                        'No RM',
+                        'Nama Pasien',
                         'Action',
-                        'Pasien',
-                        'Kartu BPJS',
-                        'Unit / Dokter',
-                        'Jenis Pasien',
-                        'Method',
                         'Taskid',
+                        'Jenis Pasien',
+                        'Layanan',
+                        'Unit',
+                        'PIC',
+                        'Dokter',
+                        'Kartu BPJS',
+                        'NIK',
+                        'Method',
                         'Status',
                     ];
                     $config['order'] = [8, 'asc'];
                     $config['paging'] = false;
+                    $config['scrollX'] = true;
                     $config['scrollY'] = '300px';
                 @endphp
                 <x-adminlte-datatable id="table1" class="nowrap" :heads="$heads" :config="$config" bordered hoverable
@@ -99,6 +105,8 @@
                             <tr>
                                 <td>{{ $item->angkaantrean }}</td>
                                 <td>{{ $item->kodebooking }}</td>
+                                <td>{{ $item->norm }}</td>
+                                <td>{{ $item->nama }}</td>
                                 <td>
                                     @switch($item->taskid)
                                         @case(1)
@@ -117,13 +125,7 @@
                                             <a href="{{ route('lihatpendaftaran') }}?kodebooking={{ $item->kodebooking }}"
                                                 class="btn btn-xs btn-secondary withLoad">Lihat</a>
                                     @endswitch
-
                                 </td>
-                                <td>{{ $item->norm }} {{ $item->nama }}</td>
-                                <td>{{ $item->nomorkartu }}</td>
-                                <td>{{ $item->kodepoli }} / {{ $item->namadokter }}</td>
-                                <td>{{ $item->jenispasien }} </td>
-                                <td>{{ $item->method }} </td>
                                 <td>
                                     @switch($item->taskid)
                                         @case(0)
@@ -168,6 +170,14 @@
                                             {{ $item->taskid }}
                                     @endswitch
                                 </td>
+                                <td>{{ $item->jenispasien }} </td>
+                                <td class="text-right">{{ money($item->layanans->sum('harga'), 'IDR') }} </td>
+                                <td>{{ $item->kunjungan->units->nama ?? $item->namapoli }} </td>
+                                <td>{{ $item->pic1->name }} </td>
+                                <td>{{ $item->kunjungan->dokters->namadokter ?? $item->namadokter }}</td>
+                                <td>{{ $item->nomorkartu }}</td>
+                                <td>{{ $item->nik }} </td>
+                                <td>{{ $item->method }} </td>
                                 <td>{{ $item->status }} </td>
                             </tr>
                         @endforeach

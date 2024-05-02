@@ -19,13 +19,14 @@ use RealRashid\SweetAlert\Facades\Alert;
 
 class PerawatController extends Controller
 {
-    // perawat
     public function antrianperawat(Request $request)
     {
         $antrians = null;
         $antrian_asesmen = null;
         if ($request->tanggalperiksa) {
-            $antrians = Antrian::where('tanggalperiksa', $request->tanggalperiksa)->where('taskid', '!=', 99)->get();
+            $antrians = Antrian::where('tanggalperiksa', $request->tanggalperiksa)->where('taskid', '!=', 99)
+                ->with(['kunjungan', 'kunjungan.units', 'kunjungan.dokters', 'pic2','asesmenperawat', 'layanans'])
+                ->get();
             $antrian_asesmen = Antrian::where('tanggalperiksa', $request->tanggalperiksa)->whereHas('asesmenperawat')->count();
         }
         if ($request->pencarian) {
@@ -33,7 +34,9 @@ class PerawatController extends Controller
                 'pencarian' => 'required|min:3',
             ]);
             $antrians = Antrian::where('norm', $request->pencarian)
-                ->orWhere('nama', 'LIKE', '%' . $request->pencarian . '%')->get();
+                ->orWhere('nama', 'LIKE', '%' . $request->pencarian . '%')
+                ->with(['kunjungan', 'kunjungan.units', 'kunjungan.dokters', 'pic2','asesmenperawat', 'layanans'])
+                ->get();
             $antrian_asesmen = Antrian::where('norm', $request->pencarian)
                 ->orWhere('nama', 'LIKE', '%' . $request->pencarian . '%')
                 ->whereHas('asesmenperawat')->count();

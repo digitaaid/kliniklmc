@@ -142,14 +142,18 @@ class PendaftaranController extends APIController
         $dokters = Dokter::where('status', '1')->pluck('namadokter', 'kodedokter');
         $polikliniks = Poliklinik::where('status', '1')->pluck('namasubspesialis', 'kodesubspesialis');
         if ($request->tanggalperiksa) {
-            $antrians = Antrian::where('tanggalperiksa', $request->tanggalperiksa)->get();
+            $antrians = Antrian::where('tanggalperiksa', $request->tanggalperiksa)
+                ->with(['kunjungan', 'kunjungan.units', 'kunjungan.dokters', 'pic1', 'layanans'])
+                ->get();
         }
         if ($request->pencarian) {
             $request->validate([
                 'pencarian' => 'required|min:3',
             ]);
             $antrians = Antrian::where('norm', $request->pencarian)
-                ->orWhere('nama', 'LIKE', '%' . $request->pencarian . '%')->get();
+                ->orWhere('nama', 'LIKE', '%' . $request->pencarian . '%')
+                ->with(['kunjungan', 'kunjungan.units', 'kunjungan.dokters', 'pic1', 'layanans'])
+                ->get();
         }
         return view('sim.antrian_pendaftaran', compact([
             'request',

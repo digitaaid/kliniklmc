@@ -5,16 +5,16 @@
 @stop
 @section('content')
     <div class="row">
-        <div class="col-md-12">
-            @if (isset($antrians))
+        @if (isset($antrians))
+            <div class="col-md-12">
                 <div class="row">
                     <div class="col-md-3">
                         <x-adminlte-small-box
                             title="{{ $antrians->where('taskid', '>=', 2)->where('taskid', '!=', 99)->count() - $antrian_asesmen }}"
-                            text="Belum Asesmen Perawat" theme="warning" icon="fas fa-user-injured" />
+                            text="Belum Asesmen Perawat" theme="danger" icon="fas fa-user-injured" />
                     </div>
                     <div class="col-md-3">
-                        <x-adminlte-small-box title="{{ $antrian_asesmen }}" text="Sudah Asesmen Perawat" theme="primary"
+                        <x-adminlte-small-box title="{{ $antrian_asesmen }}" text="Sudah Asesmen Perawat" theme="warning"
                             icon="fas fa-user-injured" />
                     </div>
                     <div class="col-md-3">
@@ -23,8 +23,8 @@
                             text="Total Antrian" theme="success" icon="fas fa-user-injured" />
                     </div>
                 </div>
-            @endif
-        </div>
+            </div>
+        @endif
         <div class="col-md-12">
             <x-adminlte-card title="Data Antrian Asesmen Perawat" theme="secondary" icon="fas fa-info-circle" collapsible>
                 <div class="row">
@@ -70,9 +70,23 @@
                     </div>
                 </div>
                 @php
-                    $heads = ['Tanggal', 'No', 'No RM', 'Pasien', 'Action', 'Jenis Pasien', 'Unit ', ' Dokter', 'Taskid', 'Asesment'];
-                    $config['order'] = [[6, 'asc'], [7, 'asc']];
+                    $heads = [
+                        'Tanggal',
+                        'No',
+                        'No RM',
+                        'Nama Pasien',
+                        'Action',
+                        'Taskid',
+                        'Asesment',
+                        'Jenis Pasien',
+                        'Layanan',
+                        'Unit ',
+                        'PIC ',
+                        'Dokter',
+                    ];
+                    $config['order'] = [[5, 'asc'], [6, 'asc']];
                     $config['paging'] = false;
+                    $config['scrollX'] = true;
                     $config['scrollY'] = '300px';
                 @endphp
                 <x-adminlte-datatable id="table1" class="nowrap" :heads="$heads" :config="$config" bordered hoverable
@@ -95,9 +109,6 @@
                                         @endif
                                     @endif
                                 </td>
-                                <td>{{ $item->jenispasien }} </td>
-                                <td>{{ $item->kunjungan ? $item->kunjungan->units->nama : '-' }}</td>
-                                <td>{{ $item->namadokter }}</td>
                                 <td>
                                     @switch($item->taskid)
                                         @case(0)
@@ -147,6 +158,12 @@
                                         <span class="badge badge-danger">0. Belum Asesmen</span>
                                     @endif
                                 </td>
+                                <td>{{ $item->jenispasien }} </td>
+                                <td class="text-right">{{ money($item->layanans->sum('harga'), 'IDR') }} </td>
+                                <td>{{ $item->kunjungan->units->nama ?? $item->namapoli }} </td>
+                                <td>{{ $item->pic2->name }} </td>
+                                <td>{{ $item->kunjungan->dokters->namadokter ?? $item->namadokter }}</td>
+
                             </tr>
                         @endforeach
                     @endif

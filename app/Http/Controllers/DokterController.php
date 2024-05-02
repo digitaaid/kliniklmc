@@ -83,44 +83,46 @@ class DokterController extends Controller
     // poliklinik
     public function antrianpoliklinik(Request $request)
     {
-        $antrians = [];
+        $antrians = null;
         if ($request->tanggalperiksa) {
-            $antrians = Antrian::where('tanggalperiksa', $request->tanggalperiksa)->where('taskid', '!=', 99)->where('taskid', '>', 2)->get();
+            $antrians = Antrian::where('tanggalperiksa', $request->tanggalperiksa)
+                ->where('taskid', '!=', 99)
+                ->where('taskid', '>', 2)
+                ->with(['kunjungan', 'kunjungan.units', 'kunjungan.dokters', 'pic3','asesmendokter', 'layanans'])
+                ->get();
         }
         if ($request->pencarian) {
             $request->validate([
                 'pencarian' => 'required|min:3',
             ]);
             $antrians = Antrian::where('norm', $request->pencarian)
-                ->orWhere('nama', 'LIKE', '%' . $request->pencarian . '%')->get();
+                ->orWhere('nama', 'LIKE', '%' . $request->pencarian . '%')
+                ->where('taskid', '!=', 99)
+                ->with(['kunjungan', 'kunjungan.units', 'kunjungan.dokters', 'pic3','asesmendokter', 'layanans'])
+                ->get();
         }
-        $now = now()->format('Y-m-d');
-        $sedang_antrian = Antrian::where('tanggalperiksa', $now)
-            ->where('taskid', '!=', 99)
-            ->where('taskid', 4)->first();
-        $sisa_antrian = Antrian::where('tanggalperiksa', $now)
-            ->where('taskid', '!=', 99)
-            ->where('taskid', '>=', 2)
-            ->where('taskid', '<=', 3)->count();
-        $total_antrian = Antrian::where('tanggalperiksa', $now)
-            ->where('taskid', '!=', 99)
-            ->where('taskid', '>=', 2)->count();
+        // $now = now()->format('Y-m-d');
+        // $sedang_antrian = Antrian::where('tanggalperiksa', $now)
+        //     ->where('taskid', '!=', 99)
+        //     ->where('taskid', 4)->first();
+        // $sisa_antrian = Antrian::where('tanggalperiksa', $now)
+        //     ->where('taskid', '!=', 99)
+        //     ->where('taskid', '>=', 2)
+        //     ->where('taskid', '<=', 3)->count();
+        // $total_antrian = Antrian::where('tanggalperiksa', $now)
+        //     ->where('taskid', '!=', 99)
+        //     ->where('taskid', '>=', 2)->count();
         return view('sim.antrian_poliklinik', compact([
             'request',
             'antrians',
-            'sedang_antrian',
-            'sisa_antrian',
-            'total_antrian',
         ]));
     }
     public function prosespoliklinik(Request $request)
     {
         $antrian = Antrian::where('kodebooking', $request->kodebooking)->first();
-        $pasien = $antrian->pasien;
-        $urlicare = null;
-        $messageicare = null;
-        $jaminans = Jaminan::pluck('nama', 'kode');
         if ($antrian) {
+            $pasien = $antrian->pasien;
+            $jaminans = Jaminan::pluck('nama', 'kode');
             try {
                 if ($antrian->taskid == 3) {
                     // $api = new AntrianController();
@@ -161,8 +163,6 @@ class DokterController extends Controller
                     'request',
                     'jaminans',
                     'antrian',
-                    'urlicare',
-                    'messageicare',
                     'kunjungan',
                     'kunjungans',
                     'pemeriksaanlab',
