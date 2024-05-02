@@ -9,7 +9,8 @@
         compressed>
     </x-adminlte-datatable>
     <x-slot name="footerSlot">
-        <x-adminlte-button theme="success" class="mr-auto btnUploadFile" icon="fas fa-upload" label="Upload File" />
+        <x-adminlte-button theme="success" class="mr-auto" onclick="btnUploadFile()" icon="fas fa-upload"
+            label="Upload File" />
         <x-adminlte-button theme="danger" icon="fas fa-times" label="Kembali" data-dismiss="modal" />
     </x-slot>
 </x-adminlte-modal>
@@ -63,74 +64,76 @@
 </x-adminlte-modal>
 @push('js')
     <script>
-        $(function() {
-            $('.btnFileUplpad').click(function() {
-                $.LoadingOverlay("show");
-                $('#modalFileUpload').modal('show');
-                var table = $('#tableFile').DataTable();
-                table.rows().remove().draw();
-                var url = "{{ route('fileupload_norm') }}?norm={{ $antrian->norm }}";
-                $.ajax({
-                    url: url,
-                    type: "GET",
-                    dataType: 'json',
-                    success: function(data) {
-                        if (data.metadata.code == 200) {
-                            $.each(data.response, function(key, value) {
-                                console.log(value);
-                                var btn =
-                                    '<button class="btnLihatFile btn btn-success btn-xs mr-1" data-fileurl="' +
-                                    value.fileurl +
-                                    '">Lihat</button>';
-                                table.row.add([
-                                    value.updated_at,
-                                    value.norm + " " + value.namapasien,
-                                    value.nama,
-                                    value.label,
-                                    btn,
-                                ]).draw(false);
-                            });
-                            $('.btnLihatFile').click(function() {
-                                $.LoadingOverlay("show");
-                                $('#frameFileUpload').attr('src', $(this).data(
-                                    'fileurl'));
-                                $('#urlFileUpload').attr('href', $(this).data(
-                                    'fileurl'));
-                                $('#lihatFileUpload').modal('show');
-                                $.LoadingOverlay("hide");
-                            });
-                            // $('.btnHapusSEP').click(function() {
-                            //     $.LoadingOverlay("show");
-                            //     var nomorsep = $(this).data('id');
-                            //     var url = "{{ route('sep_hapus') }}?noSep=" +
-                            //         nomorsep;
-                            //     window.location.href = url;
-                            // });
-                        } else {
-                            Swal.fire(
-                                'Error ' + data.metadata.code,
-                                data.metadata.message,
-                                'error'
-                            );
-                        }
-                        $.LoadingOverlay("hide");
-                    },
-                    error: function(data) {
-                        alert('Error');
-                        $.LoadingOverlay("hide");
+        function btnFileUplpad() {
+            $.LoadingOverlay("show");
+            $('#modalFileUpload').modal('show');
+            var table = $('#tableFile').DataTable();
+            table.rows().remove().draw();
+            var url = "{{ route('fileupload_norm') }}?norm={{ $antrian->norm }}";
+            $.ajax({
+                url: url,
+                type: "GET",
+                dataType: 'json',
+                success: function(data) {
+                    if (data.metadata.code == 200) {
+                        $.each(data.response, function(key, value) {
+                            console.log(value);
+                            var btn =
+                                '<button onclick="btnLihatFile(this)" class="btn btn-success btn-xs mr-1" data-fileurl="' +
+                                value.fileurl +
+                                '">Lihat</button>';
+                            table.row.add([
+                                value.updated_at,
+                                value.norm + " " + value.namapasien,
+                                value.nama,
+                                value.label,
+                                btn,
+                            ]).draw(false);
+                        });
+
+                        // $('.btnHapusSEP').click(function() {
+                        //     $.LoadingOverlay("show");
+                        //     var nomorsep = $(this).data('id');
+                        //     var url = "{{ route('sep_hapus') }}?noSep=" +
+                        //         nomorsep;
+                        //     window.location.href = url;
+                        // });
+                    } else {
+                        Swal.fire(
+                            'Error ' + data.metadata.code,
+                            data.metadata.message,
+                            'error'
+                        );
                     }
-                });
+                    $.LoadingOverlay("hide");
+                },
+                error: function(data) {
+                    alert('Error');
+                    $.LoadingOverlay("hide");
+                }
             });
-            $('.btnUploadFile').click(function() {
-                $.LoadingOverlay("show");
-                $('#inputFileUpload').modal('show');
-                $.LoadingOverlay("hide");
-            });
-            $('.btnFilePenunjang').click(function() {
-                $('#dataFilePenunjang').attr('src', $(this).data('fileurl'));
-                $('#urlFilePenunjang').attr('href', $(this).data('fileurl'));
-                $('#modalFilePenunjang').modal('show');
-            });
-        });
+
+        }
+
+        function btnUploadFile() {
+            $.LoadingOverlay("show");
+            $('#inputFileUpload').modal('show');
+            $.LoadingOverlay("hide");
+        }
+
+        function btnLihatFile(button) {
+            $.LoadingOverlay("show");
+            $('#frameFileUpload').attr('src', $(button).data('fileurl'));
+            $('#urlFileUpload').attr('href', $(button).data('fileurl'));
+            $('#lihatFileUpload').modal('show');
+            $.LoadingOverlay("hide");
+
+        }
+
+        function btnFilePenunjang() {
+            $('#dataFilePenunjang').attr('src', $(this).data('fileurl'));
+            $('#urlFilePenunjang').attr('href', $(this).data('fileurl'));
+            $('#modalFilePenunjang').modal('show');
+        }
     </script>
 @endpush

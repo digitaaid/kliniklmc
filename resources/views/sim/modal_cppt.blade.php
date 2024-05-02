@@ -22,16 +22,6 @@
                 }
             </style>
             @include('form.cppt')
-            <x-adminlte-modal id="modalFilePenunjang" name="modalFilePenunjang" title="File Penunjang" theme="success"
-                icon="fas fa-file-medical" size="xl">
-                <iframe id="dataFilePenunjang" src="" height="600px" width="100%"
-                    title="Iframe Example"></iframe>
-                <x-slot name="footerSlot">
-                    <a href="" id="urlFilePenunjang" target="_blank" class="btn btn-primary mr-auto">
-                        <i class="fas fa-download "></i>Download</a>
-                    <x-adminlte-button theme="danger" label="Dismiss" data-dismiss="modal" />
-                </x-slot>
-            </x-adminlte-modal>
         </div>
     </div>
 </div>

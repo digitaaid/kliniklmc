@@ -160,6 +160,7 @@ class PendaftaranController extends APIController
     }
     public function prosespendaftaran(Request $request)
     {
+        $pasiencount = Pasien::where('status', 1)->count();
         $antrian = Antrian::with(['kunjungan', 'pasien'])->where('kodebooking', $request->kodebooking)->first();
         if ($antrian) {
             $pasien = $antrian->pasien;
@@ -195,6 +196,7 @@ class PendaftaranController extends APIController
             }
             return view('sim.antrian_pendaftaran_proses', compact([
                 'request',
+                'pasiencount',
                 'antrian',
                 'pasien',
                 'kunjungans',

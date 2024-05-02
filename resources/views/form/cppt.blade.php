@@ -209,7 +209,7 @@
                             @if ($kunjungan->files->count() != 0)
                                 <b>Berkas Penunjang</b><br>
                                 @foreach ($kunjungan->files as $file)
-                                    <button class="btn btn-xs btn-primary m-1 btnFilePenunjang"
+                                    <button class="btn btn-xs btn-primary m-1" onclick="btnLihatFile(this)"
                                         data-nama="{{ $file->nama }}" data-fileurl="{{ $file->fileurl }}"><i
                                             class="fas fa-file-medical"></i>
                                         {{ $file->nama }}</button>

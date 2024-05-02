@@ -17,22 +17,18 @@ return new class extends Migration
             $table->string('kodekunjungan');
             $table->string('antrian_id');
             $table->string('kodebooking');
-            $table->string('dokter');
-
             $table->string('kode');
+            $table->string('dokter');
             $table->string('berat_badan')->nullable();
             $table->string('tinggi_badan')->nullable();
             $table->string('bsa')->nullable();
-
             $table->datetime('waktu');
             $table->string('norm');
             $table->string('nama');
             $table->string('tgl_lahir');
             $table->string('gender');
-
             $table->string('pic')->nullable();
             $table->string('user')->nullable();
-
             $table->string('status');
             $table->timestamps();
         });

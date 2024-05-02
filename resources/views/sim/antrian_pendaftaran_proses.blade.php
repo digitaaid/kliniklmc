@@ -88,16 +88,18 @@
                             @endif
                         </a>
                     </li>
-                    <li class="nav-item" onclick="modalKunjungan()">
-                        <a href="#nav" class="nav-link">
-                            <i class="fas fa-user-plus"></i> Kunjungan
-                            @if ($antrian->kunjungan)
-                                <span class="badge bg-success float-right">Sudah Didaftarkan</span>
-                            @else
-                                <span class="badge bg-danger float-right">Belum Kunjungan</span>
-                            @endif
-                        </a>
-                    </li>
+                    @if ($antrian->norm)
+                        <li class="nav-item" onclick="modalKunjungan()">
+                            <a href="#nav" class="nav-link">
+                                <i class="fas fa-user-plus"></i> Kunjungan
+                                @if ($antrian->kunjungan)
+                                    <span class="badge bg-success float-right">Sudah Didaftarkan</span>
+                                @else
+                                    <span class="badge bg-danger float-right">Belum Kunjungan</span>
+                                @endif
+                            </a>
+                        </li>
+                    @endif
                     @if ($antrian->kunjungan)
                         <li class="nav-item" onclick="modalCPPT()">
                             <a href="#nav" class="nav-link">
@@ -126,31 +128,34 @@
                             </a>
                         </li>
                     @endif
-                    <li class="nav-item" onclick="modalPasien()">
-                        <a href="#nav" class="nav-link">
-                            <i class="fas fa-user-injured"></i> Berkas Upload
-                        </a>
-                    </li>
-                    <li class="nav-item" onclick="cariRujukanFktp()">
-                        <a href="#nav" class="nav-link">
-                            <i class="fas fa-user-injured"></i> Rujukan FKTP
-                        </a>
-                    </li>
-                    <li class="nav-item" onclick="cariRujukanRS()">
-                        <a href="#nav" class="nav-link">
-                            <i class="fas fa-user-injured"></i> Rujukan Antar RS
-                        </a>
-                    </li>
-                    <li class="nav-item" onclick="cariSEP()">
-                        <a href="#nav" class="nav-link">
-                            <i class="fas fa-user-injured"></i> SEP
-                        </a>
-                    </li>
-                    <li class="nav-item" onclick="cariSuratKontrol()">
-                        <a href="#nav" class="nav-link">
-                            <i class="fas fa-user-injured"></i> Surat Kontrol
-                        </a>
-                    </li>
+                    @if ($antrian->norm)
+                        <li class="nav-item" onclick="btnFileUplpad()">
+                            <a href="#nav" class="nav-link">
+                                <i class="fas fa-file-medical"></i> Berkas Upload
+                            </a>
+                        </li>
+                        <li class="nav-item" onclick="cariRujukanFktp()">
+                            <a href="#nav" class="nav-link">
+                                <i class="fas fa-user-injured"></i> Rujukan FKTP
+                            </a>
+                        </li>
+                        <li class="nav-item" onclick="cariRujukanRS()">
+                            <a href="#nav" class="nav-link">
+                                <i class="fas fa-user-injured"></i> Rujukan Antar RS
+                            </a>
+                        </li>
+                        <li class="nav-item" onclick="cariSEP()">
+                            <a href="#nav" class="nav-link">
+                                <i class="fas fa-user-injured"></i> SEP
+                            </a>
+                        </li>
+                        <li class="nav-item" onclick="cariSuratKontrol()">
+                            <a href="#nav" class="nav-link">
+                                <i class="fas fa-user-injured"></i> Surat Kontrol
+                            </a>
+                        </li>
+                    @endif
+
                 </ul>
             </x-adminlte-card>
         </div>
@@ -250,6 +255,7 @@
                             </div>
                         @endif
                         @include('sim.modal_pasien')
+                        @include('sim.modal_fileupload')
                         @include('sim.modal_suratkontrol')
                     </div>
                 </div>
@@ -277,19 +283,22 @@
 @section('plugins.Select2', true)
 @section('plugins.BsCustomFileInput', true)
 @section('js')
+    {{-- toast --}}
+    <script>
+        const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 5000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+        });
+    </script>
     <script>
         $(function() {
-            const Toast = Swal.mixin({
-                toast: true,
-                position: 'top-end',
-                showConfirmButton: false,
-                timer: 5000,
-                timerProgressBar: true,
-                didOpen: (toast) => {
-                    toast.addEventListener('mouseenter', Swal.stopTimer)
-                    toast.addEventListener('mouseleave', Swal.resumeTimer)
-                }
-            });
             $('.btnCariKartu').click(function() {
                 $.LoadingOverlay("show");
                 var nomorkartu = $(".nomorkartu-id").val();
@@ -634,14 +643,4 @@
             $(this).parents("#row").remove();
         })
     </script>
-    <script>
-        $(function() {
-            $('.btnFilePenunjang').click(function() {
-                $('#dataFilePenunjang').attr('src', $(this).data('fileurl'));
-                $('#urlFilePenunjang').attr('href', $(this).data('fileurl'));
-                $('#modalFilePenunjang').modal('show');
-            });
-        });
-    </script>
-    @include('sim.tabel_fileupload')
 @endsection
