@@ -100,10 +100,85 @@ class PasienController extends APIController
             ->orWhere('nama', 'LIKE', "%{$request->search}%")
             ->orWhere('nomorkartu', 'LIKE', "%{$request->search}%")
             ->orWhere('nik', 'LIKE', "%{$request->search}%")
-            ->limit(20)
+            ->limit(10)
             ->get();
+        $pasiens = $pasiens->where('status', 1);
         return $this->sendResponse($pasiens, 200);
     }
+    public function cari_pasien_nomorkartu(Request $request)
+    {
+        $api  =  new VclaimController();
+        $res = $api->peserta_nomorkartu($request);
+        if ($res->metadata->code == 200) {
+            $pasien = Pasien::where('nomorkartu', $request->nomorkartu)->where('status', 1)->first();
+            if ($pasien) {
+                $data['nomorkartu'] = $res->response->peserta->noKartu;
+                $data['norm'] = $pasien->norm;
+                $data['nik'] = $res->response->peserta->nik;
+                $data['tgllahir'] = $res->response->peserta->tglLahir;
+                $data['nama'] = $pasien->nama;
+                $data['gender'] = $pasien->gender;
+                $data['penjamin'] = $res->response->peserta->jenisPeserta->keterangan;
+                $data['kelas'] = $res->response->peserta->hakKelas->kode;
+                $data['nohp'] = $pasien->nohp;
+                return $this->sendResponse($data, 200);
+            } else {
+                return $this->sendError('Pasien Belum Memiliki RM, Silahkan daftarkan terlebih dahulu', 400);
+            }
+        } else {
+            return $res;
+        }
+    }
+    public function cari_pasien_nik(Request $request)
+    {
+        $api  =  new VclaimController();
+        $res = $api->peserta_nik($request);
+        if ($res->metadata->code == 200) {
+            $pasien = Pasien::where('nik', $request->nik)->where('status', 1)->first();
+            if ($pasien) {
+                $data['nomorkartu'] = $res->response->peserta->noKartu;
+                $data['norm'] = $pasien->norm;
+                $data['nik'] = $res->response->peserta->nik;
+                $data['tgllahir'] = $res->response->peserta->tglLahir;
+                $data['nama'] = $pasien->nama;
+                $data['gender'] = $pasien->gender;
+                $data['penjamin'] = $res->response->peserta->jenisPeserta->keterangan;
+                $data['kelas'] = $res->response->peserta->hakKelas->kode;
+                $data['nohp'] = $pasien->nohp;
+                return $this->sendResponse($data, 200);
+            } else {
+                return $this->sendError('Pasien Belum Memiliki RM, Silahkan daftarkan terlebih dahulu', 400);
+            }
+        } else {
+            return $res;
+        }
+    }
+    public function cari_pasien_norm(Request $request)
+    {
+        $pasien = Pasien::where('norm', $request->norm)->where('status', 1)->first();
+        if ($pasien) {
+            $request['nik'] = $pasien->nik;
+            $api  =  new VclaimController();
+            $res = $api->peserta_nik($request);
+            if ($res->metadata->code == 200) {
+                $data['nomorkartu'] = $res->response->peserta->noKartu;
+                $data['norm'] = $pasien->norm;
+                $data['nik'] = $res->response->peserta->nik;
+                $data['tgllahir'] = $res->response->peserta->tglLahir;
+                $data['nama'] = $pasien->nama;
+                $data['gender'] = $pasien->gender;
+                $data['penjamin'] = $res->response->peserta->jenisPeserta->keterangan;
+                $data['kelas'] = $res->response->peserta->hakKelas->kode;
+                $data['nohp'] = $pasien->nohp;
+                return $this->sendResponse($data, 200);
+            } else {
+                return $res;
+            }
+        } else {
+            return $this->sendError('No Rekam Medis Tidak Ditemukan, Silahkan daftarkan terlebih dahulu', 400);
+        }
+    }
+
     public function destroy($id, Request $request)
     {
         $pasien = Pasien::find($id);
@@ -122,8 +197,8 @@ class PasienController extends APIController
     public function pasienimport(Request $request)
     {
         set_time_limit(300);
-            Excel::import(new PasienFileImport, $request->file);
-            Alert::success('Success', 'Import Pasien Berhasil.');
+        Excel::import(new PasienFileImport, $request->file);
+        Alert::success('Success', 'Import Pasien Berhasil.');
 
         return redirect()->route('pasien.index');
     }

@@ -10,6 +10,7 @@
             www.luthfimedicalcenter.com - Whatasapp 0823 1169 6919 - Call Center (0231) 8850943
         </td>
         <td width="10%" class="text-center">
+            <img src="{{ public_path('img/bpjs.png') }}" style="height: 40px">
         </td>
     </tr>
 </table>

@@ -6,25 +6,25 @@
 @section('content')
     <div class="row">
         <div class="col-md-12">
+            @if ($errors->any())
+                <x-adminlte-alert title="Ops Terjadi Masalah !" theme="danger" dismissable>
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </x-adminlte-alert>
+            @endif
             <x-adminlte-card theme="primary" theme-mode="outline">
-                @if ($errors->any())
-                    <x-adminlte-alert title="Ops Terjadi Masalah !" theme="danger" dismissable>
-                        <ul>
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </x-adminlte-alert>
-                @endif
                 <a href="{{ route('antrianpoliklinik') }}?tanggalperiksa={{ $antrian->tanggalperiksa }}"
-                    class="btn btn-danger btn-sm mb-2 mr-1 withLoad">
+                    class="btn btn-danger btn-xs mb-2 mr-1 withLoad">
                     <i class="fas fa-arrow-left"></i> Kembali
                 </a>
                 <a href="{{ route('panggilpendaftaran') }}?kodebooking={{ $antrian->kodebooking }}"
-                    class="btn btn-primary btn-sm mb-2 mr-1 withLoad">
+                    class="btn btn-primary btn-xs mb-2 mr-1 withLoad">
                     <i class="fas fa-sync"></i> Panggil
                 </a>
-                <div class="btn btn-sm btn-{{ $antrian->taskid == 5 ? 'success' : 'secondary' }} mb-2 mr-1">
+                <div class="btn btn-xs btn-{{ $antrian->taskid == 5 ? 'success' : 'secondary' }} mb-2 mr-1">
                     <i class="fas fa-{{ $antrian->taskid == 5 ? 'check-circle' : 'info-circle' }}"></i>
                     Status Antrian :
                     @switch($antrian->taskid)
@@ -139,7 +139,8 @@
                         </li>
                     </ul>
                     <x-slot name="footerSlot">
-                        <x-adminlte-button label="Selesai Pelayanan" class="btn-sm" icon="fas fa-user-md" theme="success" onclick="modalSelesaiRajal()" />
+                        <x-adminlte-button label="Selesai Pelayanan" class="btn-sm" icon="fas fa-user-md" theme="success"
+                            onclick="modalSelesaiRajal()" />
                         <a href="{{ route('batalantrian') }}?kodebooking={{ $antrian->kodebooking }}&keterangan=Dibatalkan dipendaftaran {{ Auth::user()->name }}"
                             class="btn btn-sm btn-danger withLoad">
                             <i class="fas fa-times"></i> Batal

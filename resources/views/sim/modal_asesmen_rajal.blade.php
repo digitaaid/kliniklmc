@@ -95,7 +95,7 @@
                             </div>
                             <div class="col-md-2">
                                 <x-adminlte-input name="skala_nyeri" type="number" placeholder="Skala"
-                                    value="{{ $antrian->asesmenperawat->skala_nyeri ?? null }}" />
+                                    value="{{ $antrian->asesmenperawat->skala_nyeri ?? 0 }}" />
                             </div>
                             <div class="col-md-7">
                                 <x-adminlte-input name="keluhan_nyeri" placeholder="Keluhan Nyeri"
@@ -1044,6 +1044,19 @@
         <x-adminlte-button theme="danger" icon="fas fa-times" label="Kembali" data-dismiss="modal" />
     </x-slot>
 </x-adminlte-modal>
+<x-adminlte-modal id="modalPerawatSelesai" title="Verifikasi Asesmen Rajal" size="xl"
+    icon="fas fa-file-medical" theme="success">
+    @include('form.asesmen_rajal')
+    <x-slot name="footerSlot">
+        <a href="{{ route('antrianperawat') }}?tanggalperiksa={{ $antrian->tanggalperiksa }}"
+            class="btn btn-success withLoad">
+            <i class="fas fa-arrow-left"></i> Selesai & Kembali
+        </a>
+        <a href="{{ route('print_asesmen_rajal') }}?kodekunjungan={{ $antrian->kunjungan->kode }}"
+            class="btn btn-warning mr-auto" target="_blank"> <i class="fas fa-print"></i> Print</a>
+        <x-adminlte-button theme="danger" icon="fas fa-times" label="Kembali" data-dismiss="modal" />
+    </x-slot>
+</x-adminlte-modal>
 @push('js')
     {{-- index bsa --}}
     <script>
@@ -1203,6 +1216,12 @@
         function btnAsesmenRajal() {
             $.LoadingOverlay("show");
             $('#modalAsesmenRajal').modal('show');
+            $.LoadingOverlay("hide");
+        }
+
+        function modalPerawatSelesai() {
+            $.LoadingOverlay("show");
+            $('#modalPerawatSelesai').modal('show');
             $.LoadingOverlay("hide");
         }
     </script>

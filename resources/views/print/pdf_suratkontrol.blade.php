@@ -2,7 +2,7 @@
 @section('title', 'Print Surat Kontrol BPJS')
 
 @section('content')
-    @include('print.pdf_kop')
+    @include('print.pdf_kop_bpjs')
     <table class="table table-sm" style="font-size: 11px">
         <tr>
             <td width="100%" colspan="2" class="text-center">

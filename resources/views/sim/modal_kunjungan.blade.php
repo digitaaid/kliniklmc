@@ -67,7 +67,7 @@
                         igroup-size="sm" label="Nomor Kartu" value="{{ $antrian->nomorkartu }}"
                         placeholder="Nomor Kartu">
                         <x-slot name="appendSlot">
-                            <div class="btn btn-primary btnCariKartu">
+                            <div class="btn btn-primary" onclick="btnCariKartu()">
                                 <i class="fas fa-search"></i> Cari
                             </div>
                         </x-slot>
@@ -75,19 +75,25 @@
                     <x-adminlte-input name="nik" class="nik-id" enable-old-support fgroup-class="col-md-6"
                         igroup-size="sm" label="NIK" placeholder="NIK" value="{{ $antrian->nik }}">
                         <x-slot name="appendSlot">
-                            <div class="btn btn-primary btnCariNIK">
+                            <div class="btn btn-primary" onclick="btnCariNIK()">
                                 <i class="fas fa-search"></i> Cari
                             </div>
                         </x-slot>
                     </x-adminlte-input>
                     <x-adminlte-input name="norm" class="norm-id" label="No RM" enable-old-support
-                        fgroup-class="col-md-6" igroup-size="sm" placeholder="No RM" value="{{ $antrian->norm }}" />
+                        fgroup-class="col-md-6" igroup-size="sm" placeholder="No RM" value="{{ $antrian->norm }}">
+                        <x-slot name="appendSlot">
+                            <div class="btn btn-primary" onclick="btnCariRM()">
+                                <i class="fas fa-search"></i> Cari
+                            </div>
+                        </x-slot>
+                    </x-adminlte-input>
                     <x-adminlte-input name="nama" class="nama-id" label="Nama Pasien" enable-old-support
                         fgroup-class="col-md-6" igroup-size="sm" placeholder="Nama Pasien"
                         value="{{ $antrian->nama }}" />
                     <x-adminlte-input name="tgl_lahir" class="tgllahir-id" enable-old-support label="Tanggal Lahir"
-                        fgroup-class="col-md-6" value="{{ $antrian->kunjungan->tgl_lahir ?? null }}" igroup-size="sm"
-                        placeholder="Tanggal Lahir" />
+                        fgroup-class="col-md-6" value="{{ $antrian->kunjungan->tgl_lahir ?? null }}"
+                        igroup-size="sm" placeholder="Tanggal Lahir" />
                     <x-adminlte-input name="gender" class="gender-id" enable-old-support label="Jenis Kelamin"
                         fgroup-class="col-md-6" value="{{ $antrian->kunjungan->gender ?? null }}" igroup-size="sm"
                         placeholder="Jenis Kelamin" />
@@ -158,33 +164,32 @@
                         {{ $antrian->kunjungan ? ($antrian->kunjungan->cara_masuk == 'other' ? 'selected' : null) : null }}>
                         Lain-lain</option>
                 </x-adminlte-select>
-                <x-adminlte-select2 igroup-size="sm" name="diagnosa_awal" enable-old-support class="diagnosaid2"
+                <x-adminlte-select igroup-size="sm" name="diagnosa_awal" enable-old-support class="diagnosaid2"
                     label="Diagnosa Awal">
                     @if ($antrian->kunjungan)
                         <option value="{{ $antrian->kunjungan->diagnosa_awal }}">
                             {{ $antrian->kunjungan->diagnosa_awal }}
                         </option>
                     @endif
-                </x-adminlte-select2>
+                </x-adminlte-select>
                 <x-adminlte-select igroup-size="sm" name="jeniskunjungan" enable-old-support label="Jenis Kunjungan">
                     <option selected disabled>Pilih Jenis Rujukan</option>
-                    <option value="1"
-                        {{ $antrian->kunjungan ? ($antrian->kunjungan->jeniskunjungan == '1' ? 'selected' : null) : null }}>
+                    <option value="1" {{ $antrian->jeniskunjungan == '1' ? 'selected' : null }}>
                         Rujukan FKTP</option>
-                    <option value="2"
-                        {{ $antrian->kunjungan ? ($antrian->kunjungan->jeniskunjungan == '2' ? 'selected' : null) : null }}>
+                    <option value="2" {{ $antrian->jeniskunjungan == '2' ? 'selected' : null }}>
                         Umum</option>
-                    <option value="3"
-                        {{ $antrian->kunjungan ? ($antrian->kunjungan->jeniskunjungan == '3' ? 'selected' : null) : null }}>
+                    <option value="3" {{ $antrian->jeniskunjungan == '3' ? 'selected' : null }}>
                         Kontrol</option>
-                    <option value="4"
-                        {{ $antrian->kunjungan ? ($antrian->kunjungan->jeniskunjungan == '4' ? 'selected' : null) : null }}>
+                    <option value="4" {{ $antrian->jeniskunjungan == '4' ? 'selected' : null }}>
                         Rujukan Antar RS</option>
                 </x-adminlte-select>
-                <x-adminlte-input name="nomorreferensi" igroup-size="sm" enable-old-support label="Nomor Referensi"
-                    placeholder="Nomor Referensi" value="{{ $antrian->kunjungan->nomorreferensi ?? null }}" />
-                <x-adminlte-input name="sep" igroup-size="sm" label="Nomor SEP" enable-old-support
-                    placeholder="Nomor SEP" value="{{ $antrian->kunjungan->sep ?? null }}" />
+                @if ($antrian->jeniskunjungan != 2)
+                    <x-adminlte-input name="nomorreferensi" igroup-size="sm" enable-old-support
+                        label="Nomor Referensi" placeholder="Nomor Referensi"
+                        value="{{ $antrian->kunjungan->nomorreferensi ?? null }}" />
+                    <x-adminlte-input name="sep" igroup-size="sm" label="Nomor SEP" enable-old-support
+                        placeholder="Nomor SEP" value="{{ $antrian->kunjungan->sep ?? null }}" />
+                @endif
             </div>
         </div>
     </form>
@@ -195,6 +200,30 @@
     </x-slot>
 </x-adminlte-modal>
 @push('js')
+    <script>
+        $(function() {
+            $(".diagnosaid2").select2({
+                theme: "bootstrap4",
+                ajax: {
+                    url: "{{ route('ref_icd10_api') }}",
+                    type: "get",
+                    dataType: 'json',
+                    delay: 250,
+                    data: function(params) {
+                        return {
+                            diagnosa: params.term // search term
+                        };
+                    },
+                    processResults: function(response) {
+                        return {
+                            results: response
+                        };
+                    },
+                    cache: true
+                }
+            });
+        });
+    </script>
     <script>
         function modalKunjungan() {
             $('#modalKunjungan').modal('show');

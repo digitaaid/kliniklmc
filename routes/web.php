@@ -174,6 +174,7 @@ Route::middleware('auth')->group(function () {
     Route::get('ref_tarif_layanan', [TarifController::class, 'ref_tarif_layanan'])->name('ref_tarif_layanan');
     Route::post('input_tarif_pasien', [TarifController::class, 'input_tarif_pasien'])->name('input_tarif_pasien');
     Route::post('delete_tarif_pasien', [TarifController::class, 'delete_tarif_pasien'])->name('delete_tarif_pasien');
+    Route::get('print_invoice_billing', [TarifController::class, 'print_invoice_billing'])->name('print_invoice_billing');
 
     Route::get('lanjutpoliklinik', [PendaftaranController::class, 'lanjutpoliklinik'])->name('lanjutpoliklinik');
     Route::get('batalantrian', [PendaftaranController::class, 'batalantrian'])->name('batalantrian');

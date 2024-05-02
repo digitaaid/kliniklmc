@@ -3,6 +3,7 @@
 use App\Http\Controllers\AntrianController;
 use App\Http\Controllers\ApotekController;
 use App\Http\Controllers\IcareController;
+use App\Http\Controllers\PasienController;
 use App\Http\Controllers\SuratKontrolController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VclaimController;
@@ -67,6 +68,11 @@ Route::prefix('antrian')->group(function () {
     Route::post('ambilantreanfarmasi', [AntrianController::class, 'ambil_antrian_farmasi'])->name('ambilantreanfarmasi');
     Route::post('statusantreanfarmasi', [AntrianController::class, 'status_antrian_farmasi'])->name('statusantreanfarmasi');
 });
+
+// ANTRIAN
+Route::get('cari_pasien_nomorkartu', [PasienController::class, 'cari_pasien_nomorkartu'])->name('cari_pasien_nomorkartu');
+Route::get('cari_pasien_nik', [PasienController::class, 'cari_pasien_nik'])->name('cari_pasien_nik');
+Route::get('cari_pasien_norm', [PasienController::class, 'cari_pasien_norm'])->name('cari_pasien_norm');
 // VCLAIM
 Route::prefix('vclaim')->group(function () {
     // MONITORING

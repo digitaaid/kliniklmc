@@ -412,7 +412,6 @@ class PendaftaranController extends APIController
             ]);
         }
         $antrian = Antrian::find($request->antrian_id);
-        $request['counter'] = Kunjungan::where('nomorkartu', $request->nomorkartu)->count() + 1;
         $request['kode'] = $antrian->kodebooking;
         $request['unit'] = $request->kodepoli;
         $request['dokter'] = $request->kodedokter;
@@ -420,11 +419,14 @@ class PendaftaranController extends APIController
         $request['alasan_masuk'] = $request->cara_masuk;
         $request['status'] = 1;
         $request['user1'] = Auth::user()->id;
+        $request['pic'] = Auth::user()->name;
         try {
             if ($antrian->kunjungan_id) {
                 $kunjungan = Kunjungan::find($antrian->kunjungan_id);
+                $request['counter'] = $kunjungan->counter;
                 $kunjungan->update($request->all());
             } else {
+                $request['counter'] = Kunjungan::where('nomorkartu', $request->nomorkartu)->count() + 1;
                 $kunjungan = Kunjungan::create($request->all());
             }
             $request['kunjungan_id'] = $kunjungan->id;
@@ -452,6 +454,7 @@ class PendaftaranController extends APIController
                     'klasifikasi' => $tarif->klasifikasi,
                     'jaminan' => $request->jaminan,
                     'user' => Auth::user()->id,
+                    'pic' => Auth::user()->name,
                     'tgl_input' => now('Asia/Jakarta'),
                 ]
             );

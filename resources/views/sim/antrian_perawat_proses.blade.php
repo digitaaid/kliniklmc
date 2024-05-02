@@ -15,54 +15,54 @@
                     </ul>
                 </x-adminlte-alert>
             @endif
-            <a href="{{ route('antrianperawat') }}?tanggalperiksa={{ $antrian->tanggalperiksa }}"
-                class="btn btn-xs btn-danger mb-2 mr-1 withLoad">
-                <i class="fas fa-arrow-left"></i> Kembali
-            </a>
-            <div class="btn btn-xs btn-{{ $antrian->asesmenperawat ? 'success' : 'secondary' }} mb-2 mr-1">
-                <i class="fas fa-info-circle"></i>
-                Status Antrian :
-                @switch($antrian->taskid)
-                    @case(0)
-                        Belum Checkin
-                    @break
-
-                    @case(1)
-                        Tunggu Pendaftaran
-                    @break
-
-                    @case(2)
-                        Proses Pendaftaran
-                    @break
-
-                    @case(3)
-                        Tunggu Poliklinik
-                    @break
-
-                    @case(4)
-                        Pemeriksaan Dokter
-                    @break
-
-                    @case(5)
-                        Tunggu Farmasi
-                    @break
-
-                    @case(6)
-                        Proses Farmasi
-                    @break
-
-                    @case(7)
-                        Selesai Pelayanan
-                    @break
-
-                    @case(99)
-                        Batal
-                    @break
-
-                    @default
-                @endswitch
-            </div>
             <x-adminlte-card theme="primary" theme-mode="outline">
+                <a href="{{ route('antrianperawat') }}?tanggalperiksa={{ $antrian->tanggalperiksa }}"
+                    class="btn btn-xs btn-danger mb-2 mr-1 withLoad">
+                    <i class="fas fa-arrow-left"></i> Kembali
+                </a>
+                <div class="btn btn-xs btn-{{ $antrian->asesmenperawat ? 'success' : 'secondary' }} mb-2 mr-1">
+                    <i class="fas fa-info-circle"></i>
+                    Status Antrian :
+                    @switch($antrian->taskid)
+                        @case(0)
+                            Belum Checkin
+                        @break
+
+                        @case(1)
+                            Tunggu Pendaftaran
+                        @break
+
+                        @case(2)
+                            Proses Pendaftaran
+                        @break
+
+                        @case(3)
+                            Tunggu Poliklinik
+                        @break
+
+                        @case(4)
+                            Pemeriksaan Dokter
+                        @break
+
+                        @case(5)
+                            Tunggu Farmasi
+                        @break
+
+                        @case(6)
+                            Proses Farmasi
+                        @break
+
+                        @case(7)
+                            Selesai Pelayanan
+                        @break
+
+                        @case(99)
+                            Batal
+                        @break
+
+                        @default
+                    @endswitch
+                </div>
                 @include('sim.antrian_profil3')
                 {{-- <x-adminlte-button class="btn-xs mb-1" theme="{{ $antrian->asesmenperawat ? 'warning' : 'danger' }}"
                         label="Asesmen Keperawatan" icon="fas fa-hand-holding-medical" onclick="btnPengkajianPerawat()" /> --}}
@@ -143,6 +143,14 @@
                             </a>
                         </li>
                     </ul>
+                    <x-slot name="footerSlot">
+                        <x-adminlte-button label="Selesai Keperawatan" class="btn-sm" icon="fas fa-check" theme="success"
+                            onclick="modalPerawatSelesai()" />
+                        <a href="{{ route('batalantrian') }}?kodebooking={{ $antrian->kodebooking }}&keterangan=Dibatalkan dipendaftaran {{ Auth::user()->name }}"
+                            class="btn btn-sm btn-danger withLoad">
+                            <i class="fas fa-times"></i> Batal
+                        </a>
+                    </x-slot>
                 </x-adminlte-card>
             </div>
             <div class="col-md-9">
@@ -157,12 +165,6 @@
                             @include('sim.modal_resume_rajal')
                             @include('sim.tabel_lab')
                         </div>
-                    </div>
-                    <div class="card-footer">
-                        <a href="{{ route('antrianperawat') }}?tanggalperiksa={{ $antrian->tanggalperiksa }}"
-                            class="btn btn-success mb-2 mr-1 withLoad">
-                            <i class="fas fa-arrow-left"></i> Selesai & Kembali
-                        </a>
                     </div>
                 </div>
             </div>

@@ -7,9 +7,11 @@
         </div>
         <div class="col-md-5">
             <form action="" method="get">
-                <x-adminlte-input name="search" placeholder="Pencarian No RM / BPJS / NIK / Nama" igroup-size="sm">
+                <x-adminlte-input name="searchPasien" onchange="btnCariPasien()"
+                    placeholder="Pencarian No RM / BPJS / NIK / Nama" igroup-size="sm">
                     <x-slot name="appendSlot">
-                        <x-adminlte-button id="btnCariPasien" theme="primary" icon="fas fa-search" label="Cari" />
+                        <x-adminlte-button onclick="btnCariPasien()" theme="primary" icon="fas fa-search"
+                            label="Cari" />
                     </x-slot>
                 </x-adminlte-input>
             </form>
@@ -29,6 +31,39 @@
     <script>
         function modalPasien() {
             $('#modalPasien').modal('show');
+        }
+
+        function btnCariPasien() {
+            $.LoadingOverlay("show");
+            var search = $("#searchPasien").val();
+            var url = "{{ route('pasiensearch') }}?search=" + search;
+            console.log(url);
+            var table = $('#tablePasien').DataTable();
+            table.rows().remove().draw();
+            $.ajax({
+                url: url,
+                type: "GET",
+                dataType: 'json',
+                success: function(data) {
+                    $.each(data.response, function(key, value) {
+                        table.row.add([
+                            value.norm,
+                            value.nomorkartu,
+                            value.nik,
+                            value.nama,
+                            value.tgl_lahir,
+                            "<button class='btnPilihPasien btn btn-success btn-xs mr-1' data-norm=" +
+                            value.norm +
+                            " >Pilih</button>",
+                        ]).draw(false);
+                    });
+                    $.LoadingOverlay("hide");
+                },
+                error: function(data) {
+                    console.log(data);
+                    $.LoadingOverlay("hide");
+                }
+            });
         }
     </script>
 @endpush

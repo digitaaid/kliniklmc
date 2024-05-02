@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Exports\TarifExport;
 use App\Imports\TarifImport;
+use App\Models\Antrian;
 use App\Models\Kunjungan;
 use App\Models\Layanan;
 use App\Models\Tarif;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -178,5 +180,19 @@ class TarifController extends APIController
         Excel::import(new TarifImport, $request->file);
         Alert::success('Success', 'Import Tarif Berhasil.');
         return redirect()->route('tarif.index');
+    }
+    public function print_invoice_billing(Request $request)
+    {
+        $antrian = Antrian::with(['kunjungan', 'pasien', 'layanans', 'kunjungan.units'])->firstWhere('kodebooking', $request->kodebooking);
+        $kunjungan = $antrian->kunjungan;
+        $pasien = $antrian->pasien;
+        $layanans = $kunjungan->layanans;
+        // dd($layanans);
+        $pdf = Pdf::loadView('print.pdf_invoice_billing', compact(
+            'kunjungan',
+            'pasien',
+            'layanans',
+        ));
+        return $pdf->stream('pdf_invoice_billing.pdf');
     }
 }
