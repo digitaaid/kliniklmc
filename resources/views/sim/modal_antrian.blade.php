@@ -20,7 +20,103 @@
     </a>
     <div id="collAntrian" class="collapse">
         <div class="card-body">
-            test
+            <div class="row">
+                <div class="col-md-4">
+                    <table>
+                        <tr>
+                            <td>Nama</td>
+                            <td>:</td>
+                            <td>{{ $antrian->nama }}</td>
+                        </tr>
+                        <tr>
+                            <td>norm</td>
+                            <td>:</td>
+                            <td>{{ $antrian->norm }}</td>
+                        </tr>
+                        <tr>
+                            <td>nomorkartu</td>
+                            <td>:</td>
+                            <td>{{ $antrian->nomorkartu }}</td>
+                        </tr>
+                        <tr>
+                            <td>nik</td>
+                            <td>:</td>
+                            <td>{{ $antrian->nik }}</td>
+                        </tr>
+
+                        <tr>
+                            <td>pasienbaru</td>
+                            <td>:</td>
+                            <td>{{ $antrian->pasienbaru }}</td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="col-md-4">
+                    <table>
+
+                        <tr>
+                            <td>Kodebooking</td>
+                            <td>:</td>
+                            <td>
+                                <span class="badge badge-{{ $antrian->status ? 'success' : 'danger' }}">
+                                    {{ $antrian->kodebooking }}
+                                </span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Nomorantrean</td>
+                            <td>:</td>
+                            <td>{{ $antrian->nomorantrean }} / {{ $antrian->angkaantrean }}</td>
+                        </tr>
+                        <tr>
+                            <td>jenispasien</td>
+                            <td>:</td>
+                            <td>{{ $antrian->jenispasien }}</td>
+                        </tr>
+                        <tr>
+                            <td>jeniskunjungan</td>
+                            <td>:</td>
+                            <td>{{ $antrian->jeniskunjungan }}</td>
+                        </tr>
+                        <tr>
+                            <td>nomorreferensi</td>
+                            <td>:</td>
+                            <td>{{ $antrian->nomorreferensi }}</td>
+                        </tr>
+
+                    </table>
+                </div>
+                <div class="col-md-4">
+                    <table>
+                        <tr>
+                            <td>tanggalperiksa</td>
+                            <td>:</td>
+                            <td>{{ $antrian->tanggalperiksa }}</td>
+                        </tr>
+                        <tr>
+                            <td>namapoli</td>
+                            <td>:</td>
+                            <td>{{ $antrian->namapoli }}</td>
+                        </tr>
+                        <tr>
+                            <td>namadokter</td>
+                            <td>:</td>
+                            <td>{{ $antrian->namadokter }}</td>
+                        </tr>
+                        <tr>
+                            <td>jampraktek</td>
+                            <td>:</td>
+                            <td>{{ $antrian->jampraktek }}</td>
+                        </tr>
+                        <tr>
+                            <td>status</td>
+                            <td>:</td>
+                            <td>{{ $antrian->status }}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
         </div>
     </div>
 </div>
