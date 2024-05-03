@@ -5,10 +5,12 @@
             </h3>
             <div class="card-tools">
                 <i class="fas fa-info-circle"></i>
+
             </div>
         </a>
         <div id="collInvoice" class="collapse" role="tabpanel" aria-labelledby="headLab">
             <div class="card-body">
+                <iframe src="" id="invoiceIframe" width="100%" height="500px" frameborder="0"></iframe>
             </div>
         </div>
     </div>
@@ -17,14 +19,15 @@
         <div id="iframeLoaders" class="loader">
             <h4>Loading...</h4>
         </div>
-        <iframe src="" id="urlInvoice" onload="iframeLoadeds()" width="100%" height="500px" frameborder="0"></iframe>
+        <iframe src="" id="urlInvoice" onload="loadInvoices()" width="100%" height="500px"
+            frameborder="0"></iframe>
     </x-adminlte-modal>
     <x-adminlte-modal id="modalPendaftaranSelesai" title="Invoice Billing Pasien" theme="success"
         icon="fas fa-file-invoice-dollar" size="xl">
         <div id="iframeLoaderx" class="loader">
             <h4>Loading...</h4>
         </div>
-        <iframe src="" id="iframeInvoicex" onload="iframeLoadedx()" width="100%" height="500px"
+        <iframe src="" id="iframeInvoicex" onload="loadInvoicex()" width="100%" height="500px"
             frameborder="0"></iframe>
         <x-slot name="footerSlot">
             <a href="{{ route('lanjutpoliklinik') }}?kodebooking={{ $antrian->kodebooking }}"
@@ -37,6 +40,23 @@
     </x-adminlte-modal>
     @push('js')
         <script>
+            $(function() {
+                var url = "{{ route('print_invoice_billing') }}?kodebooking={{ $antrian->kodebooking }}";
+                $('#invoiceIframe').attr('src', url);
+                // $('#urlInvoice').attr('src', url);
+                // $('#iframeInvoicex').attr('src', url);
+            });
+
+            function loadInvoices() {
+                $('#iframeLoaders').hide();
+                $('#urlInvoice').show();
+            }
+
+            function loadInvoicex() {
+                $('#iframeLoaderx').hide();
+                $('#iframeInvoicex').show();
+            }
+
             function modalInvoicePasien() {
                 $.LoadingOverlay("show");
                 var url = "{{ route('print_invoice_billing') }}?kodebooking={{ $antrian->kodebooking }}";
@@ -47,11 +67,6 @@
                 $.LoadingOverlay("hide");
             }
 
-            function iframeLoadeds() {
-                $('#iframeLoaders').hide();
-                $('#urlInvoice').show();
-            }
-
             function modalPendaftaranSelesai() {
                 $.LoadingOverlay("show");
                 var url = "{{ route('print_invoice_billing') }}?kodebooking={{ $antrian->kodebooking }}";
@@ -60,11 +75,6 @@
                 $('#iframeLoaderx').show();
                 $('#iframeInvoicex').hide();
                 $.LoadingOverlay("hide");
-            }
-
-            function iframeLoadedx() {
-                $('#iframeLoaderx').hide();
-                $('#iframeInvoicex').show();
             }
         </script>
     @endpush

@@ -35,8 +35,7 @@
                 <div id="loaderSuratKontrol" class="loader">
                     <h4>Loading...</h4>
                 </div>
-                <iframe src="" id="iframeSuratKontrol" onload="iframeSuratKontrol()" width="100%"
-                    height="500px" frameborder="0"></iframe>
+                <iframe src="" id="iframeSuratKontrol" width="100%" height="500px" frameborder="0"></iframe>
             @else
                 <x-adminlte-alert theme="danger" title="Surat Kontrol untuk Pasien BPJS">
                     Belum ada surat kontrol.
@@ -112,14 +111,7 @@
                 var url =
                     "{{ route('suratkontrol_print') }}?noSuratKontrol=" + nosuratkontrol;
                 $('#iframeSuratKontrol').attr('src', url);
-                $('#loaderSuratKontrol').show();
-                $('#iframeSuratKontrol').hide();
             }
         });
-
-        function iframeSuratKontrol() {
-            $('#loaderSuratKontrol').hide();
-            $('#iframeSuratKontrol').show();
-        }
     </script>
 @endpush
