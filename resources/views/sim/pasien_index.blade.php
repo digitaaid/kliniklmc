@@ -74,7 +74,6 @@
                             <td>{{ $item->norm }}</td>
                             <td>{{ $item->nama }}</td>
                             <td>
-                                {{ $item->status }}.
                                 @if ($item->status)
                                     <span class="badge badge-success">{{ $item->status }}. Aktif</span>
                                 @else

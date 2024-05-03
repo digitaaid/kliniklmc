@@ -6,47 +6,35 @@ use App\Models\Pasien;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\ToCollection;
+use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
-class PasiensImport implements ToCollection
+class PasiensImport implements ToCollection, WithHeadingRow
 {
     public function collection(Collection $rows)
     {
         foreach ($rows as $row) {
-            if ((int) $row[4]) {
-                $tgllahir = \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject((int) $row[4]);
-                // dd($tgllahir);
-            } else {
-                $tgllahir = now();
-            }
-            switch ($row[1]) {
-                case 'Tn':
-                    $gender = 'L';
-                    break;
-                case 'Ny':
-                    $gender = 'P';
-                    break;
-                case 'Nn':
-                    $gender = 'P';
-                    break;
-
-                default:
-                    $gender = null;
-                    break;
-            }
-            // dd($row,);
-            // dd(Carbon::parse($tgllahir)->format('Y-m-d'));
             Pasien::updateOrCreate(
                 [
-                    'norm' =>  sprintf("%09d",  $row[0]),
+                    'norm' =>  sprintf("%09d",  $row['norm']),
                 ],
                 [
-                    'gender' => $gender,
-                    'nama' => $row[2],
-                    'tempat_lahir' => $row[3],
-                    'tgl_lahir' =>  Carbon::parse($tgllahir)->format('Y-m-d'),
-                    'nomorkartu' => $row[5],
-                    'nohp' => $row[6],
-                    'alamat' => $row[7],
+                    'nik' => $row['nik'],
+                    'nomorkartu' => $row['nomorkartu'],
+                    'nama' => $row['nama'],
+                    'nohp' => $row['nohp'],
+                    'gender' => $row['gender'],
+                    'tempat_lahir' => $row['tempat_lahir'],
+                    'tgl_lahir' =>   $row['tgl_lahir'],
+                    'desa_id' => $row['desa_id'],
+                    'kecamatan_id' => $row['kecamatan_id'],
+                    'kabuapten_id' => $row['kabuapten_id'],
+                    'provinsi_id' => $row['provinsi_id'],
+                    'alamat' => $row['alamat'],
+                    'status' => $row['status'],
+                    'keterangan' => $row['keterangan'],
+                    'user' => $row['user'],
+                    'created_at' => $row['created_at'],
+                    'updated_at' => $row['updated_at'],
                 ]
             );
         }
