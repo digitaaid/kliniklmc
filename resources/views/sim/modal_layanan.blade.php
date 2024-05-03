@@ -189,6 +189,7 @@
             });
             refresTableLayanan();
         });
+
         function refresTableLayanan() {
             var url = "{{ route('get_layanan_kunjungan') }}?kunjungan={{ $antrian->kunjungan_id }}";
             if ($.fn.dataTable.isDataTable('#tableLayanans')) {
@@ -223,7 +224,7 @@
                             btn,
                             value.nama,
                             value.jaminans.nama,
-                            value.pic,
+                            (value.pic).length != 0 ? value.pic : 'null',
                             'Rp ' + value.harga.toLocaleString() + ' @ ' + value.jumlah,
                             value.diskon + ' %',
                             'Rp ' + (value.subtotal).toLocaleString(),
