@@ -2,6 +2,8 @@
     icon="fas fa-file-medical" size="xl">
     <x-adminlte-button theme="success" class="btn-sm" label="Buat Surat Kontrol" icon="fas fa-file-medical"
         onclick="buatSuratKontrol()" />
+    <x-adminlte-button theme="success" class="btn-sm" label="Buat Surat Kontrol Berikutnya" icon="fas fa-file-medical"
+        onclick="modalSuratKontrolBerikutnya()" />
     @php
         $heads = [
             'tglRencanaKontrol',
@@ -101,6 +103,51 @@
         <x-adminlte-button theme="danger" label="Tutup" icon="fas fa-times" data-dismiss="modal" />
     </x-slot>
 </x-adminlte-modal>
+<x-adminlte-modal id="modalSuratKontrolBerikutnya" title="Buat Surat Kontrol Untuk Kunjungan Berikutnya" size="xl" theme="success"
+    icon="fas fa-file-medical">
+    <form action="{{ route('suratkontrol.store') }}" id="formSuratKontrolBerikutnya" method="POST">
+        @csrf
+        <input type="hidden" name="kodebooking" value="{{ $antrian->kodebooking }}">
+        <input type="hidden" name="antrian_id" value="{{ $antrian->id }}">
+        <x-adminlte-input fgroup-class="row" label-class="text-left col-3" igroup-class="col-9" igroup-size="sm"
+            name="nomorkartu" value="{{ $antrian->nomorkartu }}" label="Nomor Kartu" placeholder="Nomor Kartu" />
+        <x-adminlte-input fgroup-class="row" label-class="text-left col-3" igroup-class="col-9" igroup-size="sm"
+            name="noSEP" class="noSEP-id" id="noSEPBerikutnya" label="Nomor SEP" placeholder="Nomor SEP"
+            readonly>
+            <x-slot name="appendSlot">
+                <x-adminlte-button theme="primary" label="Cari SEP" icon="fas fa-search" onclick="cariSEP()" />
+            </x-slot>
+        </x-adminlte-input>
+        @php
+            $config = ['format' => 'YYYY-MM-DD'];
+        @endphp
+        <x-adminlte-input-date fgroup-class="row" label-class="text-left col-3" igroup-class="col-9"
+            igroup-size="sm" name="tglRencanaKontrol" id="tglRencanaKontrolBerikutnya" label="Tgl Kontrol"
+            placeholder="Pilih Tanggal Rencana Kontrol" :config="$config">
+        </x-adminlte-input-date>
+        <x-adminlte-select fgroup-class="row" label-class="text-left col-3" igroup-class="col-9" igroup-size="sm"
+            name="poliKontrol" class="poliKontrol-id" id="poliKontrolBerikutnya" label="Poliklinik">
+            <option selected disabled>Silahkan Klik Cari Poliklinik</option>
+            <x-slot name="appendSlot">
+                <x-adminlte-button theme="primary" label="Cari Poli" icon="fas fa-search"
+                    onclick="cariPoliBerikutnya()" />
+            </x-slot>
+        </x-adminlte-select>
+        <x-adminlte-select fgroup-class="row" label-class="text-left col-3" igroup-class="col-9" igroup-size="sm"
+            name="kodeDokter" class="kodeDokter-id" label="Dokter">
+            <option selected disabled>Silahkan Klik Cari Dokter</option>
+            <x-slot name="appendSlot">
+                <x-adminlte-button theme="primary" label="Cari Dokter" icon="fas fa-search"
+                    onclick="cariDokterBerikutnya()" />
+            </x-slot>
+        </x-adminlte-select>
+    </form>
+    <x-slot name="footerSlot">
+        <x-adminlte-button class="mr-auto withLoad" theme="success" form="formSuratKontrolBerikutnya" type="submit"
+            label="Buat Surat Kontrol" />
+        <x-adminlte-button theme="danger" label="Tutup" icon="fas fa-times" data-dismiss="modal" />
+    </x-slot>
+</x-adminlte-modal>
 <x-adminlte-modal id="modalSEP" name="modalSEP" title="SEP Peserta" theme="success" icon="fas fa-file-medical"
     size="xl">
     @php
@@ -116,6 +163,10 @@
     <script>
         function buatSuratKontrol() {
             $('#modalBuatSuratKontrol').modal('show');
+        }
+
+        function modalSuratKontrolBerikutnya() {
+            $('#modalSuratKontrolBerikutnya').modal('show');
         }
 
         function cariRujukanFktp() {
@@ -351,6 +402,89 @@
             $.LoadingOverlay("show");
             var poli = $('#poliKontrol').find(":selected").val();
             var tanggal = $('#tglRencanaKontrol').val();
+            var url = "{{ route('suratkontrol_dokter') }}?kodePoli=" + poli + "&tglRencanaKontrol=" +
+                tanggal + "&jenisKontrol=2";
+            $.ajax({
+                url: url,
+                type: "GET",
+                dataType: 'json',
+                success: function(data) {
+                    if (data.metadata.code == 200) {
+                        $('.kodeDokter-id').empty();
+                        $.each(data.response.list, function(key, value) {
+                            optText = value.namaDokter + " (" + value
+                                .jadwalPraktek +
+                                ")";
+                            optValue = value.kodeDokter;
+                            $('.kodeDokter-id').append(new Option(optText, optValue));
+                        });
+                        Toast.fire({
+                            icon: 'success',
+                            title: 'Dokter Ditemukan'
+                        });
+                    } else {
+                        Toast.fire({
+                            icon: 'error',
+                            title: data.metadata.message
+                        });
+                    }
+                    $.LoadingOverlay("hide");
+                },
+                error: function(data) {
+                    Toast.fire({
+                        icon: 'error',
+                        title: data.metadata.message
+                    });
+                    $.LoadingOverlay("hide");
+                }
+            });
+        }
+
+        function cariPoliBerikutnya() {
+            $.LoadingOverlay("show");
+            var sep = $('#noSEPBerikutnya').val();
+            var tanggal = $('#tglRencanaKontrolBerikutnya').val();
+            var url = "{{ route('suratkontrol_poli') }}?nomor=" + sep + "&tglRencanaKontrol=" +
+                tanggal + "&jenisKontrol=2";
+            $.ajax({
+                url: url,
+                type: "GET",
+                dataType: 'json',
+                success: function(data) {
+                    if (data.metadata.code == 200) {
+                        $('.poliKontrol-id').empty()
+                        $.each(data.response.list, function(key, value) {
+                            optText = value.namaPoli + " (" + value.persentase +
+                                "%)";
+                            optValue = value.kodePoli;
+                            $('.poliKontrol-id').append(new Option(optText, optValue));
+                        });
+                        Toast.fire({
+                            icon: 'success',
+                            title: 'Poliklinik Ditemukan'
+                        });
+                    } else {
+                        Toast.fire({
+                            icon: 'error',
+                            title: data.metadata.message
+                        });
+                    }
+                    $.LoadingOverlay("hide");
+                },
+                error: function(data) {
+                    Toast.fire({
+                        icon: 'error',
+                        title: data.metadata.message
+                    });
+                    $.LoadingOverlay("hide");
+                }
+            });
+        }
+
+        function cariDokterBerikutnya() {
+            $.LoadingOverlay("show");
+            var poli = $('#poliKontrolBerikutnya').find(":selected").val();
+            var tanggal = $('#tglRencanaKontrolBerikutnya').val();
             var url = "{{ route('suratkontrol_dokter') }}?kodePoli=" + poli + "&tglRencanaKontrol=" +
                 tanggal + "&jenisKontrol=2";
             $.ajax({

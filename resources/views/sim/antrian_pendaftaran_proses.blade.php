@@ -102,6 +102,11 @@
                         <li class="nav-item" onclick="cariSuratKontrol()">
                             <a href="#nav" class="nav-link">
                                 <i class="fas fa-file-medical"></i> Surat Kontrol
+                                @if ($antrian->suratkontrols->count())
+                                    <span class="badge bg-success float-right">Sudah Ada SKontrol Berikutnya</span>
+                                @else
+                                    <span class="badge bg-danger float-right">Belum Ada SKontrol Berikutnya</span>
+                                @endif
                             </a>
                         </li>
                         <li class="nav-item" onclick="cariRujukanFktp()">
@@ -168,7 +173,6 @@
                             </a>
                         </li> --}}
                     @endif
-
                 </ul>
                 <x-slot name="footerSlot">
                     @if ($antrian->kunjungan)
