@@ -55,7 +55,6 @@ class PasienController extends APIController
             $request->validate([
                 'nama' => 'required',
                 'nik' => 'required|digits:16',
-                'nohp' => 'required',
                 'gender' => 'required',
             ]);
             if (empty($request->norm)) {
@@ -66,6 +65,11 @@ class PasienController extends APIController
                     $norm = '000000001';
                 }
                 $request['norm'] = $norm;
+            }
+            $pasienduplicate = Pasien::where('nik', $request->nik)->first();
+            if ($pasienduplicate) {
+                Alert::error('Mohon Maaf', 'Data NIK Pasien Telah Ada Sebelumnya.');
+                return redirect()->back();
             }
             $request['user'] = Auth::user()->id;
             $pasien = Pasien::updateOrCreate(
@@ -79,7 +83,7 @@ class PasienController extends APIController
         } catch (\Throwable $th) {
             Alert::error('Error', $th->getMessage());
         }
-        return redirect()->route('pasien.index');
+        return redirect()->back();
     }
     public function update($id, Request $request)
     {
