@@ -680,6 +680,13 @@ return [
                     'can' =>  ['bpjs', 'pendaftaran', 'manajemen'],
                 ],
                 [
+                    'text' => 'Monitoring Antrian',
+                    'icon'    => 'fas fa-calendar-day',
+                    'url'  => 'monitoringAntrian',
+                    'shift'   => 'ml-2',
+                    'can' =>  ['bpjs', 'pendaftaran', 'manajemen'],
+                ],
+                [
                     'text' => 'Antrian Per Kodebooking',
                     'icon'    => 'fas fa-calendar-day',
                     'url'  => 'antrianPerKodebooking',
