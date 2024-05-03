@@ -74,10 +74,11 @@
                             <td>{{ $item->norm }}</td>
                             <td>{{ $item->nama }}</td>
                             <td>
+                                {{ $item->status }}.
                                 @if ($item->status)
-                                    <span class="badge badge-success">Aktif</span>
+                                    <span class="badge badge-success">{{ $item->status }}. Aktif</span>
                                 @else
-                                    <span class="badge badge-danger">Non-Aktif</span>
+                                    <span class="badge badge-danger">{{ $item->status }}. Non-Aktif</span>
                                 @endif
                             </td>
                             <td>
