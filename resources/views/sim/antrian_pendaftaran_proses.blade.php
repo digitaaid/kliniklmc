@@ -81,14 +81,41 @@
                     <li class="nav-item" onclick="modalAntrian()">
                         <a href="#nav" class="nav-link">
                             <i class="fas fa-user-plus"></i> Antrian
-                            @if ($antrian->norm)
+                            @if ($antrian->status)
                                 <span class="badge bg-success float-right">Sudah Didaftarkan</span>
                             @else
                                 <span class="badge bg-danger float-right">Belum Didaftarkan</span>
                             @endif
                         </a>
                     </li>
-                    @if ($antrian->norm)
+                    @if ($antrian->jenispasien == 'JKN')
+                        <li class="nav-item" onclick="cariSEP()">
+                            <a href="#nav" class="nav-link">
+                                <i class="fas fa-file-medical"></i> SEP
+                                @if ($antrian->sep)
+                                    <span class="badge bg-success float-right">Sudah Dibuatkan</span>
+                                @else
+                                    <span class="badge bg-danger float-right">Belum Dibuatkan</span>
+                                @endif
+                            </a>
+                        </li>
+                        <li class="nav-item" onclick="cariSuratKontrol()">
+                            <a href="#nav" class="nav-link">
+                                <i class="fas fa-file-medical"></i> Surat Kontrol
+                            </a>
+                        </li>
+                        <li class="nav-item" onclick="cariRujukanFktp()">
+                            <a href="#nav" class="nav-link">
+                                <i class="fas fa-file-medical"></i> Rujukan FKTP
+                            </a>
+                        </li>
+                        <li class="nav-item" onclick="cariRujukanRS()">
+                            <a href="#nav" class="nav-link">
+                                <i class="fas fa-file-medical"></i> Rujukan Antar RS
+                            </a>
+                        </li>
+                    @endif
+                    @if ($antrian->status)
                         <li class="nav-item" onclick="modalKunjungan()">
                             <a href="#nav" class="nav-link">
                                 <i class="fas fa-user-plus"></i> Kunjungan
@@ -141,28 +168,7 @@
                             </a>
                         </li> --}}
                     @endif
-                    @if ($antrian->norm)
-                        <li class="nav-item" onclick="cariRujukanFktp()">
-                            <a href="#nav" class="nav-link">
-                                <i class="fas fa-user-injured"></i> Rujukan FKTP
-                            </a>
-                        </li>
-                        <li class="nav-item" onclick="cariRujukanRS()">
-                            <a href="#nav" class="nav-link">
-                                <i class="fas fa-user-injured"></i> Rujukan Antar RS
-                            </a>
-                        </li>
-                        <li class="nav-item" onclick="cariSEP()">
-                            <a href="#nav" class="nav-link">
-                                <i class="fas fa-user-injured"></i> SEP
-                            </a>
-                        </li>
-                        <li class="nav-item" onclick="cariSuratKontrol()">
-                            <a href="#nav" class="nav-link">
-                                <i class="fas fa-user-injured"></i> Surat Kontrol
-                            </a>
-                        </li>
-                    @endif
+
                 </ul>
                 <x-slot name="footerSlot">
                     @if ($antrian->kunjungan)
@@ -185,10 +191,11 @@
                         @if ($antrian->jenispasien == 'JKN')
                             @include('sim.tabel_sep')
                             @include('sim.tabel_suratkontrol')
-                        @endif
-                        @if ($antrian->norm)
-                            @include('sim.modal_kunjungan')
                             @include('sim.modal_suratkontrol')
+                            @include('sim.modal_rujukan')
+                        @endif
+                        @if ($antrian->status)
+                            @include('sim.modal_kunjungan')
                         @endif
                         @if ($antrian->kunjungan)
                             @include('sim.modal_cppt')
@@ -273,92 +280,92 @@
                     cache: true
                 }
             });
-            $('.btnCariPoli').click(function(e) {
-                e.preventDefault();
-                $.LoadingOverlay("show");
-                var sep = $('.noSEP-id').val();
-                var tanggal = $('.tglRencanaKontrol-id').val();
-                if (tanggal == '') {
-                    var tanggal = $('#tglRencanaKontrolid').val();
-                }
-                var url = "{{ route('suratkontrol_poli') }}?nomor=" + sep + "&tglRencanaKontrol=" +
-                    tanggal;
-                $.ajax({
-                    url: url,
-                    type: "GET",
-                    dataType: 'json',
-                    success: function(data) {
-                        if (data.metadata.code == 200) {
-                            $('.poliKontrol-id').empty()
-                            $.each(data.response.list, function(key, value) {
-                                optText = value.namaPoli + " (" + value.persentase +
-                                    "%)";
-                                optValue = value.kodePoli;
-                                $('.poliKontrol-id').append(new Option(optText,
-                                    optValue));
-                            });
-                            Toast.fire({
-                                icon: 'success',
-                                title: 'Pasien Ditemukan'
-                            });
-                        } else {
-                            Swal.fire(
-                                'Error ' + data.metadata.code,
-                                data.metadata.message,
-                                'error'
-                            );
-                        }
-                        $.LoadingOverlay("hide");
-                    },
-                    error: function(data) {
-                        $.LoadingOverlay("hide");
-                    }
-                });
-            });
-            $('.btnCariDokter').click(function(e) {
-                e.preventDefault();
-                $.LoadingOverlay("show");
-                var poli = $('.poliKontrol-id').find(":selected").val();
-                var tanggal = $('.tglRencanaKontrol-id').val();
-                if (tanggal == '') {
-                    var tanggal = $('#tglRencanaKontrolid').val();
-                }
-                var url = "{{ route('suratkontrol_dokter') }}?kodePoli=" + poli + "&tglRencanaKontrol=" +
-                    tanggal;
-                $.ajax({
-                    url: url,
-                    type: "GET",
-                    dataType: 'json',
-                    success: function(data) {
-                        if (data.metadata.code == 200) {
-                            $('.kodeDokter-id').empty()
-                            $.each(data.response.list, function(key, value) {
-                                optText = value.namaDokter + " (" + value
-                                    .jadwalPraktek +
-                                    ")";
-                                optValue = value.kodeDokter;
-                                $('.kodeDokter-id').append(new Option(optText,
-                                    optValue));
-                            });
-                            Toast.fire({
-                                icon: 'success',
-                                title: 'Pasien Ditemukan'
-                            });
-                        } else {
-                            Swal.fire(
-                                'Error ' + data.metadata.code,
-                                data.metadata.message,
-                                'error'
-                            );
-                        }
-                        $.LoadingOverlay("hide");
-                    },
-                    error: function(data) {
-                        alert(url);
-                        $.LoadingOverlay("hide");
-                    }
-                });
-            });
+            // $('.btnCariPoli').click(function(e) {
+            //     e.preventDefault();
+            //     $.LoadingOverlay("show");
+            //     var sep = $('.noSEP-id').val();
+            //     var tanggal = $('.tglRencanaKontrol-id').val();
+            //     if (tanggal == '') {
+            //         var tanggal = $('#tglRencanaKontrolid').val();
+            //     }
+            //     var url = "{{ route('suratkontrol_poli') }}?nomor=" + sep + "&tglRencanaKontrol=" +
+            //         tanggal;
+            //     $.ajax({
+            //         url: url,
+            //         type: "GET",
+            //         dataType: 'json',
+            //         success: function(data) {
+            //             if (data.metadata.code == 200) {
+            //                 $('.poliKontrol-id').empty()
+            //                 $.each(data.response.list, function(key, value) {
+            //                     optText = value.namaPoli + " (" + value.persentase +
+            //                         "%)";
+            //                     optValue = value.kodePoli;
+            //                     $('.poliKontrol-id').append(new Option(optText,
+            //                         optValue));
+            //                 });
+            //                 Toast.fire({
+            //                     icon: 'success',
+            //                     title: 'Pasien Ditemukan'
+            //                 });
+            //             } else {
+            //                 Swal.fire(
+            //                     'Error ' + data.metadata.code,
+            //                     data.metadata.message,
+            //                     'error'
+            //                 );
+            //             }
+            //             $.LoadingOverlay("hide");
+            //         },
+            //         error: function(data) {
+            //             $.LoadingOverlay("hide");
+            //         }
+            //     });
+            // });
+            // $('.btnCariDokter').click(function(e) {
+            //     e.preventDefault();
+            //     $.LoadingOverlay("show");
+            //     var poli = $('.poliKontrol-id').find(":selected").val();
+            //     var tanggal = $('.tglRencanaKontrol-id').val();
+            //     if (tanggal == '') {
+            //         var tanggal = $('#tglRencanaKontrolid').val();
+            //     }
+            //     var url = "{{ route('suratkontrol_dokter') }}?kodePoli=" + poli + "&tglRencanaKontrol=" +
+            //         tanggal;
+            //     $.ajax({
+            //         url: url,
+            //         type: "GET",
+            //         dataType: 'json',
+            //         success: function(data) {
+            //             if (data.metadata.code == 200) {
+            //                 $('.kodeDokter-id').empty()
+            //                 $.each(data.response.list, function(key, value) {
+            //                     optText = value.namaDokter + " (" + value
+            //                         .jadwalPraktek +
+            //                         ")";
+            //                     optValue = value.kodeDokter;
+            //                     $('.kodeDokter-id').append(new Option(optText,
+            //                         optValue));
+            //                 });
+            //                 Toast.fire({
+            //                     icon: 'success',
+            //                     title: 'Pasien Ditemukan'
+            //                 });
+            //             } else {
+            //                 Swal.fire(
+            //                     'Error ' + data.metadata.code,
+            //                     data.metadata.message,
+            //                     'error'
+            //                 );
+            //             }
+            //             $.LoadingOverlay("hide");
+            //         },
+            //         error: function(data) {
+            //             alert(url);
+            //             $.LoadingOverlay("hide");
+            //         }
+            //     });
+            // });
             $('.btnUpdateSuratKontrol').click(function(e) {
                 e.preventDefault();
                 $.LoadingOverlay("show");

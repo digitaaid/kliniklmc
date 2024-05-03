@@ -32,7 +32,7 @@
         <input type="hidden" name="antrian_id" value="{{ $antrian->id }}">
         <div class="row">
             <div class="col-md-6">
-                <x-adminlte-input name="nomorkartu" class="nomorkartu-id" igroup-size="sm" label="Nomor Kartu"
+                <x-adminlte-input name="nomorkartu" class="nomorkartu-antrian" igroup-size="sm" label="Nomor Kartu"
                     value="{{ $antrian->nomorkartu }}" enable-old-support placeholder="Nomor Kartu">
                     <x-slot name="appendSlot">
                         <div class="btn btn-primary" onclick="btnCariKartu()">
@@ -91,9 +91,8 @@
                 @if ($antrian->jeniskunjungan != 2)
                     <div class="row">
                         <div class="col-md-4">
-                            <x-adminlte-select igroup-size="sm" name="asalRujukan" label="Jenis Rujukan"
-                                enable-old-support>
-                                <option selected disabled>Pilih Jenis Rujukan</option>
+                            <x-adminlte-select igroup-size="sm" name="asalRujukan" class="asalRujukan-antrian"
+                                label="Jenis Rujukan" enable-old-support>
                                 <option value="1" {{ $antrian->jeniskunjungan == '1' ? 'selected' : null }}>
                                     Rujukan
                                     FKTP</option>
@@ -107,7 +106,7 @@
                                 label="Nomor Rujukan" placeholder="Nomor Rujukan" enable-old-support readonly
                                 value="{{ $antrian->nomorrujukan }}">
                                 <x-slot name="appendSlot">
-                                    <div class="btn btn-primary" onclick="cariRujukan()">
+                                    <div class="btn btn-primary" onclick="cariRujukanAntrian()">
                                         <i class="fas fa-search"></i> Cari
                                     </div>
                                 </x-slot>
@@ -137,6 +136,78 @@
     <script>
         function modalAntrian() {
             $('#modalAntrain').modal('show');
+        }
+
+        function cariRujukanAntrian() {
+            $.LoadingOverlay("show");
+            var asalRujukan = $(".asalRujukan-antrian").find(":selected").val();
+            var nomorkartu = $(".nomorkartu-antrian").val();
+            $('#modalRujukan').modal('show');
+            var table = $('#tableRujukan').DataTable();
+            table.rows().remove().draw();
+            var url = "{{ route('rujukan_peserta') }}?nomorkartu=" + nomorkartu;
+            switch (asalRujukan) {
+                case '1':
+                    var url = "{{ route('rujukan_peserta') }}?nomorkartu=" + nomorkartu;
+                    break;
+                case '2':
+                    var url = "{{ route('rujukan_rs_peserta') }}?nomorkartu=" + nomorkartu;
+                    break;
+                default:
+                    Swal.fire(
+                        'Error',
+                        'Pilih Jenis Rujukan',
+                        'error'
+                    );
+                    break;
+            }
+            $.ajax({
+                url: url,
+                type: "GET",
+                dataType: 'json',
+                success: function(data) {
+                    if (data.metadata.code == 200) {
+                        $.each(data.response.rujukan, function(key, value) {
+                            table.row.add([
+                                value.tglKunjungan,
+                                value.noKunjungan,
+                                value.provPerujuk.nama,
+                                value.peserta.nama,
+                                value.pelayanan.nama,
+                                value.poliRujukan.nama,
+                                "<button class='btnPilihRujukan btn btn-success btn-xs' data-id=" +
+                                value.noKunjungan +
+                                " data-kelas=" + value.peserta.hakKelas
+                                .kode +
+                                " data-tglrujukan=" + value.tglKunjungan +
+                                " data-ppkrujukan=" + value.provPerujuk
+                                .kode +
+                                " >Pilih</button>",
+                            ]).draw(false);
+                        });
+                        $('.btnPilihRujukan').click(function() {
+                            $.LoadingOverlay("show");
+                            $('#ppkrujukan').val($(this).data('ppkrujukan'));
+                            $('.noRujukan-id').val($(this).data('id'));
+                            $('#klsRawatHak').val($(this).data('kelas')).change();
+                            $('#tglrujukan').val($(this).data('tglrujukan'));
+                            $('#modalRujukan').modal('hide');
+                            $.LoadingOverlay("hide");
+                        });
+                    } else {
+                        Swal.fire(
+                            'Error ' + data.metadata.code,
+                            data.metadata.message,
+                            'error'
+                        );
+                    }
+                    $.LoadingOverlay("hide");
+                },
+                error: function(data) {
+                    alert('Error');
+                    $.LoadingOverlay("hide");
+                }
+            });
         }
 
         function btnCariKartu() {

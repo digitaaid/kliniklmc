@@ -130,11 +130,11 @@
                     </x-adminlte-input>
                     <input type="hidden" name="tglRujukan" id="tglrujukan" value="">
                     <input type="hidden" name="ppkRujukan" id="ppkrujukan" value="">
+                </div>
+                <div class="col-md-6">
                     @php
                         $config = ['format' => 'YYYY-MM-DD'];
                     @endphp
-                </div>
-                <div class="col-md-6">
                     <x-adminlte-input-date fgroup-class="row" label-class="text-left col-4" igroup-class="col-8"
                         igroup-size="sm" name="tglSep" label="Tanggal SEP" :config="$config" required enable-old-support
                         value="{{ now()->format('Y-m-d') }}" />

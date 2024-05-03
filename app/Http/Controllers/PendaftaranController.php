@@ -380,10 +380,12 @@ class PendaftaranController extends APIController
                 } catch (\Throwable $th) {
                     //throw $th;
                 }
+                $antrian->update([
+                    'status' => 1
+                ]);
             }
-            $antrian->update([
-                'status' => 1
-            ]);
+            Alert::success('Success', $res->metadata->message);
+            return redirect()->back();
         }
         Alert::success('Success', 'Antrian telah diperbaharui.');
         return redirect()->back();

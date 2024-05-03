@@ -93,7 +93,7 @@
                         'Method',
                         'Status',
                     ];
-                    $config['order'] = [8, 'asc'];
+                    $config['order'] = [5, 'asc'];
                     $config['paging'] = false;
                     $config['scrollX'] = true;
                     $config['scrollY'] = '300px';
@@ -173,7 +173,7 @@
                                 <td>{{ $item->jenispasien }} </td>
                                 <td class="text-right">{{ money($item->layanans->sum('harga'), 'IDR') }} </td>
                                 <td>{{ $item->kunjungan->units->nama ?? $item->namapoli }} </td>
-                                <td>{{ $item->pic1->name }} </td>
+                                <td>{{ $item->pic1->name ?? 'Belum Didaftarkan' }} </td>
                                 <td>{{ $item->kunjungan->dokters->namadokter ?? $item->namadokter }}</td>
                                 <td>{{ $item->nomorkartu }}</td>
                                 <td>{{ $item->nik }} </td>

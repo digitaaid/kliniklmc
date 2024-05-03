@@ -161,7 +161,7 @@
                                 <td>{{ $item->jenispasien }} </td>
                                 <td class="text-right">{{ money($item->layanans->sum('harga'), 'IDR') }} </td>
                                 <td>{{ $item->kunjungan->units->nama ?? $item->namapoli }} </td>
-                                <td>{{ $item->pic2->name }} </td>
+                                <td>{{ $item->pic2->name ?? 'Belum Didaftarkan' }} </td>
                                 <td>{{ $item->kunjungan->dokters->namadokter ?? $item->namadokter }}</td>
 
                             </tr>
