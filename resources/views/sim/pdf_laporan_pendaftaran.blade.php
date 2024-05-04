@@ -27,15 +27,15 @@
             </tr>
         </thead>
         <tbody>
-            @foreach ($antrians->where('taskid', 7) as $item)
+            @foreach ($kunjungans as $item)
                 <tr>
                     <td>{{ $loop->iteration }}</td>
-                    <td>{{ $item->tanggalperiksa }}</td>
+                    <td>{{ $item->antrian->tanggalperiksa }}</td>
                     <td>{{ $item->norm }}</td>
                     <td>{{ $item->nama }}</td>
                     <td>{{ $item->nomorkartu }}</td>
                     <td>
-                        @if ($item->kunjungan->counter == 1)
+                        @if ($item->counter == 1)
                             BARU
                         @else
                             LAMA
@@ -63,11 +63,11 @@
                                 -
                         @endswitch
                     </td>
-                    <td>{{ $item->jenispasien }} </td>
-                    <td>{{ $item->kunjungan->jaminans->nama }} </td>
-                    <td>{{ $item->perujuk ?? '-' }}</td>
-                    <td>{{ $item->kunjungan->sep ?? '-' }} </td>
-                    <td>{{ $item->pic1 ? $item->pic1->name : $item->user1 }}</td>
+                    <td>{{ $item->antrian->jenispasien}} </td>
+                    <td>{{ $item->jaminans->nama }} </td>
+                    <td>{{ $item->antrian->perujuk ?? '-' }}</td>
+                    <td>{{ $item->sep ?? '-' }} </td>
+                    <td>{{ $item->antrian->pic1 ? $item->antrian->pic1->name : $item->antrian->user1 }}</td>
                 </tr>
             @endforeach
         </tbody>

@@ -630,16 +630,16 @@ class PendaftaranController extends APIController
     }
     public function pdflaporanpendaftaran(Request $request)
     {
-        $antrians = null;
+        $kunjungans = null;
         if ($request->tanggal) {
             $tanggal = explode('-', $request->tanggal);
-            $request['tanggalawal'] = Carbon::parse($tanggal[0])->format('Y-m-d');
-            $request['tanggalakhir'] = Carbon::parse($tanggal[1])->format('Y-m-d');
-            $antrians = Antrian::whereBetween('tanggalperiksa', [$request->tanggalawal, $request->tanggalakhir])->get();
+            $request['tanggalawal'] = Carbon::parse($tanggal[0])->startOfDay();
+            $request['tanggalakhir'] = Carbon::parse($tanggal[1])->endOfDay();
+            $kunjungans = Kunjungan::with(['antrian'])->whereBetween('tgl_masuk', [$request->tanggalawal, $request->tanggalakhir])->get();
         }
         $pdf = Pdf::loadView('sim.pdf_laporan_pendaftaran', compact([
             'request',
-            'antrians',
+            'kunjungans',
         ]));
         return $pdf->stream('laporan_pendaftaran.pdf');
     }
