@@ -49,8 +49,20 @@
                     <a href="{{ route('pdflaporanpendaftaran') }}?tanggal={{ $request->tanggal }}" target="_blank"
                         rel="noopener noreferrer" class="btn btn-primary">Print PDF</a>
                     @php
-                        $heads = ['No', 'Tanggal', 'No RM', 'Pasien', 'Kartu BPJS', 'Asal Perujuk', 'Jenis Pasien', 'Method', 'Action', 'PIC'];
-                        $config['order'] = [1, 'asc'];
+                        $heads = [
+                            'No',
+                            'Tanggal',
+                            'No RM',
+                            'Pasien',
+                            'Kartu BPJS',
+                            'Asal Perujuk',
+                            'Jenis Pasien',
+                            'SEP',
+                            'Method',
+                            'Action',
+                            'PIC',
+                        ];
+                        $config['order'] = [9, 'asc'];
                         $config['paging'] = false;
                         $config['scrollY'] = '300px';
                     @endphp
@@ -65,6 +77,7 @@
                                 <td>{{ $item->nomorkartu }}</td>
                                 <td>{{ $item->perujuk }}</td>
                                 <td>{{ $item->jenispasien }} </td>
+                                <td>{{ $item->sep }} </td>
                                 <td>{{ $item->method }} </td>
                                 <td>
                                     @switch($item->taskid)

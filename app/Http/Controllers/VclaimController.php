@@ -787,12 +787,13 @@ class VclaimController extends APIController
     {
         $validator = Validator::make(request()->all(), [
             "nomor" => "required",
+            "jenisKontrol" => "required",
             "tglRencanaKontrol" => "required|date",
         ]);
         if ($validator->fails()) {
             return $this->sendError($validator->errors()->first(), 400);
         }
-        $url =  $this->api()->base_url . "RencanaKontrol/ListSpesialistik/JnsKontrol/2/nomor/" . $request->nomor . "/TglRencanaKontrol/" . $request->tglRencanaKontrol;
+        $url =  $this->api()->base_url . "RencanaKontrol/ListSpesialistik/JnsKontrol/" . $request->jenisKontrol . "/nomor/" . $request->nomor . "/TglRencanaKontrol/" . $request->tglRencanaKontrol;
         $signature = $this->signature();
         $response = Http::withHeaders($signature)->get($url);
         return $this->response_decrypt($response, $signature);
@@ -809,6 +810,34 @@ class VclaimController extends APIController
         $url =  $this->api()->base_url . "RencanaKontrol/JadwalPraktekDokter/JnsKontrol/2/KdPoli/" . $request->kodePoli . "/TglRencanaKontrol/" . $request->tglRencanaKontrol;
         $signature = $this->signature();
         $response = Http::withHeaders($signature)->get($url);
+        return $this->response_decrypt($response, $signature);
+    }
+    // SPRI
+    public function spri_insert(Request $request)
+    {
+        $validator = Validator::make(request()->all(), [
+            "noKartu" => "required",
+            "tglRencanaKontrol" => "required|date",
+            "kodeDokter" => "required",
+            "poliKontrol" => "required",
+            "user" => "required",
+        ]);
+        if ($validator->fails()) {
+            return $this->sendError($validator->errors()->first(), 400);
+        }
+        $url =  $this->api()->base_url . "RencanaKontrol/InsertSPRI";
+        $signature = $this->signature();
+        $signature['Content-Type'] = 'application/x-www-form-urlencoded';
+        $data = [
+            "request" => [
+                "noKartu" => $request->noKartu,
+                "kodeDokter" => $request->kodeDokter,
+                "poliKontrol" => $request->poliKontrol,
+                "tglRencanaKontrol" => $request->tglRencanaKontrol,
+                "user" =>  $request->user,
+            ]
+        ];
+        $response = Http::withHeaders($signature)->post($url, $data);
         return $this->response_decrypt($response, $signature);
     }
     // RUJUKAN

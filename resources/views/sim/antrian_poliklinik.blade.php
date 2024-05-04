@@ -173,7 +173,7 @@
                                 <td>{{ $item->jenispasien }} </td>
                                 <td class="text-right">{{ money($item->layanans->sum('harga'), 'IDR') }} </td>
                                 <td>{{ $item->kunjungan->units->nama ?? $item->namapoli }} </td>
-                                <td>{{ $item->pic3->name }} </td>
+                                <td>{{ $item->pic3->name ?? 'Belum Periksa' }} </td>
                                 <td>{{ $item->kunjungan->dokters->namadokter ?? $item->namadokter }}</td>
                             </tr>
                         @endforeach

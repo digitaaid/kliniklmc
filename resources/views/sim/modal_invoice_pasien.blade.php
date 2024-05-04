@@ -22,8 +22,9 @@
         <iframe src="" id="urlInvoice" onload="loadInvoices()" width="100%" height="500px"
             frameborder="0"></iframe>
     </x-adminlte-modal>
-    <x-adminlte-modal id="modalPendaftaranSelesai" title="Invoice Billing Pasien" theme="success"
+    <x-adminlte-modal id="modalPendaftaranSelesai" title="Verifikasi Pendaftaran Telah Selesai ?" theme="success"
         icon="fas fa-file-invoice-dollar" size="xl">
+        <h6>Apakah pendaftran telah selesai dan bisa dilanjutkan kepemeriksaan berikutnya ? Silahkan cek kembali invoice billing</h6>
         <div id="iframeLoaderx" class="loader">
             <h4>Loading...</h4>
         </div>

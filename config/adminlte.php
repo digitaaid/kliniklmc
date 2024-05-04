@@ -513,6 +513,20 @@ return [
             'icon'    => 'fas fa-chart-line',
             'submenu' => [
                 [
+                    'text' => 'Laporan Pendaftaran',
+                    'icon'    => 'fas fa-chart-line',
+                    'url'  => 'laporanpendaftaran',
+                    'can' => 'pendaftaran',
+                    'shift'   => 'ml-2',
+                ],
+                [
+                    'text' => 'Laporan Kunjungan',
+                    'icon'    => 'fas fa-chart-line',
+                    'url'  => 'laporankunjungan',
+                    'can' => 'pendaftaran',
+                    'shift'   => 'ml-2',
+                ],
+                [
                     'text' => 'Laporan Pelayanan & Tindakan',
                     'icon'    => 'fas fa-chart-line',
                     'url'  => 'laporan_layanan_tindakan',
@@ -529,20 +543,6 @@ return [
                     'icon'    => 'fas fa-file-medical',
                     'url'  => 'resumerawatjalan',
                     'can' => ['pendaftaran', 'rekammedis'],
-                    'shift'   => 'ml-2',
-                ],
-                [
-                    'text' => 'Laporan Pendaftaran',
-                    'icon'    => 'fas fa-chart-line',
-                    'url'  => 'laporanpendaftaran',
-                    'can' => 'pendaftaran',
-                    'shift'   => 'ml-2',
-                ],
-                [
-                    'text' => 'Laporan Kunjungan',
-                    'icon'    => 'fas fa-chart-line',
-                    'url'  => 'laporankunjungan',
-                    'can' => 'pendaftaran',
                     'shift'   => 'ml-2',
                 ],
                 [
@@ -737,11 +737,25 @@ return [
                     'shift'   => 'ml-2',
                 ],
                 [
+                    'text' => 'Approval Penjaminan SEP',
+                    'icon'    => 'fas fa-id-card',
+                    'url'  => 'sepkunjungan',
+                    'shift'   => 'ml-2',
+                    'can' => ['bpjs', 'pendaftaran', 'manajemen'],
+                ],
+                [
                     'text' => 'Surat Kontrol',
                     'icon'    => 'fas fa-file-medical',
                     'url'  => 'suratkontrol',
                     'shift'   => 'ml-2',
                     'can' => ['bpjs', 'vclaim', 'pendaftaran', 'manajemen'],
+                ],
+                [
+                    'text' => 'Rujukan',
+                    'icon'    => 'fas fa-id-card',
+                    'url'  => 'rujukanBpjs',
+                    'shift'   => 'ml-2',
+                    'can' => ['bpjs', 'pendaftaran', 'manajemen'],
                 ],
                 [
                     'text' => 'Lembar Pengajuan Klaim',
@@ -791,28 +805,6 @@ return [
                     'url'  => 'referensiVclaim',
                     'shift'   => 'ml-2',
                     'can' => ['bpjs', 'pendaftaran', 'manajemen'],
-                ],
-                [
-                    'text' => 'Rujukan',
-                    'icon'    => 'fas fa-id-card',
-                    'url'  => 'rujukanBpjs',
-                    'shift'   => 'ml-2',
-                    'can' => ['bpjs', 'pendaftaran', 'manajemen'],
-                ],
-
-                [
-                    'text' => 'SEP',
-                    'icon'    => 'fas fa-chart-line',
-                    'shift'   => 'ml-2',
-                    'submenu' => [
-                        [
-                            'text' => 'SEP Kunjungan',
-                            'icon'    => 'fas fa-id-card',
-                            'url'  => 'sepkunjungan',
-                            'shift'   => 'ml-3',
-                            'can' => ['bpjs', 'pendaftaran', 'manajemen'],
-                        ],
-                    ]
                 ],
 
             ],

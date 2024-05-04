@@ -593,13 +593,15 @@
                     </div>
                 </div> --}}
             </form>
-            <button type="submit" form="formPerawat" class="btn btn-success mb-1 w-100 withLoad">
-                <i class="fas fa-edit"></i> Simpan & Tanda Tangan Pemeriksaan Perawat
-            </button>
+            @can('perawat')
+                <button type="submit" form="formPerawat" class="btn btn-success mb-1 w-100 withLoad">
+                    <i class="fas fa-edit"></i> Simpan & Tanda Tangan Pemeriksaan Perawat
+                </button>
+            @endcan
         </div>
     </div>
 </div>
-{{-- anamnesa keperawatan --}}
+{{-- asesmen --}}
 <div class="card card-info mb-1">
     <a data-toggle="collapse" class="card-header" data-parent="#accordion" href="#collAsesmenRajal">
         <h3 class="card-title">
@@ -862,9 +864,11 @@
                     <div class="col-md-6">
                         <x-adminlte-select name="diagnosa1" class="diagnosaid1" label="Diagnosa Primer ICD-10 : ">
                             @if ($antrian->asesmendokter)
-                                <option value="{{ $antrian->asesmendokter->diagnosa1 }}" selected>
-                                    {{ $antrian->asesmendokter->diagnosa1 }}
-                                </option>
+                                @if ($antrian->asesmendokter->diagnosa1)
+                                    <option value="{{ $antrian->asesmendokter->diagnosa1 }}" selected>
+                                        {{ $antrian->asesmendokter->diagnosa1 }}
+                                    </option>
+                                @endif
                             @endif
                         </x-adminlte-select>
                         <x-adminlte-select name="diagnosa2[]" class="diagnosaid2" label="Diagnosa Sekunder ICD-10 : "
@@ -1029,8 +1033,10 @@
                         </x-adminlte-textarea>
                     </div>
                 </div>
-                <button type="submit" class="btn btn-success mb-1 w-100 withLoad">
-                    <i class="fas fa-edit"></i> Simpan & Tanda Tangan Pemeriksaan Dokter</button>
+                @can('dokter')
+                    <button type="submit" class="btn btn-success mb-1 w-100 withLoad">
+                        <i class="fas fa-edit"></i> Simpan & Tanda Tangan Pemeriksaan Dokter</button>
+                @endcan
             </form>
         </div>
     </div>
@@ -1073,6 +1079,7 @@
             $(".diagnosaid1").select2({
                 theme: "bootstrap4",
                 placeholder: "Diagnosa Primer ICD-10",
+                multiple: true,
                 maximumSelectionLength: 1,
                 ajax: {
                     url: "{{ route('ref_diagnosa_api') }}",

@@ -42,6 +42,7 @@ use App\Http\Controllers\SatuSehatController;
 use App\Http\Controllers\SbarController;
 use App\Http\Controllers\SepController;
 use App\Http\Controllers\SocialiteController;
+use App\Http\Controllers\SPRIController;
 use App\Http\Controllers\StokObatController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\SuratKontrolController;
@@ -134,6 +135,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('antrian', AntrianController::class);
     Route::resource('kunjungan', KunjunganController::class);
     Route::resource('suratkontrol', SuratKontrolController::class);
+    Route::resource('spri', SPRIController::class);
     Route::resource('satuanobat', SatuanObatController::class);
     Route::resource('jenisobat', JenisObatController::class);
     Route::resource('tipebarang', TipeBarangController::class);

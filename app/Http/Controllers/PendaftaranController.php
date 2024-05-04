@@ -334,7 +334,6 @@ class PendaftaranController extends APIController
         $request['sisakuotanonjkn'] = $antrian->sisakuotanonjkn;
         $request['kuotanonjkn'] = $antrian->kuotanonjkn;
         $request['keterangan'] = "Antrian proses di pendaftaran";
-        $request['status'] = 0;
         $api = new AntrianController();
         $antrian->update($request->all());
         if ($antrian->status == 0) {
@@ -383,8 +382,10 @@ class PendaftaranController extends APIController
                 $antrian->update([
                     'status' => 1
                 ]);
+                Alert::success('Success', $res->metadata->message);
+            } else {
+                Alert::error('Mohon Maaf', $res->metadata->message);
             }
-            Alert::success('Success', $res->metadata->message);
             return redirect()->back();
         }
         Alert::success('Success', 'Antrian telah diperbaharui.');
@@ -606,7 +607,7 @@ class PendaftaranController extends APIController
             $tanggal = explode('-', $request->tanggal);
             $request['tanggalawal'] = Carbon::parse($tanggal[0])->format('Y-m-d');
             $request['tanggalakhir'] = Carbon::parse($tanggal[1])->format('Y-m-d');
-            $antrians = Antrian::whereBetween('tanggalperiksa', [$request->tanggalawal, $request->tanggalakhir])->get();
+            $antrians = Antrian::with(['kunjungan'])->whereBetween('tanggalperiksa', [$request->tanggalawal, $request->tanggalakhir])->get();
         }
         return view('sim.laporan_pendaftaran', compact([
             'request',
@@ -618,8 +619,8 @@ class PendaftaranController extends APIController
         $kunjungans = null;
         if ($request->tanggal) {
             $tanggal = explode('-', $request->tanggal);
-            $request['tanggalawal'] = Carbon::parse($tanggal[0])->format('Y-m-d');
-            $request['tanggalakhir'] = Carbon::parse($tanggal[1])->format('Y-m-d');
+            $request['tanggalawal'] = Carbon::parse($tanggal[0])->startOfDay();
+            $request['tanggalakhir'] = Carbon::parse($tanggal[1])->endOfDay();
             $kunjungans = Kunjungan::with(['antrian'])->whereBetween('tgl_masuk', [$request->tanggalawal, $request->tanggalakhir])->get();
         }
         return view('sim.laporan_kunjungan', compact(
@@ -640,7 +641,7 @@ class PendaftaranController extends APIController
             'request',
             'antrians',
         ]));
-        return $pdf->download();
+        return $pdf->stream('laporan_pendaftaran.pdf');
     }
     public function laporanwaktuantrian(Request $request)
     {

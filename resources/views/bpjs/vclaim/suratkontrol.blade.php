@@ -37,11 +37,10 @@
                         <div class="col-md-4">
                             <x-adminlte-button theme="success" class="btn-sm" label="Buat S. Kontrol"
                                 icon="fas fa-file-medical" onclick="buatSuratKontrol()" />
-                            <x-adminlte-button theme="success" class="btn-sm" label="Buat SPRI"
+                            <x-adminlte-button theme="success" class="btn-sm" label="Buat SPRI" onclick="modalBuatSPRI()"
                                 icon="fas fa-file-medical" />
                         </div>
                     </div>
-
                 </form>
                 @php
                     $heads = [
@@ -76,7 +75,9 @@
                                         data-nosuratkontrol="{{ $item->noSuratKontrol }}" />
                                     @if ($item->terbitSEP != 'Sudah')
                                         <x-adminlte-button class="btn-xs" theme="warning" icon="fas fa-edit" />
-                                        <x-adminlte-button class="btn-xs" theme="danger" icon="fas fa-trash" />
+                                        <x-adminlte-button class="btn-xs" theme="danger"
+                                            onclick="window.location.href = '{{ route('suratkontrol_hapus') }}?noSuratKontrol={{ $item->noSuratKontrol }}';"
+                                            icon="fas fa-trash" />
                                     @endif
                                 </td>
                                 <td>{{ $item->tglRencanaKontrol }}</td>
@@ -124,9 +125,9 @@
             @php
                 $config = ['format' => 'YYYY-MM-DD'];
             @endphp
-            <x-adminlte-input-date fgroup-class="row" label-class="text-left col-3" igroup-class="col-9" igroup-size="sm"
-                name="tglRencanaKontrol" label="Tgl Kontrol" placeholder="Pilih Tanggal Rencana Kontrol"
-                :config="$config">
+            <x-adminlte-input-date fgroup-class="row" label-class="text-left col-3" igroup-class="col-9"
+                igroup-size="sm" name="tglRencanaKontrol" label="Tgl Kontrol"
+                placeholder="Pilih Tanggal Rencana Kontrol" :config="$config">
             </x-adminlte-input-date>
             <x-adminlte-select fgroup-class="row" label-class="text-left col-3" igroup-class="col-9" igroup-size="sm"
                 name="poliKontrol" label="Poliklinik">
@@ -146,6 +147,43 @@
         </form>
         <x-slot name="footerSlot">
             <x-adminlte-button class="mr-auto withLoad" theme="success" form="formSuratKontrol" type="submit"
+                label="Buat Surat Kontrol" />
+            <x-adminlte-button theme="danger" label="Tutup" icon="fas fa-times" data-dismiss="modal" />
+        </x-slot>
+    </x-adminlte-modal>
+    <x-adminlte-modal id="modalBuatSPRI" title="Buat SPRI" size="xl" theme="success" icon="fas fa-file-medical">
+        <form action="{{ route('spri.store') }}" id="formSPRI" method="POST">
+            @csrf
+            {{-- <input type="hidden" name="kodebooking" value="{{ $antrian->kodebooking }}"> --}}
+            {{-- <input type="hidden" name="antrian_id" value="{{ $antrian->id }}"> --}}
+            <x-adminlte-input fgroup-class="row" label-class="text-left col-3" igroup-class="col-9" igroup-size="sm"
+                name="noKartu" id="noKartuSPRI" label="Nomor Kartu" placeholder="Nomor Kartu" />
+            @php
+                $config = ['format' => 'YYYY-MM-DD'];
+            @endphp
+            <x-adminlte-input-date fgroup-class="row" label-class="text-left col-3" igroup-class="col-9"
+                igroup-size="sm" name="tglRencanaKontrol" id="tglRencanaKontrolSPRI" label="Tgl Kontrol"
+                placeholder="Pilih Tanggal Rencana Kontrol" :config="$config">
+            </x-adminlte-input-date>
+            <x-adminlte-select fgroup-class="row" label-class="text-left col-3" igroup-class="col-9" igroup-size="sm"
+                name="poliKontrol" id="poliKontrolSPRI" label="Poliklinik">
+                <option selected disabled>Silahkan Klik Cari Poliklinik</option>
+                <x-slot name="appendSlot">
+                    <x-adminlte-button theme="primary" label="Cari Poli" icon="fas fa-search"
+                        onclick="cariPoliSPRI()" />
+                </x-slot>
+            </x-adminlte-select>
+            <x-adminlte-select fgroup-class="row" label-class="text-left col-3" igroup-class="col-9" igroup-size="sm"
+                name="kodeDokter" id="kodeDokterSPRI" label="Dokter">
+                <option selected disabled>Silahkan Klik Cari Dokter</option>
+                <x-slot name="appendSlot">
+                    <x-adminlte-button theme="primary" label="Cari Dokter" icon="fas fa-search"
+                        onclick="cariDokterSPRI()" />
+                </x-slot>
+            </x-adminlte-select>
+        </form>
+        <x-slot name="footerSlot">
+            <x-adminlte-button class="mr-auto withLoad" theme="success" form="formSPRI" type="submit"
                 label="Buat Surat Kontrol" />
             <x-adminlte-button theme="danger" label="Tutup" icon="fas fa-times" data-dismiss="modal" />
         </x-slot>
@@ -327,6 +365,95 @@
                                 ")";
                             optValue = value.kodeDokter;
                             $('#kodeDokter').append(new Option(optText, optValue));
+                        });
+                        Toast.fire({
+                            icon: 'success',
+                            title: 'Dokter Ditemukan'
+                        });
+                    } else {
+                        Toast.fire({
+                            icon: 'error',
+                            title: data.metadata.message
+                        });
+                    }
+                    $.LoadingOverlay("hide");
+                },
+                error: function(data) {
+                    Toast.fire({
+                        icon: 'error',
+                        title: data.metadata.message
+                    });
+                    $.LoadingOverlay("hide");
+                }
+            });
+        }
+    </script>
+    {{-- spri --}}
+    <script>
+        function modalBuatSPRI() {
+            $('#modalBuatSPRI').modal('show');
+        }
+
+        function cariPoliSPRI() {
+            $.LoadingOverlay("show");
+            var nomorkartu = $('#noKartuSPRI').val();
+            var tanggal = $('#tglRencanaKontrolSPRI').val();
+            var url = "{{ route('suratkontrol_poli') }}?nomor=" + nomorkartu + "&tglRencanaKontrol=" +
+                tanggal + "&jenisKontrol=1";
+            $.ajax({
+                url: url,
+                type: "GET",
+                dataType: 'json',
+                success: function(data) {
+                    if (data.metadata.code == 200) {
+                        $('#poliKontrolSPRI').empty()
+                        $.each(data.response.list, function(key, value) {
+                            optText = value.namaPoli + " (" + value.persentase +
+                                "%)";
+                            optValue = value.kodePoli;
+                            $('#poliKontrolSPRI').append(new Option(optText, optValue));
+                        });
+                        Toast.fire({
+                            icon: 'success',
+                            title: 'Poliklinik Ditemukan'
+                        });
+                    } else {
+                        Toast.fire({
+                            icon: 'error',
+                            title: data.metadata.message
+                        });
+                    }
+                    $.LoadingOverlay("hide");
+                },
+                error: function(data) {
+                    Toast.fire({
+                        icon: 'error',
+                        title: data.metadata.message
+                    });
+                    $.LoadingOverlay("hide");
+                }
+            });
+        }
+
+        function cariDokterSPRI() {
+            $.LoadingOverlay("show");
+            var poli = $('#poliKontrolSPRI').find(":selected").val();
+            var tanggal = $('#tglRencanaKontrolSPRI').val();
+            var url = "{{ route('suratkontrol_dokter') }}?kodePoli=" + poli + "&tglRencanaKontrol=" +
+                tanggal + "&jenisKontrol=1";
+            $.ajax({
+                url: url,
+                type: "GET",
+                dataType: 'json',
+                success: function(data) {
+                    if (data.metadata.code == 200) {
+                        $('#kodeDokterSPRI').empty();
+                        $.each(data.response.list, function(key, value) {
+                            optText = value.namaDokter + " (" + value
+                                .jadwalPraktek +
+                                ")";
+                            optValue = value.kodeDokter;
+                            $('#kodeDokterSPRI').append(new Option(optText, optValue));
                         });
                         Toast.fire({
                             icon: 'success',

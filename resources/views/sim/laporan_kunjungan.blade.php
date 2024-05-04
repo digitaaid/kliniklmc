@@ -38,8 +38,8 @@
                     </div>
                     <div class="col-md-3">
                         <x-adminlte-small-box
-                            title="{{ $kunjungans->count() - $kunjungans->where('antrian.jenispasien', 'JKN')->count() }} / {{ $kunjungans->where('antrian.jenispasien', 'JKN')->count() }}"
-                            text="Kunj. Umum / BPJS" theme="warning" icon="fas fa-user-injured" />
+                            title="{{ $kunjungans->where('antrian.jenispasien', 'JKN')->count() }} / {{ $kunjungans->where('antrian.jenispasien', 'NON-JKN')->count() }}"
+                            text="Kunj. JKN / Umum" theme="warning" icon="fas fa-user-injured" />
                     </div>
                     {{-- <div class="col-md-3">
                         <x-adminlte-small-box
@@ -56,7 +56,21 @@
                     <a href="{{ route('pdflaporanpendaftaran') }}?tanggal={{ $request->tanggal }}" target="_blank"
                         rel="noopener noreferrer" class="btn btn-primary">Print PDF</a>
                     @php
-                        $heads = ['No', 'Tanggal', 'No RM', 'Pasien', 'Penjamin', 'Perujuk', 'Baru/Lama', 'BPJS/UMUM', 'Dokter', 'PIC'];
+                        $heads = [
+                            'No',
+                            'Tanggal',
+                            'No RM',
+                            'Pasien',
+                            'No BPJS',
+                            'Jenis Peserta',
+                            'Baru/Lama',
+                            'JKN/UMUM',
+                            'Jaminan',
+                            'Perujuk',
+                            'SEP',
+                            'Poliklinik',
+                            'PIC',
+                        ];
                         $config['order'] = [1, 'asc'];
                         $config['paging'] = false;
                         $config['scrollY'] = '300px';
@@ -69,8 +83,8 @@
                                 <td>{{ $item->tgl_masuk }}</td>
                                 <td>{{ $item->norm }}</td>
                                 <td>{{ $item->nama }} ({{ $item->gender }})</td>
+                                <td>{{ $item->nomorkartu }}</td>
                                 <td>{{ $item->penjamin }}</td>
-                                <td>{{ $item->antrian->perujuk }}</td>
                                 <td>
                                     @if ($item->counter == 1)
                                         BARU
@@ -78,9 +92,12 @@
                                         LAMA
                                     @endif
                                 </td>
-                                <td>{{ $item->dokters->namadokter }}</td>
                                 <td>{{ $item->antrian->jenispasien }}</td>
-                                <td>{{ $item->pic->name }}</td>
+                                <td>{{ $item->jaminans->nama }}</td>
+                                <td>{{ $item->antrian->perujuk }}</td>
+                                <td>{{ $item->sep }}</td>
+                                <td>{{ $item->antrian->namapoli }}</td>
+                                <td>{{ $item->antrian->pic1 ? $item->antrian->pic1->name : $item->antrian->user1 }} </td>
                             </tr>
                         @endforeach
                     </x-adminlte-datatable>

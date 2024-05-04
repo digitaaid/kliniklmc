@@ -190,8 +190,8 @@
             <div class="card card-primary card-outline">
                 <div class="card-body box-profile p-3" style="overflow-y: auto ;max-height: 600px ;">
                     <div id="accordion" role="tablist" aria-multiselectable="true">
-                        @include('sim.modal_pasien')
                         @include('sim.modal_antrian')
+                        @include('sim.modal_pasien')
                         @if ($antrian->jenispasien == 'JKN')
                             @include('sim.tabel_sep')
                             @include('sim.tabel_suratkontrol')

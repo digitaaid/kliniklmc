@@ -69,7 +69,8 @@
         {{-- <input type="hidden" name="kodebooking" value="{{ $antrian->kodebooking }}"> --}}
         {{-- <input type="hidden" name="antrian_id" value="{{ $antrian->id }}"> --}}
         <x-adminlte-input fgroup-class="row" label-class="text-left col-3" igroup-class="col-9" igroup-size="sm"
-            name="nomorkartu" value="{{ $antrian->nomorkartu }}" label="Nomor Kartu" placeholder="Nomor Kartu" />
+            name="nomorkartu" class="nomorkartu-suratkontrol" value="{{ $antrian->nomorkartu }}" label="Nomor Kartu"
+            placeholder="Nomor Kartu" />
         <x-adminlte-input fgroup-class="row" label-class="text-left col-3" igroup-class="col-9" igroup-size="sm"
             name="noSEP" class="noSEP-id" label="Nomor SEP" placeholder="Nomor SEP" readonly>
             <x-slot name="appendSlot">
@@ -103,8 +104,8 @@
         <x-adminlte-button theme="danger" label="Tutup" icon="fas fa-times" data-dismiss="modal" />
     </x-slot>
 </x-adminlte-modal>
-<x-adminlte-modal id="modalSuratKontrolBerikutnya" title="Buat Surat Kontrol Untuk Kunjungan Berikutnya" size="xl" theme="success"
-    icon="fas fa-file-medical">
+<x-adminlte-modal id="modalSuratKontrolBerikutnya" title="Buat Surat Kontrol Untuk Kunjungan Berikutnya" size="xl"
+    theme="success" icon="fas fa-file-medical">
     <form action="{{ route('suratkontrol.store') }}" id="formSuratKontrolBerikutnya" method="POST">
         @csrf
         <input type="hidden" name="kodebooking" value="{{ $antrian->kodebooking }}">
@@ -284,7 +285,7 @@
         }
 
         function cariSEP() {
-            var nomorkartu = $(".nomorkartu-id").val();
+            var nomorkartu = $(".nomorkartu-suratkontrol").val();
             $('#modalSEP').modal('show');
             var table = $('#tableSEP').DataTable();
             table.rows().remove().draw();
@@ -525,7 +526,7 @@
 
         function cariSuratKontrol() {
             $.LoadingOverlay("show");
-            var nomorkartu = $(".nomorkartu-id").val();
+            var nomorkartu = $(".nomorkartu-suratkontrol").val();
             $('#modalSuratKontrol').modal('show');
             var table = $('#tableSuratKontrol').DataTable();
             table.rows().remove().draw();
