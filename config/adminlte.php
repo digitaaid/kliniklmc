@@ -739,7 +739,7 @@ return [
                 [
                     'text' => 'Approval Penjaminan SEP',
                     'icon'    => 'fas fa-id-card',
-                    'url'  => 'sepkunjungan',
+                    'url'  => 'list_approval_sep',
                     'shift'   => 'ml-2',
                     'can' => ['bpjs', 'pendaftaran', 'manajemen'],
                 ],

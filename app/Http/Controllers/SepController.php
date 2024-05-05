@@ -196,4 +196,63 @@ class SepController extends Controller
         ]));
         return $pdf->download();
     }
+    public function list_approval_sep(Request $request)
+    {
+        $antrians = null;
+        if (isset($request->tanggal)) {
+            $tanggal = explode('-', $request->tanggal);
+            $request['tahun'] = $tanggal[0];
+            $request['bulan'] = $tanggal[1];
+            $api = new VclaimController();
+            $response =  $api->list_approval_sep($request);
+            if ($response->metadata->code == 200) {
+                $antrians = collect($response->response->list);
+                Alert::success($response->metadata->message . ' ' . $response->metadata->code);
+            } else {
+                Alert::error($response->metadata->message . ' ' . $response->metadata->code);
+            }
+        }
+        return view('bpjs.vclaim.approval_sep', compact([
+            'request',
+            'antrians',
+        ]));
+    }
+    public function pengajuan_approval_sep(Request $request)
+    {
+        $request->validate([
+            "noKartu" => "required",
+            "tglSep" => "required",
+            "jnsPelayanan" => "required",
+            "jnsPengajuan" => "required",
+            "keterangan" => "required",
+        ]);
+        $request['user'] = Auth::user()->name;
+        $api = new VclaimController();
+        $res = $api->pengajuan_approval_sep($request);
+        if ($res->metadata->code == 200) {
+            Alert::success('Success', $res->metadata->message);
+        } else {
+            Alert::error('Mohon Maaf', $res->metadata->message);
+        }
+        return redirect()->back();
+    }
+    public function approval_sep(Request $request)
+    {
+        $request->validate([
+            "noKartu" => "required",
+            "tglSep" => "required",
+            "jnsPelayanan" => "required",
+            "jnsPengajuan" => "required",
+            "keterangan" => "required",
+        ]);
+        $request['user'] = Auth::user()->name;
+        $api = new VclaimController();
+        $res = $api->approval_sep($request);
+        if ($res->metadata->code == 200) {
+            Alert::success('Success', $res->metadata->message);
+        } else {
+            Alert::error('Mohon Maaf', $res->metadata->message);
+        }
+        return redirect()->back();
+    }
 }

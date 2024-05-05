@@ -1045,6 +1045,82 @@ class VclaimController extends APIController
         $response = Http::withHeaders($signature)->get($url);
         return $this->response_decrypt($response, $signature);
     }
+    public function list_approval_sep(Request $request)
+    {
+        $validator = Validator::make(request()->all(), [
+            "bulan" => "required",
+            "tahun" => "required",
+        ]);
+        if ($validator->fails()) {
+            return $this->sendError($validator->errors()->first(), 400);
+        }
+        $url =  $this->api()->base_url . "Sep/persetujuanSEP/list/bulan/" . $request->bulan . "/tahun/" . $request->tahun;
+        $signature = $this->signature();
+        $response = Http::withHeaders($signature)->get($url);
+        return $this->response_decrypt($response, $signature);
+    }
+    public function pengajuan_approval_sep(Request $request)
+    {
+        $validator = Validator::make(request()->all(), [
+            "noKartu" => "required",
+            "tglSep" => "required",
+            "jnsPelayanan" => "required",
+            "jnsPengajuan" => "required",
+            "keterangan" => "required",
+            "user" => "required",
+        ]);
+        if ($validator->fails()) {
+            return $this->sendError($validator->errors()->first(), 400);
+        }
+        $url =  $this->api()->base_url . "Sep/pengajuanSEP";
+        $signature = $this->signature();
+        $signature['Content-Type'] = 'application/x-www-form-urlencoded';
+        $data = [
+            "request" => [
+                "t_sep" => [
+                    "noKartu" => $request->noKartu,
+                    "tglSep" => $request->tglSep,
+                    "jnsPelayanan" => $request->jnsPelayanan,
+                    "jnsPengajuan" => $request->jnsPengajuan,
+                    "keterangan" => $request->keterangan,
+                    "user" =>  $request->user,
+                ]
+            ]
+        ];
+        $response = Http::withHeaders($signature)->post($url, $data);
+        return $this->response_decrypt($response, $signature);
+    }
+    public function approval_sep(Request $request)
+    {
+        $validator = Validator::make(request()->all(), [
+            "noKartu" => "required",
+            "tglSep" => "required",
+            "jnsPelayanan" => "required",
+            "jnsPengajuan" => "required",
+            "keterangan" => "required",
+            "user" => "required",
+        ]);
+        if ($validator->fails()) {
+            return $this->sendError($validator->errors()->first(), 400);
+        }
+        $url =  $this->api()->base_url . "Sep/aprovalSEP";
+        $signature = $this->signature();
+        $signature['Content-Type'] = 'application/x-www-form-urlencoded';
+        $data = [
+            "request" => [
+                "t_sep" => [
+                    "noKartu" => $request->noKartu,
+                    "tglSep" => $request->tglSep,
+                    "jnsPelayanan" => $request->jnsPelayanan,
+                    "jnsPengajuan" => $request->jnsPengajuan,
+                    "keterangan" => $request->keterangan,
+                    "user" =>  $request->user,
+                ]
+            ]
+        ];
+        $response = Http::withHeaders($signature)->post($url, $data);
+        return $this->response_decrypt($response, $signature);
+    }
     // LPK
     public function data_lpk(Request $request)
     {
@@ -1056,7 +1132,6 @@ class VclaimController extends APIController
             return $this->sendError($validator->errors()->first(), 400);
         }
         $url =  $this->api()->base_url . "LPK/TglMasuk/" . $request->tanggal . "/JnsPelayanan/" . $request->jenispelayanan;
-        dd($request->all(), $url);
         $signature = $this->signature();
         $response = Http::withHeaders($signature)->get($url);
         return $this->response_decrypt($response, $signature);

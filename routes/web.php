@@ -309,6 +309,9 @@ Route::middleware('auth')->group(function () {
     // kunjungan
     Route::get('riwayat_kunjungan_norm', [KunjunganController::class, 'riwayat_kunjungan_norm'])->name('riwayat_kunjungan_norm');
     // sep
+    Route::get('list_approval_sep', [SepController::class, 'list_approval_sep'])->name('list_approval_sep');
+    Route::post('pengajuan_approval_sep', [SepController::class, 'pengajuan_approval_sep'])->name('pengajuan_approval_sep');
+    Route::post('approval_sep', [SepController::class, 'approval_sep'])->name('approval_sep');
     Route::get('sep_print', [SepController::class, 'print'])->name('sep_print');
     Route::get('sep_hapus', [SepController::class, 'sep_hapus'])->name('sep_hapus');
     Route::get('laporansep', [SepController::class, 'laporansep'])->name('laporansep');
