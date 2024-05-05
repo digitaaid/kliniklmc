@@ -1045,4 +1045,20 @@ class VclaimController extends APIController
         $response = Http::withHeaders($signature)->get($url);
         return $this->response_decrypt($response, $signature);
     }
+    // LPK
+    public function data_lpk(Request $request)
+    {
+        $validator = Validator::make(request()->all(), [
+            "tanggal" => "required|date",
+            "jenispelayanan" => "required",
+        ]);
+        if ($validator->fails()) {
+            return $this->sendError($validator->errors()->first(), 400);
+        }
+        $url =  $this->api()->base_url . "LPK/TglMasuk/" . $request->tanggal . "/JnsPelayanan/" . $request->jenispelayanan;
+        dd($request->all(), $url);
+        $signature = $this->signature();
+        $response = Http::withHeaders($signature)->get($url);
+        return $this->response_decrypt($response, $signature);
+    }
 }

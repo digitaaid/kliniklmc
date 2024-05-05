@@ -16,7 +16,6 @@
                             <x-adminlte-input-date fgroup-class="row" label-class="text-left col-3" igroup-class="col-9"
                                 igroup-size="sm" name="tanggal" label="Tanggal" :config="$config"
                                 value="{{ \Carbon\Carbon::parse($request->tanggal)->format('Y-m-d') ?? now()->format('Y-m-d') }}">
-
                             </x-adminlte-input-date>
                         </div>
                         <div class="col-md-6">
@@ -30,7 +29,6 @@
                                     <x-adminlte-button type="submit" class="withLoad" theme="primary" label="Cari!" />
                                 </x-slot>
                             </x-adminlte-select2>
-
                         </div>
                     </div>
                 </form>

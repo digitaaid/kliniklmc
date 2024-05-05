@@ -21,6 +21,7 @@ use App\Http\Controllers\KasirController;
 use App\Http\Controllers\KunjunganController;
 use App\Http\Controllers\LaboratoriumController;
 use App\Http\Controllers\LaravoltIndonesiaController;
+use App\Http\Controllers\LPKController;
 use App\Http\Controllers\MerkBarangController;
 use App\Http\Controllers\ObatController;
 use App\Http\Controllers\OrderObatController;
@@ -119,6 +120,7 @@ Route::middleware('auth')->group(function () {
         Route::resource('integrasiAPI', IntegrasiController::class);
     });
     Route::resource('sep', SepController::class);
+    Route::resource('lpk', LPKController::class);
     Route::resource('pasien', PasienController::class);
     Route::get('pasienreset', [PasienController::class, 'reset'])->name('pasienreset');
     Route::get('pasiensearch', [PasienController::class, 'search'])->name('pasiensearch');

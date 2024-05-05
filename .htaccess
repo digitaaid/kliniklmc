@@ -13,10 +13,10 @@
     Deny from all
     </Files>
 
-    <Files public>
-    Order allow,deny
-    Deny from all
-    </Files>
+    # <Files public>
+    # Order allow,deny
+    # Deny from all
+    # </Files>
 
     RewriteEngine On
 

@@ -760,7 +760,7 @@ return [
                 [
                     'text' => 'Lembar Pengajuan Klaim',
                     'icon'    => 'fas fa-id-card',
-                    'url'  => 'vclaim/lpk',
+                    'url'  => 'lpk',
                     'shift'   => 'ml-2',
                     'can' => ['bpjs', 'pendaftaran', 'manajemen'],
                 ],
