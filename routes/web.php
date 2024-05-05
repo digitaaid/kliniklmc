@@ -119,7 +119,7 @@ Route::middleware('auth')->group(function () {
         Route::resource('testimoni', TestimoniController::class);
         Route::resource('integrasiAPI', IntegrasiController::class);
     });
-    Route::resource('sep', SepController::class);
+
     Route::resource('lpk', LPKController::class);
     Route::resource('pasien', PasienController::class);
     Route::get('pasienreset', [PasienController::class, 'reset'])->name('pasienreset');
@@ -305,10 +305,10 @@ Route::middleware('auth')->group(function () {
     Route::get('ref_kabupaten_api', [VclaimController::class, 'ref_kabupaten_api'])->name('ref_kabupaten_api');
     Route::get('ref_kecamatan_api', [VclaimController::class, 'ref_kecamatan_api'])->name('ref_kecamatan_api');
     Route::get('suratKontrolBpjs', [SuratKontrolController::class, 'suratKontrolBpjs'])->name('suratKontrolBpjs');
-    Route::get('rujukanBpjs', [RujukanController::class, 'rujukanBpjs'])->name('rujukanBpjs');
     // kunjungan
     Route::get('riwayat_kunjungan_norm', [KunjunganController::class, 'riwayat_kunjungan_norm'])->name('riwayat_kunjungan_norm');
     // sep
+    Route::resource('sep', SepController::class);
     Route::get('list_approval_sep', [SepController::class, 'list_approval_sep'])->name('list_approval_sep');
     Route::post('pengajuan_approval_sep', [SepController::class, 'pengajuan_approval_sep'])->name('pengajuan_approval_sep');
     Route::post('approval_sep', [SepController::class, 'approval_sep'])->name('approval_sep');
@@ -316,6 +316,9 @@ Route::middleware('auth')->group(function () {
     Route::get('sep_hapus', [SepController::class, 'sep_hapus'])->name('sep_hapus');
     Route::get('laporansep', [SepController::class, 'laporansep'])->name('laporansep');
     Route::get('pdflaporansep', [SepController::class, 'pdflaporansep'])->name('pdflaporansep');
+    // rujukan
+    Route::resource('rujukan', RujukanController::class);
+    Route::get('rujukankhusus', [RujukanController::class, 'rujukankhusus'])->name('rujukankhusus');
     // suratkontrol
     Route::get('suratkontrol_print', [SuratKontrolController::class, 'print'])->name('suratkontrol_print');
     Route::get('suratkontrol_hapus', [SuratKontrolController::class, 'suratkontrol_hapus'])->name('suratkontrol_hapus');

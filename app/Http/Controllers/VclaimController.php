@@ -908,6 +908,20 @@ class VclaimController extends APIController
         $response = Http::withHeaders($signature)->get($url);
         return $this->response_decrypt($response, $signature);
     }
+    public function list_rujukan_keluar(Request $request)
+    {
+        $validator = Validator::make(request()->all(), [
+            "tglMulai" => "required|date",
+            "tglAkhir" => "required|date",
+        ]);
+        if ($validator->fails()) {
+            return $this->sendError($validator->errors()->first(), 400);
+        }
+        $url =  $this->api()->base_url . "Rujukan/Keluar/List/tglMulai/" . $request->tglMulai . "/tglAkhir/" . $request->tglAkhir;
+        $signature = $this->signature();
+        $response = Http::withHeaders($signature)->get($url);
+        return $this->response_decrypt($response, $signature);
+    }
     // SEP
     public function sep_insert(Request $request)
     {

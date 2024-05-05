@@ -717,11 +717,11 @@ return [
             'can' => ['bpjs', 'pendaftaran', 'manajemen'],
             'submenu' => [
                 [
-                    'text' => 'Peserta BPJS',
-                    'icon'    => 'fas fa-user-injured',
-                    'url'  => 'peserta_bpjs',
+                    'text' => 'Pelayanan Peserta',
+                    'icon'    => 'fas fa-id-card',
+                    'url'  => 'monitoringPelayananPeserta',
                     'shift'   => 'ml-2',
-                    'can' => ['bpjs', 'vclaim', 'pendaftaran', 'manajemen'],
+                    'can' => ['bpjs', 'pendaftaran', 'manajemen'],
                 ],
                 [
                     'text' => 'SEP Rawat Jalan',
@@ -738,7 +738,7 @@ return [
                 ],
                 [
                     'text' => 'Approval Penjaminan SEP',
-                    'icon'    => 'fas fa-id-card',
+                    'icon'    => 'fas fa-comment-medical',
                     'url'  => 'list_approval_sep',
                     'shift'   => 'ml-2',
                     'can' => ['bpjs', 'pendaftaran', 'manajemen'],
@@ -751,15 +751,29 @@ return [
                     'can' => ['bpjs', 'vclaim', 'pendaftaran', 'manajemen'],
                 ],
                 [
-                    'text' => 'Rujukan',
-                    'icon'    => 'fas fa-id-card',
-                    'url'  => 'rujukanBpjs',
+                    'text' => 'Rujukan Keluar',
+                    'icon'    => 'fas fa-comment-medical',
+                    'url'  => 'rujukan',
+                    'shift'   => 'ml-2',
+                    'can' => ['bpjs', 'pendaftaran', 'manajemen'],
+                ],
+                [
+                    'text' => 'Rujukan Khusus',
+                    'icon'    => 'fas fa-comment-medical',
+                    'url'  => 'rujukankhusus',
+                    'shift'   => 'ml-2',
+                    'can' => ['bpjs', 'pendaftaran', 'manajemen'],
+                ],
+                [
+                    'text' => 'PRB',
+                    'icon'    => 'fas fa-first-aid',
+                    'url'  => 'vclaim/prb',
                     'shift'   => 'ml-2',
                     'can' => ['bpjs', 'pendaftaran', 'manajemen'],
                 ],
                 [
                     'text' => 'Lembar Pengajuan Klaim',
-                    'icon'    => 'fas fa-id-card',
+                    'icon'    => 'fas fa-file-contract',
                     'url'  => 'lpk',
                     'shift'   => 'ml-2',
                     'can' => ['bpjs', 'pendaftaran', 'manajemen'],
@@ -773,32 +787,19 @@ return [
                 ],
                 [
                     'text' => 'Data Klaim',
-                    'icon'    => 'fas fa-chart-pie',
+                    'icon'    => 'fas fa-chart-bar',
                     'url'  => 'monitoringDataKlaim',
                     'shift'   => 'ml-2',
                     'can' => ['bpjs', 'pendaftaran', 'manajemen'],
                 ],
                 [
-                    'text' => 'Pelayanan Peserta',
-                    'icon'    => 'fas fa-id-card',
-                    'url'  => 'monitoringPelayananPeserta',
-                    'shift'   => 'ml-2',
-                    'can' => ['bpjs', 'pendaftaran', 'manajemen'],
-                ],
-                [
                     'text' => 'Data Klaim Jasa Raharja',
-                    'icon'    => 'fas fa-chart-area',
+                    'icon'    => 'fas fa-chart-bar',
                     'url'  => 'monitoringKlaimJasaraharja',
                     'shift'   => 'ml-2',
                     'can' => ['bpjs', 'pendaftaran', 'manajemen'],
                 ],
-                [
-                    'text' => 'PRB',
-                    'icon'    => 'fas fa-first-aid',
-                    'url'  => 'vclaim/prb',
-                    'shift'   => 'ml-2',
-                    'can' => ['bpjs', 'pendaftaran', 'manajemen'],
-                ],
+
                 [
                     'text' => 'Referensi',
                     'icon'    => 'fas fa-info-circle',
@@ -806,7 +807,6 @@ return [
                     'shift'   => 'ml-2',
                     'can' => ['bpjs', 'pendaftaran', 'manajemen'],
                 ],
-
             ],
         ],
         [
