@@ -31,7 +31,7 @@ class HomeController extends Controller
         $testimoni = Testimoni::get();
         $dokters = Dokter::get();
         $jadwals = JadwalDokter::get();
-        return view('welcome', compact([
+        return view('kitasehat', compact([
             'carousel',
             'tanyajawab',
             'testimoni',
