@@ -17,7 +17,7 @@
     <header id="header" class="fixed-top">
         <div class="container d-flex align-items-center">
             <a href="{{ route('landingpage') }}" class="logo me-auto">
-                <img src="{{ asset('medicio/assets/img/lmc-l.png') }}" alt="">
+                {{-- <img src="{{ asset('medicio/assets/img/lmc-l.png') }}" alt=""> --}}
             </a>
             <!-- Uncomment below if you prefer to use an image logo -->
             <!-- <h1 class="logo me-auto"><a hrefp="index.html">Medicio</a></h1> -->
@@ -50,15 +50,15 @@
                         </ul>
                     </li> --}}
                     <li><a class="nav-link scrollto" href="{{ route('landingpage') }}#contact">Kontak</a></li>
-                    @auth
+                    {{-- @auth
                         <li><a class="nav-link scrollto" href="{{ route('home') }}">Dashboard</a></li>
                     @else
                         <li><a class="nav-link scrollto" href="{{ route('login') }}">Login</a></li>
-                    @endauth
+                    @endauth --}}
                 </ul>
                 <i class="bi bi-list mobile-nav-toggle"></i>
             </nav><!-- .navbar -->
-            <a href="{{ route('daftar') }}" class="appointment-btn scrollto"><span class="d-none d-md-inline"></span>
-                Daftar</a>
+            {{-- <a href="{{ route('daftar') }}" class="appointment-btn scrollto"><span class="d-none d-md-inline"></span>
+                Daftar</a> --}}
         </div>
     </header><!-- End Header -->
