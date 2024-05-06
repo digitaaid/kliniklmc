@@ -121,7 +121,7 @@
                 <x-adminlte-card title="Anjungan Checkin Antrian" theme="purple" icon="fas fa-qrcode">
                     <div class="text-center">
                         <x-adminlte-input name="kodebooking" label="Silahkan scan QR Code Antrian atau masukan Kode Antrian"
-                            placeholder="Masukan Kode Antrian untuk Checkin" igroup-size="lg">
+                            placeholder="Masukan Kode Antrian untuk Checkin">
                             <x-slot name="appendSlot">
                                 <x-adminlte-button name="btn_checkin" id="btn_checkin" theme="success" label="Checkin!" />
                             </x-slot>
@@ -131,7 +131,7 @@
                                 </div>
                             </x-slot>
                         </x-adminlte-input>
-                        <i class="fas fa-qrcode fa-5x"></i>
+                        <img src="{{ asset('qrcode-portal.png') }}" width="30%" alt="">
                         <br>
                     </div>
                     <x-slot name="footerSlot">
@@ -151,7 +151,7 @@
     <x-adminlte-modal id="modalBPJS" size="xl" title="Ambil Antrian BPJS" theme="purple" icon="fas fa-user-plus">
         @foreach ($jadwals as $jadwal)
             <a class="card m-2 bg-purple withLoad"
-                href="{{ route('ambilkarcis') }}?jenispasien=JKN&jadwal={{ $jadwal->id }}">
+                href="{{ route('ambilkarcis') }}?jenispasien=JKN&jadwal={{ $jadwal->id }}&tanggal={{ $request->tanggal ?? '' }}">
                 <div class="card-body">
                     <div class="row">
                         <div class="col  text-center">
@@ -186,12 +186,12 @@
     </x-adminlte-modal>
 @stop
 @section('adminlte_css')
-<style>
-    body{
-        background-color: rebeccapurple;
-    }
-</style>
-{{-- #6f42c1!important --}}
+    <style>
+        body {
+            background-color: rebeccapurple;
+        }
+    </style>
+    {{-- #6f42c1!important --}}
 @stop
 @section('adminlte_js')
     <script src="{{ asset('vendor/moment/moment.min.js') }}"></script>

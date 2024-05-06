@@ -48,6 +48,7 @@ class DokterController extends Controller
         ]);
         $dokter = Dokter::find($id);
         $request['user'] = Auth::user()->id;
+        $request['pic'] = Auth::user()->name;
         $dokter->update($request->all());
         Alert::success("Success", 'Data dokter berhasil diupdate.');
         return redirect()->route('dokter.index');

@@ -24,9 +24,14 @@ use RealRashid\SweetAlert\Facades\Alert;
 class PendaftaranController extends APIController
 {
     // anjungan
-    public function anjunganantrian()
+    public function anjunganantrian(Request $request)
     {
-        $jadwals = JadwalDokter::where('hari',  now()->dayOfWeek)->get();
+        if ($request->tanggal) {
+            $hari = Carbon::parse($request->tanggal)->dayOfWeek;
+        } else {
+            $hari = now()->dayOfWeek;
+        }
+        $jadwals = JadwalDokter::where('hari', $hari)->get();
         $antrians = Antrian::whereDate('tanggalperiksa', now()->format('Y-m-d'))
             ->where('taskid', "!=", 99)
             ->get();
@@ -83,7 +88,7 @@ class PendaftaranController extends APIController
             $request['pasienbaru'] = "0";
             $request['taskid'] = "1";
             $request['method'] = "OFFLINE";
-            $request['tanggalperiksa'] = now()->format('Y-m-d');
+            $request['tanggalperiksa'] = $request->tanggal ?? now()->format('Y-m-d');
             // angka antrian
             $request['kodebooking'] = strtoupper(uniqid());
             $antiranhari = Antrian::where('tanggalperiksa', $request->tanggalperiksa)->count();
@@ -93,7 +98,6 @@ class PendaftaranController extends APIController
             $jadwal_estimasi = Carbon::createFromFormat('Y-m-d H:i:s', $timestamp, 'Asia/Jakarta')->addMinutes(5 * ($antiranhari + 1));
             $request['estimasidilayani'] = $jadwal_estimasi->timestamp * 1000;
             $request['taskid1'] = now();
-
             // status antrian
             $api = new AntrianController();
             $statusantrian = $api->status_antrian($request);

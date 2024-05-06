@@ -11,7 +11,7 @@
         <div class="col-12">
             <x-adminlte-card title="Data Dokter" theme="info" icon="fas fa-info-circle" collapsible maximizable>
                 @php
-                    $heads = ['Kode', 'Kode BPJS', 'ID SatuSehat', 'NIK', 'Nama Dokter', 'SIP', 'Status', 'Action'];
+                    $heads = ['Kode', 'Kode BPJS', 'ID SatuSehat', 'NIK', 'Nama Dokter', 'SIP', 'Action'];
                     $config['paging'] = false;
                     $config['info'] = false;
                     $config['scrollY'] = '500px';
@@ -27,17 +27,8 @@
                             <td>{{ $item->namadokter }}</td>
                             <td>{{ $item->sip }}</td>
                             <td>
-                                @if ($item->paramedis)
-                                    <a href="#" class="btn btn-xs btn-secondary">Sudah
-                                        Ada</a>
-                                @else
-                                    <a href="#" class="btn btn-xs btn-danger">Belum
-                                        Ada</a>
-                                @endif
-                            </td>
-                            <td>
-                                <x-adminlte-button class="btn-xs" onclick="editDokter(this)" theme="warning"
-                                    icon="fas fa-edit" title="Edit Dokter {{ $item->nama_paramedis }}"
+                                <x-adminlte-button class="btn-xs" onclick="editDokter(this)" theme="warning" icon="fas fa-edit"
+                                    title="Edit Dokter {{ $item->nama_paramedis }}"
                                     data-kodeparamedis="{{ $item->paramedis ? $item->paramedis->kode_paramedis : '' }}"
                                     data-id="{{ $item->kodedokter }}" data-kodejkn="{{ $item->kodedokter }}"
                                     data-idsatusehat="{{ $item->id_satusehat }}"
@@ -56,12 +47,24 @@
             @csrf
             @method('PUT')
             <input type="hidden" name="id" id="id" value="">
-            <x-adminlte-input name="kodedokter" placeholder="Kode BPJS" label="Kode BPJS" readonly />
-            <x-adminlte-input name="kode_paramedis" placeholder="Kode SIMRS" label="Kode Dokter" readonly />
-            <x-adminlte-input name="id_satusehat" placeholder="ID SatuSehat" label="ID SatuSehat" readonly />
-            <x-adminlte-input name="nik" placeholder="NIK Dokter" label="NIK Dokter" />
-            <x-adminlte-input name="namadokter" placeholder="Nama Dokter" label="Nama Dokter" />
-            <x-adminlte-input name="sip_dr" placeholder="SIP" label="SIP" />
+            <x-adminlte-input fgroup-class="row" label-class="text-left col-3" igroup-class="col-9" igroup-size="sm"
+                name="kodedokter" placeholder="Kode SIMRS" label="Kode SIMRS" readonly />
+            <x-adminlte-input fgroup-class="row" label-class="text-left col-3" igroup-class="col-9" igroup-size="sm"
+                name="kodejkn" placeholder="Kode BPJS" label="Kode BPJS" readonly />
+            <x-adminlte-input fgroup-class="row" label-class="text-left col-3" igroup-class="col-9" igroup-size="sm"
+                name="idsatusehat" placeholder="IdSatusehat" label="IdSatusehat" readonly>
+                <x-slot name="appendSlot">
+                    <div class="btn btn-primary btnCariKartu">
+                        <i class="fas fa-sync"></i> Sync
+                    </div>
+                </x-slot>
+            </x-adminlte-input>
+            <x-adminlte-input fgroup-class="row" label-class="text-left col-3" igroup-class="col-9" igroup-size="sm"
+                name="nik" placeholder="NIK Dokter" label="NIK Dokter" />
+            <x-adminlte-input fgroup-class="row" label-class="text-left col-3" igroup-class="col-9" igroup-size="sm"
+                name="namadokter" placeholder="Nama Dokter" label="Nama Dokter" />
+            <x-adminlte-input fgroup-class="row" label-class="text-left col-3" igroup-class="col-9" igroup-size="sm"
+                name="sip_dr" placeholder="SIP" label="SIP" />
             <x-slot name="footerSlot">
                 <x-adminlte-button class="mr-auto" type="submit" form="formInput" label="Update" theme="success"
                     icon="fas fa-save" />

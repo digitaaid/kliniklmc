@@ -131,50 +131,70 @@
             <input type="hidden" name="_method" id="method">
             <div class="row">
                 <div class="col-md-6">
-                    <x-adminlte-input name="norm" label="No RM" placeholder="No RM" enable-old-support />
-                    <x-adminlte-input name="nik" label="NIK" placeholder="NIK" enable-old-support>
+                    <x-adminlte-input fgroup-class="row" label-class="text-left col-3" igroup-class="col-9" igroup-size="sm"
+                        name="norm" label="No RM" placeholder="No RM" enable-old-support />
+                    <x-adminlte-input fgroup-class="row" label-class="text-left col-3" igroup-class="col-9" igroup-size="sm"
+                        name="nik" label="NIK" placeholder="NIK" enable-old-support>
                         <x-slot name="appendSlot">
                             <div class="btn btn-primary btnCariNIK">
                                 <i class="fas fa-sync"></i> Sync
                             </div>
                         </x-slot>
                     </x-adminlte-input>
-                    <x-adminlte-input name="nomorkartu" label="No BPJS" placeholder="no BPJS" enable-old-support>
+                    <x-adminlte-input fgroup-class="row" label-class="text-left col-3" igroup-class="col-9"
+                        igroup-size="sm" name="nomorkartu" label="No BPJS" placeholder="no BPJS" enable-old-support>
                         <x-slot name="appendSlot">
                             <div class="btn btn-primary btnCariKartu">
                                 <i class="fas fa-sync"></i> Sync
                             </div>
                         </x-slot>
                     </x-adminlte-input>
-                    <x-adminlte-input name="nama" label="Nama Lengkap" placeholder="Nama Lengkap" enable-old-support
-                        required />
-                    <x-adminlte-input name="nohp" label="No HP" placeholder="No HP" enable-old-support />
-                    <x-adminlte-select name="gender" label="Jenis Kelamin">
+                    <x-adminlte-input fgroup-class="row" label-class="text-left col-3" igroup-class="col-9"
+                        igroup-size="sm" name="idsatusehat" label="IdSatusehat" placeholder="IdSatusehat" enable-old-support>
+                        <x-slot name="appendSlot">
+                            <div class="btn btn-primary btnCariKartu">
+                                <i class="fas fa-sync"></i> Sync
+                            </div>
+                        </x-slot>
+                    </x-adminlte-input>
+                    <x-adminlte-input fgroup-class="row" label-class="text-left col-3" igroup-class="col-9"
+                        igroup-size="sm" name="nama" label="Nama Lengkap" placeholder="Nama Lengkap"
+                        enable-old-support required />
+                    <x-adminlte-input fgroup-class="row" label-class="text-left col-3" igroup-class="col-9"
+                        igroup-size="sm" name="nohp" label="No HP" placeholder="No HP" enable-old-support />
+                    <x-adminlte-select fgroup-class="row" label-class="text-left col-3" igroup-class="col-9"
+                        igroup-size="sm" name="gender" label="Jenis Kelamin">
                         <option selected disabled>Jenis Kelamin</option>
                         <option value="P">Perempuan</option>
                         <option value="L">Laki-Laki</option>
                     </x-adminlte-select>
-                    <x-adminlte-select2 name="tempat_lahir" label="Tempat Lahir">
+                    <x-adminlte-select2 fgroup-class="row" label-class="text-left col-3" igroup-class="col-9"
+                        igroup-size="sm" name="tempat_lahir" label="Tempat Lahir">
                     </x-adminlte-select2>
                     @php
                         $config = ['format' => 'YYYY-MM-DD'];
                     @endphp
-                    <x-adminlte-input-date name="tgl_lahir" label="Tanggal Lahir" placeholder="Pilih Tanggal Lahir"
+                    <x-adminlte-input-date fgroup-class="row" label-class="text-left col-3" igroup-class="col-9"
+                        igroup-size="sm" name="tgl_lahir" label="Tanggal Lahir" placeholder="Pilih Tanggal Lahir"
                         :config="$config">
                     </x-adminlte-input-date>
                 </div>
                 <div class="col-md-6">
-                    <x-adminlte-select name="hakkelas" label="Hak Kelas">
+                    <x-adminlte-select fgroup-class="row" label-class="text-left col-3" igroup-class="col-9"
+                        igroup-size="sm" name="hakkelas" label="Hak Kelas">
                         <option selected disabled>Hak Kelas</option>
                         <option value="1">Kelas 1</option>
                         <option value="2">Kelas 2</option>
                         <option value="3">Kelas 3</option>
                     </x-adminlte-select>
-                    <x-adminlte-input name="jenispeserta" label="Jenis Peserta" placeholder="Jenis Peserta"
+                    <x-adminlte-input fgroup-class="row" label-class="text-left col-3" igroup-class="col-9"
+                        igroup-size="sm" name="jenispeserta" label="Jenis Peserta" placeholder="Jenis Peserta"
                         enable-old-support />
-                    <x-adminlte-input name="fktp" label="FKTP" placeholder="Faskes Tingkat Pertama"
+                    <x-adminlte-input fgroup-class="row" label-class="text-left col-3" igroup-class="col-9"
+                        igroup-size="sm" name="fktp" label="FKTP" placeholder="Faskes Tingkat Pertama"
                         enable-old-support />
-                    <x-adminlte-textarea igroup-size="sm" rows=4 label="Alamat" name="alamat" placeholder="Alamat">
+                    <x-adminlte-textarea fgroup-class="row" label-class="text-left col-3" igroup-class="col-9"
+                        igroup-size="sm" rows=4 label="Alamat" name="alamat" placeholder="Alamat">
                     </x-adminlte-textarea>
                     <p>
                         <b>PIC : </b>

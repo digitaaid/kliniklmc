@@ -8,28 +8,32 @@
 
 @section('content')
     <div class="row">
-        <div class="col-12">
-            <x-adminlte-card title="Data Dokter" theme="primary" icon="fas fa-info-circle" collapsible>
+        <div class="col-md-12">
+            <x-adminlte-card theme="primary" theme-mode="outline">
+                <x-adminlte-button id="btnTambah" class="btn-sm mb-2" theme="success" label="Tambah Pasien" icon="fas fa-plus" />
+                <a href="{{ route('dokter.create') }}" class="btn btn-sm btn-warning mb-2"><i class="fas fa-sync"></i> Syncron HAFIS</a>
                 @php
-                    $heads = ['ID', 'Kode', 'Nama Dokter', 'Sex', 'Title', 'SIP', 'Kode BPJS', 'Status', 'Action'];
+                    $heads = [
+                        'ID',
+                        'Nama Dokter',
+                        'Action',
+                        'Kode',
+                        'Kode HAFIS',
+                        'NIK',
+                        'IdSatusehat',
+                        'Sex',
+                        'Title',
+                        'SIP',
+                        'Status',
+                        'PIC',
+                        'Updated_at',
+                    ];
                 @endphp
                 <x-adminlte-datatable id="table2" :heads="$heads" bordered hoverable compressed>
                     @foreach ($dokter as $item)
                         <tr>
                             <td>{{ $item->id }}</td>
-                            <td>{{ $item->kodedokter }}</td>
                             <td>{{ $item->namadokter }}</td>
-                            <td>{{ $item->gender }}</td>
-                            <td>{{ $item->subtitle }}</td>
-                            <td>{{ $item->sip }}</td>
-                            <td>{{ $item->kodejkn }}</td>
-                            <td>
-                                @if ($item->status)
-                                    <span class="badge badge-success">Aktif</span>
-                                @else
-                                    <span class="badge badge-danger">Non-Aktif</span>
-                                @endif
-                            </td>
                             <td>
                                 <x-adminlte-button class="btn-xs btnEdit" theme="warning" label="Edit" icon="fas fa-edit"
                                     title="Edit Dokter {{ $item->namadokter }}" data-id="{{ $item->id }}"
@@ -39,14 +43,27 @@
                                 <x-adminlte-button class="btn-xs btnDelete" theme="danger" icon="fas fa-trash-alt"
                                     title="Non-Aktifkan Pasien {{ $item->namadokter }} " data-id="{{ $item->id }}"
                                     data-name="{{ $item->namadokter }}" />
-                                <x-adminlte-button class="btn-xs" theme="secondary" label="PIC"
-                                    icon="fas fa-user"
-                                    title="PIC {{ $item->pic ? $item->pic->name : $item->user }} {{ $item->updated_at }}" />
                             </td>
+                            <td>{{ $item->kodedokter }}</td>
+                            <td>{{ $item->kodejkn }}</td>
+                            <td>{{ $item->nik }}</td>
+                            <td>{{ $item->idsatusehat }}</td>
+                            <td>{{ $item->gender }}</td>
+                            <td>{{ $item->subtitle }}</td>
+                            <td>{{ $item->sip }}</td>
+                            <td>
+                                @if ($item->status)
+                                    <span class="badge badge-success">Aktif</span>
+                                @else
+                                    <span class="badge badge-danger">Non-Aktif</span>
+                                @endif
+                            </td>
+                            <td>{{ $item->pic ? $item->pic->name : $item->user }}</td>
+                            <td>{{ $item->updated_at }}</td>
                         </tr>
                     @endforeach
                 </x-adminlte-datatable>
-                <a href="{{ route('dokter.create') }}" class="btn btn-warning">Refresh Data Dokter</a>
+
             </x-adminlte-card>
         </div>
     </div>
@@ -55,12 +72,29 @@
             @csrf
             <input type="hidden" name="id" id="id">
             <input type="hidden" name="_method" id="method">
-            <x-adminlte-input name="namadokter" placeholder="Nama Dokter" label="Nama Dokter" />
-            <x-adminlte-input name="kodedokter" placeholder="Kode Dokter" label="Kode Dokter" />
-            <x-adminlte-input name="subtitle" placeholder="Subtitle" label="Subtitle" />
-            <x-adminlte-input name="gender" placeholder="Gender" label="Gender" />
-            <x-adminlte-input name="sip" placeholder="SIP Dokter" label="SIP Dokter" />
-            <x-adminlte-input name="kodejkn" placeholder="Kode BPJS" label="Kode BPJS" />
+            <x-adminlte-input fgroup-class="row" label-class="text-left col-3" igroup-class="col-9" igroup-size="sm"
+                name="namadokter" placeholder="Nama Dokter" label="Nama Dokter" />
+            <x-adminlte-input fgroup-class="row" label-class="text-left col-3" igroup-class="col-9" igroup-size="sm"
+                name="kodedokter" placeholder="Kode Dokter" label="Kode Dokter" />
+            <x-adminlte-input fgroup-class="row" label-class="text-left col-3" igroup-class="col-9" igroup-size="sm"
+                name="idsatusehat" placeholder="IdSatusehat" label="IdSatusehat" />
+            <x-adminlte-input fgroup-class="row" label-class="text-left col-3" igroup-class="col-9" igroup-size="sm"
+                name="nik" placeholder="NIK" label="NIK" />
+            <x-adminlte-input fgroup-class="row" label-class="text-left col-3" igroup-class="col-9" igroup-size="sm"
+                name="kodejkn" placeholder="Kode BPJS" label="Kode BPJS" />
+            <x-adminlte-select fgroup-class="row" label-class="text-left col-3" igroup-class="col-9" igroup-size="sm"
+                name="subtitle" label="Title">
+                <option selected disabled>Pilih Title Dokter</option>
+                <option>Dokter Sub Spesialis</option>
+                <option>Dokter Spesialis</option>
+                <option>Dokter Umum</option>
+                <option>Dokter Laboratorium</option>
+                <option>Dokter Radiologi</option>
+            </x-adminlte-select>
+            <x-adminlte-input fgroup-class="row" label-class="text-left col-3" igroup-class="col-9" igroup-size="sm"
+                name="gender" placeholder="Gender" label="Gender" />
+            <x-adminlte-input fgroup-class="row" label-class="text-left col-3" igroup-class="col-9" igroup-size="sm"
+                name="sip" placeholder="SIP Dokter" label="SIP Dokter" />
             <x-slot name="footerSlot">
                 <x-adminlte-button id="btnStore" class="mr-auto" type="submit" icon="fas fa-save" theme="success"
                     label="Simpan" />
