@@ -1,5 +1,5 @@
 @extends('vendor.medico.master')
-@section('title', 'Klinik Luthfi Medical Center')
+@section('title', 'Klinik Utama Kita Sehat')
 @section('content')
     <!-- ======= Featured Services Section ======= -->
     <section id="featured-services" class="featured-services">

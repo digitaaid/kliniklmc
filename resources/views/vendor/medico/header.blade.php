@@ -1,5 +1,5 @@
     <!-- ======= Top Bar ======= -->
-    {{-- <div id="topbar" class="d-flex align-items-center fixed-top">
+    <div id="topbar" class="d-flex align-items-center fixed-top">
         <div class="container d-flex align-items-center justify-content-center justify-content-md-between">
             <div class="align-items-center d-none d-md-flex">
                 <a class="scrollto" href="{{ route('landingpage') }}#jadwal" style="color: white">
@@ -8,11 +8,11 @@
             </div>
             <div class="d-flex align-items-center">
                 <a href="https://wa.me/6282311696919" style="color: white" target="_blank">
-                    <i class="bi bi-phone"></i> Whtastapp 0823 1169 6919
+                    <i class="bi bi-phone"></i> Whtastapp 089529909036
                 </a>
             </div>
         </div>
-    </div> --}}
+    </div>
     <!-- ======= Header ======= -->
     <header id="header" class="fixed-top">
         <div class="container d-flex align-items-center">
