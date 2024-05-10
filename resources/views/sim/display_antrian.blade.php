@@ -33,7 +33,7 @@
                 <div class="card">
                     <div class="card-header bg-blue">
                         <div class="text-center">
-                            <h4>Antrian Pendaftaran</h4>
+                            <h4>Panggil Pendaftaran</h4>
                         </div>
                     </div>
                     <div class="card-body">
@@ -42,6 +42,20 @@
                         </div>
                     </div>
                 </div>
+                <div class="card">
+                    <div class="card-header bg-blue">
+                        <div class="text-center">
+                            <h4>Antrian Pendaftaran Selanjutnya</h4>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="text-center">
+                            <h1><span id="pendaftaran">-</span></h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
                 <div class="card">
                     <div class="card-header bg-blue">
                         <div class="text-center">
@@ -57,17 +71,17 @@
                 <div class="card">
                     <div class="card-header bg-blue">
                         <div class="text-center">
-                            <h4>Antrian Farmasi</h4>
+                            <h4>Antrian Dokter Selanjutnya</h4>
                         </div>
                     </div>
                     <div class="card-body">
                         <div class="text-center">
-                            <h1><span id="farmasi">-</span></h1>
+                            <h1><span id="poliklinik">-</span></h1>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-5">
+            <div class="col-md-6">
                 <x-adminlte-card>
                     <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
                         <ol class="carousel-indicators">
@@ -77,7 +91,8 @@
                         </ol>
                         <div class="carousel-inner">
                             <div class="carousel-item active">
-                                <img class="d-block w-100" height="450" width="100%" src="{{ asset('img/3.jpg') }}" alt="First slide">
+                                <img class="d-block w-100" height="450" width="100%" src="{{ asset('img/3.jpg') }}"
+                                    alt="First slide">
                                 <div class="carousel-caption d-none d-md-block">
                                     <h5>...</h5>
                                     <p>...</p>
@@ -119,24 +134,13 @@
                     </div>
                 </x-adminlte-card>
             </div>
-            <div class="col-md-4">
+            {{-- <div class="col-md-4">
                 <x-adminlte-card>
-                    {{-- <iframe width="560" height="315"
-                        src="https://www.youtube.com/embed/-rLm4l1yuhU?si=N2MQHFACzBjy-lc7?autoplay=1"
-                        title="YouTube video player" frameborder="0" allowfullscreen></iframe> --}}
-                    {{-- <iframe src="http://..." onload='playVideo();'> --}}
-                    {{-- <video width="100%" height="500" controls autoplay>
-                        <source src="{{ asset('movie.mp4') }}" type="video/mp4">
-                        Your browser does not support the video tag.
-                    </video> --}}
-                    {{-- <iframe width="560" height="315" src="https://www.youtube.com/embed/rLInKEMHykE?si=sWG-1mT9ydRzXGhS&amp;controls=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe> --}}
                     <iframe
                         src="https://www.youtube.com/embed/rLInKEMHykE?si=sWG-1mT9ydRzXGhS?rel=0&modestbranding=1&autohide=1&mute=1&showinfo=0&controls=1&autoplay=1&loop=1"
                         width="100%" height="450" frameborder="0" allowfullscreen onload='playVideo();'> ></iframe>
-                    {{-- <iframe src="https://drive.google.com/file/d/1xhCy7W5YDbGha30VPRttcxEykvV4yixz/preview" width="640"
-                        height="480" allow="autoplay"></iframe> --}}
                 </x-adminlte-card>
-            </div>
+            </div> --}}
         </div>
         {{-- <div class="row justify-content-center">
             <div class="col-md-3">

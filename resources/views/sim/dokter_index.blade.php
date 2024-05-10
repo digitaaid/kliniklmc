@@ -9,9 +9,20 @@
 @section('content')
     <div class="row">
         <div class="col-md-12">
+            @if ($errors->any())
+                <x-adminlte-alert title="Ops Terjadi Masalah !" theme="danger" dismissable>
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </x-adminlte-alert>
+            @endif
             <x-adminlte-card theme="primary" theme-mode="outline">
-                <x-adminlte-button id="btnTambah" class="btn-sm mb-2" theme="success" label="Tambah Pasien" icon="fas fa-plus" />
-                <a href="{{ route('dokter.create') }}" class="btn btn-sm btn-warning mb-2"><i class="fas fa-sync"></i> Syncron HAFIS</a>
+                <x-adminlte-button onclick="btnTambah()" class="btn-sm mb-2" theme="success" label="Tambah Pasien"
+                    icon="fas fa-plus" />
+                <a href="{{ route('dokter.create') }}" class="btn btn-sm btn-warning mb-2"><i class="fas fa-sync"></i>
+                    Syncron HAFIS</a>
                 @php
                     $heads = [
                         'ID',
@@ -28,21 +39,24 @@
                         'PIC',
                         'Updated_at',
                     ];
+                    $config['scrollX'] = true;
                 @endphp
-                <x-adminlte-datatable id="table2" :heads="$heads" bordered hoverable compressed>
+                <x-adminlte-datatable id="table2" class="nowrap" :heads="$heads" :config="$config" bordered hoverable
+                    compressed>
                     @foreach ($dokter as $item)
                         <tr>
                             <td>{{ $item->id }}</td>
                             <td>{{ $item->namadokter }}</td>
                             <td>
-                                <x-adminlte-button class="btn-xs btnEdit" theme="warning" label="Edit" icon="fas fa-edit"
-                                    title="Edit Dokter {{ $item->namadokter }}" data-id="{{ $item->id }}"
+                                <x-adminlte-button class="btn-xs" onclick="btnEdit(this)" theme="warning" label="Edit"
+                                    icon="fas fa-edit" title="Edit Dokter {{ $item->namadokter }}"
+                                    data-id="{{ $item->id }}" data-nik="{{ $item->nik }}"
                                     data-namadokter="{{ $item->namadokter }}" data-kodedokter="{{ $item->kodedokter }}"
                                     data-subtitle="{{ $item->subtitle }}" data-gender="{{ $item->gender }}"
                                     data-sip="{{ $item->sip }}" data-kodejkn="{{ $item->kodejkn }}" />
-                                <x-adminlte-button class="btn-xs btnDelete" theme="danger" icon="fas fa-trash-alt"
-                                    title="Non-Aktifkan Pasien {{ $item->namadokter }} " data-id="{{ $item->id }}"
-                                    data-name="{{ $item->namadokter }}" />
+                                <x-adminlte-button class="btn-xs btnDelete" onclick="btnDelete(this)" theme="danger"
+                                    icon="fas fa-trash-alt" title="Non-Aktifkan Pasien {{ $item->namadokter }} "
+                                    data-id="{{ $item->id }}" data-name="{{ $item->namadokter }}" />
                             </td>
                             <td>{{ $item->kodedokter }}</td>
                             <td>{{ $item->kodejkn }}</td>
@@ -63,7 +77,6 @@
                         </tr>
                     @endforeach
                 </x-adminlte-datatable>
-
             </x-adminlte-card>
         </div>
     </div>
@@ -77,9 +90,9 @@
             <x-adminlte-input fgroup-class="row" label-class="text-left col-3" igroup-class="col-9" igroup-size="sm"
                 name="kodedokter" placeholder="Kode Dokter" label="Kode Dokter" />
             <x-adminlte-input fgroup-class="row" label-class="text-left col-3" igroup-class="col-9" igroup-size="sm"
-                name="idsatusehat" placeholder="IdSatusehat" label="IdSatusehat" />
-            <x-adminlte-input fgroup-class="row" label-class="text-left col-3" igroup-class="col-9" igroup-size="sm"
                 name="nik" placeholder="NIK" label="NIK" />
+            <x-adminlte-input fgroup-class="row" label-class="text-left col-3" igroup-class="col-9" igroup-size="sm"
+                name="idsatusehat" placeholder="IdSatusehat" label="IdSatusehat" />
             <x-adminlte-input fgroup-class="row" label-class="text-left col-3" igroup-class="col-9" igroup-size="sm"
                 name="kodejkn" placeholder="Kode BPJS" label="Kode BPJS" />
             <x-adminlte-select fgroup-class="row" label-class="text-left col-3" igroup-class="col-9" igroup-size="sm"
@@ -91,15 +104,19 @@
                 <option>Dokter Laboratorium</option>
                 <option>Dokter Radiologi</option>
             </x-adminlte-select>
-            <x-adminlte-input fgroup-class="row" label-class="text-left col-3" igroup-class="col-9" igroup-size="sm"
-                name="gender" placeholder="Gender" label="Gender" />
+            <x-adminlte-select fgroup-class="row" label-class="text-left col-3" igroup-class="col-9" igroup-size="sm"
+                name="gender" label="Gender">
+                <option selected disabled>Pilih Jenis Kelamin</option>
+                <option value="L">Laki-laki</option>
+                <option value="P">Perempuan</option>
+            </x-adminlte-select>
             <x-adminlte-input fgroup-class="row" label-class="text-left col-3" igroup-class="col-9" igroup-size="sm"
                 name="sip" placeholder="SIP Dokter" label="SIP Dokter" />
             <x-slot name="footerSlot">
-                <x-adminlte-button id="btnStore" class="mr-auto" type="submit" icon="fas fa-save" theme="success"
-                    label="Simpan" />
-                <x-adminlte-button id="btnUpdate" class="mr-auto" type="submit" icon="fas fa-edit" theme="warning"
-                    label="Update" />
+                <x-adminlte-button id="btnStore" onclick="btnStore()" class="mr-auto" type="submit"
+                    icon="fas fa-save" theme="success" label="Simpan" />
+                <x-adminlte-button id="btnUpdate" onclick="btnUpdate()" class="mr-auto" type="submit"
+                    icon="fas fa-edit" theme="warning" label="Update" />
                 <x-adminlte-button theme="danger" icon="fas fa-times" label="Kembali" data-dismiss="modal" />
             </x-slot>
         </form>
@@ -108,36 +125,6 @@
             @method('DELETE')
         </form>
     </x-adminlte-modal>
-    {{-- <x-adminlte-modal id="modalUser" title="User" icon="fas fa-user" theme="success" v-centered static-backdrop>
-        <form action="" id="formUser" method="POST">
-            @csrf
-            <input type="hidden" name="id" id="id">
-            <input type="hidden" name="_method" id="method">
-            <x-adminlte-input name="name" label="Nama" placeholder="Nama Lengkap" enable-old-support required />
-            <x-adminlte-select2 id="role" name="role" label="Role / Jabatan" enable-old-support required>
-                <option value="" selected disabled>Pilih Role / Jabatan</option>
-                @foreach ($roles as $item)
-                    <option value="{{ $item }}">{{ $item }}</option>
-                @endforeach
-            </x-adminlte-select2>
-            <x-adminlte-input name="phone" type="number" label="Nomor HP / Telepon"
-                placeholder="Nomor HP / Telepon yang dapat dihubungi" enable-old-support />
-            <x-adminlte-input name="email" type="email" label="Email" placeholder="Email" enable-old-support
-                required />
-            <x-adminlte-input name="username" label="Username" placeholder="Username" enable-old-support required />
-            <x-adminlte-input name="password" type="password" label="Password" placeholder="Password" required />
-            <x-adminlte-input name="password_confirmation" type="password" label="Konfirmasi Password"
-                placeholder="Konfirmasi Password" required />
-        </form>
-
-        <x-slot name="footerSlot">
-            <x-adminlte-button id="btnStore" class="mr-auto" type="submit" icon="fas fa-save" theme="success"
-                label="Simpan" />
-            <x-adminlte-button id="btnUpdate" class="mr-auto" type="submit" icon="fas fa-edit" theme="warning"
-                label="Update" />
-            <x-adminlte-button theme="danger" icon="fas fa-times" label="Kembali" data-dismiss="modal" />
-        </x-slot>
-    </x-adminlte-modal> --}}
 @stop
 
 @section('plugins.Select2', true)
@@ -146,50 +133,74 @@
 @section('js')
     <script>
         $(function() {
-            $('.btnEdit').click(function() {
-                $.LoadingOverlay("show");
-                $('#btnStore').hide();
-                $('#btnUpdate').show();
-                $('#formDokter').trigger("reset");
-                var id = $(this).data("id");
-                $('#id').val(id);
-                $('#namadokter').val($(this).data("namadokter"));
-                $('#kodedokter').val($(this).data("kodedokter"));
-                $('#subtitle').val($(this).data("subtitle"));
-                $('#gender').val($(this).data("gender"));
-                $('#sip').val($(this).data("sip"));
-                $('#kodejkn').val($(this).data("kodejkn"));
-                $('#modalEdit').modal('show');
-                $.LoadingOverlay("hide");
-            });
-            $('#btnUpdate').click(function(e) {
-                $.LoadingOverlay("show");
-                e.preventDefault();
-                var id = $('#id').val();
-                var url = "{{ route('dokter.index') }}/" + id;
-                $('#formDokter').attr('action', url);
-                $('#method').val('PUT');
-                $('#formDokter').submit();
-            });
-            $('.btnDelete').click(function(e) {
-                e.preventDefault();
-                var name = $(this).data("name");
-                swal.fire({
-                    title: 'Apakah anda ingin menonaktifkan dokter ' + name + ' ?',
-                    showConfirmButton: false,
-                    showDenyButton: true,
-                    showCancelButton: true,
-                    denyButtonText: `Ya, Non Aktifkan`,
-                }).then((result) => {
-                    if (result.isDenied) {
-                        $.LoadingOverlay("show");
-                        var id = $(this).data("id");
-                        var url = "{{ route('dokter.index') }}/" + id;
-                        $('#formDelete').attr('action', url);
-                        $('#formDelete').submit();
-                    }
-                })
+            $('.').click(function(e) {
+
             });
         });
+    </script>
+
+    <script>
+        function btnTambah() {
+            $.LoadingOverlay("show");
+            $('#btnStore').show();
+            $('#btnUpdate').hide();
+            $('#formDokter').trigger("reset");
+            $('#modalEdit').modal('show');
+            $.LoadingOverlay("hide");
+        }
+
+        function btnEdit(button) {
+            $.LoadingOverlay("show");
+            $('#btnStore').hide();
+            $('#btnUpdate').show();
+            $('#formDokter').trigger("reset");
+            var id = $(button).data("id");
+            $('#id').val(id);
+            $('#namadokter').val($(button).data("namadokter"));
+            $('#nik').val($(button).data("nik"));
+            $('#kodedokter').val($(button).data("kodedokter"));
+            $('#subtitle').val($(button).data("subtitle"));
+            $('#gender').val($(button).data("gender"));
+            $('#sip').val($(button).data("sip"));
+            $('#kodejkn').val($(button).data("kodejkn"));
+            $('#modalEdit').modal('show');
+            $.LoadingOverlay("hide");
+        }
+
+        function btnUpdate() {
+            $.LoadingOverlay("show");
+            var id = $('#id').val();
+            var url = "{{ route('dokter.index') }}/" + id;
+            $('#formDokter').attr('action', url);
+            $('#method').val('PUT');
+            $('#formDokter').submit();
+        }
+
+        function btnStore() {
+            $.LoadingOverlay("show");
+            var url = "{{ route('dokter.store') }}";
+            $('#formDokter').attr('action', url);
+            $("#method").prop('', true);
+            $('#formDokter').submit();
+        }
+
+        function btnDelete(button) {
+            var name = $(button).data("name");
+            swal.fire({
+                title: 'Apakah anda ingin menonaktifkan dokter ' + name + ' ?',
+                showConfirmButton: false,
+                showDenyButton: true,
+                showCancelButton: true,
+                denyButtonText: `Ya, Non Aktifkan`,
+            }).then((result) => {
+                if (result.isDenied) {
+                    $.LoadingOverlay("show");
+                    var id = $(button).data("id");
+                    var url = "{{ route('dokter.index') }}/" + id;
+                    $('#formDelete').attr('action', url);
+                    $('#formDelete').submit();
+                }
+            });
+        }
     </script>
 @endsection

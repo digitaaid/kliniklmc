@@ -329,11 +329,18 @@ return [
                     'can' => ['rekammedis', 'pendaftaran'],
                 ],
                 [
-                    'text' => 'Display Antrian',
+                    'text' => 'Display Antrian Pendaftaran',
                     'icon'    => 'fas fa-desktop',
                     'url'  => 'displayantrian',
                     'shift'   => 'ml-2',
                     'can' => ['rekammedis', 'pendaftaran'],
+                ],
+                [
+                    'text' => 'Display Antrian Farmasi',
+                    'icon'    => 'fas fa-desktop',
+                    'url'  => 'displayantrianfarmasi',
+                    'shift'   => 'ml-2',
+                    'can' => ['farmasi', 'pendaftaran'],
                 ],
                 [
                     'text' => 'Pendaftaran Rawat Jalan',

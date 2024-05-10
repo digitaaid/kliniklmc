@@ -37,7 +37,21 @@ class DokterController extends Controller
             ]);
         }
         Alert::success($response->metadata->message, 'Data Dokter Telah Di Refresh');
-        return redirect()->route('dokter.index');
+        return redirect()->back();
+    }
+    public function store(Request $request)
+    {
+        $request->validate([
+            'namadokter' => 'required',
+            'subtitle' => 'required',
+            'gender' => 'required',
+        ]);
+        $request['user'] = Auth::user()->id;
+        $request['pic'] = Auth::user()->name;
+        $request['kodedokter'] = 'asdasd';
+        Dokter::create($request->all());
+        Alert::success("Success", 'Data dokter berhasil diupdate.');
+        return redirect()->back();
     }
     public function update($id, Request $request)
     {
@@ -45,13 +59,14 @@ class DokterController extends Controller
             'namadokter' => 'required',
             'kodedokter' => 'required',
             'subtitle' => 'required',
+            'gender' => 'required',
         ]);
         $dokter = Dokter::find($id);
         $request['user'] = Auth::user()->id;
         $request['pic'] = Auth::user()->name;
         $dokter->update($request->all());
         Alert::success("Success", 'Data dokter berhasil diupdate.');
-        return redirect()->route('dokter.index');
+        return redirect()->back();
     }
     public function destroy($id, Request $request)
     {
@@ -89,7 +104,7 @@ class DokterController extends Controller
             $antrians = Antrian::where('tanggalperiksa', $request->tanggalperiksa)
                 ->where('taskid', '!=', 99)
                 ->where('taskid', '>', 2)
-                ->with(['kunjungan', 'kunjungan.units', 'kunjungan.dokters', 'pic3','asesmendokter', 'layanans'])
+                ->with(['kunjungan', 'kunjungan.units', 'kunjungan.dokters', 'pic3', 'asesmendokter', 'layanans'])
                 ->get();
         }
         if ($request->pencarian) {
@@ -99,7 +114,7 @@ class DokterController extends Controller
             $antrians = Antrian::where('norm', $request->pencarian)
                 ->orWhere('nama', 'LIKE', '%' . $request->pencarian . '%')
                 ->where('taskid', '!=', 99)
-                ->with(['kunjungan', 'kunjungan.units', 'kunjungan.dokters', 'pic3','asesmendokter', 'layanans'])
+                ->with(['kunjungan', 'kunjungan.units', 'kunjungan.dokters', 'pic3', 'asesmendokter', 'layanans'])
                 ->get();
         }
         // $now = now()->format('Y-m-d');
