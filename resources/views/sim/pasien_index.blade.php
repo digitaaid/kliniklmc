@@ -81,7 +81,9 @@
                                 @endif
                             </td>
                             <td>
-                                <x-adminlte-button class="btn-xs btnEdit" theme="warning" label="Edit" icon="fas fa-edit"
+                                <a href="{{ route('riwayatpasien') }}?norm={{ $item->norm }}"
+                                    class="btn btn-xs btn-primary"><i class="fas fa-file-medical"></i> Riwayat</a>
+                                <x-adminlte-button class="btn-xs btnEdit" theme="warning" icon="fas fa-edit"
                                     title="Edit Pasien {{ $item->nama }}" data-id="{{ $item->id }}"
                                     data-nama="{{ $item->nama }}" data-nohp="{{ $item->nohp }}"
                                     data-gender="{{ $item->gender }}" data-tempat_lahir="{{ $item->tempat_lahir }}"
@@ -91,8 +93,6 @@
                                     data-updated="{{ $item->updated_at }}" data-jenispeserta="{{ $item->jenispeserta }}"
                                     data-hakkelas="{{ $item->hakkelas }}" data-fktp="{{ $item->fktp }}"
                                     data-user="{{ $item->pic ? $item->pic->name : $item->user }}" />
-                                <a href="{{ route('riwayatpasien') }}?norm={{ $item->norm }}"
-                                    class="btn btn-xs btn-primary"><i class="fas fa-file-medical"></i> Riwayat</a>
                                 <x-adminlte-button class="btn-xs btnDelete" theme="danger" icon="fas fa-trash-alt"
                                     title="Non-Aktifkan Pasien {{ $item->name }} " data-id="{{ $item->id }}"
                                     data-name="{{ $item->name }}" />
@@ -150,7 +150,8 @@
                         </x-slot>
                     </x-adminlte-input>
                     <x-adminlte-input fgroup-class="row" label-class="text-left col-3" igroup-class="col-9"
-                        igroup-size="sm" name="idsatusehat" label="IdSatusehat" placeholder="IdSatusehat" enable-old-support>
+                        igroup-size="sm" name="idsatusehat" label="IdSatusehat" placeholder="IdSatusehat"
+                        enable-old-support>
                         <x-slot name="appendSlot">
                             <div class="btn btn-primary btnCariKartu">
                                 <i class="fas fa-sync"></i> Sync

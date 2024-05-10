@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('kodejkn')->nullable();
             $table->string('status')->default(1);
             $table->string('user');
+            $table->string('pic');
             $table->timestamps();
         });
     }

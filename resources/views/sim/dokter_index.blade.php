@@ -19,13 +19,13 @@
                 </x-adminlte-alert>
             @endif
             <x-adminlte-card theme="primary" theme-mode="outline">
-                <x-adminlte-button onclick="btnTambah()" class="btn-sm mb-2" theme="success" label="Tambah Pasien"
+                <x-adminlte-button onclick="btnTambah()" class="btn-sm mb-2" theme="success" label="Tambah Dokter"
                     icon="fas fa-plus" />
                 <a href="{{ route('dokter.create') }}" class="btn btn-sm btn-warning mb-2"><i class="fas fa-sync"></i>
                     Syncron HAFIS</a>
                 @php
                     $heads = [
-                        'ID',
+                        'Id',
                         'Nama Dokter',
                         'Action',
                         'Kode',
@@ -48,12 +48,12 @@
                             <td>{{ $item->id }}</td>
                             <td>{{ $item->namadokter }}</td>
                             <td>
-                                <x-adminlte-button class="btn-xs" onclick="btnEdit(this)" theme="warning" label="Edit"
-                                    icon="fas fa-edit" title="Edit Dokter {{ $item->namadokter }}"
-                                    data-id="{{ $item->id }}" data-nik="{{ $item->nik }}"
-                                    data-namadokter="{{ $item->namadokter }}" data-kodedokter="{{ $item->kodedokter }}"
-                                    data-subtitle="{{ $item->subtitle }}" data-gender="{{ $item->gender }}"
-                                    data-sip="{{ $item->sip }}" data-kodejkn="{{ $item->kodejkn }}" />
+                                <x-adminlte-button class="btn-xs" onclick="btnEdit(this)" theme="warning" icon="fas fa-edit"
+                                    title="Edit Dokter {{ $item->namadokter }}" data-id="{{ $item->id }}"
+                                    data-nik="{{ $item->nik }}" data-namadokter="{{ $item->namadokter }}"
+                                    data-kodedokter="{{ $item->kodedokter }}" data-subtitle="{{ $item->subtitle }}"
+                                    data-gender="{{ $item->gender }}" data-sip="{{ $item->sip }}"
+                                    data-kodejkn="{{ $item->kodejkn }}" />
                                 <x-adminlte-button class="btn-xs btnDelete" onclick="btnDelete(this)" theme="danger"
                                     icon="fas fa-trash-alt" title="Non-Aktifkan Pasien {{ $item->namadokter }} "
                                     data-id="{{ $item->id }}" data-name="{{ $item->namadokter }}" />
@@ -131,14 +131,6 @@
 @section('plugins.Datatables', true)
 @section('plugins.Sweetalert2', true)
 @section('js')
-    <script>
-        $(function() {
-            $('.').click(function(e) {
-
-            });
-        });
-    </script>
-
     <script>
         function btnTambah() {
             $.LoadingOverlay("show");

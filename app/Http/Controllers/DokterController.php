@@ -48,8 +48,13 @@ class DokterController extends Controller
         ]);
         $request['user'] = Auth::user()->id;
         $request['pic'] = Auth::user()->name;
-        $request['kodedokter'] = 'asdasd';
-        Dokter::create($request->all());
+        Dokter::updateOrCreate(
+            [
+                'namadokter' => $request->nama,
+                'kodedokter' => $request->kode,
+            ],
+            $request->all()
+        );
         Alert::success("Success", 'Data dokter berhasil diupdate.');
         return redirect()->back();
     }
@@ -77,8 +82,9 @@ class DokterController extends Controller
         $dokter->update([
             'status' => $status ?? 1,
             'user' => Auth::user()->id,
+            'user' => Auth::user()->name,
         ]);
-        Alert::success('Success', 'Data Dokter Dinonaktifkan.');
+        Alert::success('Success', 'Dokter Dinonaktifkan.');
         return redirect()->back();
     }
     public function dokterAntrianBpjs()
