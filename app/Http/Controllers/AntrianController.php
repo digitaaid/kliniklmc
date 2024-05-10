@@ -273,23 +273,34 @@ class AntrianController extends APIController
         //     ]
         // ));
     }
+    // "pendaftaran" => $antrianakhir->where('taskid', 2)->first()->angkaantrean ?? "-",
+    // "pendaftaranstatus" => $antrianakhir->where('taskid', 2)->first()->panggil ?? "-",
+    // "pendaftaranselanjutnya" => $antrian->where('taskid', 1)->first()->angkaantrean ?? "-",
+    // "poliklinik" => $antrianakhir->where('taskid', 4)->first()->angkaantrean ?? "-",
+    // "poliklinikstatus" => $antrianakhir->where('taskid', 4)->first()->panggil ?? "-",
+    // "poliklinikkodebooking" => $antrianakhir->where('taskid', 4)->first()->kodebooking ?? "-",
+    // "poliklinikselanjutnya" => $antrian->where('taskid', 3)->first()->angkaantrean ?? "-",
+    // "farmasi" => $antrianakhir->where('taskid', 7)->first()->angkaantrean ?? "-",
+    // "farmasistatus" => $antrianakhir->where('taskid', 7)->first()->panggil ?? "-",
+    // "farmasikodebooking" => $antrianakhir->where('taskid', 7)->first()->kodebooking ?? "-",
+    // "farmasiselanjutnya" => $antrian->where('taskid', 6)->first()->angkaantrean ?? "-",
+
     public function displaynomor()
     {
-        $antrian = Antrian::where('tanggalperiksa', now()->format('Y-m-d'))->get();
-        $antrianakhir = Antrian::where('tanggalperiksa', now()->format('Y-m-d'))->orderBy('updated_at', 'DESC')->get();
+        $antrian = Antrian::where('tanggalperiksa', now()->format('Y-m-d'))->orderBy('angkaantrean', 'ASC')->get();
         $data = [
-            "pendaftaran" => $antrianakhir->where('taskid', 2)->first()->angkaantrean ?? "-",
-            "pendaftaranstatus" => $antrianakhir->where('taskid', 2)->first()->panggil ?? "-",
-            "pendaftarankodebooking" => $antrianakhir->where('taskid', 2)->first()->kodebooking ?? "-",
-            "pendaftaranselanjutnya" => $antrian->where('taskid', 1)->first()->angkaantrean ?? "-",
-            "poliklinik" => $antrianakhir->where('taskid', 4)->first()->angkaantrean ?? "-",
-            "poliklinikstatus" => $antrianakhir->where('taskid', 4)->first()->panggil ?? "-",
-            "poliklinikkodebooking" => $antrianakhir->where('taskid', 4)->first()->kodebooking ?? "-",
-            "poliklinikselanjutnya" => $antrian->where('taskid', 3)->first()->angkaantrean ?? "-",
-            "farmasi" => $antrianakhir->where('taskid', 7)->first()->angkaantrean ?? "-",
-            "farmasistatus" => $antrianakhir->where('taskid', 7)->first()->panggil ?? "-",
-            "farmasikodebooking" => $antrianakhir->where('taskid', 7)->first()->kodebooking ?? "-",
-            "farmasiselanjutnya" => $antrian->where('taskid', 6)->first()->angkaantrean ?? "-",
+            "pendaftaran" => $antrian->where('taskid', 2)->first()->angkaantrean ?? "-",
+            "pendaftarankodebooking" => $antrian->where('taskid', 2)->first()->kodebooking ?? "-",
+            "pendaftaranstatus" => $antrian->where('taskid', 2)->first()->panggil ?? "-",
+            "pendaftaranselanjutnya" => $antrian->where('taskid', 1)->pluck('kodebooking', 'nomorantrean'),
+            "poliklinik" => $antrian->where('taskid', 4)->first()->angkaantrean ?? "-",
+            "poliklinikstatus" => $antrian->where('taskid', 4)->first()->panggil ?? "-",
+            "poliklinikselanjutnya" => $antrian->where('taskid', 3)->pluck('kodebooking', 'nomorantrean',),
+
+            // "farmasi" => $antrian->where('taskid', 7)->first()->angkaantrean ?? "-",
+            // "farmasistatus" => $antrian->where('taskid', 7)->first()->panggil ?? "-",
+            // "farmasikodebooking" => $antrian->where('taskid', 7)->first()->kodebooking ?? "-",
+            // "farmasiselanjutnya" => $antrian->where('taskid', 6)->first()->angkaantrean ?? "-",
         ];
         return $this->sendResponse($data, 200);
     }

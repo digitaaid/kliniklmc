@@ -43,15 +43,30 @@
                     </div>
                 </div>
                 <div class="card">
-                    <div class="card-header bg-blue">
-                        <div class="text-center">
-                            <h4>Antrian Pendaftaran Selanjutnya</h4>
-                        </div>
+                    <div class="card-header bg-primary">
+                        <h3 class="card-title">Antrian Pendaftaran</h3>
                     </div>
-                    <div class="card-body">
-                        <div class="text-center">
-                            <h1><span id="pendaftaran">-</span></h1>
-                        </div>
+                    <div class="card-body p-0">
+                        <table class="table" id="tablependaftaran">
+                            <tbody>
+                                <tr>
+                                    <th>-</th>
+                                    <th>-</th>
+                                </tr>
+                                <tr>
+                                    <th>-</th>
+                                    <th>-</th>
+                                </tr>
+                                <tr>
+                                    <th>-</th>
+                                    <th>-</th>
+                                </tr>
+                                <tr>
+                                    <th>-</th>
+                                    <th>-</th>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -69,15 +84,30 @@
                     </div>
                 </div>
                 <div class="card">
-                    <div class="card-header bg-blue">
-                        <div class="text-center">
-                            <h4>Antrian Dokter Selanjutnya</h4>
-                        </div>
+                    <div class="card-header bg-primary">
+                        <h3 class="card-title">Antrian Pendaftaran</h3>
                     </div>
-                    <div class="card-body">
-                        <div class="text-center">
-                            <h1><span id="poliklinik">-</span></h1>
-                        </div>
+                    <div class="card-body p-0">
+                        <table class="table">
+                            <tbody>
+                                <tr>
+                                    <th>-</th>
+                                    <th>-</th>
+                                </tr>
+                                <tr>
+                                    <th>-</th>
+                                    <th>-</th>
+                                </tr>
+                                <tr>
+                                    <th>-</th>
+                                    <th>-</th>
+                                </tr>
+                                <tr>
+                                    <th>-</th>
+                                    <th>-</th>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -142,50 +172,6 @@
                 </x-adminlte-card>
             </div> --}}
         </div>
-        {{-- <div class="row justify-content-center">
-            <div class="col-md-3">
-                <div class="card">
-                    <div class="card-header bg-blue">
-                        <div class="text-center">
-                            <h4>Antrian Pendaftaran</h4>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <div class="text-center">
-                            <h1><span id="pendaftaran">-</span></h1>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card">
-                    <div class="card-header bg-blue">
-                        <div class="text-center">
-                            <h4>Antrian Dokter</h4>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <div class="text-center">
-                            <h1><span id="poliklinik">-</span></h1>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card">
-                    <div class="card-header bg-blue">
-                        <div class="text-center">
-                            <h4>Antrian Farmasi</h4>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <div class="text-center">
-                            <h1><span id="farmasi">-</span></h1>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div> --}}
     </div>
     <audio id="suarabel" src="{{ asset('rekaman/Airport_Bell.mp3') }}"></audio>
     <audio id="panggilannomorantrian" src="{{ asset('rekaman/panggilannomorantrian.mp3') }}"></audio>
@@ -218,11 +204,18 @@
                 dataType: 'json',
                 success: function(data) {
                     $('#pendaftaran').html(data.response.pendaftaran);
-                    $('#pendaftaranselanjutnya').html(data.response.pendaftaranselanjutnya);
-                    $('#poliklinik').html(data.response.poliklinik);
-                    $('#poliklinikselanjutnya').html(data.response.poliklinikselanjutnya);
-                    $('#farmasi').html(data.response.farmasi);
-                    $('#farmasiselanjutnya').html(data.response.farmasiselanjutnya);
+                    $('#tablependaftaran').empty()
+                    var x = 0;
+                    $.each(data.response.pendaftaranselanjutnya, function(i, val) {
+                        if (x < 4) {
+                            $('#tablependaftaran').append('<tr><th>' + i + '</th><th>  ' + val +
+                                ' </th></tr>');
+                            x++;
+                        }
+                    });
+                    for (let index = x; index < 4; index++) {
+                        $('#tablependaftaran').append('<tr><th>-</th><th>-</th></tr>');
+                    }
                     if (data.response.pendaftaranstatus == 0) {
                         var url = "{{ route('updatenomorantrean') }}?kodebooking=" + data.response
                             .pendaftarankodebooking;
@@ -235,6 +228,12 @@
                             },
                         });
                     }
+                    // $('#pendaftaranselanjutnya').html(data.response.pendaftaranselanjutnya);
+                    $('#poliklinik').html(data.response.poliklinik);
+                    $('#poliklinikselanjutnya').html(data.response.poliklinikselanjutnya);
+                    $('#farmasi').html(data.response.farmasi);
+                    $('#farmasiselanjutnya').html(data.response.farmasiselanjutnya);
+
                     if (data.response.farmasistatus == 0) {
                         var url = "{{ route('updatenomorantrean') }}?kodebooking=" + data.response
                             .farmasikodebooking;

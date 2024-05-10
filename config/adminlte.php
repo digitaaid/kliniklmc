@@ -426,12 +426,18 @@ return [
                     'can' => 'manajemen',
                 ],
                 [
+                    'text' => 'Bed / Kamar',
+                    'icon'    => 'fas fa-bed',
+                    'shift'   => 'ml-2',
+                    'url'  => 'bed',
+                    'can' => 'manajemen',
+                ],
+                [
                     'text' => 'Dokter',
                     'icon'    => 'fas fa-user-md',
                     'url'  => 'dokter',
                     'can' => 'manajemen',
                     'shift'   => 'ml-2',
-
                 ],
                 [
                     'text' => 'Jadwal Dokter',
