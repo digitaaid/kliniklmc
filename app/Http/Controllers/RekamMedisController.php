@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
+
+use App\Models\Antrian;
 use Illuminate\Http\Request;
 
 class RekamMedisController extends Controller
@@ -11,8 +13,11 @@ class RekamMedisController extends Controller
     }
     public function diagnosa_rekammedis(Request $request)
     {
-
-        dd($request->all());
+        $antrians = null;
+        if ($request->tanggal) {
+            $antrians = Antrian::whereDate('tanggalperiksa', $request->tanggal)
+                ->has('kunjungan')->get();
+        }
+        return view('sim.antrian_rekammedis', compact('request', 'antrians'));
     }
-
 }

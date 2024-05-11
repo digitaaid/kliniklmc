@@ -114,12 +114,25 @@ class ObatController extends Controller
     }
     public function update_resep_obat(Request $request)
     {
-        $kunjungan = Kunjungan::find($request->kunjungan_id);
-        $request['unit'] = $request->kodepoli;
-        $request['dokter'] = $request->kodedokter;
-        $request['status'] = 1;
-        $request['user1'] = Auth::user()->id;
-        if ($kunjungan) {
+        $antrian = Antrian::find($request->antrian_id);
+        if ($antrian) {
+            $request['unit'] = $request->kodepoli;
+            $request['dokter'] = $request->kodedokter;
+            $request['status'] = 1;
+            $request['user1'] = Auth::user()->id;
+            $antrian->update($request->all());
+            $kunjungan = $antrian->kunjungan;
+            if ($kunjungan) {
+                $kunjungan->update($request->all());
+            } else {
+                $request['counter'] = Kunjungan::where('nomorkartu', $request->nomorkartu)->count() + 1;
+                $kunjungan = Kunjungan::updateOrCreate(
+                    [
+                        'kode' => $request->kodebooking,
+                    ],
+                    $request->all()
+                );
+            }
             if ($request->obat) {
                 $request['status'] = 0;
                 $request['tinggi_badan'] = $kunjungan->asesmenperawat->tinggi_badan ?? null;
@@ -160,27 +173,26 @@ class ObatController extends Controller
                             'obat_id' =>  $obat->id,
                         ],
                         [
+                            'antrian_id' => $request->antrian_id,
+                            'kunjungan_id' => $request->kunjungan_id,
                             'nama' => $obat->nama,
                             'jumlah' => $request->jumlah[$key] ?? 0,
+                            'harga' => $obat->harga_jual,
+                            'diskon' => 0,
+                            'subtotal' => $obat->harga_jual * ($request->jumlah[$key] ?? 1),
                             'interval' => $request->frekuensi[$key] ?? null,
                             'waktu' => $request->waktuobat[$key] ?? null,
+                            'klasifikasi' => $obat->jenisobat ?? 'Obat',
+                            'jaminan' => $kunjungan->jaminan,
                             'keterangan' => $request->keterangan_obat[$key] ?? null,
                         ]
                     );
                 }
             }
+            Alert::success('Succes', 'Berhasil update resep obat');
         } else {
-            $antrian = Antrian::find($request->antrian_id);
-            $antrian->update($request->all());
-            $request['counter'] = Kunjungan::where('nomorkartu', $request->nomorkartu)->count() + 1;
-            $kunjungan = Kunjungan::updateOrCreate(
-                [
-                    'kode' => $request->kodebooking,
-                ],
-                $request->all()
-            );
+            Alert::error('Mohon Maaf', 'Antrian Tidak Ditemukan');
         }
-        Alert::success('Succes', 'Berhasil update resep obat');
         return redirect()->back();
     }
 }

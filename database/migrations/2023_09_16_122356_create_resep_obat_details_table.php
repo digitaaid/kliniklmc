@@ -13,11 +13,19 @@ return new class extends Migration
     {
         Schema::create('resep_obat_details', function (Blueprint $table) {
             $table->id();
+            $table->string('kunjungan_id');
+            $table->string('antrian_id');
+            $table->string('resep_id');
             $table->string('resep_id');
             $table->string('koderesep');
             $table->string('obat_id');
             $table->string('nama');
+            $table->double('harga');
             $table->integer('jumlah');
+            $table->integer('diskon')->default(0);
+            $table->double('subtotal');
+            $table->string('klasifikasi');
+            $table->string('jaminan');
             $table->string('interval')->nullable();
             $table->string('waktu')->nullable();
             $table->text('keterangan')->nullable();

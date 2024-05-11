@@ -212,30 +212,30 @@
             </div>
         @endif
         <div class="col-md-12">
-            <x-adminlte-card title="Data Antrian Farmasi" theme="secondary" icon="fas fa-info-circle" collapsible="">
-                @if ($antrians)
-                    <div class="row">
-                        <div class="col-md-3">
-                            <x-adminlte-small-box
-                                title="{{ $antrians->where('taskid', '>=', 5)->where('taskid', '<', 7)->count() }}"
-                                text="Sisa Resep" theme="warning" icon="fas fa-user-injured" />
-                        </div>
-                        <div class="col-md-3">
-                            <x-adminlte-small-box title="{{ $antrians->where('taskid', 7)->count() }}"
-                                text="Total Resep Selesai" theme="success" icon="fas fa-user-injured" />
-                        </div>
-                        <div class="col-md-3">
-                            <x-adminlte-small-box
-                                title="{{ $antrians->where('taskid', 7)->where('jenispasien', 'JKN')->count() }}"
-                                text="Total Resep JKN" theme="primary" icon="fas fa-user-injured" />
-                        </div>
-                        <div class="col-md-3">
-                            <x-adminlte-small-box
-                                title="{{ $antrians->where('taskid', 7)->where('jenispasien', 'NON-JKN')->count() }}"
-                                text="Total Resep NON-JKN" theme="primary" icon="fas fa-user-injured" />
-                        </div>
+            @if ($antrians)
+                <div class="row">
+                    <div class="col-lg-3 col-6">
+                        <x-adminlte-small-box
+                            title="{{ $antrians->where('taskid', '>=', 5)->where('taskid', '<', 7)->count() }}"
+                            text="Sisa Resep" theme="warning" icon="fas fa-pills" />
                     </div>
-                @endif
+                    <div class="col-lg-3 col-6">
+                        <x-adminlte-small-box title="{{ $antrians->where('taskid', 7)->count() }}" text="Resep Selesai"
+                            theme="success" icon="fas fa-pills" />
+                    </div>
+                    <div class="col-lg-3 col-6">
+                        <x-adminlte-small-box
+                            title="{{ $antrians->where('taskid', 7)->where('jenispasien', 'JKN')->count() }}"
+                            text="Resep JKN" theme="primary" icon="fas fa-pills" />
+                    </div>
+                    <div class="col-lg-3 col-6">
+                        <x-adminlte-small-box
+                            title="{{ $antrians->where('taskid', 7)->where('jenispasien', 'NON-JKN')->count() }}"
+                            text="Resep NON-JKN" theme="primary" icon="fas fa-pills" />
+                    </div>
+                </div>
+            @endif
+            <x-adminlte-card title="Data Antrian Farmasi" theme="secondary" icon="fas fa-info-circle">
                 <div class="row">
                     <div class="col-md-6">
                         <form action="" method="get">
@@ -244,8 +244,8 @@
                                     @php
                                         $config = ['format' => 'YYYY-MM-DD'];
                                     @endphp
-                                    <x-adminlte-input-date name="tanggalperiksa"
-                                        value="{{ $request->tanggalperiksa ?? now()->format('Y-m-d') }}"
+                                    <x-adminlte-input-date name="tanggal"
+                                        value="{{ $request->tanggal ?? now()->format('Y-m-d') }}"
                                         placeholder="Pilih Tanggal" igroup-size="sm" :config="$config">
                                         <x-slot name="prependSlot">
                                             <div class="input-group-text text-primary">
@@ -253,13 +253,9 @@
                                             </div>
                                         </x-slot>
                                         <x-slot name="appendSlot">
-                                            <x-adminlte-button type="submit" theme="primary" label="Cari Tanggal" />
+                                            <x-adminlte-button type="submit" theme="primary" label="Cari" />
                                         </x-slot>
                                     </x-adminlte-input-date>
-                                </div>
-                                <div class="col-md-6">
-                                    <x-adminlte-button label="Tambah Order Obat" onclick="orderObat()" class="btn-sm"
-                                        theme="success" icon="fas fa-plus" />
                                 </div>
                             </div>
                         </form>
@@ -289,6 +285,7 @@
                         'No RM',
                         'Pasien',
                         'Action',
+                        'Harga',
                         'Jenis',
                         'Unit',
                         'Dokter',
@@ -351,6 +348,7 @@
                                             </div>
                                     @endswitch
                                 </td>
+                                <td class="text-right">{{ money($item->resepdetails?->sum('subtotal'), 'IDR') }} </td>
                                 <td>{{ $item->jenispasien }} </td>
                                 <td>{{ $item->namapoli }}</td>
                                 <td>{{ $item->kunjungan ? $item->kunjungan->dokters->namadokter : '-' }}</td>
@@ -472,7 +470,7 @@
             <x-adminlte-button theme="danger" icon="fas fa-times" label="Tutup" data-dismiss="modal" />
         </x-slot>
     </x-adminlte-modal>
-    <x-adminlte-modal id="modalOrder" size="xl" title="Order Obat" icon="fas fa-pills" theme="warning">
+    {{-- <x-adminlte-modal id="modalOrder" size="xl" title="Order Obat" icon="fas fa-pills" theme="warning">
         <form id="formOrder" action={{ route('create_order_obat') }} method="POST">
             @csrf
             <style>
@@ -548,14 +546,12 @@
                 form="formOrder" />
             <x-adminlte-button theme="danger" icon="fas fa-times" label="Tutup" data-dismiss="modal" />
         </x-slot>
-    </x-adminlte-modal>
+    </x-adminlte-modal> --}}
 @stop
-
 @section('plugins.Datatables', true)
 @section('plugins.TempusDominusBs4', true)
 @section('plugins.Select2', true)
 @section('plugins.Sweetalert2', true)
-
 @section('css')
     <style>
         pre {
@@ -564,7 +560,6 @@
         }
     </style>
 @endsection
-
 @push('js')
     {{-- otomatis suara pemanggilan --}}
     <script>
@@ -676,48 +671,11 @@
         }
     </script>
     {{-- order obat --}}
-    <script>
+    {{-- <script>
         function orderObat() {
-            // $.LoadingOverlay("show");
             $('#modalOrder').modal('show');
-            // var url = "{{ route('form_resep_obat') }}?kode=" + $(button).data("kode");
-            // $.ajax({
-            //     url: url,
-            //     method: "GET",
-            // }).done(function(data) {
-            //     console.log(data);
-            //     $('#formResep').html(data);
-            //     $(".cariObat").select2({
-            //         placeholder: 'Pencarian Nama Obat',
-            //         theme: "bootstrap4",
-            //         multiple: true,
-            //         maximumSelectionLength: 1,
-            //         ajax: {
-            //             url: "{{ route('ref_obat_cari') }}",
-            //             type: "get",
-            //             dataType: 'json',
-            //             delay: 100,
-            //             data: function(params) {
-            //                 return {
-            //                     nama: params.term // search term
-            //                 };
-            //             },
-            //             processResults: function(response) {
-            //                 return {
-            //                     results: response
-            //                 };
-            //             },
-            //             cache: true
-            //         }
-            //     });
-            //     $('#modalResep').modal('show');
-            //     $.LoadingOverlay("hide");
-            // }).fail(function(data, textStatus, errorThrown) {
-            //     console.log(data);
-            //     $.LoadingOverlay("hide");
-            // });
         }
-    </script>
+    </script> --}}
     {{-- dynamic input --}}
     <script>
         $(function() {

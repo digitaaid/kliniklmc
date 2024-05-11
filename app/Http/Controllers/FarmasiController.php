@@ -20,12 +20,12 @@ class FarmasiController extends APIController
     {
         $antrians = null;
         $orders = null;
-        if ($request->tanggalperiksa) {
-            $antrians = Antrian::where('tanggalperiksa', $request->tanggalperiksa)->where('taskid', '!=', 99)->get();
-            $orders = OrderObat::whereDate('waktu', $request->tanggalperiksa)->get();
-        } else {
-            // $request['tanggalperiksa'] = now()->format('Y-m-d');
+        if ($request->tanggal) {
+            $antrians = Antrian::with(['kunjungan', 'kunjungan.dokters'])->where('tanggalperiksa', $request->tanggal)->where('taskid', '!=', 99)->get();
+            $orders = OrderObat::whereDate('waktu', $request->tanggal)->get();
         }
+        // $antrian = $antrians->first();
+        // dd($antrian->resepdetails);
         return view('sim.antrian_farmasi', compact(
             'request',
             'antrians',

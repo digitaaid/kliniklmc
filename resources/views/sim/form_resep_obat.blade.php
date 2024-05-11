@@ -78,7 +78,7 @@
             <x-adminlte-select fgroup-class="row" label-class="text-left col-3" igroup-class="col-9"
                 igroup-size="sm" name="kodepoli" label="Poliklinik" enable-old-support>
                 @foreach ($polikliniks as $key => $value)
-                    <option value="{{ $key }}">
+                    <option value="{{ $key }}" {{ $antrian->kodepoli == $key ? 'selected' : null }}>
                         {{ $value }}</option>
                 @endforeach
             </x-adminlte-select>
@@ -271,8 +271,6 @@
         </div>
     </div>
 </form>
-
-
 {{-- dynamic input --}}
 <script>
     $("#addObatInput").click(function() {
@@ -324,5 +322,69 @@
     });
     $("body").on("click", "#deleteRowObat", function() {
         $(this).parents("#row").remove();
+    })
+</script>
+<script>
+    $(function() {
+        $(".diagnosaid2").select2({
+            theme: "bootstrap4",
+            ajax: {
+                url: "{{ route('ref_icd10_api') }}",
+                type: "get",
+                dataType: 'json',
+                delay: 250,
+                data: function(params) {
+                    return {
+                        diagnosa: params.term // search term
+                    };
+                },
+                processResults: function(response) {
+                    return {
+                        results: response
+                    };
+                },
+                cache: true
+            }
+        });
+    });
+</script>
+<script>
+    $(() => {
+        let usrCfgtglperiksa = _AdminLTE_InputDate.parseCfg({
+            "format": "YYYY-MM-DD",
+            "icons": {
+                "time": "fas fa-clock",
+                "date": "fas fa-calendar-alt",
+                "up": "fas fa-arrow-up",
+                "down": "fas fa-arrow-down",
+                "previous": "fas fa-chevron-left",
+                "next": "fas fa-chevron-right",
+                "today": "fas fa-calendar-check-o",
+                "clear": "fas fa-trash",
+                "close": "fas fa-times"
+            },
+            "buttons": {
+                "showClose": true
+            }
+        });
+        $('#tanggalperiksa').datetimepicker(usrCfgtglperiksa);
+        let usrCfgtglmasuk = _AdminLTE_InputDate.parseCfg({
+            "format": "YYYY-MM-DD HH:mm:ss",
+            "icons": {
+                "time": "fas fa-clock",
+                "date": "fas fa-calendar-alt",
+                "up": "fas fa-arrow-up",
+                "down": "fas fa-arrow-down",
+                "previous": "fas fa-chevron-left",
+                "next": "fas fa-chevron-right",
+                "today": "fas fa-calendar-check-o",
+                "clear": "fas fa-trash",
+                "close": "fas fa-times"
+            },
+            "buttons": {
+                "showClose": true
+            }
+        });
+        $('#tgl_masuk').datetimepicker(usrCfgtglmasuk);
     })
 </script>
