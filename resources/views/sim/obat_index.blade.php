@@ -35,35 +35,35 @@
                     </div>
                 </div>
                 @php
-                    $heads = ['Kode', 'Nama Obat', 'Kemasan', 'Hrg Beli', 'Kps', 'Satuan', 'Hrg Jual', 'Jenis', 'Tipe', 'Merk', 'Distributor', 'Status', 'Action'];
+                    $heads = [
+                        'Kode',
+                        'Nama Obat',
+                        'Stok',
+                        'Action',
+                        'Hrg Beli Kemasan',
+                        'Konversi Satuan',
+                        'Hrg Jual',
+                        'Jenis',
+                        'Tipe',
+                        'Status',
+                        'Merk',
+                        'Distributor',
+                        'PIC',
+                        'Updated_at',
+                    ];
                     $config['order'] = [1, 'asc'];
                     $config['paging'] = false;
                     $config['lengthMenu'] = false;
                     $config['searching'] = false;
                     $config['info'] = false;
+                    $config['scrollX'] = true;
                 @endphp
-
-                <x-adminlte-datatable id="table1" :heads="$heads" :config="$config" bordered hoverable compressed>
+                <x-adminlte-datatable id="table1" class="nowrap" :heads="$heads" :config="$config" bordered hoverable compressed>
                     @foreach ($obats as $item)
                         <tr>
                             <td>{{ $item->id }}</td>
                             <td>{{ $item->nama }}</td>
-                            <td>{{ $item->kemasan }}</td>
-                            <td>{{ money($item->harga_beli ?? 0, 'IDR') }}</td>
-                            <td>{{ $item->konversi_satuan }}</td>
-                            <td>{{ $item->satuan }}</td>
-                            <td>{{ money($item->harga_jual ?? 0, 'IDR') }}</td>
-                            <td>{{ $item->jenisobat }}</td>
-                            <td>{{ $item->tipeobat }}</td>
-                            <td>{{ $item->merk }}</td>
-                            <td>{{ $item->distributor }}</td>
-                            <td>
-                                @if ($item->status)
-                                    <span class="badge badge-success">Aktif</span>
-                                @else
-                                    <span class="badge badge-danger">Non-Aktif</span>
-                                @endif
-                            </td>
+                            <td>{{ $item->real_stok }}</td>
                             <td>
                                 <a href="{{ route('stokobat.show', $item->id) }}" class="btn btn-xs btn-primary"><i
                                         class="fas fa-box"></i> Stok</a>
@@ -79,9 +79,27 @@
                                 <x-adminlte-button class="btn-xs btnDelete" theme="danger" icon="fas fa-trash-alt"
                                     title="Non-Aktifkan Obat {{ $item->nama }} " data-id="{{ $item->id }}"
                                     data-name="{{ $item->nama }}" />
-                                <x-adminlte-button class="btn-xs" theme="secondary" label="PIC" icon="fas fa-user"
-                                    title="PIC {{ $item->pic ? $item->pic->name : $item->user }} {{ $item->updated_at }}" />
                             </td>
+                            <td>{{ money($item->harga_beli ?? 0, 'IDR') }}
+                                {{ $item->kemasan ? '/ ' . $item->kemasan : null }}
+                            </td>
+                            <td>{{ $item->konversi_satuan }} {{ $item->satuan ? '/ ' . $item->satuan : null }}</td>
+                            <td>{{ money($item->harga_jual ?? 0, 'IDR') }}</td>
+                            <td>{{ $item->jenisobat }}</td>
+                            <td>{{ $item->tipeobat }}</td>
+                            <td>
+                                @if ($item->status)
+                                    <span class="badge badge-success">Aktif</span>
+                                @else
+                                    <span class="badge badge-danger">Non-Aktif</span>
+                                @endif
+                            </td>
+                            <td>{{ $item->merk }}</td>
+                            <td>{{ $item->distributor }}</td>
+                            <td>{{ $item->pic ? $item->pic->name : $item->user }}</td>
+                            <td>{{ $item->updated_at }}</td>
+
+
                         </tr>
                     @endforeach
                 </x-adminlte-datatable>

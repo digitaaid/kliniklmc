@@ -56,7 +56,38 @@ class FarmasiController extends APIController
             'antrians',
         ]));
     }
+    // displyfarmasi
+    public function displayantrianfarmasi()
+    {
+        return view('sim.display_antrian_farmasi');
+    }
+    public function getdisplayfarmasi()
+    {
+        $antrian = Antrian::where('tanggalperiksa', now()->format('Y-m-d'))->whereIn('taskid', ['4', '5', '6', '7'])
+            ->orderBy('angkaantrean', 'ASC')->get();
+        $antrianfarmasi = Antrian::where('tanggalperiksa', now()->format('Y-m-d'))->where('taskid', 6)
+            ->orWhere('tanggalperiksa', now()->format('Y-m-d'))->where('kodepoli', 'FAR')
+            ->orderBy('updated_at', 'ASC')->get();
+        $antrianpoli = $antrianfarmasi->where('taskid', 7)->first()->angkaantrean ?? 0;
+        $antriankarcis = $antrianfarmasi->where('taskid', '6')->where('kodepoli', 'FAR')->first()->angkaantrean ?? 0;
 
+
+        $data = [
+            // "pendaftaran" => $antrian->where('taskid', 2)->first()->angkaantrean ?? "-",
+            // "pendaftarankodebooking" => $antrian->where('taskid', 2)->first()->kodebooking ?? "-",
+            // "pendaftaranstatus" => $antrian->where('taskid', 2)->first()->panggil ?? "-",
+            // "pendaftaranselanjutnya" => $antrian->where('taskid', 1)->pluck('kodebooking', 'nomorantrean'),
+            // "poliklinik" => $antrian->where('taskid', 4)->first()->angkaantrean ?? "-",
+            // "poliklinikkodebooking" => $antrian->where('taskid', 4)->first()->kodebooking ?? "-",
+            // "poliklinikstatus" => $antrian->where('taskid', 4)->first()->panggil ?? "-",
+            // "poliklinikselanjutnya" => $antrian->where('taskid', 3)->pluck('kodebooking', 'nomorantrean',),
+            "farmasi" => $antriankarcis ? ($antrianpoli ? $antrianpoli :  $antriankarcis) : '-',
+            "farmasistatus" => $antrianfarmasi->where('taskid', 7)->first()->panggil ?? "-",
+            "farmasikodebooking" => $antrianfarmasi->where('taskid', 7)->first()->kodebooking ?? "-",
+            "farmasiselanjutnya" => $antrianfarmasi->pluck('kodebooking', 'nomorantrean'),
+        ];
+        return $this->sendResponse($data, 200);
+    }
     public function getantrianfarmasi(Request $request)
     {
         if ($request->tanggalperiksa) {
@@ -89,6 +120,15 @@ class FarmasiController extends APIController
                     'keterangan' => "Resep Pasien sudah diterima di farmasi.",
                 ]);
                 // Alert::success('Success', $res->metadata->message);
+                Alert::success('Success', "Resep Pasien sudah diterima di farmasi.");
+            } else if ($antrian->taskid == 1) {
+                $antrian->update([
+                    'taskid' => $request->taskid,
+                    'user4' => Auth::user()->id,
+                    'status' => 1,
+                    'taskid6' => $request->waktu,
+                    'keterangan' => "Resep Pasien sudah diterima di farmasi.",
+                ]);
                 Alert::success('Success', "Resep Pasien sudah diterima di farmasi.");
             }
         } catch (\Throwable $th) {

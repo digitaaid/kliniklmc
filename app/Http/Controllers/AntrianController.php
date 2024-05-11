@@ -263,27 +263,7 @@ class AntrianController extends APIController
     public function displayantrian()
     {
         return view('sim.display_antrian');
-        // $jadwals = JadwalDokter::where('hari',  now()->dayOfWeek)
-        //     ->orderBy('namasubspesialis', 'asc')->get();
-        // $antrians = Antrian::whereDate('tanggalperiksa', now()->format('Y-m-d'))->get();
-        // return view('sim.antrian_console', compact(
-        //     [
-        //         'jadwals',
-        //         'antrians',
-        //     ]
-        // ));
     }
-    // "pendaftaran" => $antrianakhir->where('taskid', 2)->first()->angkaantrean ?? "-",
-    // "pendaftaranstatus" => $antrianakhir->where('taskid', 2)->first()->panggil ?? "-",
-    // "pendaftaranselanjutnya" => $antrian->where('taskid', 1)->first()->angkaantrean ?? "-",
-    // "poliklinik" => $antrianakhir->where('taskid', 4)->first()->angkaantrean ?? "-",
-    // "poliklinikstatus" => $antrianakhir->where('taskid', 4)->first()->panggil ?? "-",
-    // "poliklinikselanjutnya" => $antrian->where('taskid', 3)->first()->angkaantrean ?? "-",
-    // "farmasi" => $antrianakhir->where('taskid', 7)->first()->angkaantrean ?? "-",
-    // "farmasistatus" => $antrianakhir->where('taskid', 7)->first()->panggil ?? "-",
-    // "farmasikodebooking" => $antrianakhir->where('taskid', 7)->first()->kodebooking ?? "-",
-    // "farmasiselanjutnya" => $antrian->where('taskid', 6)->first()->angkaantrean ?? "-",
-
     public function displaynomor()
     {
         $antrian = Antrian::where('tanggalperiksa', now()->format('Y-m-d'))->orderBy('angkaantrean', 'ASC')->get();

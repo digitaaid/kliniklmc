@@ -469,13 +469,6 @@ return [
                     'can' => ['pendaftaran', 'rekammedis'],
                 ],
                 [
-                    'text' => 'Berkas Upload',
-                    'icon'    => 'fas fa-file',
-                    'url'  => 'fileupload',
-                    'can' => ['pendaftaran', 'perawat', 'dokter', 'rekammedis'],
-                    'shift'   => 'ml-2',
-                ],
-                [
                     'text' => 'Obat',
                     'icon'    => 'fas fa-pills',
                     'url'  => 'obat',
@@ -488,6 +481,13 @@ return [
                     'url'  => 'stokobat',
                     'active'  => ['stokobat',  'regex:@^stokobat(\/[0-9]+)?+$@'],
                     'can' => 'farmasi',
+                    'shift'   => 'ml-2',
+                ],
+                [
+                    'text' => 'Berkas Upload',
+                    'icon'    => 'fas fa-file',
+                    'url'  => 'fileupload',
+                    'can' => ['pendaftaran', 'perawat', 'dokter', 'rekammedis'],
                     'shift'   => 'ml-2',
                 ],
                 [

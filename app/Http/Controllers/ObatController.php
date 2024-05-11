@@ -19,11 +19,12 @@ class ObatController extends Controller
     public function index(Request $request)
     {
         if ($request->pencarian) {
-            $obats = Obat::where('id', $request->pencarian)
+            $obats = Obat::with(['pic', 'reseps', 'stoks', 'orders'])
+                ->where('id', $request->pencarian)
                 ->orWhere('nama', 'LIKE', "%{$request->pencarian}%")
-                ->with(['pic'])->simplePaginate(20);
+                ->simplePaginate(20);
         } else {
-            $obats = Obat::with(['pic'])->simplePaginate(20);
+            $obats = Obat::with(['pic', 'reseps', 'stoks', 'orders'])->simplePaginate(20);
         }
         $total_obat = Obat::count();
         return view('sim.obat_index', compact([

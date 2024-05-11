@@ -16,6 +16,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\IntegrasiController;
 use App\Http\Controllers\JadwalDokterController;
 use App\Http\Controllers\JadwalLiburController;
+use App\Http\Controllers\JaminanController;
 use App\Http\Controllers\JenisObatController;
 use App\Http\Controllers\KasirController;
 use App\Http\Controllers\KunjunganController;
@@ -90,13 +91,16 @@ Route::get('ceksuratkontrol', [SuratKontrolController::class, 'ceksuratkontrol']
 Route::put('suratkontrol_update_web', [SuratKontrolController::class, 'suratkontrol_update_web'])->name('suratkontrol_update_web');
 // display antrian
 Route::get('displayantrian', [AntrianController::class, 'displayAntrian'])->name('displayantrian');
+Route::get('updatenomorantrean', [AntrianController::class, 'updatenomorantrean'])->name('updatenomorantrean');
 Route::get('displaynomor', [AntrianController::class, 'displaynomor'])->name('displaynomor');
 Route::get('getdisplayantrian', [AntrianController::class, 'getdisplayantrian'])->name('getdisplayantrian');
-Route::get('updatenomorantrean', [AntrianController::class, 'updatenomorantrean'])->name('updatenomorantrean');
+Route::get('displayantrianfarmasi', [FarmasiController::class, 'displayantrianfarmasi'])->name('displayantrianfarmasi');
+Route::get('getdisplayfarmasi', [FarmasiController::class, 'getdisplayfarmasi'])->name('getdisplayfarmasi');
 
 Route::middleware('auth')->group(function () {
     Route::get('/home', [HomeController::class, 'index'])->name('home');
     Route::get('profile', [UserController::class, 'profile'])->name('profile'); #ok
+    Route::put('update_profile', [UserController::class, 'update_profile'])->name('update_profile'); #ok
     // settingan umum
     Route::get('get_city', [LaravoltIndonesiaController::class, 'get_city'])->name('get_city');
     Route::get('get_district', [LaravoltIndonesiaController::class, 'get_district'])->name('get_district');
@@ -130,6 +134,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('dokter', DokterController::class);
     Route::resource('poliklinik', PoliklinikController::class);
     Route::resource('obat', ObatController::class);
+    Route::resource('jaminan', JaminanController::class);
     Route::resource('supplier', SupplierController::class);
     Route::resource('stokobat', StokObatController::class);
     Route::resource('depo', DepoController::class);

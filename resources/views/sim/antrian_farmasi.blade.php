@@ -13,14 +13,14 @@
                             <div class="card card-primary">
                                 <div class="card-header">
                                     <h3 class="card-title">{{ $item->nomorantrean }} ({{ $item->jenispasien }})</h3> <br>
-                                    <h3 class="card-title">{{ $item->kunjungan->nama }}</h3> <br>
+                                    <h3 class="card-title">{{ $item->kunjungan->nama ?? null }}</h3> <br>
                                 </div>
                                 <div class="card-body">
                                     <p>
-                                        <b>No RM : </b> {{ $item->kunjungan->norm }} <br>
-                                        <b>Nama : </b> {{ $item->kunjungan->nama }} <br>
-                                        <b>Tgl Lahir : </b> {{ $item->kunjungan->tgl_lahir }} <br>
-                                        <b>Kelamin : </b> {{ $item->kunjungan->gender }}
+                                        <b>No RM : </b> {{ $item->kunjungan->norm ?? null }} <br>
+                                        <b>Nama : </b> {{ $item->kunjungan->nama ?? null }} <br>
+                                        <b>Tgl Lahir : </b> {{ $item->kunjungan->tgl_lahir ?? null }} <br>
+                                        <b>Kelamin : </b> {{ $item->kunjungan->gender ?? null }}
                                     </p>
                                     <hr>
                                     <strong><i class="fas fa-pills mr-1"></i> Resep Obat</strong>
@@ -85,13 +85,14 @@
                                         @endforeach
                                     @endif
                                     <br>
-                                    @if ($item->kunjungan->asesmendokter)
-                                        <p>{{ $item->kunjungan->asesmendokter->resep_obat }}</p>
-                                        <hr>
-                                        <strong><i class="fas fa-pills mr-1"></i> Catatan Resep</strong>
-                                        <pre>{{ $item->kunjungan->asesmendokter->catatan_resep }}</pre>
+                                    @if ($item->kunjungan)
+                                        @if ($item->kunjungan->asesmendokter)
+                                            <p>{{ $item->kunjungan->asesmendokter->resep_obat }}</p>
+                                            <hr>
+                                            <strong><i class="fas fa-pills mr-1"></i> Catatan Resep</strong>
+                                            <pre>{{ $item->kunjungan->asesmendokter->catatan_resep }}</pre>
+                                        @endif
                                     @endif
-
                                 </div>
                                 <div class="card-footer">
                                     <a href="{{ route('selesaifarmasi') }}?kodebooking={{ $item->kodebooking }}"
@@ -278,8 +279,19 @@
                     </div>
                 </div>
                 @php
-                    $heads = ['Waktu', 'Kodebooking', 'No RM', 'Pasien', 'Unit', 'Dokter', 'Jenis Pasien', 'Status', 'Action'];
-                    $config['order'] = [[7, 'asc']];
+                    $heads = [
+                        'Waktu',
+                        'No',
+                        'No RM',
+                        'Pasien',
+                        'Action',
+                        'Jenis',
+                        'Unit',
+                        'Dokter',
+                        'Kodebooking',
+                        'Status',
+                    ];
+                    $config['order'] = [[4, 'desc']];
                     $config['paging'] = false;
                     $config['scrollY'] = '300px';
                 @endphp
@@ -288,13 +300,56 @@
                     @if ($antrians || $orders)
                         @foreach ($antrians as $item)
                             <tr>
-                                <td>{{ $item->created_at }}</td>
-                                <td>{{ $item->kodebooking }}</td>
+                                <td>{{ $item->updated_at }}</td>
+                                <td>{{ $item->angkaantrean }}</td>
                                 <td>{{ $item->norm }}</td>
                                 <td>{{ $item->nama }}</td>
-                                <td>{{ $item->kunjungan ? $item->kunjungan->units->nama : '-' }}</td>
-                                <td>{{ $item->namadokter }}</td>
+                                <td>
+                                    @switch($item->taskid)
+                                        @case(1)
+                                            @if ($item->kodepoli == 'FAR')
+                                                <a href="{{ route('terimafarmasi') }}?kodebooking={{ $item->kodebooking }}"
+                                                    class="btn btn-xs btn-warning withLoad">1. Terima</a>
+                                            @else
+                                                <div class="btn btn-xs btn-secondary">
+                                                    97. Belum
+                                                </div>
+                                            @endif
+                                        @break
+
+                                        @case(5)
+                                            <a href="{{ route('terimafarmasi') }}?kodebooking={{ $item->kodebooking }}"
+                                                class="btn btn-xs btn-warning withLoad">1. Terima</a>
+                                        @break
+
+                                        @case(6)
+                                            <x-adminlte-button icon="fas fa-edit" class="btn-xs" theme="warning" label="Edit"
+                                                onclick="editResep(this)" data-kode="{{ $item->kodebooking }}" />
+                                            <a href="{{ route('selesaifarmasi') }}?kodebooking={{ $item->kodebooking }}"
+                                                class="btn btn-xs btn-success withLoad"> Selesai</a>
+                                        @break
+
+                                        @case(7)
+                                            <a href="{{ route('print_asesmenfarmasi') }}?kodebooking={{ $item->kodebooking }}"
+                                                class="btn btn-xs btn-warning" target="_blank"> <i class="fas fa-print"></i>
+                                                Print</a>
+                                            <x-adminlte-button icon="fas fa-edit" theme="warning" label="Edit"
+                                                onclick="editResep(this)" class="btn-xs" data-kode="{{ $item->kodebooking }}" />
+                                            <a href="{{ route('panggilpendaftaran') }}?kodebooking={{ $item->kodebooking }}"
+                                                class="btn btn-primary btn-xs withLoad">
+                                                <i class="fas fa-volume-down"></i>
+                                            </a>
+                                        @break
+
+                                        @default
+                                            <div class="btn btn-xs btn-secondary">
+                                                97. Belum
+                                            </div>
+                                    @endswitch
+                                </td>
                                 <td>{{ $item->jenispasien }} </td>
+                                <td>{{ $item->namapoli }}</td>
+                                <td>{{ $item->kunjungan ? $item->kunjungan->dokters->namadokter : '-' }}</td>
                                 <td>
                                     @switch($item->taskid)
                                         @case(0)
@@ -337,38 +392,7 @@
                                             {{ $item->taskid }}
                                     @endswitch
                                 </td>
-                                <td>
-                                    @switch($item->taskid)
-                                        @case(5)
-                                            <a href="{{ route('terimafarmasi') }}?kodebooking={{ $item->kodebooking }}"
-                                                class="btn btn-xs btn-warning withLoad">Terima</a>
-                                        @break
-
-                                        @case(6)
-                                            <x-adminlte-button icon="fas fa-edit" class="btn-xs" theme="warning" label="Edit"
-                                                onclick="editResep(this)" data-kode="{{ $item->kodebooking }}" />
-                                            <a href="{{ route('selesaifarmasi') }}?kodebooking={{ $item->kodebooking }}"
-                                                class="btn btn-xs btn-success withLoad"> Selesai</a>
-                                        @break
-
-                                        @case(7)
-                                            <a href="{{ route('print_asesmenfarmasi') }}?kodebooking={{ $item->kodebooking }}"
-                                                class="btn btn-xs btn-warning" target="_blank"> <i class="fas fa-print"></i>
-                                                Print</a>
-                                            <x-adminlte-button icon="fas fa-edit" theme="warning" label="Edit"
-                                                onclick="editResep(this)" class="btn-xs" data-kode="{{ $item->kodebooking }}" />
-                                            <a href="{{ route('panggilpendaftaran') }}?kodebooking={{ $item->kodebooking }}"
-                                                class="btn btn-primary btn-xs withLoad">
-                                                <i class="fas fa-volume-down"></i>
-                                            </a>
-                                        @break
-
-                                        @default
-                                            <div class="btn btn-xs btn-secondary">
-                                                Belum
-                                            </div>
-                                    @endswitch
-                                </td>
+                                <td>{{ $item->kodebooking }}</td>
                             </tr>
                         @endforeach
                         @foreach ($orders as $item)
@@ -578,7 +602,7 @@
                             if (data.metadata.code == 200) {
                                 playAudio();
                                 Swal.fire({
-                                    title: 'Terima antrian resep obat ?',
+                                    title: '1.  antrian resep obat ?',
                                     text: "Telah dibuatkan resep obat baru oleh dokter.",
                                     icon: 'warning',
                                     showCancelButton: true,
