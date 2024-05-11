@@ -6,6 +6,7 @@ use App\Exports\ObatExport;
 use App\Imports\ObatsImport;
 use App\Models\Antrian;
 use App\Models\Dokter;
+use App\Models\Jaminan;
 use App\Models\Kunjungan;
 use App\Models\Obat;
 use App\Models\Poliklinik;
@@ -107,12 +108,17 @@ class ObatController extends Controller
         $antrian = Antrian::where('kodebooking', $request->kode)->first();
         $kunjungan = $antrian->kunjungan;
         $dokters = Dokter::where('status', '1')->pluck('namadokter', 'kodedokter');
+        $jaminans = Jaminan::pluck('nama', 'kode');
         $polikliniks = Unit::where('status', '1')->pluck('nama', 'kode');
-        return view('sim.form_resep_obat', compact('request', 'antrian', 'kunjungan','dokters','polikliniks'));
+        return view('sim.form_resep_obat', compact('request', 'antrian', 'kunjungan', 'dokters', 'polikliniks', 'jaminans'));
     }
     public function update_resep_obat(Request $request)
     {
         $kunjungan = Kunjungan::find($request->kunjungan_id);
+        $request['unit'] = $request->kodepoli;
+        $request['dokter'] = $request->kodedokter;
+        $request['status'] = 1;
+        $request['user1'] = Auth::user()->id;
         if ($kunjungan) {
             if ($request->obat) {
                 $request['status'] = 0;
@@ -120,6 +126,7 @@ class ObatController extends Controller
                 $request['berat_badan'] = $kunjungan->asesmenperawat->berat_badan ?? null;
                 $request['bsa'] = $kunjungan->asesmenperawat->bsa ?? null;
                 $request['kode'] = $kunjungan->kode;
+                $request['waktu'] = now();
                 $resep = ResepObat::updateOrCreate(
                     [
                         'kodebooking' => $request->kodebooking,
@@ -162,10 +169,17 @@ class ObatController extends Controller
                     );
                 }
             }
-        }else{
-
+        } else {
+            $antrian = Antrian::find($request->antrian_id);
+            $antrian->update($request->all());
+            $request['counter'] = Kunjungan::where('nomorkartu', $request->nomorkartu)->count() + 1;
+            $kunjungan = Kunjungan::updateOrCreate(
+                [
+                    'kode' => $request->kodebooking,
+                ],
+                $request->all()
+            );
         }
-        dd($request->all(), $kunjungan);
         Alert::success('Succes', 'Berhasil update resep obat');
         return redirect()->back();
     }

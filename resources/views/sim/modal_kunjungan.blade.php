@@ -101,7 +101,6 @@
                         </option>
                     @endforeach
                 </x-adminlte-select>
-                <hr>
                 <x-adminlte-select fgroup-class="row" label-class="text-left col-3" igroup-class="col-9"
                     igroup-size="sm" name="kodepoli" label="Poliklinik" enable-old-support>
                     @foreach ($polikliniks as $key => $value)

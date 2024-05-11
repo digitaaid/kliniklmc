@@ -798,4 +798,133 @@
             $(this).parents("#row").remove();
         })
     </script>
+    {{-- toast --}}
+    <script>
+        const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 5000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+        });
+    </script>
+    <script>
+        function btnCariKartu() {
+            $.LoadingOverlay("show");
+            var nomorkartu = $(".nomorkartu-antrian").val();
+            var url = "{{ route('cari_pasien_nomorkartu') }}?nomorkartu=" + nomorkartu +
+                "&tanggal={{ now()->format('Y-m-d') }}";
+            $.get(url, function(data, status) {
+                if (status == "success") {
+                    if (data.metadata.code == 200) {
+                        Toast.fire({
+                            icon: 'success',
+                            title: 'Pasien Ditemukan'
+                        });
+                        var pasien = data.response;
+                        $(".nama-id").val(pasien.nama);
+                        $(".nik-id").val(pasien.nik);
+                        $(".nomorkartu-antrian").val(pasien.nomorkartu);
+                        $(".norm-id").val(pasien.norm);
+                        $(".tgllahir-id").val(pasien.tgllahir);
+                        $(".gender-id").val(pasien.gender);
+                        $(".penjamin-id").val(pasien.penjamin);
+                        $(".kelas-id").val(pasien.kelas);
+                        $(".nohp-id").val(pasien.nohp);
+                    } else {
+                        // alert(data.metadata.message);
+                        Swal.fire(
+                            'Mohon Maaf !',
+                            data.metadata.message,
+                            'error'
+                        )
+                    }
+                } else {
+                    console.log(data);
+                    alert("Error Status: " + status);
+                }
+            });
+            $.LoadingOverlay("hide");
+        }
+
+        function btnCariNIK() {
+            $.LoadingOverlay("show");
+            var nomorkartu = $(".nik-id").val();
+            var url = "{{ route('cari_pasien_nik') }}?nik=" + nomorkartu +
+                "&tanggal={{ now()->format('Y-m-d') }}";
+            $.get(url, function(data, status) {
+                if (status == "success") {
+                    if (data.metadata.code == 200) {
+                        Toast.fire({
+                            icon: 'success',
+                            title: 'Pasien Ditemukan'
+                        });
+                        var pasien = data.response;
+                        $(".nama-id").val(pasien.nama);
+                        $(".nik-id").val(pasien.nik);
+                        $(".nomorkartu-antrian").val(pasien.nomorkartu);
+                        $(".norm-id").val(pasien.norm);
+                        $(".tgllahir-id").val(pasien.tgllahir);
+                        $(".gender-id").val(pasien.gender);
+                        $(".penjamin-id").val(pasien.penjamin);
+                        $(".kelas-id").val(pasien.kelas);
+                        $(".nohp-id").val(pasien.nohp);
+                    } else {
+                        // alert(data.metadata.message);
+                        Swal.fire(
+                            'Mohon Maaf !',
+                            data.metadata.message,
+                            'error'
+                        )
+                    }
+                } else {
+                    console.log(data);
+                    alert("Error Status: " + status);
+                }
+            });
+            $.LoadingOverlay("hide");
+        }
+
+        function btnCariRM() {
+            $.LoadingOverlay("show");
+            var norm = $(".norm-id").val();
+            var url = "{{ route('cari_pasien_norm') }}?norm=" + norm +
+                "&tanggal={{ now()->format('Y-m-d') }}";
+            $.get(url, function(data, status) {
+                if (status == "success") {
+                    if (data.metadata.code == 200) {
+                        Toast.fire({
+                            icon: 'success',
+                            title: 'Pasien Ditemukan'
+                        });
+                        var pasien = data.response;
+                        $(".nama-id").val(pasien.nama);
+                        $(".nik-id").val(pasien.nik);
+                        $(".nomorkartu-antrian").val(pasien.nomorkartu);
+                        $(".norm-id").val(pasien.norm);
+                        $(".tgllahir-id").val(pasien.tgllahir);
+                        $(".gender-id").val(pasien.gender);
+                        $(".penjamin-id").val(pasien.penjamin);
+                        $(".kelas-id").val(pasien.kelas);
+                        $(".nohp-id").val(pasien.nohp);
+                    } else {
+                        // alert(data.metadata.message);
+                        Swal.fire(
+                            'Mohon Maaf !',
+                            data.metadata.message,
+                            'error'
+                        )
+                    }
+                } else {
+                    console.log(data);
+                    alert("Error Status: " + status);
+                }
+            });
+            $.LoadingOverlay("hide");
+        }
+    </script>
 @endpush
