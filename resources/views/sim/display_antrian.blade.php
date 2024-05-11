@@ -7,7 +7,7 @@
         <div class="row p-1">
             <div class="col-md-12">
                 <div class="card">
-                    <header class="bg-purple text-white p-4">
+                    <header class="bg-purple text-white p-2">
                         <div class="container">
                             <div class="row">
                                 <div class="col-md-6">
@@ -29,7 +29,7 @@
                     </header>
                 </div>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-2">
                 <div class="card">
                     <div class="card-header bg-blue">
                         <div class="text-center">
@@ -70,7 +70,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-2">
                 <div class="card">
                     <div class="card-header bg-blue">
                         <div class="text-center">
@@ -88,7 +88,7 @@
                         <h3 class="card-title">Antrian Pendaftaran</h3>
                     </div>
                     <div class="card-body p-0">
-                        <table class="table">
+                        <table class="table" id="tabledokter">
                             <tbody>
                                 <tr>
                                     <th>-</th>
@@ -111,8 +111,8 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-6">
-                <x-adminlte-card>
+            <div class="col-md-4">
+                <x-adminlte-card body-class="p-1 m-0">
                     <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
                         <ol class="carousel-indicators">
                             <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
@@ -164,13 +164,13 @@
                     </div>
                 </x-adminlte-card>
             </div>
-            {{-- <div class="col-md-4">
-                <x-adminlte-card>
+            <div class="col-md-4">
+                <x-adminlte-card body-class="p-1">
                     <iframe
                         src="https://www.youtube.com/embed/rLInKEMHykE?si=sWG-1mT9ydRzXGhS?rel=0&modestbranding=1&autohide=1&mute=1&showinfo=0&controls=1&autoplay=1&loop=1"
                         width="100%" height="450" frameborder="0" allowfullscreen onload='playVideo();'> ></iframe>
                 </x-adminlte-card>
-            </div> --}}
+            </div>
         </div>
     </div>
     <audio id="suarabel" src="{{ asset('rekaman/Airport_Bell.mp3') }}"></audio>
@@ -196,6 +196,9 @@
         function playVideo() {
             $('.ytp-large-play-button').click();
         }
+        setInterval(function() {
+            location.reload();
+        }, 1000 * 60 * 3);
         setInterval(function() {
             var url = "{{ route('displaynomor') }}";
             $.ajax({
@@ -228,23 +231,18 @@
                             },
                         });
                     }
-                    // $('#pendaftaranselanjutnya').html(data.response.pendaftaranselanjutnya);
                     $('#poliklinik').html(data.response.poliklinik);
-                    $('#poliklinikselanjutnya').html(data.response.poliklinikselanjutnya);
-                    $('#farmasi').html(data.response.farmasi);
-                    $('#farmasiselanjutnya').html(data.response.farmasiselanjutnya);
-
-                    if (data.response.farmasistatus == 0) {
-                        var url = "{{ route('updatenomorantrean') }}?kodebooking=" + data.response
-                            .farmasikodebooking;
-                        $.ajax({
-                            url: url,
-                            type: "GET",
-                            dataType: 'json',
-                            success: function(res) {
-                                panggilfarmasi(data.response.farmasi);
-                            },
-                        });
+                    $('#tabledokter').empty()
+                    var x = 0;
+                    $.each(data.response.poliklinikselanjutnya, function(i, val) {
+                        if (x < 4) {
+                            $('#tabledokter').append('<tr><th>' + i + '</th><th>  ' + val +
+                                ' </th></tr>');
+                            x++;
+                        }
+                    });
+                    for (let index = x; index < 4; index++) {
+                        $('#tabledokter').append('<tr><th>-</th><th>-</th></tr>');
                     }
                     if (data.response.poliklinikstatus == 0) {
                         var url = "{{ route('updatenomorantrean') }}?kodebooking=" + data.response
@@ -258,6 +256,21 @@
                             },
                         });
                     }
+                    // $('#farmasi').html(data.response.farmasi);
+                    // $('#farmasiselanjutnya').html(data.response.farmasiselanjutnya);
+                    // if (data.response.farmasistatus == 0) {
+                    //     var url = "{{ route('updatenomorantrean') }}?kodebooking=" + data.response
+                    //         .farmasikodebooking;
+                    //     $.ajax({
+                    //         url: url,
+                    //         type: "GET",
+                    //         dataType: 'json',
+                    //         success: function(res) {
+                    //             panggilfarmasi(data.response.farmasi);
+                    //         },
+                    //     });
+                    // }
+
                 },
                 error: function(data) {
                     console.log(data);
@@ -266,7 +279,7 @@
         }, 3000);
     </script>
 
-    <script type="text/javascript">
+    <script>
         function panggilpendaftaran(angkaantrian) {
             document.getElementById('suarabel').pause();
             document.getElementById('suarabel').currentTime = 0;
@@ -326,7 +339,7 @@
 
         function panggilangka(angkaantrian) {
             if (angkaantrian < 10) {
-                $("#nomor0").attr("src", "{{ route('landingpage') }}/public/rekaman/" + angkaantrian + ".mp3");
+                $("#nomor0").attr("src", "{{ route('landingpage') }}/rekaman/" + angkaantrian + ".mp3");
                 setTimeout(function() {
                     document.getElementById('nomor0').pause();
                     document.getElementById('nomor0').currentTime = 0;
@@ -334,7 +347,7 @@
                 }, totalwaktu);
                 totalwaktu = totalwaktu + 1000;
             } else if (angkaantrian == 10) {
-                $("#nomor0").attr("src", "{{ route('landingpage') }}/public/rekaman/sepuluh.mp3");
+                $("#nomor0").attr("src", "{{ route('landingpage') }}/rekaman/sepuluh.mp3");
                 setTimeout(function() {
                     document.getElementById('nomor0').pause();
                     document.getElementById('nomor0').currentTime = 0;
@@ -342,7 +355,7 @@
                 }, totalwaktu);
                 totalwaktu = totalwaktu + 1000;
             } else if (angkaantrian == 11) {
-                $("#nomor0").attr("src", "{{ route('landingpage') }}/public/rekaman/sebelas.mp3");
+                $("#nomor0").attr("src", "{{ route('landingpage') }}/rekaman/sebelas.mp3");
                 setTimeout(function() {
                     document.getElementById('nomor0').pause();
                     document.getElementById('nomor0').currentTime = 0;
@@ -351,7 +364,7 @@
                 totalwaktu = totalwaktu + 1000;
             } else if (angkaantrian < 20) {
                 var nomor1 = angkaantrian.charAt(1);
-                $("#nomor0").attr("src", "{{ route('landingpage') }}/public/rekaman/" + nomor1 + ".mp3");
+                $("#nomor0").attr("src", "{{ route('landingpage') }}/rekaman/" + nomor1 + ".mp3");
                 setTimeout(function() {
                     document.getElementById('nomor0').pause();
                     document.getElementById('nomor0').currentTime = 0;
@@ -367,7 +380,7 @@
             } else if (angkaantrian < 100) {
                 var angka = angkaantrian;
                 var angka1 = angka.charAt(0);
-                $("#nomor0").attr("src", "{{ route('landingpage') }}/public/rekaman/" + angka1 + ".mp3");
+                $("#nomor0").attr("src", "{{ route('landingpage') }}/rekaman/" + angka1 + ".mp3");
                 setTimeout(function() {
                     document.getElementById('nomor0').pause();
                     document.getElementById('nomor0').currentTime = 0;
@@ -382,7 +395,7 @@
                 totalwaktu = totalwaktu + 1000;
                 var angka2 = angka.charAt(1);
                 if (angka2 != 0) {
-                    $("#nomor1").attr("src", "{{ route('landingpage') }}/public/rekaman/" + angka2 + ".mp3");
+                    $("#nomor1").attr("src", "{{ route('landingpage') }}/rekaman/" + angka2 + ".mp3");
                     setTimeout(function() {
                         document.getElementById('nomor1').pause();
                         document.getElementById('nomor1').currentTime = 0;

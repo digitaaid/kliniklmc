@@ -131,10 +131,10 @@ class TarifController extends APIController
                     ],
                     [
                         'nama' => $tarif->nama,
-                        'harga' => $tarif->harga,
+                        'harga' => $request->harga,
                         'jumlah' =>  $request->jumlah,
                         'diskon' => $request->diskon,
-                        'subtotal' => ($tarif->harga * $request->jumlah) - ($tarif->harga * $request->jumlah * $request->diskon / 100),
+                        'subtotal' => ($request->harga * $request->jumlah) - ($request->harga * $request->jumlah * $request->diskon / 100),
                         'klasifikasi' => $tarif->klasifikasi,
                         'jaminan' => $request->jaminan,
                         'pic' => Auth::user()->name,
@@ -157,7 +157,7 @@ class TarifController extends APIController
     }
     function get_layanan_kunjungan(Request $request)
     {
-        $kunjungan = Kunjungan::with(['layanans', 'layanans.jaminans'])->find($request->kunjungan);
+        $kunjungan = Kunjungan::with(['layanans', 'layanans.jaminans', 'layanans.pic'])->find($request->kunjungan);
         $layanans = $kunjungan->layanans;
         return $this->sendResponse($layanans);
     }

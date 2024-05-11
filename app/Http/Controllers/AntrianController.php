@@ -278,7 +278,6 @@ class AntrianController extends APIController
     // "pendaftaranselanjutnya" => $antrian->where('taskid', 1)->first()->angkaantrean ?? "-",
     // "poliklinik" => $antrianakhir->where('taskid', 4)->first()->angkaantrean ?? "-",
     // "poliklinikstatus" => $antrianakhir->where('taskid', 4)->first()->panggil ?? "-",
-    // "poliklinikkodebooking" => $antrianakhir->where('taskid', 4)->first()->kodebooking ?? "-",
     // "poliklinikselanjutnya" => $antrian->where('taskid', 3)->first()->angkaantrean ?? "-",
     // "farmasi" => $antrianakhir->where('taskid', 7)->first()->angkaantrean ?? "-",
     // "farmasistatus" => $antrianakhir->where('taskid', 7)->first()->panggil ?? "-",
@@ -294,9 +293,9 @@ class AntrianController extends APIController
             "pendaftaranstatus" => $antrian->where('taskid', 2)->first()->panggil ?? "-",
             "pendaftaranselanjutnya" => $antrian->where('taskid', 1)->pluck('kodebooking', 'nomorantrean'),
             "poliklinik" => $antrian->where('taskid', 4)->first()->angkaantrean ?? "-",
+            "poliklinikkodebooking" => $antrian->where('taskid', 4)->first()->kodebooking ?? "-",
             "poliklinikstatus" => $antrian->where('taskid', 4)->first()->panggil ?? "-",
             "poliklinikselanjutnya" => $antrian->where('taskid', 3)->pluck('kodebooking', 'nomorantrean',),
-
             // "farmasi" => $antrian->where('taskid', 7)->first()->angkaantrean ?? "-",
             // "farmasistatus" => $antrian->where('taskid', 7)->first()->panggil ?? "-",
             // "farmasikodebooking" => $antrian->where('taskid', 7)->first()->kodebooking ?? "-",

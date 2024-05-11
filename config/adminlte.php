@@ -389,6 +389,20 @@ return [
                     'can' => ['rekammedis', 'farmasi'],
                 ],
                 [
+                    'text' => 'Diagnosa Casemix',
+                    'icon'    => 'fas fa-notes-medical',
+                    'url'  => 'diagnosa_rekammedis',
+                    'shift'   => 'ml-2',
+                    'can' => ['rekammedis', 'farmasi'],
+                ],
+                [
+                    'text' => 'Layanan Keuangan',
+                    'icon'    => 'fas fa-file-invoice-dollar',
+                    'url'  => 'layanan_keuangan',
+                    'shift'   => 'ml-2',
+                    'can' => ['rekammedis', 'farmasi'],
+                ],
+                [
                     'text' => 'Permintaan Laboratorium',
                     'icon'    => 'fas fa-vials',
                     'url'  => 'permintaanlab_index',
@@ -425,13 +439,13 @@ return [
                     'url'  => 'unit',
                     'can' => 'manajemen',
                 ],
-                [
-                    'text' => 'Bed / Kamar',
-                    'icon'    => 'fas fa-bed',
-                    'shift'   => 'ml-2',
-                    'url'  => 'bed',
-                    'can' => 'manajemen',
-                ],
+                // [
+                //     'text' => 'Bed / Kamar',
+                //     'icon'    => 'fas fa-bed',
+                //     'shift'   => 'ml-2',
+                //     'url'  => 'bed',
+                //     'can' => 'manajemen',
+                // ],
                 [
                     'text' => 'Dokter',
                     'icon'    => 'fas fa-user-md',

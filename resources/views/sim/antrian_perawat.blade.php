@@ -84,7 +84,7 @@
                         'PIC ',
                         'Dokter',
                     ];
-                    $config['order'] = [[5, 'asc'], [6, 'asc']];
+                    $config['order'] = [[5, 'desc'], [6, 'asc']];
                     $config['paging'] = false;
                     $config['scrollX'] = true;
                     $config['scrollY'] = '300px';

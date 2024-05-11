@@ -25,7 +25,8 @@ class PerawatController extends Controller
         $antrian_asesmen = null;
         if ($request->tanggalperiksa) {
             $antrians = Antrian::where('tanggalperiksa', $request->tanggalperiksa)->where('taskid', '!=', 99)
-                ->with(['kunjungan', 'kunjungan.units', 'kunjungan.dokters', 'pic2','asesmenperawat', 'layanans'])
+                ->has('kunjungan')
+                ->with(['kunjungan', 'kunjungan.units', 'kunjungan.dokters', 'pic2', 'asesmenperawat', 'layanans'])
                 ->get();
             $antrian_asesmen = Antrian::where('tanggalperiksa', $request->tanggalperiksa)->whereHas('asesmenperawat')->count();
         }
@@ -35,7 +36,7 @@ class PerawatController extends Controller
             ]);
             $antrians = Antrian::where('norm', $request->pencarian)
                 ->orWhere('nama', 'LIKE', '%' . $request->pencarian . '%')
-                ->with(['kunjungan', 'kunjungan.units', 'kunjungan.dokters', 'pic2','asesmenperawat', 'layanans'])
+                ->with(['kunjungan', 'kunjungan.units', 'kunjungan.dokters', 'pic2', 'asesmenperawat', 'layanans'])
                 ->get();
             $antrian_asesmen = Antrian::where('norm', $request->pencarian)
                 ->orWhere('nama', 'LIKE', '%' . $request->pencarian . '%')
