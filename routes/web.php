@@ -8,6 +8,7 @@ use App\Http\Controllers\DepoController;
 use App\Http\Controllers\DiagnosaController;
 use App\Http\Controllers\DistributorBarangController;
 use App\Http\Controllers\DokterController;
+use App\Http\Controllers\EncounterController;
 use App\Http\Controllers\FarmasiController;
 use App\Http\Controllers\FileUploadController;
 use App\Http\Controllers\FormController;
@@ -22,6 +23,7 @@ use App\Http\Controllers\KasirController;
 use App\Http\Controllers\KunjunganController;
 use App\Http\Controllers\LaboratoriumController;
 use App\Http\Controllers\LaravoltIndonesiaController;
+use App\Http\Controllers\LocationController;
 use App\Http\Controllers\LPKController;
 use App\Http\Controllers\MerkBarangController;
 use App\Http\Controllers\ObatController;
@@ -333,6 +335,8 @@ Route::middleware('auth')->group(function () {
     Route::post('update_taksid_antrian', [SyncronizeController::class, 'update_taksid_antrian'])->name('update_taksid_antrian');
     // rekam medis
     Route::get('resumerawatjalan', [RekamMedisController::class, 'resumerawatjalan'])->name('resumerawatjalan');
+    Route::get('diagnosa_rekammedis', [RekamMedisController::class, 'diagnosa_rekammedis'])->name('diagnosa_rekammedis');
+
 
     Route::prefix('satusehat')->group(function () {
         Route::get('token_generate', [SatuSehatController::class, 'token_generate'])->name('token_generate');
@@ -344,6 +348,12 @@ Route::middleware('auth')->group(function () {
         Route::get('practitioner_sync', [PractitionerController::class, 'practitioner_sync'])->name('practitioner_sync');
         Route::get('organization', [OrganizationController::class, 'index'])->name('organization');
         Route::get('organization_sync', [OrganizationController::class, 'organization_sync'])->name('organization_sync');
+        Route::get('location', [LocationController::class, 'index'])->name('location');
+        Route::get('location_sync', [LocationController::class, 'location_sync'])->name('location_sync');
+        Route::get('encounter', [EncounterController::class, 'encounter'])->name('encounter');
+        Route::get('table_kunjungan_encounter', [EncounterController::class, 'table_kunjungan_encounter'])->name('table_kunjungan_encounter');
+        Route::get('encounter_sync', [EncounterController::class, 'encounter_sync'])->name('encounter_sync');
+        Route::post('encounter_update', [EncounterController::class, 'encounter_update'])->name('encounter_update');
     });
     Route::get('download_backup_file', [BackupController::class, 'download_backup_file'])->name('download_backup_file');
     Route::get('printtest', [PrintController::class, 'printtest'])->name('printtest');

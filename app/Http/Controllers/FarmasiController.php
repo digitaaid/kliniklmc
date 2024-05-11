@@ -63,28 +63,16 @@ class FarmasiController extends APIController
     }
     public function getdisplayfarmasi()
     {
-        $antrian = Antrian::where('tanggalperiksa', now()->format('Y-m-d'))->whereIn('taskid', ['4', '5', '6', '7'])
-            ->orderBy('angkaantrean', 'ASC')->get();
-        $antrianfarmasi = Antrian::where('tanggalperiksa', now()->format('Y-m-d'))->where('taskid', 6)
-            ->orWhere('tanggalperiksa', now()->format('Y-m-d'))->where('kodepoli', 'FAR')
-            ->orderBy('updated_at', 'ASC')->get();
-        $antrianpoli = $antrianfarmasi->where('taskid', 7)->first()->angkaantrean ?? 0;
-        $antriankarcis = $antrianfarmasi->where('taskid', '6')->where('kodepoli', 'FAR')->first()->angkaantrean ?? 0;
-
-
+        $antrianfarmasi = Antrian::where('tanggalperiksa', now()->format('Y-m-d'))->whereIn('taskid', [5, 6, 7])
+            ->orWhere('tanggalperiksa', now()->format('Y-m-d'))->where('kodepoli', 'FAR')->where('kodepoli', 'FAR')
+            ->orderBy('updated_at', 'DESC')->get();
+        $antrianpoli = $antrianfarmasi->where('taskid', 7)->first() ?? 0;
+        $antriankarcis = $antrianfarmasi->where('taskid', '6')->where('kodepoli', 'FAR')->first() ?? 0;
         $data = [
-            // "pendaftaran" => $antrian->where('taskid', 2)->first()->angkaantrean ?? "-",
-            // "pendaftarankodebooking" => $antrian->where('taskid', 2)->first()->kodebooking ?? "-",
-            // "pendaftaranstatus" => $antrian->where('taskid', 2)->first()->panggil ?? "-",
-            // "pendaftaranselanjutnya" => $antrian->where('taskid', 1)->pluck('kodebooking', 'nomorantrean'),
-            // "poliklinik" => $antrian->where('taskid', 4)->first()->angkaantrean ?? "-",
-            // "poliklinikkodebooking" => $antrian->where('taskid', 4)->first()->kodebooking ?? "-",
-            // "poliklinikstatus" => $antrian->where('taskid', 4)->first()->panggil ?? "-",
-            // "poliklinikselanjutnya" => $antrian->where('taskid', 3)->pluck('kodebooking', 'nomorantrean',),
-            "farmasi" => $antriankarcis ? ($antrianpoli ? $antrianpoli :  $antriankarcis) : '-',
-            "farmasistatus" => $antrianfarmasi->where('taskid', 7)->first()->panggil ?? "-",
-            "farmasikodebooking" => $antrianfarmasi->where('taskid', 7)->first()->kodebooking ?? "-",
-            "farmasiselanjutnya" => $antrianfarmasi->pluck('kodebooking', 'nomorantrean'),
+            "farmasi" => $antriankarcis ?  $antriankarcis->angkaantrean : ($antrianpoli ? $antrianpoli->angkaantrean : '-'),
+            "farmasistatus" => $antriankarcis ?   $antriankarcis->panggil : ($antrianpoli ? $antrianpoli->panggil : '-'),
+            "farmasikodebooking" => $antriankarcis ?  $antriankarcis->kodebooking : ($antrianpoli ? $antrianpoli->kodebooking : '-'),
+            "farmasiselanjutnya" => $antrianfarmasi->where('taskid', '!=', 7)->pluck('kodebooking', 'nomorantrean'),
         ];
         return $this->sendResponse($data, 200);
     }

@@ -210,13 +210,13 @@
                     $('#tablependaftaran').empty()
                     var x = 0;
                     $.each(data.response.pendaftaranselanjutnya, function(i, val) {
-                        if (x < 4) {
+                        if (x < 5) {
                             $('#tablependaftaran').append('<tr><th>' + i + '</th><th>  ' + val +
                                 ' </th></tr>');
                             x++;
                         }
                     });
-                    for (let index = x; index < 4; index++) {
+                    for (let index = x; index < 5; index++) {
                         $('#tablependaftaran').append('<tr><th>-</th><th>-</th></tr>');
                     }
                     if (data.response.pendaftaranstatus == 0) {
@@ -235,13 +235,13 @@
                     $('#tabledokter').empty()
                     var x = 0;
                     $.each(data.response.poliklinikselanjutnya, function(i, val) {
-                        if (x < 4) {
+                        if (x < 5) {
                             $('#tabledokter').append('<tr><th>' + i + '</th><th>  ' + val +
                                 ' </th></tr>');
                             x++;
                         }
                     });
-                    for (let index = x; index < 4; index++) {
+                    for (let index = x; index < 5; index++) {
                         $('#tabledokter').append('<tr><th>-</th><th>-</th></tr>');
                     }
                     if (data.response.poliklinikstatus == 0) {
@@ -256,21 +256,6 @@
                             },
                         });
                     }
-                    // $('#farmasi').html(data.response.farmasi);
-                    // $('#farmasiselanjutnya').html(data.response.farmasiselanjutnya);
-                    // if (data.response.farmasistatus == 0) {
-                    //     var url = "{{ route('updatenomorantrean') }}?kodebooking=" + data.response
-                    //         .farmasikodebooking;
-                    //     $.ajax({
-                    //         url: url,
-                    //         type: "GET",
-                    //         dataType: 'json',
-                    //         success: function(res) {
-                    //             panggilfarmasi(data.response.farmasi);
-                    //         },
-                    //     });
-                    // }
-
                 },
                 error: function(data) {
                     console.log(data);

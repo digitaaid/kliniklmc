@@ -1,6 +1,5 @@
 @extends('adminlte::master')
-{{-- @inject('layoutHelper', 'JeroenNoten\LaravelAdminLte\Helpers\LayoutHelper') --}}
-@section('title', 'Display Antrian')
+@section('title', 'Display Antrian Farmasi')
 @section('body')
     <link rel="shortcut icon" href="{{ asset('medicio/assets/img/lmc.png') }}" />
     <div class="wrapper">
@@ -231,41 +230,44 @@
                     //         },
                     //     });
                     // }
-                    $('#poliklinik').html(data.response.poliklinik);
-                    $('#tabledokter').empty()
-                    var x = 0;
-                    $.each(data.response.poliklinikselanjutnya, function(i, val) {
-                        if (x < 4) {
-                            $('#tabledokter').append('<tr><th>' + i + '</th><th>  ' + val +
-                                ' </th></tr>');
-                            x++;
-                        }
-                    });
-                    for (let index = x; index < 4; index++) {
-                        $('#tabledokter').append('<tr><th>-</th><th>-</th></tr>');
-                    }
-                    if (data.response.poliklinikstatus == 0) {
-                        var url = "{{ route('updatenomorantrean') }}?kodebooking=" + data.response
-                            .poliklinikkodebooking;
-                        $.ajax({
-                            url: url,
-                            type: "GET",
-                            dataType: 'json',
-                            success: function(res) {
-                                panggilpoliklinik(data.response.poliklinik);
-                            },
-                        });
-                    }
+                    // $('#poliklinik').html(data.response.poliklinik);
+                    // $('#tabledokter').empty()
+                    // var x = 0;
+                    // $.each(data.response.poliklinikselanjutnya, function(i, val) {
+                    //     if (x < 4) {
+                    //         $('#tabledokter').append('<tr><th>' + i + '</th><th>  ' + val +
+                    //             ' </th></tr>');
+                    //         x++;
+                    //     }
+                    // });
+                    // for (let index = x; index < 5; index++) {
+                    //     $('#tabledokter').append('<tr><th>-</th><th>-</th></tr>');
+                    // }
+                    // if (data.response.poliklinikstatus == 0) {
+                    //     var url = "{{ route('updatenomorantrean') }}?kodebooking=" + data.response
+                    //         .poliklinikkodebooking;
+                    //     $.ajax({
+                    //         url: url,
+                    //         type: "GET",
+                    //         dataType: 'json',
+                    //         success: function(res) {
+                    //             panggilpoliklinik(data.response.poliklinik);
+                    //         },
+                    //     });
+                    // }
                     $('#farmasi').html(data.response.farmasi);
                     $('#tablefarmasi').empty()
                     var x = 0;
                     $.each(data.response.farmasiselanjutnya, function(i, val) {
-                        if (x < 4) {
+                        if (x < 5) {
                             $('#tablefarmasi').append('<tr><th>' + i + '</th><th>  ' + val +
                                 ' </th></tr>');
                             x++;
                         }
                     });
+                    for (let index = x; index < 5; index++) {
+                        $('#tablefarmasi').append('<tr><th>-</th><th>-</th></tr>');
+                    }
                     if (data.response.farmasistatus == 0) {
                         var url = "{{ route('updatenomorantrean') }}?kodebooking=" + data.response
                             .farmasikodebooking;
@@ -278,19 +280,6 @@
                             },
                         });
                     }
-                    // $('#farmasiselanjutnya').html(data.response.farmasiselanjutnya);
-                    // if (data.response.farmasistatus == 0) {
-                    //     var url = "{{ route('updatenomorantrean') }}?kodebooking=" + data.response
-                    //         .farmasikodebooking;
-                    //     $.ajax({
-                    //         url: url,
-                    //         type: "GET",
-                    //         dataType: 'json',
-                    //         success: function(res) {
-                    //             panggilfarmasi(data.response.farmasi);
-                    //         },
-                    //     });
-                    // }
                 },
                 error: function(data) {
                     console.log(data);
@@ -298,7 +287,6 @@
             });
         }, 3000);
     </script>
-
     <script>
         function panggilpendaftaran(angkaantrian) {
             document.getElementById('suarabel').pause();

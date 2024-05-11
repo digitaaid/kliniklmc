@@ -5,10 +5,13 @@ namespace App\Http\Controllers;
 use App\Exports\ObatExport;
 use App\Imports\ObatsImport;
 use App\Models\Antrian;
+use App\Models\Dokter;
 use App\Models\Kunjungan;
 use App\Models\Obat;
+use App\Models\Poliklinik;
 use App\Models\ResepObat;
 use App\Models\ResepObatDetail;
+use App\Models\Unit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
@@ -103,7 +106,9 @@ class ObatController extends Controller
     {
         $antrian = Antrian::where('kodebooking', $request->kode)->first();
         $kunjungan = $antrian->kunjungan;
-        return view('sim.form_resep_obat', compact('request', 'antrian', 'kunjungan'));
+        $dokters = Dokter::where('status', '1')->pluck('namadokter', 'kodedokter');
+        $polikliniks = Unit::where('status', '1')->pluck('nama', 'kode');
+        return view('sim.form_resep_obat', compact('request', 'antrian', 'kunjungan','dokters','polikliniks'));
     }
     public function update_resep_obat(Request $request)
     {
@@ -157,7 +162,10 @@ class ObatController extends Controller
                     );
                 }
             }
+        }else{
+
         }
+        dd($request->all(), $kunjungan);
         Alert::success('Succes', 'Berhasil update resep obat');
         return redirect()->back();
     }

@@ -96,11 +96,15 @@
                                 </div>
                                 <div class="card-footer">
                                     <a href="{{ route('selesaifarmasi') }}?kodebooking={{ $item->kodebooking }}"
-                                        class="btn btn-success withLoad"><i class="fas fa-check"></i> Selesai</a>
-                                    <x-adminlte-button icon="fas fa-edit" theme="success" label="Edit"
+                                        class="btn   btn-sm btn-success withLoad"><i class="fas fa-check"></i> Selesai</a>
+                                    <x-adminlte-button icon="fas fa-edit" class="btn-sm" theme="success" label="Edit"
                                         onclick="editResep(this)" data-kode="{{ $item->kodebooking }}" />
                                     <a href="{{ route('print_asesmenfarmasi') }}?kodebooking={{ $item->kodebooking }}"
-                                        class="btn btn-warning" target="_blank"> <i class="fas fa-print"></i> Print</a>
+                                        class="btn  btn-sm btn-warning" target="_blank"> <i class="fas fa-print"></i>
+                                        Print</a>
+                                    <a href="{{ route('panggilpendaftaran') }}?kodebooking={{ $item->kodebooking }}"
+                                        class="btn btn-primary btn-sm withLoad">
+                                        <i class="fas fa-volume-down"></i></a>
                                 </div>
                             </div>
                         </div>

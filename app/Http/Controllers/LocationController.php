@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Unit;
 use Illuminate\Http\Request;
 
-class OrganizationController extends SatuSehatController
+class LocationController extends Controller
 {
     public function index()
     {

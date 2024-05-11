@@ -147,6 +147,7 @@ class PendaftaranController extends APIController
         $polikliniks = Poliklinik::where('status', '1')->pluck('namasubspesialis', 'kodesubspesialis');
         if ($request->tanggalperiksa) {
             $antrians = Antrian::where('tanggalperiksa', $request->tanggalperiksa)
+                ->where('kodepoli', '!=', 'FAR')
                 ->with(['kunjungan', 'kunjungan.units', 'kunjungan.dokters', 'pic1', 'layanans'])
                 ->get();
         }

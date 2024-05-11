@@ -5,12 +5,80 @@
             width: 300px !important;
         }
     </style>
-    <input type="hidden" name="kodebooking" value="{{ $kunjungan->antrian->kodebooking }}">
-    <input type="hidden" name="antrian_id" value="{{ $kunjungan->antrian->id }}">
+    <input type="hidden" name="kodebooking" value="{{ $antrian->kodebooking }}">
+    <input type="hidden" name="antrian_id" value="{{ $antrian->id }}">
     <input type="hidden" name="kodekunjungan" value="{{ $kunjungan->kode ?? null }}">
     <input type="hidden" name="kunjungan_id" value="{{ $kunjungan->id ?? null }}">
     <div class="row">
+        <div class="col-md-6">
+            <x-adminlte-input name="nomorkartu" class="nomorkartu-antrian" fgroup-class="row"
+                label-class="text-left col-3" igroup-class="col-9" igroup-size="sm" label="Nomor Kartu"
+                value="{{ $antrian->nomorkartu }}" enable-old-support placeholder="Nomor Kartu">
+                <x-slot name="appendSlot">
+                    <div class="btn btn-primary" onclick="btnCariKartu()">
+                        <i class="fas fa-search"></i> Cari
+                    </div>
+                </x-slot>
+            </x-adminlte-input>
+            <x-adminlte-input name="nik" class="nik-id" enable-old-support fgroup-class="row"
+                label-class="text-left col-3" igroup-class="col-9" igroup-size="sm" label="NIK" placeholder="NIK"
+                value="{{ $antrian->nik }}">
+                <x-slot name="appendSlot">
+                    <div class="btn btn-primary" onclick="btnCariNIK()">
+                        <i class="fas fa-search"></i> Cari
+                    </div>
+                </x-slot>
+            </x-adminlte-input>
+            <x-adminlte-input name="norm" class="norm-id" label="No RM" fgroup-class="row"
+                label-class="text-left col-3" igroup-class="col-9" igroup-size="sm" placeholder="No RM"
+                value="{{ $antrian->norm }}" enable-old-support>
+                <x-slot name="appendSlot">
+                    <div class="btn btn-primary" onclick="btnCariRM()">
+                        <i class="fas fa-search"></i> Cari
+                    </div>
+                </x-slot>
+            </x-adminlte-input>
+            <x-adminlte-input name="nama" class="nama-id" label="Nama Pasien" fgroup-class="row"
+                label-class="text-left col-3" igroup-class="col-9" igroup-size="sm" placeholder="Nama Pasien"
+                value="{{ $antrian->nama }}" enable-old-support />
+            <x-adminlte-input name="nohp" class="nohp-id" label="Nomor HP" fgroup-class="row"
+                label-class="text-left col-3" igroup-class="col-9" igroup-size="sm" placeholder="Nomor HP"
+                value="{{ $antrian->nohp }}" enable-old-support />
+        </div>
+        <div class="col-md-6">
+            @php
+                $config = ['format' => 'YYYY-MM-DD'];
+            @endphp
+            <x-adminlte-input-date name="tanggalperiksa" class="tanggalperiksa-id" fgroup-class="row"
+                label-class="text-left col-3" igroup-class="col-9" igroup-size="sm" label="Tanggal Periksa"
+                value="{{ $antrian->tanggalperiksa }}" placeholder="Tanggal Periksa" :config="$config"
+                enable-old-support>
+            </x-adminlte-input-date>
+            <x-adminlte-select fgroup-class="row" label-class="text-left col-3" igroup-class="col-9" igroup-size="sm"
+                name="jenispasien" label="Jenis Pasien" enable-old-support>
+                <option selected disabled>Pilih Jenis Pasien</option>
+                <option value="JKN" {{ $antrian->jenispasien == 'JKN' ? 'selected' : null }}>JKN
+                </option>
+                <option value="NON-JKN" {{ $antrian->jenispasien == 'NON-JKN' ? 'selected' : null }}>
+                    NON-JKN
+                </option>
+            </x-adminlte-select>
+            <x-adminlte-select fgroup-class="row" label-class="text-left col-3" igroup-class="col-9" igroup-size="sm"
+                name="kodepoli" label="Poliklinik" enable-old-support>
+                @foreach ($polikliniks as $key => $value)
+                    <option value="{{ $key }}">
+                        {{ $value }}</option>
+                @endforeach
+            </x-adminlte-select>
+            <x-adminlte-select fgroup-class="row" label-class="text-left col-3" igroup-class="col-9" igroup-size="sm"
+                name="kodedokter" label="Dokter" enable-old-support>
+                @foreach ($dokters as $key => $value)
+                    <option value="{{ $key }}">{{ $value }}</option>
+                @endforeach
+            </x-adminlte-select>
+        </div>
         <div class="col-md-12">
+            <hr>
             <label class="mb-2">Resep Obat</label>
             <button id="addObatInput" type="button" class="btn btn-xs btn-success mb-2">
                 <span class="fas fa-plus">

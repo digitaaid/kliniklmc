@@ -30,7 +30,8 @@
                         'Lokasi',
                         'Kode Unit',
                         'Kode Poliklinik',
-                        'IdSatusehat',
+                        'IdOrganization',
+                        'IdLocation',
                         'Status',
                     ];
                     $config['scrollX'] = true;
@@ -54,7 +55,8 @@
                             <td>{{ $item->lokasi }}</td>
                             <td>{{ $item->kode }}</td>
                             <td>{{ $item->kodejkn }}</td>
-                            <td>{{ $item->idsatusehat }}</td>
+                            <td>{{ $item->idorganization }}</td>
+                            <td>{{ $item->idlocation }}</td>
                             <td>
                                 @if ($item->status)
                                     <span class="badge badge-success">Aktif</span>
