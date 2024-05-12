@@ -32,6 +32,18 @@
                             text="Pasien JKN" theme="warning" icon="fas fa-user-injured" />
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col-lg-3 col-6">
+                        <x-adminlte-info-box title="SEP Tercetak"
+                            text="{{ $kunjungans::whereMonth('tgl_masuk', now()->month)->where('sep', '!=', null)->count() }}"
+                            icon="fas fa-file-medical" theme="primary" />
+                    </div>
+                    <div class="col-lg-3 col-6">
+                        <x-adminlte-info-box title="Antrian SEP"
+                            text="{{ $antrians::whereMonth('tanggalperiksa', now()->month)->where('sep', '!=', null)->count() }}"
+                            icon="fas fa-file-medical" theme="primary" />
+                    </div>
+                </div>
             @endif
             <h5 class="mb-2">Informasi Pengelolaan</h5>
             <div class="row">

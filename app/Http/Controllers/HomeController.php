@@ -22,6 +22,7 @@ class HomeController extends Controller
     {
         $user =  Auth::user();
         $kunjungans = new Kunjungan;
+        $antrians = new Antrian;
         $pasiens = Pasien::where('status', 1)->count();
         $dokters = Dokter::where('status', 1)->count();
         $units = Unit::where('status', 1)->count();
@@ -30,6 +31,7 @@ class HomeController extends Controller
             'user',
             'request',
             'kunjungans',
+            'antrians',
             'dokters',
             'pasiens',
             'units',
