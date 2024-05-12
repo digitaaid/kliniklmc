@@ -33,6 +33,7 @@ use App\Http\Controllers\ParameterLabController;
 use App\Http\Controllers\PasienController;
 use App\Http\Controllers\PatientController;
 use App\Http\Controllers\PendaftaranController;
+use App\Http\Controllers\PengaturanController;
 use App\Http\Controllers\PerawatController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\PoliklinikController;
@@ -133,6 +134,7 @@ Route::middleware('auth')->group(function () {
     Route::get('pasiensearch', [PasienController::class, 'search'])->name('pasiensearch');
     Route::resource('unit', UnitController::class);
     Route::resource('diagnosa', DiagnosaController::class);
+    Route::resource('pengaturan', PengaturanController::class);
     Route::resource('dokter', DokterController::class);
     Route::resource('poliklinik', PoliklinikController::class);
     Route::resource('obat', ObatController::class);

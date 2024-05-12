@@ -63,7 +63,7 @@ return [
     |
     */
 
-    'logo' => '<b>Klinik LMC</b>',
+    'logo' => env('NAMA_LOGO'),
     'logo_img' => 'vendor/adminlte/dist/img/lmc-b.png',
     'logo_img_class' => 'brand-image img-circle elevation-3',
     'logo_img_xl' => null,
@@ -899,6 +899,13 @@ return [
             'can' => 'admin',
             'submenu' => [
                 [
+                    'text' => 'Pengaturan Aplikasi',
+                    'icon'    => 'fas fa-hospital',
+                    'url'  => 'pengaturan',
+                    'shift'   => 'ml-2',
+                    'can' => 'admin',
+                ],
+                [
                     'text' => 'Carousel',
                     'icon'    => 'fas fa-images',
                     'url'  => 'carousel',
@@ -926,14 +933,6 @@ return [
                     'shift'   => 'ml-2',
                     'can' => 'admin',
                 ],
-            ],
-        ],
-        // MODUL TESTING
-        [
-            'text'    => 'Pengaturan & Testing',
-            'icon'    => 'fas fa-cogs',
-            'can' => 'admin',
-            'submenu' => [
                 [
                     'text' => 'Integrasi API',
                     'icon'    => 'fas fa-globe',
