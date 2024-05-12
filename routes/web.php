@@ -334,6 +334,7 @@ Route::middleware('auth')->group(function () {
     Route::get('suratkontrol_hapus', [SuratKontrolController::class, 'suratkontrol_hapus'])->name('suratkontrol_hapus');
     // snyc
     Route::get('sync_antrian_bpjs', [SyncronizeController::class, 'sync_antrian_bpjs'])->name('sync_antrian_bpjs');
+    Route::get('sync_update_antrian', [SyncronizeController::class, 'sync_update_antrian'])->name('sync_update_antrian');
     Route::post('update_taksid_antrian', [SyncronizeController::class, 'update_taksid_antrian'])->name('update_taksid_antrian');
     // rekam medis
     Route::get('resumerawatjalan', [RekamMedisController::class, 'resumerawatjalan'])->name('resumerawatjalan');
