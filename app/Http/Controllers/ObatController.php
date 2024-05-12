@@ -5,10 +5,14 @@ namespace App\Http\Controllers;
 use App\Exports\ObatExport;
 use App\Imports\ObatsImport;
 use App\Models\Antrian;
+use App\Models\Dokter;
+use App\Models\Jaminan;
 use App\Models\Kunjungan;
 use App\Models\Obat;
+use App\Models\Poliklinik;
 use App\Models\ResepObat;
 use App\Models\ResepObatDetail;
+use App\Models\Unit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
@@ -19,11 +23,12 @@ class ObatController extends Controller
     public function index(Request $request)
     {
         if ($request->pencarian) {
-            $obats = Obat::where('id', $request->pencarian)
+            $obats = Obat::with(['pic', 'reseps', 'stoks', 'orders'])
+                ->where('id', $request->pencarian)
                 ->orWhere('nama', 'LIKE', "%{$request->pencarian}%")
-                ->with(['pic'])->simplePaginate(20);
+                ->simplePaginate(20);
         } else {
-            $obats = Obat::with(['pic'])->simplePaginate(20);
+            $obats = Obat::with(['pic', 'reseps', 'stoks', 'orders'])->simplePaginate(20);
         }
         $total_obat = Obat::count();
         return view('sim.obat_index', compact([
@@ -102,18 +107,39 @@ class ObatController extends Controller
     {
         $antrian = Antrian::where('kodebooking', $request->kode)->first();
         $kunjungan = $antrian->kunjungan;
-        return view('sim.form_resep_obat', compact('request', 'antrian', 'kunjungan'));
+        $dokters = Dokter::where('status', '1')->pluck('namadokter', 'kodedokter');
+        $jaminans = Jaminan::pluck('nama', 'kode');
+        $polikliniks = Unit::where('status', '1')->pluck('nama', 'kode');
+        return view('sim.form_resep_obat', compact('request', 'antrian', 'kunjungan', 'dokters', 'polikliniks', 'jaminans'));
     }
     public function update_resep_obat(Request $request)
     {
-        $kunjungan = Kunjungan::find($request->kunjungan_id);
-        if ($kunjungan) {
+        $antrian = Antrian::find($request->antrian_id);
+        if ($antrian) {
+            $request['unit'] = $request->kodepoli;
+            $request['dokter'] = $request->kodedokter;
+            $request['status'] = 1;
+            $request['user1'] = Auth::user()->id;
+            $antrian->update($request->all());
+            $kunjungan = $antrian->kunjungan;
+            if ($kunjungan) {
+                $kunjungan->update($request->all());
+            } else {
+                $request['counter'] = Kunjungan::where('nomorkartu', $request->nomorkartu)->count() + 1;
+                $kunjungan = Kunjungan::updateOrCreate(
+                    [
+                        'kode' => $request->kodebooking,
+                    ],
+                    $request->all()
+                );
+            }
             if ($request->obat) {
                 $request['status'] = 0;
                 $request['tinggi_badan'] = $kunjungan->asesmenperawat->tinggi_badan ?? null;
                 $request['berat_badan'] = $kunjungan->asesmenperawat->berat_badan ?? null;
                 $request['bsa'] = $kunjungan->asesmenperawat->bsa ?? null;
                 $request['kode'] = $kunjungan->kode;
+                $request['waktu'] = now();
                 $resep = ResepObat::updateOrCreate(
                     [
                         'kodebooking' => $request->kodebooking,
@@ -147,17 +173,26 @@ class ObatController extends Controller
                             'obat_id' =>  $obat->id,
                         ],
                         [
+                            'antrian_id' => $request->antrian_id,
+                            'kunjungan_id' => $request->kunjungan_id,
                             'nama' => $obat->nama,
                             'jumlah' => $request->jumlah[$key] ?? 0,
+                            'harga' => $obat->harga_jual,
+                            'diskon' => 0,
+                            'subtotal' => $obat->harga_jual * ($request->jumlah[$key] ?? 1),
                             'interval' => $request->frekuensi[$key] ?? null,
                             'waktu' => $request->waktuobat[$key] ?? null,
+                            'klasifikasi' => $obat->jenisobat ?? 'Obat',
+                            'jaminan' => $kunjungan->jaminan,
                             'keterangan' => $request->keterangan_obat[$key] ?? null,
                         ]
                     );
                 }
             }
+            Alert::success('Succes', 'Berhasil update resep obat');
+        } else {
+            Alert::error('Mohon Maaf', 'Antrian Tidak Ditemukan');
         }
-        Alert::success('Succes', 'Berhasil update resep obat');
         return redirect()->back();
     }
 }

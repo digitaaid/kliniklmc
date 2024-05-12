@@ -13,14 +13,14 @@
                             <div class="card card-primary">
                                 <div class="card-header">
                                     <h3 class="card-title">{{ $item->nomorantrean }} ({{ $item->jenispasien }})</h3> <br>
-                                    <h3 class="card-title">{{ $item->kunjungan->nama }}</h3> <br>
+                                    <h3 class="card-title">{{ $item->kunjungan->nama ?? null }}</h3> <br>
                                 </div>
                                 <div class="card-body">
                                     <p>
-                                        <b>No RM : </b> {{ $item->kunjungan->norm }} <br>
-                                        <b>Nama : </b> {{ $item->kunjungan->nama }} <br>
-                                        <b>Tgl Lahir : </b> {{ $item->kunjungan->tgl_lahir }} <br>
-                                        <b>Kelamin : </b> {{ $item->kunjungan->gender }}
+                                        <b>No RM : </b> {{ $item->kunjungan->norm ?? null }} <br>
+                                        <b>Nama : </b> {{ $item->kunjungan->nama ?? null }} <br>
+                                        <b>Tgl Lahir : </b> {{ $item->kunjungan->tgl_lahir ?? null }} <br>
+                                        <b>Kelamin : </b> {{ $item->kunjungan->gender ?? null }}
                                     </p>
                                     <hr>
                                     <strong><i class="fas fa-pills mr-1"></i> Resep Obat</strong>
@@ -85,21 +85,26 @@
                                         @endforeach
                                     @endif
                                     <br>
-                                    @if ($item->kunjungan->asesmendokter)
-                                        <p>{{ $item->kunjungan->asesmendokter->resep_obat }}</p>
-                                        <hr>
-                                        <strong><i class="fas fa-pills mr-1"></i> Catatan Resep</strong>
-                                        <pre>{{ $item->kunjungan->asesmendokter->catatan_resep }}</pre>
+                                    @if ($item->kunjungan)
+                                        @if ($item->kunjungan->asesmendokter)
+                                            <p>{{ $item->kunjungan->asesmendokter->resep_obat }}</p>
+                                            <hr>
+                                            <strong><i class="fas fa-pills mr-1"></i> Catatan Resep</strong>
+                                            <pre>{{ $item->kunjungan->asesmendokter->catatan_resep }}</pre>
+                                        @endif
                                     @endif
-
                                 </div>
                                 <div class="card-footer">
                                     <a href="{{ route('selesaifarmasi') }}?kodebooking={{ $item->kodebooking }}"
-                                        class="btn btn-success withLoad"><i class="fas fa-check"></i> Selesai</a>
-                                    <x-adminlte-button icon="fas fa-edit" theme="success" label="Edit"
+                                        class="btn   btn-sm btn-success withLoad"><i class="fas fa-check"></i> Selesai</a>
+                                    <x-adminlte-button icon="fas fa-edit" class="btn-sm" theme="success" label="Edit"
                                         onclick="editResep(this)" data-kode="{{ $item->kodebooking }}" />
                                     <a href="{{ route('print_asesmenfarmasi') }}?kodebooking={{ $item->kodebooking }}"
-                                        class="btn btn-warning" target="_blank"> <i class="fas fa-print"></i> Print</a>
+                                        class="btn  btn-sm btn-warning" target="_blank"> <i class="fas fa-print"></i>
+                                        Print</a>
+                                    <a href="{{ route('panggilpendaftaran') }}?kodebooking={{ $item->kodebooking }}"
+                                        class="btn btn-primary btn-sm withLoad">
+                                        <i class="fas fa-volume-down"></i></a>
                                 </div>
                             </div>
                         </div>
@@ -207,30 +212,30 @@
             </div>
         @endif
         <div class="col-md-12">
-            <x-adminlte-card title="Data Antrian Farmasi" theme="secondary" icon="fas fa-info-circle" collapsible="">
-                @if ($antrians)
-                    <div class="row">
-                        <div class="col-md-3">
-                            <x-adminlte-small-box
-                                title="{{ $antrians->where('taskid', '>=', 5)->where('taskid', '<', 7)->count() }}"
-                                text="Sisa Resep" theme="warning" icon="fas fa-user-injured" />
-                        </div>
-                        <div class="col-md-3">
-                            <x-adminlte-small-box title="{{ $antrians->where('taskid', 7)->count() }}"
-                                text="Total Resep Selesai" theme="success" icon="fas fa-user-injured" />
-                        </div>
-                        <div class="col-md-3">
-                            <x-adminlte-small-box
-                                title="{{ $antrians->where('taskid', 7)->where('jenispasien', 'JKN')->count() }}"
-                                text="Total Resep JKN" theme="primary" icon="fas fa-user-injured" />
-                        </div>
-                        <div class="col-md-3">
-                            <x-adminlte-small-box
-                                title="{{ $antrians->where('taskid', 7)->where('jenispasien', 'NON-JKN')->count() }}"
-                                text="Total Resep NON-JKN" theme="primary" icon="fas fa-user-injured" />
-                        </div>
+            @if ($antrians)
+                <div class="row">
+                    <div class="col-lg-3 col-6">
+                        <x-adminlte-small-box
+                            title="{{ $antrians->where('taskid', '>=', 5)->where('taskid', '<', 7)->count() }}"
+                            text="Sisa Resep" theme="warning" icon="fas fa-pills" />
                     </div>
-                @endif
+                    <div class="col-lg-3 col-6">
+                        <x-adminlte-small-box title="{{ $antrians->where('taskid', 7)->count() }}" text="Resep Selesai"
+                            theme="success" icon="fas fa-pills" />
+                    </div>
+                    <div class="col-lg-3 col-6">
+                        <x-adminlte-small-box
+                            title="{{ $antrians->where('taskid', 7)->where('jenispasien', 'JKN')->count() }}"
+                            text="Resep JKN" theme="primary" icon="fas fa-pills" />
+                    </div>
+                    <div class="col-lg-3 col-6">
+                        <x-adminlte-small-box
+                            title="{{ $antrians->where('taskid', 7)->where('jenispasien', 'NON-JKN')->count() }}"
+                            text="Resep NON-JKN" theme="primary" icon="fas fa-pills" />
+                    </div>
+                </div>
+            @endif
+            <x-adminlte-card title="Data Antrian Farmasi" theme="secondary" icon="fas fa-info-circle">
                 <div class="row">
                     <div class="col-md-6">
                         <form action="" method="get">
@@ -239,8 +244,8 @@
                                     @php
                                         $config = ['format' => 'YYYY-MM-DD'];
                                     @endphp
-                                    <x-adminlte-input-date name="tanggalperiksa"
-                                        value="{{ $request->tanggalperiksa ?? now()->format('Y-m-d') }}"
+                                    <x-adminlte-input-date name="tanggal"
+                                        value="{{ $request->tanggal ?? now()->format('Y-m-d') }}"
                                         placeholder="Pilih Tanggal" igroup-size="sm" :config="$config">
                                         <x-slot name="prependSlot">
                                             <div class="input-group-text text-primary">
@@ -248,13 +253,9 @@
                                             </div>
                                         </x-slot>
                                         <x-slot name="appendSlot">
-                                            <x-adminlte-button type="submit" theme="primary" label="Cari Tanggal" />
+                                            <x-adminlte-button type="submit" theme="primary" label="Cari" />
                                         </x-slot>
                                     </x-adminlte-input-date>
-                                </div>
-                                <div class="col-md-6">
-                                    <x-adminlte-button label="Tambah Order Obat" onclick="orderObat()" class="btn-sm"
-                                        theme="success" icon="fas fa-plus" />
                                 </div>
                             </div>
                         </form>
@@ -278,8 +279,20 @@
                     </div>
                 </div>
                 @php
-                    $heads = ['Waktu', 'Kodebooking', 'No RM', 'Pasien', 'Unit', 'Dokter', 'Jenis Pasien', 'Status', 'Action'];
-                    $config['order'] = [[7, 'asc']];
+                    $heads = [
+                        'Waktu',
+                        'No',
+                        'No RM',
+                        'Pasien',
+                        'Action',
+                        'Harga',
+                        'Jenis',
+                        'Unit',
+                        'Dokter',
+                        'Kodebooking',
+                        'Status',
+                    ];
+                    $config['order'] = [[4, 'desc']];
                     $config['paging'] = false;
                     $config['scrollY'] = '300px';
                 @endphp
@@ -288,13 +301,57 @@
                     @if ($antrians || $orders)
                         @foreach ($antrians as $item)
                             <tr>
-                                <td>{{ $item->created_at }}</td>
-                                <td>{{ $item->kodebooking }}</td>
+                                <td>{{ $item->updated_at }}</td>
+                                <td>{{ $item->angkaantrean }}</td>
                                 <td>{{ $item->norm }}</td>
                                 <td>{{ $item->nama }}</td>
-                                <td>{{ $item->kunjungan ? $item->kunjungan->units->nama : '-' }}</td>
-                                <td>{{ $item->namadokter }}</td>
+                                <td>
+                                    @switch($item->taskid)
+                                        @case(1)
+                                            @if ($item->kodepoli == 'FAR')
+                                                <a href="{{ route('terimafarmasi') }}?kodebooking={{ $item->kodebooking }}"
+                                                    class="btn btn-xs btn-warning withLoad">1. Terima</a>
+                                            @else
+                                                <div class="btn btn-xs btn-secondary">
+                                                    97. Belum
+                                                </div>
+                                            @endif
+                                        @break
+
+                                        @case(5)
+                                            <a href="{{ route('terimafarmasi') }}?kodebooking={{ $item->kodebooking }}"
+                                                class="btn btn-xs btn-warning withLoad">1. Terima</a>
+                                        @break
+
+                                        @case(6)
+                                            <x-adminlte-button icon="fas fa-edit" class="btn-xs" theme="warning" label="Edit"
+                                                onclick="editResep(this)" data-kode="{{ $item->kodebooking }}" />
+                                            <a href="{{ route('selesaifarmasi') }}?kodebooking={{ $item->kodebooking }}"
+                                                class="btn btn-xs btn-success withLoad"> Selesai</a>
+                                        @break
+
+                                        @case(7)
+                                            <a href="{{ route('print_asesmenfarmasi') }}?kodebooking={{ $item->kodebooking }}"
+                                                class="btn btn-xs btn-warning" target="_blank"> <i class="fas fa-print"></i>
+                                                Print</a>
+                                            <x-adminlte-button icon="fas fa-edit" theme="warning" label="Edit"
+                                                onclick="editResep(this)" class="btn-xs" data-kode="{{ $item->kodebooking }}" />
+                                            <a href="{{ route('panggilpendaftaran') }}?kodebooking={{ $item->kodebooking }}"
+                                                class="btn btn-primary btn-xs withLoad">
+                                                <i class="fas fa-volume-down"></i>
+                                            </a>
+                                        @break
+
+                                        @default
+                                            <div class="btn btn-xs btn-secondary">
+                                                97. Belum
+                                            </div>
+                                    @endswitch
+                                </td>
+                                <td class="text-right">{{ money($item->resepdetails?->sum('subtotal'), 'IDR') }} </td>
                                 <td>{{ $item->jenispasien }} </td>
+                                <td>{{ $item->namapoli }}</td>
+                                <td>{{ $item->kunjungan ? $item->kunjungan->dokters->namadokter : '-' }}</td>
                                 <td>
                                     @switch($item->taskid)
                                         @case(0)
@@ -337,38 +394,7 @@
                                             {{ $item->taskid }}
                                     @endswitch
                                 </td>
-                                <td>
-                                    @switch($item->taskid)
-                                        @case(5)
-                                            <a href="{{ route('terimafarmasi') }}?kodebooking={{ $item->kodebooking }}"
-                                                class="btn btn-xs btn-warning withLoad">Terima</a>
-                                        @break
-
-                                        @case(6)
-                                            <x-adminlte-button icon="fas fa-edit" class="btn-xs" theme="warning" label="Edit"
-                                                onclick="editResep(this)" data-kode="{{ $item->kodebooking }}" />
-                                            <a href="{{ route('selesaifarmasi') }}?kodebooking={{ $item->kodebooking }}"
-                                                class="btn btn-xs btn-success withLoad"> Selesai</a>
-                                        @break
-
-                                        @case(7)
-                                            <a href="{{ route('print_asesmenfarmasi') }}?kodebooking={{ $item->kodebooking }}"
-                                                class="btn btn-xs btn-warning" target="_blank"> <i class="fas fa-print"></i>
-                                                Print</a>
-                                            <x-adminlte-button icon="fas fa-edit" theme="warning" label="Edit"
-                                                onclick="editResep(this)" class="btn-xs" data-kode="{{ $item->kodebooking }}" />
-                                            <a href="{{ route('panggilpendaftaran') }}?kodebooking={{ $item->kodebooking }}"
-                                                class="btn btn-primary btn-xs withLoad">
-                                                <i class="fas fa-volume-down"></i>
-                                            </a>
-                                        @break
-
-                                        @default
-                                            <div class="btn btn-xs btn-secondary">
-                                                Belum
-                                            </div>
-                                    @endswitch
-                                </td>
+                                <td>{{ $item->kodebooking }}</td>
                             </tr>
                         @endforeach
                         @foreach ($orders as $item)
@@ -444,7 +470,7 @@
             <x-adminlte-button theme="danger" icon="fas fa-times" label="Tutup" data-dismiss="modal" />
         </x-slot>
     </x-adminlte-modal>
-    <x-adminlte-modal id="modalOrder" size="xl" title="Order Obat" icon="fas fa-pills" theme="warning">
+    {{-- <x-adminlte-modal id="modalOrder" size="xl" title="Order Obat" icon="fas fa-pills" theme="warning">
         <form id="formOrder" action={{ route('create_order_obat') }} method="POST">
             @csrf
             <style>
@@ -520,14 +546,12 @@
                 form="formOrder" />
             <x-adminlte-button theme="danger" icon="fas fa-times" label="Tutup" data-dismiss="modal" />
         </x-slot>
-    </x-adminlte-modal>
+    </x-adminlte-modal> --}}
 @stop
-
 @section('plugins.Datatables', true)
 @section('plugins.TempusDominusBs4', true)
 @section('plugins.Select2', true)
 @section('plugins.Sweetalert2', true)
-
 @section('css')
     <style>
         pre {
@@ -536,7 +560,6 @@
         }
     </style>
 @endsection
-
 @push('js')
     {{-- otomatis suara pemanggilan --}}
     <script>
@@ -578,7 +601,7 @@
                             if (data.metadata.code == 200) {
                                 playAudio();
                                 Swal.fire({
-                                    title: 'Terima antrian resep obat ?',
+                                    title: '1.  antrian resep obat ?',
                                     text: "Telah dibuatkan resep obat baru oleh dokter.",
                                     icon: 'warning',
                                     showCancelButton: true,
@@ -648,48 +671,11 @@
         }
     </script>
     {{-- order obat --}}
-    <script>
+    {{-- <script>
         function orderObat() {
-            // $.LoadingOverlay("show");
             $('#modalOrder').modal('show');
-            // var url = "{{ route('form_resep_obat') }}?kode=" + $(button).data("kode");
-            // $.ajax({
-            //     url: url,
-            //     method: "GET",
-            // }).done(function(data) {
-            //     console.log(data);
-            //     $('#formResep').html(data);
-            //     $(".cariObat").select2({
-            //         placeholder: 'Pencarian Nama Obat',
-            //         theme: "bootstrap4",
-            //         multiple: true,
-            //         maximumSelectionLength: 1,
-            //         ajax: {
-            //             url: "{{ route('ref_obat_cari') }}",
-            //             type: "get",
-            //             dataType: 'json',
-            //             delay: 100,
-            //             data: function(params) {
-            //                 return {
-            //                     nama: params.term // search term
-            //                 };
-            //             },
-            //             processResults: function(response) {
-            //                 return {
-            //                     results: response
-            //                 };
-            //             },
-            //             cache: true
-            //         }
-            //     });
-            //     $('#modalResep').modal('show');
-            //     $.LoadingOverlay("hide");
-            // }).fail(function(data, textStatus, errorThrown) {
-            //     console.log(data);
-            //     $.LoadingOverlay("hide");
-            // });
         }
-    </script>
+    </script> --}}
     {{-- dynamic input --}}
     <script>
         $(function() {
@@ -769,5 +755,134 @@
         $("body").on("click", "#deleteRowObat", function() {
             $(this).parents("#row").remove();
         })
+    </script>
+    {{-- toast --}}
+    <script>
+        const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 5000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+        });
+    </script>
+    <script>
+        function btnCariKartu() {
+            $.LoadingOverlay("show");
+            var nomorkartu = $(".nomorkartu-antrian").val();
+            var url = "{{ route('cari_pasien_nomorkartu') }}?nomorkartu=" + nomorkartu +
+                "&tanggal={{ now()->format('Y-m-d') }}";
+            $.get(url, function(data, status) {
+                if (status == "success") {
+                    if (data.metadata.code == 200) {
+                        Toast.fire({
+                            icon: 'success',
+                            title: 'Pasien Ditemukan'
+                        });
+                        var pasien = data.response;
+                        $(".nama-id").val(pasien.nama);
+                        $(".nik-id").val(pasien.nik);
+                        $(".nomorkartu-antrian").val(pasien.nomorkartu);
+                        $(".norm-id").val(pasien.norm);
+                        $(".tgllahir-id").val(pasien.tgllahir);
+                        $(".gender-id").val(pasien.gender);
+                        $(".penjamin-id").val(pasien.penjamin);
+                        $(".kelas-id").val(pasien.kelas);
+                        $(".nohp-id").val(pasien.nohp);
+                    } else {
+                        // alert(data.metadata.message);
+                        Swal.fire(
+                            'Mohon Maaf !',
+                            data.metadata.message,
+                            'error'
+                        )
+                    }
+                } else {
+                    console.log(data);
+                    alert("Error Status: " + status);
+                }
+            });
+            $.LoadingOverlay("hide");
+        }
+
+        function btnCariNIK() {
+            $.LoadingOverlay("show");
+            var nomorkartu = $(".nik-id").val();
+            var url = "{{ route('cari_pasien_nik') }}?nik=" + nomorkartu +
+                "&tanggal={{ now()->format('Y-m-d') }}";
+            $.get(url, function(data, status) {
+                if (status == "success") {
+                    if (data.metadata.code == 200) {
+                        Toast.fire({
+                            icon: 'success',
+                            title: 'Pasien Ditemukan'
+                        });
+                        var pasien = data.response;
+                        $(".nama-id").val(pasien.nama);
+                        $(".nik-id").val(pasien.nik);
+                        $(".nomorkartu-antrian").val(pasien.nomorkartu);
+                        $(".norm-id").val(pasien.norm);
+                        $(".tgllahir-id").val(pasien.tgllahir);
+                        $(".gender-id").val(pasien.gender);
+                        $(".penjamin-id").val(pasien.penjamin);
+                        $(".kelas-id").val(pasien.kelas);
+                        $(".nohp-id").val(pasien.nohp);
+                    } else {
+                        // alert(data.metadata.message);
+                        Swal.fire(
+                            'Mohon Maaf !',
+                            data.metadata.message,
+                            'error'
+                        )
+                    }
+                } else {
+                    console.log(data);
+                    alert("Error Status: " + status);
+                }
+            });
+            $.LoadingOverlay("hide");
+        }
+
+        function btnCariRM() {
+            $.LoadingOverlay("show");
+            var norm = $(".norm-id").val();
+            var url = "{{ route('cari_pasien_norm') }}?norm=" + norm +
+                "&tanggal={{ now()->format('Y-m-d') }}";
+            $.get(url, function(data, status) {
+                if (status == "success") {
+                    if (data.metadata.code == 200) {
+                        Toast.fire({
+                            icon: 'success',
+                            title: 'Pasien Ditemukan'
+                        });
+                        var pasien = data.response;
+                        $(".nama-id").val(pasien.nama);
+                        $(".nik-id").val(pasien.nik);
+                        $(".nomorkartu-antrian").val(pasien.nomorkartu);
+                        $(".norm-id").val(pasien.norm);
+                        $(".tgllahir-id").val(pasien.tgllahir);
+                        $(".gender-id").val(pasien.gender);
+                        $(".penjamin-id").val(pasien.penjamin);
+                        $(".kelas-id").val(pasien.kelas);
+                        $(".nohp-id").val(pasien.nohp);
+                    } else {
+                        // alert(data.metadata.message);
+                        Swal.fire(
+                            'Mohon Maaf !',
+                            data.metadata.message,
+                            'error'
+                        )
+                    }
+                } else {
+                    console.log(data);
+                    alert("Error Status: " + status);
+                }
+            });
+            $.LoadingOverlay("hide");
+        }
     </script>
 @endpush

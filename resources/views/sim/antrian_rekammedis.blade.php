@@ -1,7 +1,7 @@
 @extends('adminlte::page')
-@section('title', 'Antrian Perawat')
+@section('title', 'Diagnosa Casemix')
 @section('content_header')
-    <h1>Antrian Perawat</h1>
+    <h1>Diagnosa Casemix</h1>
 @stop
 @section('content')
     <div class="row">
@@ -10,23 +10,29 @@
                 <div class="row">
                     <div class="col-md-3">
                         <x-adminlte-small-box
-                            title="{{ $antrians->where('taskid', '>=', 2)->where('taskid', '!=', 99)->count() - $antrian_asesmen }}"
-                            text="Belum Asesmen Perawat" theme="danger" icon="fas fa-user-injured" />
-                    </div>
-                    <div class="col-md-3">
-                        <x-adminlte-small-box title="{{ $antrian_asesmen }}" text="Sudah Asesmen Perawat" theme="warning"
-                            icon="fas fa-user-injured" />
+                            title="{{ $antrians->where('taskid', 4)->first()->nomorantrean ?? 'Belum Panggil' }}"
+                            text="Antrian Dilayani" theme="primary" icon="fas fa-user-injured"
+                            url="{{ route('prosespoliklinik') }}?kodebooking={{ $antrians->where('taskid', 3)->first()->kodebooking ?? '00' }}"
+                            url-text="Panggil Antrian Selanjutnya" />
                     </div>
                     <div class="col-md-3">
                         <x-adminlte-small-box
-                            title="{{ $antrians->where('taskid', '>=', 2)->where('taskid', '!=', 99)->count() }}"
-                            text="Total Antrian" theme="success" icon="fas fa-user-injured" />
+                            title="{{ $antrians->where('taskid', '>=', 2)->where('taskid', '<=', 3)->count() }}"
+                            text="Belum Asesmen Dokter" theme="danger" icon="fas fa-user-injured" />
+                    </div>
+                    <div class="col-md-3">
+                        <x-adminlte-small-box title="{{ $antrians->where('taskid', '>=', 5)->count() }}"
+                            text="Sudah Asesmen Dokter" theme="warning" icon="fas fa-user-injured" />
+                    </div>
+                    <div class="col-md-3">
+                        <x-adminlte-small-box title="{{ $antrians->count() }}" text="Total Antrian" theme="success"
+                            icon="fas fa-user-injured" />
                     </div>
                 </div>
             </div>
         @endif
         <div class="col-md-12">
-            <x-adminlte-card title="Data Antrian Asesmen Perawat" theme="secondary" icon="fas fa-info-circle" collapsible>
+            <x-adminlte-card theme="primary" theme-mode='outline'>
                 <div class="row">
                     <div class="col-md-4">
                         <form action="" method="get">
@@ -35,8 +41,8 @@
                                     @php
                                         $config = ['format' => 'YYYY-MM-DD'];
                                     @endphp
-                                    <x-adminlte-input-date name="tanggalperiksa"
-                                        value="{{ $request->tanggalperiksa ?? now()->format('Y-m-d') }}"
+                                    <x-adminlte-input-date name="tanggal"
+                                        value="{{ $request->tanggal ?? now()->format('Y-m-d') }}"
                                         placeholder="Pilih Tanggal" igroup-size="sm" :config="$config">
                                         <x-slot name="prependSlot">
                                             <div class="input-group-text text-primary">
@@ -77,14 +83,16 @@
                         'Nama Pasien',
                         'Action',
                         'Taskid',
-                        'Asesment',
+                        'Asesmen',
                         'Jenis Pasien',
+                        'Diag Awal',
                         'Layanan',
-                        'Unit ',
+                        'Obat',
+                        'Unit',
                         'PIC ',
                         'Dokter',
                     ];
-                    $config['order'] = [[5, 'desc'], [6, 'asc']];
+                    $config['order'] = [[6, 'asc'], [7, 'asc']];
                     $config['paging'] = false;
                     $config['scrollX'] = true;
                     $config['scrollY'] = '300px';
@@ -94,76 +102,26 @@
                     @if (isset($antrians))
                         @foreach ($antrians as $item)
                             <tr>
-                                <td>{{ $item->tanggalperiksa }}</td>
-                                <td>{{ $item->nomorantrean }}</td>
+                                <td>{{ $item->kunjungan->tgl_masuk }}</td>
+                                <td>A{{ $item->angkaantrean }}</td>
                                 <td>{{ $item->norm }}</td>
                                 <td>{{ $item->nama }}</td>
                                 <td>
-                                    @if ($item->taskid != 99)
-                                        @if ($item->asesmenperawat)
-                                            <a href="{{ route('prosesperawat') }}?kodebooking={{ $item->kodebooking }}"
-                                                class="btn btn-xs btn-secondary withLoad">Lihat</a>
-                                        @else
-                                            <a href="{{ route('prosesperawat') }}?kodebooking={{ $item->kodebooking }}"
-                                                class="btn btn-xs btn-warning withLoad">Proses</a>
-                                        @endif
-                                    @endif
+
                                 </td>
                                 <td>
-                                    @switch($item->taskid)
-                                        @case(0)
-                                            <span class="badge badge-secondary">98. Belum Checkin</span>
-                                        @break
 
-                                        @case(1)
-                                            <span class="badge badge-warning">97. Menunggu Pendaftaran</span>
-                                        @break
-
-                                        @case(2)
-                                            <span class="badge badge-primary">0. Proses Pendaftaran</span>
-                                        @break
-
-                                        @case(3)
-                                            <span class="badge badge-warning">3. Menunggu Poliklinik</span>
-                                        @break
-
-                                        @case(4)
-                                            <span class="badge badge-primary">4. Pelayanan Poliklinik</span>
-                                        @break
-
-                                        @case(5)
-                                            <span class="badge badge-warning">5. Tunggu Farmasi</span>
-                                        @break
-
-                                        @case(6)
-                                            <span class="badge badge-primary">6. Racik Obat</span>
-                                        @break
-
-                                        @case(7)
-                                            <span class="badge badge-success">7. Selesai</span>
-                                        @break
-
-                                        @case(99)
-                                            <span class="badge badge-danger">99. Batal</span>
-                                        @break
-
-                                        @default
-                                            {{ $item->taskid }}
-                                    @endswitch
                                 </td>
                                 <td>
-                                    @if ($item->asesmenperawat)
-                                        <span class="badge badge-success">1. Sudah Asesmen</span>
-                                    @else
-                                        <span class="badge badge-danger">0. Belum Asesmen</span>
-                                    @endif
+
                                 </td>
                                 <td>{{ $item->jenispasien }} </td>
-                                <td class="text-right">{{ money($item->layanans->sum('harga'), 'IDR') }} </td>
+                                <td>{{ $item->kunjungan->diagnosa_awal }} </td>
+                                <td class="text-right">{{ money($item->layanans?->sum('subtotal'), 'IDR') }} </td>
+                                <td class="text-right">{{ money($item->resepdetails?->sum('subtotal'), 'IDR') }} </td>
                                 <td>{{ $item->kunjungan->units->nama ?? $item->namapoli }} </td>
-                                <td>{{ $item->pic2->name ?? 'Belum Pemeriksaan' }} </td>
+                                <td>{{ $item->pic3->name ?? 'Belum Periksa' }} </td>
                                 <td>{{ $item->kunjungan->dokters->namadokter ?? $item->namadokter }}</td>
-
                             </tr>
                         @endforeach
                     @endif

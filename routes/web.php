@@ -8,6 +8,7 @@ use App\Http\Controllers\DepoController;
 use App\Http\Controllers\DiagnosaController;
 use App\Http\Controllers\DistributorBarangController;
 use App\Http\Controllers\DokterController;
+use App\Http\Controllers\EncounterController;
 use App\Http\Controllers\FarmasiController;
 use App\Http\Controllers\FileUploadController;
 use App\Http\Controllers\FormController;
@@ -16,11 +17,13 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\IntegrasiController;
 use App\Http\Controllers\JadwalDokterController;
 use App\Http\Controllers\JadwalLiburController;
+use App\Http\Controllers\JaminanController;
 use App\Http\Controllers\JenisObatController;
 use App\Http\Controllers\KasirController;
 use App\Http\Controllers\KunjunganController;
 use App\Http\Controllers\LaboratoriumController;
 use App\Http\Controllers\LaravoltIndonesiaController;
+use App\Http\Controllers\LocationController;
 use App\Http\Controllers\LPKController;
 use App\Http\Controllers\MerkBarangController;
 use App\Http\Controllers\ObatController;
@@ -30,6 +33,7 @@ use App\Http\Controllers\ParameterLabController;
 use App\Http\Controllers\PasienController;
 use App\Http\Controllers\PatientController;
 use App\Http\Controllers\PendaftaranController;
+use App\Http\Controllers\PengaturanController;
 use App\Http\Controllers\PerawatController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\PoliklinikController;
@@ -90,12 +94,16 @@ Route::get('ceksuratkontrol', [SuratKontrolController::class, 'ceksuratkontrol']
 Route::put('suratkontrol_update_web', [SuratKontrolController::class, 'suratkontrol_update_web'])->name('suratkontrol_update_web');
 // display antrian
 Route::get('displayantrian', [AntrianController::class, 'displayAntrian'])->name('displayantrian');
-Route::get('displaynomor', [AntrianController::class, 'displaynomor'])->name('displaynomor');
 Route::get('updatenomorantrean', [AntrianController::class, 'updatenomorantrean'])->name('updatenomorantrean');
+Route::get('displaynomor', [AntrianController::class, 'displaynomor'])->name('displaynomor');
+Route::get('getdisplayantrian', [AntrianController::class, 'getdisplayantrian'])->name('getdisplayantrian');
+Route::get('displayantrianfarmasi', [FarmasiController::class, 'displayantrianfarmasi'])->name('displayantrianfarmasi');
+Route::get('getdisplayfarmasi', [FarmasiController::class, 'getdisplayfarmasi'])->name('getdisplayfarmasi');
 
 Route::middleware('auth')->group(function () {
     Route::get('/home', [HomeController::class, 'index'])->name('home');
     Route::get('profile', [UserController::class, 'profile'])->name('profile'); #ok
+    Route::put('update_profile', [UserController::class, 'update_profile'])->name('update_profile'); #ok
     // settingan umum
     Route::get('get_city', [LaravoltIndonesiaController::class, 'get_city'])->name('get_city');
     Route::get('get_district', [LaravoltIndonesiaController::class, 'get_district'])->name('get_district');
@@ -126,9 +134,11 @@ Route::middleware('auth')->group(function () {
     Route::get('pasiensearch', [PasienController::class, 'search'])->name('pasiensearch');
     Route::resource('unit', UnitController::class);
     Route::resource('diagnosa', DiagnosaController::class);
+    Route::resource('pengaturan', PengaturanController::class);
     Route::resource('dokter', DokterController::class);
     Route::resource('poliklinik', PoliklinikController::class);
     Route::resource('obat', ObatController::class);
+    Route::resource('jaminan', JaminanController::class);
     Route::resource('supplier', SupplierController::class);
     Route::resource('stokobat', StokObatController::class);
     Route::resource('depo', DepoController::class);
@@ -327,8 +337,11 @@ Route::middleware('auth')->group(function () {
     Route::post('update_taksid_antrian', [SyncronizeController::class, 'update_taksid_antrian'])->name('update_taksid_antrian');
     // rekam medis
     Route::get('resumerawatjalan', [RekamMedisController::class, 'resumerawatjalan'])->name('resumerawatjalan');
+    Route::get('diagnosa_rekammedis', [RekamMedisController::class, 'diagnosa_rekammedis'])->name('diagnosa_rekammedis');
+
 
     Route::prefix('satusehat')->group(function () {
+        Route::get('token', [SatuSehatController::class, 'token_generate'])->name('token');
         Route::get('token_generate', [SatuSehatController::class, 'token_generate'])->name('token_generate');
         Route::get('patient', [PatientController::class, 'index'])->name('patient');
         Route::get('patient_by_nik', [PatientController::class, 'patient_by_nik'])->name('patient_by_nik');
@@ -338,6 +351,12 @@ Route::middleware('auth')->group(function () {
         Route::get('practitioner_sync', [PractitionerController::class, 'practitioner_sync'])->name('practitioner_sync');
         Route::get('organization', [OrganizationController::class, 'index'])->name('organization');
         Route::get('organization_sync', [OrganizationController::class, 'organization_sync'])->name('organization_sync');
+        Route::get('location', [LocationController::class, 'index'])->name('location');
+        Route::get('location_sync', [LocationController::class, 'location_sync'])->name('location_sync');
+        Route::get('encounter', [EncounterController::class, 'encounter'])->name('encounter');
+        Route::get('table_kunjungan_encounter', [EncounterController::class, 'table_kunjungan_encounter'])->name('table_kunjungan_encounter');
+        Route::get('encounter_sync', [EncounterController::class, 'encounter_sync'])->name('encounter_sync');
+        Route::post('encounter_update', [EncounterController::class, 'encounter_update'])->name('encounter_update');
     });
     Route::get('download_backup_file', [BackupController::class, 'download_backup_file'])->name('download_backup_file');
     Route::get('printtest', [PrintController::class, 'printtest'])->name('printtest');

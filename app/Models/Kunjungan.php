@@ -49,6 +49,10 @@ class Kunjungan extends Model
     {
         return $this->hasOne(ResepObat::class);
     }
+    // public function resepdetail()
+    // {
+    //     return $this->hasMany(ResepObatDetail::class, 'id', 'antrian_id');
+    // }
     public function files()
     {
         return $this->hasMany(FileUploadPasien::class);

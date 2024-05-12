@@ -63,7 +63,7 @@ return [
     |
     */
 
-    'logo' => '<b>Klinik LMC</b>',
+    'logo' => env('NAMA_LOGO'),
     'logo_img' => 'vendor/adminlte/dist/img/lmc-b.png',
     'logo_img_class' => 'brand-image img-circle elevation-3',
     'logo_img_xl' => null,
@@ -329,11 +329,18 @@ return [
                     'can' => ['rekammedis', 'pendaftaran'],
                 ],
                 [
-                    'text' => 'Display Antrian',
+                    'text' => 'Display Antrian Pendaftaran',
                     'icon'    => 'fas fa-desktop',
                     'url'  => 'displayantrian',
                     'shift'   => 'ml-2',
                     'can' => ['rekammedis', 'pendaftaran'],
+                ],
+                [
+                    'text' => 'Display Antrian Farmasi',
+                    'icon'    => 'fas fa-desktop',
+                    'url'  => 'displayantrianfarmasi',
+                    'shift'   => 'ml-2',
+                    'can' => ['farmasi', 'pendaftaran'],
                 ],
                 [
                     'text' => 'Pendaftaran Rawat Jalan',
@@ -382,6 +389,20 @@ return [
                     'can' => ['rekammedis', 'farmasi'],
                 ],
                 [
+                    'text' => 'Diagnosa Casemix',
+                    'icon'    => 'fas fa-notes-medical',
+                    'url'  => 'diagnosa_rekammedis',
+                    'shift'   => 'ml-2',
+                    'can' => ['rekammedis', 'farmasi'],
+                ],
+                [
+                    'text' => 'Layanan Keuangan',
+                    'icon'    => 'fas fa-file-invoice-dollar',
+                    'url'  => 'layanan_keuangan',
+                    'shift'   => 'ml-2',
+                    'can' => ['rekammedis', 'farmasi'],
+                ],
+                [
                     'text' => 'Permintaan Laboratorium',
                     'icon'    => 'fas fa-vials',
                     'url'  => 'permintaanlab_index',
@@ -418,13 +439,19 @@ return [
                     'url'  => 'unit',
                     'can' => 'manajemen',
                 ],
+                // [
+                //     'text' => 'Bed / Kamar',
+                //     'icon'    => 'fas fa-bed',
+                //     'shift'   => 'ml-2',
+                //     'url'  => 'bed',
+                //     'can' => 'manajemen',
+                // ],
                 [
                     'text' => 'Dokter',
                     'icon'    => 'fas fa-user-md',
                     'url'  => 'dokter',
                     'can' => 'manajemen',
                     'shift'   => 'ml-2',
-
                 ],
                 [
                     'text' => 'Jadwal Dokter',
@@ -442,13 +469,6 @@ return [
                     'can' => ['pendaftaran', 'rekammedis'],
                 ],
                 [
-                    'text' => 'Berkas Upload',
-                    'icon'    => 'fas fa-file',
-                    'url'  => 'fileupload',
-                    'can' => ['pendaftaran', 'perawat', 'dokter', 'rekammedis'],
-                    'shift'   => 'ml-2',
-                ],
-                [
                     'text' => 'Obat',
                     'icon'    => 'fas fa-pills',
                     'url'  => 'obat',
@@ -461,6 +481,13 @@ return [
                     'url'  => 'stokobat',
                     'active'  => ['stokobat',  'regex:@^stokobat(\/[0-9]+)?+$@'],
                     'can' => 'farmasi',
+                    'shift'   => 'ml-2',
+                ],
+                [
+                    'text' => 'Berkas Upload',
+                    'icon'    => 'fas fa-file',
+                    'url'  => 'fileupload',
+                    'can' => ['pendaftaran', 'perawat', 'dokter', 'rekammedis'],
                     'shift'   => 'ml-2',
                 ],
                 [
@@ -812,49 +839,56 @@ return [
         [
             'text'    => 'Integrasi Satu Sehat',
             'icon'    => 'fas fa-project-diagram',
-            'can' => ['bpjs', 'pendaftaran'],
+            'can' => ['satusehat'],
             'submenu' => [
+                [
+                    'text' => 'Token',
+                    'icon'    => 'fas fa-user-injured',
+                    'url'  => 'satusehat/token',
+                    'shift'   => 'ml-2',
+                    'can' => ['satusehat'],
+                ],
                 [
                     'text' => 'Patient',
                     'icon'    => 'fas fa-user-injured',
                     'url'  => 'satusehat/patient',
                     'shift'   => 'ml-2',
-                    'can' => ['bpjs', 'pendaftaran', 'rekammedis'],
+                    'can' => ['satusehat'],
                 ],
                 [
                     'text' => 'Practitioner',
                     'icon'    => 'fas fa-user-md',
                     'url'  => 'satusehat/practitioner',
                     'shift'   => 'ml-2',
-                    'can' => ['bpjs', 'pendaftaran', 'rekammedis'],
+                    'can' => ['satusehat'],
                 ],
                 [
                     'text' => 'Organization',
                     'icon'    => 'fas fa-hospital',
                     'url'  => 'satusehat/organization',
                     'shift'   => 'ml-2',
-                    'can' => ['bpjs', 'pendaftaran', 'rekammedis'],
+                    'can' => ['satusehat'],
                 ],
                 [
                     'text' => 'Location',
                     'icon'    => 'fas fa-hospital',
                     'url'  => 'satusehat/location',
                     'shift'   => 'ml-2',
-                    'can' => ['bpjs', 'pendaftaran', 'rekammedis'],
+                    'can' => ['satusehat'],
                 ],
                 [
                     'text' => 'Encouter',
                     'icon'    => 'fas fa-user',
                     'url'  => 'satusehat/patnt',
                     'shift'   => 'ml-2',
-                    'can' => ['bpjs', 'pendaftaran', 'rekammedis'],
+                    'can' => ['satusehat'],
                 ],
                 [
                     'text' => 'Condition',
                     'icon'    => 'fas fa-user',
                     'url'  => 'satusehat/pient',
                     'shift'   => 'ml-2',
-                    'can' => ['bpjs', 'pendaftaran', 'rekammedis'],
+                    'can' => ['satusehat'],
                 ],
             ],
         ],
@@ -864,6 +898,13 @@ return [
             'icon'    => 'fas fa-globe',
             'can' => 'admin',
             'submenu' => [
+                [
+                    'text' => 'Pengaturan Aplikasi',
+                    'icon'    => 'fas fa-hospital',
+                    'url'  => 'pengaturan',
+                    'shift'   => 'ml-2',
+                    'can' => 'admin',
+                ],
                 [
                     'text' => 'Carousel',
                     'icon'    => 'fas fa-images',
@@ -892,14 +933,6 @@ return [
                     'shift'   => 'ml-2',
                     'can' => 'admin',
                 ],
-            ],
-        ],
-        // MODUL TESTING
-        [
-            'text'    => 'Pengaturan & Testing',
-            'icon'    => 'fas fa-cogs',
-            'can' => 'admin',
-            'submenu' => [
                 [
                     'text' => 'Integrasi API',
                     'icon'    => 'fas fa-globe',

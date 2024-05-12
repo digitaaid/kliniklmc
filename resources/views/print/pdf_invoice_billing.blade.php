@@ -3,18 +3,16 @@
 
 @section('content')
     @include('print.pdf_kop')
-    <table class="table table-sm" style="font-size: 11px">
+    <table class="table table-sm" style="font-size:11px;">
         <tr>
             <td width="100%" colspan="2" class="text-center">
                 <b class="text-md">INVOICE BILLING PASIEN</b> <br>
                 <b class="text-md">No. {{ $kunjungan->kode }}</b>
             </td>
         </tr>
-    </table>
-    <table class="table table-sm table-bordered" style="font-size: 11px">
         <tr>
             <td width="50%">
-                <table class="table-borderless">
+                <table class="table  table-sm  table-borderless">
                     <tr>
                         <td>Nama Pasien</td>
                         <td>:</td>
@@ -25,16 +23,15 @@
                         <td>:</td>
                         <td><b>{{ $pasien->norm }}</b></td>
                     </tr>
-
                     <tr>
-                        <td>Nama Pasien</td>
+                        <td>No HP</td>
                         <td>:</td>
                         <td><b>{{ $pasien->nohp }}</b></td>
                     </tr>
                 </table>
             </td>
             <td width="50%">
-                <table class="table-borderless">
+                <table class="table  table-sm  table-borderless">
                     <tr>
                         <td>Tanggal Kunjungan</td>
                         <td>:</td>
@@ -48,42 +45,66 @@
                     <tr>
                         <td>Jenis Kunjungan</td>
                         <td>:</td>
-                        <td><b>{{ $kunjungan->jeniskunjungan }}</b></td>
-                    </tr>
+                        <td><b>
+                                @switch($kunjungan->jeniskunjungan)
+                                    @case(1)
+                                        RUJUKAN FKTP (JKN)
+                                    @break
 
+                                    @case(2)
+                                        UMUM (NON-JKN)
+                                    @break
+
+                                    @case(3)
+                                        SURAT KONTROL (JKN)
+                                    @break
+
+                                    @case(4)
+                                        RUJUKAN ANTAR RS (JKN)
+                                    @break
+
+                                    @default
+                                @endswitch
+
+                            </b></td>
+                    </tr>
                 </table>
             </td>
         </tr>
-        </td>
+    </table>
+    <table class="table table-sm" style="font-size:11px;">
         <tr>
-            <td width="50%">
-                <table class="table-borderless">
+            <td width="70%">
+                <table class="table table-xs table-bordered">
                     <tr>
-                        <td colspan="3"><b><u>Rincian Biaya</u></b></td>
+                        <th class="text-left">Rincian Biaya</th>
+                        <th class="text-right">Harga</th>
+                        <th class="text-left"></th>
+                        <th class="text-right">Subtotal</th>
                     </tr>
-                    @foreach ($layanans->groupBy('klasifikasi') as $klasifikasi => $layananx)
+                    @foreach ($layanans as $layanan)
                         <tr>
-                            <td><b>{{ $klasifikasi }}</b></td>
-                            <td>:</td>
-                            <td class="text-right"><b>{{ money($layananx->sum('harga'), 'IDR') }}</b></td>
+                            <td>{{ $layanan->nama }}</td>
+                            <td class="text-right">{{ money($layanan->harga, 'IDR') }}</td>
+                            <td>x{{ $layanan->jumlah }}
+                                @if ($layanan->diskon)
+                                    *Disc {{ $layanan->diskon }}%
+                                @endif
+                            </td>
+                            <td class="text-right">{{ money($layanan->subtotal, 'IDR') }}</td>
                         </tr>
-                        @foreach ($layananx as $layanan)
-                            <tr>
-                                <td><span style="margin-left : 15px">{{ $layanan->nama }} </span></td>
-                                <td>:</td>
-                                <td class="text-right">{{ money($layanan->harga, 'IDR') }}</td>
-                            </tr>
-                        @endforeach
-                        <hr>
                     @endforeach
                     <tr>
-                        <td><b>Total Biaya</b></td>
-                        <td>:</td>
-                        <td class="text-right"><b>{{ money($layanans->sum('harga'), 'IDR') }}</b></td>
+                        <td colspan="3">
+                            <b>Total Biaya</b>
+                        </td>
+                        <td class="text-right">
+                            <b>{{ money($layanans->sum('subtotal'), 'IDR') }}</b>
+                        </td>
                     </tr>
                 </table>
             </td>
-            <td width="50%">
+            <td width="30%">
                 <table class="table-borderless">
                     <tr>
                         <td colspan="3"><b>Jaminan Pembayaran</b></td>
@@ -92,7 +113,7 @@
                         <tr>
                             <td>{{ $klasifikasi }}</td>
                             <td>:</td>
-                            <td class="text-right">{{ money($layananx->sum('harga'), 'IDR') }}</td>
+                            <td class="text-right">{{ money($layananx->sum('subtotal'), 'IDR') }}</td>
                         </tr>
                     @endforeach
                     <hr>
@@ -117,24 +138,24 @@
             </td>
         </tr>
         <tr>
-            <td width="50%">
+            <td width="70%">
                 <table class="table-borderless" style="width: 100%">
                     <tr>
                         <td class="text-center">
-                            <b>Petigas Kasir</b>
+                            <b>Petugas</b>
                             <br><br><br>
-                            <b>Petigas Kasir</b>
+                            <b>(.................)</b>
                         </td>
                         <td class="text-center">
                             <b>Pasien</b>
                             <br><br><br>
-                            <b>Petigas Kasir</b>
+                            <b>(.................)</b>
                         </td>
                     </tr>
 
                 </table>
             </td>
-            <td width="50%">
+            <td width="30%">
                 <i>Terima Kasih dan Semoga Lekas Sembuh</i>
             </td>
         </tr>

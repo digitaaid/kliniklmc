@@ -1,6 +1,5 @@
 @extends('adminlte::master')
-{{-- @inject('layoutHelper', 'JeroenNoten\LaravelAdminLte\Helpers\LayoutHelper') --}}
-@section('title', 'Display Antrian')
+@section('title', 'Display Antrian Farmasi')
 @section('body')
     <link rel="shortcut icon" href="{{ asset('medicio/assets/img/lmc.png') }}" />
     <div class="wrapper">
@@ -29,16 +28,16 @@
                     </header>
                 </div>
             </div>
-            <div class="col-md-2">
+            {{-- <div class="col-md-2">
                 <div class="card">
                     <div class="card-header bg-blue">
                         <div class="text-center">
-                            <h4>Panggil Pendaftaran</h4>
+                            <h4>Antrian Dokter</h4>
                         </div>
                     </div>
                     <div class="card-body">
                         <div class="text-center">
-                            <h1><span id="pendaftaran">-</span></h1>
+                            <h1><span id="poliklinik">-</span></h1>
                         </div>
                     </div>
                 </div>
@@ -47,7 +46,7 @@
                         <h3 class="card-title">Antrian Pendaftaran</h3>
                     </div>
                     <div class="card-body p-0">
-                        <table class="table" id="tablependaftaran">
+                        <table class="table" id="tabledokter">
                             <tbody>
                                 <tr>
                                     <th>-</th>
@@ -69,26 +68,26 @@
                         </table>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-2">
+            </div> --}}
+            <div class="col-md-4">
                 <div class="card">
                     <div class="card-header bg-blue">
                         <div class="text-center">
-                            <h4>Antrian Dokter</h4>
+                            <h4>Panggil Farmasi</h4>
                         </div>
                     </div>
                     <div class="card-body">
                         <div class="text-center">
-                            <h1><span id="poliklinik">-</span></h1>
+                            <h1><span id="farmasi">-</span></h1>
                         </div>
                     </div>
                 </div>
                 <div class="card">
                     <div class="card-header bg-primary">
-                        <h3 class="card-title">Antrian Pendaftaran</h3>
+                        <h3 class="card-title">Antrian Farmasi</h3>
                     </div>
                     <div class="card-body p-0">
-                        <table class="table" id="tabledokter">
+                        <table class="table" id="tablefarmasi">
                             <tbody>
                                 <tr>
                                     <th>-</th>
@@ -200,59 +199,84 @@
             location.reload();
         }, 1000 * 60 * 3);
         setInterval(function() {
-            var url = "{{ route('displaynomor') }}";
+            var url = "{{ route('getdisplayfarmasi') }}";
             $.ajax({
                 url: url,
                 type: "GET",
                 dataType: 'json',
                 success: function(data) {
-                    $('#pendaftaran').html(data.response.pendaftaran);
-                    $('#tablependaftaran').empty()
+                    // $('#pendaftaran').html(data.response.pendaftaran);
+                    // $('#tablependaftaran').empty()
+                    // var x = 0;
+                    // $.each(data.response.pendaftaranselanjutnya, function(i, val) {
+                    //     if (x < 4) {
+                    //         $('#tablependaftaran').append('<tr><th>' + i + '</th><th>  ' + val +
+                    //             ' </th></tr>');
+                    //         x++;
+                    //     }
+                    // });
+                    // for (let index = x; index < 4; index++) {
+                    //     $('#tablependaftaran').append('<tr><th>-</th><th>-</th></tr>');
+                    // }
+                    // if (data.response.pendaftaranstatus == 0) {
+                    //     var url = "{{ route('updatenomorantrean') }}?kodebooking=" + data.response
+                    //         .pendaftarankodebooking;
+                    //     $.ajax({
+                    //         url: url,
+                    //         type: "GET",
+                    //         dataType: 'json',
+                    //         success: function(res) {
+                    //             panggilpendaftaran(data.response.pendaftaran);
+                    //         },
+                    //     });
+                    // }
+                    // $('#poliklinik').html(data.response.poliklinik);
+                    // $('#tabledokter').empty()
+                    // var x = 0;
+                    // $.each(data.response.poliklinikselanjutnya, function(i, val) {
+                    //     if (x < 4) {
+                    //         $('#tabledokter').append('<tr><th>' + i + '</th><th>  ' + val +
+                    //             ' </th></tr>');
+                    //         x++;
+                    //     }
+                    // });
+                    // for (let index = x; index < 5; index++) {
+                    //     $('#tabledokter').append('<tr><th>-</th><th>-</th></tr>');
+                    // }
+                    // if (data.response.poliklinikstatus == 0) {
+                    //     var url = "{{ route('updatenomorantrean') }}?kodebooking=" + data.response
+                    //         .poliklinikkodebooking;
+                    //     $.ajax({
+                    //         url: url,
+                    //         type: "GET",
+                    //         dataType: 'json',
+                    //         success: function(res) {
+                    //             panggilpoliklinik(data.response.poliklinik);
+                    //         },
+                    //     });
+                    // }
+                    $('#farmasi').html(data.response.farmasi);
+                    $('#tablefarmasi').empty()
                     var x = 0;
-                    $.each(data.response.pendaftaranselanjutnya, function(i, val) {
+                    $.each(data.response.farmasiselanjutnya, function(i, val) {
                         if (x < 5) {
-                            $('#tablependaftaran').append('<tr><th>' + i + '</th><th>  ' + val +
+                            $('#tablefarmasi').append('<tr><th>' + i + '</th><th>  ' + val +
                                 ' </th></tr>');
                             x++;
                         }
                     });
                     for (let index = x; index < 5; index++) {
-                        $('#tablependaftaran').append('<tr><th>-</th><th>-</th></tr>');
+                        $('#tablefarmasi').append('<tr><th>-</th><th>-</th></tr>');
                     }
-                    if (data.response.pendaftaranstatus == 0) {
+                    if (data.response.farmasistatus == 0) {
                         var url = "{{ route('updatenomorantrean') }}?kodebooking=" + data.response
-                            .pendaftarankodebooking;
+                            .farmasikodebooking;
                         $.ajax({
                             url: url,
                             type: "GET",
                             dataType: 'json',
                             success: function(res) {
-                                panggilpendaftaran(data.response.pendaftaran);
-                            },
-                        });
-                    }
-                    $('#poliklinik').html(data.response.poliklinik);
-                    $('#tabledokter').empty()
-                    var x = 0;
-                    $.each(data.response.poliklinikselanjutnya, function(i, val) {
-                        if (x < 5) {
-                            $('#tabledokter').append('<tr><th>' + i + '</th><th>  ' + val +
-                                ' </th></tr>');
-                            x++;
-                        }
-                    });
-                    for (let index = x; index < 5; index++) {
-                        $('#tabledokter').append('<tr><th>-</th><th>-</th></tr>');
-                    }
-                    if (data.response.poliklinikstatus == 0) {
-                        var url = "{{ route('updatenomorantrean') }}?kodebooking=" + data.response
-                            .poliklinikkodebooking;
-                        $.ajax({
-                            url: url,
-                            type: "GET",
-                            dataType: 'json',
-                            success: function(res) {
-                                panggilpoliklinik(data.response.poliklinik);
+                                panggilfarmasi(data.response.farmasi);
                             },
                         });
                     }
@@ -263,7 +287,6 @@
             });
         }, 3000);
     </script>
-
     <script>
         function panggilpendaftaran(angkaantrian) {
             document.getElementById('suarabel').pause();

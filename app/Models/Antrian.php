@@ -23,7 +23,7 @@ class Antrian extends Model
     }
     public function kunjungan()
     {
-        return $this->belongsTo(Kunjungan::class);
+        return $this->belongsTo(Kunjungan::class, 'kodebooking', 'kode');
     }
     public function asesmenperawat()
     {
@@ -44,6 +44,10 @@ class Antrian extends Model
     public function resepobat()
     {
         return $this->hasOne(ResepObat::class);
+    }
+    public function resepdetails()
+    {
+        return $this->hasMany(ResepObatDetail::class);
     }
     public function layanans()
     {

@@ -67,18 +67,18 @@
             <input type="hidden" name="norm" value="{{ $antrian->norm }}">
             <input type="hidden" name="nama" value="{{ $antrian->nama }}">
             <div class="col-md-6">
-                <x-adminlte-select igroup-size="sm" name="layanan" id="layanantarif" class="layanan_tarif"
-                    label="Layanan & Tindalan :" multiple>
+                <x-adminlte-select fgroup-class="row" label-class="text-left col-3" igroup-class="col-9"
+                    igroup-size="sm" name="layanan" id="layanantarif" class="layanan_tarif" label="Layanan"
+                    multiple>
                 </x-adminlte-select>
-                <x-adminlte-input id="harga-tarif" name="harga" type="number" label="Harga" igroup-size="sm"
-                    placeholder="Harga" readonly />
-                <x-adminlte-input id="jumlah-tarif" name="jumlah" type="number" label="Jumlah" igroup-size="sm"
-                    placeholder="Jumlah" />
-                <x-adminlte-input id="diskon-tarif" name="diskon" type="number" label="Diskon" igroup-size="sm"
-                    placeholder="Diskon" />
-            </div>
-            <div class="col-md-6">
-                <x-adminlte-select igroup-size="sm" name="jaminan" label="Jaminan Pasien">
+                <x-adminlte-input id="harga-tarif" name="harga" type="number" label="Harga" fgroup-class="row"
+                    label-class="text-left col-3" igroup-class="col-9" igroup-size="sm" placeholder="Harga" />
+                <x-adminlte-input id="jumlah-tarif" name="jumlah" type="number" label="Jumlah" fgroup-class="row"
+                    label-class="text-left col-3" igroup-class="col-9" igroup-size="sm" placeholder="Jumlah" />
+                <x-adminlte-input id="diskon-tarif" name="diskon" type="number" label="Diskon" fgroup-class="row"
+                    label-class="text-left col-3" igroup-class="col-9" igroup-size="sm" placeholder="Diskon" />
+                <x-adminlte-select fgroup-class="row" label-class="text-left col-3" igroup-class="col-9"
+                    igroup-size="sm" name="jaminan" label="Jaminan">
                     <option selected disabled>Pilih Jaminan</option>
                     @foreach ($jaminans as $key => $item)
                         <option value="{{ $key }}"
@@ -86,6 +86,9 @@
                             {{ $item }}</option>
                     @endforeach
                 </x-adminlte-select>
+            </div>
+            <div class="col-md-6">
+
 
             </div>
         </div>
@@ -224,7 +227,7 @@
                             btn,
                             value.nama,
                             value.jaminans.nama,
-                            (value.pic).length != 0 ? value.pic : 'null',
+                            value.pic ? value.pic.name : value.user,
                             'Rp ' + value.harga.toLocaleString() + ' @ ' + value.jumlah,
                             value.diskon + ' %',
                             'Rp ' + (value.subtotal).toLocaleString(),

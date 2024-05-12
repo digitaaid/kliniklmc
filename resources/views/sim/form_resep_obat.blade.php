@@ -5,12 +5,172 @@
             width: 300px !important;
         }
     </style>
-    <input type="hidden" name="kodebooking" value="{{ $kunjungan->antrian->kodebooking }}">
-    <input type="hidden" name="antrian_id" value="{{ $kunjungan->antrian->id }}">
+    <input type="hidden" name="kodebooking" value="{{ $antrian->kodebooking }}">
+    <input type="hidden" name="antrian_id" value="{{ $antrian->id }}">
     <input type="hidden" name="kodekunjungan" value="{{ $kunjungan->kode ?? null }}">
     <input type="hidden" name="kunjungan_id" value="{{ $kunjungan->id ?? null }}">
     <div class="row">
+        <div class="col-md-6">
+            <x-adminlte-input name="nomorkartu" class="nomorkartu-antrian" fgroup-class="row"
+                label-class="text-left col-3" igroup-class="col-9" igroup-size="sm" label="Nomor Kartu"
+                value="{{ $antrian->nomorkartu }}" enable-old-support placeholder="Nomor Kartu">
+                <x-slot name="appendSlot">
+                    <div class="btn btn-primary" onclick="btnCariKartu()">
+                        <i class="fas fa-search"></i> Cari
+                    </div>
+                </x-slot>
+            </x-adminlte-input>
+            <x-adminlte-input name="nik" class="nik-id" enable-old-support fgroup-class="row"
+                label-class="text-left col-3" igroup-class="col-9" igroup-size="sm" label="NIK" placeholder="NIK"
+                value="{{ $antrian->nik }}">
+                <x-slot name="appendSlot">
+                    <div class="btn btn-primary" onclick="btnCariNIK()">
+                        <i class="fas fa-search"></i> Cari
+                    </div>
+                </x-slot>
+            </x-adminlte-input>
+            <x-adminlte-input name="norm" class="norm-id" label="No RM" fgroup-class="row"
+                label-class="text-left col-3" igroup-class="col-9" igroup-size="sm" placeholder="No RM"
+                value="{{ $antrian->norm }}" enable-old-support>
+                <x-slot name="appendSlot">
+                    <div class="btn btn-primary" onclick="btnCariRM()">
+                        <i class="fas fa-search"></i> Cari
+                    </div>
+                </x-slot>
+            </x-adminlte-input>
+            <x-adminlte-input name="nama" class="nama-id" label="Nama Pasien" fgroup-class="row"
+                label-class="text-left col-3" igroup-class="col-9" igroup-size="sm" placeholder="Nama Pasien"
+                value="{{ $antrian->nama }}" enable-old-support />
+            <x-adminlte-input name="nohp" class="nohp-id" label="Nomor HP" fgroup-class="row"
+                label-class="text-left col-3" igroup-class="col-9" igroup-size="sm" placeholder="Nomor HP"
+                value="{{ $antrian->nohp }}" enable-old-support />
+            <x-adminlte-input name="tgl_lahir" class="tgllahir-id" enable-old-support label="Tanggal Lahir"
+                fgroup-class="row" label-class="text-left col-3" igroup-class="col-9"
+                value="{{ $antrian->kunjungan->tgl_lahir ?? null }}" igroup-size="sm" placeholder="Tanggal Lahir" />
+            <x-adminlte-input name="gender" class="gender-id" enable-old-support label="Jenis Kelamin"
+                fgroup-class="row" label-class="text-left col-3" igroup-class="col-9"
+                value="{{ $antrian->kunjungan->gender ?? null }}" igroup-size="sm" placeholder="Jenis Kelamin" />
+            <x-adminlte-input name="kelas" enable-old-support value="{{ $antrian->kunjungan->kelas ?? null }}"
+                class="kelas-id" label="Kelas Pasien" fgroup-class="row" label-class="text-left col-3"
+                igroup-class="col-9" igroup-size="sm" placeholder="Kelas Pasien" />
+            <x-adminlte-input name="penjamin" class="penjamin-id" enable-old-support label="Penjamin"
+                fgroup-class="row" label-class="text-left col-3" igroup-class="col-9" igroup-size="sm"
+                placeholder="Penjamin" value="{{ $antrian->kunjungan->penjamin ?? null }}" />
+        </div>
+        <div class="col-md-6">
+            @php
+                $config = ['format' => 'YYYY-MM-DD'];
+            @endphp
+            <x-adminlte-input-date name="tanggalperiksa" class="tanggalperiksa-id" fgroup-class="row"
+                label-class="text-left col-3" igroup-class="col-9" igroup-size="sm" label="Tanggal Periksa"
+                value="{{ $antrian->tanggalperiksa }}" placeholder="Tanggal Periksa" :config="$config"
+                enable-old-support>
+            </x-adminlte-input-date>
+            <x-adminlte-select fgroup-class="row" label-class="text-left col-3" igroup-class="col-9"
+                igroup-size="sm" name="jenispasien" label="Jenis Pasien" enable-old-support>
+                <option selected disabled>Pilih Jenis Pasien</option>
+                <option value="JKN" {{ $antrian->jenispasien == 'JKN' ? 'selected' : null }}>JKN
+                </option>
+                <option value="NON-JKN" {{ $antrian->jenispasien == 'NON-JKN' ? 'selected' : null }}>
+                    NON-JKN
+                </option>
+            </x-adminlte-select>
+            <x-adminlte-select fgroup-class="row" label-class="text-left col-3" igroup-class="col-9"
+                igroup-size="sm" name="kodepoli" label="Poliklinik" enable-old-support>
+                @foreach ($polikliniks as $key => $value)
+                    <option value="{{ $key }}" {{ $antrian->kodepoli == $key ? 'selected' : null }}>
+                        {{ $value }}</option>
+                @endforeach
+            </x-adminlte-select>
+            <x-adminlte-select fgroup-class="row" label-class="text-left col-3" igroup-class="col-9"
+                igroup-size="sm" name="kodedokter" label="Dokter" enable-old-support>
+                @foreach ($dokters as $key => $value)
+                    <option value="{{ $key }}">{{ $value }}</option>
+                @endforeach
+            </x-adminlte-select>
+            @php
+                $config = ['format' => 'YYYY-MM-DD HH:mm:ss'];
+            @endphp
+            <x-adminlte-input-date fgroup-class="row" label-class="text-left col-3" igroup-class="col-9"
+                name="tgl_masuk" igroup-size="sm" label="Tanggal Masuk" enable-old-support
+                placeholder="Tanggal Masuk" :config="$config" value="{{ $antrian->kunjungan->tgl_masuk ?? null }}">
+            </x-adminlte-input-date>
+            <x-adminlte-select igroup-size="sm" fgroup-class="row" label-class="text-left col-3"
+                igroup-class="col-9" name="jaminan" label="Jaminan Pasien" enable-old-support>
+                <option selected disabled>Pilih Jaminan</option>
+                @foreach ($jaminans as $key => $item)
+                    <option value="{{ $key }}"
+                        {{ $antrian->kunjungan ? ($antrian->kunjungan->jaminan == $key ? 'selected' : null) : null }}>
+                        {{ $item }}
+                    </option>
+                @endforeach
+            </x-adminlte-select>
+            <x-adminlte-select fgroup-class="row" label-class="text-left col-3" igroup-class="col-9"
+                igroup-size="sm" name="cara_masuk" label="Cara Masuk" enable-old-support>
+                <option selected disabled>Pilih Cara Masuk</option>
+                <option value="gp"
+                    {{ $antrian->kunjungan ? ($antrian->kunjungan->cara_masuk == 'gp' ? 'selected' : null) : null }}>
+                    Rujukan
+                    FKTP</option>
+                <option value="hosp-trans"
+                    {{ $antrian->kunjungan ? ($antrian->kunjungan->cara_masuk == 'hosp-trans' ? 'selected' : null) : null }}>
+                    Rujukan FKRTL</option>
+                <option value="mp"
+                    {{ $antrian->kunjungan ? ($antrian->kunjungan->cara_masuk == 'mp' ? 'selected' : null) : null }}>
+                    Rujukan
+                    Spesialis</option>
+                <option value="outp"
+                    {{ $antrian->kunjungan ? ($antrian->kunjungan->cara_masuk == 'outp' ? 'selected' : null) : null }}>
+                    Dari
+                    Rawat Jalan</option>
+                <option value="inp"
+                    {{ $antrian->kunjungan ? ($antrian->kunjungan->cara_masuk == 'inp' ? 'selected' : null) : null }}>
+                    Dari
+                    Rawat Inap</option>
+                <option value="emd"
+                    {{ $antrian->kunjungan ? ($antrian->kunjungan->cara_masuk == 'emd' ? 'selected' : null) : null }}>
+                    Dari
+                    Rawat Darurat</option>
+                <option value="born"
+                    {{ $antrian->kunjungan ? ($antrian->kunjungan->cara_masuk == 'born' ? 'selected' : null) : null }}>
+                    Lahir
+                    di RS</option>
+                <option value="nursing"
+                    {{ $antrian->kunjungan ? ($antrian->kunjungan->cara_masuk == 'nursing' ? 'selected' : null) : null }}>
+                    Rujukan Panti Jompo</option>
+                <option value="psych"
+                    {{ $antrian->kunjungan ? ($antrian->kunjungan->cara_masuk == 'psych' ? 'selected' : null) : null }}>
+                    Rujukan dari RS Jiwa</option>
+                <option value="rehab"
+                    {{ $antrian->kunjungan ? ($antrian->kunjungan->cara_masuk == 'rehab' ? 'selected' : null) : null }}>
+                    Rujukan Fasilitas Rehab</option>
+                <option value="other"
+                    {{ $antrian->kunjungan ? ($antrian->kunjungan->cara_masuk == 'other' ? 'selected' : null) : null }}>
+                    Lain-lain</option>
+            </x-adminlte-select>
+            <x-adminlte-select fgroup-class="row" label-class="text-left col-3" igroup-class="col-9"
+                igroup-size="sm" name="diagnosa_awal" enable-old-support class="diagnosaid2" label="Diagnosa Awal">
+                @if ($antrian->kunjungan)
+                    <option value="{{ $antrian->kunjungan->diagnosa_awal }}">
+                        {{ $antrian->kunjungan->diagnosa_awal }}
+                    </option>
+                @endif
+            </x-adminlte-select>
+            <x-adminlte-select fgroup-class="row" label-class="text-left col-3" igroup-class="col-9"
+                igroup-size="sm" name="jeniskunjungan" enable-old-support label="Jenis Kunjungan">
+                <option selected disabled>Pilih Jenis Rujukan</option>
+                <option value="1" {{ $antrian->jeniskunjungan == '1' ? 'selected' : null }}>
+                    Rujukan FKTP</option>
+                <option value="2" {{ $antrian->jeniskunjungan == '2' ? 'selected' : null }}>
+                    Umum</option>
+                <option value="3" {{ $antrian->jeniskunjungan == '3' ? 'selected' : null }}>
+                    Kontrol</option>
+                <option value="4" {{ $antrian->jeniskunjungan == '4' ? 'selected' : null }}>
+                    Rujukan Antar RS</option>
+            </x-adminlte-select>
+        </div>
         <div class="col-md-12">
+            <hr>
             <label class="mb-2">Resep Obat</label>
             <button id="addObatInput" type="button" class="btn btn-xs btn-success mb-2">
                 <span class="fas fa-plus">
@@ -162,5 +322,69 @@
     });
     $("body").on("click", "#deleteRowObat", function() {
         $(this).parents("#row").remove();
+    })
+</script>
+<script>
+    $(function() {
+        $(".diagnosaid2").select2({
+            theme: "bootstrap4",
+            ajax: {
+                url: "{{ route('ref_icd10_api') }}",
+                type: "get",
+                dataType: 'json',
+                delay: 250,
+                data: function(params) {
+                    return {
+                        diagnosa: params.term // search term
+                    };
+                },
+                processResults: function(response) {
+                    return {
+                        results: response
+                    };
+                },
+                cache: true
+            }
+        });
+    });
+</script>
+<script>
+    $(() => {
+        let usrCfgtglperiksa = _AdminLTE_InputDate.parseCfg({
+            "format": "YYYY-MM-DD",
+            "icons": {
+                "time": "fas fa-clock",
+                "date": "fas fa-calendar-alt",
+                "up": "fas fa-arrow-up",
+                "down": "fas fa-arrow-down",
+                "previous": "fas fa-chevron-left",
+                "next": "fas fa-chevron-right",
+                "today": "fas fa-calendar-check-o",
+                "clear": "fas fa-trash",
+                "close": "fas fa-times"
+            },
+            "buttons": {
+                "showClose": true
+            }
+        });
+        $('#tanggalperiksa').datetimepicker(usrCfgtglperiksa);
+        let usrCfgtglmasuk = _AdminLTE_InputDate.parseCfg({
+            "format": "YYYY-MM-DD HH:mm:ss",
+            "icons": {
+                "time": "fas fa-clock",
+                "date": "fas fa-calendar-alt",
+                "up": "fas fa-arrow-up",
+                "down": "fas fa-arrow-down",
+                "previous": "fas fa-chevron-left",
+                "next": "fas fa-chevron-right",
+                "today": "fas fa-calendar-check-o",
+                "clear": "fas fa-trash",
+                "close": "fas fa-times"
+            },
+            "buttons": {
+                "showClose": true
+            }
+        });
+        $('#tgl_masuk').datetimepicker(usrCfgtglmasuk);
     })
 </script>
