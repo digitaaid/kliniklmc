@@ -89,7 +89,6 @@ class SyncronizeController extends Controller
                     'status' => 0,
                     'sync_antrian' => 2,
                 ]);
-                dd('kendala', $antrian);
                 $request['taskid'] = 3;
                 $request['waktu'] = Carbon::parse($antrian->taskid4, 'Asia/Jakarta')->subMinutes(random_int(20, 30));
                 $api = new AntrianController();
