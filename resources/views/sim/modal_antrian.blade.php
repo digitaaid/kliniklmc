@@ -205,8 +205,8 @@
                             Antar RS</option>
                     </x-adminlte-select>
                     <x-adminlte-input name="noRujukan" class="noRujukan-id" fgroup-class="row"
-                        label-class="text-left col-3" igroup-class="col-9" igroup-size="sm" label="Nomor Rujukan"
-                        placeholder="Nomor Rujukan" enable-old-support readonly value="{{ $antrian->nomorrujukan }}">
+                        label-class="text-left col-3" igroup-class="col-9" igroup-size="sm" label="No Rujukan"
+                        placeholder="No Rujukan" enable-old-support readonly value="{{ $antrian->nomorrujukan }}">
                         <x-slot name="appendSlot">
                             <div class="btn btn-primary" onclick="cariRujukanAntrian()">
                                 <i class="fas fa-search"></i> Cari
@@ -215,7 +215,7 @@
                     </x-adminlte-input>
                     <x-adminlte-input name="noSurat" class="noSurat-id" fgroup-class="row"
                         label-class="text-left col-3" igroup-class="col-9" igroup-size="sm"
-                        label="Nomor Surat Kontrol" placeholder="Nomor Surat Kontrol"
+                        label="No Surat Kontrol" placeholder="No Surat Kontrol"
                         value="{{ $antrian->nomorsuratkontrol }}" enable-old-support readonly>
                         <x-slot name="appendSlot">
                             <div class="btn btn-primary" onclick="cariSuratKontrol()">

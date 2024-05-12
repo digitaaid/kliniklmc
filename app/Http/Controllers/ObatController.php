@@ -139,6 +139,8 @@ class ObatController extends Controller
                 $request['berat_badan'] = $kunjungan->asesmenperawat->berat_badan ?? null;
                 $request['bsa'] = $kunjungan->asesmenperawat->bsa ?? null;
                 $request['kode'] = $kunjungan->kode;
+                $request['kodekunjungan'] = $kunjungan->kode;
+                $request['kunjungan_id'] = $kunjungan->id;
                 $request['waktu'] = now();
                 $resep = ResepObat::updateOrCreate(
                     [

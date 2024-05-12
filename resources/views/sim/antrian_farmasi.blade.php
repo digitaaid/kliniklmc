@@ -19,7 +19,9 @@
                                     <p>
                                         <b>No RM : </b> {{ $item->kunjungan->norm ?? null }} <br>
                                         <b>Nama : </b> {{ $item->kunjungan->nama ?? null }} <br>
-                                        <b>Tgl Lahir : </b> {{ $item->kunjungan->tgl_lahir ?? null }} <br>
+                                        <b>Tgl Lahir : </b> {{ $item->kunjungan->tgl_lahir ?? null }}
+                                        ({{ \Carbon\Carbon::parse($item->kunjungan->tgl_lahir ?? now())->age }} th)
+                                        <br>
                                         <b>Kelamin : </b> {{ $item->kunjungan->gender ?? null }}
                                     </p>
                                     <hr>
@@ -27,7 +29,8 @@
                                     <br>
                                     @if ($item->resepobat)
                                         @foreach ($item->resepobat->resepdetail as $itemobat)
-                                            <b> R/ {{ $itemobat->nama }} </b> ({{ $itemobat->jumlah }}) <br>
+                                            <b> R/ {{ $itemobat->nama }} </b> ({{ $itemobat->jumlah }})
+                                            {{ money($itemobat->subtotal, 'IDR') }} <br>
                                             &emsp;&emsp;
                                             @switch($itemobat->interval)
                                                 @case('qod')
@@ -83,6 +86,9 @@
                                             @endswitch
                                             {{ $itemobat->keterangan }} <br>
                                         @endforeach
+                                        <br>
+                                        <b>Total harga :</b>
+                                        {{ money($item->resepobat->resepdetail->sum('subtotal') ?? 0, 'IDR') }}
                                     @endif
                                     <br>
                                     @if ($item->kunjungan)
@@ -470,6 +476,8 @@
             <x-adminlte-button theme="danger" icon="fas fa-times" label="Tutup" data-dismiss="modal" />
         </x-slot>
     </x-adminlte-modal>
+    @include('sim.modal_pasien')
+
     {{-- <x-adminlte-modal id="modalOrder" size="xl" title="Order Obat" icon="fas fa-pills" theme="warning">
         <form id="formOrder" action={{ route('create_order_obat') }} method="POST">
             @csrf
