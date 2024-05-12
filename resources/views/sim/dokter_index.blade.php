@@ -61,7 +61,19 @@
                             <td>{{ $item->kodedokter }}</td>
                             <td>{{ $item->kodejkn }}</td>
                             <td>{{ $item->nik }}</td>
-                            <td>{{ $item->idsatusehat }}</td>
+                            <td>
+                                @if ($item->idpractitioner)
+                                    <a class="badge badge-success"
+                                        href="{{ route('practitioner_sync') }}?kodedokter={{ $item->kodedokter }}">
+                                        {{ $item->idpractitioner }}
+                                    </a>
+                                @else
+                                    <a class="badge badge-warning"
+                                        href="{{ route('practitioner_sync') }}?kodedokter={{ $item->kodedokter }}">
+                                        Sync IdPractitioner
+                                    </a>
+                                @endif
+                            </td>
                             <td>{{ $item->gender }}</td>
                             <td>{{ $item->subtitle }}</td>
                             <td>{{ $item->sip }}</td>

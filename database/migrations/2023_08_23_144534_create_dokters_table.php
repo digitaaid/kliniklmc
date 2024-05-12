@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('kodedokter')->unique();
             $table->string('kodejkn')->nullable();
             $table->string('nik')->nullable();
-            $table->string('idsatusehat')->nullable();
+            $table->string('idpractitioner')->nullable();
             $table->string('subtitle')->nullable();
             $table->string('gender')->default("L");
             $table->string('sip')->nullable();
