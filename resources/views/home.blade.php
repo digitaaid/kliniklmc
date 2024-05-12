@@ -31,6 +31,12 @@
                             title="{{ $kunjungans::whereMonth('tgl_masuk', now()->month)->where('jeniskunjungan', '!=', 2)->count() }}"
                             text="Pasien JKN" theme="warning" icon="fas fa-user-injured" />
                     </div>
+                    <div class="col-lg-3 col-6">
+                        <x-adminlte-info-box title="Pemanfaatan Antrol BPJS" text="{{ $antriansep }}/{{ $kunjungansep }}"
+                            icon="fas fa-lg fa-tasks text-orange" theme="warning" icon-theme="dark"
+                            progress="{{ $kunjungansep ? ($antriansep / $kunjungansep) * 100 : 0 }}" progress-theme="dark"
+                            description="{{ $kunjungansep ? round(($antriansep / $kunjungansep) * 100) : 0 }}% dari antrian online per sep" />
+                    </div>
                 </div>
                 <div class="row">
                     {{-- <div class="col-lg-3 col-6">
@@ -41,13 +47,6 @@
                         <x-adminlte-info-box title="Antrian SEP" text="" icon="fas fa-file-medical"
                             theme="primary" />
                     </div> --}}
-                    <div class="col-lg-3 col-6">
-                        <x-adminlte-info-box title="Pemanfaatan Antrol BPJS" text="{{ $antriansep }}/{{ $kunjungansep }}"
-                            icon="fas fa-lg fa-tasks text-orange" theme="warning" icon-theme="dark"
-                            progress="{{ $kunjungansep ? ($antriansep / $kunjungansep) * 100 : 0 }}" progress-theme="dark"
-                            description="{{ $kunjungansep ? ($antriansep / $kunjungansep) * 100 : 0 }}% dari antrian online per sep" />
-                    </div>
-
                 </div>
             @endif
             <h5 class="mb-2">Informasi Pengelolaan</h5>
@@ -62,13 +61,12 @@
                 </div>
                 <div class="col-lg-3 col-6">
                     <x-adminlte-small-box title="{{ $units }}" text="Unit" theme="warning"
-                        icon="fas fa-medical-clinic" />
+                        icon="fas fa-clinic-medical" />
                 </div>
                 <div class="col-lg-3 col-6">
                     <x-adminlte-small-box title="{{ $obats }}" text="Obat" theme="warning" icon="fas fa-pills" />
                 </div>
             </div>
-
             {{-- @if ($antrians) --}}
             {{-- <div class="row">
                     <div class="col-md-6">

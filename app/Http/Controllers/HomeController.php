@@ -21,6 +21,10 @@ class HomeController extends Controller
     public function index(Request $request)
     {
         $user =  Auth::user();
+        if (empty($user->email_verified_at)) {
+            auth()->logout();
+            return redirect()->route('login')->withErrors('Mohon maaf, akun anda belum diverifikasi');
+        }
         $kunjungans = new Kunjungan;
         $antrians = new Antrian;
         $pasiens = Pasien::where('status', 1)->count();
