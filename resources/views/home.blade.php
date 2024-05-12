@@ -14,8 +14,46 @@
                     <p class="mb-0">Selamat datang {{ $user->name }} !</p>
                 </div>
             </div>
-            @if ($antrians)
-                {{-- <div class="row">
+            @if ($kunjungans)
+                <h5 class="mb-2">Informasi Kunjungan</h5>
+                <div class="row">
+                    <div class="col-lg-3 col-6">
+                        <x-adminlte-small-box title="{{ $kunjungans::whereMonth('tgl_masuk', now()->month)->count() }}"
+                            text="Kunjungan Pasien" theme="warning" icon="fas fa-user-injured" />
+                    </div>
+                    <div class="col-lg-3 col-6">
+                        <x-adminlte-small-box
+                            title="{{ $kunjungans::whereMonth('tgl_masuk', now()->month)->where('jeniskunjungan', 2)->count() }}"
+                            text="Pasien NON-JKN" theme="warning" icon="fas fa-user-injured" />
+                    </div>
+                    <div class="col-lg-3 col-6">
+                        <x-adminlte-small-box
+                            title="{{ $kunjungans::whereMonth('tgl_masuk', now()->month)->where('jeniskunjungan', '!=', 2)->count() }}"
+                            text="Pasien JKN" theme="warning" icon="fas fa-user-injured" />
+                    </div>
+                </div>
+            @endif
+            <h5 class="mb-2">Informasi Pengelolaan</h5>
+            <div class="row">
+                <div class="col-lg-3 col-6">
+                    <x-adminlte-small-box title="{{ $pasiens }}" text="Total Pasien" theme="warning"
+                        icon="fas fa-users" />
+                </div>
+                <div class="col-lg-3 col-6">
+                    <x-adminlte-small-box title="{{ $dokters }}" text="Dokter" theme="warning"
+                        icon="fas fa-user-md" />
+                </div>
+                <div class="col-lg-3 col-6">
+                    <x-adminlte-small-box title="{{ $units }}" text="Unit" theme="warning"
+                        icon="fas fa-medical-clinic" />
+                </div>
+                <div class="col-lg-3 col-6">
+                    <x-adminlte-small-box title="{{ $obats }}" text="Obat" theme="warning" icon="fas fa-pills" />
+                </div>
+            </div>
+
+            {{-- @if ($antrians) --}}
+            {{-- <div class="row">
                     <div class="col-md-6">
                         <x-adminlte-card title="Capaian Jumlah Pelayanan Antrian Bulan Ini" theme="success" collapsible>
                             <div class="chart">
@@ -30,13 +68,12 @@
                             </div>
                         </x-adminlte-card>
                     </div>
-
                     <div class="col-md-3">
                         <x-adminlte-small-box title="{{ $antrians->sum('jumlah_antrean') }}" text="Total Antrian"
                             theme="success" icon="fas fa-user-injured" />
                     </div>
                 </div> --}}
-                {{-- <x-adminlte-card title="Laporan Waktu Pelayanan Antrian Bulan Ini" theme="secondary" collapsible>
+            {{-- <x-adminlte-card title="Laporan Waktu Pelayanan Antrian Bulan Ini" theme="secondary" collapsible>
                     @php
                         $heads = ['Tanggal', 'Poliklinik', 'Total', 'Tunggu Poli', 'Layan Poli', 'Terima Resep', 'Proses Farmasi', 'Total Waktu'];
                         $config = ['paging' => false];
@@ -88,7 +125,7 @@
                         </tfoot>
                     </x-adminlte-datatable>
                 </x-adminlte-card> --}}
-            @endif
+            {{-- @endif --}}
         </div>
     </div>
 @stop
@@ -161,5 +198,3 @@
         })
     </script> --}}
 @endsection
-
-

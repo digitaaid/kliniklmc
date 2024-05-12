@@ -6,8 +6,12 @@ use App\Models\Antrian;
 use App\Models\Carousel;
 use App\Models\Dokter;
 use App\Models\JadwalDokter;
+use App\Models\Kunjungan;
+use App\Models\Obat;
+use App\Models\Pasien;
 use App\Models\TanyaJawab;
 use App\Models\Testimoni;
+use App\Models\Unit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -17,11 +21,19 @@ class HomeController extends Controller
     public function index(Request $request)
     {
         $user =  Auth::user();
-        $antrians = Antrian::get()->count();
+        $kunjungans = new Kunjungan;
+        $pasiens = Pasien::where('status', 1)->count();
+        $dokters = Dokter::where('status', 1)->count();
+        $units = Unit::where('status', 1)->count();
+        $obats = Obat::where('status', 1)->count();
         return view('home', compact([
             'user',
             'request',
-            'antrians',
+            'kunjungans',
+            'dokters',
+            'pasiens',
+            'units',
+            'obats',
         ]));
     }
     public function landingpage()
