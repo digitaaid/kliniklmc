@@ -36,7 +36,8 @@
                     ];
                     $config['scrollX'] = true;
                 @endphp
-                <x-adminlte-datatable id="table1" class="nowrap" :heads="$heads" :config="$config" bordered hoverable compressed>
+                <x-adminlte-datatable id="table1" class="nowrap" :heads="$heads" :config="$config" bordered hoverable
+                    compressed>
                     @foreach ($units as $item)
                         <tr>
                             <td>{{ $item->id }}</td>
@@ -55,8 +56,32 @@
                             <td>{{ $item->lokasi }}</td>
                             <td>{{ $item->kode }}</td>
                             <td>{{ $item->kodejkn }}</td>
-                            <td>{{ $item->idorganization }}</td>
-                            <td>{{ $item->idlocation }}</td>
+                            <td>
+                                @if ($item->idorganization)
+                                    <a class="badge badge-success"
+                                        href="{{ route('organization_sync') }}?kode={{ $item->kode }}">
+                                        {{ $item->idorganization }}
+                                    </a>
+                                @else
+                                    <a class="badge badge-warning"
+                                        href="{{ route('organization_sync') }}?kode={{ $item->kode }}">
+                                        Sync IdOrganization
+                                    </a>
+                                @endif
+                            </td>
+                            <td>
+                                @if ($item->idlocation)
+                                    <a class="badge badge-success"
+                                        href="{{ route('location_sync') }}?kode={{ $item->kode }}">
+                                        {{ $item->idlocation }}
+                                    </a>
+                                @else
+                                    <a class="badge badge-warning"
+                                        href="{{ route('location_sync') }}?kode={{ $item->kode }}">
+                                        Sync IdOrganization
+                                    </a>
+                                @endif
+                            </td>
                             <td>
                                 @if ($item->status)
                                     <span class="badge badge-success">Aktif</span>
@@ -99,8 +124,8 @@
             <x-slot name="footerSlot">
                 <x-adminlte-button id="btnStore" onclick="btnStore()" class="mr-auto" type="submit" icon="fas fa-save"
                     theme="success" label="Simpan" />
-                <x-adminlte-button id="btnUpdate" onclick="btnUpdate()" class="mr-auto" type="submit" icon="fas fa-edit"
-                    theme="warning" label="Update" />
+                <x-adminlte-button id="btnUpdate" onclick="btnUpdate()" class="mr-auto" type="submit"
+                    icon="fas fa-edit" theme="warning" label="Update" />
                 <x-adminlte-button theme="danger" icon="fas fa-times" label="Kembali" data-dismiss="modal" />
             </x-slot>
         </form>

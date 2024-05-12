@@ -2,8 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\IntegrasiApi;
+use App\Models\Pengaturan;
 use App\Models\Unit;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Validator;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class OrganizationController extends SatuSehatController
 {
@@ -33,8 +39,9 @@ class OrganizationController extends SatuSehatController
         if ($validator->fails()) {
             return $this->sendError($validator->errors()->first(), 400);
         }
-        $token = Token::latest()->first()->access_token;
-        $url =  env('SATUSEHAT_BASE_URL') . "/Organization";
+        $token = Cache::get('satusehat_access_token');
+        $api = IntegrasiApi::where('name', 'Satu Sehat')->first();
+        $url =  $api->base_url . "/Organization";
         $data = [
             "resourceType" => "Organization",
             "active" => true,
@@ -119,13 +126,14 @@ class OrganizationController extends SatuSehatController
     }
     public function organization_sync(Request $request)
     {
-        $unit = Unit::where('kode_unit', $request->kode)->first();
-        if ($unit->id_satusehat) {
+        $unit = Unit::where('kode', $request->kode)->first();
+        if ($unit->idorganization) {
             Alert::error('Sudah memiliki id satu sehat');
         } else {
+            $pengaturan = Pengaturan::firstOrFail();
             $request['organization_id'] = "100025921";
-            $request['identifier'] = $unit->nama_unit;
-            $request['name'] = $unit->nama_unit;
+            $request['identifier'] = $unit->nama;
+            $request['name'] = $unit->nama;
             $request['phone'] = "08983311118";
             $request['email'] = "brsud.waled@gmail.com";
             $request['url'] = "rsudwaled.id";
@@ -139,7 +147,7 @@ class OrganizationController extends SatuSehatController
             $json = $res->response;
             if ($json->resourceType == "Organization") {
                 $unit->update([
-                    'id_satusehat' => $json->id,
+                    'idorganization' => $json->id,
                 ]);
                 Alert::success('Success', 'Berhasil Sync Organization');
             } else {
