@@ -113,10 +113,10 @@
                                 <td>
                                     @if ($item->sync_antrian)
                                         <a href="{{ route('sync_update_antrian') }}?kodebooking={{ $item->kodebooking }}"
-                                            class="btn btn-xs btn-success"><i class="fas fa-sync"></i> Sudah Sync</a>
+                                            class="btn btn-xs btn-success withLoad"><i class="fas fa-sync"></i> Sudah Sync</a>
                                     @else
                                         <a href="{{ route('sync_update_antrian') }}?kodebooking={{ $item->kodebooking }}"
-                                            class="btn btn-xs btn-warning"><i class="fas fa-sync"></i> Belum Sync</a>
+                                            class="btn btn-xs btn-warning withLoad"><i class="fas fa-sync"></i> Belum Sync</a>
                                     @endif
                                     <x-adminlte-button class="btn-xs" onclick="editAntrian(this)" theme="warning"
                                         icon="fas fa-edit" title="Edit" data-id="{{ $item->id }}"
