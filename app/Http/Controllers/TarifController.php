@@ -193,6 +193,6 @@ class TarifController extends APIController
             'pasien',
             'layanans',
         ));
-        return $pdf->stream('pdf_invoice_billing.pdf');
+        return $pdf->stream($antrian->tanggalperiksa . '-INVOICE-' . strtoupper($pasien->nama) . '.pdf');
     }
 }

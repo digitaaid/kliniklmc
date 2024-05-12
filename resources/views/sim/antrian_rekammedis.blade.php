@@ -143,7 +143,6 @@
                                         data-taskid5="{{ \Carbon\Carbon::parse($item->taskid7)->subSeconds(rand(600, 900)) }}"
                                         data-taskid6="{{ \Carbon\Carbon::parse($item->taskid7)->subSeconds(rand(300, 600)) }}"
                                         data-taskid7="{{ $item->taskid7 }}" />
-
                                     {{-- @if ($item)
                                     @else
                                     @endif --}}

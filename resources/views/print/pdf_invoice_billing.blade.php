@@ -111,13 +111,13 @@
                     </tr>
                     @foreach ($layanans->groupBy('jaminan') as $klasifikasi => $layananx)
                         <tr>
-                            <td>{{ $klasifikasi }}</td>
+                            <td>{{ $layananx->first()->jaminans->nama }}</td>
                             <td>:</td>
                             <td class="text-right">{{ money($layananx->sum('subtotal'), 'IDR') }}</td>
                         </tr>
                     @endforeach
-                    <hr>
-                    <tr>
+                    {{-- <hr> --}}
+                    {{-- <tr>
                         <td><b>Deposit</b></td>
                         <td>:</td>
                         <td class="text-right">{{ money(0, 'IDR') }}</td>
@@ -131,9 +131,7 @@
                         <td><b>Sisa Pembayaran</b></td>
                         <td>:</td>
                         <td class="text-right">{{ money(0, 'IDR') }}</td>
-                    </tr>
-
-
+                    </tr> --}}
                 </table>
             </td>
         </tr>
@@ -142,12 +140,12 @@
                 <table class="table-borderless" style="width: 100%">
                     <tr>
                         <td class="text-center">
-                            <b>Petugas</b>
+                            <b>Pasien</b>
                             <br><br><br>
                             <b>(.................)</b>
                         </td>
                         <td class="text-center">
-                            <b>Pasien</b>
+                            <b>Petugas</b>
                             <br><br><br>
                             <b>(.................)</b>
                         </td>

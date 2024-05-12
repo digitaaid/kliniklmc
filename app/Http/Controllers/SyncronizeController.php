@@ -85,14 +85,14 @@ class SyncronizeController extends Controller
                 // $request['taskid'] = 2;
                 // $request['waktu'] = Carbon::parse($antrian->taskid2, 'Asia/Jakarta');
                 // $res =  $api->update_antrean($request);
-                $antrian->update([
-                    'status' => 0,
-                    'sync_antrian' => 2,
-                ]);
                 $request['taskid'] = 3;
                 $request['waktu'] = Carbon::parse($antrian->taskid4, 'Asia/Jakarta')->subMinutes(random_int(20, 30));
                 $api = new AntrianController();
                 $res = $api->update_antrean($request);
+                // $antrian->update([
+                //     'status' => 0,
+                //     'sync_antrian' => 2,
+                // ]);
                 $request['taskid'] = 4;
                 $request['waktu'] = Carbon::parse($antrian->taskid4, 'Asia/Jakarta');
                 $res = $api->update_antrean($request);

@@ -343,7 +343,7 @@
                                         {{ $itemobat->keterangan }} <br>
                                     @endforeach
                                 </dd>
-                                @if ($kunjungan->asesmendokter->resep_obat || $kunjungan->asesmendokter->catatan_resep)
+                                @if ($kunjungan->asesmendokter?->resep_obat || $kunjungan->asesmendokter?->catatan_resep)
                                     <dt>Catatan Resep :</dt>
                                     <dd>
                                         <pre>{{ $kunjungan->asesmendokter->resep_obat ?? '-' }}</pre>

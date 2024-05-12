@@ -108,6 +108,7 @@ class DokterController extends Controller
         $antrians = null;
         if ($request->tanggalperiksa) {
             $antrians = Antrian::where('tanggalperiksa', $request->tanggalperiksa)
+                ->has('kunjungan')->where('kodepoli', '!=', 'FAR')
                 ->where('taskid', '!=', 99)
                 ->where('taskid', '>', 2)
                 ->with(['kunjungan', 'kunjungan.units', 'kunjungan.dokters', 'pic3', 'asesmendokter', 'layanans'])
@@ -118,7 +119,9 @@ class DokterController extends Controller
                 'pencarian' => 'required|min:3',
             ]);
             $antrians = Antrian::where('norm', $request->pencarian)
+                ->has('kunjungan')->where('kodepoli', '!=', 'FAR')
                 ->orWhere('nama', 'LIKE', '%' . $request->pencarian . '%')
+                ->has('kunjungan')->where('kodepoli', '!=', 'FAR')
                 ->where('taskid', '!=', 99)
                 ->with(['kunjungan', 'kunjungan.units', 'kunjungan.dokters', 'pic3', 'asesmendokter', 'layanans'])
                 ->get();
