@@ -49,6 +49,7 @@
                         'Action',
                         'No BPJS',
                         'NIK',
+                        'IdPatient',
                         'Gender',
                         'Tgl Lahir',
                         'Umur',
@@ -99,6 +100,19 @@
                             </td>
                             <td>{{ $item->nomorkartu }}</td>
                             <td>{{ $item->nik }}</td>
+                            <td>
+                                @if ($item->idpatient)
+                                    <a class="badge badge-success"
+                                        href="{{ route('patient_sync') }}?norm={{ $item->norm }}">
+                                        {{ $item->idpatient }}
+                                    </a>
+                                @else
+                                    <a class="badge badge-warning"
+                                        href="{{ route('patient_sync') }}?norm={{ $item->norm }}">
+                                        Sync IdPatient
+                                    </a>
+                                @endif
+                            </td>
                             <td>{{ $item->gender }}</td>
                             <td>{{ $item->tgl_lahir }} </td>
                             <td>{{ Carbon\Carbon::parse($item->tgl_lahir)->age }}</td>
@@ -133,8 +147,8 @@
                 <div class="col-md-6">
                     <x-adminlte-input fgroup-class="row" label-class="text-left col-3" igroup-class="col-9" igroup-size="sm"
                         name="norm" label="No RM" placeholder="No RM" enable-old-support />
-                    <x-adminlte-input fgroup-class="row" label-class="text-left col-3" igroup-class="col-9" igroup-size="sm"
-                        name="nik" label="NIK" placeholder="NIK" enable-old-support>
+                    <x-adminlte-input fgroup-class="row" label-class="text-left col-3" igroup-class="col-9"
+                        igroup-size="sm" name="nik" label="NIK" placeholder="NIK" enable-old-support>
                         <x-slot name="appendSlot">
                             <div class="btn btn-primary btnCariNIK">
                                 <i class="fas fa-sync"></i> Sync

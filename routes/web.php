@@ -339,6 +339,7 @@ Route::middleware('auth')->group(function () {
 
 
     Route::prefix('satusehat')->group(function () {
+        Route::get('token', [SatuSehatController::class, 'token_generate'])->name('token');
         Route::get('token_generate', [SatuSehatController::class, 'token_generate'])->name('token_generate');
         Route::get('patient', [PatientController::class, 'index'])->name('patient');
         Route::get('patient_by_nik', [PatientController::class, 'patient_by_nik'])->name('patient_by_nik');

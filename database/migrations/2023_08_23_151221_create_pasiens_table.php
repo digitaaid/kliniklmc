@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('norm')->unique();
             $table->string('nomorkartu')->nullable();
             $table->string('nik')->nullable();
+            $table->string('idpatient')->nullable();
             $table->string('nama')->nullable();
             $table->string('nohp')->nullable();
             $table->string('gender')->nullable();
