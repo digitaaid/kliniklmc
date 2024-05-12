@@ -27,11 +27,16 @@ class HomeController extends Controller
         $dokters = Dokter::where('status', 1)->count();
         $units = Unit::where('status', 1)->count();
         $obats = Obat::where('status', 1)->count();
+
+        $antriansep = $antrians::whereMonth('tanggalperiksa', now()->month)->where('sep', '!=', null)->count() ?? 1;
+        $kunjungansep =  $kunjungans::whereMonth('tgl_masuk', now()->month)->where('sep', '!=', null)->count() ?? 1;
         return view('home', compact([
             'user',
             'request',
             'kunjungans',
             'antrians',
+            'kunjungansep',
+            'antriansep',
             'dokters',
             'pasiens',
             'units',
