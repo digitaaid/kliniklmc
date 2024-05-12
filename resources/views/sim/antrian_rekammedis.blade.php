@@ -85,6 +85,7 @@
                         'Layanan',
                         'Obat',
                         'Diag Awal',
+                        'Resume',
                         'Antrian',
                         'INACBG',
                         'Satu Sehat',
@@ -108,16 +109,28 @@
                                 <td class="text-right">{{ money($item->resepdetails?->sum('subtotal'), 'IDR') }} </td>
                                 <td>
                                     {{ $item->kunjungan->diagnosa_awal }}
-                                    <x-adminlte-button class="btn-xs" theme="primary" label="Resume" icon="fas fa-file-medical" />
                                 </td>
                                 <td>
-                                    @if ($item->sync_antrian)
-                                        <a href="{{ route('sync_update_antrian') }}?kodebooking={{ $item->kodebooking }}"
-                                            class="btn btn-xs btn-success withLoad"><i class="fas fa-sync"></i> Sudah Sync</a>
-                                    @else
-                                        <a href="{{ route('sync_update_antrian') }}?kodebooking={{ $item->kodebooking }}"
-                                            class="btn btn-xs btn-warning withLoad"><i class="fas fa-sync"></i> Belum Sync</a>
-                                    @endif
+                                    <x-adminlte-button class="btn-xs" theme="primary" label="Resume"
+                                        icon="fas fa-file-medical" />
+                                </td>
+                                <td>
+
+                                    @switch($item->sync_antrian)
+                                        @case(1)
+                                            <a href="{{ route('sync_update_antrian') }}?kodebooking={{ $item->kodebooking }}"
+                                                class="btn btn-xs btn-success withLoad">1. Sudah Sync</a>
+                                        @break
+
+                                        @case(2)
+                                            <a href="{{ route('sync_update_antrian') }}?kodebooking={{ $item->kodebooking }}"
+                                                class="btn btn-xs btn-danger withLoad">99. Gagal Sync</a>
+                                        @break
+
+                                        @default
+                                            <a href="{{ route('sync_update_antrian') }}?kodebooking={{ $item->kodebooking }}"
+                                                class="btn btn-xs btn-warning withLoad">0. Belum Sync</a>
+                                    @endswitch
                                     <x-adminlte-button class="btn-xs" onclick="editAntrian(this)" theme="warning"
                                         icon="fas fa-edit" title="Edit" data-id="{{ $item->id }}"
                                         data-nama="{{ $item->nama }}" data-norm="{{ $item->norm }}"
