@@ -20,7 +20,7 @@
                         <td>{{ $layanan->nama }}</td>
                         <td>{{ $layanan->nama }}</td>
                         <td>{{ $layanan->jaminans->nama }}</td>
-                        <td>{{ $layanan->pic->name }}</td>
+                        <td>{{ $layanan->pic ? $layanan->pic->name : $layanan->user }}</td>
                         <td class="text-right">{{ money($layanan->harga, 'IDR') }} x {{ $layanan->jumlah }}</td>
                         <td>{{ $layanan->diskon }}</td>
                         <td class="text-right">{{ money($layanan->subtotal, 'IDR') }}</td>
