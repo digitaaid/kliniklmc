@@ -263,6 +263,10 @@
                                         </x-slot>
                                     </x-adminlte-input-date>
                                 </div>
+                                <div class="col-md-6">
+                                    <x-adminlte-button onclick="orderObat()" class="btn-sm" theme="success"
+                                        label="Tambah Order Obat" icon="fas fa-plus" />
+                                </div>
                             </div>
                         </form>
                     </div>
@@ -296,12 +300,14 @@
                         'Jenis',
                         'Unit',
                         'Dokter',
-                        'Kodebooking',
                         'Status',
+                        'Kodebooking',
+                        'PIC',
                     ];
                     $config['order'] = [[4, 'desc']];
                     $config['paging'] = false;
                     $config['scrollY'] = '300px';
+                    $config['scrollX'] = true;
                 @endphp
                 <x-adminlte-datatable id="table1" class="nowrap" :heads="$heads" :config="$config" bordered hoverable
                     compressed>
@@ -408,35 +414,15 @@
                                     @endswitch
                                 </td>
                                 <td>{{ $item->kodebooking }}</td>
+                                <td>{{ $item->pic4 ? $item->pic4->name : $item->user4 }}</td>
                             </tr>
                         @endforeach
                         @foreach ($orders as $item)
                             <tr>
-                                <td>{{ $item->waktu }}</td>
-                                <td>{{ $item->kode }}</td>
-                                <td>{{ $item->nik }}</td>
+                                <td>{{ $item->updated_at }}</td>
+                                <td>{{ $item->angkaantrean }}</td>
+                                <td>{{ $item->norm }}</td>
                                 <td>{{ $item->nama }}</td>
-                                <td>FARMASI</td>
-                                <td>{{ $item->pic }}</td>
-                                <td>ORDER-OBAT</td>
-                                <td>
-                                    @switch($item->status)
-                                        @case(1)
-                                            <span class="badge badge-primary">6. Racik Obat</span>
-                                        @break
-
-                                        @case(2)
-                                            <span class="badge badge-success">7. Selesai</span>
-                                        @break
-
-                                        @case(99)
-                                            <span class="badge badge-danger">99. Batal</span>
-                                        @break
-
-                                        @default
-                                            {{ $item->status }}
-                                    @endswitch
-                                </td>
                                 <td>
                                     @switch($item->status)
                                         @case(1)
@@ -464,6 +450,31 @@
                                             </div>
                                     @endswitch
                                 </td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>FARMASI - ORDER-OBAT</td>
+                                <td></td>
+                                <td>
+                                    @switch($item->status)
+                                        @case(1)
+                                            <span class="badge badge-primary">6. Racik Obat</span>
+                                        @break
+
+                                        @case(2)
+                                            <span class="badge badge-success">7. Selesai</span>
+                                        @break
+
+                                        @case(99)
+                                            <span class="badge badge-danger">99. Batal</span>
+                                        @break
+
+                                        @default
+                                            {{ $item->status }}
+                                    @endswitch
+                                </td>
+                                <td>{{ $item->kode }}</td>
+                                <td>{{ $item->pic }}</td>
                             </tr>
                         @endforeach
                     @endif
@@ -494,7 +505,7 @@
         </x-slot>
     </x-adminlte-modal>
     @include('sim.modal_pasien')
-    {{-- <x-adminlte-modal id="modalOrder" size="xl" title="Order Obat" icon="fas fa-pills" theme="warning">
+    <x-adminlte-modal id="modalOrder" size="xl" title="Order Obat" icon="fas fa-pills" theme="warning">
         <form id="formOrder" action={{ route('create_order_obat') }} method="POST">
             @csrf
             <style>
@@ -570,7 +581,7 @@
                 form="formOrder" />
             <x-adminlte-button theme="danger" icon="fas fa-times" label="Tutup" data-dismiss="modal" />
         </x-slot>
-    </x-adminlte-modal> --}}
+    </x-adminlte-modal>
 @stop
 @section('plugins.Datatables', true)
 @section('plugins.TempusDominusBs4', true)
@@ -737,13 +748,12 @@
             });
         }
     </script>
-
     {{-- order obat --}}
-    {{-- <script>
+    <script>
         function orderObat() {
             $('#modalOrder').modal('show');
         }
-    </script> --}}
+    </script>
     {{-- dynamic input --}}
     <script>
         $(function() {
