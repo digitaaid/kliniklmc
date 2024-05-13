@@ -40,8 +40,8 @@
         <form name="formInputTarif" id="formInputTarif">
             <div class="row">
                 @csrf
-                <input type="hidden" name="kodekunjungan" value="{{ $antrian->kodekunjungan }}">
-                <input type="hidden" name="kunjungan_id" value="{{ $antrian->kunjungan_id }}">
+                <input type="hidden" name="kodekunjungan" value="{{ $antrian->kunjungan->kode }}">
+                <input type="hidden" name="kunjungan_id" value="{{ $antrian->kunjungan->id }}">
                 <input type="hidden" name="kodebooking" value="{{ $antrian->kodebooking }}">
                 <input type="hidden" name="antrian_id" value="{{ $antrian->id }}">
                 <div class="col-md-6">
@@ -189,7 +189,7 @@
     });
 
     function refresTableLayanan() {
-        var url = "{{ route('get_layanan_kunjungan') }}?kunjungan={{ $antrian->kunjungan_id }}";
+        var url = "{{ route('get_layanan_kunjungan') }}?kunjungan={{ $antrian->kunjungan->id }}";
         if ($.fn.dataTable.isDataTable('#tableLayanans')) {
             $('#tableLayanans').DataTable().destroy();
         }
