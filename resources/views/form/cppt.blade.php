@@ -202,7 +202,7 @@
                                     @endif
                                 </dl>
                             @else
-                                Belum Asesmen Perawat
+                                -
                             @endif
                         </div>
                         <div class="col-md-2 border border-dark">
@@ -269,7 +269,7 @@
 
                                 </dl>
                             @else
-                                Belum Asesmen Dokter
+                                -
                             @endif
                         </div>
                         <div class="col-md-2  border border-dark">

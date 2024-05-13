@@ -1,34 +1,35 @@
 @extends('adminlte::page')
-@section('title', 'Antrian Farmasi')
+@section('title', 'Pelayanan Farmasi')
 @section('content_header')
-    <h1>Antrian Farmasi</h1>
+    <h1>Pelayanan Farmasi</h1>
 @stop
 @section('content')
     <div class="row">
         @if ($antrians || $orders)
             <div class="col-md-12">
                 <div class="row">
-                    @foreach ($antrians->where('taskid', 6) as $item)
+                    @foreach ($antrians->where('taskid', 6) as $antrian)
                         <div class="col-md-3">
                             <div class="card card-primary">
                                 <div class="card-header">
-                                    <h3 class="card-title">{{ $item->nomorantrean }} ({{ $item->jenispasien }})</h3> <br>
-                                    <h3 class="card-title">{{ $item->kunjungan->nama ?? null }}</h3> <br>
+                                    <h3 class="card-title">{{ $antrian->nomorantrean }} ({{ $antrian->jenispasien }})</h3>
+                                    <br>
+                                    <h3 class="card-title">{{ $antrian->kunjungan->nama ?? null }}</h3> <br>
                                 </div>
                                 <div class="card-body">
                                     <p>
-                                        <b>No RM : </b> {{ $item->kunjungan->norm ?? null }} <br>
-                                        <b>Nama : </b> {{ $item->kunjungan->nama ?? null }} <br>
-                                        <b>Tgl Lahir : </b> {{ $item->kunjungan->tgl_lahir ?? null }}
-                                        ({{ \Carbon\Carbon::parse($item->kunjungan->tgl_lahir ?? now())->age }} th)
+                                        <b>No RM : </b> {{ $antrian->kunjungan->norm ?? null }} <br>
+                                        <b>Nama : </b> {{ $antrian->kunjungan->nama ?? null }} <br>
+                                        <b>Tgl Lahir : </b> {{ $antrian->kunjungan->tgl_lahir ?? null }}
+                                        ({{ \Carbon\Carbon::parse($antrian->kunjungan->tgl_lahir ?? now())->age }} th)
                                         <br>
-                                        <b>Kelamin : </b> {{ $item->kunjungan->gender ?? null }}
+                                        <b>Kelamin : </b> {{ $antrian->kunjungan->gender ?? null }}
                                     </p>
                                     <hr>
                                     <strong><i class="fas fa-pills mr-1"></i> Resep Obat</strong>
                                     <br>
-                                    @if ($item->resepobat)
-                                        @foreach ($item->resepobat->resepdetail as $itemobat)
+                                    @if ($antrian->resepobat)
+                                        @foreach ($antrian->resepobat->resepdetail as $itemobat)
                                             <b> R/ {{ $itemobat->nama }} </b> ({{ $itemobat->jumlah }})
                                             {{ money($itemobat->subtotal, 'IDR') }} <br>
                                             &emsp;&emsp;
@@ -87,30 +88,31 @@
                                             {{ $itemobat->keterangan }} <br>
                                         @endforeach
                                         <b>Total harga :</b>
-                                        {{ money($item->resepobat->resepdetail->sum('subtotal') ?? 0, 'IDR') }}
+                                        {{ money($antrian->resepobat?->resepdetail?->sum('subtotal') ?? 0, 'IDR') }}
                                     @endif
                                     <br>
-                                    @if ($item->kunjungan)
-                                        @if ($item->kunjungan->asesmendokter)
+                                    @if ($antrian->kunjungan)
+                                        @if ($antrian->kunjungan->asesmendokter)
                                             <strong><i class="fas fa-pills mr-1"></i> Catatan Resep</strong>
-                                            <p>{{ $item->kunjungan->asesmendokter->resep_obat }}</p>
-                                            <pre>{{ $item->kunjungan->asesmendokter->catatan_resep }}</pre>
+                                            <p>{{ $antrian->kunjungan->asesmendokter->resep_obat }}</p>
+                                            <pre>{{ $antrian->kunjungan->asesmendokter->catatan_resep }}</pre>
                                         @endif
                                     @endif
                                 </div>
                                 <div class="card-footer">
-                                    <a href="{{ route('selesaifarmasi') }}?kodebooking={{ $item->kodebooking }}"
+                                    <a href="{{ route('selesaifarmasi') }}?kodebooking={{ $antrian->kodebooking }}"
                                         class="btn   btn-sm btn-success withLoad"><i class="fas fa-check"></i> Selesai</a>
-                                    <x-adminlte-button icon="fas fa-edit" class="btn-sm" theme="success" label="Edit"
-                                        onclick="editResep(this)" data-kode="{{ $item->kodebooking }}" />
-                                    <a href="{{ route('print_asesmenfarmasi') }}?kodebooking={{ $item->kodebooking }}"
+                                    <x-adminlte-button icon="fas fa-edit" class="btn-sm" theme="success"
+                                        onclick="editResep(this)" data-kode="{{ $antrian->kodebooking }}" />
+                                    <a href="{{ route('print_asesmenfarmasi') }}?kodebooking={{ $antrian->kodebooking }}"
                                         class="btn  btn-sm btn-warning" target="_blank"> <i class="fas fa-print"></i>
-                                        Print</a>
-                                    <a href="{{ route('panggilpendaftaran') }}?kodebooking={{ $item->kodebooking }}"
+                                    </a>
+                                    <a href="{{ route('panggilpendaftaran') }}?kodebooking={{ $antrian->kodebooking }}"
                                         class="btn btn-primary btn-sm withLoad">
                                         <i class="fas fa-volume-down"></i></a>
                                 </div>
                             </div>
+                            <hr>
                         </div>
                     @endforeach
                     @foreach ($orders->where('status', 1) as $item)
@@ -207,7 +209,7 @@
                                     {{-- <x-adminlte-button icon="fas fa-edit" theme="success" label="Edit"
                                         onclick="editResep(this)" data-kode="{{ $item->kode }}" /> --}}
                                     <a href="{{ route('print_asesmenfarmasi') }}?kode={{ $item->kode }}"
-                                        class="btn btn-warning" target="_blank"> <i class="fas fa-print"></i> Print</a>
+                                        class="btn btn-warning" target="_blank"> <i class="fas fa-print"></i> </a>
                                 </div>
                             </div>
                         </div>
@@ -289,7 +291,8 @@
                         'No RM',
                         'Pasien',
                         'Action',
-                        'Harga',
+                        'Harga Obat',
+                        'Layanan',
                         'Jenis',
                         'Unit',
                         'Dokter',
@@ -328,7 +331,7 @@
                                         @break
 
                                         @case(6)
-                                            <x-adminlte-button icon="fas fa-edit" class="btn-xs" theme="warning" label="Edit"
+                                            <x-adminlte-button icon="fas fa-edit" class="btn-xs" theme="warning"
                                                 onclick="editResep(this)" data-kode="{{ $item->kodebooking }}" />
                                             <a href="{{ route('selesaifarmasi') }}?kodebooking={{ $item->kodebooking }}"
                                                 class="btn btn-xs btn-success withLoad"> Selesai</a>
@@ -337,9 +340,9 @@
                                         @case(7)
                                             <a href="{{ route('print_asesmenfarmasi') }}?kodebooking={{ $item->kodebooking }}"
                                                 class="btn btn-xs btn-warning" target="_blank"> <i class="fas fa-print"></i>
-                                                Print</a>
-                                            <x-adminlte-button icon="fas fa-edit" theme="warning" label="Edit"
-                                                onclick="editResep(this)" class="btn-xs" data-kode="{{ $item->kodebooking }}" />
+                                            </a>
+                                            <x-adminlte-button icon="fas fa-edit" theme="warning" onclick="editResep(this)"
+                                                class="btn-xs" data-kode="{{ $item->kodebooking }}" />
                                             <a href="{{ route('panggilpendaftaran') }}?kodebooking={{ $item->kodebooking }}"
                                                 class="btn btn-primary btn-xs withLoad">
                                                 <i class="fas fa-volume-down"></i>
@@ -353,6 +356,7 @@
                                     @endswitch
                                 </td>
                                 <td class="text-right">{{ money($item->resepdetails?->sum('subtotal'), 'IDR') }} </td>
+                                <td class="text-right">{{ money($item->layanans?->sum('subtotal'), 'IDR') }} </td>
                                 <td>{{ $item->jenispasien }} </td>
                                 <td>{{ $item->namapoli }}</td>
                                 <td>{{ $item->kunjungan ? $item->kunjungan->dokters->namadokter : '-' }}</td>
@@ -475,7 +479,6 @@
         </x-slot>
     </x-adminlte-modal>
     @include('sim.modal_pasien')
-
     {{-- <x-adminlte-modal id="modalOrder" size="xl" title="Order Obat" icon="fas fa-pills" theme="warning">
         <form id="formOrder" action={{ route('create_order_obat') }} method="POST">
             @csrf
