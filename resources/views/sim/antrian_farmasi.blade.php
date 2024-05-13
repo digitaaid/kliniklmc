@@ -304,7 +304,7 @@
                         'Kodebooking',
                         'PIC',
                     ];
-                    $config['order'] = [[4, 'desc']];
+                    $config['order'] = [[10, 'asc']];
                     $config['paging'] = false;
                     $config['scrollY'] = '300px';
                     $config['scrollX'] = true;
@@ -436,12 +436,12 @@
 
                                         @case(2)
                                             <a href="{{ route('reset_order_obat') }}?kode={{ $item->kode }}"
-                                                class="btn btn-xs btn-danger withLoad"><i class="fas fa-sync"></i> Reset</a>
+                                                class="btn btn-xs btn-danger withLoad">0. Reset</a>
                                         @break
 
                                         @case(99)
                                             <a href="{{ route('reset_order_obat') }}?kode={{ $item->kode }}"
-                                                class="btn btn-xs btn-danger withLoad"><i class="fas fa-sync"></i> Reset</a>
+                                                class="btn btn-xs btn-danger withLoad">0. Reset</a>
                                         @break
 
                                         @default
