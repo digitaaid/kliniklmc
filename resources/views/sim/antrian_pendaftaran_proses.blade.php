@@ -120,18 +120,16 @@
                             </a>
                         </li>
                     @endif
-                    @if ($antrian->status)
-                        <li class="nav-item" onclick="modalKunjungan()">
-                            <a href="#nav" class="nav-link">
-                                <i class="fas fa-user-plus"></i> Kunjungan
-                                @if ($antrian->kunjungan)
-                                    <span class="badge bg-success float-right">Sudah Didaftarkan</span>
-                                @else
-                                    <span class="badge bg-danger float-right">Belum Kunjungan</span>
-                                @endif
-                            </a>
-                        </li>
-                    @endif
+                    <li class="nav-item" onclick="modalKunjungan()">
+                        <a href="#nav" class="nav-link">
+                            <i class="fas fa-user-plus"></i> Kunjungan
+                            @if ($antrian->kunjungan)
+                                <span class="badge bg-success float-right">Sudah Didaftarkan</span>
+                            @else
+                                <span class="badge bg-danger float-right">Belum Kunjungan</span>
+                            @endif
+                        </a>
+                    </li>
                     @if ($antrian->kunjungan)
                         <li class="nav-item" onclick="modalCPPT()">
                             <a href="#nav" class="nav-link">
@@ -198,9 +196,7 @@
                             @include('sim.modal_suratkontrol')
                             @include('sim.modal_rujukan')
                         @endif
-                        @if ($antrian->status)
-                            @include('sim.modal_kunjungan')
-                        @endif
+                        @include('sim.modal_kunjungan')
                         @if ($antrian->kunjungan)
                             @include('sim.modal_cppt')
                             @include('sim.modal_fileupload')

@@ -452,8 +452,8 @@
                             </x-slot>
                         </x-adminlte-input>
 
-                        <x-adminlte-textarea igroup-size="sm" rows=4 label="Pemeriksaan Fisik" name="keadaan_tubuh"
-                            placeholder="Pemeriksaan Fisik">
+                        <x-adminlte-textarea igroup-size="sm" rows=4 label="Pemeriksaan Fisik Perawat"
+                            name="keadaan_tubuh" placeholder="Pemeriksaan Fisik">
                             {{ $antrian->asesmenperawat->keadaan_tubuh ?? null }}
                         </x-adminlte-textarea>
                     </div>

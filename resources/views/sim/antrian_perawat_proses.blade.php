@@ -1,7 +1,7 @@
 @extends('adminlte::page')
-@section('title', 'Antrian Perawat')
+@section('title', 'Asesmen Perawat')
 @section('content_header')
-    <h1>Antrian Perawat</h1>
+    <h1>Asesmen Perawat</h1>
 @stop
 @section('content')
     <div class="row">

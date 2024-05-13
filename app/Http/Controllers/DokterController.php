@@ -253,6 +253,8 @@ class DokterController extends Controller
             $request['berat_badan'] = $kunjungan->asesmenperawat->berat_badan ?? null;
             $request['bsa'] = $kunjungan->asesmenperawat->bsa ?? null;
             $request['kode'] = $kunjungan->kode;
+            $request['kodekunjungan'] = $kunjungan->kode;
+            $request['kunjungan_id'] = $kunjungan->id;
             $request['dokter'] = $kunjungan->dokter;
             $resep = ResepObat::updateOrCreate(
                 [
@@ -287,10 +289,17 @@ class DokterController extends Controller
                         'obat_id' =>  $obat->id,
                     ],
                     [
+                        'antrian_id' => $request->antrian_id,
+                        'kunjungan_id' => $request->kunjungan_id,
                         'nama' => $obat->nama,
                         'jumlah' => $request->jumlah[$key] ?? 0,
+                        'harga' => $obat->harga_jual,
+                        'diskon' => 0,
+                        'subtotal' => $obat->harga_jual * ($request->jumlah[$key] ?? 1),
                         'interval' => $request->frekuensi[$key] ?? null,
                         'waktu' => $request->waktuobat[$key] ?? null,
+                        'klasifikasi' => $obat->jenisobat ?? 'Obat',
+                        'jaminan' => $kunjungan->jaminan,
                         'keterangan' => $request->keterangan_obat[$key] ?? null,
                     ]
                 );

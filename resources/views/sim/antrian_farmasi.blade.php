@@ -86,16 +86,14 @@
                                             @endswitch
                                             {{ $itemobat->keterangan }} <br>
                                         @endforeach
-                                        <br>
                                         <b>Total harga :</b>
                                         {{ money($item->resepobat->resepdetail->sum('subtotal') ?? 0, 'IDR') }}
                                     @endif
                                     <br>
                                     @if ($item->kunjungan)
                                         @if ($item->kunjungan->asesmendokter)
-                                            <p>{{ $item->kunjungan->asesmendokter->resep_obat }}</p>
-                                            <hr>
                                             <strong><i class="fas fa-pills mr-1"></i> Catatan Resep</strong>
+                                            <p>{{ $item->kunjungan->asesmendokter->resep_obat }}</p>
                                             <pre>{{ $item->kunjungan->asesmendokter->catatan_resep }}</pre>
                                         @endif
                                     @endif
@@ -593,7 +591,7 @@
                 }
             })
             var url = "{{ route('getantrianfarmasi') }}";
-            var tanggalperiksa = "{{ $request->tanggalperiksa }}";
+            var tanggalperiksa = "{{ $request->tanggal }}";
             var data = {
                 'tanggalperiksa': tanggalperiksa,
             };

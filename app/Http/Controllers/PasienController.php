@@ -162,22 +162,41 @@ class PasienController extends APIController
         $pasien = Pasien::where('norm', $request->norm)->where('status', 1)->first();
         if ($pasien) {
             $request['nik'] = $pasien->nik;
-            $api  =  new VclaimController();
-            $res = $api->peserta_nik($request);
-            if ($res->metadata->code == 200) {
-                $data['nomorkartu'] = $res->response->peserta->noKartu;
-                $data['norm'] = $pasien->norm;
-                $data['nik'] = $res->response->peserta->nik;
-                $data['tgllahir'] = $res->response->peserta->tglLahir;
-                $data['nama'] = $pasien->nama;
-                $data['gender'] = $pasien->gender;
-                $data['penjamin'] = $res->response->peserta->jenisPeserta->keterangan;
-                $data['kelas'] = $res->response->peserta->hakKelas->kode;
-                $data['nohp'] = $pasien->nohp;
-                return $this->sendResponse($data, 200);
-            } else {
-                return $res;
-            }
+            // $api  =  new VclaimController();
+            // $res = $api->peserta_nik($request);
+            // if ($res->metadata->code == 200) {
+            //     $data['nomorkartu'] = $res->response->peserta->noKartu;
+            //     $data['norm'] = $pasien->norm;
+            //     $data['nik'] = $res->response->peserta->nik;
+            //     $data['tgllahir'] = $res->response->peserta->tglLahir;
+            //     $data['nama'] = $pasien->nama;
+            //     $data['gender'] = $pasien->gender;
+            //     $data['penjamin'] = $res->response->peserta->jenisPeserta->keterangan;
+            //     $data['kelas'] = $res->response->peserta->hakKelas->kode;
+            //     $data['nohp'] = $pasien->nohp;
+            //     return $this->sendResponse($data, 200);
+            // } else {
+            //     $data['nomorkartu'] =  $pasien->nomorkartu;
+            //     $data['norm'] = $pasien->norm;
+            //     $data['nik'] = $pasien->nik;
+            //     $data['tgllahir'] = $pasien->tgl_lahir;
+            //     $data['nama'] = $pasien->nama;
+            //     $data['gender'] = $pasien->gender;
+            //     $data['penjamin'] = $pasien->penjamin;
+            //     $data['kelas'] = $pasien->kelas;
+            //     $data['nohp'] = $pasien->nohp;
+            //     return $this->sendResponse($data, 200);
+            // }
+            $data['nomorkartu'] =  $pasien->nomorkartu;
+            $data['norm'] = $pasien->norm;
+            $data['nik'] = $pasien->nik;
+            $data['tgllahir'] = $pasien->tgl_lahir;
+            $data['nama'] = $pasien->nama;
+            $data['gender'] = $pasien->gender;
+            $data['penjamin'] = $pasien->penjamin;
+            $data['kelas'] = $pasien->kelas;
+            $data['nohp'] = $pasien->nohp;
+            return $this->sendResponse($data, 200);
         } else {
             return $this->sendError('No Rekam Medis Tidak Ditemukan, Silahkan daftarkan terlebih dahulu', 400);
         }
