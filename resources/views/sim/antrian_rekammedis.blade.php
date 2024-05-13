@@ -94,6 +94,9 @@
                     $config['paging'] = false;
                     $config['scrollX'] = true;
                     $config['scrollY'] = '300px';
+
+                    $totallayanan = 0;
+                    $totalobat = 0;
                 @endphp
                 <x-adminlte-datatable id="table1" class="nowrap" :heads="$heads" :config="$config" bordered hoverable
                     compressed>
@@ -105,8 +108,19 @@
                                 <td>{{ $item->norm }}</td>
                                 <td>{{ $item->nama }}</td>
                                 <td>{{ $item->jenispasien }} </td>
-                                <td class="text-right">{{ money($item->layanans?->sum('subtotal'), 'IDR') }} </td>
-                                <td class="text-right">{{ money($item->resepdetails?->sum('subtotal'), 'IDR') }} </td>
+                                <td class="text-right">
+                                    @php
+                                        $totallayanan = $totallayanan + $item->layanans?->sum('subtotal');
+                                    @endphp
+                                    {{ money($item->layanans?->sum('subtotal'), 'IDR') }}
+                                    <x-adminlte-button icon="fas fa-file-invoice-dollar" theme="warning"
+                                        onclick="modalLayanan(this)" class="btn-xs" data-kode="{{ $item->kodebooking }}" />
+                                </td>
+                                <td class="text-right">
+                                    @php
+                                        $totalobat = $totalobat + $item->resepdetails?->sum('subtotal');
+                                    @endphp
+                                    {{ money($item->resepdetails?->sum('subtotal'), 'IDR') }} </td>
                                 <td>
                                     {{ $item->kunjungan->diagnosa_awal }}
                                 </td>
@@ -115,7 +129,6 @@
                                         icon="fas fa-file-medical" />
                                 </td>
                                 <td>
-
                                     @switch($item->sync_antrian)
                                         @case(1)
                                             <a href="{{ route('sync_update_antrian') }}?kodebooking={{ $item->kodebooking }}"
@@ -153,7 +166,24 @@
                                 </td>
                             </tr>
                         @endforeach
+                        <tfoot>
+                            <tr>
+                                <th>Total Kunjungan</th>
+                                <th>{{ $antrians->count() }}</th>
+                                <th></th>
+                                <th></th>
+                                <th>Total Layanan</th>
+                                <th class="text-right">{{ money($totallayanan, 'IDR') }}</th>
+                                <th class="text-right">{{ money($totalobat, 'IDR') }}</th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </tfoot>
                     @endif
+
                 </x-adminlte-datatable>
             </x-adminlte-card>
         </div>
@@ -207,13 +237,24 @@
             <x-adminlte-button theme="danger" icon="fas fa-times" label="Kembali" data-dismiss="modal" />
         </x-slot>
     </x-adminlte-modal>
+    <x-adminlte-modal id="modalLayanan" size="xl" title="Layanan & Tindakan Pasien" icon="fas fa-pills"
+        theme="warning">
+        <div id="formLayanan">
+        </div>
+        <x-slot name="footerSlot">
+            <x-adminlte-button class="btnTambahTarif" theme="success" label="Tambah" />
+            <x-adminlte-button class="mr-auto btnUpdateTarif" theme="warning" label="Update" />
+            <x-adminlte-button theme="danger" icon="fas fa-times" label="Tutup" data-dismiss="modal" />
+        </x-slot>
+    </x-adminlte-modal>
 @stop
 
 @section('plugins.Datatables', true)
 @section('plugins.TempusDominusBs4', true)
 @section('plugins.Select2', true)
-
+@section('plugins.Sweetalert2', true)
 @section('js')
+
     <script>
         function editAntrian(button) {
             $.LoadingOverlay("show");
@@ -234,5 +275,61 @@
             $('#modalAntrian').modal('show');
             $.LoadingOverlay("hide");
         }
+    </script>
+    <script>
+        function modalLayanan(button) {
+            $.LoadingOverlay("show");
+            var url = "{{ route('form_layanan') }}?kode=" + $(button).data("kode");
+            console.log(url);
+            $.ajax({
+                url: url,
+                method: "GET",
+            }).done(function(data) {
+                console.log(data);
+                $('#formLayanan').html(data);
+                // $(".cariObat").select2({
+                //     placeholder: 'Pencarian Nama Obat',
+                //     theme: "bootstrap4",
+                //     multiple: true,
+                //     maximumSelectionLength: 1,
+                //     ajax: {
+                //         url: "{{ route('ref_obat_cari') }}",
+                //         type: "get",
+                //         dataType: 'json',
+                //         delay: 100,
+                //         data: function(params) {
+                //             return {
+                //                 nama: params.term // search term
+                //             };
+                //         },
+                //         processResults: function(response) {
+                //             return {
+                //                 results: response
+                //             };
+                //         },
+                //         cache: true
+                //     }
+                // });
+                $('#modalLayanan').modal('show');
+                $.LoadingOverlay("hide");
+            }).fail(function(data, textStatus, errorThrown) {
+                console.log(data);
+                $.LoadingOverlay("hide");
+            });
+        }
+    </script>
+    {{-- toast --}}
+    <script>
+        const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 5000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+        });
     </script>
 @endsection

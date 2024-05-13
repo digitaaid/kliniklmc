@@ -20,6 +20,7 @@ use App\Http\Controllers\JadwalLiburController;
 use App\Http\Controllers\JaminanController;
 use App\Http\Controllers\JenisObatController;
 use App\Http\Controllers\KasirController;
+use App\Http\Controllers\KeuanganController;
 use App\Http\Controllers\KunjunganController;
 use App\Http\Controllers\LaboratoriumController;
 use App\Http\Controllers\LaravoltIndonesiaController;
@@ -187,6 +188,7 @@ Route::middleware('auth')->group(function () {
     Route::get('get_layanan_kunjungan', [TarifController::class, 'get_layanan_kunjungan'])->name('get_layanan_kunjungan');
     Route::get('ref_tarif_layanan', [TarifController::class, 'ref_tarif_layanan'])->name('ref_tarif_layanan');
     Route::post('input_tarif_pasien', [TarifController::class, 'input_tarif_pasien'])->name('input_tarif_pasien');
+    Route::post('update_tarif_pasien', [TarifController::class, 'update_tarif_pasien'])->name('update_tarif_pasien');
     Route::post('delete_tarif_pasien', [TarifController::class, 'delete_tarif_pasien'])->name('delete_tarif_pasien');
     Route::get('print_invoice_billing', [TarifController::class, 'print_invoice_billing'])->name('print_invoice_billing');
 
@@ -340,6 +342,8 @@ Route::middleware('auth')->group(function () {
     // rekam medis
     Route::get('resumerawatjalan', [RekamMedisController::class, 'resumerawatjalan'])->name('resumerawatjalan');
     Route::get('diagnosa_rekammedis', [RekamMedisController::class, 'diagnosa_rekammedis'])->name('diagnosa_rekammedis');
+    // keuangan
+    Route::get('layanan_keuangan', [KeuanganController::class, 'layanan_keuangan'])->name('layanan_keuangan');
 
 
     Route::prefix('satusehat')->group(function () {

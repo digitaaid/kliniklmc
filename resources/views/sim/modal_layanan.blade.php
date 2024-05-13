@@ -161,7 +161,7 @@
                 $.LoadingOverlay("show");
                 $.ajax({
                     type: "POST",
-                    url: "{{ route('input_tarif_pasien') }}",
+                    url: "{{ route('update_tarif_pasien') }}",
                     data: $("#formInputTarif").serialize(),
                     dataType: "json",
                     encode: true,
