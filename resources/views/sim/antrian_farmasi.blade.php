@@ -356,7 +356,12 @@
                                     @endswitch
                                 </td>
                                 <td class="text-right">{{ money($item->resepdetails?->sum('subtotal'), 'IDR') }} </td>
-                                <td class="text-right">{{ money($item->layanans?->sum('subtotal'), 'IDR') }} </td>
+                                <td class="text-right">
+                                    {{ money($item->layanans?->sum('subtotal'), 'IDR') }}
+                                    <x-adminlte-button icon="fas fa-file-invoice-dollar" theme="warning"
+                                        onclick="modalLayanan(this)" class="btn-xs"
+                                        data-kode="{{ $item->kodebooking }}" />
+                                </td>
                                 <td>{{ $item->jenispasien }} </td>
                                 <td>{{ $item->namapoli }}</td>
                                 <td>{{ $item->kunjungan ? $item->kunjungan->dokters->namadokter : '-' }}</td>
@@ -470,11 +475,21 @@
         <source src="{{ asset('tingtung.mp3') }}" type="audio/mpeg">
         Your browser does not support the audio element.
     </audio>
-    <x-adminlte-modal id="modalResep" size="xl" title="Resep Obat" icon="fas fa-pills" theme="warning">
+    <x-adminlte-modal id="modalResep" size="xl" title="Resep Obat Pasien" icon="fas fa-pills" theme="warning">
         <div id="formResep">
         </div>
         <x-slot name="footerSlot">
             <x-adminlte-button icon="fas fa-save" theme="success" label="Simpan" type="submit" form="formEditResep" />
+            <x-adminlte-button theme="danger" icon="fas fa-times" label="Tutup" data-dismiss="modal" />
+        </x-slot>
+    </x-adminlte-modal>
+    <x-adminlte-modal id="modalLayanan" size="xl" title="Layanan & Tindakan Pasien" icon="fas fa-pills"
+        theme="warning">
+        <div id="formLayanan">
+        </div>
+        <x-slot name="footerSlot">
+            <x-adminlte-button class="btnTambahTarif" theme="success" label="Tambah" />
+            <x-adminlte-button class="mr-auto btnUpdateTarif" theme="warning" label="Update" />
             <x-adminlte-button theme="danger" icon="fas fa-times" label="Tutup" data-dismiss="modal" />
         </x-slot>
     </x-adminlte-modal>
@@ -679,6 +694,50 @@
             });
         }
     </script>
+    {{-- layanan --}}
+    <script>
+        function modalLayanan(button) {
+            $.LoadingOverlay("show");
+            var url = "{{ route('form_layanan') }}?kode=" + $(button).data("kode");
+            console.log(url);
+            $.ajax({
+                url: url,
+                method: "GET",
+            }).done(function(data) {
+                console.log(data);
+                $('#formLayanan').html(data);
+                // $(".cariObat").select2({
+                //     placeholder: 'Pencarian Nama Obat',
+                //     theme: "bootstrap4",
+                //     multiple: true,
+                //     maximumSelectionLength: 1,
+                //     ajax: {
+                //         url: "{{ route('ref_obat_cari') }}",
+                //         type: "get",
+                //         dataType: 'json',
+                //         delay: 100,
+                //         data: function(params) {
+                //             return {
+                //                 nama: params.term // search term
+                //             };
+                //         },
+                //         processResults: function(response) {
+                //             return {
+                //                 results: response
+                //             };
+                //         },
+                //         cache: true
+                //     }
+                // });
+                $('#modalLayanan').modal('show');
+                $.LoadingOverlay("hide");
+            }).fail(function(data, textStatus, errorThrown) {
+                console.log(data);
+                $.LoadingOverlay("hide");
+            });
+        }
+    </script>
+
     {{-- order obat --}}
     {{-- <script>
         function orderObat() {

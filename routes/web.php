@@ -242,6 +242,7 @@ Route::middleware('auth')->group(function () {
     Route::get('laporanfarmasi', [FarmasiController::class, 'laporanfarmasi'])->name('laporanfarmasi');
     Route::get('laporanobat', [FarmasiController::class, 'laporanobat'])->name('laporanobat');
     Route::get('form_resep_obat', [ObatController::class, 'form_resep_obat'])->name('form_resep_obat');
+    Route::get('form_layanan', [TarifController::class, 'form_layanan'])->name('form_layanan');
     Route::post('update_resep_obat', [ObatController::class, 'update_resep_obat'])->name('update_resep_obat');
     Route::post('create_order_obat', [OrderObatController::class, 'create_order_obat'])->name('create_order_obat');
     Route::get('selesai_order_obat', [OrderObatController::class, 'selesai_order_obat'])->name('selesai_order_obat');

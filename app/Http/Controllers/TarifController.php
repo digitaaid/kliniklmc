@@ -5,9 +5,12 @@ namespace App\Http\Controllers;
 use App\Exports\TarifExport;
 use App\Imports\TarifImport;
 use App\Models\Antrian;
+use App\Models\Dokter;
+use App\Models\Jaminan;
 use App\Models\Kunjungan;
 use App\Models\Layanan;
 use App\Models\Tarif;
+use App\Models\Unit;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -194,5 +197,15 @@ class TarifController extends APIController
             'layanans',
         ));
         return $pdf->stream($antrian->tanggalperiksa . '-INVOICE-' . strtoupper($pasien->nama) . '.pdf');
+    }
+    public function form_layanan(Request $request)
+    {
+        $antrian = Antrian::with(['layanans', 'kunjungan'])->firstWhere('kodebooking', $request->kode);
+        $layanans = $antrian->layanans;
+        $kunjungan = $antrian->kunjungan;
+        $dokters = Dokter::where('status', '1')->pluck('namadokter', 'kodedokter');
+        $jaminans = Jaminan::pluck('nama', 'kode');
+        $polikliniks = Unit::where('status', '1')->pluck('nama', 'kode');
+        return view('sim.form_layanan', compact('request', 'antrian', 'layanans',  'jaminans', 'kunjungan', 'dokters', 'polikliniks'));
     }
 }
