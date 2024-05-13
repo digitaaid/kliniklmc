@@ -16,6 +16,6 @@ class KeuanganController extends Controller
                 ->has('kunjungan')
                 ->get();
         }
-        return view('sim.antrian_rekammedis', compact('request', 'antrians'));
+        return view('sim.antrian_keuangan', compact('request', 'antrians'));
     }
 }
