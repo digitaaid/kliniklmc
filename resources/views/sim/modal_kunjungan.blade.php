@@ -32,7 +32,6 @@
         <input type="hidden" name="antrian_id" value="{{ $antrian->id }}">
         <div class="row">
             <div class="col-md-6">
-
                 <x-adminlte-input name="nomorkartu" class="nomorkartu-id" enable-old-support fgroup-class="row"
                     label-class="text-left col-3" igroup-class="col-9" igroup-size="sm" label="Nomor Kartu"
                     value="{{ $antrian->nomorkartu }}" placeholder="Nomor Kartu">

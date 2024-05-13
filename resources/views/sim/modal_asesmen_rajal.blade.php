@@ -820,6 +820,8 @@
                                 Confusional States
                             </option>
                         </x-adminlte-select>
+                    </div>
+                    <div class="col-md-6">
                         <x-adminlte-textarea igroup-size="sm" rows=4 label="Pemeriksaan Fisik Perawat"
                             name="keadaan_tubuh" placeholder="Pemeriksaan Fisik">
                             {{ $antrian->asesmenperawat->keadaan_tubuh ?? null }}

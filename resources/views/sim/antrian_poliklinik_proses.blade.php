@@ -1,7 +1,7 @@
 @extends('adminlte::page')
-@section('title', 'Assesmen Dokter')
+@section('title', 'Asesmen Dokter')
 @section('content_header')
-    <h1>Assesmen Dokter</h1>
+    <h1>Asesmen Dokter</h1>
 @stop
 @section('content')
     <div class="row">
