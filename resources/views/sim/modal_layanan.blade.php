@@ -88,8 +88,6 @@
                 </x-adminlte-select>
             </div>
             <div class="col-md-6">
-
-
             </div>
         </div>
     </form>
@@ -163,7 +161,7 @@
                 $.LoadingOverlay("show");
                 $.ajax({
                     type: "POST",
-                    url: "{{ route('input_tarif_pasien') }}",
+                    url: "{{ route('update_tarif_pasien') }}",
                     data: $("#formInputTarif").serialize(),
                     dataType: "json",
                     encode: true,

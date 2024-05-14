@@ -1,33 +1,37 @@
 @extends('adminlte::page')
-@section('title', 'Antrian Farmasi')
+@section('title', 'Pelayanan Farmasi')
 @section('content_header')
-    <h1>Antrian Farmasi</h1>
+    <h1>Pelayanan Farmasi</h1>
 @stop
 @section('content')
     <div class="row">
         @if ($antrians || $orders)
             <div class="col-md-12">
                 <div class="row">
-                    @foreach ($antrians->where('taskid', 6) as $item)
+                    @foreach ($antrians->where('taskid', 6) as $antrian)
                         <div class="col-md-3">
                             <div class="card card-primary">
                                 <div class="card-header">
-                                    <h3 class="card-title">{{ $item->nomorantrean }} ({{ $item->jenispasien }})</h3> <br>
-                                    <h3 class="card-title">{{ $item->kunjungan->nama ?? null }}</h3> <br>
+                                    <h3 class="card-title">{{ $antrian->nomorantrean }} ({{ $antrian->jenispasien }})</h3>
+                                    <br>
+                                    <h3 class="card-title">{{ $antrian->kunjungan->nama ?? null }}</h3> <br>
                                 </div>
                                 <div class="card-body">
                                     <p>
-                                        <b>No RM : </b> {{ $item->kunjungan->norm ?? null }} <br>
-                                        <b>Nama : </b> {{ $item->kunjungan->nama ?? null }} <br>
-                                        <b>Tgl Lahir : </b> {{ $item->kunjungan->tgl_lahir ?? null }} <br>
-                                        <b>Kelamin : </b> {{ $item->kunjungan->gender ?? null }}
+                                        <b>No RM : </b> {{ $antrian->kunjungan->norm ?? null }} <br>
+                                        <b>Nama : </b> {{ $antrian->kunjungan->nama ?? null }} <br>
+                                        <b>Tgl Lahir : </b> {{ $antrian->kunjungan->tgl_lahir ?? null }}
+                                        ({{ \Carbon\Carbon::parse($antrian->kunjungan->tgl_lahir ?? now())->age }} th)
+                                        <br>
+                                        <b>Kelamin : </b> {{ $antrian->kunjungan->gender ?? null }}
                                     </p>
                                     <hr>
                                     <strong><i class="fas fa-pills mr-1"></i> Resep Obat</strong>
                                     <br>
-                                    @if ($item->resepobat)
-                                        @foreach ($item->resepobat->resepdetail as $itemobat)
-                                            <b> R/ {{ $itemobat->nama }} </b> ({{ $itemobat->jumlah }}) <br>
+                                    @if ($antrian->resepobat)
+                                        @foreach ($antrian->resepobat->resepdetail as $itemobat)
+                                            <b> R/ {{ $itemobat->nama }} </b> ({{ $itemobat->jumlah }})
+                                            {{ money($itemobat->subtotal, 'IDR') }} <br>
                                             &emsp;&emsp;
                                             @switch($itemobat->interval)
                                                 @case('qod')
@@ -83,30 +87,32 @@
                                             @endswitch
                                             {{ $itemobat->keterangan }} <br>
                                         @endforeach
+                                        <b>Total harga :</b>
+                                        {{ money($antrian->resepobat?->resepdetail?->sum('subtotal') ?? 0, 'IDR') }}
                                     @endif
                                     <br>
-                                    @if ($item->kunjungan)
-                                        @if ($item->kunjungan->asesmendokter)
-                                            <p>{{ $item->kunjungan->asesmendokter->resep_obat }}</p>
-                                            <hr>
+                                    @if ($antrian->kunjungan)
+                                        @if ($antrian->kunjungan->asesmendokter)
                                             <strong><i class="fas fa-pills mr-1"></i> Catatan Resep</strong>
-                                            <pre>{{ $item->kunjungan->asesmendokter->catatan_resep }}</pre>
+                                            <p>{{ $antrian->kunjungan->asesmendokter->resep_obat }}</p>
+                                            <pre>{{ $antrian->kunjungan->asesmendokter->catatan_resep }}</pre>
                                         @endif
                                     @endif
                                 </div>
                                 <div class="card-footer">
-                                    <a href="{{ route('selesaifarmasi') }}?kodebooking={{ $item->kodebooking }}"
+                                    <a href="{{ route('selesaifarmasi') }}?kodebooking={{ $antrian->kodebooking }}"
                                         class="btn   btn-sm btn-success withLoad"><i class="fas fa-check"></i> Selesai</a>
-                                    <x-adminlte-button icon="fas fa-edit" class="btn-sm" theme="success" label="Edit"
-                                        onclick="editResep(this)" data-kode="{{ $item->kodebooking }}" />
-                                    <a href="{{ route('print_asesmenfarmasi') }}?kodebooking={{ $item->kodebooking }}"
+                                    <x-adminlte-button icon="fas fa-edit" class="btn-sm" theme="success"
+                                        onclick="editResep(this)" data-kode="{{ $antrian->kodebooking }}" />
+                                    <a href="{{ route('print_asesmenfarmasi') }}?kodebooking={{ $antrian->kodebooking }}"
                                         class="btn  btn-sm btn-warning" target="_blank"> <i class="fas fa-print"></i>
-                                        Print</a>
-                                    <a href="{{ route('panggilpendaftaran') }}?kodebooking={{ $item->kodebooking }}"
+                                    </a>
+                                    <a href="{{ route('panggilpendaftaran') }}?kodebooking={{ $antrian->kodebooking }}"
                                         class="btn btn-primary btn-sm withLoad">
                                         <i class="fas fa-volume-down"></i></a>
                                 </div>
                             </div>
+                            <hr>
                         </div>
                     @endforeach
                     @foreach ($orders->where('status', 1) as $item)
@@ -203,7 +209,7 @@
                                     {{-- <x-adminlte-button icon="fas fa-edit" theme="success" label="Edit"
                                         onclick="editResep(this)" data-kode="{{ $item->kode }}" /> --}}
                                     <a href="{{ route('print_asesmenfarmasi') }}?kode={{ $item->kode }}"
-                                        class="btn btn-warning" target="_blank"> <i class="fas fa-print"></i> Print</a>
+                                        class="btn btn-warning" target="_blank"> <i class="fas fa-print"></i> </a>
                                 </div>
                             </div>
                         </div>
@@ -257,6 +263,10 @@
                                         </x-slot>
                                     </x-adminlte-input-date>
                                 </div>
+                                <div class="col-md-6">
+                                    <x-adminlte-button onclick="orderObat()" class="btn-sm" theme="success"
+                                        label="Tambah Order Obat" icon="fas fa-plus" />
+                                </div>
                             </div>
                         </form>
                     </div>
@@ -285,16 +295,19 @@
                         'No RM',
                         'Pasien',
                         'Action',
-                        'Harga',
+                        'Harga Obat',
+                        'Layanan',
                         'Jenis',
                         'Unit',
                         'Dokter',
-                        'Kodebooking',
                         'Status',
+                        'Kodebooking',
+                        'PIC',
                     ];
-                    $config['order'] = [[4, 'desc']];
+                    $config['order'] = [[10, 'asc']];
                     $config['paging'] = false;
                     $config['scrollY'] = '300px';
+                    $config['scrollX'] = true;
                 @endphp
                 <x-adminlte-datatable id="table1" class="nowrap" :heads="$heads" :config="$config" bordered hoverable
                     compressed>
@@ -324,7 +337,7 @@
                                         @break
 
                                         @case(6)
-                                            <x-adminlte-button icon="fas fa-edit" class="btn-xs" theme="warning" label="Edit"
+                                            <x-adminlte-button icon="fas fa-edit" class="btn-xs" theme="warning"
                                                 onclick="editResep(this)" data-kode="{{ $item->kodebooking }}" />
                                             <a href="{{ route('selesaifarmasi') }}?kodebooking={{ $item->kodebooking }}"
                                                 class="btn btn-xs btn-success withLoad"> Selesai</a>
@@ -333,9 +346,9 @@
                                         @case(7)
                                             <a href="{{ route('print_asesmenfarmasi') }}?kodebooking={{ $item->kodebooking }}"
                                                 class="btn btn-xs btn-warning" target="_blank"> <i class="fas fa-print"></i>
-                                                Print</a>
-                                            <x-adminlte-button icon="fas fa-edit" theme="warning" label="Edit"
-                                                onclick="editResep(this)" class="btn-xs" data-kode="{{ $item->kodebooking }}" />
+                                            </a>
+                                            <x-adminlte-button icon="fas fa-edit" theme="warning" onclick="editResep(this)"
+                                                class="btn-xs" data-kode="{{ $item->kodebooking }}" />
                                             <a href="{{ route('panggilpendaftaran') }}?kodebooking={{ $item->kodebooking }}"
                                                 class="btn btn-primary btn-xs withLoad">
                                                 <i class="fas fa-volume-down"></i>
@@ -349,6 +362,12 @@
                                     @endswitch
                                 </td>
                                 <td class="text-right">{{ money($item->resepdetails?->sum('subtotal'), 'IDR') }} </td>
+                                <td class="text-right">
+                                    {{ money($item->layanans?->sum('subtotal'), 'IDR') }}
+                                    <x-adminlte-button icon="fas fa-file-invoice-dollar" theme="warning"
+                                        onclick="modalLayanan(this)" class="btn-xs"
+                                        data-kode="{{ $item->kodebooking }}" />
+                                </td>
                                 <td>{{ $item->jenispasien }} </td>
                                 <td>{{ $item->namapoli }}</td>
                                 <td>{{ $item->kunjungan ? $item->kunjungan->dokters->namadokter : '-' }}</td>
@@ -395,17 +414,47 @@
                                     @endswitch
                                 </td>
                                 <td>{{ $item->kodebooking }}</td>
+                                <td>{{ $item->pic4 ? $item->pic4->name : $item->user4 }}</td>
                             </tr>
                         @endforeach
                         @foreach ($orders as $item)
                             <tr>
-                                <td>{{ $item->waktu }}</td>
-                                <td>{{ $item->kode }}</td>
-                                <td>{{ $item->nik }}</td>
+                                <td>{{ $item->updated_at }}</td>
+                                <td>{{ $item->angkaantrean }}</td>
+                                <td>{{ $item->norm }}</td>
                                 <td>{{ $item->nama }}</td>
-                                <td>FARMASI</td>
-                                <td>{{ $item->pic }}</td>
-                                <td>ORDER-OBAT</td>
+                                <td>
+                                    @switch($item->status)
+                                        @case(1)
+                                            <x-adminlte-button icon="fas fa-edit" class="btn-xs" theme="warning" label="Edit"
+                                                onclick="editResep(this)" data-kode="{{ $item->kode }}" />
+                                            <a href="{{ route('selesai_order_obat') }}?kode={{ $item->kode }}"
+                                                class="btn btn-xs btn-success withLoad"> Selesai</a>
+                                            <a href="{{ route('batal_order_obat') }}?kode={{ $item->kode }}"
+                                                class="btn btn-xs btn-danger withLoad"><i class="fas fa-times"></i> Batal</a>
+                                        @break
+
+                                        @case(2)
+                                            <a href="{{ route('reset_order_obat') }}?kode={{ $item->kode }}"
+                                                class="btn btn-xs btn-danger withLoad">0. Reset</a>
+                                        @break
+
+                                        @case(99)
+                                            <a href="{{ route('reset_order_obat') }}?kode={{ $item->kode }}"
+                                                class="btn btn-xs btn-danger withLoad">0. Reset</a>
+                                        @break
+
+                                        @default
+                                            <div class="btn btn-xs btn-secondary">
+                                                Belum
+                                            </div>
+                                    @endswitch
+                                </td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>FARMASI - ORDER-OBAT</td>
+                                <td></td>
                                 <td>
                                     @switch($item->status)
                                         @case(1)
@@ -424,33 +473,8 @@
                                             {{ $item->status }}
                                     @endswitch
                                 </td>
-                                <td>
-                                    @switch($item->status)
-                                        @case(1)
-                                            <x-adminlte-button icon="fas fa-edit" class="btn-xs" theme="warning" label="Edit"
-                                                onclick="editResep(this)" data-kode="{{ $item->kode }}" />
-                                            <a href="{{ route('selesai_order_obat') }}?kode={{ $item->kode }}"
-                                                class="btn btn-xs btn-success withLoad"> Selesai</a>
-                                            <a href="{{ route('batal_order_obat') }}?kode={{ $item->kode }}"
-                                                class="btn btn-xs btn-danger withLoad"><i class="fas fa-times"></i> Batal</a>
-                                        @break
-
-                                        @case(2)
-                                            <a href="{{ route('reset_order_obat') }}?kode={{ $item->kode }}"
-                                                class="btn btn-xs btn-danger withLoad"><i class="fas fa-sync"></i> Reset</a>
-                                        @break
-
-                                        @case(99)
-                                            <a href="{{ route('reset_order_obat') }}?kode={{ $item->kode }}"
-                                                class="btn btn-xs btn-danger withLoad"><i class="fas fa-sync"></i> Reset</a>
-                                        @break
-
-                                        @default
-                                            <div class="btn btn-xs btn-secondary">
-                                                Belum
-                                            </div>
-                                    @endswitch
-                                </td>
+                                <td>{{ $item->kode }}</td>
+                                <td>{{ $item->pic }}</td>
                             </tr>
                         @endforeach
                     @endif
@@ -462,7 +486,7 @@
         <source src="{{ asset('tingtung.mp3') }}" type="audio/mpeg">
         Your browser does not support the audio element.
     </audio>
-    <x-adminlte-modal id="modalResep" size="xl" title="Resep Obat" icon="fas fa-pills" theme="warning">
+    <x-adminlte-modal id="modalResep" size="xl" title="Resep Obat Pasien" icon="fas fa-pills" theme="warning">
         <div id="formResep">
         </div>
         <x-slot name="footerSlot">
@@ -470,7 +494,18 @@
             <x-adminlte-button theme="danger" icon="fas fa-times" label="Tutup" data-dismiss="modal" />
         </x-slot>
     </x-adminlte-modal>
-    {{-- <x-adminlte-modal id="modalOrder" size="xl" title="Order Obat" icon="fas fa-pills" theme="warning">
+    <x-adminlte-modal id="modalLayanan" size="xl" title="Layanan & Tindakan Pasien" icon="fas fa-pills"
+        theme="warning">
+        <div id="formLayanan">
+        </div>
+        <x-slot name="footerSlot">
+            <x-adminlte-button class="btnTambahTarif" theme="success" label="Tambah" />
+            <x-adminlte-button class="mr-auto btnUpdateTarif" theme="warning" label="Update" />
+            <x-adminlte-button theme="danger" icon="fas fa-times" label="Tutup" data-dismiss="modal" />
+        </x-slot>
+    </x-adminlte-modal>
+    @include('sim.modal_pasien')
+    <x-adminlte-modal id="modalOrder" size="xl" title="Order Obat" icon="fas fa-pills" theme="warning">
         <form id="formOrder" action={{ route('create_order_obat') }} method="POST">
             @csrf
             <style>
@@ -546,7 +581,7 @@
                 form="formOrder" />
             <x-adminlte-button theme="danger" icon="fas fa-times" label="Tutup" data-dismiss="modal" />
         </x-slot>
-    </x-adminlte-modal> --}}
+    </x-adminlte-modal>
 @stop
 @section('plugins.Datatables', true)
 @section('plugins.TempusDominusBs4', true)
@@ -585,7 +620,7 @@
                 }
             })
             var url = "{{ route('getantrianfarmasi') }}";
-            var tanggalperiksa = "{{ $request->tanggalperiksa }}";
+            var tanggalperiksa = "{{ $request->tanggal }}";
             var data = {
                 'tanggalperiksa': tanggalperiksa,
             };
@@ -670,12 +705,55 @@
             });
         }
     </script>
+    {{-- layanan --}}
+    <script>
+        function modalLayanan(button) {
+            $.LoadingOverlay("show");
+            var url = "{{ route('form_layanan') }}?kode=" + $(button).data("kode");
+            console.log(url);
+            $.ajax({
+                url: url,
+                method: "GET",
+            }).done(function(data) {
+                console.log(data);
+                $('#formLayanan').html(data);
+                // $(".cariObat").select2({
+                //     placeholder: 'Pencarian Nama Obat',
+                //     theme: "bootstrap4",
+                //     multiple: true,
+                //     maximumSelectionLength: 1,
+                //     ajax: {
+                //         url: "{{ route('ref_obat_cari') }}",
+                //         type: "get",
+                //         dataType: 'json',
+                //         delay: 100,
+                //         data: function(params) {
+                //             return {
+                //                 nama: params.term // search term
+                //             };
+                //         },
+                //         processResults: function(response) {
+                //             return {
+                //                 results: response
+                //             };
+                //         },
+                //         cache: true
+                //     }
+                // });
+                $('#modalLayanan').modal('show');
+                $.LoadingOverlay("hide");
+            }).fail(function(data, textStatus, errorThrown) {
+                console.log(data);
+                $.LoadingOverlay("hide");
+            });
+        }
+    </script>
     {{-- order obat --}}
-    {{-- <script>
+    <script>
         function orderObat() {
             $('#modalOrder').modal('show');
         }
-    </script> --}}
+    </script>
     {{-- dynamic input --}}
     <script>
         $(function() {

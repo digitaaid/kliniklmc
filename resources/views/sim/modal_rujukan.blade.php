@@ -4,6 +4,7 @@
         $heads = ['tglKunjungan', 'noKunjungan', 'provPerujuk', 'Nama', 'jnsPelayanan', 'poli', 'Action'];
         $config['paging'] = false;
         $config['info'] = false;
+        $config['order'] = ['0', 'desc'];
     @endphp
     <x-adminlte-datatable id="tableRujukan" class="nowrap text-xs" :heads="$heads" :config="$config" bordered hoverable
         compressed>

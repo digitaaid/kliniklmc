@@ -18,7 +18,7 @@
         </div>
     </div>
     @php
-        $heads = ['No RM', 'No BPJS', 'NIK', 'Nama Pasien', 'Tgl Lahir', 'Action'];
+        $heads = ['No RM', 'No BPJS', 'NIK', 'Nama Pasien', 'Tgl Lahir', 'Alamat', 'Action'];
         $config['paging'] = false;
         $config['info'] = false;
         $config['searching'] = false;
@@ -122,6 +122,7 @@
                             value.nik,
                             value.nama,
                             value.tgl_lahir,
+                            value.alamat,
                             "<button class='btnPilihPasien btn btn-success btn-xs mr-1' data-norm=" +
                             value.norm +
                             " >Pilih</button>",

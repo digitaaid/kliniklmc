@@ -36,7 +36,8 @@
                     ];
                     $config['scrollX'] = true;
                 @endphp
-                <x-adminlte-datatable id="table1" class="nowrap" :heads="$heads" :config="$config" bordered hoverable compressed>
+                <x-adminlte-datatable id="table1" class="nowrap" :heads="$heads" :config="$config" bordered hoverable
+                    compressed>
                     @foreach ($units as $item)
                         <tr>
                             <td>{{ $item->id }}</td>
@@ -45,8 +46,9 @@
                                 <x-adminlte-button class="btn-xs" onclick="btnEdit(this)" theme="warning" icon="fas fa-edit"
                                     title="Edit Unit {{ $item->nama }}" data-id="{{ $item->id }}"
                                     data-kode="{{ $item->kode }}" data-nama="{{ $item->nama }}"
-                                    data-kodejkn="{{ $item->kodejkn }}" data-idsatusehat="{{ $item->idsatusehat }}"
-                                    data-jenis="{{ $item->jenis }}" data-lokasi="{{ $item->lokasi }}" />
+                                    data-kodejkn="{{ $item->kodejkn }}" data-idlocation="{{ $item->idlocation }}"
+                                    data-idorganization="{{ $item->idorganization }}" data-jenis="{{ $item->jenis }}"
+                                    data-lokasi="{{ $item->lokasi }}" />
                                 <x-adminlte-button class="btn-xs" onclick="btnDelete(this)" theme="danger"
                                     icon="fas fa-trash-alt" title="Non-Aktifkan Unit {{ $item->nama }} "
                                     data-id="{{ $item->id }}" data-nama="{{ $item->nama }}" />
@@ -55,8 +57,32 @@
                             <td>{{ $item->lokasi }}</td>
                             <td>{{ $item->kode }}</td>
                             <td>{{ $item->kodejkn }}</td>
-                            <td>{{ $item->idorganization }}</td>
-                            <td>{{ $item->idlocation }}</td>
+                            <td>
+                                @if ($item->idorganization)
+                                    <a class="badge badge-success"
+                                        href="{{ route('organization_sync') }}?kode={{ $item->kode }}">
+                                        {{ $item->idorganization }}
+                                    </a>
+                                @else
+                                    <a class="badge badge-warning"
+                                        href="{{ route('organization_sync') }}?kode={{ $item->kode }}">
+                                        Sync IdOrganization
+                                    </a>
+                                @endif
+                            </td>
+                            <td>
+                                @if ($item->idlocation)
+                                    <a class="badge badge-success"
+                                        href="{{ route('location_sync') }}?kode={{ $item->kode }}">
+                                        {{ $item->idlocation }}
+                                    </a>
+                                @else
+                                    <a class="badge badge-warning"
+                                        href="{{ route('location_sync') }}?kode={{ $item->kode }}">
+                                        Sync IdOrganization
+                                    </a>
+                                @endif
+                            </td>
                             <td>
                                 @if ($item->status)
                                     <span class="badge badge-success">Aktif</span>
@@ -82,7 +108,9 @@
             <x-adminlte-input fgroup-class="row" label-class="text-left col-3" igroup-class="col-9" igroup-size="sm"
                 name="kodejkn" placeholder="Kode Poliklinik" label="Kode Poliklinik" />
             <x-adminlte-input fgroup-class="row" label-class="text-left col-3" igroup-class="col-9" igroup-size="sm"
-                name="idsatusehat" placeholder="IdSatusehat" label="IdSatusehat" />
+                name="idorganization" placeholder="IdOrganization" label="IdOrganization" />
+            <x-adminlte-input fgroup-class="row" label-class="text-left col-3" igroup-class="col-9" igroup-size="sm"
+                name="idlocation" placeholder="IdLocatoin" label="IdLocatoin" />
             <x-adminlte-input fgroup-class="row" label-class="text-left col-3" igroup-class="col-9" igroup-size="sm"
                 name="lokasi" placeholder="Lokasi" label="Lokasi" />
             <x-adminlte-select fgroup-class="row" label-class="text-left col-3" igroup-class="col-9" igroup-size="sm"
@@ -97,10 +125,10 @@
                 <option>Gudang Farmasi</option>
             </x-adminlte-select>
             <x-slot name="footerSlot">
-                <x-adminlte-button id="btnStore" onclick="btnStore()" class="mr-auto" type="submit" icon="fas fa-save"
-                    theme="success" label="Simpan" />
-                <x-adminlte-button id="btnUpdate" onclick="btnUpdate()" class="mr-auto" type="submit" icon="fas fa-edit"
-                    theme="warning" label="Update" />
+                <x-adminlte-button id="btnStore" onclick="btnStore()" class="mr-auto" type="submit"
+                    icon="fas fa-save" theme="success" label="Simpan" />
+                <x-adminlte-button id="btnUpdate" onclick="btnUpdate()" class="mr-auto" type="submit"
+                    icon="fas fa-edit" theme="warning" label="Update" />
                 <x-adminlte-button theme="danger" icon="fas fa-times" label="Kembali" data-dismiss="modal" />
             </x-slot>
         </form>
@@ -133,7 +161,8 @@
             $('#lokasi').val($(button).data("lokasi"));
             $('#kodejkn').val($(button).data("kodejkn"));
             $('#kode').val($(button).data("kode"));
-            $('#idsatusehat').val($(button).data("idsatusehat"));
+            $('#idlocation').val($(button).data("idlocation"));
+            $('#idorganization').val($(button).data("idorganization"));
             $('#jenis').val($(button).data("jenis"));
             $('#modalEdit').modal('show');
             $.LoadingOverlay("hide");

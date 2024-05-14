@@ -15,16 +15,17 @@ class PengaturanController extends Controller
     }
     public function store(Request $request)
     {
-        $request['logo_landing_page'] = $request->file_logo_landing_page->getClientOriginalName();
+        if ($request->file_logo_landing_page) {
+            $request['logo_landing_page'] = $request->file_logo_landing_page->getClientOriginalName();
+            $request->file_logo_landing_page->move(public_path('file_pengaturan'), $request->file_logo_landing_page->getClientOriginalName());
+        }
         $pengaturan = Pengaturan::updateOrCreate(
             [
                 'id' => 1,
             ],
             $request->all()
         );
-        if ($request->file_logo_landing_page) {
-            $request->file_logo_landing_page->move(public_path('file_pengaturan'), $request->file_logo_landing_page->getClientOriginalName());
-        }
+
         Alert::success('Success', 'Pengaturan Berhasil Disimpan');
         return redirect()->back();
     }

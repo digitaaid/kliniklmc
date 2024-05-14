@@ -5,9 +5,12 @@ namespace App\Http\Controllers;
 use App\Exports\TarifExport;
 use App\Imports\TarifImport;
 use App\Models\Antrian;
+use App\Models\Dokter;
+use App\Models\Jaminan;
 use App\Models\Kunjungan;
 use App\Models\Layanan;
 use App\Models\Tarif;
+use App\Models\Unit;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -149,11 +152,68 @@ class TarifController extends APIController
             return $this->sendError($th->getMessage(), $th->getCode());
         }
     }
+    function update_tarif_pasien(Request $request)
+    {
+        try {
+            $validator = Validator::make(request()->all(), [
+                'kodebooking' => 'required',
+                'antrian_id' => 'required',
+                'kunjungan_id' => 'required',
+                'kodekunjungan' => 'required',
+                'layanan' => 'required',
+                'jumlah' => 'required',
+                'harga' => 'required',
+                'diskon' => 'required',
+            ]);
+            if ($validator->fails()) {
+                return $this->sendError($validator->errors()->first(), 400);
+            }
+            // add layanan
+            if ($request->layanan) {
+                $tarif = Tarif::find($request->layanan);
+                $user = Auth::user()->id;
+                if ($user ==  $tarif->user) {
+                    $layanans = Layanan::updateOrCreate(
+                        [
+                            'kodebooking' => $request->kodebooking,
+                            'antrian_id' => $request->antrian_id,
+                            'kodekunjungan' => $request->kodekunjungan,
+                            'kunjungan_id' => $request->kunjungan_id,
+                            'tarif_id' =>  $tarif->id,
+                        ],
+                        [
+                            'nama' => $tarif->nama,
+                            'harga' => $request->harga,
+                            'jumlah' =>  $request->jumlah,
+                            'diskon' => $request->diskon,
+                            'subtotal' => ($request->harga * $request->jumlah) - ($request->harga * $request->jumlah * $request->diskon / 100),
+                            'klasifikasi' => $tarif->klasifikasi,
+                            'jaminan' => $request->jaminan,
+                            'pic' => Auth::user()->name,
+                            'user' => Auth::user()->id,
+                            'tgl_input' => now('Asia/Jakarta'),
+                        ]
+                    );
+                    return $this->sendResponse($layanans, 200);
+                } else {
+                    return $this->sendError('Tidak bisa diedit oleh orang lain', 401);
+                }
+            }
+        } catch (\Throwable $th) {
+            //throw $th;
+            return $this->sendError($th->getMessage(), $th->getCode());
+        }
+    }
     function delete_tarif_pasien(Request $request)
     {
+        $user = Auth::user()->id;
         $tarif = Layanan::find($request->tarif);
-        $tarif->delete();
-        return $this->sendResponse('Ok', 200);
+        if ($user ==  $tarif->user) {
+            $tarif->delete();
+            return $this->sendResponse('Ok', 200);
+        } else {
+            return $this->sendError('Tidak bisa dihapus oleh orang lain', 401);
+        }
     }
     function get_layanan_kunjungan(Request $request)
     {
@@ -193,6 +253,16 @@ class TarifController extends APIController
             'pasien',
             'layanans',
         ));
-        return $pdf->stream('pdf_invoice_billing.pdf');
+        return $pdf->stream($antrian->tanggalperiksa . '-INVOICE-' . strtoupper($pasien->nama) . '.pdf');
+    }
+    public function form_layanan(Request $request)
+    {
+        $antrian = Antrian::with(['layanans', 'kunjungan'])->firstWhere('kodebooking', $request->kode);
+        $layanans = $antrian->layanans;
+        $kunjungan = $antrian->kunjungan;
+        $dokters = Dokter::where('status', '1')->pluck('namadokter', 'kodedokter');
+        $jaminans = Jaminan::pluck('nama', 'kode');
+        $polikliniks = Unit::where('status', '1')->pluck('nama', 'kode');
+        return view('sim.form_layanan', compact('request', 'antrian', 'layanans',  'jaminans', 'kunjungan', 'dokters', 'polikliniks'));
     }
 }

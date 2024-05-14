@@ -1,36 +1,10 @@
 @extends('adminlte::page')
-@section('title', 'Diagnosa Casemix')
+@section('title', 'Layanan Keuangan')
 @section('content_header')
-    <h1>Diagnosa Casemix</h1>
+    <h1>Layanan Keuangan</h1>
 @stop
 @section('content')
     <div class="row">
-        {{-- @if (isset($antrians))
-            <div class="col-md-12">
-                <div class="row">
-                    <div class="col-md-3">
-                        <x-adminlte-small-box
-                            title="{{ $antrians->where('taskid', 4)->first()->nomorantrean ?? 'Belum Panggil' }}"
-                            text="Antrian Dilayani" theme="primary" icon="fas fa-user-injured"
-                            url="{{ route('prosespoliklinik') }}?kodebooking={{ $antrians->where('taskid', 3)->first()->kodebooking ?? '00' }}"
-                            url-text="Panggil Antrian Selanjutnya" />
-                    </div>
-                    <div class="col-md-3">
-                        <x-adminlte-small-box
-                            title="{{ $antrians->where('taskid', '>=', 2)->where('taskid', '<=', 3)->count() }}"
-                            text="Belum Asesmen Dokter" theme="danger" icon="fas fa-user-injured" />
-                    </div>
-                    <div class="col-md-3">
-                        <x-adminlte-small-box title="{{ $antrians->where('taskid', '>=', 5)->count() }}"
-                            text="Sudah Asesmen Dokter" theme="warning" icon="fas fa-user-injured" />
-                    </div>
-                    <div class="col-md-3">
-                        <x-adminlte-small-box title="{{ $antrians->count() }}" text="Total Antrian" theme="success"
-                            icon="fas fa-user-injured" />
-                    </div>
-                </div>
-            </div>
-        @endif --}}
         <div class="col-md-12">
             <x-adminlte-card theme="primary" theme-mode='outline'>
                 <div class="row">
@@ -82,18 +56,13 @@
                         'No RM',
                         'Nama Pasien',
                         'Jenis',
+                        'SEP',
                         'Layanan',
                         'Obat',
                         'Diag Awal',
                         'Resume',
-                        'Antrian',
-                        'INACBG',
-                        'Satu Sehat',
-                        'Dokter',
-                        'Unit',
-                        'IdEncounter',
                     ];
-                    $config['order'] = [[0, 'asc']];
+                    $config['order'] = [[6, 'asc'], [7, 'asc']];
                     $config['paging'] = false;
                     $config['scrollX'] = true;
                     $config['scrollY'] = '300px';
@@ -110,19 +79,27 @@
                                 <td>{{ $item->norm }}</td>
                                 <td>{{ $item->nama }}</td>
                                 <td>{{ $item->jenispasien }} </td>
+                                <td>{{ $item->sep }} </td>
                                 <td class="text-right">
                                     @php
                                         $totallayanan = $totallayanan + $item->layanans?->sum('subtotal');
                                     @endphp
                                     {{ money($item->layanans?->sum('subtotal'), 'IDR') }}
+                                    <x-adminlte-button icon="fas fa-edit" theme="warning" onclick="modalLayanan(this)"
+                                        class="btn-xs" data-kode="{{ $item->kodebooking }}" />
                                     <x-adminlte-button icon="fas fa-file-invoice-dollar" theme="warning"
-                                        onclick="modalLayanan(this)" class="btn-xs" data-kode="{{ $item->kodebooking }}" />
+                                        onclick="modalInvoicePasien(this)" class="btn-xs"
+                                        data-kodebooking="{{ $item->kodebooking }}" />
                                 </td>
                                 <td class="text-right">
                                     @php
                                         $totalobat = $totalobat + $item->resepdetails?->sum('subtotal');
                                     @endphp
-                                    {{ money($item->resepdetails?->sum('subtotal'), 'IDR') }} </td>
+                                    {{ money($item->resepdetails?->sum('subtotal'), 'IDR') }}
+                                    <x-adminlte-button icon="fas fa-file-prescription" theme="warning"
+                                        onclick="modalInvoicePasien(this)" class="btn-xs"
+                                        data-kodebooking="{{ $item->kodebooking }}" />
+                                </td>
                                 <td>
                                     {{ $item->kunjungan->diagnosa_awal }}
                                 </td>
@@ -130,48 +107,6 @@
                                     <x-adminlte-button class="btn-xs" theme="primary" label="Resume"
                                         icon="fas fa-file-medical" />
                                 </td>
-                                <td>
-                                    @switch($item->sync_antrian)
-                                        @case(1)
-                                            <a href="{{ route('sync_update_antrian') }}?kodebooking={{ $item->kodebooking }}"
-                                                class="btn btn-xs btn-success withLoad">1. Sudah Sync</a>
-                                        @break
-
-                                        @case(2)
-                                            <a href="{{ route('sync_update_antrian') }}?kodebooking={{ $item->kodebooking }}"
-                                                class="btn btn-xs btn-danger withLoad">99. Gagal Sync</a>
-                                        @break
-
-                                        @default
-                                            <a href="{{ route('sync_update_antrian') }}?kodebooking={{ $item->kodebooking }}"
-                                                class="btn btn-xs btn-warning withLoad">0. Belum Sync</a>
-                                    @endswitch
-                                    <x-adminlte-button class="btn-xs" onclick="editAntrian(this)" theme="warning"
-                                        icon="fas fa-edit" title="Edit" data-id="{{ $item->id }}"
-                                        data-nama="{{ $item->nama }}" data-norm="{{ $item->norm }}"
-                                        data-status="{{ $item->status }}"
-                                        data-tanggalperiksa="{{ $item->tanggalperiksa }}"
-                                        data-kodebooking="{{ $item->kodebooking }}" data-taskid1="{{ $item->taskid1 }}"
-                                        data-taskid2="{{ $item->taskid2 }}" data-taskid3="{{ $item->taskid3 }}"
-                                        data-taskid4="{{ \Carbon\Carbon::parse($item->taskid3)->addSeconds(rand(1200, 1800)) }}"
-                                        data-taskid5="{{ \Carbon\Carbon::parse($item->taskid3)->addSeconds(rand(2100, 2700)) }} "
-                                        data-taskid6="{{ \Carbon\Carbon::parse($item->taskid3)->addSeconds(rand(2880, 3180)) }}"
-                                        data-taskid7="{{ \Carbon\Carbon::parse($item->taskid3)->addSeconds(3780, 4380) }}" />
-                                </td>
-                                <td>
-                                </td>
-                                <td>
-                                    @if ($item->kunjungan?->idencounter)
-                                        <a href="{{ route('conditition_sync') }}?kodebooking={{ $item->kodebooking }}"
-                                            class="btn btn-xs btn-primary withLoad">1. Sync Diag</a>
-                                    @else
-                                        <a href="{{ route('encounter_sync') }}?kodebooking={{ $item->kodebooking }}"
-                                            class="btn btn-xs btn-warning withLoad">0. Belum Sync</a>
-                                    @endif
-                                </td>
-                                <td>{{ $item->namadokter }} </td>
-                                <td>{{ $item->namapoli }} </td>
-                                <td>{{ $item->kunjungan->idencounter ?? null }} </td>
                             </tr>
                         @endforeach
                         <tfoot>
@@ -180,14 +115,10 @@
                                 <th>{{ $antrians->count() }}</th>
                                 <th></th>
                                 <th></th>
+                                <th></th>
                                 <th>Total Layanan</th>
                                 <th class="text-right">{{ money($totallayanan, 'IDR') }}</th>
                                 <th class="text-right">{{ money($totalobat, 'IDR') }}</th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
                                 <th></th>
                                 <th></th>
                             </tr>
@@ -256,6 +187,14 @@
             <x-adminlte-button class="mr-auto btnUpdateTarif" theme="warning" label="Update" />
             <x-adminlte-button theme="danger" icon="fas fa-times" label="Tutup" data-dismiss="modal" />
         </x-slot>
+    </x-adminlte-modal>
+    <x-adminlte-modal id="modalInvoicePasien" title="Invoice Billing Pasien" theme="success"
+        icon="fas fa-file-invoice-dollar" size="xl">
+        <div id="iframeLoaders" class="loader">
+            <h4>Loading...</h4>
+        </div>
+        <iframe src="" id="urlInvoice" onload="loadInvoices()" width="100%" height="500px"
+            frameborder="0"></iframe>
     </x-adminlte-modal>
 @stop
 
@@ -341,5 +280,22 @@
                 toast.addEventListener('mouseleave', Swal.resumeTimer)
             }
         });
+    </script>
+    {{-- invoice --}}
+    <script>
+        function loadInvoices() {
+            $('#iframeLoaders').hide();
+            $('#urlInvoice').show();
+        }
+
+        function modalInvoicePasien(button) {
+            $.LoadingOverlay("show");
+            var url = "{{ route('print_invoice_billing') }}?kodebooking=" + $(button).data("kodebooking");
+            $('#modalInvoicePasien').modal('show');
+            $('#urlInvoice').attr('src', url);
+            $('#iframeLoaders').show();
+            $('#urlInvoice').hide();
+            $.LoadingOverlay("hide");
+        }
     </script>
 @endsection

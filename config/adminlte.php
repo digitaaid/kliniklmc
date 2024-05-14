@@ -1,5 +1,7 @@
 <?php
 
+use function Symfony\Component\String\b;
+
 return [
 
     /*
@@ -63,7 +65,7 @@ return [
     |
     */
 
-    'logo' => env('NAMA_LOGO'),
+    'logo' =>  '<b>Klinik LMC</b>',
     'logo_img' => 'vendor/adminlte/dist/img/lmc-b.png',
     'logo_img_class' => 'brand-image img-circle elevation-3',
     'logo_img_xl' => null,
@@ -879,14 +881,14 @@ return [
                 [
                     'text' => 'Encouter',
                     'icon'    => 'fas fa-user',
-                    'url'  => 'satusehat/patnt',
+                    'url'  => 'satusehat/encounter',
                     'shift'   => 'ml-2',
                     'can' => ['satusehat'],
                 ],
                 [
                     'text' => 'Condition',
                     'icon'    => 'fas fa-user',
-                    'url'  => 'satusehat/pient',
+                    'url'  => 'satusehat/condition',
                     'shift'   => 'ml-2',
                     'can' => ['satusehat'],
                 ],

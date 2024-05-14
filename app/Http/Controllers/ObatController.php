@@ -105,7 +105,7 @@ class ObatController extends Controller
     }
     public function form_resep_obat(Request $request)
     {
-        $antrian = Antrian::where('kodebooking', $request->kode)->first();
+        $antrian = Antrian::with(['kunjungan', 'layanans'])->where('kodebooking', $request->kode)->first();
         $kunjungan = $antrian->kunjungan;
         $dokters = Dokter::where('status', '1')->pluck('namadokter', 'kodedokter');
         $jaminans = Jaminan::pluck('nama', 'kode');
@@ -139,6 +139,8 @@ class ObatController extends Controller
                 $request['berat_badan'] = $kunjungan->asesmenperawat->berat_badan ?? null;
                 $request['bsa'] = $kunjungan->asesmenperawat->bsa ?? null;
                 $request['kode'] = $kunjungan->kode;
+                $request['kodekunjungan'] = $kunjungan->kode;
+                $request['kunjungan_id'] = $kunjungan->id;
                 $request['waktu'] = now();
                 $resep = ResepObat::updateOrCreate(
                     [

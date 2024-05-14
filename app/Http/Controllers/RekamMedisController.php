@@ -16,7 +16,8 @@ class RekamMedisController extends Controller
         $antrians = null;
         if ($request->tanggal) {
             $antrians = Antrian::whereDate('tanggalperiksa', $request->tanggal)
-                ->has('kunjungan')->get();
+                ->has('kunjungan')->where('kodepoli', '!=', 'FAR')
+                ->get();
         }
         return view('sim.antrian_rekammedis', compact('request', 'antrians'));
     }

@@ -108,6 +108,7 @@ class DokterController extends Controller
         $antrians = null;
         if ($request->tanggalperiksa) {
             $antrians = Antrian::where('tanggalperiksa', $request->tanggalperiksa)
+                ->has('kunjungan')->where('kodepoli', '!=', 'FAR')
                 ->where('taskid', '!=', 99)
                 ->where('taskid', '>', 2)
                 ->with(['kunjungan', 'kunjungan.units', 'kunjungan.dokters', 'pic3', 'asesmendokter', 'layanans'])
@@ -118,7 +119,9 @@ class DokterController extends Controller
                 'pencarian' => 'required|min:3',
             ]);
             $antrians = Antrian::where('norm', $request->pencarian)
+                ->has('kunjungan')->where('kodepoli', '!=', 'FAR')
                 ->orWhere('nama', 'LIKE', '%' . $request->pencarian . '%')
+                ->has('kunjungan')->where('kodepoli', '!=', 'FAR')
                 ->where('taskid', '!=', 99)
                 ->with(['kunjungan', 'kunjungan.units', 'kunjungan.dokters', 'pic3', 'asesmendokter', 'layanans'])
                 ->get();
@@ -250,6 +253,8 @@ class DokterController extends Controller
             $request['berat_badan'] = $kunjungan->asesmenperawat->berat_badan ?? null;
             $request['bsa'] = $kunjungan->asesmenperawat->bsa ?? null;
             $request['kode'] = $kunjungan->kode;
+            $request['kodekunjungan'] = $kunjungan->kode;
+            $request['kunjungan_id'] = $kunjungan->id;
             $request['dokter'] = $kunjungan->dokter;
             $resep = ResepObat::updateOrCreate(
                 [
@@ -284,10 +289,17 @@ class DokterController extends Controller
                         'obat_id' =>  $obat->id,
                     ],
                     [
+                        'antrian_id' => $request->antrian_id,
+                        'kunjungan_id' => $request->kunjungan_id,
                         'nama' => $obat->nama,
                         'jumlah' => $request->jumlah[$key] ?? 0,
+                        'harga' => $obat->harga_jual,
+                        'diskon' => 0,
+                        'subtotal' => $obat->harga_jual * ($request->jumlah[$key] ?? 1),
                         'interval' => $request->frekuensi[$key] ?? null,
                         'waktu' => $request->waktuobat[$key] ?? null,
+                        'klasifikasi' => $obat->jenisobat ?? 'Obat',
+                        'jaminan' => $kunjungan->jaminan,
                         'keterangan' => $request->keterangan_obat[$key] ?? null,
                     ]
                 );

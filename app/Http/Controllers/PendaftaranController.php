@@ -446,6 +446,8 @@ class PendaftaranController extends APIController
             $antrian->update([
                 'kunjungan_id' => $request->kunjungan_id,
                 'kodekunjungan' => $request->kodekunjungan,
+                'nomorreferensi' => $request->nomorreferensi,
+                'sep' => $request->sep,
                 'user1' =>  Auth::user()->id,
             ]);
             $tarif = Tarif::where('nama', 'Administrasi')->where('jenispasien', $antrian->jenispasien)->first();

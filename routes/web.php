@@ -20,6 +20,7 @@ use App\Http\Controllers\JadwalLiburController;
 use App\Http\Controllers\JaminanController;
 use App\Http\Controllers\JenisObatController;
 use App\Http\Controllers\KasirController;
+use App\Http\Controllers\KeuanganController;
 use App\Http\Controllers\KunjunganController;
 use App\Http\Controllers\LaboratoriumController;
 use App\Http\Controllers\LaravoltIndonesiaController;
@@ -61,6 +62,7 @@ use App\Http\Controllers\UnitController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VclaimController;
 use App\Http\Controllers\WhatsappController;
+use App\Http\Controllers\CondititionController;
 use App\Models\JadwalLibur;
 use App\Models\PemeriksaanLab;
 use App\Models\Poliklinik;
@@ -187,6 +189,7 @@ Route::middleware('auth')->group(function () {
     Route::get('get_layanan_kunjungan', [TarifController::class, 'get_layanan_kunjungan'])->name('get_layanan_kunjungan');
     Route::get('ref_tarif_layanan', [TarifController::class, 'ref_tarif_layanan'])->name('ref_tarif_layanan');
     Route::post('input_tarif_pasien', [TarifController::class, 'input_tarif_pasien'])->name('input_tarif_pasien');
+    Route::post('update_tarif_pasien', [TarifController::class, 'update_tarif_pasien'])->name('update_tarif_pasien');
     Route::post('delete_tarif_pasien', [TarifController::class, 'delete_tarif_pasien'])->name('delete_tarif_pasien');
     Route::get('print_invoice_billing', [TarifController::class, 'print_invoice_billing'])->name('print_invoice_billing');
 
@@ -242,6 +245,7 @@ Route::middleware('auth')->group(function () {
     Route::get('laporanfarmasi', [FarmasiController::class, 'laporanfarmasi'])->name('laporanfarmasi');
     Route::get('laporanobat', [FarmasiController::class, 'laporanobat'])->name('laporanobat');
     Route::get('form_resep_obat', [ObatController::class, 'form_resep_obat'])->name('form_resep_obat');
+    Route::get('form_layanan', [TarifController::class, 'form_layanan'])->name('form_layanan');
     Route::post('update_resep_obat', [ObatController::class, 'update_resep_obat'])->name('update_resep_obat');
     Route::post('create_order_obat', [OrderObatController::class, 'create_order_obat'])->name('create_order_obat');
     Route::get('selesai_order_obat', [OrderObatController::class, 'selesai_order_obat'])->name('selesai_order_obat');
@@ -334,10 +338,13 @@ Route::middleware('auth')->group(function () {
     Route::get('suratkontrol_hapus', [SuratKontrolController::class, 'suratkontrol_hapus'])->name('suratkontrol_hapus');
     // snyc
     Route::get('sync_antrian_bpjs', [SyncronizeController::class, 'sync_antrian_bpjs'])->name('sync_antrian_bpjs');
+    Route::get('sync_update_antrian', [SyncronizeController::class, 'sync_update_antrian'])->name('sync_update_antrian');
     Route::post('update_taksid_antrian', [SyncronizeController::class, 'update_taksid_antrian'])->name('update_taksid_antrian');
     // rekam medis
     Route::get('resumerawatjalan', [RekamMedisController::class, 'resumerawatjalan'])->name('resumerawatjalan');
     Route::get('diagnosa_rekammedis', [RekamMedisController::class, 'diagnosa_rekammedis'])->name('diagnosa_rekammedis');
+    // keuangan
+    Route::get('layanan_keuangan', [KeuanganController::class, 'layanan_keuangan'])->name('layanan_keuangan');
 
 
     Route::prefix('satusehat')->group(function () {
@@ -353,10 +360,12 @@ Route::middleware('auth')->group(function () {
         Route::get('organization_sync', [OrganizationController::class, 'organization_sync'])->name('organization_sync');
         Route::get('location', [LocationController::class, 'index'])->name('location');
         Route::get('location_sync', [LocationController::class, 'location_sync'])->name('location_sync');
-        Route::get('encounter', [EncounterController::class, 'encounter'])->name('encounter');
+        Route::get('encounter', [RekamMedisController::class, 'diagnosa_rekammedis'])->name('encounter');
         Route::get('table_kunjungan_encounter', [EncounterController::class, 'table_kunjungan_encounter'])->name('table_kunjungan_encounter');
         Route::get('encounter_sync', [EncounterController::class, 'encounter_sync'])->name('encounter_sync');
         Route::post('encounter_update', [EncounterController::class, 'encounter_update'])->name('encounter_update');
+        Route::get('conditition_sync', [CondititionController::class, 'conditition_sync'])->name('conditition_sync');
+        Route::get('condition', [CondititionController::class, 'condition'])->name('condition');
     });
     Route::get('download_backup_file', [BackupController::class, 'download_backup_file'])->name('download_backup_file');
     Route::get('printtest', [PrintController::class, 'printtest'])->name('printtest');

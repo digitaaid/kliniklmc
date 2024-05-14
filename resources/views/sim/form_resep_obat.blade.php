@@ -9,6 +9,8 @@
     <input type="hidden" name="antrian_id" value="{{ $antrian->id }}">
     <input type="hidden" name="kodekunjungan" value="{{ $kunjungan->kode ?? null }}">
     <input type="hidden" name="kunjungan_id" value="{{ $kunjungan->id ?? null }}">
+    <button type="button" class="btn btn-sm btn-success" onclick="modalPasien()">
+        <i class="fas fa-users "></i> Data Pasien</button>
     <div class="row">
         <div class="col-md-6">
             <x-adminlte-input name="nomorkartu" class="nomorkartu-antrian" fgroup-class="row"
@@ -93,7 +95,7 @@
             @endphp
             <x-adminlte-input-date fgroup-class="row" label-class="text-left col-3" igroup-class="col-9"
                 name="tgl_masuk" igroup-size="sm" label="Tanggal Masuk" enable-old-support
-                placeholder="Tanggal Masuk" :config="$config" value="{{ $antrian->kunjungan->tgl_masuk ?? null }}">
+                placeholder="Tanggal Masuk" :config="$config" value="{{ $antrian->kunjungan->tgl_masuk ?? now() }}">
             </x-adminlte-input-date>
             <x-adminlte-select igroup-size="sm" fgroup-class="row" label-class="text-left col-3"
                 igroup-class="col-9" name="jaminan" label="Jaminan Pasien" enable-old-support>

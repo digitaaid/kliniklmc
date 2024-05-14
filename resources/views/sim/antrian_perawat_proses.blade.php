@@ -1,7 +1,7 @@
 @extends('adminlte::page')
-@section('title', 'Antrian Perawat')
+@section('title', 'Asesmen Perawat')
 @section('content_header')
-    <h1>Antrian Perawat</h1>
+    <h1>Asesmen Perawat</h1>
 @stop
 @section('content')
     <div class="row">
@@ -84,6 +84,14 @@
                                 <i class="fas fa-file-medical"></i> I-Care JKN
                             </a>
                         </li>
+                        <li class="nav-item" onclick="tambahLayanan()">
+                            <a href="#nav" class="nav-link">
+                                <i class="fas fa-hand-holding-medical"></i> Layanan & Tindakan
+                                <span class="badge bg-success float-right">
+                                    {{ $antrian->layanans->count() }} Layanan
+                                </span>
+                            </a>
+                        </li>
                         <li class="nav-item" onclick="modalCPPT()">
                             <a href="#nav" class="nav-link">
                                 <i class="fas fa-file-medical"></i> CPPT
@@ -100,15 +108,7 @@
                                 </span>
                             </a>
                         </li>
-                        <li class="nav-item" onclick="tambahLayanan()">
-                            <a href="#nav" class="nav-link">
-                                <i class="fas fa-hand-holding-medical"></i> Layanan & Tindakan
-                                <span class="badge bg-success float-right">
-                                    {{ $antrian->layanans->count() }} Layanan
-                                </span>
-                            </a>
-                        </li>
-                        <li class="nav-item" onclick="btnAsesmenRajal()">
+                        <li class="nav-item" onclick="modalAnamnesaPerawat()">
                             <a href="#nav" class="nav-link">
                                 <i class="fas fa-user-md"></i> Anamnesa Keperawatan
                                 @if ($antrian->asesmenperawat)
@@ -118,6 +118,11 @@
                                 @else
                                     <span class="badge bg-danger float-right">Belum Asesmen</span>
                                 @endif
+                            </a>
+                        </li>
+                        <li class="nav-item" onclick="btnAsesmenRajal()">
+                            <a href="#nav" class="nav-link">
+                                <i class="fas fa-file-medical-alt"></i> Asesmen Rawat Jalan
                             </a>
                         </li>
                         <li class="nav-item" onclick="btnAsesmenRajal()">
@@ -132,11 +137,7 @@
                                 @endif
                             </a>
                         </li>
-                        <li class="nav-item" onclick="btnAsesmenRajal()">
-                            <a href="#nav" class="nav-link">
-                                <i class="fas fa-file-medical-alt"></i> Asesmen Rawat Jalan
-                            </a>
-                        </li>
+
                         <li class="nav-item" onclick="btnResumeRajal()">
                             <a href="#nav" class="nav-link">
                                 <i class="fas fa-file-medical-alt"></i> Resume Rawat Jalan
