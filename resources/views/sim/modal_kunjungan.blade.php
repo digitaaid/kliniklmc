@@ -88,7 +88,7 @@
                 <x-adminlte-input-date fgroup-class="row" label-class="text-left col-3" igroup-class="col-9"
                     name="tgl_masuk" igroup-size="sm" label="Tanggal Masuk" enable-old-support
                     placeholder="Tanggal Masuk" :config="$config"
-                    value="{{ $antrian->kunjungan->tgl_masuk ?? null }}">
+                    value="{{ $antrian->kunjungan->tgl_masuk ?? now() }}">
                 </x-adminlte-input-date>
                 <x-adminlte-select igroup-size="sm" fgroup-class="row" label-class="text-left col-3"
                     igroup-class="col-9" name="jaminan" label="Jaminan Pasien" enable-old-support>
@@ -196,6 +196,7 @@
     <x-slot name="footerSlot">
         <x-adminlte-button theme="success" icon="fas fa-edit" class="mr-auto withLoad" label="Simpan"
             type="submit" form="formKunjungan" />
+            <x-adminlte-button theme="warning" icon="fas fa-users" onclick="modalPasien()" label="Data Pasien" />
         <x-adminlte-button theme="danger" icon="fas fa-times" label="Tutup" data-dismiss="modal" />
     </x-slot>
 </x-adminlte-modal>

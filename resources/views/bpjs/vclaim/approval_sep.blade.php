@@ -22,7 +22,6 @@
                                         label="Cari" />
                                 </x-slot>
                             </x-adminlte-input-date>
-
                         </form>
                     </div>
                     <div class="col-md-4">

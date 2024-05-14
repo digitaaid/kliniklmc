@@ -88,6 +88,16 @@
                             @endif
                         </a>
                     </li>
+                    <li class="nav-item" onclick="modalKunjungan()">
+                        <a href="#nav" class="nav-link">
+                            <i class="fas fa-user-plus"></i> Kunjungan
+                            @if ($antrian->kunjungan)
+                                <span class="badge bg-success float-right">Sudah Didaftarkan</span>
+                            @else
+                                <span class="badge bg-danger float-right">Belum Kunjungan</span>
+                            @endif
+                        </a>
+                    </li>
                     @if ($antrian->jenispasien == 'JKN')
                         <li class="nav-item" onclick="cariSEP()">
                             <a href="#nav" class="nav-link">
@@ -120,16 +130,6 @@
                             </a>
                         </li>
                     @endif
-                    <li class="nav-item" onclick="modalKunjungan()">
-                        <a href="#nav" class="nav-link">
-                            <i class="fas fa-user-plus"></i> Kunjungan
-                            @if ($antrian->kunjungan)
-                                <span class="badge bg-success float-right">Sudah Didaftarkan</span>
-                            @else
-                                <span class="badge bg-danger float-right">Belum Kunjungan</span>
-                            @endif
-                        </a>
-                    </li>
                     @if ($antrian->kunjungan)
                         <li class="nav-item" onclick="modalCPPT()">
                             <a href="#nav" class="nav-link">
@@ -190,13 +190,13 @@
                     <div id="accordion" role="tablist" aria-multiselectable="true">
                         @include('sim.modal_antrian')
                         @include('sim.modal_pasien')
+                        @include('sim.modal_kunjungan')
                         @if ($antrian->jenispasien == 'JKN')
                             @include('sim.tabel_sep')
                             @include('sim.tabel_suratkontrol')
                             @include('sim.modal_suratkontrol')
                             @include('sim.modal_rujukan')
                         @endif
-                        @include('sim.modal_kunjungan')
                         @if ($antrian->kunjungan)
                             @include('sim.modal_cppt')
                             @include('sim.modal_fileupload')
