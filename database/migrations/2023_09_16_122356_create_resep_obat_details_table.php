@@ -16,7 +16,6 @@ return new class extends Migration
             $table->string('kunjungan_id');
             $table->string('antrian_id');
             $table->string('resep_id');
-            $table->string('resep_id');
             $table->string('koderesep');
             $table->string('obat_id');
             $table->string('nama');
