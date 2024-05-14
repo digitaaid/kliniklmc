@@ -30,7 +30,7 @@ class User extends Authenticatable
         if ($this->avatar) {
             return $this->avatar;
         } else {
-            return asset('img/lmc-b.png');
+            return asset('klinik/logokitasehat-lingkar.png');
         }
     }
     public function adminlte_profile_url()

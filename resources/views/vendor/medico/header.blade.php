@@ -50,11 +50,11 @@
                         </ul>
                     </li> --}}
                     <li><a class="nav-link scrollto" href="{{ route('landingpage') }}#contact">Kontak</a></li>
-                    {{-- @auth
+                    @auth
                         <li><a class="nav-link scrollto" href="{{ route('home') }}">Dashboard</a></li>
                     @else
                         <li><a class="nav-link scrollto" href="{{ route('login') }}">Login</a></li>
-                    @endauth --}}
+                    @endauth
                 </ul>
                 <i class="bi bi-list mobile-nav-toggle"></i>
             </nav><!-- .navbar -->

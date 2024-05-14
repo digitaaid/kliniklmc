@@ -16,7 +16,7 @@ return [
     |
     */
 
-    'title' => 'Luthfi Medical Center',
+    'title' => 'Klinik Utama Kita Sehat',
     'title_prefix' => '',
     'title_postfix' => '',
 
@@ -65,12 +65,12 @@ return [
     |
     */
 
-    'logo' =>  '<b>Klinik LMC</b>',
-    'logo_img' => 'vendor/adminlte/dist/img/lmc-b.png',
+    'logo' =>  '<b>Klinik Kita Sehat</b>',
+    'logo_img' => 'klinik/logokitasehat-lingkar.png',
     'logo_img_class' => 'brand-image img-circle elevation-3',
     'logo_img_xl' => null,
     'logo_img_xl_class' => 'brand-image-xs',
-    'logo_img_alt' => 'Klinik LMC Logo',
+    'logo_img_alt' => 'Klinik Kita Sehat Logo',
 
     /*
     |--------------------------------------------------------------------------
@@ -88,7 +88,7 @@ return [
     'auth_logo' => [
         'enabled' => true,
         'img' => [
-            'path' =>  'vendor/adminlte/dist/img/lmc-b.png',
+            'path' =>  'klinik/logokitasehat-lingkar.png',
             'alt' => 'Auth Logo',
             'class' => '',
             'width' => 70,
@@ -111,7 +111,7 @@ return [
     'preloader' => [
         'enabled' => true,
         'img' => [
-            'path' => 'vendor/adminlte/dist/img/lmc-b.png',
+            'path' => 'klinik/logokitasehat-lingkar.png',
             'alt' => 'Klinik Preloader Image',
             'effect' => 'animation__shake',
             'width' => 150,
@@ -169,7 +169,7 @@ return [
     |
     */
 
-    'classes_auth_card' => 'card-outline card-purple',
+    'classes_auth_card' => 'card-outline card-primary',
     'classes_auth_header' => '',
     'classes_auth_body' => '',
     'classes_auth_footer' => '',

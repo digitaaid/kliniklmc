@@ -13,21 +13,21 @@
     @yield('css')
     <style>
         .login-page {
-            background-image: url('{{ asset('img/2.jpg') }}');
+            background-image: url('{{ asset('klinik/fotodepankitasehat.jpg') }}');
             background-repeat: no-repeat;
             background-attachment: fixed;
             background-position: center;
             background-blend-mode: overlay;
-            background-size: 100% 100%
+            background-size: 100%
 
         }
         .register-page {
-            background-image: url('{{ asset('img/2.jpg') }}');
+            background-image: url('{{ asset('klinik/fotodepankitasehat.jpg') }}');
             background-repeat: no-repeat;
             background-attachment: fixed;
             background-position: center;
             background-blend-mode: overlay;
-            background-size: 100% 100%
+            background-size: 100%
         }
     </style>
 @stop
