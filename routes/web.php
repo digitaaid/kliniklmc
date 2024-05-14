@@ -359,7 +359,7 @@ Route::middleware('auth')->group(function () {
         Route::get('organization_sync', [OrganizationController::class, 'organization_sync'])->name('organization_sync');
         Route::get('location', [LocationController::class, 'index'])->name('location');
         Route::get('location_sync', [LocationController::class, 'location_sync'])->name('location_sync');
-        Route::get('encounter', [EncounterController::class, 'encounter'])->name('encounter');
+        Route::get('encounter', [RekamMedisController::class, 'diagnosa_rekammedis'])->name('encounter');
         Route::get('table_kunjungan_encounter', [EncounterController::class, 'table_kunjungan_encounter'])->name('table_kunjungan_encounter');
         Route::get('encounter_sync', [EncounterController::class, 'encounter_sync'])->name('encounter_sync');
         Route::post('encounter_update', [EncounterController::class, 'encounter_update'])->name('encounter_update');

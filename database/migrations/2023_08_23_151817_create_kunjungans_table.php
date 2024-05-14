@@ -43,6 +43,7 @@ return new class extends Migration
             $table->string('keterangan')->nullable();
             $table->string('catatan')->nullable();
             $table->string('status');
+            $table->string('sync_satusehat')->default(0);
             $table->string('user1');
             $table->timestamps();
         });

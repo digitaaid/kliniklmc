@@ -89,12 +89,14 @@
                         'Antrian',
                         'INACBG',
                         'Satu Sehat',
+                        'Dokter',
+                        'Unit',
+                        'IdEncounter',
                     ];
                     $config['order'] = [[0, 'asc']];
                     $config['paging'] = false;
                     $config['scrollX'] = true;
                     $config['scrollY'] = '300px';
-
                     $totallayanan = 0;
                     $totalobat = 0;
                 @endphp
@@ -155,14 +157,29 @@
                                         data-taskid5="{{ \Carbon\Carbon::parse($item->taskid3)->addSeconds(rand(2100, 2700)) }} "
                                         data-taskid6="{{ \Carbon\Carbon::parse($item->taskid3)->addSeconds(rand(2880, 3180)) }}"
                                         data-taskid7="{{ \Carbon\Carbon::parse($item->taskid3)->addSeconds(3780, 4380) }}" />
-                                    {{-- @if ($item)
-                                    @else
-                                    @endif --}}
                                 </td>
                                 <td>
                                 </td>
                                 <td>
+                                    @switch($item->sync_satusehat)
+                                        @case(1)
+                                            <a href="{{ route('encounter_sync') }}?kodebooking={{ $item->kodebooking }}"
+                                                class="btn btn-xs btn-success withLoad">1. Sudah Sync</a>
+                                        @break
+
+                                        @case(2)
+                                            <a href="{{ route('encounter_sync') }}?kodebooking={{ $item->kodebooking }}"
+                                                class="btn btn-xs btn-danger withLoad">99. Gagal Sync</a>
+                                        @break
+
+                                        @default
+                                            <a href="{{ route('encounter_sync') }}?kodebooking={{ $item->kodebooking }}"
+                                                class="btn btn-xs btn-warning withLoad">0. Belum Sync</a>
+                                    @endswitch
                                 </td>
+                                <td>{{ $item->namadokter }} </td>
+                                <td>{{ $item->namapoli }} </td>
+                                <td>{{ $item->sync_satusehat ?? $item->kunjungan->sync_satusehat }} </td>
                             </tr>
                         @endforeach
                         <tfoot>
@@ -174,6 +191,8 @@
                                 <th>Total Layanan</th>
                                 <th class="text-right">{{ money($totallayanan, 'IDR') }}</th>
                                 <th class="text-right">{{ money($totalobat, 'IDR') }}</th>
+                                <th></th>
+                                <th></th>
                                 <th></th>
                                 <th></th>
                                 <th></th>

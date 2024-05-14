@@ -49,6 +49,8 @@ return new class extends Migration
             $table->integer('taskid')->default(0);
             $table->boolean('status')->default(0);
             $table->boolean('sync_antrian')->default(0);
+            $table->boolean('sync_inacbg')->default(0);
+            $table->boolean('sync_satusehat')->default(0);
             $table->boolean('panggil')->default(0);
             $table->string('kunjungan_id')->nullable();
             $table->string('kodekunjungan')->nullable();
