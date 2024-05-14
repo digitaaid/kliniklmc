@@ -161,25 +161,17 @@
                                 <td>
                                 </td>
                                 <td>
-                                    @switch($item->sync_satusehat)
-                                        @case(1)
-                                            <a href="{{ route('encounter_sync') }}?kodebooking={{ $item->kodebooking }}"
-                                                class="btn btn-xs btn-success withLoad">1. Sudah Sync</a>
-                                        @break
-
-                                        @case(2)
-                                            <a href="{{ route('encounter_sync') }}?kodebooking={{ $item->kodebooking }}"
-                                                class="btn btn-xs btn-danger withLoad">99. Gagal Sync</a>
-                                        @break
-
-                                        @default
-                                            <a href="{{ route('encounter_sync') }}?kodebooking={{ $item->kodebooking }}"
-                                                class="btn btn-xs btn-warning withLoad">0. Belum Sync</a>
-                                    @endswitch
+                                    @if ($item->kunjungan?->idencounter)
+                                        <a href="{{ route('conditition_sync') }}?kodebooking={{ $item->kodebooking }}"
+                                            class="btn btn-xs btn-primary withLoad">1. Sync Diag</a>
+                                    @else
+                                        <a href="{{ route('encounter_sync') }}?kodebooking={{ $item->kodebooking }}"
+                                            class="btn btn-xs btn-warning withLoad">0. Belum Sync</a>
+                                    @endif
                                 </td>
                                 <td>{{ $item->namadokter }} </td>
                                 <td>{{ $item->namapoli }} </td>
-                                <td>{{ $item->sync_satusehat ?? $item->kunjungan->sync_satusehat }} </td>
+                                <td>{{ $item->kunjungan->idencounter ?? null }} </td>
                             </tr>
                         @endforeach
                         <tfoot>

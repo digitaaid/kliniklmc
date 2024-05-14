@@ -62,6 +62,7 @@ use App\Http\Controllers\UnitController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VclaimController;
 use App\Http\Controllers\WhatsappController;
+use App\Http\Controllers\CondititionController;
 use App\Models\JadwalLibur;
 use App\Models\PemeriksaanLab;
 use App\Models\Poliklinik;
@@ -363,6 +364,8 @@ Route::middleware('auth')->group(function () {
         Route::get('table_kunjungan_encounter', [EncounterController::class, 'table_kunjungan_encounter'])->name('table_kunjungan_encounter');
         Route::get('encounter_sync', [EncounterController::class, 'encounter_sync'])->name('encounter_sync');
         Route::post('encounter_update', [EncounterController::class, 'encounter_update'])->name('encounter_update');
+        Route::get('conditition_sync', [CondititionController::class, 'conditition_sync'])->name('conditition_sync');
+        Route::get('condition', [CondititionController::class, 'condition'])->name('condition');
     });
     Route::get('download_backup_file', [BackupController::class, 'download_backup_file'])->name('download_backup_file');
     Route::get('printtest', [PrintController::class, 'printtest'])->name('printtest');

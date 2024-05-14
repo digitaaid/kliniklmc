@@ -55,17 +55,14 @@ class EncounterController extends SatuSehatController
             if ($res->metadata->code == 200) {
                 $id = $res->response->id;
                 $kunjungan->update([
-                    'sync_satusehat' => $id,
+                    'idencounter' => $id,
                 ]);
-                $antrian->update([
-                    'sync_satusehat' => $id,
-                ]);
-                Alert::success('Success', 'Kunjungan telah syncron dengan satusehat id ' . $antrian->sync_satusehat);
+                Alert::success('Success', 'Kunjungan telah syncron dengan satusehat id ' . $kunjungan->idencounter);
             } else {
                 Alert::error('Mohon Maaf', $res->metadata->message);
             }
         } else {
-            Alert::error('Mohon Maaf', 'Kunjungan telah syncron dengan satusehat id ' . $antrian->sync_satusehat);
+            Alert::error('Mohon Maaf', 'Kunjungan telah syncron dengan satusehat id ' . $kunjungan->idencounter);
         }
         return redirect()->back();
     }
