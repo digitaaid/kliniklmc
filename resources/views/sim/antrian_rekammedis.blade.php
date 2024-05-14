@@ -150,12 +150,11 @@
                                         data-status="{{ $item->status }}"
                                         data-tanggalperiksa="{{ $item->tanggalperiksa }}"
                                         data-kodebooking="{{ $item->kodebooking }}" data-taskid1="{{ $item->taskid1 }}"
-                                        data-taskid2="{{ $item->taskid2 }}"
-                                        data-taskid3="{{ \Carbon\Carbon::parse($item->taskid7)->subSeconds(3600, 4200) }}"
-                                        data-taskid4="{{ \Carbon\Carbon::parse($item->taskid7)->subSeconds(rand(1500, 2400)) }}"
-                                        data-taskid5="{{ \Carbon\Carbon::parse($item->taskid7)->subSeconds(rand(600, 900)) }}"
-                                        data-taskid6="{{ \Carbon\Carbon::parse($item->taskid7)->subSeconds(rand(300, 600)) }}"
-                                        data-taskid7="{{ $item->taskid7 }}" />
+                                        data-taskid2="{{ $item->taskid2 }}" data-taskid3="{{ $item->taskid3 }}"
+                                        data-taskid4="{{ \Carbon\Carbon::parse($item->taskid3)->addSeconds(rand(1200, 1800)) }}"
+                                        data-taskid5="{{ \Carbon\Carbon::parse($item->taskid3)->addSeconds(rand(2100, 2700)) }} "
+                                        data-taskid6="{{ \Carbon\Carbon::parse($item->taskid3)->addSeconds(rand(2880, 3180)) }}"
+                                        data-taskid7="{{ \Carbon\Carbon::parse($item->taskid3)->addSeconds(3780, 4380) }}" />
                                     {{-- @if ($item)
                                     @else
                                     @endif --}}
