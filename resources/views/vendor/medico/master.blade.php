@@ -10,8 +10,8 @@
     <meta content="" name="description">
     <meta content="" name="keywords">
     <!-- Favicons -->
-    <link href="{{ asset('klinik/logokitasehat.png') }}" rel="icon">
-    <link href="{{ asset('klinik/logokitasehat.png') }}" rel="apple-touch-icon">
+    <link href="{{ asset('klinik/logokitasehat-lingkar.png') }}" rel="icon">
+    <link href="{{ asset('klinik/logokitasehat-lingkar.png') }}" rel="apple-touch-icon">
     <!-- Vendor CSS Files -->
     <link href="{{ asset('medicio/assets/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet">
     <link href="{{ asset('medicio/assets/vendor/animate.css/animate.min.css') }}" rel="stylesheet">

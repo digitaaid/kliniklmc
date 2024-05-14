@@ -53,9 +53,9 @@
 
     {{-- Favicon --}}
     @if (config('adminlte.use_ico_only'))
-        <link rel="shortcut icon" href="{{ asset('medicio/assets/img/lmc.png') }}" />
+        <link rel="shortcut icon" href="{{ asset('klinik/logokitasehat-lingkar.png') }}" />
     @elseif(config('adminlte.use_full_favicon'))
-        <link rel="shortcut icon" href="{{ asset('medicio/assets/img/lmc.png') }}" />
+        <link rel="shortcut icon" href="{{ asset('klinik/logokitasehat-lingkar.png') }}" />
         <link rel="apple-touch-icon" sizes="57x57" href="{{ asset('favicons/apple-icon-57x57.png') }}">
         <link rel="apple-touch-icon" sizes="60x60" href="{{ asset('favicons/apple-icon-60x60.png') }}">
         <link rel="apple-touch-icon" sizes="72x72" href="{{ asset('favicons/apple-icon-72x72.png') }}">
