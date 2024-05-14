@@ -21,9 +21,9 @@ class DatabaseSeeder extends Seeder
         // ]);
         $this->call(RoleSeeder::class);
         $this->call(UserSeeder::class);
-        $this->call(APISeeder::class);
         $this->call(DokterSeeder::class);
         $this->call(UnitSeeder::class);
         $this->call(JaminanSeeder::class);
+        $this->call(APISeeder::class);
     }
 }
