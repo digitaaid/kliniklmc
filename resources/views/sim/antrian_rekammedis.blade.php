@@ -90,7 +90,7 @@
                         'INACBG',
                         'Satu Sehat',
                     ];
-                    $config['order'] = [[6, 'asc'], [7, 'asc']];
+                    $config['order'] = [[0, 'asc']];
                     $config['paging'] = false;
                     $config['scrollX'] = true;
                     $config['scrollY'] = '300px';
