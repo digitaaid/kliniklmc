@@ -7,7 +7,7 @@
                 </a>
             </div>
             <div class="d-flex align-items-center">
-                <a href="https://wa.me/6282311696919" style="color: white" target="_blank">
+                <a href="https://wa.me/089529909036" style="color: white" target="_blank">
                     <i class="bi bi-phone"></i> Whtastapp 089529909036
                 </a>
             </div>
@@ -17,7 +17,7 @@
     <header id="header" class="fixed-top">
         <div class="container d-flex align-items-center">
             <a href="{{ route('landingpage') }}" class="logo me-auto">
-                {{-- <img src="{{ asset('medicio/assets/img/lmc-l.png') }}" alt=""> --}}
+                <img src="{{ asset('klinik/logokitasehat.png') }}" alt="">
             </a>
             <!-- Uncomment below if you prefer to use an image logo -->
             <!-- <h1 class="logo me-auto"><a hrefp="index.html">Medicio</a></h1> -->

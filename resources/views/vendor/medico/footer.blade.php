@@ -3,14 +3,13 @@
         <div class="footer-top">
             <div class="container">
                 <div class="row">
-
                     <div class="col-lg-3 col-md-6">
                         <div class="footer-info">
-                            <h3>Klinik LMC</h3>
+                            <h3>Kita Sehat</h3>
                             <p>
-                                Luthfi Medical Center <br>
-                                Jl. Raya Sunan Gunung Jati No. 100 A/B <br>
-                                Desa Pasindangan Kec. Gunungjati Kab. Cirebon Jawa Barat 45151<br><br>
+                                Klinik Utama Kita Sehat<br>
+                                Jl. Raya Merdeka Utama Ciledug <br>
+                                Desa Ciledug Kulon, Kec. Ciledug, Kabupaten Cirebon, Jawa Barat 45188<br><br>
                                 <a href="https://wa.me/6282311696919">
                                     <strong>Whatsapp:</strong> 0823 1169 6919<br>
                                 </a>
