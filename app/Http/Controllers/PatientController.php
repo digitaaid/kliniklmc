@@ -45,22 +45,32 @@ class PatientController extends SatuSehatController
     {
         $pasien = Pasien::where('norm', $request->norm)->first();
         $request['nik'] = $pasien->nik;
-        $res = $this->patient_by_nik($request);
-        if ($res->metadata->code == 200) {
-            if ($res->response->entry) {
-                $id = $res->response->entry[0]->resource->id;
-                $pasien->update([
-                    'idpatient' => $id
-                ]);
-            } else {
-                $data = [
-                    'metadata' => [
-                        'message' => "Data Pasien Tidak Ditemukan Di Server Satu Sehat",
-                        'code' => 404,
-                    ],
-                ];
-                $res = json_decode(json_encode($data));
+        if ($request->nik) {
+            $res = $this->patient_by_nik($request);
+            if ($res->metadata->code == 200) {
+                if ($res->response->entry) {
+                    $id = $res->response->entry[0]->resource->id;
+                    $pasien->update([
+                        'idpatient' => $id
+                    ]);
+                } else {
+                    $data = [
+                        'metadata' => [
+                            'message' => "Data Pasien Tidak Ditemukan Di Server Satu Sehat",
+                            'code' => 404,
+                        ],
+                    ];
+                    $res = json_decode(json_encode($data));
+                }
             }
+        } else {
+            $data = [
+                'metadata' => [
+                    'message' => "Pasien belum memiliki nik",
+                    'code' => 404,
+                ],
+            ];
+            $res = json_decode(json_encode($data));
         }
         return $res;
     }
@@ -68,19 +78,23 @@ class PatientController extends SatuSehatController
     {
         $pasien = Pasien::where('norm', $request->norm)->first();
         $request['nik'] = $pasien->nik_bpjs;
-        $res = $this->patient_by_nik($request);
-        if ($res->metadata->code == 200) {
-            if ($res->response->entry) {
-                $id = $res->response->entry[0]->resource->id;
-                $pasien->update([
-                    'idpatient' => $id
-                ]);
-                Alert::success('Sukses', 'Berhasil Sync Patient Satu Sehat');
+        if ($request->nik) {
+            $res = $this->patient_by_nik($request);
+            if ($res->metadata->code == 200) {
+                if ($res->response->entry) {
+                    $id = $res->response->entry[0]->resource->id;
+                    $pasien->update([
+                        'idpatient' => $id
+                    ]);
+                    Alert::success('Sukses', 'Berhasil Sync Patient Satu Sehat');
+                } else {
+                    Alert::error('Mohon Maaf', 'Data Pasien Tidak Ditemukan Di Server Satu Sehat');
+                }
             } else {
-                Alert::error('Mohon Maaf', 'Data Pasien Tidak Ditemukan Di Server Satu Sehat');
+                Alert::error('Mohon Maaf', $res->metadata->message);
             }
         } else {
-            Alert::error('Mohon Maaf', $res->metadata->message);
+            Alert::error('Mohon Maaf', 'Pasien belum memiliki nik');
         }
         return redirect()->back();
     }
