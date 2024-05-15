@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Antrian;
 use App\Models\IntegrasiApi;
+use App\Models\Pengaturan;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
@@ -42,12 +43,13 @@ class EncounterController extends SatuSehatController
                 return redirect()->back();
             }
         }
+        $pengaturan = Pengaturan::firstOrFail();
+        $request['organization_id'] =  $pengaturan->idorganization;
         $request['patient_name'] = $pasien->nama;
         $request['practitioner_id'] = $dokter->idpractitioner;
         $request['practitioner_name'] = $dokter->namadokter;
         $request['location_id'] = $unit->idlocation;
         $request['location_name'] = 'Lokasi poliklinik ' . $unit->nama;
-        $request['organization_id'] =  $unit->idorganization;
         $request['encounter_id'] = $kunjungan->kode;
         $request['start'] = Carbon::parse($kunjungan->tgl_masuk);
         if (!$kunjungan->id_satusehat) {
@@ -69,6 +71,7 @@ class EncounterController extends SatuSehatController
     public function encounter_create(Request $request)
     {
         $validator = Validator::make(request()->all(), [
+            "organization_id" => "required",
             "patient_id" => "required",
             "patient_name" => "required",
             "practitioner_id" => "required",
@@ -134,11 +137,11 @@ class EncounterController extends SatuSehatController
                 ]
             ],
             "serviceProvider" => [
-                "reference" => "Organization/100025921"
+                "reference" => "Organization/" . $request->organization_id
             ],
             "identifier" => [
                 [
-                    "system" => "http://sys-ids.kemkes.go.id/encounter/100025921",
+                    "system" => "http://sys-ids.kemkes.go.id/encounter/" . $request->organization_id,
                     "value" => $request->encounter_id
                 ]
             ]
