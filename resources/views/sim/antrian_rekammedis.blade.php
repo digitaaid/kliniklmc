@@ -162,8 +162,14 @@
                                 </td>
                                 <td>
                                     @if ($item->kunjungan?->idencounter)
-                                        <a href="{{ route('conditition_sync') }}?kodebooking={{ $item->kodebooking }}"
-                                            class="btn btn-xs btn-primary withLoad">1. Sync Diag</a>
+                                        @if ($item->kunjungan?->idconditition)
+                                            <a href="{{ route('conditition_sync') }}?kodebooking={{ $item->kodebooking }}"
+                                                class="btn btn-xs btn-success withLoad">Diag
+                                                {{ $item->kunjungan?->idconditition ?? null }}</a>
+                                        @else
+                                            <a href="{{ route('conditition_sync') }}?kodebooking={{ $item->kodebooking }}"
+                                                class="btn btn-xs btn-primary withLoad">1. Sync Diag</a>
+                                        @endif
                                     @else
                                         <a href="{{ route('encounter_sync') }}?kodebooking={{ $item->kodebooking }}"
                                             class="btn btn-xs btn-warning withLoad">0. Belum Sync</a>

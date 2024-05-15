@@ -24,14 +24,15 @@ class CondititionController extends SatuSehatController
         $request['code_idc10'] = $kunjungan->diagnosa_awal;
         $request['name_icd10'] = $kunjungan->diagnosa_awal;
         $res  = $this->conditition_create($request);
-        if ($res->metadata->code == 201) {
-            $kunjungan->update([
-                'idcondititon' => $kunjungan->diagnosa_awal,
-            ]);
+        $kunjungan->update([
+            'idconditition' => $kunjungan->diagnosa_awal,
+        ]);
+        if ($res->metadata->code == 200) {
             Alert::success('Success', 'Diagnosa Berhasil Diinput ke Satu Sehat');
         } else {
             Alert::error('Mohon maaf', $res->metadata->message);
         }
+
         return redirect()->back();
     }
     public function conditition_create(Request $request)
