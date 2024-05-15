@@ -32,20 +32,25 @@ class PractitionerController extends SatuSehatController
     {
         $dokter = Dokter::where('kodedokter', $request->kodedokter)->first();
         $request['nik'] = $dokter->nik;
-        $res = $this->practitioner_by_nik($request);
-        if ($res->metadata->code == 200) {
-            if (count($res->response->entry)) {
-                $id = $res->response->entry[0]->resource->id;
-                $dokter->update([
-                    'idpractitioner' => $id
-                ]);
-                Alert::success('Success', 'Berhasil Sync Practitioner Satu Sehat');
+        if ($request->nik) {
+            $res = $this->practitioner_by_nik($request);
+            if ($res->metadata->code == 200) {
+                if (count($res->response->entry)) {
+                    $id = $res->response->entry[0]->resource->id;
+                    $dokter->update([
+                        'idpractitioner' => $id
+                    ]);
+                    Alert::success('Success', 'Berhasil Sync Practitioner Satu Sehat');
+                } else {
+                    Alert::error('Mohon Maaf', $res->metadata->message);
+                }
             } else {
-                Alert::error('Mohon Maaf', $res->metadata->message);
+                Alert::error('Mohon Maaf', 'Gagal Sync Practitioner ' . $res->metadata->message);
             }
         } else {
-            Alert::error('Mohon Maaf', 'Gagal Sync Practitioner ' . $res->metadata->message);
+            Alert::error('Mohon Maaf', 'Dokter belum memiliki nik');
         }
         return redirect()->back();
+
     }
 }

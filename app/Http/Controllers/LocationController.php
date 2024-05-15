@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\IntegrasiApi;
+use App\Models\Pengaturan;
 use App\Models\Unit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
@@ -34,10 +35,12 @@ class LocationController extends SatuSehatController
             "province" => "required",
             "city" => "required",
             "district" => "required",
-            "village" => "required",
+            "longitude" => "required",
+            "latitude" => "required",
+            "altitude" => "required",
         ]);
         if ($validator->fails()) {
-            return $this->sendError('Data Belum Lengkap', $validator->errors()->first(), 400);
+            return $this->sendError('Data Belum Lengkap ' . $validator->errors()->first(), 400);
         }
 
         $token = Cache::get('satusehat_access_token');
@@ -76,7 +79,7 @@ class LocationController extends SatuSehatController
                 "line" => [
                     $request->address,
                 ],
-                "city" =>  $request->cityText,
+                "city" => $request->city,
                 "postalCode" =>  $request->postalCode,
                 "country" => "ID",
                 "extension" => [
@@ -85,19 +88,19 @@ class LocationController extends SatuSehatController
                         "extension" => [
                             [
                                 "url" => "province",
-                                "valueCode" =>  "10"
+                                "valueCode" => $request->province,
                             ],
                             [
                                 "url" => "city",
-                                "valueCode" =>  "1010"
+                                "valueCode" => $request->city,
                             ],
                             [
                                 "url" => "district",
-                                "valueCode" =>  "1010101"
+                                "valueCode" => $request->district,
                             ],
                             [
                                 "url" => "village",
-                                "valueCode" => "1010101101"
+                                "valueCode" => $request->village,
                             ],
                         ]
                     ]
@@ -113,9 +116,9 @@ class LocationController extends SatuSehatController
                 ]
             ],
             "position" => [
-                "longitude" => -6.23115426275766,
-                "latitude" => 106.83239885393944,
-                "altitude" => 0
+                "longitude" => $request->longitude,
+                "latitude" => $request->latitude,
+                "altitude" => $request->altitude,
             ],
             "managingOrganization" => [
                 "reference" => "Organization/" . $request->organization_id,
@@ -128,33 +131,32 @@ class LocationController extends SatuSehatController
     public function location_sync(Request $request)
     {
         $unit = Unit::where('kode', $request->kode)->first();
-        if ($unit->id_location) {
-            Alert::error('Sudah memiliki id satu sehat');
-        } else {
-            $request['organization_id'] = $unit->idorganization;
-            $request['identifier'] = $unit->kode;
-            $request['name'] = $unit->nama;
-            $request['phone'] = "08983311118";
-            $request['email'] = "brsud.waled@gmail.com";
-            $request['url'] = "rsudwaled.id";
-            $request['address'] = "Jl. Prabu Kiansantang No.4";
-            $request['postalCode'] = "45187";
-            $request['province'] = "Jawa Barat";
-            $request['city'] = "Kab. Cirebon";
-            $request['district'] = "Waled";
-            $request['village'] = "Waled Kota";
-            $request['district'] = "Waled";
-            $request['description'] = "Lokasi poliklinik " . $unit->lokasi;
-            $res = $this->store($request);
+        $pengaturan = Pengaturan::firstOrFail();
+        $request['organization_id'] = $unit->idorganization;
+        $request['identifier'] = $unit->kode;
+        $request['name'] = $unit->nama;
+        $request['phone'] = $pengaturan->phone;
+        $request['email'] = $pengaturan->email;
+        $request['url'] = $pengaturan->website;
+        $request['address'] = $pengaturan->address;
+        $request['postalCode'] = $pengaturan->postalCode;
+        $request['province'] = $pengaturan->province;
+        $request['city'] = $pengaturan->city;
+        $request['district'] = $pengaturan->district;
+        $request['village'] = $pengaturan->village;
+        $request['longitude'] = floatval($pengaturan->longitude);
+        $request['latitude'] = floatval($pengaturan->latitude);
+        $request['altitude'] = floatval($pengaturan->altitude);
+        $request['description'] = "Unit " . $unit->nama . " Lokasi " . $unit->lokasi;
+        $res = $this->store($request);
+        if ($res->metadata->code == 200) {
             $json = $res->response;
-            if ($res->metadata->code == 200) {
-                $unit->update([
-                    'idlocation' => $json->id,
-                ]);
-                Alert::success('Success', 'Berhasil Sync Location');
-            } else {
-                Alert::error('Mohon Maaf', $res->metadata->message);
-            }
+            $unit->update([
+                'idlocation' => $json->id,
+            ]);
+            Alert::success('Success', 'Berhasil Sync Location');
+        } else {
+            Alert::error('Mohon Maaf', $res->metadata->message);
         }
         return redirect()->back();
     }

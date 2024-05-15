@@ -48,7 +48,7 @@ class OrganizationController extends SatuSehatController
             "identifier" => [
                 [
                     "use" => "official",
-                    "system" => "http://sys-ids.kemkes.go.id/organization/100025921",
+                    "system" => "http://sys-ids.kemkes.go.id/organization/" . $request->organization_id,
                     "value" => $request->identifier
                 ]
             ],
@@ -117,7 +117,7 @@ class OrganizationController extends SatuSehatController
                 ]
             ],
             "partOf" => [
-                "reference" => "Organization/100025921",
+                "reference" => "Organization/" . $request->organization_id,
             ]
         ];
         $response = Http::withToken($token)->post($url, $data);
@@ -127,32 +127,26 @@ class OrganizationController extends SatuSehatController
     public function organization_sync(Request $request)
     {
         $unit = Unit::where('kode', $request->kode)->first();
-        if ($unit->idorganization) {
-            Alert::error('Sudah memiliki id satu sehat');
+        $pengaturan = Pengaturan::firstOrFail();
+        $request['organization_id'] = $pengaturan->idorganization;
+        $request['identifier'] = $unit->nama;
+        $request['name'] = $unit->nama;
+        $request['phone'] = $pengaturan->phone;
+        $request['email'] = $pengaturan->email;
+        $request['url'] = $pengaturan->website;
+        $request['address'] = $pengaturan->address;
+        $request['postalCode'] = $pengaturan->postalCode;
+        $request['province'] = $pengaturan->province;
+        $request['city'] = $pengaturan->city;
+        $request['district'] = $pengaturan->district;
+        $request['village'] = $pengaturan->village;
+        $res = $this->store($request);
+        $json = $res->response;
+        if ($json->resourceType == "Organization") {
+            $unit->update(['idorganization' => $json->id]);
+            Alert::success('Success', 'Berhasil Sync Organization');
         } else {
-            $pengaturan = Pengaturan::firstOrFail();
-            $request['organization_id'] = "100025921";
-            $request['identifier'] = $unit->nama;
-            $request['name'] = $unit->nama;
-            $request['phone'] = "08983311118";
-            $request['email'] = "brsud.waled@gmail.com";
-            $request['url'] = "rsudwaled.id";
-            $request['address'] = "Jl. Prabu Kiansantang No.4";
-            $request['postalCode'] = "45187";
-            $request['province'] = "Jawa Barat";
-            $request['city'] = "Kab. Cirebon";
-            $request['district'] = "Waled";
-            $request['village'] = "Waled Kota";
-            $res = $this->store($request);
-            $json = $res->response;
-            if ($json->resourceType == "Organization") {
-                $unit->update([
-                    'idorganization' => $json->id,
-                ]);
-                Alert::success('Success', 'Berhasil Sync Organization');
-            } else {
-                Alert::error('Mohon Maaf', $res->metadata->message);
-            }
+            Alert::error('Mohon Maaf', $res->metadata->message);
         }
         return redirect()->back();
     }

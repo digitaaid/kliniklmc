@@ -23,6 +23,10 @@ return new class extends Migration
             $table->string('city');
             $table->string('district');
             $table->string('village');
+            $table->string('village');
+            $table->string('longitude');
+            $table->string('latitude');
+            $table->string('altitude');
             $table->string('idorganization')->nullable();
             $table->timestamps();
         });

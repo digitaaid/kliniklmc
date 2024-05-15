@@ -44,6 +44,15 @@
                             <x-adminlte-input fgroup-class="row" label-class="text-left col-3" igroup-class="col-9"
                                 igroup-size="sm" name="village" label="Desa" value="{{ $pengaturan->village ?? null }}"
                                 enable-old-support />
+                            <x-adminlte-input fgroup-class="row" label-class="text-left col-3" igroup-class="col-9"
+                                igroup-size="sm" name="longitude" label="Longitude"
+                                value="{{ $pengaturan->longitude ?? null }}" enable-old-support />
+                            <x-adminlte-input fgroup-class="row" label-class="text-left col-3" igroup-class="col-9"
+                                igroup-size="sm" name="latitude" label="Latitude" value="{{ $pengaturan->latitude ?? null }}"
+                                enable-old-support />
+                            <x-adminlte-input fgroup-class="row" label-class="text-left col-3" igroup-class="col-9"
+                                igroup-size="sm" name="altitude" label="Altitude"
+                                value="{{ $pengaturan->altitude ?? null }}" enable-old-support />
                             <hr>
                             <x-adminlte-input fgroup-class="row" label-class="text-left col-3" igroup-class="col-9"
                                 igroup-size="sm" name="idorganization" label="IdOrganization"
