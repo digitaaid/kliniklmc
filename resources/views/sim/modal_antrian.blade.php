@@ -228,7 +228,7 @@
         </div>
     </form>
     <x-slot name="footerSlot">
-        <x-adminlte-button theme="success" icon="fas fa-edit" class="mr-auto withLoad" label="Simpan"
+        <x-adminlte-button theme="success" icon="fas fa-save" class="mr-auto withLoad" label="Simpan"
             type="submit" form="formAntrian" />
         <x-adminlte-button theme="warning" icon="fas fa-users" onclick="modalPasien()" label="Data Pasien" />
         <x-adminlte-button theme="danger" icon="fas fa-times" label="Tutup" data-dismiss="modal" />

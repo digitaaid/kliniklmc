@@ -60,10 +60,12 @@ return new class extends Migration
             $table->dateTime('taskid5')->nullable();
             $table->dateTime('taskid6')->nullable();
             $table->dateTime('taskid7')->nullable();
-            $table->string('user1')->nullable();
-            $table->string('user2')->nullable();
-            $table->string('user3')->nullable();
-            $table->string('user4')->nullable();
+            $table->string('user1')->nullable();#pendaftaran
+            $table->string('user2')->nullable();#perawat
+            $table->string('user3')->nullable();#dokter
+            $table->string('user4')->nullable();#farmasi
+            $table->string('user5')->nullable();#rm
+            $table->string('user6')->nullable();#keuangan
             $table->timestamps();
         });
     }

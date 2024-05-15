@@ -8,22 +8,21 @@
         @if (isset($antrians))
             <div class="col-md-12">
                 <div class="row">
-                    <div class="col-md-3">
-                        <x-adminlte-small-box
-                            title="{{ $antrians->where('taskid', 2)->first()->nomorantrean ?? 'Belum Panggil' }}"
+                    <div class="col-lg-3 col-6">
+                        <x-adminlte-small-box title="{{ $antrians->where('taskid', 2)->first()->nomorantrean ?? '-' }}"
                             text="Antrian Dilayani" theme="primary" icon="fas fa-user-injured"
                             url="{{ route('prosespendaftaran') }}?kodebooking={{ $antrians->where('taskid', 1)->first()->kodebooking ?? '00' }}"
                             url-text="Proses Antrian Selanjutnya" />
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-lg-3 col-6">
                         <x-adminlte-small-box title="{{ $antrians->where('taskid', 1)->count() }}" text="Sisa Antrian"
                             theme="warning" icon="fas fa-user-injured" />
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-lg-3 col-6">
                         <x-adminlte-small-box title="{{ $antrians->where('taskid', '!=', 99)->count() }}"
                             text="Total Antrian" theme="success" icon="fas fa-user-injured" />
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-lg-3 col-6">
                         <x-adminlte-small-box title="{{ $antrians->where('taskid', 99)->count() }}" text="Batal Antrian"
                             theme="danger" icon="fas fa-user-injured" />
                     </div>
@@ -31,8 +30,7 @@
             </div>
         @endif
         <div class="col-md-12">
-            <x-adminlte-card title="Antrian Pendaftaran Rawat Jalan" theme="secondary" icon="fas fa-info-circle"
-                collapsible>
+            <x-adminlte-card theme="primary" theme-mode="outline">
                 <div class="row">
                     <div class="col-md-4">
                         <form action="" method="get">
@@ -50,7 +48,7 @@
                                             </div>
                                         </x-slot>
                                         <x-slot name="appendSlot">
-                                            <x-adminlte-button type="submit" theme="primary" label="Cari Tanggal" />
+                                            <x-adminlte-button type="submit" theme="primary" label="Cari" />
                                         </x-slot>
                                     </x-adminlte-input-date>
                                 </div>

@@ -40,7 +40,7 @@
                     <h5>{{ $pasien->nama ?? '-' }}</h5>
                 </div>
                 <div class="col-md-3 border border-dark text-center">
-                    {{ $pasien->created_at ?? '-'}}
+                    {{ $pasien->created_at ?? '-' }}
                 </div>
                 <div class="col-md-12 border border-dark">
                     <div class="row">
@@ -62,11 +62,11 @@
                                 <dt class="col-sm-3 m-0">No RM</dt>
                                 <dd class="col-sm-9 m-0">{{ $pasien->norm ?? '-' }}</dd>
                                 <dt class="col-sm-3 m-0">NIK</dt>
-                                <dd class="col-sm-9 m-0">{{ $pasien->nik?? '-' }}</dd>
+                                <dd class="col-sm-9 m-0">{{ $pasien->nik ?? '-' }}</dd>
                                 <dt class="col-sm-3 m-0">No BPJS</dt>
-                                <dd class="col-sm-9 m-0">{{ $pasien->nomorkartu ?? '-'}}</dd>
+                                <dd class="col-sm-9 m-0">{{ $pasien->nomorkartu ?? '-' }}</dd>
                                 <dt class="col-sm-3 m-0">No HP</dt>
-                                <dd class="col-sm-9 m-0">{{ $pasien->nohp ?? '-'}}</dd>
+                                <dd class="col-sm-9 m-0">{{ $pasien->nohp ?? '-' }}</dd>
                             </dl>
                         </div>
                         <div class="col-md-4">
@@ -92,7 +92,7 @@
                     <b>Farmasi</b>
                 </div>
                 @if ($kunjungans)
-                    @foreach ($kunjungans as $kunjungan)
+                    @foreach ($kunjungans->where('status', 1) as $kunjungan)
                         <div class="col-md-2  border border-dark">
                             {{ \Carbon\Carbon::parse($kunjungan->tgl_masuk)->format('d/m/Y h:m:s') }}
                             ({{ $kunjungan->kode }})

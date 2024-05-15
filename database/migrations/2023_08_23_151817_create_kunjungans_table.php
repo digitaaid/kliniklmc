@@ -45,7 +45,12 @@ return new class extends Migration
             $table->string('status');
             $table->string('idencounter')->nullable();
             $table->string('idcondititon')->nullable();
-            $table->string('user1');
+            $table->string('user1')->nullable();#pendaftaran
+            $table->string('user2')->nullable();#perawat
+            $table->string('user3')->nullable();#dokter
+            $table->string('user4')->nullable();#farmasi
+            $table->string('user5')->nullable();#rm
+            $table->string('user6')->nullable();#keuangan
             $table->timestamps();
         });
     }

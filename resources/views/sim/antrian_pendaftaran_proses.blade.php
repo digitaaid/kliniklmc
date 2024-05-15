@@ -135,7 +135,8 @@
                             <a href="#nav" class="nav-link">
                                 <i class="fas fa-file-medical"></i> CPPT
                                 <span class="badge bg-success float-right">
-                                    {{ $antrian->pasien ? $antrian->pasien->kunjungans->count() : 0 }} Kunjungan
+                                    {{ $antrian->pasien ? $antrian->pasien->kunjungans->where('status', 1)->count() : 0 }}
+                                    Kunjungan
                                 </span>
                             </a>
                         </li>
@@ -173,7 +174,7 @@
                     @endif
                 </ul>
                 <x-slot name="footerSlot">
-                    @if ($antrian->kunjungan)
+                    @if ($antrian?->kunjungan?->status)
                         <x-adminlte-button label="Selesai Pendaftaran" class="btn-sm" icon="fas fa-check" theme="success"
                             onclick="modalPendaftaranSelesai()" />
                     @endif

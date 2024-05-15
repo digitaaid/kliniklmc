@@ -170,7 +170,7 @@ class PendaftaranController extends APIController
     public function prosespendaftaran(Request $request)
     {
         $pasiencount = Pasien::where('status', 1)->count();
-        $antrian = Antrian::with(['kunjungan', 'pasien'])->where('kodebooking', $request->kodebooking)->first();
+        $antrian = Antrian::with(['kunjungan', 'pasien', 'pic1', 'kunjungan.dokters', 'kunjungan.units','layanans'])->where('kodebooking', $request->kodebooking)->first();
         if ($antrian) {
             $pasien = $antrian->pasien;
             if ($antrian->taskid == 1) {
@@ -183,6 +183,7 @@ class PendaftaranController extends APIController
             // dd(gmdate('H:i:s', now()->diffInSeconds($antrian->taskid1)));
             $kunjungans = Kunjungan::where('norm', $antrian->norm)
                 ->has('pasien')
+                ->where('status', 1)
                 ->with(['units', 'asesmenperawat', 'asesmendokter', 'files', 'resepobat', 'resepobat.resepdetail'])
                 ->orderBy('tgl_masuk', 'DESC')
                 ->get();
@@ -225,7 +226,7 @@ class PendaftaranController extends APIController
     public function lihatpendaftaran(Request $request)
     {
         $pasiencount = Pasien::where('status', 1)->count();
-        $antrian = Antrian::with(['kunjungan', 'pasien'])->where('kodebooking', $request->kodebooking)->first();
+        $antrian = Antrian::with(['kunjungan', 'pasien', 'pic1', 'kunjungan.dokters', 'kunjungan.units','layanans'])->where('kodebooking', $request->kodebooking)->first();
         if ($antrian) {
             $pasien = $antrian->pasien;
             $kunjungans = Kunjungan::where('norm', $antrian->norm)
@@ -372,11 +373,6 @@ class PendaftaranController extends APIController
                     $request['message'] = "*Pendaftaran Berhasil*\nAntrian anda berhasil didaftarkan ke sistem KLINIK LMC dengan data sebagai berikut : \n\n*Kode Antrian :* " . $request->kodebooking .  "\n*Angka Antrian :* " . $request->angkaantrean .  "\n*Nomor Antrian :* " . $request->nomorantrean . "\n*Jenis Pasien :* " . $request->jenispasien .  "\n*Jenis Kunjungan :* " . $jeniskunjungan .  "\n\n*Nama :* " . $request->nama . "\n*Poliklinik :* " . $request->namapoli  . "\n*Dokter :* " . $request->namadokter  .  "\n*Jam Praktek :* " . $request->jampraktek  .  "\n*Tanggal Periksa :* " . $request->tanggalperiksa . "\n\n*Keterangan :* " . $request->keterangan  .  "\n\nLink Kodebooking QR Code :\nhttps://luthfimedicalcenter.com/statusantrian?kodebooking=" . $request->kodebooking . "\n\nTerima kasih. \nSalam Hangat dan Sehat Selalu.\nUntuk pertanyaan & pengaduan silahkan hubungi :\n*Customer Care KLINIK LMC (0231)8850943 / 0823 1169 6919*";
                     $request['number'] = $request->nohp;
                     $wapi->send_message($request);
-                    // sholawat
-                    $sholawat = "اَللّٰهُمَّ صَلِّ عَلٰى سَيِّدِنَا مُحَمَّدٍ، طِبِّ الْقُلُوْبِ وَدَوَائِهَا، وَعَافِيَةِ الْاَبْدَانِ وَشِفَائِهَا، وَنُوْرِ الْاَبْصَارِ وَضِيَائِهَا، وَعَلٰى اٰلِهِ وَصَحْبِهِ وَسَلِّمْ";
-                    $request['message'] = $sholawat;
-                    $request['number'] = '6289529909036@c.us';
-                    $wapi->send_message($request);
                     // notif group
                     $request['message'] = "Berhasil integrasi antrian \nAngka antrian : " . $request->angkaantrean . "\nKodebooking : " . $request->kodebooking .  "\nJenis Pasien : " . $request->jenispasien . "\nNama " . $request->nama . "\nTanggal Periksa " . $request->tanggalperiksa . "\nDokter : " . $request->namadokter . "\nUser : " . Auth::user()->name;
                     $request['number'] = "120363170262520539";
@@ -384,9 +380,8 @@ class PendaftaranController extends APIController
                 } catch (\Throwable $th) {
                     //throw $th;
                 }
-                $antrian->update([
-                    'status' => 1
-                ]);
+                $antrian->status = 1;
+                $antrian->update();
                 Alert::success('Success', $res->metadata->message);
             } else {
                 Alert::error('Mohon Maaf', $res->metadata->message);
@@ -424,12 +419,23 @@ class PendaftaranController extends APIController
             ]);
         }
         $antrian = Antrian::find($request->antrian_id);
+        $pasien = $antrian->pasien;
+        $pasien?->update([
+            'nama' => $request->nama,
+            'nik' => $request->nik,
+            'nomorkartu' => $request->nomorkartu,
+            'tgl_lahir' => $request->tgl_lahir,
+            'gender' => $request->gender,
+            'hakkelas' => $request->kelas,
+            'jenispeserta' => $request->penjamin,
+            'user' => Auth::user()->id,
+        ]);
         $request['kode'] = $antrian->kodebooking;
         $request['unit'] = $request->kodepoli;
         $request['dokter'] = $request->kodedokter;
         $request['diagnosa_awal'] = $request->diagnosa_awal;
         $request['alasan_masuk'] = $request->cara_masuk;
-        $request['status'] = 1;
+        $request['status'] = 0;
         $request['user1'] = Auth::user()->id;
         $request['pic'] = Auth::user()->name;
         try {
@@ -562,11 +568,10 @@ class PendaftaranController extends APIController
     function batalantrian(Request $request)
     {
         $antrian = Antrian::where('kodebooking', $request->kodebooking)->first();
+        $kunjungan = $antrian->kunjungan;
         if ($antrian) {
-            $antrian->update([
-                'taskid' => 99,
-                'user1' => Auth::user()->id,
-            ]);
+            $antrian->update(['taskid' => 99, 'user1' => Auth::user()->id,]);
+            $kunjungan?->update(['status' => 0, 'user1' => Auth::user()->id]);
             Alert::success('Success', 'Antrian telah dibatalkan.');
         } else {
             Alert::error('Mohon Maaf', 'Antrian tidak ditemukan.');
@@ -577,11 +582,10 @@ class PendaftaranController extends APIController
     function tidakjadibatal(Request $request)
     {
         $antrian = Antrian::where('kodebooking', $request->kodebooking)->first();
+        $kunjungan = $antrian->kunjungan;
         if ($antrian) {
-            $antrian->update([
-                'taskid' => 1,
-                'user1' => Auth::user()->id,
-            ]);
+            $antrian->update(['taskid' => 1, 'user1' => Auth::user()->id,]);
+            $kunjungan?->update(['status' => 1, 'user1' => Auth::user()->id]);
             Alert::success('Success', 'Antrian tidak jadi dbatalkan.');
         } else {
             Alert::error('Mohon Maaf', 'Antrian tidak ditemukan.');
