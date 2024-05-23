@@ -422,7 +422,6 @@ class VclaimController extends APIController
     }
     public function pasien_nomorkartu(Request $request)
     {
-
         try {
             $validator = Validator::make(request()->all(), [
                 "nomorkartu" => "required",
@@ -439,14 +438,10 @@ class VclaimController extends APIController
                     $this->sendError('Data pasien tidak ditemukan, silahkan gunakan pencarian lainnya');
                 }
             }
-            dd($pasien);
         } catch (\Throwable $th) {
             //throw $th;
             dd($request->all(), $th->getMessage());
         }
-
-
-
         if ($validator->fails()) {
             return $this->sendError($validator->errors()->first(), 400);
         }
