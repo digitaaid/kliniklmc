@@ -730,7 +730,7 @@
                 </x-adminlte-textarea>
             </div>
         </div> --}}
-        <h6>Analysis (A)</h6>
+        <h6>Assessment (A)</h6>
         <x-adminlte-textarea igroup-size="sm" rows=3 label="Diagnosa Keperawatan" name="diagnosa_keperawatan"
             placeholder="Diagnosa Keperawatan">
             {{ $antrian->asesmenperawat->diagnosa_keperawatan ?? null }}

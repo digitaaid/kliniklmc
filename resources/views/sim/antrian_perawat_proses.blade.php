@@ -137,7 +137,6 @@
                                 @endif
                             </a>
                         </li>
-
                         <li class="nav-item" onclick="btnResumeRajal()">
                             <a href="#nav" class="nav-link">
                                 <i class="fas fa-file-medical-alt"></i> Resume Rawat Jalan

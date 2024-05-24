@@ -43,12 +43,10 @@ class LoginController extends Controller
     public function login(Request $request)
     {
         $input = $request->all();
-
         $this->validate($request, [
             'email' => 'required',
             'password' => 'required',
         ]);
-
         $fieldType = filter_var($request->email, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
         $user = User::where('username', $request->email)
             ->orWhere('email', $request->email)->first();
