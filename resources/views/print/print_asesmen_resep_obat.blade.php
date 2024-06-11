@@ -84,13 +84,10 @@
 
                                                 @default
                                             @endswitch
-
-
                                             {{ $itemobat->keterangan }} <br>
                                         @endforeach
                                     @endif
                                 @endif
-
                                 <dd>
                                     <pre id="resepobat">{{ $antrian->asesmendokter->resep_obat ?? null }}</pre>
                                 </dd>
