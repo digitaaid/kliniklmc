@@ -115,6 +115,8 @@ Route::middleware('auth')->group(function () {
     // route resource
     Route::group(['middleware' => ['permission:admin']], function () {
         Route::resource('user', UserController::class);
+        Route::get('userexport', [UserController::class, 'userexport'])->name('userexport');
+        Route::post('userimport]', [UserController::class, 'pasienimport'])->name('pasienimport');
         Route::get('user_verifikasi/{user}', [UserController::class, 'user_verifikasi'])->name('user_verifikasi');
         Route::get('user_synchronize', [UserController::class, 'user_synchronize'])->name('user_synchronize');
         Route::get('user_sync', [UserController::class, 'user_sync'])->name('user_sync');

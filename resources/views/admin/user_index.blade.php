@@ -25,6 +25,8 @@
                             title="Tambah User" icon="fas fa-plus" />
                         <x-adminlte-button label="Synchronize" class="btn-sm" theme="warning" title="Refresh User"
                             icon="fas fa-sync" onclick="window.location='{{ route('user_synchronize') }}'" />
+                        <a href="{{ route('userexport') }}" class="btn btn-sm btn-primary"><i class="fas fa-print"></i>
+                            Export</a>
                     </div>
                     <div class="col-md-4">
                         <form action="{{ route('user.index') }}" method="get">

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\UserExport;
+use App\Imports\UserImport;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
@@ -10,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
+use Maatwebsite\Excel\Facades\Excel;
 use RealRashid\SweetAlert\Facades\Alert;
 use Spatie\Permission\Models\Role;
 
@@ -198,5 +201,18 @@ class UserController extends Controller
         $request['password'] = $request['username'];
         $user = User::create($request->all());
         return json_decode(json_encode($user));
+    }
+    public function userexport ()
+    {
+        $time = now()->format('Y-m-d');
+        return Excel::download(new UserExport, 'user_backup_' . $time . '.xlsx');
+    }
+    public function userimport(Request $request)
+    {
+        set_time_limit(300);
+        Excel::import(new UserImport, $request->file);
+        Alert::success('Success', 'Import Pasien Berhasil.');
+
+        return redirect()->route('pasien.index');
     }
 }
