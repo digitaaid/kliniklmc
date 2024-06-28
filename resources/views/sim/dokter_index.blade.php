@@ -84,7 +84,7 @@
                                     <span class="badge badge-danger">Non-Aktif</span>
                                 @endif
                             </td>
-                            <td>{{ $item->pic ? $item->pic->name : $item->user }}</td>
+                            <td>{{ $item->pic ? $item->pic : $item->user }}</td>
                             <td>{{ $item->updated_at }}</td>
                         </tr>
                     @endforeach

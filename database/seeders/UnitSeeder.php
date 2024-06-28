@@ -73,7 +73,8 @@ class UnitSeeder extends Seeder
                 "nama" => $value['nama'],
                 "kodejkn" => $value['kodejkn'],
                 "status" => $value['status'],
-                "user" => "Admin Super",
+                "user" => 1,
+                "pic" => "Admin Super",
             ]);
         }
     }

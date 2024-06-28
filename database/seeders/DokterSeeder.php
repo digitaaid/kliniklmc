@@ -19,7 +19,8 @@ class DokterSeeder extends Seeder
             "kodejkn" => "8297",
             "gender" => "L",
             "subtitle" => "Dokter Klinik",
-            "user" => "Admin Super",
+            "user" => 1,
+            "pic" => "Admin Super",
 
         ]);
         Dokter::create([
@@ -28,7 +29,8 @@ class DokterSeeder extends Seeder
             "kodejkn" => "79887",
             "gender" => "L",
             "subtitle" => "Dokter Klinik",
-            "user" => "Admin Super",
+            "user" => 1,
+            "pic" => "Admin Super",
 
         ]);
         Dokter::create([
@@ -36,7 +38,8 @@ class DokterSeeder extends Seeder
             "kodedokter" => "00001",
             "gender" => "L",
             "subtitle" => "Dokter Klinik",
-            "user" => "Admin Super",
+            "user" => 1,
+            "pic" => "Admin Super",
 
         ]);
         Dokter::create([
@@ -44,7 +47,8 @@ class DokterSeeder extends Seeder
             "kodedokter" => "00002",
             "gender" => "P",
             "subtitle" => "Dokter Klinik",
-            "user" => "Admin Super",
+            "user" => 1,
+            "pic" => "Admin Super",
 
         ]);
         Dokter::create([
@@ -52,7 +56,8 @@ class DokterSeeder extends Seeder
             "kodedokter" => "00003",
             "gender" => "P",
             "subtitle" => "Dokter Klinik",
-            "user" => "Admin Super",
+            "user" => 1,
+            "pic" => "Admin Super",
 
         ]);
         Dokter::create([
@@ -60,7 +65,8 @@ class DokterSeeder extends Seeder
             "kodedokter" => "00004",
             "gender" => "P",
             "subtitle" => "Dokter Klinik",
-            "user" => "Admin Super",
+            "user" => 1,
+            "pic" => "Admin Super",
 
         ]);
         Dokter::create([
@@ -68,15 +74,16 @@ class DokterSeeder extends Seeder
             "kodedokter" => "00005",
             "gender" => "P",
             "subtitle" => "Dokter Klinik",
-            "user" => "Admin Super",
-
+            "user" => 1,
+            "pic" => "Admin Super",
         ]);
         Dokter::create([
             "namadokter" => "dr. Rizki Nataprawira",
             "kodedokter" => "00006",
             "gender" => "L",
             "subtitle" => "Dokter Klinik",
-            "user" => "Admin Super",
+            "user" => 1,
+            "pic" => "Admin Super",
 
         ]);
     }
