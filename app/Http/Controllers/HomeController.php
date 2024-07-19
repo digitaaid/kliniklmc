@@ -61,6 +61,8 @@ class HomeController extends Controller
             array_push($jumlahAntrianPerBulan, $jumlah);
         }
         $antrianlainya = $jumlahAntrianPerBulan;
+
+        dd($antrianlainya, $antrianjkn);
         return view('home', compact([
             'user',
             'request',
