@@ -40,6 +40,7 @@ class HomeController extends Controller
         $antrianPerBulan = Antrian::select(DB::raw('MONTH(created_at) as bulan'), DB::raw('COUNT(*) as jumlah'))
             ->where('method', 'Mobile JKN')
             ->whereYear('created_at', now()->year) // Menambahkan filter untuk tahun saat ini
+            ->has('kunjungan')
             ->groupBy('bulan')
             ->orderBy('bulan', 'asc') // Mengurutkan hasil berdasarkan bulan
             ->get();
@@ -54,6 +55,7 @@ class HomeController extends Controller
         $antrianPerBulan = Antrian::select(DB::raw('MONTH(created_at) as bulan'), DB::raw('COUNT(*) as jumlah'))
             ->where('method', '!=', 'Mobile JKN')
             ->whereYear('created_at', now()->year) // Menambahkan filter untuk tahun saat ini
+            ->has('kunjungan')
             ->groupBy('bulan')
             ->orderBy('bulan', 'asc') // Mengurutkan hasil berdasarkan bulan
             ->get();
@@ -64,8 +66,31 @@ class HomeController extends Controller
             array_push($jumlahAntrianPerBulan, $jumlah);
         }
         $antrianlainya = $jumlahAntrianPerBulan;
+
+        $hariIni = now();
+        $tahunIni = $hariIni->year;
+        $bulanIni = $hariIni->month;
+        $jumlahHariDalamBulan = $hariIni->daysInMonth;
+        $antrianPerTanggal = Antrian::select(DB::raw('DAY(created_at) as tanggal'), DB::raw('COUNT(*) as jumlah'))
+                    ->where('method', '!=', 'Mobile JKN')
+                    ->whereYear('created_at', $tahunIni) // Filter untuk tahun saat ini
+                    ->whereMonth('created_at', $bulanIni) // Filter untuk bulan saat ini
+                    ->has('kunjungan')
+                    ->groupBy('tanggal')
+                    ->orderBy('tanggal', 'asc') // Mengurutkan hasil berdasarkan tanggal
+                    ->get();
+        $jumlahAntrianPerTanggal = [];
+        for ($tanggal = 1; $tanggal <= $jumlahHariDalamBulan; $tanggal++) {
+            // Menggunakan intval() untuk memastikan nilai adalah integer
+            $jumlah = intval($antrianPerTanggal->firstWhere('tanggal', $tanggal)['jumlah'] ?? 0);
+            array_push($jumlahAntrianPerTanggal, $jumlah);
+        }
+        $antrianbulanini = $jumlahAntrianPerTanggal;
+
+        $jumlahHariDalamBulan = $hariIni->daysInMonth;
+        $tanggalDalamBulanIni = range(1, $jumlahHariDalamBulan);
         // $antrianjkn = [65, 59, 80, 81, 56, 55, 40];
-        // dd($antrianlainya, $antrianjkn);
+        // dd($tanggalDalamBulanIni, $antrianbulanini);
         return view('home', compact([
             'user',
             'request',
@@ -79,6 +104,8 @@ class HomeController extends Controller
             'obats',
             'antrianjkn',
             'antrianlainya',
+            'tanggalDalamBulanIni',
+            'antrianbulanini',
         ]));
     }
     public function landingpage()
