@@ -142,74 +142,75 @@
                 </x-adminlte-card> --}}
             {{-- @endif --}}
         </div>
+        <div class="col-md-6">
+            <x-adminlte-card theme="success" title="Daftar Pasien Perbulan">
+                <div class="chart">
+                    <canvas id="stackedBarChart"
+                        style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                </div>
+            </x-adminlte-card>
+        </div>
     </div>
 @stop
 @section('plugins.Chartjs', true)
 @section('plugins.Datatables', true)
 @section('js')
-    {{-- <script>
+    <script>
         $(function() {
-            var tanggalAntrian = {!! json_encode($tanggalantrian) !!};
-            var jumlahAntrian = {!! json_encode($jumlahantrian) !!};
-            var waktuAntrian = {!! json_encode($waktuantrian) !!};
-            var jumlahChartData = {
-                labels: tanggalAntrian,
+            var dataPasienUmum = {{ json_encode($antrianjkn) }};
+            var dataPasienBPJS = {{ json_encode($antrianlainya) }};
+            var areaChartData = {
+                labels: ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September',
+                    'Oktober', 'November', 'Desember'
+                ],
                 datasets: [{
-                    label: 'Jumlah Antrian',
-                    backgroundColor: 'rgba(60,141,188,0.9)',
-                    borderColor: 'rgba(60,141,188,0.8)',
-                    pointRadius: false,
-                    pointColor: '#3b8bba',
-                    pointStrokeColor: 'rgba(60,141,188,1)',
-                    pointHighlightFill: '#fff',
-                    pointHighlightStroke: 'rgba(60,141,188,1)',
-                    data: jumlahAntrian
-                }]
+                        label: 'Pasien Umum',
+                        backgroundColor: 'rgba(210, 214, 222, 1)',
+                        borderColor: 'rgba(210, 214, 222, 1)',
+                        pointRadius: false,
+                        pointColor: 'rgba(210, 214, 222, 1)',
+                        pointStrokeColor: '#c1c7d1',
+                        pointHighlightFill: '#fff',
+                        pointHighlightStroke: 'rgba(220,220,220,1)',
+                        data: dataPasienUmum
+                    },
+                    {
+                        label: 'Pasien BPJS',
+                        backgroundColor: 'rgba(60,141,188,0.9)',
+                        borderColor: 'rgba(60,141,188,0.8)',
+                        pointRadius: false,
+                        pointColor: '#3b8bba',
+                        pointStrokeColor: 'rgba(60,141,188,1)',
+                        pointHighlightFill: '#fff',
+                        pointHighlightStroke: 'rgba(60,141,188,1)',
+                        data: dataPasienBPJS
+                    },
+                ]
             }
-            var waktuChartData = {
-                labels: tanggalAntrian,
-                datasets: [{
-                    label: 'Waktu Antrian (Detik)',
-                    backgroundColor: 'rgba(60,141,188,0.9)',
-                    borderColor: 'rgba(60,141,188,0.8)',
-                    pointRadius: false,
-                    pointColor: '#3b8bba',
-                    pointStrokeColor: 'rgba(60,141,188,1)',
-                    pointHighlightFill: '#fff',
-                    pointHighlightStroke: 'rgba(60,141,188,1)',
-                    data: waktuAntrian
-                }]
-            }
-            var barChartOptions = {
+            var barChartData = $.extend(true, {}, areaChartData)
+            var temp0 = areaChartData.datasets[0]
+            var temp1 = areaChartData.datasets[1]
+            barChartData.datasets[0] = temp1
+            barChartData.datasets[1] = temp0
+            var stackedBarChartCanvas = $('#stackedBarChart').get(0).getContext('2d')
+            var stackedBarChartData = $.extend(true, {}, barChartData)
+            var stackedBarChartOptions = {
                 responsive: true,
                 maintainAspectRatio: false,
-                datasetFill: false
+                scales: {
+                    xAxes: [{
+                        stacked: true,
+                    }],
+                    yAxes: [{
+                        stacked: true
+                    }]
+                }
             }
-            //-------------
-            //- BAR CHART -
-            //-------------
-            var barChartCanvas = $('#jumlahChart').get(0).getContext('2d');
-            var barChartData = $.extend(true, {}, jumlahChartData)
-            // var temp0 = jumlahChartData.datasets[0]
-            // var temp1 = jumlahChartData.datasets[1]
-            // barChartData.datasets[0] = temp1
-            // barChartData.datasets[1] = temp0
-
-            new Chart(barChartCanvas, {
+            new Chart(stackedBarChartCanvas, {
                 type: 'bar',
-                data: barChartData,
-                options: barChartOptions
+                data: stackedBarChartData,
+                options: stackedBarChartOptions
             })
-
-            var waktuChartCanvas = $('#waktuChart').get(0).getContext('2d');
-            var waktuChartData = $.extend(true, {}, waktuChartData)
-            new Chart(waktuChartCanvas, {
-                type: 'bar',
-                data: waktuChartData,
-                options: barChartOptions
-            })
-
-
         })
-    </script> --}}
+    </script>
 @endsection

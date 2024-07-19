@@ -15,6 +15,7 @@ use App\Models\Unit;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class HomeController extends Controller
@@ -36,19 +37,30 @@ class HomeController extends Controller
         $antriansep = $antrians::whereMonth('tanggalperiksa', now()->month)->where('sep', '!=', null)->count() ?? 1;
         $kunjungansep =  $kunjungans::whereMonth('tgl_masuk', now()->month)->where('sep', '!=', null)->count() ?? 1;
 
-        // Mendapatkan tahun saat ini untuk filter
-        $tahunSaatIni = Carbon::now()->year;
-        $antrianPerBulan = Antrian::selectRaw('MONTH(created_at) as bulan, COUNT(*) as jumlah')
-            ->where('method', 'JKN Mobile')
-            ->whereYear('created_at', $tahunSaatIni) // Opsional: membatasi query ke tahun saat ini
-            ->has('kunjungan')
+        $antrianPerBulan = Antrian::select(DB::raw('MONTH(created_at) as bulan'), DB::raw('COUNT(*) as jumlah'))
+            ->where('method', 'Mobile JKN')
             ->groupBy('bulan')
+            ->orderBy('bulan', 'asc') // Mengurutkan hasil berdasarkan bulan
             ->get();
-        // Mengubah hasil query menjadi array
-        $arrayAntrianPerBulan = $antrianPerBulan->mapWithKeys(function ($item) {
-            return [$item['bulan'] => $item['jumlah']];
-        })->toArray();
-        dd($request->all(), $arrayAntrianPerBulan);
+        $jumlahAntrianPerBulan = [];
+        for ($bulan = 1; $bulan <= 12; $bulan++) {
+            $jumlah = $antrianPerBulan->firstWhere('bulan', $bulan)['jumlah'] ?? 0;
+            array_push($jumlahAntrianPerBulan, $jumlah);
+        }
+        $antrianjkn = $jumlahAntrianPerBulan;
+
+
+        $antrianPerBulan = Antrian::select(DB::raw('MONTH(created_at) as bulan'), DB::raw('COUNT(*) as jumlah'))
+            ->where('method', '!=', 'Mobile JKN')
+            ->groupBy('bulan')
+            ->orderBy('bulan', 'asc') // Mengurutkan hasil berdasarkan bulan
+            ->get();
+        $jumlahAntrianPerBulan = [];
+        for ($bulan = 1; $bulan <= 12; $bulan++) {
+            $jumlah = $antrianPerBulan->firstWhere('bulan', $bulan)['jumlah'] ?? 0;
+            array_push($jumlahAntrianPerBulan, $jumlah);
+        }
+        $antrianlainya = $jumlahAntrianPerBulan;
         return view('home', compact([
             'user',
             'request',
@@ -60,6 +72,8 @@ class HomeController extends Controller
             'pasiens',
             'units',
             'obats',
+            'antrianjkn',
+            'antrianlainya',
         ]));
     }
     public function landingpage()
