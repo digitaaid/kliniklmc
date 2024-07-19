@@ -49,8 +49,6 @@ class HomeController extends Controller
             array_push($jumlahAntrianPerBulan, $jumlah);
         }
         $antrianjkn = $jumlahAntrianPerBulan;
-
-
         $antrianPerBulan = Antrian::select(DB::raw('MONTH(created_at) as bulan'), DB::raw('COUNT(*) as jumlah'))
             ->where('method', '!=', 'Mobile JKN')
             ->whereYear('created_at', now()->year) // Menambahkan filter untuk tahun saat ini
@@ -64,7 +62,7 @@ class HomeController extends Controller
         }
         $antrianlainya = $jumlahAntrianPerBulan;
 
-        dd($antrianlainya, $antrianjkn);
+        // dd($antrianlainya, $antrianjkn);
         return view('home', compact([
             'user',
             'request',

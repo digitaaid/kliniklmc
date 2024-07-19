@@ -157,8 +157,8 @@
 @section('js')
     <script>
         $(function() {
-            var dataPasienUmum = {{ json_encode($antrianjkn) }};
-            var dataPasienBPJS = {{ json_encode($antrianlainya) }};
+            // var dataPasienUmum = {{ json_encode($antrianjkn) }};
+            // var dataPasienBPJS = {{ json_encode($antrianlainya) }};
             var areaChartData = {
                 labels: ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September',
                     'Oktober', 'November', 'Desember'
@@ -172,7 +172,7 @@
                         pointStrokeColor: '#c1c7d1',
                         pointHighlightFill: '#fff',
                         pointHighlightStroke: 'rgba(220,220,220,1)',
-                        data: dataPasienUmum
+                        data: [65, 59, 80, 81, 56, 55, 40]
                     },
                     {
                         label: 'Pasien BPJS',
@@ -183,7 +183,7 @@
                         pointStrokeColor: 'rgba(60,141,188,1)',
                         pointHighlightFill: '#fff',
                         pointHighlightStroke: 'rgba(60,141,188,1)',
-                        data: dataPasienBPJS
+                        data: [65, 59, 80, 81, 56, 55, 40]
                     },
                 ]
             }
