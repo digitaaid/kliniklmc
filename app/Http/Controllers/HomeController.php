@@ -45,10 +45,12 @@ class HomeController extends Controller
             ->get();
         $jumlahAntrianPerBulan = [];
         for ($bulan = 1; $bulan <= 12; $bulan++) {
-            $jumlah = $antrianPerBulan->firstWhere('bulan', $bulan)['jumlah'] ?? 0;
+            // Menggunakan intval() untuk memastikan nilai adalah integer
+            $jumlah = intval($antrianPerBulan->firstWhere('bulan', $bulan)['jumlah'] ?? 0);
             array_push($jumlahAntrianPerBulan, $jumlah);
         }
         $antrianjkn = $jumlahAntrianPerBulan;
+
         $antrianPerBulan = Antrian::select(DB::raw('MONTH(created_at) as bulan'), DB::raw('COUNT(*) as jumlah'))
             ->where('method', '!=', 'Mobile JKN')
             ->whereYear('created_at', now()->year) // Menambahkan filter untuk tahun saat ini
@@ -57,7 +59,8 @@ class HomeController extends Controller
             ->get();
         $jumlahAntrianPerBulan = [];
         for ($bulan = 1; $bulan <= 12; $bulan++) {
-            $jumlah = $antrianPerBulan->firstWhere('bulan', $bulan)['jumlah'] ?? 0;
+            // Menggunakan intval() untuk memastikan nilai adalah integer
+            $jumlah = intval($antrianPerBulan->firstWhere('bulan', $bulan)['jumlah'] ?? 0);
             array_push($jumlahAntrianPerBulan, $jumlah);
         }
         $antrianlainya = $jumlahAntrianPerBulan;
