@@ -39,6 +39,7 @@ class HomeController extends Controller
 
         $antrianPerBulan = Antrian::select(DB::raw('MONTH(created_at) as bulan'), DB::raw('COUNT(*) as jumlah'))
             ->where('method', 'Mobile JKN')
+            ->whereYear('created_at', now()->year) // Menambahkan filter untuk tahun saat ini
             ->groupBy('bulan')
             ->orderBy('bulan', 'asc') // Mengurutkan hasil berdasarkan bulan
             ->get();
@@ -52,6 +53,7 @@ class HomeController extends Controller
 
         $antrianPerBulan = Antrian::select(DB::raw('MONTH(created_at) as bulan'), DB::raw('COUNT(*) as jumlah'))
             ->where('method', '!=', 'Mobile JKN')
+            ->whereYear('created_at', now()->year) // Menambahkan filter untuk tahun saat ini
             ->groupBy('bulan')
             ->orderBy('bulan', 'asc') // Mengurutkan hasil berdasarkan bulan
             ->get();
