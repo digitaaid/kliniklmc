@@ -157,8 +157,8 @@
 @section('js')
     <script>
         $(function() {
-            // var dataPasienUmum = {{ json_encode($antrianjkn) }};
-            var dataPasienBPJS = "{{ json_encode($antrianjkn) }}";
+            var dataPasienUmum = {{ json_encode($antrianlainya) }};
+            var dataPasienBPJS = {{ json_encode($antrianjkn) }};
             console.log(dataPasienBPJS);
             var areaChartData = {
                 labels: ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September',
@@ -173,7 +173,7 @@
                         pointStrokeColor: '#c1c7d1',
                         pointHighlightFill: '#fff',
                         pointHighlightStroke: 'rgba(220,220,220,1)',
-                        data: [65, 59, 80, 81, 56, 55, 40]
+                        data: dataPasienUmum
                     },
                     {
                         label: 'Mobile JKN',
