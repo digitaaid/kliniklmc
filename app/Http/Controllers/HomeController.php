@@ -12,6 +12,7 @@ use App\Models\Pasien;
 use App\Models\TanyaJawab;
 use App\Models\Testimoni;
 use App\Models\Unit;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -34,6 +35,20 @@ class HomeController extends Controller
 
         $antriansep = $antrians::whereMonth('tanggalperiksa', now()->month)->where('sep', '!=', null)->count() ?? 1;
         $kunjungansep =  $kunjungans::whereMonth('tgl_masuk', now()->month)->where('sep', '!=', null)->count() ?? 1;
+
+        // Mendapatkan tahun saat ini untuk filter
+        $tahunSaatIni = Carbon::now()->year;
+        $antrianPerBulan = Antrian::selectRaw('MONTH(created_at) as bulan, COUNT(*) as jumlah')
+            ->where('method', 'JKN Mobile')
+            ->whereYear('created_at', $tahunSaatIni) // Opsional: membatasi query ke tahun saat ini
+            ->has('kunjungan')
+            ->groupBy('bulan')
+            ->get();
+        // Mengubah hasil query menjadi array
+        $arrayAntrianPerBulan = $antrianPerBulan->mapWithKeys(function ($item) {
+            return [$item['bulan'] => $item['jumlah']];
+        })->toArray();
+        dd($request->all(), $arrayAntrianPerBulan);
         return view('home', compact([
             'user',
             'request',
