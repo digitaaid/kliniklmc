@@ -158,13 +158,13 @@
     <script>
         $(function() {
             // var dataPasienUmum = {{ json_encode($antrianjkn) }};
-            // var dataPasienBPJS = {{ json_encode($antrianlainya) }};
+            var dataPasienBPJS = {{ json_encode($antrianjkn) }};
             var areaChartData = {
                 labels: ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September',
                     'Oktober', 'November', 'Desember'
                 ],
                 datasets: [{
-                        label: 'Pasien Umum',
+                        label: 'Sumber Lainnya',
                         backgroundColor: 'rgba(210, 214, 222, 1)',
                         borderColor: 'rgba(210, 214, 222, 1)',
                         pointRadius: false,
@@ -175,7 +175,7 @@
                         data: [65, 59, 80, 81, 56, 55, 40]
                     },
                     {
-                        label: 'Pasien BPJS',
+                        label: 'Mobile JKN',
                         backgroundColor: 'rgba(60,141,188,0.9)',
                         borderColor: 'rgba(60,141,188,0.8)',
                         pointRadius: false,
@@ -183,7 +183,7 @@
                         pointStrokeColor: 'rgba(60,141,188,1)',
                         pointHighlightFill: '#fff',
                         pointHighlightStroke: 'rgba(60,141,188,1)',
-                        data: [65, 59, 80, 81, 56, 55, 40]
+                        data: dataPasienBPJS
                     },
                 ]
             }
