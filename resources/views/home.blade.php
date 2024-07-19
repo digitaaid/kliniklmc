@@ -143,17 +143,17 @@
             {{-- @endif --}}
         </div>
         <div class="col-md-6">
-            <x-adminlte-card theme="success" title="Pasien Perbulan Berdasarkan Sumber">
+            <x-adminlte-card theme="success" title="Pasien Bulan Ini Berdasarkan Sumber">
                 <div class="chart">
-                    <canvas id="stackedBarChart"
+                    <canvas id="chartBulanIni"
                         style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
                 </div>
             </x-adminlte-card>
         </div>
         <div class="col-md-6">
-            <x-adminlte-card theme="success" title="Pasien Bulan Ini Berdasarkan Sumber">
+            <x-adminlte-card theme="success" title="Pasien Perbulan Berdasarkan Sumber">
                 <div class="chart">
-                    <canvas id="chartBulanIni"
+                    <canvas id="stackedBarChart"
                         style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
                 </div>
             </x-adminlte-card>
@@ -218,8 +218,8 @@
             })
         })
         $(function() {
-            var dataPasienUmum = {{ json_encode($antrianbulanini) }};
-            var dataPasienBPJS = {{ json_encode($antrianbulanini) }};
+            var dataPasienUmum = {{ json_encode($antrianbulaniniumum) }};
+            var dataPasienBPJS = {{ json_encode($antrianbulaninijkn) }};
             console.log(dataPasienBPJS);
             var areaChartData = {
                 labels: {{ json_encode($tanggalDalamBulanIni) }},
