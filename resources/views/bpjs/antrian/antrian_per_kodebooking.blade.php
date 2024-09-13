@@ -56,6 +56,8 @@
                         <dd class="col-sm-8">{{ $antrian->tanggal }}</dd>
                         <dt class="col-sm-4">Status </dt>
                         <dd class="col-sm-8">{{ $antrian->status }}</dd>
+                        <dt class="col-sm-4">SumberData </dt>
+                        <dd class="col-sm-8">{{ $antrian->sumberdata }}</dd>
 
                         {{-- <dd class="col-sm-8">{{ $antrian->daftarfp ? 'Sudah Fingerprint' : 'Belum Fingerprint' }}</dd>
                         <dt class="col-sm-4">Status </dt>

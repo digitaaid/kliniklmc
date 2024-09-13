@@ -31,7 +31,7 @@
         <div class="col-md-12">
             <x-adminlte-card title="Data Waktu Antrian" theme="primary" icon="fas fa-info-circle" collapsible>
                 @php
-                    $heads = ['Tanggal', 'Kodebooking', 'Nomor', 'No RM', 'No BPJS', 'Poliklinik', 'No Referensi', 'Created at', 'Status', 'Action'];
+                    $heads = ['Tanggal', 'Kodebooking', 'Nomor', 'No RM', 'No BPJS', 'Poliklinik', 'No Referensi', 'Sumber Data','Created at', 'Status', 'Action'];
                 @endphp
                 <x-adminlte-datatable id="table1" class="nowrap" :heads="$heads" bordered hoverable compressed>
                     <div class="hidden" hidden>
@@ -63,6 +63,7 @@
                                     {{ $item->jeniskunjungan }} / {{ $item->nomorreferensi }}
                                 </td>
                                 <td>{{ date('Y-m-d H:i:s', $item->createdtime / 1000) }}</td>
+                                <td>{{ $item->sumberdata }}</td>
                                 <td>{{ $item->status }} {{ $item->ispeserta }}</td>
                                 <td>
                                     @if ($item->status != 'Selesai dilayani')
