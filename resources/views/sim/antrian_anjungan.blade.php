@@ -131,7 +131,7 @@
                                 </div>
                             </x-slot>
                         </x-adminlte-input>
-                        <i class="fas fa-qrcode fa-5x"></i>
+                        <img src="{{ asset('qrcode-portal.png') }}" width="30%" alt="">
                         <br>
                     </div>
                     <x-slot name="footerSlot">

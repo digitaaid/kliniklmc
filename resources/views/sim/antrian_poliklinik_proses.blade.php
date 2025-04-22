@@ -185,10 +185,7 @@
                                                         @endif
                                                     @endif
                                                 </x-adminlte-select2>
-                                                <x-adminlte-textarea igroup-size="sm" rows=3 label="Riwayat Pengobatan"
-                                                    name="riwayat_pengobatan" placeholder="Riwayat Pengobatan">
-                                                    {{ $kunjungan->asesmendokter->riwayat_pengobatan ?? null }}
-                                                </x-adminlte-textarea>
+                                               
                                             </div>
                                             <div class="col-md-6">
                                                 <x-adminlte-textarea igroup-size="sm" rows=4 label="Pemeriksaan Fisik"

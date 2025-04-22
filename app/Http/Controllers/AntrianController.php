@@ -1057,6 +1057,7 @@ class AntrianController extends APIController
     }
     public function ambil_antrian_mjkn(Request $request)
     {
+        
         $validator = Validator::make(request()->all(), [
             "nomorkartu" => "required|numeric|digits:13",
             "nik" => "required|numeric|digits:16",
@@ -1072,12 +1073,21 @@ class AntrianController extends APIController
         if ($validator->fails()) {
             return $this->sendError($validator->errors()->first(), 400);
         }
+
+             $antrian_nik = Antrian::where('tanggalperiksa', $request->tanggalperiksa)
+                ->where('nik', $request->nik)
+                ->where('taskid', '<=', 5)
+                ->first();
+            if ($antrian_nik) {
+                return $this->sendError("Terdapat Antrian (" . $antrian_nik->kodebooking . ") dengan nomor NIK yang sama pada tanggal tersebut yang belum selesai. Silahkan batalkan terlebih dahulu jika ingin mendaftarkan lagi.",  409);
+            }
         $pasien = Pasien::where('nik', $request->nik)
             ->orWhere('nomorkartu', $request->nomorkartu)
             ->first();
         $request['keterangan'] = 'Pendaftaran melalui mjkn, silahkan checkin pada mesin anjungan di klinik LMC';
         if ($pasien) {
             $request['norm'] = $pasien->norm;
+            $request['nama'] = $pasien->nama;
             $request['pasienbaru'] = 0;
         } else {
             $request['pasienbaru'] = 1;
@@ -1085,7 +1095,7 @@ class AntrianController extends APIController
             // return $this->sendError('Mohon maaf untuk pasien baru silahkan melakukan pendaftaran secara langsung', 400);
         }
         $request['kodebooking'] = strtoupper(uniqid());
-        $request['jenispasien'] = "NON-JKN";
+        $request['jenispasien'] = "JKN";
         $request['method'] = "Mobile JKN";
         $antiranhari = Antrian::where('tanggalperiksa', $request->tanggalperiksa)->count();
         $request['nomorantrean'] = 'A' . $antiranhari + 1;
@@ -1110,47 +1120,6 @@ class AntrianController extends APIController
         if ($res->metadata->code == 200) {
             $request['status'] = 1;
             Antrian::create($request->all());
-            try {
-                $wapi = new WhatsappController();
-                if ($request->method != "OFFLINE") {
-                    switch ($request->jeniskunjungan) {
-                        case 1:
-                            $jeniskunjungan = "Rujukan FKTP";
-                            break;
-
-                        case 2:
-                            $jeniskunjungan = "Umum";
-                            break;
-
-                        case 3:
-                            $jeniskunjungan = "Surat Kontrol";
-                            break;
-
-                        case 4:
-                            $jeniskunjungan = "Rujukan Antar RS";
-                            break;
-
-                        default:
-                            $jeniskunjungan = "-";
-                            break;
-                    }
-                    $request['keterangan'] = "Peserta harap datang 60 menit lebih awal dari jadwal praktik dokter. Lakukan check-in pada anjungan antrian untuk mencetak tiket antrian sebelum menuju loket pendaftaran. (TIKET MOHON TIDAK HILANG SAMPAI DENGAN SELESAI PELAYANAN)";
-                    $request['message'] = "*Antrian Berhasil di Daftarkan*\nAntrian anda berhasil didaftarkan melalui Layanan " . $request->method . " KLINIK LMC dengan data sebagai berikut : \n\n*Kode Antrian :* " . $request->kodebooking .  "\n*Angka Antrian :* " . $request->angkaantrean .  "\n*Nomor Antrian :* " . $request->nomorantrean . "\n*Jenis Pasien :* " . $request->jenispasien .  "\n*Jenis Kunjungan :* " . $jeniskunjungan .  "\n\n*Nama :* " . $request->nama . "\n*Poliklinik :* " . $request->namapoli  . "\n*Dokter :* " . $request->namadokter  .  "\n*Jam Praktek :* " . $request->jampraktek  .  "\n*Tanggal Periksa :* " . $request->tanggalperiksa . "\n\n*Keterangan :* " . $request->keterangan  .  "\n\nLink Kodebooking QR Code :\nhttps://luthfimedicalcenter.com/statusantrian?kodebooking=" . $request->kodebooking . "\n\nTerima kasih. \nSalam Hangat dan Sehat Selalu.\nUntuk pertanyaan & pengaduan silahkan hubungi :\n*Customer Care KLINIK LMC (0231)8850943 / 0823 1169 6919*";
-                    $request['number'] = $request->nohp;
-                    $wapi->send_message($request);
-                }
-                // sholawat
-                $sholawat = "اَللّٰهُمَّ صَلِّ عَلٰى سَيِّدِنَا مُحَمَّدٍ، طِبِّ الْقُلُوْبِ وَدَوَائِهَا، وَعَافِيَةِ الْاَبْدَانِ وَشِفَائِهَا، وَنُوْرِ الْاَبْصَارِ وَضِيَائِهَا، وَعَلٰى اٰلِهِ وَصَحْبِهِ وَسَلِّمْ";
-                $request['message'] = $sholawat;
-                $request['number'] = '6289529909036@c.us';
-                $wapi->send_message($request);
-                // notif group
-                $request['message'] = "Berhasil daftar antrian method " . $request->method . ".\nAngka antrian : " . $request->angkaantrean . "\nKodebooking : " . $request->kodebooking .  "\nJenis Pasien : " . $request->jenispasien . "\nNama " . $request->nama . "\nTanggal Periksa " . $request->tanggalperiksa . "\nDokter : " . $request->namadokter;
-                $request['number'] = "120363170262520539";
-                $wapi->send_message_group($request);
-            } catch (\Throwable $th) {
-                //throw $th;
-            }
             $data = [
                 'nomorantrean' => $request->nomorantrean,
                 'angkaantrean' => $request->angkaantrean,
@@ -1165,7 +1134,15 @@ class AntrianController extends APIController
                 'kuotanonjkn' => $request->kuotanonjkn,
                 'keterangan' => $request->keterangan,
             ];
-            return $this->sendResponse($data, 200);
+             $response = [
+            'response' => $data,
+            'metadata' => [
+                'message' => 'Ok',
+                'code' => 200,
+            ],
+        ];
+            return response()->json($response, 200);
+            // return $this->sendResponse($data, 200);
         } else {
             return $this->sendError($res->metadata->message, 400);
         }
@@ -1223,7 +1200,21 @@ class AntrianController extends APIController
         if ($validator->fails()) {
             return $this->sendError($validator->errors()->first(),  201);
         }
-        return $this->sendError("Silahkan untuk checkin secara langsung di anjungan antrian.", 500);
+    
+        $antrian = Antrian::firstWhere('kodebooking', $request->kodebooking);
+        if($antrian){
+            $antrian->update([
+            'taskid' => 1,
+            'taskid1' => now()
+            ]);
+            return $this->sendResponse(null,200);
+        }
+        else{
+            return $this->sendError("Antrian tidak ditemukan", 500);
+        }
+   
+        
+        
     }
     public function info_pasien_baru(Request $request)
     {

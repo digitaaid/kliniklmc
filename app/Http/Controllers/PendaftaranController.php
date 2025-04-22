@@ -90,9 +90,9 @@ class PendaftaranController extends APIController
             $request['nomorantrean'] = 'A' .  $antiranhari + 1;
             $timestamp = $request->tanggalperiksa . ' ' . explode('-', $request->jampraktek)[0] . ':00';
             $jadwal_estimasi = Carbon::createFromFormat('Y-m-d H:i:s', $timestamp, 'Asia/Jakarta')->addMinutes(5 * ($antiranhari + 1));
-            $request['estimasidilayani'] = $jadwal_estimasi->timestamp * 1000;
+            $request['estimasidilayani'] = $jadwal_estimasi;
             $request['taskid1'] = now();
-
+            // dd($request->all());
             // status antrian
             $api = new AntrianController();
             $statusantrian = $api->status_antrian($request);
@@ -169,7 +169,7 @@ class PendaftaranController extends APIController
                 ]);
                 Alert::success('Success', 'Antrian diproses ke pendaftaran.');
             }
-            // dd(gmdate('H:i:s', now()->diffInSeconds($antrian->taskid1)));
+            
             $kunjungans = Kunjungan::where('norm', $antrian->norm)
                 ->has('pasien')
                 ->with(['units', 'asesmenperawat', 'asesmendokter', 'files', 'resepobat', 'resepobat.resepdetail'])
@@ -319,64 +319,69 @@ class PendaftaranController extends APIController
         $request['pasienbaru'] = $antrian->pasienbaru;
         $request['nomorantrean'] = $antrian->nomorantrean;
         $request['angkaantrean'] = $antrian->angkaantrean;
-        $request['estimasidilayani'] = $antrian->estimasidilayani;
         $request['sisakuotajkn'] = $antrian->sisakuotajkn;
         $request['kuotajkn'] = $antrian->kuotajkn;
         $request['sisakuotanonjkn'] = $antrian->sisakuotanonjkn;
         $request['kuotanonjkn'] = $antrian->kuotanonjkn;
         $request['keterangan'] = "Antrian proses di pendaftaran";
-        $request['status'] = 0;
         $api = new AntrianController();
         $antrian->update($request->all());
+        // $request['estimasidilayani'] = Carbon::parse($antrian->estimasidilayani)->timezone('Asia/Jakarta');
+        $request['estimasidilayani'] = Carbon::createFromFormat('Y-m-d H:i:s',$antrian->estimasidilayani, 'Asia/Jakarta');
         if ($antrian->status == 0) {
             $res =  $api->tambah_antrean($request);
             if ($res->metadata->code == 200) {
-                try {
-                    $wapi = new WhatsappController();
-                    switch ($request->jeniskunjungan) {
-                        case 1:
-                            $jeniskunjungan = "Rujukan FKTP";
-                            break;
+                // try {
+                //     $wapi = new WhatsappController();
+                //     switch ($request->jeniskunjungan) {
+                //         case 1:
+                //             $jeniskunjungan = "Rujukan FKTP";
+                //             break;
 
-                        case 2:
-                            $jeniskunjungan = "Umum";
-                            break;
+                //         case 2:
+                //             $jeniskunjungan = "Umum";
+                //             break;
 
-                        case 3:
-                            $jeniskunjungan = "Surat Kontrol";
-                            break;
+                //         case 3:
+                //             $jeniskunjungan = "Surat Kontrol";
+                //             break;
 
-                        case 4:
-                            $jeniskunjungan = "Rujukan Antar RS";
-                            break;
+                //         case 4:
+                //             $jeniskunjungan = "Rujukan Antar RS";
+                //             break;
 
-                        default:
-                            $jeniskunjungan = "-";
-                            break;
-                    }
-                    // notif pasien
-                    $request['keterangan'] = "Silahkan menunggu untuk mendapatkan pelayanan. (TIKET MOHON TIDAK HILANG SAMPAI DENGAN SELESAI PELAYANAN)";
-                    $request['message'] = "*Pendaftaran Berhasil*\nAntrian anda berhasil didaftarkan ke sistem KLINIK LMC dengan data sebagai berikut : \n\n*Kode Antrian :* " . $request->kodebooking .  "\n*Angka Antrian :* " . $request->angkaantrean .  "\n*Nomor Antrian :* " . $request->nomorantrean . "\n*Jenis Pasien :* " . $request->jenispasien .  "\n*Jenis Kunjungan :* " . $jeniskunjungan .  "\n\n*Nama :* " . $request->nama . "\n*Poliklinik :* " . $request->namapoli  . "\n*Dokter :* " . $request->namadokter  .  "\n*Jam Praktek :* " . $request->jampraktek  .  "\n*Tanggal Periksa :* " . $request->tanggalperiksa . "\n\n*Keterangan :* " . $request->keterangan  .  "\n\nLink Kodebooking QR Code :\nhttps://luthfimedicalcenter.com/statusantrian?kodebooking=" . $request->kodebooking . "\n\nTerima kasih. \nSalam Hangat dan Sehat Selalu.\nUntuk pertanyaan & pengaduan silahkan hubungi :\n*Customer Care KLINIK LMC (0231)8850943 / 0823 1169 6919*";
-                    $request['number'] = $request->nohp;
-                    $wapi->send_message($request);
-                    // sholawat
-                    $sholawat = "اَللّٰهُمَّ صَلِّ عَلٰى سَيِّدِنَا مُحَمَّدٍ، طِبِّ الْقُلُوْبِ وَدَوَائِهَا، وَعَافِيَةِ الْاَبْدَانِ وَشِفَائِهَا، وَنُوْرِ الْاَبْصَارِ وَضِيَائِهَا، وَعَلٰى اٰلِهِ وَصَحْبِهِ وَسَلِّمْ";
-                    $request['message'] = $sholawat;
-                    $request['number'] = '6289529909036@c.us';
-                    $wapi->send_message($request);
-                    // notif group
-                    $request['message'] = "Berhasil integrasi antrian \nAngka antrian : " . $request->angkaantrean . "\nKodebooking : " . $request->kodebooking .  "\nJenis Pasien : " . $request->jenispasien . "\nNama " . $request->nama . "\nTanggal Periksa " . $request->tanggalperiksa . "\nDokter : " . $request->namadokter . "\nUser : " . Auth::user()->name;
-                    $request['number'] = "120363170262520539";
-                    $wapi->send_message_group($request);
-                } catch (\Throwable $th) {
-                    //throw $th;
-                }
+                //         default:
+                //             $jeniskunjungan = "-";
+                //             break;
+                //     }
+                //     // notif pasien
+                //     $request['keterangan'] = "Silahkan menunggu untuk mendapatkan pelayanan. (TIKET MOHON TIDAK HILANG SAMPAI DENGAN SELESAI PELAYANAN)";
+                //     $request['message'] = "*Pendaftaran Berhasil*\nAntrian anda berhasil didaftarkan ke sistem KLINIK LMC dengan data sebagai berikut : \n\n*Kode Antrian :* " . $request->kodebooking .  "\n*Angka Antrian :* " . $request->angkaantrean .  "\n*Nomor Antrian :* " . $request->nomorantrean . "\n*Jenis Pasien :* " . $request->jenispasien .  "\n*Jenis Kunjungan :* " . $jeniskunjungan .  "\n\n*Nama :* " . $request->nama . "\n*Poliklinik :* " . $request->namapoli  . "\n*Dokter :* " . $request->namadokter  .  "\n*Jam Praktek :* " . $request->jampraktek  .  "\n*Tanggal Periksa :* " . $request->tanggalperiksa . "\n\n*Keterangan :* " . $request->keterangan  .  "\n\nLink Kodebooking QR Code :\nhttps://luthfimedicalcenter.com/statusantrian?kodebooking=" . $request->kodebooking . "\n\nTerima kasih. \nSalam Hangat dan Sehat Selalu.\nUntuk pertanyaan & pengaduan silahkan hubungi :\n*Customer Care KLINIK LMC (0231)8850943 / 0823 1169 6919*";
+                //     $request['number'] = $request->nohp;
+                //     $wapi->send_message($request);
+                //     // sholawat
+                //     $sholawat = "اَللّٰهُمَّ صَلِّ عَلٰى سَيِّدِنَا مُحَمَّدٍ، طِبِّ الْقُلُوْبِ وَدَوَائِهَا، وَعَافِيَةِ الْاَبْدَانِ وَشِفَائِهَا، وَنُوْرِ الْاَبْصَارِ وَضِيَائِهَا، وَعَلٰى اٰلِهِ وَصَحْبِهِ وَسَلِّمْ";
+                //     $request['message'] = $sholawat;
+                //     $request['number'] = '6289529909036@c.us';
+                //     $wapi->send_message($request);
+                //     // notif group
+                //     $request['message'] = "Berhasil integrasi antrian \nAngka antrian : " . $request->angkaantrean . "\nKodebooking : " . $request->kodebooking .  "\nJenis Pasien : " . $request->jenispasien . "\nNama " . $request->nama . "\nTanggal Periksa " . $request->tanggalperiksa . "\nDokter : " . $request->namadokter . "\nUser : " . Auth::user()->name;
+                //     $request['number'] = "120363170262520539";
+                //     $wapi->send_message_group($request);
+                // } catch (\Throwable $th) {
+                //     //throw $th;
+                // }
+                $antrian->update([
+                    'status' => 1
+                ]);
+                Alert::success('Success', $res->metadata->message);
+            }else{
+                // dd($request->all(), $antrian);
+                Alert::error('Mohon Maaf', $res->metadata->message);
             }
-            $antrian->update([
-                'status' => 1
-            ]);
+         
         }
-        Alert::success('Success', 'Antrian telah diperbaharui.');
+       
         return redirect()->back();
     }
     function editkunjungan(Request $request)

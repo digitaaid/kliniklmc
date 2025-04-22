@@ -202,7 +202,6 @@ class DokterController extends Controller
         $asesmenperawat->update([
             'sumber_data' => $request->sumber_data,
             'keluhan_utama' => $request->keluhan_utama,
-            'riwayat_pengobatan' => $request->riwayat_pengobatan,
             'riwayat_penyakit' => $request->riwayat_penyakit,
             'riwayat_penyakit_keluarga' => $request->riwayat_penyakit_keluarga,
             'riwayat_alergi' => $request->riwayat_alergi,

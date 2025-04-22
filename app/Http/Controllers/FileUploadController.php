@@ -21,7 +21,7 @@ class FileUploadController extends APIController
     {
         if ($request->file) {
             try {
-                $url = 'http://103.39.50.206/lmc/public/api/uploadfile';
+                $url = 'http://192.168.5.26/lmc/public/api/uploadfile';
                 $file               = request('file');
                 $file_path          = $file->getPathname();
                 $file_mime          = $file->getMimeType('application/pdf');
@@ -76,7 +76,7 @@ class FileUploadController extends APIController
     public function store(Request $request)
     {
         try {
-            $url = 'http://103.39.50.206/lmc/public/api/uploadfile';
+            $url = 'http://192.168.5.26/lmc/public/api/uploadfile';
             $file               = request('file');
             $file_path          = $file->getPathname();
             $file_mime          = $file->getMimeType('application/pdf');

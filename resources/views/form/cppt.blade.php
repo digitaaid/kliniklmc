@@ -210,7 +210,7 @@
                                 <b>Berkas Penunjang</b><br>
                                 @foreach ($kunjungan->files as $file)
                                     <button class="btn btn-xs btn-primary m-1 btnFilePenunjang"
-                                        data-nama="{{ $file->nama }}" data-fileurl="{{ $file->fileurl }}"><i
+                                        data-nama="{{ $file->nama }}" data-fileurl="{{ str_replace('103.39.50.206','192.168.5.26',$file->fileurl)  }}"><i
                                             class="fas fa-file-medical"></i>
                                         {{ $file->nama }}</button>
                                     <br>

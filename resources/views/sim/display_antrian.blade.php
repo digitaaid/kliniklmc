@@ -121,20 +121,10 @@
             </div>
             <div class="col-md-4">
                 <x-adminlte-card>
-                    {{-- <iframe width="560" height="315"
-                        src="https://www.youtube.com/embed/-rLm4l1yuhU?si=N2MQHFACzBjy-lc7?autoplay=1"
-                        title="YouTube video player" frameborder="0" allowfullscreen></iframe> --}}
-                    {{-- <iframe src="http://..." onload='playVideo();'> --}}
-                    {{-- <video width="100%" height="500" controls autoplay>
-                        <source src="{{ asset('movie.mp4') }}" type="video/mp4">
+                    <video width="100%" height="100%" controls autoplay muted loop>
+                        <source src="{{ asset('bpjs/Video Sosialisasi Program Rehab 30sec.mp4') }}" type="video/mp4">
                         Your browser does not support the video tag.
-                    </video> --}}
-                    {{-- <iframe width="560" height="315" src="https://www.youtube.com/embed/rLInKEMHykE?si=sWG-1mT9ydRzXGhS&amp;controls=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe> --}}
-                    <iframe
-                        src="https://www.youtube.com/embed/rLInKEMHykE?si=sWG-1mT9ydRzXGhS?rel=0&modestbranding=1&autohide=1&mute=1&showinfo=0&controls=1&autoplay=1&loop=1"
-                        width="100%" height="450" frameborder="0" allowfullscreen onload='playVideo();'> ></iframe>
-                    {{-- <iframe src="https://drive.google.com/file/d/1xhCy7W5YDbGha30VPRttcxEykvV4yixz/preview" width="640"
-                        height="480" allow="autoplay"></iframe> --}}
+                    </video>
                 </x-adminlte-card>
             </div>
         </div>

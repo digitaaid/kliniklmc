@@ -78,9 +78,10 @@
                         if (data.metadata.code == 200) {
                             $.each(data.response, function(key, value) {
                                 console.log(value);
+                                    var newUrl = value.fileurl.replace("103.39.50.206", "192.168.5.26");
                                 var btn =
                                     '<button class="btnLihatFile btn btn-success btn-xs mr-1" data-fileurl="' +
-                                    value.fileurl +
+                                    newUrl +
                                     '">Lihat</button>';
                                 table.row.add([
                                     value.updated_at,
